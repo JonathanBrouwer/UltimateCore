@@ -12,12 +12,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.PluginCommandYamlParser;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.API.UCworld.WorldFlag;
 import Bammerbom.UltimateCore.Commands.CmdBack;
 import Bammerbom.UltimateCore.Commands.CmdBan;
@@ -361,9 +363,11 @@ public class UltimateCommands implements Listener{
 		}
 		
 	}
-	//Label, overriden by
+	static //Label, overriden by
+	Boolean debug = false;
 	private static final transient Map<PluginCommand, PluginCommand> overriddenList = new HashMap<PluginCommand, PluginCommand>();
 	public static void fixCommands(){
+		debug = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFglobal).getBoolean("debug");
 		for(Plugin pl : Bukkit.getPluginManager().getPlugins()){
 			if(pl.isEnabled() && !pl.equals(plugin)) addPlugin(pl);
 		}
@@ -384,7 +388,9 @@ public class UltimateCommands implements Listener{
 				for(String label : labels){
 					if(label.equalsIgnoreCase(uc.getLabel())){
 						overriddenList.put(uc, pc);
+						if(debug){
 						r.log(ChatColor.WHITE + "Command overridden: " + label + " (" + pc.getPlugin() + ")");
+						}
 					}
 				}
 			}
@@ -405,7 +411,7 @@ public class UltimateCommands implements Listener{
 				for(String label : labels){
 					if(label.equalsIgnoreCase(uc.getLabel())){
 						if(overriddenList.containsKey(uc)){
-							r.log(ChatColor.WHITE + "Command un-overridden: " + label + " (" + pc.getPlugin() + ")");
+							if(debug) r.log(ChatColor.WHITE + "Command un-overridden: " + label + " (" + pc.getPlugin() + ")");
 							overriddenList.remove(uc);
 						}else{
 							r.log(r.error + "Failed to re-register overridden command: " + uc.getLabel() + " (" + pc.getPlugin().getName() + ")");
@@ -417,7 +423,7 @@ public class UltimateCommands implements Listener{
 	}
 	public static boolean checkOverridden(final CommandSender sender, Command cmd, final String label, final String[] args){	
 		PluginCommand uc = (PluginCommand) cmd;
-		if(overriddenList.containsKey(uc)){
+		if(overriddenList.containsKey(uc) || r.getCnfg().getStringList("disabledcommands").contains(label)){
 			PluginCommand pc = overriddenList.get(uc);
 			pc.getExecutor().onCommand(sender, cmd, label, args);
 			return true;

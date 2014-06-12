@@ -26,7 +26,10 @@ DeathMessages: # %Player    !!!CASE SENSITIVE!!!
   Lava: '&6%Player &9tried to swim in lava.'
   Enderpearl: '&6%Player &9died by an enderpearl.'
   Fireball: '&6%Player &9died by a fireball.'
-
+  FallingBlock: '&6%Player &9died by a falling block'
+  Projectile: '&6%Player &9died by a projectile'
+  EnderCrystal: '&6%Player &9died by a ender crystal'
+  
   Zombie: '&6%Player &9has been killed by a Zombie.'
   ZombiePigMan: '&6%Player &9has been killed by a Zombie Pigman.'
   Skeleton: '&6%Player &9has been killed by a Skeleton.'

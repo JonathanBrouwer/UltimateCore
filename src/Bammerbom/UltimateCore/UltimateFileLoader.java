@@ -59,6 +59,7 @@ public class UltimateFileLoader implements Listener{
 	public static File DFregions;
 	public static File DFminigames;
 	public static File DFreports;
+	public static File DFglobal;
 
 	public static void Enable(){
 		if (!plugin.getDataFolder().exists()) {
@@ -71,6 +72,7 @@ public class UltimateFileLoader implements Listener{
 			datamap.mkdir();
 		}
 		
+		DFglobal = new File(plugin.getDataFolder() + File.separator + "Data", "settings.yml");
 		DFspawns = new File(plugin.getDataFolder() + File.separator + "Data", "spawns.yml");
 		DFwarps = new File(plugin.getDataFolder() + File.separator + "Data", "warps.yml");
 		DFworlds = new File(plugin.getDataFolder() + File.separator + "Data", "worlds.yml");
@@ -91,7 +93,17 @@ public class UltimateFileLoader implements Listener{
 		createLang();
 		loadLang();
 		
-
+		if(!DFglobal.exists()){
+			try {
+				DFglobal.createNewFile();
+			    YamlConfiguration conf = YamlConfiguration.loadConfiguration(DFglobal);
+			    conf.set("debug", false);
+			    conf.save(DFglobal);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		if(!DFspawns.exists()){
 			try {
 				DFspawns.createNewFile();
@@ -171,19 +183,12 @@ public class UltimateFileLoader implements Listener{
 				e.printStackTrace();
 			}
 		}
-		//
-		if(r.mes("Speed.Usage") == null){
-			r.log(r.error + "Configuration update found, files reset: 1 (EN.yml)");
-			r.log(r.error + "Configuration backups made: 1");
+		if(r.mes("XP.Show") == null){
 			resetFile(new File(plugin.getDataFolder() + "/Messages", "EN.yml"));
 			createLang();
 			loadLang();
-		}else if(r.mes("FullMessage") == null){
 			r.log(r.error + "Configuration update found, files reset: 1 (EN.yml)");
 			r.log(r.error + "Configuration backups made: 1");
-			resetFile(new File(plugin.getDataFolder() + "/Messages", "EN.yml"));
-			createLang();
-			loadLang();
 		}
 	}
 	public static void resetFile(File file){

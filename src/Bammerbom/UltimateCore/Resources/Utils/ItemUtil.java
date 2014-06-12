@@ -1,10 +1,11 @@
 package Bammerbom.UltimateCore.Resources.Utils;
 
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import net.milkbowl.vault.item.Items;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -46,6 +47,14 @@ public class ItemUtil
 		return item;
 	}
 
+	public static String getTypeName(ItemStack stack){
+		if(Bukkit.getPluginManager().getPlugin("Vault") != null){
+			return Items.itemByStack(stack).getName();
+		}else{
+			return StringUtil.firstUpperCase(stack.getType().name().replaceAll("_", " ").toLowerCase());
+		}
+		
+	}
 	@SuppressWarnings("deprecation")
 	public static ItemStack fromString(String item_string)
 	{
