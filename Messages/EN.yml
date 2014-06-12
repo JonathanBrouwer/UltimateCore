@@ -1,0 +1,305 @@
+#The plugin has 2 main colors that can be changed in the config
+# @1 (Main text)
+# @2 (Names, values etc)
+JoinMessage: '&6%Player &9joined the game.'
+LeaveMessage: '&6%Player &9left the game.'
+#Kick messages
+WhitelistMessage: '&9You are not whitelisted on this server.'
+FullMessage: '&9The server is full. Try again later.'
+
+DeathMessages: # %Player    !!!CASE SENSITIVE!!!
+
+  Player: '&6%Killer &9killed &6%Killed &9with his &9%Weapon.'
+  #You can use here: %Killed, %Killer, %Weapon
+
+  Cactus: '&6%Player &9has been killed by a cactus.'
+  TNT: '&6%Player &9was blown up by TNT.'
+  Drowning: '&6%Player &9drowned.'
+  Fall: '&6%Player &9fell to his death.'
+  Fire: '&6%Player &9burned to his death.'
+  Suffocated: '&6%Player &9suffocated.'
+  OutOfWorld: '&6%Player &9fell out of the world.'
+  Hunger: '&6%Player &9starve to their death.'
+  Suicide: '&6%Player &9comitted suicide.'
+  Potion: '&6%Player &9has been killed by a potion.'
+  Lightning: '&6%Player &9got smited by lightning.'
+  Lava: '&6%Player &9tried to swim in lava.'
+  Enderpearl: '&6%Player &9died by an enderpearl.'
+  Fireball: '&6%Player &9died by a fireball.'
+
+  Zombie: '&6%Player &9has been killed by a Zombie.'
+  ZombiePigMan: '&6%Player &9has been killed by a Zombie Pigman.'
+  Skeleton: '&6%Player &9has been killed by a Skeleton.'
+  Creeper: '&6%Player &9has been killed by a Creeper.'
+  Ghast: '&6%Player &9has been killed by a Ghast.'
+  Blaze: '&6%Player &9has been killed by a Blaze.'
+  Slime: '&6%Player &9has been killed by a Slime.'
+  MagmaCube: '&6%Player &9has been killed by a Magma Cube.'
+  Wolf: '&6%Player &9has been killed by a Wolf.'
+  Spider: '&6%Player &9has been killed by a Spider.'
+  CaveSpider: '&6%Player &9has been killed by a Cave Spider.'
+  Silverfish: '&6%Player &9has been killed by a Silver Fish.'
+  Enderman: '&6%Player &9has been killed by an Enderman.'
+  EnderDragon: '&6%Player &9has been killed by The Enderdragon.'
+  Wither: '&6%Player &9has been killed by the Wither.'
+  WitherSkeleton: '&6%Player &9has been killed by a Wither Skeleton.'
+  IronGolem: '&6%Player &9has been killed by an Iron Golem.'
+
+  Unknown: '&6%Player &9died.'
+  
+#Commands
+UnknownCommandMessage: 'Command not found.'
+NeedToBePlayer: 'The console cannot use this command.'
+NoPermissions: 'You do not have permissions to execute this command.'
+PlayerNotFound: 'Player not found: %Player.'
+AntiBan: 'You may not %Action %Player'
+
+Afk:
+  Afk: '%Player is now afk.'
+  Unafk: '%Player is no longer afk.'
+  Kick: 'You have been kicked for being afk for too long'
+
+Warp:
+  #List
+  NoWarpsFound: 'No warps found.'
+  Warps: 'Warps: @2%Warps.'
+
+  #Warp
+  Warped: 'Warped to: @2%Warp.'
+  WarpNotExist: 'Warp does not exist! (@2%Warp@1).'  
+
+  #SetWarp
+  Warpset: 'Warp set: @2%Warp'  
+  Warpmoved: 'Warp moved: @2%Warp'
+
+  #DelWarp
+  WarpDeleted: 'Warp deleted: @2%Warp'
+
+Home:
+  #Usage
+  Usage: '@1/sethome @2<Name>'
+  Usage2: '@1/delhome @2<Name>'
+  #List
+  NoHomesFound: 'No homes found'
+  Homes: 'Homes: @2%Homes'
+
+  #Home
+  Hometp: 'Teleported to: @2%Home'
+  HomeNotExist: 'Home does not exist! (@2%Home@1)'  
+
+  #SetHome
+  Homeset: 'Home set: @2%Home'  
+  Homemoved: 'Home moved: @2%Home'
+
+  #DelHome
+  HomeDeleted: 'Home deleted: @2%Home'
+Weather: 'Weather set to @2%Weather'
+Back: 'Teleported back'
+Whisper:
+  Usage: '@1/w @2<Player> <Message>'
+  Usage2: '@1/r @2<Player> <Message>'
+Speed:
+  Usage: '@1/speed @2<0-10> [Player]'
+  Self: 'Walk/Fly speed set to: @2%Speed'
+  OtherSelf: 'Walk/Fly speed of @2%Player @1set to @2%Speed'
+  OtherOther: 'Your walk/fly speed has been set to: @2%Speed'
+Hat: 'Here is your new hat!'
+Save: 
+  Start: 'Saving the world...'
+  Done: 'Save complete!'
+Time: 'Time set to: @2%Time'
+Stop: 
+  Stop: '[@2%Player@1] @1stopping the server...'
+  StandardKickMessage: '%Player @1stopped the server'
+Reload:
+  Start: '[@2%Player@1] @1Reloading the server...'
+  Done: '[@2%Player@1] @1Reload complete!'
+Tp:
+  #Tpa
+  Tpa:
+    Send: 'Request send to: @2%Player'
+    TpaTarget1: '@1%Player @2has requested to teleport to you!'
+    TpaTarget2: '@2Type: @1/tpaccept @2if you want to accept'
+    TpaTarget3: '@2Request timesout in 30 seconds'
+    NoRequests: '@1No pending requests'
+    AcceptSender: '@1Your teleport request has been accepted'
+    AcceptTarget: '@1Teleport request succesfull accepted'
+  Tp1: 'Teleported to @2%Player'
+  Tp2: 'Teleported @2%Player1 @1to @2%Player2'
+  Tp3: 'Teleported to @2%x %y %z'
+  Tp4: 'Teleported @2%Player @1to @2%x %y %z'
+Plugin:
+  SuccesUnload: 'Succesfully unloaded plugin: @2%Plugin'
+  SuccesLoad: 'Succesfully loaded plugin: @2%Plugin'
+  SuccesEnable: 'Succesfully enabled plugin: @2%Plugin'
+  SuccesDisable: 'Succesfully disabled plugin: @2%Plugin'
+  SuccesRestart: 'Succesfully restarted plugin: @2%Plugin'
+  SuccesReload: 'Succesfully reloaded plugin: @2%Plugin'
+  AlreadyDisabled: 'Plugin already disabled'
+  AlreadyEnabled: 'Plugin already enabled'
+  Error: 'ERROR. Try again.'
+  NotFound: 'Plugin not found: @2%Plugin'
+Gamemode:
+  Usage: '@1/gm @2<Gamemode> [Player]'
+  setSelf: 'Gamemode set to: @2%Gamemode'
+  selfMessage: 'Gamemode of @2%Player @1set to: @2%Gamemode'
+  otherMessage: 'Your gamemode has been set to: @2%Gamemode'
+Fly:
+  Message: 'Fly mode is now @2%Status'
+  toSelf: 'Fly mode from @2%Player @1is now @2%Status'
+  toOther: 'Fly mode is now @2%Status'
+God:
+  forSelf: 'God mode is now @2%Status'
+  selfMessage: 'God mode from @2%Player @1is now @2%Status'
+  otherMessage: 'God mode is now @2%Status'
+Repair:
+  forSelf: 'Repaired all items'
+  selfMessage: 'Repaired all items of @2%Player'
+  otherMessage: 'Your items have been repaired'
+  forSelfMode: 'Repair mode is now @2%Status'
+  selfMessageMode: 'Repair mode from @2%Player @1is now @2%Status'
+  otherMessageMode: 'Repair mode is now @2%Status'
+Feed:
+  forSelf: 'You saturated yourself'
+  selfMessage: 'You saturated @2%Player'
+  otherMessage: 'You have been saturated'
+  forSelfMode: 'Feed mode is now @2%Status'
+  selfMessageMode: 'Feed mode from @2%Player @1is now @2%Status'
+  otherMessageMode: 'Feed mode is now @2%Status'
+Clear:
+  #Clear self
+  SelfMessage: 'Your inventory is cleared!'
+
+  #Clear others
+  ToSelf: 'You have cleared the inventory of: @2%Player'
+  ToOther: 'Your inventory has been cleared by: @2%Player'
+Invsee:
+  Usage: '@1/inv @2 <Player>'
+IP:
+  Server: '@1Server IP: @2%IP'
+  Player1: '@1%Player Hostname: @2%Hostname'
+  Player2: '@1%Player IP: @2%IP'
+Heal:
+  #Self
+  Message: 'You have been healed!'
+  #Other
+  ToSelf: 'You have healed @2%Player'
+  ToOther: 'You have been healed by @2%Player'
+Extinguish:
+  #Self
+  Message: 'You have been Extinguished!'
+  #Other
+  ToSelf: 'You have extinguished @2%Player'
+  ToOther: 'You have been extinguished by @2%Player'
+Kill:
+  Suicide: 'You suicided!'
+  #KillOtherPlayer
+  target: 'You have been killed by: @2%Player'
+  killer: 'You killed: @2%Player'
+Set:
+  NoNumber: 'Your color is not a number.'
+  ChatColorSet: 'Your chat color is set'
+  Spawn: 'Spawn set!'
+  SpawnNotSet: 'Spawn is not set.'
+World:
+  Create:
+    Created: "Created world: @2%world"
+    Creating: "Creating world: @2%world"
+  List: "Worlds: @2%worlds" 
+  Import:
+    Importing: "Importing world: @2%world"
+    Imported: "Imported world: @2%world"
+  Remove: "Removed world: @2%world"
+  NotFound: "World not found: @2%world" 
+  AlreadyExist: "World does already exist"
+Me:
+  Usage: '@1/me @2<Message>'
+List:
+  List: '@1There are @2%Online@1/@2%Max @1players online: \n@2%List'
+Ban:
+  Usage: '@1/ban @2<Player> [Time] [Reason]'
+  Usage2: '@1/unban @2<Player>'
+  Message: 'You have been banned. Time: @2%Time @1Reason: @2%Reason'
+  StandardReason: '@2no reason given'
+  TimeForever: '@2forever'
+  Broadcast: '@2%Banner @1banned @2%Banned@1. Time: @2%Time @1Reason: @2%Reason'
+  BroadcastUnban: '@2%Unbanner @1unbanned @2%Banned.'
+  joinAfterUnban: 'Welcome back after your ban!'
+Kick:
+  Usage: '@1/kick @2<Player> [Reason]'
+  KickMessage: 'You have been kicked. Reason: @2%Reason.'
+  StandardReason: '@2No reason given!'
+  Broadcast: '@1%Kicker @2kicked player: @1%Player'
+  Broadcast2: 'Reason: @2%Reason'
+Freeze:
+  Usage: '@1/freeze @2<Player>'
+  Usage2: '@1/unfreeze @2<Player>'
+  Freezed: 'You froze @2%Player'
+  Unfreezed: 'You unfroze @2%Player'
+  MoveMessage: 'You are frozen!'
+Mute:
+  Usage: '@1/mute @2<Player> [Time]'
+  Usage2: '@1/unmute @2<Player> [Time]'
+  Muted: 'You muted: @2%Player'
+  Unmuted: 'You unmuted: @2%Player'
+  Mutetarget: 'You have been muted'
+  Unmutetarget: 'You have been unmuted'
+  Forever: 'forever'
+  ChatMessage: 'You are muted! (@2Forever@1)'
+  ChatMessageTime: 'You are muted! (@2%Time left@1)'
+Butcher: 'Killed @2%Amount @1monsters in a radius of @2%Radius'
+KillAll: 'Killed @2%Amount @1mobs in a radius of @2%Radius'
+RemoveAll: 'Killed @2%Amount @1entities in a radius of @2%Radius'
+Vanish:
+  Vanished: 'You vanished: @2%Player @1(@2%Time@1)'
+  Unvanished: 'You unvanished: @2%Player'
+  Vanishtarget: 'You have been vanished'
+  Unvanishtarget: 'You have been unvanished'
+  Forever: '@2forever'
+More: 'You have now 64 of the item in your hand!'
+Say:
+  Usage: '@1/say @2[Message]'
+Ping:
+  Message: '@1Ping of %Player: @2%Ping'
+Nick:
+  Usage: '@1/nick @2<Name>/off'
+  Message: 'Nickname set to: @2%Name'
+Spawnmob:
+  MobNotFound: 'Mob not found: @2%Mob'
+  PropertyNotCompitable: 'Property @2%Property @1not compitable with @2%Type'
+Powertool:
+  NoItemInHand: 'You must have an item in your hand for powertool'
+  CommandSet: 'Powertool set: @2%Item @1> @2%Command'
+  CommandReset: 'Powertool reset: @2%Item @1cleared'
+Enchant:
+  Usage: '@1/enchant @2<Enchantment> [Level]'
+  EnchantNotFound: 'Enchantment not found: @2%Enchant'
+  NoItemInHand: 'No item in hand to enchant!'
+  Succes: 'Succesfull added @2%Enchant @1level @2%Level @1to your @2%Item'
+Effect:
+  Usage: '@1/effect @2<Player> <Effect/Clear> [Duration] [Level]'
+  EffectNotFound: 'Effect not found: @2%Effect'
+  AmountNotValid: 'The amount (@2%Amount@1) is not a number!'
+  Succes: 'Succesfull given @2%Target @1effect @2%Effect @1level @2%Level @1for @2%Duration @1seconds'
+  Clear: 'Succesfull cleared all effects off @2%Target'
+Give:
+  Usage: '@1/give @2<Player> <Item> [Amount] [Data...]'
+  Usage2: '@1/item @2<Item> <Amount> [Data...]'
+  ItemNotFound: 'Item not found: @2%Item@1.'
+  InventoryFull: 'Targets inventory is full!'
+  AmountNotValid: 'The amount (@2%Amount@1) is not a number!'
+  MetadataFailed: 'The metadata parsing failed'
+  Succes: 'Given @2%Amount @1of @2%Item @1to @2%Player'
+  SuccesSelf: 'Given @2%Amount @1of @2%Item @1to yourself!'
+Top: 
+  Succes: 'Teleported to the highest block!'
+  Failed: 'Failed to teleport. Hole in the floor?'
+XP:
+  Show: '@1%Player xp: @2%XP@1, %Player levels: @2%Levels'
+  Give: 'Given @2%XP %Type @1to %Player'
+  Take: 'Taken @2%XP %Type @1from %Player'
+  Tip: '&7Tip: If you want to give/take levels use %Command1L%Command2'
+  Set: 'Set %Type of @2%Player @1to @2%XP'
+  Usage: '/setxp @2<XP> [Player]'
+  Usage2: '/setlevel @2<LEVEL> [Player]'
+  AmountNotValid: 'The amount (@2%Amount@1) is not a number!'

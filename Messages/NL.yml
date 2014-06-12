@@ -1,0 +1,212 @@
+JoinMessage: '%Player is het spel ingekomen.'
+LeaveMessage: '%Player is het spel verlaten.'
+DeathMessages:
+  Player: '%Killer heeft %Killed vermoord met een %Weapon'
+  Cactus: '%Player is  vermoord door een cactus.'
+  TNT: '%Player is opgeblazen.'
+  Drowning: '%Player is verdronken.'
+  Fall: '%Player is doodgevallen.'
+  Fire: '%Player is verbrand.'
+  Suffocated: '%Player is vast komen te zitten in een muur.'
+  OutOfWorld: '%Player viel uit de wereld.'
+  Hunger: '%Player ging dood door honger.'
+  Suicide: '%Player pleegde zelfmoord.'
+  Potion: '%Player is vermoord door een drankje.'
+  Lightning: '%Player is vermoord door bliksem.'
+  Lava: ' %Player probeerde in lava te zwemmen.'
+  Enderpearl: '%Player ging dood door een enderpearl.'
+  Fireball: '%Player ging dood door een vuurbal.'
+  Zombie: '%Player is vermoord door een Zombie.'
+  ZombiePigMan: '%Player is vermoord door een Zombie Pigman.'
+  Skeleton: '%Player is vermoord door een Skeleton.'
+  Creeper: '%Player is vermoord door een Creeper.'
+  Ghast: '%Player is vermoord door een Ghast.'
+  Blaze: '%Player is vermoord door een Blaze.'
+  Slime: '%Player is vermoord door een Slime.'
+  MagmaCube: '%Player is vermoord door een Magma Cube.'
+  Wolf: '%Player is vermoord door een Wolf.'
+  Spider: '%Player is vermoord door een Spin.'
+  CaveSpider: '%Player is vermoord door een Cave Spider.'
+  Silverfish: '%Player is vermoord door een Silverfish.'
+  Enderman: '%Player is vermoord door een Enderman.'
+  EnderDragon: '%Player is vermoord door The Enderdragon!'
+  Wither: '%Player is vermoord door The Wither!'
+  WitherSkeleton: '%Player is vermoord door een Wither Skeleton.'
+  IronGolem: '%Player is vermoord door een Iron Golem.'
+  Unknown: '%Player is gestorven.'
+UnknownCommandMessage: Commando niet gevonden.
+NeedToBePlayer: De console kan dit commando niet gebruiken.
+NoPermissions: Je bent niet gemachtigd om dit commando uit te voeren.
+PlayerNotFound: 'Speler niet gevonden: %Player.'
+Warp:
+  NoWarpsFound: Geen warps gevonden.
+  Warps: 'Waps: @2%Warps'
+  Warped: 'Gewarpt naar: @2%Warp'
+  WarpNotExist: 'Warp bestaat niet. (@2%Warp@1)'
+  Warpset: 'Warp gezet: @2%Warp'
+  Warpmoved: 'Warp verplaatst: @2%Warp'
+  WarpDeleted: 'Warp verwijderd: @2%Warp.'
+Home:
+  NoHomesFound: Geen homes gevonden.
+  Homes: 'Homes: @2%Homes'
+  Hometp: 'Geteleporteerd naar: @2%Home'
+  HomeNotExist: 'Home bestaat niet. (@2%Home@1)'
+  Homeset: 'Home gezet: @2%Home'
+  Homemoved: 'Home verplaatst: @2%Home'
+  HomeDeleted: 'Home verwijderd: @2%Home'
+Weather: 'Weer gezet naar: @2%Weather'
+Back: Terug geteleporteerd.
+Speed:
+  Self: 'Loop/Vlieg snelheid gezet naar: @2%Speed'
+  OtherSelf: 'Loop/Vlieg snelheid van @2%Player @1gezet naar @2%Speed@1.'
+  OtherOther: 'Jouw loop/vlieg snelheid is gezet naar: @2%Speed'
+Hat: Hier is je nieuwe hoed.
+Save:
+  Start: De wereld opslaan...
+  Done: Opslaan compleet.
+Time: 'Tijd gezet naar: %Time'
+Stop:
+  Stop: '[@2%Player@1] @1De server stoppen...'
+  StandardKickMessage: '%Player @1stopped the server.'
+Reload:
+  Start: '[@2%Player@1] @1De server herladen...'
+  Done: '[@2%Player@1] @1Het herladen is klaar.'
+Tp:
+  Tpa:
+    Send: 'Teleportatie aanvraag verzonden naar: @2%Player'
+    TpaTarget1: '%Player @2wil naar je teleporteren!'
+    TpaTarget2: '@2Type: @1/tpaccept @2als je het wilt accepteren'
+    TpaTarget3: '@2Doe niks als je het wil negeren'
+    NoRequests: '@1Geen openstaande verzoeken'
+    AcceptSender: '@1Je teleporteer verzoek is geaccepteerd'
+    AcceptTarget: '@1Teleporteer verzoek succesvol geaccepteerd'
+  Tp1: 'Geteleporteerd naar @2%Player'
+  Tp2: '@2%Player1 @1is geteleporteerd naar @2%Player2'
+  Tp3: 'Geteleporteerd naar @2%x, %y, %z'
+  Tp4: '@2%Player @1is geteleporteerd naar @2%x, %y, %z'
+Plugin:
+  SuccesUnload: 'Succesvol plugin @2%Plugin @1ongeladen'
+  SuccesLoad: 'Plugin @2%Plugin @1succesvol geladen'
+  SuccesEnable: 'Plugin @2%Plugin @1succesvol aangezet'
+  SuccesDisable: 'Plugin @2%Plugin @1succesvol gedeactiveerd'
+  SuccesRestart: 'Plugin @2%Plugin @1succesvol herstart'
+  SuccesReload: 'Plugin @2%Plugin @1succesvol herladen'
+  AlreadyDisabled: Plugin staat al uit
+  AlreadyEnabled: Plugin staat al aan
+  Error: FOUT. Probeer het opnieuw.
+  NotFound: 'Plugin @2%Plugin is niet gevonden'
+Gamemode:
+  setSelf: 'Je gamemode is nu: @2%Gamemode'
+  selfMessage: 'De Gamemode van @2%Player @1is nu: @2%Gamemode'
+  otherMessage: 'Je gamemode is gezet naar: @2%Gamemode'
+Fly:
+  Message: 'Je vliegmodus is nu @2%Status'
+  toSelf: 'De vliegmodus van @2%Player @1is nu @2%Status'
+  toOther: 'Je vlieg modus is nu @2%Status'
+God:
+  forSelf: 'God modus is nu @2%Status'
+  selfMessage: 'God modus van @2%Player @1is nu @2%Status'
+  otherMessage: 'God modus is nu @2%Status'
+Repair:
+  forSelf: Al je items zijn gerepareerd.
+  selfMessage: 'Alle items van @2%Player gerepareerd.'
+  otherMessage: Al je items zijn gerepareerd.
+  forSelfMode: 'Je repareer modus is nu @2%Status'
+  selfMessageMode: 'Repareer modus van @2%Player @1is nu @2%Status'
+  otherMessageMode: 'Je repareer modus is nu @2%Status'
+Feed:
+  forSelf: Je hebt jezelf gevoed.
+  selfMessage: 'Je hebt @2%Player gevoed.'
+  otherMessage: Je bent gevoed.
+  forSelfMode: 'Voedsel modus is nu @2%Status'
+  selfMessageMode: 'De voedselmodus van @2%Player @1is nu @2%Status'
+  otherMessageMode: 'Voedsel modus is nu @2%Status'
+Clear:
+  SelfMessage: Je inventaris is geleegd.
+  ToSelf: 'Je hebt het inventaris van @2%Player geleegd.'
+  ToOther: 'Je inventaris is geleegd door: @2%Player'
+Heal:
+  Message: Je bent genezen!
+  ToSelf: 'Je hebt @2%Player @1genezen.'
+  ToOther: 'Je bent genezen door @2%Player'
+Kill:
+  Suicide: Je pleegde zelfmoord.
+  target: 'Je bent gedood door: @2%Player'
+  killer: 'Je dode: @2%Player'
+Set:
+  NoNumber: Je kleur is geen nummer.
+  ChatColorSet: Je chat kleur is ingesteld.
+  Spawn: Spawn ingesteld.
+  SpawnNotSet: Spawn is niet ingesteld.
+World:
+  Create:
+    Created: 'Wereld gemaakt: @2%world'
+    Creating: 'Maken van de wereld: @2%world'
+  List: 'Werelden: @2%worlds'
+  Import:
+    Importing: 'Importeren van wereld: @2%world'
+    Imported: 'Wereld geimporteerd: @2%world'
+  Remove: 'Wereld verwijderd: @2%world'
+  NotFound: 'Wereld niet gevonden: @2%world'
+  AlreadyExist: Wereld bestaat al.
+Ban:
+  Message: 'Jij bent verbannen. Time: @2%Time @1Reason: @2%Reason'
+  StandardReason: '@2geen reden gegeven'
+  TimeForever: '@2voor eeuwig'
+  Broadcast: '@2%Banner @1heeft @2%Banned@1 verbannen. Tijd: @2%Time @1Reden: @2%Reason'
+  BroadcastUnban: '@2%Unbanner @1heeft @2%Banned ontbannen.'
+  joinAfterUnban: Welkom terug na je ban!
+kick:
+  KickMessage: 'Je bent gekickt. Reason: @2%Reason.'
+  StandardReason: '@2Geen rede ingevoert!'
+  Broadcast: '@1%kicker @2heeft @1%Player @2gekickt'
+  Broadcast2: 'Reden: @2%Reason'
+Freeze:
+  Freezed: 'Je bevroor @2%Player'
+  Unfreezed: 'Je ontdooide @2%Player'
+  MoveMessage: Je bent bevroren!
+Mute:
+  Muted: 'Je dempte: @2%Player'
+  Unmuted: 'Jij ondempte: @2%Player'
+  Mutetarget: Je bent ge-ondempt.
+  Unmutetarget: Je bent ge-ondempt.
+  Forever: Voor altijd
+  ChatMessage: Je bent gedempt! (@2Voor eeuwig@1)
+  ChatMessageTime: 'Je bent gedempt! (@2%Time over@1)'
+Butcher: '@2%Amount @1monsters vermoord in een omtrek van @1%Radius'
+KillAll: '@2%Amount @1beesten vermoord in een omtrek van @1%Radius'
+RemoveAll: '@2%Amount @1dingen vermoord in een omtrek van @1%Radius'
+Vanish:
+  Vanished: 'Je hebt @2%Player onzichtbaar gemaakt @1(@2%Time@1)'
+  Unvanished: 'Jij hebt @2%Player opnieuw laten verschijnen.'
+  Vanishtarget: Iemand heeft je onzichtbaar gemaakt.
+  Unvanishtarget: Iemand heeft je weer zichtbaar gemaakt.
+  Forever: '@2Voor altijd'
+More: Je hebt nu 64 items in je hand!
+Nick: 'Je naam is gezet naar @2%Name'
+Spawnmob:
+  MobNotFound: 'Monster niet gevonden: @2%Mob'
+  PropertyNotCompitable: 'Eigenschap @2%Property @1niet beschikbaar voor @2%Type'
+Powertool:
+  NoItemInHand: Je moet een item in je hand hebben om powertool te gebruiken.
+  CommandSet: 'Powertool gezet: @2%Item @1> @2%Command'
+  CommandReset: 'Powertool hersteld: @2%Item @1leeggemaakt.'
+Enchant:
+  EnchantNotFound: 'Betovering niet gevonden: @2%Enchant'
+  NoItemInHand: Geen item in je hand om te betoveren!
+  Succes: 'Succesvoll toegevoegd @2%Enchant @1level @2%Level @1op je @2%Item'
+Effect:
+  EffectNotFound: 'Effect niet gevonden: @2%Effect'
+  AmountNotValid: 'Het aantal @2%Amount is geen nummer!'
+  Succes: 'Succesvoll gegeven: @2%Target @1effect @2%Effect @1level @2%Level @1voor @2%Duration @1seconden.'
+  Clear: 'Succesvol alle effecten gewist van @2%Target'
+Give:
+  ItemNotFound: 'Item niet gevonden: @2%Item@1.'
+  InventoryFull: De target zijn inventory is vol.
+  AmountNotValid: 'Het aantal @2%Amount is geen nummer!'
+  MetadataFailed: Het instellen van metadata gefaald.
+  Succes: 'Gaf @2%Amount @1van @2%Item @1aan @2%Player'
+  SuccesSelf: 'Gaf @2%Amount @1van @2%Item @1aan jezelf!'
+Top:
+  Succes: Geteleporteerd naar het hoogste blok!
+  Failed: Teleport is mislukt. Gat in de vloer?

@@ -1,0 +1,343 @@
+name: UltimateCore
+version: 0.3.0
+description: Ultimate Core is all you need to setup a server and more!
+author: Bammerbom
+authors: [Bammerbom, blockbreaker21]
+website: dev.bukkit.org/bukkit-plugins/ultimate_core
+main: Bammerbom.UltimateCore.UltimateCore
+prefix: UltimateCore
+commands:
+  xp:
+    description: Get or Modify a players xp
+    usage: /xp [-][XP][L] [Player]
+  setxp:
+    description: Set a players xp
+    usage: /setxp <XP>[L] [Player]
+  setlevel:
+    description: Set a players xp level
+    usage: /setlevel <XP> [Player]
+  ping:
+    description: Get a player's ping
+    usage: /<command> [Player]
+  warp:
+    description: Teleport to a warp
+    usage: /<command> <Name>
+  jump:
+    description: Teleport to target block
+    usage: /<command>
+  jumpto:
+    description: Teleport to targtet block
+    usage: /<command>
+  setwarp:
+    description: Set a warp
+    usage: /<command> <Name>
+  delwarp:
+    description: Remove a wapr
+    usage: /<command> <Name>
+  home:
+    description: Go to your home
+    usage: /<command> [Name]
+  sethome:
+    description: Set your home location
+    usage: /<command> <Name>
+  delhome:
+    description: Remove your home
+    usage: /<command> <Name>
+  weather:
+    description: Change the weather
+    usage: /<command> <Sun/Rain/Storm>
+  sun:
+    description: Change the weather to sun
+    usage: /<command>
+  rain:
+    description: Change the weather to rain
+    usage: /<command>
+  storm:
+    description: Change the weather to storm
+    usage: /<command>
+  extinguish:
+    description: Extinguish yourself
+    usage: /<command> [Player]
+  unfire:
+    description: Extinguish yourself
+    usage: /<command> [Player]
+  tp:
+    description: Teleport
+    usage: /<command> [Player] <Player> OR /<command> [Player] <X> [Y] <Z>
+  tphere:
+    description: Teleport here
+    usage: /<command> <Player>
+  bring:
+    description: Teleport here
+    usage: /<command> <Player>
+  tpall:
+    description: Teleports everyone
+    usage: /<command>
+  plugin:
+    description: Manage plugins
+    usage: /<command> <Enable/Disable/Load/Unload/Info/Reload/Restart> <Plugin>
+  gtool:
+    description: Check griefs
+    usage: /<command>
+  gamemode:
+    description: Set a player's gamemode
+    usage: /<command> <Gamemode> [Player]
+  gm:
+    description: Set a player's gamemode
+    usage: /<command> <Gamemode> [Player]
+  gms:
+    description: Set a player's gamemode
+    usage: /<command> [Player]
+  gmc:
+    description: Set a player's gamemode
+    usage: /<command> [Player]
+  gma:
+    description: Set a player's gamemode
+    usage: /<command> [Player]
+  s:
+    description: Set a player's gamemode
+    usage: /<command> [Player]
+  c:
+    description: Set a player's gamemode
+    usage: /<command> [Player]
+  a:
+    description: Set a player's gamemode
+    usage: /<command> [Player]
+  survival:
+    description: Set a player's gamemode
+    usage: /<command> [Player]
+  creative:
+    description: Set a player's gamemode
+    usage: /<command> [Player]
+  adventure:
+    description: Set a player's gamemode
+    usage: /<command> [Player]
+  back:
+    description: Go back to your last location
+    usage: /<command>
+  fly:
+    description: Toggle fly mode
+    usage: /<command> [Player]
+  god:
+    description: Make players unkillable
+    usage: /<command> [Player]
+  feed:
+    description: Feed someone
+    usage: /<command> [Player]
+  repair:
+    description: Repair every item in your inventory
+    usage: /<command>
+  ci:
+    description: Clear someones inventory
+    usage: /<command> [Player]
+  clear:
+    description: Clear someones inventory
+    usage: /<command> [Player]
+  hat:
+    description: Use the item in your hand as your hat!
+    usage: /<command>
+  say:
+    description: Broadcast a message
+    usage: /<command> <Message>
+  heal:
+    description: Set the target player to full health
+    usage: /<command> [Player]
+  fullheal:
+    description: Set the target player to full health and removes positive potion effects
+    usage: /<command> [Player]
+  kill:
+    description: Kill a player
+    usage: /<command> [Player]
+  suicide:
+    description: Commit suicide
+    usage: /<command> [Player]
+  save:
+    description: Save the world and Data
+    usage: /<command>
+  smite:
+    description: Smite someone with lightning
+    usage: /<command> [Player]
+  time:
+    description: Change the time
+    usage: /<command> <day/night/ticks/enable/disable>
+  day:
+    description: Change the time to day
+    usage: /<command>
+  night:
+    description: Change the time to night
+    usage: /<command>
+  enderchest:
+    description: Open and edit the enderchest of a player or yourself
+    usage: /<command> [Player]
+  give:
+    description: Give items to a player
+    usage: /<command> <Player> <Item> [Amount] [Meta...]
+  kittycannon:
+    description: The cat goes boom!
+    usage: /<command>
+  nick:
+    description: Set your nickname
+    usage: /<command> <Name>
+  powertool:
+    description: Bind items to a command
+    usage: /<command> <Command..>
+  pt:
+    description: Bind items to a command
+    usage: /<command> <Command..>
+  inv:
+    description: Open someone's inventory
+    usage: /<command> <Player>
+  invsee:
+    description: Open someone's inventory
+    usage: /<command> <Player>
+  ram:
+    description: Check the current server RAM
+    usage: /<command>
+  lag:
+    description: Check how much lag is on the server.
+    usage: /<command>
+  tps:
+    description: Check the current server TPS
+    usage: /<command>
+  world:
+    description: Modify the world
+    usage: /<command> <Create/Import/Remove/List/Tp> <World>
+  tpa:
+    description: Send a teleport request to a player
+    usage: /<command> <Player>
+  tpaccept:
+    description: Accept a teleport request
+    usage: /<command>
+  mcservers:
+    description: Check if the minecraft servers are online
+    usage: /<command>
+  mcstats:
+    description: Check if the minecraft servers are online
+    usage: /<command>
+  ban:
+    description: Ban someone for a specific time and reason
+    usage: /<command> <Player> [Time] [Reason]
+  unban:
+    description: Unban someone
+    usage: /<command> <Player>
+  kick:
+    description: Kick the target player
+    usage: /<command> <Player> [Reason]
+  mute:
+    description: Mute someone for a specific time
+    usage: /<command> <Player> [Time]
+  unmute:
+    description: Unmute someone
+    usage: /<command> <Player>
+  freeze:
+    description: Freeze someone
+    usage: /<command> <Player>
+  unfreeze:
+    description: Unfreeze someone
+    usage: /<command> <Player>
+  msg:
+    description: Send a private message to someone
+    usage: /<command> <Player> <Message>
+  whisper:
+    description: Send a private message to someone
+    usage: /<command> <Player> <Message>
+  w:
+    description: Send a private message to someone
+    usage: /<command> <Player> <Message>
+  r:
+    description: Send a private message to the last player that sended you a message
+    usage: /<command> <Message>
+  me:
+    description: Says message in me format
+    usage: /<command> <Message>
+  stop:
+    description: Stop the server
+    usage: /<command>
+  reload:
+    description: Reload the server
+    usage: /<command>
+  rl:
+    description: Reload the server
+    usage: /<command>
+  setspawn:
+    description: Set the public spawnpoint
+    usage: /<command> [Player]
+  spawn:
+    description: Teleport to the public spawnpoint
+    usage: /<command> [Player]
+  more:
+    description: Get 64 of the item in your hand
+    usage: /<command>
+  butcher:
+    description: Kill all Monsters in a specific radius (Default=500)
+    usage: /<Command> [Radius]
+  killall:
+    description: Kill all mobs in a specific radius (Default=500)
+    usage: /<command> [Radius]
+  removeall:
+    description: Remove all entities
+    usage: /<command> [Radius]
+  v:
+    description: Become invisible
+    usage: /<command> [Player] [Time]
+  vanish:
+    description: Become invisible
+    usage: /<command> [Player] [Time]
+  speed:
+    description: Set your walk and fly speed
+    usage: /<command> <Speed> [Player]
+  spawnmob:
+    description: Spawn a mob
+    usage: /<command> <Mob> [Amount] [Data...]
+  enchant:
+    description: Add an enchantment on the item in your hand, 0 to remove enchantment
+    usage: /<command> <Enchantment> [Level]
+  item:
+    description: Give items to yourself
+    usage: /<command> <Item> [Amount] [Meta...]
+  i:
+    description: Give items to yourself
+    usage: /<command> <Item> [Amount] [Meta...]
+  effect:
+    description: Give someone a potion effect (Default time= 2 minutes, default level= 1)
+    usage: /<command> [Player]
+  top:
+    description: Teleport to the highest block on your location
+    usage: /<command>
+  et:
+    description: A tool to teleport mobs
+    usage: /<command>
+  entityteleport:
+    description: A tool to teleport mobs
+    usage: /<command>
+  mobtp:
+    description: A tool to teleport mobs
+    usage: /<command>
+  uc:
+    description: UltimateCore menu
+    usage: /<command> <reload/credits/disable/version>
+  ultimatecore:
+    description: UltimateCore menu
+    usage: /<command> <reload/credits/disable/version>
+  core:
+    description: UltimateCore menu
+    usage: /<command> <reload/credits/disable/version>
+  ip:
+    description: Get the server ip or the ip of a client
+    usage: /<command> [Player]
+  wb:
+    description: Open a workbench for yourself
+    usage: /<command>
+  wbench:
+    description: Open a workbench for yourself
+    usage: /<command>
+  workbench:
+    description: Open a workbench for yourself
+    usage: /<command>
+  afk:
+    description: Set afk status
+    usage: /<command> [Player]
+  list:
+    description: Check the list of online players
+    usage: /<command>
+  
