@@ -24,11 +24,12 @@ public class CmdSetSpawn{
 	public static void handle(CommandSender sender, String label, String[] args){
 		if(r.isPlayer(sender)){
 		    Player p = (Player) sender;
-		    if(r.perm(p, "uc.set.spawn", false, true) == false){
+		    if(r.perm(p, "uc.setspawn", false, true) == false){
 				return;
 			}
 		    YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
 		    Location loc = p.getLocation();
+		    loc.getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 		    String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
 		    data.set("spawn", location);
 		    try {

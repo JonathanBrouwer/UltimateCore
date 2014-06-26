@@ -48,8 +48,9 @@ public class ItemUtil
 	}
 
 	public static String getTypeName(ItemStack stack){
-		if(Bukkit.getPluginManager().getPlugin("Vault") != null){
-			return Items.itemByStack(stack).getName();
+		if(stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) return "hand";
+		if(Bukkit.getPluginManager().isPluginEnabled("Vault") && Items.itemByStack(stack) != null && Items.itemByStack(stack).getName() != null){
+			return StringUtil.firstUpperCase(Items.itemByStack(stack).getName().toLowerCase());
 		}else{
 			return StringUtil.firstUpperCase(stack.getType().name().replaceAll("_", " ").toLowerCase());
 		}

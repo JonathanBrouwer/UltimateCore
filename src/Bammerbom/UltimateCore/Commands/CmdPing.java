@@ -36,6 +36,7 @@ public class CmdPing {
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;
 			}
+			if(r.checkArgs(args, 0) && !r.perm(sender, "uc.ping.others", false, true)) return;
 			sender.sendMessage(r.mes("Ping.Message").replaceAll("%Player", pl.getName()).replaceAll("%Ping", getPing(pl) + ""));
 			
 	}

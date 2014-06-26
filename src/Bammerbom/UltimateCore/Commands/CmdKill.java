@@ -20,18 +20,15 @@ public class CmdKill{
 	}
 	public static void handle(CommandSender sender, String[] args) {
 		if(r.checkArgs(args, 0) == false){
-			if(!(r.isPlayer(sender))){
+			if(!r.isPlayer(sender)){
 				return;
 			}
-			if(sender instanceof Player){
 				if(!r.perm(sender, "uc.kill", true, true)){
 					return;
 				}
 				Player p = (Player) sender;
 			p.setLastDamageCause(new EntityDamageEvent(p, DamageCause.SUICIDE, 0.0));
 			p.setHealth(0.0);
-			p.sendMessage(r.mes("Kill.Suicide"));
-			}
 		}
 		else{
 			if(!r.perm(sender, "uc.kill.others", false, true)){
@@ -39,7 +36,7 @@ public class CmdKill{
 			}
 			Player target = Bukkit.getPlayer(args[0]);
 			if(target == null){
-				sender.sendMessage(r.mes("PlayerNotFoundError").replaceAll("%Player", args[0]));
+				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;
 			}	
 			else{

@@ -42,7 +42,7 @@ public class CmdRegion implements Listener{
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
-		if(Bukkit.getPluginManager().getPlugin("WorldEdit") != null){
+		if(Bukkit.getPluginManager().getPlugin("WorldEdit") != null && Bukkit.getPluginManager().isPluginEnabled("WorldEdit")){
 			worldedit = true;
 			Plugin worldeditplugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
 			if(!(worldeditplugin instanceof WorldEditPlugin)){

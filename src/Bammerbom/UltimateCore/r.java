@@ -2,17 +2,14 @@ package Bammerbom.UltimateCore;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Random;
 
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -27,7 +24,7 @@ public class r {
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
-		if(plugin.getServer().getPluginManager().getPlugin("Vault") != null){
+		if(plugin.getServer().getPluginManager().getPlugin("Vault") != null && Bukkit.getPluginManager().isPluginEnabled("Vault")){
 			setupPermissions();
 		}
 		/*if(fl == null){
@@ -70,13 +67,13 @@ public class r {
 	File language = null;
 	static File config = null;
 	static YamlConfiguration cnfg;
-	public static void log(String message){
+	public static void log(Object message){
 		String logo = "&9[&bUC&9]&r";
-		if(message.contains("@3")){
+		if(message.toString().contains("@3")){
 			logo = "&4[&bUC&4]&r";
 		}
-		String msg = ChatColor.translateAlternateColorCodes('&', (logo + " " + ChatColor.YELLOW + message.replaceAll("@1", default1 + "")
-				.replaceAll("@2", default2 + "").replaceAll("@3", "" + error)));
+		String msg = ChatColor.translateAlternateColorCodes('&', (logo + " " + ChatColor.YELLOW + message.toString().replaceAll("@1", default1 + "")
+				.replaceAll("@2", default2 + "").replaceAll("@3", "" + error).replaceAll("\\\\n", "\n")));
 		Bukkit.getConsoleSender().sendMessage(msg);
 		//
 	}
@@ -90,6 +87,24 @@ public class r {
 	}
 	public static enum MesType {
 		Normal, Direct
+	}
+	public static Integer normalize(Integer a, Integer b, Integer c){
+		if(a < b){
+			a = b;
+		}
+		if(a > c){
+			a = c;
+		}
+		return a;
+	}
+	public static Double normalize(Double a, Double b, Double c){
+		if(a < b){
+			a = b;
+		}
+		if(a > c){
+			a = c;
+		}
+		return a;
 	}
 	public static String mes(String pad, Boolean conf){
 		if(conf){
@@ -109,12 +124,12 @@ public class r {
 		    }
 		    
 		    if(lang.get(padMessage) != null){
-		    	String try1 = default1 + ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + ""));
+		    	String try1 = default1 + ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
 		        return try1;
 		    }
 		    lang = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Messages/EN.yml"));
 		    if(lang.get(padMessage) != null){
-		    	String try2 = default1 + ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + ""));
+		    	String try2 = default1 + ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
 		        return try2;
 		    }
 			return null;
@@ -217,37 +232,6 @@ public class r {
 		default1 = c1;
 		default2 = c2;
 	}
-
-	@SuppressWarnings("rawtypes")
-	public static void unRegisterBukkitCommand(String str) {
-	try {
-	    CommandMap commandMap = null;
-	    Map commands = null;
-        Field commandMapField = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("commandMap");
-        commandMapField.setAccessible(true);
-        commandMap = (CommandMap)commandMapField.get(Bukkit.getPluginManager());
-
-        Field knownCommandsField = CommandMap.class.getDeclaredField("knownCommands");
-        knownCommandsField.setAccessible(true);
-        commands = (Map)knownCommandsField.get(commandMap);
-        Iterator it;
-        if (commandMap != null) {
-		      for (it = commands.entrySet().iterator(); it.hasNext(); ) {
-		        Map.Entry entry = (Map.Entry)it.next();
-		        if ((entry.getValue() instanceof PluginCommand)) {
-		          PluginCommand c = (PluginCommand)entry.getValue();
-		          if (c.getPlugin() == plugin && (c.getLabel().equalsIgnoreCase(str) || c.getAliases().contains(str))) {
-		            c.unregister(commandMap);
-		            it.remove();
-		          }
-		        }
-		      }
-		    }
-        
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-	}
 	public static boolean isPlayer(CommandSender sender, Boolean b) {
 		if(sender instanceof Player){
 			return true;
@@ -255,5 +239,15 @@ public class r {
 		if(b)
 		sender.sendMessage(mes("NeedToBePlayer"));
 		return false;
+	}
+	static Random ra = new Random();
+	public static ChatColor getRandomChatColor(){
+		ArrayList<ChatColor> values = new ArrayList<ChatColor>();
+		for(ChatColor c : ChatColor.values()){
+			if(!c.isFormat()){
+				values.add(c);
+			}
+		}
+		return values.get(ra.nextInt(values.size()));
 	}
 }

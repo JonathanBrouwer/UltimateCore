@@ -30,6 +30,8 @@ import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.API.UCworld;
 import Bammerbom.UltimateCore.API.UCworld.WorldFlag;
+import Bammerbom.UltimateCore.Resources.MobType;
+import Bammerbom.UltimateCore.Resources.MobType.Enemies;
 import Bammerbom.UltimateCore.Resources.Utils.StringUtil;
 
 public class CmdWorld implements Listener{
@@ -53,22 +55,17 @@ public class CmdWorld implements Listener{
 			return;
 		}
 		if(r.checkArgs(args, 0) == false){
-			sender.sendMessage(r.default1 + "/world commands:");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "create <Name> [Type...] [Type...]");
-			sender.sendMessage(r.default1 + "Types:" + r.default2 + " flat, largebiomes, amplified, normal, nether, end, nostructures, [SEED]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "import <Name> [Normal/Nether/End]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "remove <Name>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "list");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "tp <World>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "flag <World> <Flag> <Allow/Deny>");
-			sender.sendMessage(r.default1 + "Flags: " + r.default2 + StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "reset <World>");
+			usage(sender);
 			return;
 		}
 		//Usage = /a world create <Worldname> [WorldType]
 		if(r.checkArgs(args, 1) == true){
 			if(Bukkit.getWorld(args[1]) != null){
 				sender.sendMessage(r.mes("World.AlreadyExist"));
+				return;
+			}
+			if(!args[1].replaceAll("[a-zA-Z0-9]", "").replaceAll("_", "").equalsIgnoreCase("")){
+				sender.sendMessage(r.default1 + "World name is not alphanumeric");
 				return;
 			}
 			WorldCreator settings = new WorldCreator(args[1]);
@@ -104,7 +101,7 @@ public class CmdWorld implements Listener{
 		}
 		
 		}
-			Bukkit.broadcastMessage(r.mes("World.Create.Creating").replaceAll("%world", settings.name()));
+			sender.sendMessage(r.mes("World.Create.Creating").replaceAll("%world", settings.name()));
 			Bukkit.createWorld(settings);
 			try{
 				YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
@@ -131,9 +128,9 @@ public class CmdWorld implements Listener{
 				}
 			}
 			
-			Bukkit.broadcastMessage(r.mes("World.Create.Created").replaceAll("%world", settings.name()));
+			sender.sendMessage(r.mes("World.Create.Created").replaceAll("%world", settings.name()));
 		}else{
-			sender.sendMessage(r.mes(r.default1 + "/world" + r.default2 + " create [Name] [Options...]"));
+			sender.sendMessage(r.default1 + "/world" + r.default2 + " create [Name] [Options...]");
 		}
 		
 	}
@@ -143,16 +140,7 @@ public class CmdWorld implements Listener{
 			return;
 		}
 		if(r.checkArgs(args, 0) == false){
-			sender.sendMessage(r.default1 + "/world commands:");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "create <Name> [Type...] [Type...]");
-			sender.sendMessage(r.default1 + "Types:" + r.default2 + " flat, largebiomes, amplified, normal, nether, end, nostructures, [SEED]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "import <Name> [Normal/Nether/End]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "remove <Name>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "list");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "tp <World>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "flag <World> <Flag> <Allow/Deny>");
-			sender.sendMessage(r.default1 + "Flags: " + r.default2 + StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "reset <World>");
+			usage(sender);
 			return;
 		}
 		//
@@ -175,7 +163,7 @@ public class CmdWorld implements Listener{
 			
 		}
 			}
-			Bukkit.broadcastMessage(r.mes("World.Import.Importing").replaceAll("%world", settings.name()));
+			sender.sendMessage(r.mes("World.Import.Importing").replaceAll("%world", settings.name()));
 		Bukkit.createWorld(settings);
 	
 		try{
@@ -199,9 +187,9 @@ public class CmdWorld implements Listener{
 					e1.printStackTrace();
 				}
 			}
-		Bukkit.broadcastMessage(r.mes("World.Import.Imported").replaceAll("%world", settings.name()));
+		sender.sendMessage(r.mes("World.Import.Imported").replaceAll("%world", settings.name()));
 		}else{
-			sender.sendMessage(r.mes(r.default1 + "/world" + r.default2 + " import [Name] [Normal/Nether/End]"));
+			sender.sendMessage(r.default1 + "/world" + r.default2 + " import [Name] [Normal/Nether/End]");
 		}
 	}
 	public static void list(CommandSender sender,  String[] args){
@@ -210,16 +198,7 @@ public class CmdWorld implements Listener{
 			return;
 		}
 		if(r.checkArgs(args, 0) == false){
-			sender.sendMessage(r.default1 + "/world commands:");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "create <Name> [Type...] [Type...]");
-			sender.sendMessage(r.default1 + "Types:" + r.default2 + " flat, largebiomes, amplified, normal, nether, end, nostructures, [SEED]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "import <Name> [Normal/Nether/End]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "remove <Name>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "list");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "tp <World>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "flag <World> <Flag> <Allow/Deny>");
-			sender.sendMessage(r.default1 + "Flags: " + r.default2 + StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "reset <World>");
+			usage(sender);
 			return;
 		}
 		//
@@ -250,16 +229,7 @@ public class CmdWorld implements Listener{
 			return;
 		}
 		if(r.checkArgs(args, 0) == false){
-			sender.sendMessage(r.default1 + "/world commands:");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "create <Name> [Type...] [Type...]");
-			sender.sendMessage(r.default1 + "Types:" + r.default2 + " flat, largebiomes, amplified, normal, nether, end, nostructures, [SEED]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "import <Name> [Normal/Nether/End]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "remove <Name>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "list");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "tp <World>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "flag <World> <Flag> <Allow/Deny>");
-			sender.sendMessage(r.default1 + "Flags: " + r.default2 + StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "reset <World>");
+			usage(sender);
 			return;
 		}
 		//
@@ -304,9 +274,9 @@ public class CmdWorld implements Listener{
 						e1.printStackTrace();
 					}
 				}
-			Bukkit.broadcastMessage(r.mes("World.Remove").replaceAll("%world", world.getName()));
+			sender.sendMessage(r.mes("World.Remove").replaceAll("%world", world.getName()));
 		}else{
-			sender.sendMessage(r.mes(r.default1 + "/world" + r.default2 + " remove [World]"));
+			sender.sendMessage(r.default1 + "/world" + r.default2 + " remove [World]");
 		}
 	}
 	public static void reset(CommandSender sender, String[] args){
@@ -315,16 +285,7 @@ public class CmdWorld implements Listener{
 			return;
 		}
 		if(r.checkArgs(args, 1) == false){
-			sender.sendMessage(r.default1 + "/world commands:");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "create <Name> [Type...] [Type...]");
-			sender.sendMessage(r.default1 + "Types:" + r.default2 + " flat, largebiomes, amplified, normal, nether, end, nostructures, [SEED]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "import <Name> [Normal/Nether/End]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "remove <Name>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "list");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "tp <World>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "flag <World> <Flag> <Allow/Deny>");
-			sender.sendMessage(r.default1 + "Flags: " + r.default2 + StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "reset <World>");
+			usage(sender);
 			return;
 		}
 		if(r.checkArgs(args, 1) == true){
@@ -362,9 +323,9 @@ public class CmdWorld implements Listener{
 			}
 			File f = new File(world.getWorldFolder().getName() + "_OLD" + i);
 			new File(world.getWorldFolder().getAbsolutePath()).renameTo(f);
-			Bukkit.broadcastMessage(r.default1 + "Resetting world: " + world.getName());
+			sender.sendMessage(r.default1 + "Resetting world: " + world.getName());
 			resetAll(world);
-			Bukkit.broadcastMessage(r.default1 + "Reset complete!");
+			sender.sendMessage(r.default1 + "Reset complete!");
 		}
 		
 	}
@@ -393,16 +354,7 @@ public class CmdWorld implements Listener{
 			return;
 		}
 		if(r.checkArgs(args, 1) == false){
-			sender.sendMessage(r.default1 + "/world commands:");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "create <Name> [Type...] [Type...]");
-			sender.sendMessage(r.default1 + "Types:" + r.default2 + " flat, largebiomes, amplified, normal, nether, end, nostructures, [SEED]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "import <Name> [Normal/Nether/End]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "remove <Name>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "list");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "tp <World>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "flag <World> <Flag> <Allow/Deny>");
-			sender.sendMessage(r.default1 + "Flags: " + r.default2 + StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "reset <World>");
+			usage(sender);
 			return;
 		}
 		//
@@ -426,16 +378,7 @@ public class CmdWorld implements Listener{
 			return;
 		}
 		if(r.checkArgs(args, 3) == false){
-			sender.sendMessage(r.default1 + "/world commands:");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "create <Name> [Type...] [Type...]");
-			sender.sendMessage(r.default1 + "Types:" + r.default2 + " flat, largebiomes, amplified, normal, nether, end, nostructures, [SEED]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "import <Name> [Normal/Nether/End]");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "remove <Name>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "list");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "tp <World>");
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "flag <World> <Flag> <Allow/Deny>");
-			sender.sendMessage(r.default1 + "Flags: " + r.default2 + StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
-			sender.sendMessage(r.default2 + "/world " + r.default2 + "reset <World>");
+			usage(sender);
 			return;
 		}
 		//world flag [world] [flag] [value]
@@ -500,10 +443,8 @@ public class CmdWorld implements Listener{
 	}
 	@EventHandler(priority = EventPriority.LOW)
 	public void mobSpawn(CreatureSpawnEvent e){
-		if(e.getEntity() instanceof Monster){
-			@SuppressWarnings("unused")
-			Monster m = (Monster) e.getEntity();
-			if(e.getSpawnReason().equals(SpawnReason.CUSTOM) || e.getSpawnReason().equals(SpawnReason.SLIME_SPLIT) || e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG) || e.getSpawnReason().equals(SpawnReason.BREEDING)){
+		if(e.getEntity() instanceof Monster || MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.ENEMY)){
+			if(e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG)){
 				return;
 			}
 			UCworld w = new UCworld(e.getLocation().getWorld());
@@ -511,8 +452,8 @@ public class CmdWorld implements Listener{
 			  e.setCancelled(true);
 			}
 		}
-		if(e.getEntity() instanceof Animals){
-			if(e.getSpawnReason().equals(SpawnReason.CUSTOM) || e.getSpawnReason().equals(SpawnReason.SLIME_SPLIT) || e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG) || e.getSpawnReason().equals(SpawnReason.BREEDING)){
+		if(e.getEntity() instanceof Animals || (MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.FRIENDLY)) || MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.NEUTRAL)){
+			if(e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG)){
 				return;
 			}
 			UCworld w = new UCworld(e.getLocation().getWorld());
@@ -527,5 +468,18 @@ public class CmdWorld implements Listener{
 		    UCworld w = new UCworld(e.getEntity().getWorld());
 		    if(w.isFlagDenied(WorldFlag.PVP)) e.setCancelled(true);
 		}
+	}
+	public static void usage(CommandSender sender){
+		sender.sendMessage(r.default1 + "/world commands:");
+		sender.sendMessage(r.default2 + "/world " + r.default2 + "create <Name> [Type...] [Type...]");
+		sender.sendMessage(r.default1 + "Types:" + r.default2 + " flat, largebiomes, amplified, normal, nether, end, nostructures, [SEED]");
+		sender.sendMessage(r.default2 + "/world " + r.default2 + "import <Name> [Normal/Nether/End]");
+		sender.sendMessage(r.default2 + "/world " + r.default2 + "remove <Name>");
+		sender.sendMessage(r.default2 + "/world " + r.default2 + "list");
+		sender.sendMessage(r.default2 + "/world " + r.default2 + "tp <World>");
+		sender.sendMessage(r.default2 + "/world " + r.default2 + "flag <World> <Flag> <Allow/Deny>");
+		sender.sendMessage(r.default1 + "Flags: " + r.default2 + StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
+		sender.sendMessage(r.default2 + "/world " + r.default2 + "reset <World>");
+		return;
 	}
 }

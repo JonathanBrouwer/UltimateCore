@@ -19,20 +19,28 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import Bammerbom.UltimateCore.UltimateFileLoader;
-import Bammerbom.UltimateCore.API.UCworld.WorldFlag;
+import Bammerbom.UltimateCore.Commands.CmdAccountstatus;
+import Bammerbom.UltimateCore.Commands.CmdAlert;
 import Bammerbom.UltimateCore.Commands.CmdBack;
 import Bammerbom.UltimateCore.Commands.CmdBan;
 import Bammerbom.UltimateCore.Commands.CmdButcher;
 import Bammerbom.UltimateCore.Commands.CmdCi;
+import Bammerbom.UltimateCore.Commands.CmdClean;
+import Bammerbom.UltimateCore.Commands.CmdClearchat;
+import Bammerbom.UltimateCore.Commands.CmdCoords;
+import Bammerbom.UltimateCore.Commands.CmdDamage;
+import Bammerbom.UltimateCore.Commands.CmdDeaf;
+import Bammerbom.UltimateCore.Commands.CmdEditSign;
 import Bammerbom.UltimateCore.Commands.CmdEffect;
 import Bammerbom.UltimateCore.Commands.CmdEnchant;
+import Bammerbom.UltimateCore.Commands.CmdEnchantingtable;
 import Bammerbom.UltimateCore.Commands.CmdEnderchest;
 import Bammerbom.UltimateCore.Commands.CmdExtinguish;
 import Bammerbom.UltimateCore.Commands.CmdFeed;
 import Bammerbom.UltimateCore.Commands.CmdFly;
 import Bammerbom.UltimateCore.Commands.CmdFreeze;
 import Bammerbom.UltimateCore.Commands.CmdFullheal;
+import Bammerbom.UltimateCore.Commands.CmdGC;
 import Bammerbom.UltimateCore.Commands.CmdGTool;
 import Bammerbom.UltimateCore.Commands.CmdGive;
 import Bammerbom.UltimateCore.Commands.CmdGm;
@@ -40,10 +48,13 @@ import Bammerbom.UltimateCore.Commands.CmdGod;
 import Bammerbom.UltimateCore.Commands.CmdHat;
 import Bammerbom.UltimateCore.Commands.CmdHeal;
 import Bammerbom.UltimateCore.Commands.CmdHome;
+import Bammerbom.UltimateCore.Commands.CmdHunger;
 import Bammerbom.UltimateCore.Commands.CmdIP;
 import Bammerbom.UltimateCore.Commands.CmdInv;
+import Bammerbom.UltimateCore.Commands.CmdJail;
 import Bammerbom.UltimateCore.Commands.CmdJump;
 import Bammerbom.UltimateCore.Commands.CmdKick;
+import Bammerbom.UltimateCore.Commands.CmdKickall;
 import Bammerbom.UltimateCore.Commands.CmdKill;
 import Bammerbom.UltimateCore.Commands.CmdKillAll;
 import Bammerbom.UltimateCore.Commands.CmdKittycannon;
@@ -52,29 +63,41 @@ import Bammerbom.UltimateCore.Commands.CmdList;
 import Bammerbom.UltimateCore.Commands.CmdMe;
 import Bammerbom.UltimateCore.Commands.CmdMobTP;
 import Bammerbom.UltimateCore.Commands.CmdMore;
+import Bammerbom.UltimateCore.Commands.CmdMotd;
 import Bammerbom.UltimateCore.Commands.CmdMsg;
 import Bammerbom.UltimateCore.Commands.CmdMute;
+import Bammerbom.UltimateCore.Commands.CmdNear;
 import Bammerbom.UltimateCore.Commands.CmdNick;
 import Bammerbom.UltimateCore.Commands.CmdPing;
 import Bammerbom.UltimateCore.Commands.CmdPlugin;
 import Bammerbom.UltimateCore.Commands.CmdPowertool;
+import Bammerbom.UltimateCore.Commands.CmdRealname;
 import Bammerbom.UltimateCore.Commands.CmdRegion;
 import Bammerbom.UltimateCore.Commands.CmdReload;
 import Bammerbom.UltimateCore.Commands.CmdRemoveAll;
 import Bammerbom.UltimateCore.Commands.CmdRepair;
+import Bammerbom.UltimateCore.Commands.CmdRules;
 import Bammerbom.UltimateCore.Commands.CmdSave;
 import Bammerbom.UltimateCore.Commands.CmdSay;
+import Bammerbom.UltimateCore.Commands.CmdSeen;
+import Bammerbom.UltimateCore.Commands.CmdSetArmor;
+import Bammerbom.UltimateCore.Commands.CmdSetFood;
+import Bammerbom.UltimateCore.Commands.CmdSetHealth;
 import Bammerbom.UltimateCore.Commands.CmdSetSpawn;
+import Bammerbom.UltimateCore.Commands.CmdSkull;
 import Bammerbom.UltimateCore.Commands.CmdSmite;
 import Bammerbom.UltimateCore.Commands.CmdSpawn;
+import Bammerbom.UltimateCore.Commands.CmdSpawner;
 import Bammerbom.UltimateCore.Commands.CmdSpawnmob;
 import Bammerbom.UltimateCore.Commands.CmdSpeed;
+import Bammerbom.UltimateCore.Commands.CmdSpy;
 import Bammerbom.UltimateCore.Commands.CmdStop;
 import Bammerbom.UltimateCore.Commands.CmdTime;
 import Bammerbom.UltimateCore.Commands.CmdTop;
 import Bammerbom.UltimateCore.Commands.CmdTp;
 import Bammerbom.UltimateCore.Commands.CmdTpall;
 import Bammerbom.UltimateCore.Commands.CmdUC;
+import Bammerbom.UltimateCore.Commands.CmdUptime;
 import Bammerbom.UltimateCore.Commands.CmdVanish;
 import Bammerbom.UltimateCore.Commands.CmdWarp;
 import Bammerbom.UltimateCore.Commands.CmdWeather;
@@ -83,7 +106,6 @@ import Bammerbom.UltimateCore.Commands.CmdWorld;
 import Bammerbom.UltimateCore.Commands.CmdXP;
 import Bammerbom.UltimateCore.Events.EventAFK;
 import Bammerbom.UltimateCore.Events.EventMinecraftServers;
-import Bammerbom.UltimateCore.Resources.Utils.StringUtil;
 
 public class UltimateCommands implements Listener{
 	static Plugin plugin;
@@ -92,7 +114,7 @@ public class UltimateCommands implements Listener{
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
-		//fixCommandOverriding();
+		fixCommands();
 	}
 	public static void executecommand(CommandSender sender, String message){
 		try{
@@ -104,20 +126,85 @@ public class UltimateCommands implements Listener{
 	public static void executecommand(CommandSender sender, String label, String[] args){
 		executecommand(sender, label + " " + r.getFinalArg(args, 0));
 	}
-	public static boolean onCmd(final CommandSender sender, Command cmd, final String label, final String[] args){	 
+	public static boolean onCmd(final CommandSender sender, Command cmd, String label, final String[] args){	 
 		if(checkOverridden(sender, cmd, label, args)) return true;
-		shortCut(sender, label, args);
+		shortCut(sender, cmd, label, args);
+		if(label.startsWith("ultimatecore:")) label = label.replaceFirst("ultimatecore:", "");
 				 if(label.equalsIgnoreCase("afk")){
 					 EventAFK.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("clearchat")){
+					 CmdClearchat.handle(sender, cmd, label, args);
+				 }else if(label.equalsIgnoreCase("accountstatus")){
+					 CmdAccountstatus.handle(sender, cmd, label, args);
+				 }else if(label.equalsIgnoreCase("jail")){
+					 CmdJail.jail(sender, label, args);
+				 }else if(label.equalsIgnoreCase("setjail")){
+					 CmdJail.setJail(sender, label, args);
+				 }else if(label.equalsIgnoreCase("deljail")){
+					 CmdJail.delJail(sender, label, args);
+				 }else if(label.equalsIgnoreCase("unjail")){
+					 CmdJail.unJail(sender, label, args);
 				 }else if(label.equalsIgnoreCase("xp")){
 					 CmdXP.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("uptime")){
+					 CmdUptime.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("rules")){
+					 CmdRules.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("motd")){
+					 CmdMotd.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("spawner")){
+					 CmdSpawner.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("enchtable") || label.equalsIgnoreCase("enchantingtable")){
+					 CmdEnchantingtable.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("spy")){
+					 CmdSpy.handle(sender, label, args);
+				 }else if(label.equalsIgnoreCase("editsign") || label.equalsIgnoreCase("signedit")){
+					 CmdEditSign.handle(sender, cmd, label, args);
+				 }else if(label.equalsIgnoreCase("near")){
+					 CmdNear.handle(sender, label, args);
+				 }else if(label.equalsIgnoreCase("skull") || label.equalsIgnoreCase("head")){
+					 CmdSkull.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("setxp")){
 					 CmdXP.handle2(sender, args);
+				 }else if(label.equalsIgnoreCase("alert") || label.equalsIgnoreCase("broadcast") || label.equalsIgnoreCase("bc")){
+					 CmdAlert.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("coords") || label.equalsIgnoreCase("coordinates")){
+					CmdCoords.handle(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("bans") || label.equalsIgnoreCase("banlist")){
+					 CmdBan.bans(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("mutes") || label.equalsIgnoreCase("mutelist")){
+					 CmdMute.mutes(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("deafs") || label.equalsIgnoreCase("deaflist")){
+					 CmdDeaf.deafs(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("freezes") || label.equalsIgnoreCase("freezelist")){
+					 CmdFreeze.freezes(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("jails") || label.equalsIgnoreCase("jaillist")){
+					 CmdJail.jails(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("clean")){
+					 CmdClean.handle(sender, args);
 				 }
 				 else if(label.equalsIgnoreCase("setlevel")){
 					 CmdXP.handle3(sender, args);
 				 }
-				 else if(label.equalsIgnoreCase("list")){
+				 else if(label.equalsIgnoreCase("realname")){
+					 CmdRealname.handle(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("gc")){
+					 CmdGC.handle(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("kickall")){
+					 CmdKickall.handle(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("seen")){
+					 CmdSeen.handle(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("list") || label.equalsIgnoreCase("who") || label.equalsIgnoreCase("online")){
 					 CmdList.handle(sender, args);
 				 }
 				 else if(label.equalsIgnoreCase("spawn")){
@@ -147,7 +234,7 @@ public class UltimateCommands implements Listener{
 				 else if(label.equalsIgnoreCase("region")){
 					 CmdRegion.handle(sender, args);
 				 }
-				 else if(label.equalsIgnoreCase("tp") || label.equalsIgnoreCase("tpa") || label.equalsIgnoreCase("tpaccept")){
+				 else if(label.equalsIgnoreCase("tp") || label.equalsIgnoreCase("tpa") || label.equalsIgnoreCase("tpaccept") || label.equalsIgnoreCase("tpdeny") || label.equalsIgnoreCase("tpahere") || label.equalsIgnoreCase("tpaall") || label.equalsIgnoreCase("tptoggle") || label.equalsIgnoreCase("tpyes") || label.equalsIgnoreCase("tpno")){
 					 CmdTp.handle(sender,  label, args);
 				 }
 				 else if(label.equalsIgnoreCase("plugin")){
@@ -198,7 +285,7 @@ public class UltimateCommands implements Listener{
 				 else if(label.equalsIgnoreCase("save")){
 					 CmdSave.handle(sender, args);
 				 }
-				 else if(label.equalsIgnoreCase("smite")){
+				 else if(label.equalsIgnoreCase("smite") || label.equalsIgnoreCase("strike")){
 					 CmdSmite.handle(sender, args);
 				 }
 				 else if(label.equalsIgnoreCase("time")){
@@ -222,30 +309,25 @@ public class UltimateCommands implements Listener{
 				 else if(label.equalsIgnoreCase("inv") || label.equalsIgnoreCase("invsee")){
 					 CmdInv.handle(sender, args);
 				 }
-				 else if(label.equalsIgnoreCase("ram") || label.equalsIgnoreCase("lag") || label.equalsIgnoreCase("tps")){
+				 else if(label.equalsIgnoreCase("ram") || label.equalsIgnoreCase("lag") || label.equalsIgnoreCase("tps") || label.equalsIgnoreCase("mem")){
 					 CmdLag.handle(sender,  label, args);
 				 }
 				 else if(label.equalsIgnoreCase("world")){
 					 if(r.checkArgs(args, 0) == false){
-							sender.sendMessage(r.default1 + "/world commands:");
-							sender.sendMessage(r.default2 + "/world " + r.default2 + "create <Name> [Type...] [Type...]");
-							sender.sendMessage(r.default1 + "Types:" + r.default2 + " flat, largebiomes, amplified, normal, nether, end, nostructures, [SEED]");
-							sender.sendMessage(r.default2 + "/world " + r.default2 + "import <Name> [Normal/Nether/End]");
-							sender.sendMessage(r.default2 + "/world " + r.default2 + "remove <Name>");
-							sender.sendMessage(r.default2 + "/world " + r.default2 + "list");
-							sender.sendMessage(r.default2 + "/world " + r.default2 + "tp <World>");
-							sender.sendMessage(r.default2 + "/world " + r.default2 + "flag <World> <Flag> <Allow/Deny>");
-							sender.sendMessage(r.default1 + "Flags: " + r.default2 + StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
-							sender.sendMessage(r.default2 + "/world " + r.default2 + "reset <World>");
-						 return true;
+						    CmdWorld.usage(sender);
+							return true;
 					 }
 					 if(args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("add")){ CmdWorld.create(sender,  args); }
-					 if(args[0].equalsIgnoreCase("import") || args[0].equalsIgnoreCase("imp")){ CmdWorld.importw(sender,  args); }
-					 if(args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("list")){ CmdWorld.list(sender,  args);; }
-					 if(args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("delete")){ CmdWorld.remove(sender,  args); }
-					 if(args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("tele")){ CmdWorld.tp(sender,  args); }
-					 if(args[0].equalsIgnoreCase("reset")){ CmdWorld.reset(sender, args); }
-					 if(args[0].equalsIgnoreCase("flag")){ CmdWorld.flag(sender, args); }
+					 else if(args[0].equalsIgnoreCase("import") || args[0].equalsIgnoreCase("imp")){ CmdWorld.importw(sender,  args); }
+					 else if(args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("list")){ CmdWorld.list(sender,  args);; }
+					 else if(args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("delete")){ CmdWorld.remove(sender,  args); }
+					 else if(args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("tele")){ CmdWorld.tp(sender,  args); }
+					 else if(args[0].equalsIgnoreCase("reset")){ CmdWorld.reset(sender, args); }
+					 else if(args[0].equalsIgnoreCase("flag")){ CmdWorld.flag(sender, args); }
+					 else{ 
+					    CmdWorld.usage(sender);
+						return true;
+					 }
 				 }
 				 else if(label.equalsIgnoreCase("mcservers") || label.equalsIgnoreCase("mcstats")){
 					 EventMinecraftServers.handle(sender, args);
@@ -265,16 +347,22 @@ public class UltimateCommands implements Listener{
 				 else if(label.equalsIgnoreCase("unmute")){
 					 CmdMute.unmute(sender, args);
 				 }
+				 else if(label.equalsIgnoreCase("deaf")){
+					 CmdDeaf.handle(sender, args);
+				 }
+				 else if(label.equalsIgnoreCase("undeaf")){
+					 CmdDeaf.undeaf(sender, args);
+				 }
 				 else if(label.equalsIgnoreCase("freeze")){
 					 CmdFreeze.handle(sender, args);
 				 }
 				 else if(label.equalsIgnoreCase("unfreeze")){
 					 CmdFreeze.unfreeze(sender, args);
 				 }
-				 else if(label.equalsIgnoreCase("msg") || label.equalsIgnoreCase("whisper") || label.equalsIgnoreCase("w")){
+				 else if(label.equalsIgnoreCase("msg") || label.equalsIgnoreCase("whisper") || label.equalsIgnoreCase("w") || label.equalsIgnoreCase("t") || label.equalsIgnoreCase("m") || label.equals("tell")){
 					 CmdMsg.handle(sender, args);
 				 }
-				 else if(label.equalsIgnoreCase("r")){
+				 else if(label.equalsIgnoreCase("r") || label.equalsIgnoreCase("reply")){
 					 CmdMsg.handle2(sender, args);
 				 }
 				 else if(label.equalsIgnoreCase("me")){
@@ -331,13 +419,25 @@ public class UltimateCommands implements Listener{
 					 CmdExtinguish.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("tpall")){
 					 CmdTpall.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("damage") || label.equalsIgnoreCase("hurt")){
+					 CmdDamage.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("starve") || label.equalsIgnoreCase("hunger")){
+					 CmdHunger.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("sethealth")){
+					 CmdSetHealth.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("sethunger") || label.equalsIgnoreCase("setfood")){
+					 CmdSetFood.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("setarmor")){
+					 CmdSetArmor.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("megasmite") || label.equalsIgnoreCase("megastrike")){
+					 CmdSmite.handle2(sender, args);
 				 }
 				 else{
 					 return true;
 				 }
 				 return true;
 	}
-	public static void shortCut(CommandSender sender, String label, String[] args){
+	public static void shortCut(CommandSender sender, Command cmd, String label, String[] args){
 		if(label.equalsIgnoreCase("gmc")|| label.equalsIgnoreCase("c") || label.equalsIgnoreCase("creative")){
 			executecommand(sender, "gamemode creative " + r.getFinalArg(args, 0));
 		}else if(label.equalsIgnoreCase("gms") || label.equalsIgnoreCase("s")|| label.equalsIgnoreCase("survival")){
@@ -347,7 +447,7 @@ public class UltimateCommands implements Listener{
 		}else if(label.equalsIgnoreCase("bring") || label.equalsIgnoreCase("tphere")){
 			if(!r.checkArgs(args, 0)){ sender.sendMessage(r.default1 + "/" + label + " <Player>"); return; }
 			if(!r.isPlayer(sender)) return;
-			executecommand(sender, "tp " + sender.getName() + " " + args[0]);
+			executecommand(sender, "tp " + args[0] + " " + sender.getName());
 		}else if(label.equalsIgnoreCase("day")){
 			executecommand(sender, "time day");
 		}else if(label.equalsIgnoreCase("night")){
@@ -359,6 +459,10 @@ public class UltimateCommands implements Listener{
 		}else if(label.equalsIgnoreCase("storm")){
 			executecommand(sender, "weather storm");
 		}else if(label.equalsIgnoreCase("warplist")){
+			executecommand(sender, "warp");
+		}else if(label.equalsIgnoreCase("homes") || label.equalsIgnoreCase("homelist")){
+			executecommand(sender, "home");
+		}else if(label.equalsIgnoreCase("warps") || label.equalsIgnoreCase("warplist")){
 			executecommand(sender, "warp");
 		}
 		
@@ -413,8 +517,6 @@ public class UltimateCommands implements Listener{
 						if(overriddenList.containsKey(uc)){
 							if(debug) r.log(ChatColor.WHITE + "Command un-overridden: " + label + " (" + pc.getPlugin() + ")");
 							overriddenList.remove(uc);
-						}else{
-							r.log(r.error + "Failed to re-register overridden command: " + uc.getLabel() + " (" + pc.getPlugin().getName() + ")");
 						}
 					}
 				}
@@ -425,11 +527,16 @@ public class UltimateCommands implements Listener{
 		PluginCommand uc = (PluginCommand) cmd;
 		if(overriddenList.containsKey(uc) || r.getCnfg().getStringList("disabledcommands").contains(label)){
 			PluginCommand pc = overriddenList.get(uc);
+			if(pc == null || pc.getExecutor() == null){ 
+				sender.sendMessage(r.mes("UnknownCommandMessage"));
+				return true;
+			}
 			pc.getExecutor().onCommand(sender, cmd, label, args);
 			return true;
 		}
 		return false;
 	}
+	
 	@EventHandler
 	public void plEnable(PluginEnableEvent e){
 		if(!e.getPlugin().equals(plugin)) addPlugin(e.getPlugin());
@@ -439,6 +546,7 @@ public class UltimateCommands implements Listener{
 	public void plDisable(PluginDisableEvent e){
 		if(!e.getPlugin().equals(plugin)) removePlugin(e.getPlugin());
 	}
+	
 
 	 
 }

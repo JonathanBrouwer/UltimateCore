@@ -25,6 +25,7 @@ public class CmdGive {
 		if(!r.perm(sender, "uc.give", false, true)) return;
 		if(!r.checkArgs(args, 1)){
 			sender.sendMessage(r.mes("Give.Usage"));
+			return;
 		}
 		Player target = Bukkit.getPlayer(args[0]);
 		if(target == null){
@@ -80,7 +81,8 @@ public class CmdGive {
 		if(!r.perm(sender, "uc.item", false, true)) return;
 		Player p = (Player) sender;
 		if(!r.checkArgs(args, 0)){
-			p.sendMessage(r.mes("Usage2"));
+			p.sendMessage(r.mes("Give.Usage2"));
+			return;
 		}
 		Player target = p;
 		ItemStack item;

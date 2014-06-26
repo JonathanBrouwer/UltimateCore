@@ -48,4 +48,42 @@ public class CmdSmite{
     		}
     	}
 	}
+	@SuppressWarnings("deprecation")
+	public static void handle2(CommandSender sender, String[] args) {
+    	if(r.checkArgs(args, 0)){
+    		if(!r.perm(sender, "uc.megasmite.others", false, true)){
+    			return;
+    		}
+    		Player target = Bukkit.getPlayer(args[0]);
+    		Location tPlayerLocation = target.getLocation();
+    		if(r.getCnfg().getBoolean("SmiteDamage") == false){
+    			for (int i = 0; i < 20; i++){
+    		    target.getWorld().strikeLightningEffect(tPlayerLocation);
+    			}
+    		}else{
+    			for (int i = 0; i < 20; i++){
+    			target.getWorld().strikeLightning(tPlayerLocation);
+    			}
+    		}
+    	}else{
+    		if(!r.perm(sender, "uc.megasmite", false, true)){
+    			return;
+    		}
+    		if(!(r.isPlayer(sender))){
+    			return;
+    		}
+    		Player p = (Player) sender;
+    		Block strike = p.getTargetBlock(null, 150);
+    		Location strikel = strike.getLocation();
+    		if(r.getCnfg().getBoolean("SmiteDamage") == false){
+    			for (int i = 0; i < 20; i++){
+    		    p.getWorld().strikeLightningEffect(strikel);
+    			}
+    		}else{
+    			for (int i = 0; i < 20; i++){
+    			p.getWorld().strikeLightning(strikel);
+    			}
+    		}
+    	}
+	}
 }

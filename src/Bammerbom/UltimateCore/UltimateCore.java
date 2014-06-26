@@ -1,8 +1,10 @@
 package Bammerbom.UltimateCore;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import net.milkbowl.vault.economy.Economy;
+import net.minecraft.util.org.apache.commons.lang3.exception.ExceptionUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,6 +17,7 @@ import Bammerbom.UltimateCore.Commands.CmdBack;
 import Bammerbom.UltimateCore.Commands.CmdBan;
 import Bammerbom.UltimateCore.Commands.CmdButcher;
 import Bammerbom.UltimateCore.Commands.CmdCi;
+import Bammerbom.UltimateCore.Commands.CmdDeaf;
 import Bammerbom.UltimateCore.Commands.CmdEffect;
 import Bammerbom.UltimateCore.Commands.CmdEnchant;
 import Bammerbom.UltimateCore.Commands.CmdFeed;
@@ -29,6 +32,7 @@ import Bammerbom.UltimateCore.Commands.CmdHeal;
 import Bammerbom.UltimateCore.Commands.CmdHome;
 import Bammerbom.UltimateCore.Commands.CmdIP;
 import Bammerbom.UltimateCore.Commands.CmdInv;
+import Bammerbom.UltimateCore.Commands.CmdJail;
 import Bammerbom.UltimateCore.Commands.CmdKick;
 import Bammerbom.UltimateCore.Commands.CmdKill;
 import Bammerbom.UltimateCore.Commands.CmdKillAll;
@@ -47,6 +51,7 @@ import Bammerbom.UltimateCore.Commands.CmdRegion;
 import Bammerbom.UltimateCore.Commands.CmdReload;
 import Bammerbom.UltimateCore.Commands.CmdRemoveAll;
 import Bammerbom.UltimateCore.Commands.CmdRepair;
+import Bammerbom.UltimateCore.Commands.CmdRules;
 import Bammerbom.UltimateCore.Commands.CmdSave;
 import Bammerbom.UltimateCore.Commands.CmdSay;
 import Bammerbom.UltimateCore.Commands.CmdSetSpawn;
@@ -59,22 +64,25 @@ import Bammerbom.UltimateCore.Commands.CmdTime;
 import Bammerbom.UltimateCore.Commands.CmdTop;
 import Bammerbom.UltimateCore.Commands.CmdTp;
 import Bammerbom.UltimateCore.Commands.CmdUC;
+import Bammerbom.UltimateCore.Commands.CmdUptime;
 import Bammerbom.UltimateCore.Commands.CmdVanish;
 import Bammerbom.UltimateCore.Commands.CmdWarp;
 import Bammerbom.UltimateCore.Commands.CmdWeather;
 import Bammerbom.UltimateCore.Commands.CmdWorkbench;
 import Bammerbom.UltimateCore.Commands.CmdWorld;
 import Bammerbom.UltimateCore.Events.EventAFK;
+import Bammerbom.UltimateCore.Events.EventActionMessage;
 import Bammerbom.UltimateCore.Events.EventAutosave;
 import Bammerbom.UltimateCore.Events.EventBleed;
 import Bammerbom.UltimateCore.Events.EventChat;
 import Bammerbom.UltimateCore.Events.EventColorSign;
+import Bammerbom.UltimateCore.Events.EventColoredTAB;
 import Bammerbom.UltimateCore.Events.EventDeathmessages;
 import Bammerbom.UltimateCore.Events.EventExplosion;
-import Bammerbom.UltimateCore.Events.EventActionMessage;
 import Bammerbom.UltimateCore.Events.EventMOTD;
 import Bammerbom.UltimateCore.Events.EventMessages;
 import Bammerbom.UltimateCore.Events.EventMinecraftServers;
+import Bammerbom.UltimateCore.Events.EventNoPluginSteal;
 import Bammerbom.UltimateCore.Events.EventNoRespawnScreen;
 import Bammerbom.UltimateCore.Events.EventSpawn;
 import Bammerbom.UltimateCore.Events.EventTimber;
@@ -91,7 +99,6 @@ import Bammerbom.UltimateCore.Resources.Utils.InventoryUtil;
 import Bammerbom.UltimateCore.Resources.Utils.SettingsUtil;
 
 public class UltimateCore extends JavaPlugin{
-	Boolean t_ = false; //TESTMODE
 	static MinigameManager minigames = null;
 	static Window window;	
 	static BlockDatabase database;
@@ -99,16 +106,19 @@ public class UltimateCore extends JavaPlugin{
 	 public static Economy economy = null;
 	@Override
 	public void onEnable(){
+		try{
+		Long time = System.currentTimeMillis();
 		new r(this);
-		r.log(ChatColor.GREEN + "Enabling Ultimate Core...");
+		//r.log(ChatColor.GREEN + "Enabling Ultimate Core...");
 		//Register all classes
 	    new UltimateFileLoader(this);
-	    new UltimateCommands(this);
 		UltimateFileLoader.Enable();
+	    new UltimateCommands(this);
 		new InventoryUtil(this);
-	    //TODO new classload-system
+	    //classload-system
 	    new CmdBack(this);
 	    new CmdBan(this);
+	    new CmdDeaf(this);
 	    new CmdButcher(this);
 	    new CmdCi(this);
 	    new CmdEffect(this);
@@ -160,7 +170,11 @@ public class UltimateCore extends JavaPlugin{
 	    new CmdKittycannon(this);
 	    new CmdGTool(this);
 	    new CmdRegion(this);
+	    new CmdJail(this);
+	    new CmdRules(this);
+	    new CmdUptime(this);
 	    //
+	    new BossBar(this);
 	    new EventAFK(this);
 	    new EventAutosave(this);
 	    new EventBleed(this);
@@ -177,31 +191,35 @@ public class UltimateCore extends JavaPlugin{
 	    new EventTimber(this);
 	    new EventUnknownCommand(this);
 	    new EventWeather(this);
+	    new EventColoredTAB(this);
+	    new EventNoPluginSteal(this);
 	    //
 	    new FireworkEffectPlayer();
 	    new GhostsUtil(this);
-	    new BossBar(this);
 	    new SettingsUtil(this);
 	    //
 	    items = new ItemDatabase(this);
 	    items.enable();
 		database = new BlockDatabase(this);
-		database.enable();
+		//database.enable();
 		//
 	    minigames = new MinigameManager(this);
-	    Integer amount = minigames.loadArenas();
-	    r.log(ChatColor.YELLOW + "Loaded " + amount + " minigame arenas.");
+	    minigames.loadArenas();
+	    //Integer amount = minigames.loadArenas();
+	    //r.log(ChatColor.YELLOW + "Loaded " + amount + " minigame arenas.");
 	    //
-	    r.log(ChatColor.YELLOW + "Loaded commands and events.");
-	    //TODO end
+	    //r.log(ChatColor.YELLOW + "Loaded commands and events.");
+	    //end
 		if(getConfig().getBoolean("console")){
+			try{
 		window = new Window(this);
+			}catch(Exception ex){}
 		}
 		if(getConfig().getBoolean("updater") == true){
 			new UltimateUpdater(this, 66979, this.getFile(), UpdateType.DEFAULT, true);
-			r.log(ChatColor.YELLOW + "Loaded updater");
+			//r.log(ChatColor.YELLOW + "Loaded updater");
 		}else{
-			r.log(ChatColor.YELLOW + "Updater disabled in config.");
+			//r.log(ChatColor.YELLOW + "Updater disabled in config.");
 		}
 		if(getConfig().getBoolean("metrics") == true){
 			UltimateMetrics metrics = null;
@@ -210,13 +228,26 @@ public class UltimateCore extends JavaPlugin{
 			} catch (IOException e) {
 			}
 			metrics.start();
-			r.log(ChatColor.YELLOW + "Loaded plugin metrics.");
+			//r.log(ChatColor.YELLOW + "Loaded plugin metrics.");
 		}else{
-			r.log(ChatColor.YELLOW + "Metrics disabled in config.");
+			//r.log(ChatColor.YELLOW + "Metrics disabled in config.");
 		}
-		r.log(ChatColor.GREEN + "Enabled Ultimate Core!");	
+		time = System.currentTimeMillis() - time;
+		r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");	
+		}catch(Exception ex){
+			r.log(ChatColor.RED + "Failed to load UltimateCore!");
+			r.log(ChatColor.RED + "Please create a ticket including the blue part of this error:");
+			r.log(ChatColor.YELLOW + "Create a ticket on:");
+			r.log(ChatColor.YELLOW + "dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket/");
+			r.log(ChatColor.AQUA + ExceptionUtils.getStackTrace(ex));
+			r.log(ChatColor.WHITE + "Returning startup of the server...");
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+			}
+		}
 		CmdWorld.loadws();
-		if(t_) new t(this);
+		//new t(this);
 	}
     public static BlockDatabase getSQLdatabase(){
     	return database;
@@ -236,10 +267,19 @@ public class UltimateCore extends JavaPlugin{
 		}
 		BossBar.disable();
 		System.gc();
-		database.disable();
+		//database.disable();
+		items.disable();
+		ResourceBundle.clearCache();
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+		try{
 		UltimateCommands.onCmd(sender, cmd, label, args);
+		}catch(Exception ex){
+			r.log(ChatColor.RED + "Failed to execute " + label + " command of UltimateCore!");
+			r.log(ChatColor.RED + "Please create a ticket including the blue part of this erro:");
+			r.log(ChatColor.YELLOW + "dev.bukkit.org/bukkit-plugins/ultimate_core");
+			r.log(ChatColor.AQUA + ExceptionUtils.getStackTrace(ex));
+		}
 		return true;
 	}
 }

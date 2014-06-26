@@ -1,0 +1,5 @@
+&bWelcome to my server
+&1This is an example
+&aOne message will show always that message
+&fMore messages will sycle through all messages
+&8Max 62 characters

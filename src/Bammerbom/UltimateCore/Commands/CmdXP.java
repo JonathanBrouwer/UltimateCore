@@ -31,9 +31,10 @@ public class CmdXP {
 			if(r.isNumber(amount.replaceAll("l", "").replaceAll("L", ""))){
 				 x = Integer.parseInt(amount.replaceAll("L", "").replaceAll("l", ""));
 			}else{
-				sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Amount", ""));
+				sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Amount", args[0]));
 				return;
 			}
+			r.normalize(x, 0, 999999);
 			if(amount.endsWith("l") || amount.endsWith("L")){
 				p.setLevel(x);
 				p.sendMessage(r.mes("XP.Set").replaceAll("%Type", "Levels").replaceAll("%Player", p.getName()).replaceAll("%XP", x + ""));
@@ -51,9 +52,10 @@ public class CmdXP {
 			if(r.isNumber(amount.replaceAll("l", "").replaceAll("L", ""))){
 				 x = Integer.parseInt(amount.replaceAll("L", "").replaceAll("l", ""));
 			}else{
-				sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Amount", ""));
+				sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Amount", args[0]));
 				return;
 			}
+			r.normalize(x, 0, 999999);
 			if(amount.endsWith("l") || amount.endsWith("L")){
 				p.setLevel(x);
 				sender.sendMessage(r.mes("XP.Set").replaceAll("%Type", "Levels").replaceAll("%Player", p.getName()).replaceAll("%XP", x + ""));
@@ -78,10 +80,11 @@ public class CmdXP {
 			if(r.isNumber(amount.replaceAll("l", "").replaceAll("L", ""))){
 				 x = Integer.parseInt(amount.replaceAll("L", "").replaceAll("l", ""));
 			}else{
-				sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Amount", ""));
+				sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Amount", args[0]));
 				return;
 			}
-				setXP(p, x);
+			r.normalize(x, 0, 999999);
+				p.setLevel(x);
 				p.sendMessage(r.mes("XP.Set").replaceAll("%Type", "XP").replaceAll("%Player", p.getName()).replaceAll("%XP", x + ""));
 			
 		}else if(r.checkArgs(args, 1)){
@@ -93,10 +96,11 @@ public class CmdXP {
 			if(r.isNumber(amount.replaceAll("l", "").replaceAll("L", ""))){
 				 x = Integer.parseInt(amount.replaceAll("L", "").replaceAll("l", ""));
 			}else{
-				sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Amount", ""));
+				sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Amount", args[0]));
 				return;
 			}
-				setXP(p, x);
+			r.normalize(x, 0, 999999);
+				p.setLevel(x);
 				sender.sendMessage(r.mes("XP.Set").replaceAll("%Type", "Levels").replaceAll("%Player", p.getName()).replaceAll("%XP", x + ""));
 		}
 	}
@@ -151,7 +155,7 @@ public class CmdXP {
 			String rawxp = args[0];
 			String xp = args[0].endsWith("L") ? rawxp : rawxp.replaceAll("L", "").replaceAll("l", "");
 			if(!r.isNumber(xp)){
-					sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Player", args[1]));
+					sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Amount", args[0]));
 					return;
 			}
 			Integer x = Integer.parseInt(xp);

@@ -1,7 +1,5 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.net.UnknownHostException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,14 +16,13 @@ public class CmdIP {
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
 	}
-	@SuppressWarnings("static-access")
 	public static void handle(CommandSender sender, String[] args){
 		if(r.checkArgs(args, 0) == false){
 			if(!r.perm(sender, "uc.ip.server", false, false) && !r.perm(sender, "uc.ip", false, false)){
 				sender.sendMessage(r.mes("NoPermissions"));
 				return;
 			}
-		sender.sendMessage(r.mes("Ip.Server").replaceAll("%IP", Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort()));
+		sender.sendMessage(r.mes("IP.Server").replaceAll("%IP", Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort()));
 		}else{
 			if(!r.perm(sender, "uc.ip.players", false, false) && !r.perm(sender, "uc.ip", false, false)){
 				sender.sendMessage(r.mes("NoPermissions"));
@@ -36,12 +33,7 @@ public class CmdIP {
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;
 			}
-			try {
-				sender.sendMessage(r.mes("IP.Player1").replaceAll("%Player", p.getName()).replaceAll("%Hostname", (p.getAddress().getAddress().getLocalHost().toString().split("/")[0])));
-				sender.sendMessage(r.mes("IP.Player2").replaceAll("%Player", p.getName()).replaceAll("%IP", (p.getAddress().getAddress().getLocalHost().toString().split("/")[1]) + ":" + p.getAddress().getPort()));
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
+			sender.sendMessage(r.mes("IP.Player2").replaceAll("%Player", p.getName()).replaceAll("%IP", (p.getAddress().toString().toString().split("/")[1].split(":")[0])));
 		}
 	}
 }

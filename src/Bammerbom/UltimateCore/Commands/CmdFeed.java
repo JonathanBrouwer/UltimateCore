@@ -36,7 +36,7 @@ public class CmdFeed implements Listener{
 			}
 			Player tl = Bukkit.getPlayer(args[0]);
 			if(tl == null){
-				sender.sendMessage(r.mes("PlayerNotFound"));
+				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;
 			}
 			t = tl;

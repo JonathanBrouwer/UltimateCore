@@ -1,22 +1,32 @@
 package Bammerbom.UltimateCore.Commands;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
+import org.bukkit.BanEntry;
+import org.bukkit.BanList;
+import org.bukkit.BanList.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
+import Bammerbom.UltimateCore.API.UCplayer;
 import Bammerbom.UltimateCore.Events.EventActionMessage;
 import Bammerbom.UltimateCore.Resources.Utils.DateUtil;
+import Bammerbom.UltimateCore.Resources.Utils.StringUtil;
 
 public class CmdBan implements Listener{
 	static Plugin plugin;
@@ -24,6 +34,13 @@ public class CmdBan implements Listener{
 		plugin = instance;
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
+		}
+		for(OfflinePlayer p : Bukkit.getOfflinePlayers()){
+			if(!p.isBanned()) return;
+			UCplayer up = UC.getPlayer(p);
+			if(up.isBanned() && !Bukkit.getBanList(Type.NAME).isBanned(up.getPlayer().getName())){
+				up.setBanned(true, Bukkit.getBanList(Type.NAME).getBanEntry(p.getName()).getExpiration().getTime() - System.currentTimeMillis(), Bukkit.getBanList(Type.NAME).getBanEntry(p.getName()).getReason());
+			}
 		}
 	}
 	@SuppressWarnings("deprecation")
@@ -40,7 +57,7 @@ public class CmdBan implements Listener{
 		}
 		if(banp.isOnline()){
 			Player p = banp.getPlayer();
-			if(p.hasPermission("uc.antiban")){
+			if(r.perm(p, "uc.antiban", false, false) && !(sender instanceof ConsoleCommandSender)){
 				sender.sendMessage(r.mes("AntiBan").replaceAll("%Player", p.getName()).replaceAll("%Action", "ban"));
 				return;
 			}
@@ -79,6 +96,10 @@ public class CmdBan implements Listener{
 			Bukkit.getPlayer(banp.getName()).kickPlayer(reas);
 			EventActionMessage.setEnb(true);
 		}
+		BanList list = Bukkit.getBanList(Type.NAME);
+		Date date = new Date();
+		date.setTime(System.currentTimeMillis() + time);
+		list.addBan(banp.getName().toString(), reas, date, null);
 		//pconf
 		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(banp));
 		conf.set("banned", true);
@@ -97,54 +118,26 @@ public class CmdBan implements Listener{
 		
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void joinOnBan(final PlayerJoinEvent e){
+	public void joinOnBan(final PlayerLoginEvent e){
 		 final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 		 if(conf.get("banned") == null){ return; }
 		 if(!conf.getBoolean("banned") == true) return;
 		 if(conf.get("bantime") != null && conf.getLong("bantime") < 1 ){
-			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, 
-					new Runnable(){
-
-						@Override
-						public void run() {
-							EventActionMessage.setEnb(false);
-							e.getPlayer().kickPlayer(
-									r.mes("Ban.Message")
+							e.disallow(Result.KICK_BANNED, r.mes("Ban.Message")
 									.replaceAll("%Time", r.mes("Ban.TimeForever"))
 									.replaceAll("%Reason", conf.getString("banreason")));
-							EventActionMessage.setEnb(true);
-							e.setJoinMessage(null);
-						}
-				
-			}, 3L);
 			return;
 		}
 		if(conf.get("banned") != null && conf.getBoolean("banned") == true){
 			if(System.currentTimeMillis() >= conf.getLong("bantime")){
 				e.getPlayer().sendMessage(r.mes("Ban.joinAfterUnban"));
-				conf.set("banned", false);
-				conf.set("banreason", null);
-				conf.set("bantime", null);
-				try {
-					conf.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
+				UCplayer p = UC.getPlayer(e.getPlayer());
+				p.setBanned(false, "");
+				Bukkit.getBanList(Type.NAME).pardon(p.getPlayer().getName());
 				return;
 			}else{
-				Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, 
-						new Runnable(){
-
-							@Override
-							public void run() {
 								Long l = conf.getLong("bantime");
-								EventActionMessage.setEnb(false);
-								e.getPlayer().kickPlayer(r.mes("Ban.Message").replaceAll("%Time", DateUtil.format(l)).replaceAll("%Reason", conf.getString("banreason")));
-								EventActionMessage.setEnb(true);
-								e.setJoinMessage(null);
-							}
-					
-				}, 3L);
+								e.disallow(Result.KICK_BANNED, r.mes("Ban.Message").replaceAll("%Time", DateUtil.format(l)).replaceAll("%Reason", conf.getString("banreason")));
 			}
 		}
 	}
@@ -152,7 +145,7 @@ public class CmdBan implements Listener{
 	public static void unban(CommandSender sender, String[] args){
 		if(!r.perm(sender, "uc.unban", false, true)){ return; }
 		if(r.checkArgs(args, 0) == false){
-			sender.sendMessage(r.mes("Usage2"));
+			sender.sendMessage(r.mes("Ban.Usage2"));
 			return;
 		}
 		OfflinePlayer banp = Bukkit.getOfflinePlayer(args[0]);
@@ -160,6 +153,12 @@ public class CmdBan implements Listener{
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			return;
 		}
+		BanList list = Bukkit.getBanList(Type.NAME);
+		if(!list.isBanned(banp.getName()) && !UC.getPlayer(banp).isBanned()){
+			sender.sendMessage(r.mes("Ban.NotBanned").replaceAll("%Player", banp.getName()));
+			return;
+		}
+		if(list.isBanned(banp.getName())) list.pardon(banp.getName().toString());
 		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(banp));
 		conf.set("banned", false);
 		conf.set("banreason", null);
@@ -170,6 +169,22 @@ public class CmdBan implements Listener{
 			e.printStackTrace();
 		}
 		Bukkit.broadcastMessage(r.mes("Ban.BroadcastUnban").replaceAll("%Unbanner", sender.getName()).replaceAll("%Banned", banp.getName()));
+	}
+	public static void bans(CommandSender sender, String[] args){
+		if(!r.perm(sender, "uc.banlist", false, true)) return;
+		ArrayList<String> l = new ArrayList<String>();
+		Integer i = 0;
+		for(BanEntry ban : Bukkit.getBanList(Type.NAME).getBanEntries()){
+			l.add(ban.getTarget());
+			i++;
+		}
+		for(OfflinePlayer pl : Bukkit.getOfflinePlayers()){
+			if(UC.getPlayer(pl).isBanned() && !l.contains(pl.getName())){
+				l.add(pl.getName());
+				i++;
+			}
+		}
+		sender.sendMessage(r.mes("Ban.List").replaceAll("%Amount", i + "").replaceAll("%Banned", StringUtil.joinList(l)));
 	}
     
 }

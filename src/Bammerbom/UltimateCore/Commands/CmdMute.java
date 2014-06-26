@@ -1,6 +1,5 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
@@ -17,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.Utils.DateUtil;
 
 public class CmdMute implements Listener{
@@ -39,12 +39,6 @@ public class CmdMute implements Listener{
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			return;
 		}
-		if(banp.isOnline()){
-		if(banp.getPlayer().hasPermission("uc.antiban")){
-			sender.sendMessage(r.mes("AntiBan").replaceAll("%Player", banp.getPlayer().getName()).replaceAll("%Action", "mute"));
-			return;
-		}
-		}
 		Long time = 0L;
 		//Info
 		if(r.checkArgs(args, 1) == false){
@@ -64,7 +58,7 @@ public class CmdMute implements Listener{
 			sender.sendMessage(r.mes("NoPermissions"));
 			return; 
 		}
-		    Mute(banp, true, time);
+		    UC.getPlayer(banp).setMuted(true, time);
 		    sender.sendMessage(r.mes("Mute.Muted").replaceAll("%Player", banp.getName()));
 		    if(banp.isOnline()){
 		    	Player banp2 = (Player) banp;
@@ -88,7 +82,7 @@ public class CmdMute implements Listener{
 			sender.sendMessage(r.mes("NoPermissions"));
 			return; 
 		}
-		Mute(banp, false, 0L);
+		UC.getPlayer(banp).setMuted(false);
 		sender.sendMessage(r.mes("Mute.Unmuted").replaceAll("%Player", banp.getName()));
 	    if(banp.isOnline()){
 	    	Player banp2 = (Player) banp;
@@ -96,43 +90,12 @@ public class CmdMute implements Listener{
 	    }
 		
 	}
-	public static boolean Mute(OfflinePlayer p){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
-		if(data.get("mute") == null){
-			return false;
-		}
-		return data.getBoolean("mute");
-	}
-	public static void Mute(OfflinePlayer p, Boolean set, Long time){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
-		data.set("mute", set);
-		data.set("mutetime", time);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(p));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	public boolean mutegone(OfflinePlayer p, Boolean directreset){
-		final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
-		if(conf.getBoolean("mute") == false) return false;
-		if(conf.getLong("mutetime") == 0 || conf.getLong("mute") == -1) return false;
-		if(System.currentTimeMillis() >= conf.getLong("mutetime")){
-			if(directreset == true){
-				Mute(p, false, 0L);
-			}
-			return true;
-		}
-		return false;
-	}
 	public void playerUpdateEvent(){
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 
 			public void run() {
 				for(Player p : Bukkit.getOnlinePlayers()){
-					if(mutegone(p, true)){
-						p.sendMessage(r.mes("Mute.Unmutetarget"));
+					if(UC.getPlayer(p).isMuted()){
 					}
 					}
 				
@@ -140,11 +103,9 @@ public class CmdMute implements Listener{
 			
 		}, 120L, 60L);
 	}
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOW)
 	public void onChat(AsyncPlayerChatEvent e){
-		if(Mute(e.getPlayer())){
-			mutegone(e.getPlayer(), true);
-			if(!Mute(e.getPlayer())) return;
+		if(UC.getPlayer(e.getPlayer()).isMuted()){
 			e.setCancelled(true);
 			final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 			Long mutetime = conf.getLong("mutetime");
@@ -155,17 +116,28 @@ public class CmdMute implements Listener{
 			}
 		}
 	}
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOW)
 	public void onChatCmd(PlayerCommandPreprocessEvent e){
-		if(Mute(e.getPlayer())){
+		if(UC.getPlayer(e.getPlayer()).isMuted()){
 			@SuppressWarnings("unchecked")
 			ArrayList<String> blockedcmds = (ArrayList<String>) r.getCnfg().getList("MuteBlockedCmds");
-			if(blockedcmds.contains(e.getMessage()) || blockedcmds.contains(e.getMessage().replaceFirst("/", ""))){
-				mutegone(e.getPlayer(), true);
-				if(!Mute(e.getPlayer())) return;
+			if(blockedcmds.contains(e.getMessage().split(" ")[0]) || blockedcmds.contains(e.getMessage().replaceFirst("/", "").split(" ")[0])){
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(r.mes("Mute.ChatMessage"));
 			}
 		}
+	}
+	public static void mutes(CommandSender sender, String[] args){
+		if(!r.perm(sender, "uc.mutelist", false, true)) return;
+		StringBuilder mutes = new StringBuilder();
+		Integer i = 0;
+		for(OfflinePlayer pl : Bukkit.getOfflinePlayers()){
+			if(UC.getPlayer(pl).isMuted()){
+				if(!mutes.toString().equalsIgnoreCase(""))mutes.append(", ");
+				mutes.append(pl.getName());
+				i++;
+			}
+		}
+		sender.sendMessage(r.mes("Mute.List").replaceAll("%Amount", i + "").replaceAll("%List", mutes.toString()));
 	}
 }

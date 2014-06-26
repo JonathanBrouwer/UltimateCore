@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
 
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -24,417 +23,224 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class BossBar implements Listener{
-	  private static HashMap<UUID, FakeDragon> players = new HashMap<UUID, FakeDragon>();
-	  private static HashMap<UUID, Integer> timers = new HashMap<UUID, Integer>();
-	  private static Plugin plugin;
-	  public BossBar(Plugin instance){
-		  plugin = instance;
-	  }
-	  public static void disable(){
-		    for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-		        quit(player);
-		      }
-
-		      players.clear();
-
-		      for (Iterator<Integer> i$ = timers.values().iterator(); i$.hasNext(); ) { 
-		    	  int timerID = ((Integer)i$.next()).intValue();
-		        Bukkit.getScheduler().cancelTask(timerID);
-		      }
-
-		      timers.clear();
-	  }
-
-	  @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
-	  public void PlayerLoggout(PlayerQuitEvent event) {
-	    quit(event.getPlayer());
-	  }
-
-	  @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
-	  public void onPlayerKick(PlayerKickEvent event) {
-	    quit(event.getPlayer());
-	  }
-
-	  @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
-	  public void onPlayerTeleport(PlayerTeleportEvent event) {
-	    handleTeleport(event.getPlayer(), event.getTo().clone());
-	  }
-
-	  @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
-	  public void onPlayerTeleport(PlayerRespawnEvent event) {
-	    handleTeleport(event.getPlayer(), event.getRespawnLocation().clone());
-	  }
-
-	  public static void handleTeleport(final Player player, final Location loc)
-	  {
-	    if (!hasBar(player)) {
-	      return;
-	    }
-	    Bukkit.getScheduler().runTaskLater(plugin, new Runnable()
-	    {
-	      public void run()
-	      {
-	        if (!BossBar.hasBar(player)) {
-	          return;
-	        }
-	        FakeDragon oldDragon = BossBar.getDragon(player, "");
-
-	        float health = oldDragon.health;
-	        String message = oldDragon.name;
-
-	        Util.sendPacket(player, BossBar.getDragon(player, "").getDestroyPacket());
-
-	        BossBar.players.remove(player.getUniqueId());
-
-	        FakeDragon dragon = BossBar.addDragon(player, loc, message);
-	        dragon.health = health;
-
-	        BossBar.sendDragon(dragon, player);
-	      }
-	    }
-	    , 2L);
-	  }
-
-	  private static void quit(Player player)
-	  {
-	    removeBar(player);
-	  }
-
-	  public static void setMessage(String message)
-	  {
-	    for (Player player : Bukkit.getOnlinePlayers())
-	      setMessage(player, message);
-	  }
-
-	  public static void setMessage(Player player, String message)
-	  {
-	    FakeDragon dragon = getDragon(player, message);
-
-	    dragon.name = cleanMessage(message);
-	    dragon.health = 200.0F;
-
-	    cancelTimer(player);
-
-	    sendDragon(dragon, player);
-	  }
-
-	  public static void setMessage(String message, float percent)
-	  {
-	    for (Player player : Bukkit.getOnlinePlayers())
-	      setMessage(player, message, percent);
-	  }
-
-	  public static void setMessage(Player player, String message, float percent)
-	  {
-	    Validate.isTrue((0.0F <= percent) && (percent <= 100.0F), "Percent must be between 0F and 100F, but was: ", percent);
-
-	    FakeDragon dragon = getDragon(player, message);
-
-	    dragon.name = cleanMessage(message);
-	    dragon.health = (percent / 100.0F * 200.0F);
-
-	    cancelTimer(player);
-
-	    sendDragon(dragon, player);
-	  }
-
-	  public static void setMessage(String message, int seconds)
-	  {
-	    for (Player player : Bukkit.getOnlinePlayers())
-	      setMessage(player, message, seconds);
-	  }
-
-	  public static void setMessage(final Player player, String message, int seconds)
-	  {
-	    Validate.isTrue(seconds > 0, "Seconds must be above 1 but was: ", seconds);
-
-	    FakeDragon dragon = getDragon(player, message);
-
-	    dragon.name = cleanMessage(message);
-	    dragon.health = 200.0F;
-
-	    cancelTimer(player);
-
-	    timers.put(player.getUniqueId(), Integer.valueOf(Bukkit.getScheduler().runTaskTimer(plugin, new BukkitRunnable()
-	    {
-	      public void run()
-	      {
-	        FakeDragon drag = BossBar.getDragon(player, "");
-	        if (drag.health <= 1.0F) {
-	          BossBar.removeBar(player);
-	          BossBar.cancelTimer(player);
-	        } else {
-	          BossBar.sendDragon(drag, player);
-	        }
-	      }
-	    }
-	    , 20L, 20L).getTaskId()));
-
-	    sendDragon(dragon, player);
-	  }
-
-	  public static boolean hasBar(Player player)
-	  {
-	    return players.get(player.getUniqueId()) != null;
-	  }
-
-	  public static void removeBar(Player player)
-	  {
-	    if (!hasBar(player)) {
-	      return;
-	    }
-	    Util.sendPacket(player, getDragon(player, "").getDestroyPacket());
-
-	    players.remove(player.getUniqueId());
-
-	    cancelTimer(player);
-	  }
-
-	  public static void setHealth(Player player, float percent)
-	  {
-	    if (!hasBar(player)) {
-	      return;
-	    }
-	    FakeDragon dragon = getDragon(player, "");
-	    dragon.health = (percent / 100.0F * 200.0F);
-
-	    cancelTimer(player);
-
-	    if (percent == 0.0F)
-	      removeBar(player);
-	    else
-	      sendDragon(dragon, player);
-	  }
-
-	  public static float getHealth(Player player)
-	  {
-	    if (!hasBar(player)) {
-	      return -1.0F;
-	    }
-	    return getDragon(player, "").health;
-	  }
-
-	  public static String getMessage(Player player)
-	  {
-	    if (!hasBar(player)) {
-	      return "";
-	    }
-	    return getDragon(player, "").name;
-	  }
-
-	  private static String cleanMessage(String message) {
-	    if (message.length() > 64) {
-	      message = message.substring(0, 63);
-	    }
-	    return message;
-	  }
-
-	  private static void cancelTimer(Player player) {
-	    Integer timerID = (Integer)timers.remove(player.getUniqueId());
-
-	    if (timerID != null)
-	      Bukkit.getScheduler().cancelTask(timerID.intValue());
-	  }
-
-	  private static void sendDragon(FakeDragon dragon, Player player)
-	  {
-	    Util.sendPacket(player, dragon.getMetaPacket(dragon.getWatcher()));
-	    Util.sendPacket(player, dragon.getTeleportPacket(player.getLocation().add(0.0D, -300.0D, 0.0D)));
-	  }
-
-	  private static FakeDragon getDragon(Player player, String message) {
-	    if (hasBar(player)) {
-	      return (FakeDragon)players.get(player.getUniqueId());
-	    }
-	    return addDragon(player, cleanMessage(message));
-	  }
-
-	  private static FakeDragon addDragon(Player player, String message) {
-	    FakeDragon dragon = Util.newDragon(message, player.getLocation().add(0.0D, -300.0D, 0.0D));
-
-	    Util.sendPacket(player, dragon.getSpawnPacket());
-
-	    players.put(player.getUniqueId(), dragon);
-
-	    return dragon;
-	  }
-
-	  private static FakeDragon addDragon(Player player, Location loc, String message) {
-	    FakeDragon dragon = Util.newDragon(message, loc.add(0.0D, -300.0D, 0.0D));
-
-	    Util.sendPacket(player, dragon.getSpawnPacket());
-
-	    players.put(player.getUniqueId(), dragon);
-
-	    return dragon;
-	  }
-
-}
-class Util
+public class BossBar
+  implements Listener
 {
-  public static boolean newProtocol = false;
-  static String name = Bukkit.getServer().getClass().getPackage().getName();
-  static String mcVersion = name.substring(name.lastIndexOf(46) + 1);
-  public static String version = mcVersion + ".";
+  private static HashMap<UUID, FakeDragon> players = new HashMap<UUID, FakeDragon>();
+  private static HashMap<UUID, Integer> timers = new HashMap<UUID, Integer>();
+  private static Plugin plugin;
 
-  public static Class<?> fakeDragonClass = v1_6.class;
-
-  public Util()
+  public BossBar(Plugin pl)
   {
-    super();
+    pl.getServer().getPluginManager().registerEvents(this, pl);
+    plugin = pl;
+  }
+  public static void disable(){
+	  for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+	      quit(player);
+	    }
+
+	    players.clear();
+
+	    for (Iterator<Integer> i$ = timers.values().iterator(); i$.hasNext(); ) {
+	      int timerID = ((Integer)i$.next()).intValue();
+	      Bukkit.getScheduler().cancelTask(timerID);
+	    }
+
+	    timers.clear();
+  }
+  @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+  public void PlayerLoggout(PlayerQuitEvent event)
+  {
+    quit(event.getPlayer());
   }
 
-  public static FakeDragon newDragon(String message, Location loc)
+  @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+  public void onPlayerKick(PlayerKickEvent event) {
+    quit(event.getPlayer());
+  }
+
+  @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+  public void onPlayerTeleport(PlayerTeleportEvent event) {
+    handleTeleport(event.getPlayer(), event.getTo().clone());
+  }
+
+  @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+  public void onPlayerTeleport(PlayerRespawnEvent event) {
+    handleTeleport(event.getPlayer(), event.getRespawnLocation().clone());
+  }
+
+  public static void handleTeleport(final Player player, final Location loc)
   {
-    FakeDragon fakeDragon = null;
-    try
+    if (!hasBar(player)) {
+      return;
+    }
+    Bukkit.getScheduler().runTaskLater(plugin, new Runnable()
     {
-      fakeDragon = (FakeDragon)fakeDragonClass.getConstructor(new Class[] { String.class, Location.class }).newInstance(new Object[] { message, loc });
-    } catch (IllegalArgumentException e) {
-      e.printStackTrace();
-    } catch (SecurityException e) {
-      e.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
-    } catch (NoSuchMethodException e) {
-      e.printStackTrace();
-    }
+      public void run()
+      {
+        FakeDragon oldDragon = BossBar.getDragon(player, "");
 
-    return fakeDragon;
+        float health = oldDragon.health;
+        String message = oldDragon.name;
+
+        Util.sendPacket(player, BossBar.getDragon(player, "").getDestroyPacket());
+
+        BossBar.players.remove(player.getUniqueId());
+
+        FakeDragon dragon = BossBar.addDragon(player, loc, message);
+        dragon.health = health;
+
+        BossBar.sendDragon(dragon, player);
+      }
+    }
+    , 2L);
   }
 
-  public static void sendPacket(Player p, Object packet)
+  private static void quit(Player player) {
+    removeBar(player);
+  }
+
+  public static void setMessage(Player player, String message) {
+    FakeDragon dragon = getDragon(player, message);
+
+    dragon.name = cleanMessage(message);
+    dragon.health = 200.0F;
+
+    cancelTimer(player);
+
+    sendDragon(dragon, player);
+  }
+
+  public static void setMessage(Player player, String message, float percent)
   {
-    try {
-      Object nmsPlayer = getHandle(p);
-      Field con_field = nmsPlayer.getClass().getField("playerConnection");
-      Object con = con_field.get(nmsPlayer);
-      Method packet_method = getMethod(con.getClass(), "sendPacket");
-      packet_method.invoke(con, new Object[] { packet });
-    } catch (SecurityException e) {
-      e.printStackTrace();
-    } catch (IllegalArgumentException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    }
+    FakeDragon dragon = getDragon(player, message);
+
+    dragon.name = cleanMessage(message);
+    dragon.health = (percent / 100.0F * 200.0F);
+
+    cancelTimer(player);
+
+    sendDragon(dragon, player);
   }
 
-  @SuppressWarnings("rawtypes")
-public static Class<?> getCraftClass(String ClassName) {
-    String className = "net.minecraft.server." + version + ClassName;
-    Class c = null;
-    try {
-      c = Class.forName(className);
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-    }
-    return c;
-  }
+  public static void setMessage(final Player player, String message, int seconds) {
+    FakeDragon dragon = getDragon(player, message);
 
-  public static Object getHandle(World world) {
-    Object nms_entity = null;
-    Method entity_getHandle = getMethod(world.getClass(), "getHandle");
-    try {
-      nms_entity = entity_getHandle.invoke(world, new Object[0]);
-    } catch (IllegalArgumentException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
-    }
-    return nms_entity;
-  }
+    dragon.name = cleanMessage(message);
+    dragon.health = 200.0F;
 
-  public static Object getHandle(Entity entity) {
-    Object nms_entity = null;
-    Method entity_getHandle = getMethod(entity.getClass(), "getHandle");
-    try {
-      nms_entity = entity_getHandle.invoke(entity, new Object[0]);
-    } catch (IllegalArgumentException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
-    }
-    return nms_entity;
-  }
+    final int dragonHealthMinus = 200 / seconds;
 
-  public static Field getField(Class<?> cl, String field_name) {
-    try {
-      return cl.getDeclaredField(field_name);
-    }
-    catch (SecurityException e) {
-      e.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
+    cancelTimer(player);
 
-  public static Method getMethod(Class<?> cl, String method, Class<?>[] args) {
-    for (Method m : cl.getMethods()) {
-      if ((m.getName().equals(method)) && (ClassListEqual(args, m.getParameterTypes()))) {
-        return m;
+    timers.put(player.getUniqueId(), 
+      Integer.valueOf(Bukkit.getScheduler().runTaskTimer(plugin, new BukkitRunnable()
+    {
+      public void run()
+      {
+        FakeDragon drag = BossBar.getDragon(player, "");
+        drag.health -= dragonHealthMinus;
+
+        if (drag.health <= 1.0F) {
+          BossBar.removeBar(player);
+          BossBar.cancelTimer(player);
+        } else {
+          BossBar.sendDragon(drag, player);
+        }
       }
     }
-    return null;
+    , 20L, 20L).getTaskId()));
+
+    sendDragon(dragon, player);
   }
 
-  public static Method getMethod(Class<?> cl, String method, Integer args) {
-    for (Method m : cl.getMethods()) {
-      if ((m.getName().equals(method)) && (args.equals(new Integer(m.getParameterTypes().length)))) {
-        return m;
-      }
+  public static boolean hasBar(Player player) {
+    return players.get(player.getUniqueId()) != null;
+  }
+
+  public static void removeBar(Player player) {
+    if (!hasBar(player)) {
+      return;
     }
-    return null;
+    Util.sendPacket(player, getDragon(player, "").getDestroyPacket());
+
+    players.remove(player.getUniqueId());
+
+    cancelTimer(player);
   }
 
-  public static Method getMethod(Class<?> cl, String method) {
-    for (Method m : cl.getMethods()) {
-      if (m.getName().equals(method)) {
-        return m;
-      }
+  public static void setHealth(Player player, float percent) {
+    if (!hasBar(player)) {
+      return;
     }
-    return null;
+    FakeDragon dragon = getDragon(player, "");
+    dragon.health = (percent / 100.0F * 200.0F);
+
+    cancelTimer(player);
+
+    sendDragon(dragon, player);
   }
 
-  public static boolean ClassListEqual(Class<?>[] l1, Class<?>[] l2) {
-    boolean equal = true;
-
-    if (l1.length != l2.length)
-      return false;
-    for (int i = 0; i < l1.length; i++) {
-      if (l1[i] != l2[i]) {
-        equal = false;
-        break;
-      }
+  public static float getHealth(Player player) {
+    if (!hasBar(player)) {
+      return -1.0F;
     }
-
-    return equal;
+    return getDragon(player, "").health;
   }
 
-  static
+  public static String getMessage(Player player) {
+    if (!hasBar(player)) {
+      return "";
+    }
+    return getDragon(player, "").name;
+  }
+
+  private static String cleanMessage(String message) {
+    if (message.length() > 64) {
+      message = message.substring(0, 63);
+    }
+    return message;
+  }
+
+  private static void cancelTimer(Player player) {
+    Integer timerID = (Integer)timers.remove(player.getUniqueId());
+
+    if (timerID != null)
+      Bukkit.getScheduler().cancelTask(timerID.intValue());
+  }
+
+  private static void sendDragon(FakeDragon dragon, Player player)
   {
-    String name = Bukkit.getServer().getClass().getPackage().getName();
-    String mcVersion = name.substring(name.lastIndexOf(46) + 1);
-    String[] versions = mcVersion.split("_");
+    Util.sendPacket(player, dragon.getMetaPacket(dragon.getWatcher()));
+    Util.sendPacket(player, dragon.getTeleportPacket(player.getLocation().add(0.0D, -200.0D, 0.0D)));
+  }
 
-    if ((versions[0].equals("v1")) && (Integer.parseInt(versions[1]) > 6)) {
-      newProtocol = true;
-      fakeDragonClass = v1_7.class;
+  private static FakeDragon getDragon(Player player, String message) {
+    if (hasBar(player)) {
+      return (FakeDragon)players.get(player.getUniqueId());
     }
+    return addDragon(player, cleanMessage(message));
+  }
+
+  private static FakeDragon addDragon(Player player, String message) {
+    FakeDragon dragon = Util.newDragon(message, player.getLocation().add(0.0D, -200.0D, 0.0D));
+
+    Util.sendPacket(player, dragon.getSpawnPacket());
+
+    players.put(player.getUniqueId(), dragon);
+
+    return dragon;
+  }
+
+  private static FakeDragon addDragon(Player player, Location loc, String message) {
+    FakeDragon dragon = Util.newDragon(message, loc.add(0.0D, -200.0D, 0.0D));
+
+    Util.sendPacket(player, dragon.getSpawnPacket());
+
+    players.put(player.getUniqueId(), dragon);
+
+    return dragon;
   }
 }
 abstract class FakeDragon
@@ -575,14 +381,14 @@ abstract class FakeDragon
 }
 class v1_6 extends FakeDragon
 {
-  private static Integer EntityID;
+  private static Integer EntityID = Integer.valueOf(6000);
 
   public v1_6(String name, Location loc)
   {
     super(name, loc);
   }
 
-  @SuppressWarnings({ "rawtypes", "deprecation" })
+  @SuppressWarnings({ "deprecation", "rawtypes" })
 public Object getSpawnPacket()
   {
     Class mob_class = Util.getCraftClass("Packet24MobSpawn");
@@ -592,7 +398,7 @@ public Object getSpawnPacket()
 
       Field a = Util.getField(mob_class, "a");
       a.setAccessible(true);
-      a.set(mobPacket, v1_6.EntityID);
+      a.set(mobPacket, EntityID);
       Field b = Util.getField(mob_class, "b");
       b.setAccessible(true);
       b.set(mobPacket, Short.valueOf(EntityType.ENDER_DRAGON.getTypeId()));
@@ -649,7 +455,7 @@ public Object getDestroyPacket()
 
       Field a = Util.getField(packet_class, "a");
       a.setAccessible(true);
-      a.set(packet, new int[] { v1_6.EntityID.intValue() });
+      a.set(packet, new int[] { EntityID.intValue() });
     } catch (InstantiationException e) {
       e.printStackTrace();
     } catch (IllegalAccessException e) {
@@ -669,7 +475,7 @@ public Object getMetaPacket(Object watcher)
 
       Field a = Util.getField(packet_class, "a");
       a.setAccessible(true);
-      a.set(packet, v1_6.EntityID);
+      a.set(packet, EntityID);
 
       Method watcher_c = Util.getMethod(watcher.getClass(), "c");
       Field b = Util.getField(packet_class, "b");
@@ -698,7 +504,7 @@ public Object getTeleportPacket(Location loc)
 
       Field a = Util.getField(packet_class, "a");
       a.setAccessible(true);
-      a.set(packet, v1_6.EntityID);
+      a.set(packet, EntityID);
       Field b = Util.getField(packet_class, "b");
       b.setAccessible(true);
       b.set(packet, Integer.valueOf((int)Math.floor(loc.getX() * 32.0D)));
@@ -751,11 +557,6 @@ public Object getWatcher()
 
     return watcher;
   }
-
-  static
-  {
-    v1_6.EntityID = Integer.valueOf(6000);
-  }
 }
 class v1_7 extends FakeDragon
 {
@@ -767,7 +568,7 @@ class v1_7 extends FakeDragon
     super(name, loc);
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({ "unchecked", "rawtypes" })
 public Object getSpawnPacket()
   {
     Class Entity = Util.getCraftClass("Entity");
@@ -874,7 +675,7 @@ public Object getMetaPacket(Object watcher)
     return packet;
   }
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @SuppressWarnings({ "rawtypes", "unchecked" })
 public Object getTeleportPacket(Location loc)
   {
     Class PacketPlayOutEntityTeleport = Util.getCraftClass("PacketPlayOutEntityTeleport");
@@ -900,7 +701,7 @@ public Object getTeleportPacket(Location loc)
     return packet;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({ "unchecked", "rawtypes" })
 public Object getWatcher()
   {
     Class Entity = Util.getCraftClass("Entity");
@@ -937,5 +738,167 @@ public Object getWatcher()
       e.printStackTrace();
     }
     return watcher;
+  }
+}
+class Util
+{
+  public static boolean newProtocol = false;
+  static String name = Bukkit.getServer().getClass().getPackage().getName();
+  static String mcVersion = name.substring(name.lastIndexOf('.') + 1);
+  public static String version = mcVersion + ".";
+
+  public static Class<?> fakeDragonClass = v1_6.class;
+
+  static
+  {
+    String name = Bukkit.getServer().getClass().getPackage().getName();
+    String mcVersion = name.substring(name.lastIndexOf('.') + 1);
+    String[] versions = mcVersion.split("_");
+
+    if ((versions[0].equals("v1")) && (Integer.parseInt(versions[1]) > 6)) {
+      newProtocol = true;
+      fakeDragonClass = v1_7.class;
+    }
+  }
+
+  public static FakeDragon newDragon(String message, Location loc)
+  {
+    FakeDragon fakeDragon = null;
+    try
+    {
+      fakeDragon = (FakeDragon)fakeDragonClass.getConstructor(new Class[] { String.class, Location.class }).newInstance(new Object[] { message, loc });
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+
+    return fakeDragon;
+  }
+
+  public static void sendPacket(Player p, Object packet)
+  {
+    try {
+      Object nmsPlayer = getHandle(p);
+      Field con_field = nmsPlayer.getClass().getField("playerConnection");
+      Object con = con_field.get(nmsPlayer);
+      Method packet_method = getMethod(con.getClass(), "sendPacket");
+      packet_method.invoke(con, new Object[] { packet });
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @SuppressWarnings("rawtypes")
+public static Class<?> getCraftClass(String ClassName)
+  {
+    String className = "net.minecraft.server." + version + ClassName;
+    Class c = null;
+    try {
+      c = Class.forName(className);
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    return c;
+  }
+
+  public static Object getHandle(World world) {
+    Object nms_entity = null;
+    Method entity_getHandle = getMethod(world.getClass(), "getHandle");
+    try {
+      nms_entity = entity_getHandle.invoke(world, new Object[0]);
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    }
+    return nms_entity;
+  }
+
+  public static Object getHandle(Entity entity) {
+    Object nms_entity = null;
+    Method entity_getHandle = getMethod(entity.getClass(), "getHandle");
+    try {
+      nms_entity = entity_getHandle.invoke(entity, new Object[0]);
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    }
+    return nms_entity;
+  }
+
+  public static Field getField(Class<?> cl, String field_name) {
+    try {
+      return cl.getDeclaredField(field_name);
+    }
+    catch (SecurityException e) {
+      e.printStackTrace();
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public static Method getMethod(Class<?> cl, String method, Class<?>[] args) {
+    for (Method m : cl.getMethods()) {
+      if ((m.getName().equals(method)) && (ClassListEqual(args, m.getParameterTypes()))) {
+        return m;
+      }
+    }
+    return null;
+  }
+
+  public static Method getMethod(Class<?> cl, String method, Integer args) {
+    for (Method m : cl.getMethods()) {
+      if ((m.getName().equals(method)) && (args.equals(new Integer(m.getParameterTypes().length)))) {
+        return m;
+      }
+    }
+    return null;
+  }
+
+  public static Method getMethod(Class<?> cl, String method) {
+    for (Method m : cl.getMethods()) {
+      if (m.getName().equals(method)) {
+        return m;
+      }
+    }
+    return null;
+  }
+
+  public static boolean ClassListEqual(Class<?>[] l1, Class<?>[] l2) {
+    boolean equal = true;
+
+    if (l1.length != l2.length)
+      return false;
+    for (int i = 0; i < l1.length; i++) {
+      if (l1[i] != l2[i]) {
+        equal = false;
+        break;
+      }
+    }
+
+    return equal;
   }
 }

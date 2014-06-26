@@ -12,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.Utils.StringUtil;
 
 public class CmdList{
@@ -22,7 +23,7 @@ public class CmdList{
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
-		if(Bukkit.getPluginManager().getPlugin("Vault") != null){
+		if(Bukkit.getPluginManager().getPlugin("Vault") != null && Bukkit.getPluginManager().isPluginEnabled("Vault")){
 		setupPermissions();
 		}
 	}
@@ -53,7 +54,7 @@ public class CmdList{
 		          online.append(", ");
 		        }
 		        i++;
-		        online.append(player.getDisplayName());
+		        online.append(UC.getPlayer(player).getNick());
 		      }
 		    }
 			String message = r.mes("List.List").replaceAll("%Online", i + "").replaceAll("%Max", Bukkit.getMaxPlayers() + "").replaceAll("%List", online.toString());
@@ -70,33 +71,60 @@ public class CmdList{
 			Boolean first2 = true;
 			Integer i = 0;
 			for(String g : permission.getGroups()){
+				if(isAnyUserOnline(g)){
+				String gn = g;
+				/*if(r.getCnfg().getBoolean("Chat.Tab.Enabled") && r.getCnfg().get("Chat.Tab." + g) != null){
+					gn = r.getCnfg().getString("Chat.Tab." + g).replaceAll("&", "§") + gn;
+				}*/
 				if(first2){
 					first2=false;
-				    online.append(r.default1 + StringUtil.firstUpperCase(g) + ": ");
+				    online.append(r.default1 + StringUtil.firstUpperCase(gn) + ": ");
 				}else{
-					online.append("\n" + r.default1 + StringUtil.firstUpperCase(g) + ": ");
+					online.append("\n" + r.default1 + StringUtil.firstUpperCase(gn) +  ": ");
 				}
 				Boolean first = true;
 				Boolean any = false;
+				ArrayList<Player> remove = new ArrayList<Player>();
 			    for(Player pl : plz){
 			    	Player p = Bukkit.getPlayer(sender.getName());
 			    	if(p == null || p.canSee(pl)){
-			    	if(permission.getPrimaryGroup(pl).equalsIgnoreCase(g)){
-			    		if(!first){ online.append(", "); first = false; }
-			    		online.append(r.default2 + pl.getName());
+			    	if(permission.getPrimaryGroup(pl) != null && permission.getPrimaryGroup(pl).equalsIgnoreCase(g)){
+			    		if(!first){ online.append(", "); }
+			    		online.append(r.default2 + UC.getPlayer(pl).getNick());
 			    		i++;
 			    		any = true;
+			    		first = false;
+			    		remove.add(pl);
 			    	}
 			    	}
 			    }
+			    plz.removeAll(remove);
+			    remove.clear();
 			    if(any == false){
 			    	online.append(r.default2 + "none");
 			    }
+				}
 			}
+			if(!plz.isEmpty()){
+			online.append("\n" + r.default1 + "No group: ");
+			for(Player pl : plz){
+				online.append(r.default2 + pl.getName());
+			}
+			}
+			plz.clear();
+			pls = null;
+			plz = null;
 			String message = r.mes("List.List").replaceAll("%Online", i + "").replaceAll("%Max", Bukkit.getMaxPlayers() + "").replaceAll("%List", online.toString());
 			for(String str : message.split("\\\\n")){
 				sender.sendMessage(str);
 			}
 		}
+	}
+	private static boolean isAnyUserOnline(String group){
+		if(permission == null) return true;
+		for(Player p : Bukkit.getOnlinePlayers()){
+			if(permission.getPrimaryGroup(p).equalsIgnoreCase(group)) return true;
+		}
+		return false;
 	}
 }

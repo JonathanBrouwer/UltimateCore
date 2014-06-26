@@ -41,11 +41,13 @@ public static String joinList(String seperator, Object[] list)
         }
         catch (Exception e)
         {
-          buf.append(each.toString());
         }
       }
     }
     return buf.toString();
+  }
+  public static String joinList(@SuppressWarnings("rawtypes") Collection c){
+	  return joinList(c.toArray());
   }
   public static String firstUpperCase(String input){
 	  return input.substring(0, 1).toUpperCase() + input.substring(1);

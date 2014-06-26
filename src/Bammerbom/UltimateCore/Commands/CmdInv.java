@@ -33,9 +33,9 @@ public class CmdInv implements Listener{
 		if(!(r.isPlayer(sender))){
 			return;
 		}
+		if(!r.perm(sender, "uc.inv", false, true)){ return; }
 		Player p = (Player)sender;
     	if(r.checkArgs(args, 0)){
-    		if(!r.perm(sender, "uc.inv", false, true)){ return; }
     		Player target = Bukkit.getPlayer(args[0]);
     		if(target !=null){
     			//Inventory inv = Bukkit.createInventory(null, 45, ChatColor.RED + "Inventory from " + ChatColor.BLUE + target.getName());

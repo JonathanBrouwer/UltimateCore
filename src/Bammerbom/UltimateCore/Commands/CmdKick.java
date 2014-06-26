@@ -17,6 +17,7 @@ public class CmdKick{
 		}
 	}
 	public static void handle(CommandSender sender, String[] args) {
+		if(!r.perm(sender, "uc.kick", false, true)) return;
 		if(r.checkArgs(args, 0) == false){
 			sender.sendMessage(r.mes("Kick.Usage"));
 			return;
@@ -27,8 +28,8 @@ public class CmdKick{
 			p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			return;
 		}
-		if(target.hasPermission("uc.antiban")){
-			sender.sendMessage(r.mes("AntiBan").replaceAll("%Player", target.getName()).replaceAll("%Action", "kick"));
+		if(p.getName().equalsIgnoreCase(target.getName())){
+			sender.sendMessage(r.mes("AntiBan").replaceAll("%Player", sender.getName()).replaceAll("%Action", "kick"));
 			return;
 		}
     	if(r.checkArgs(args, 1) == false){

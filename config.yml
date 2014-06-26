@@ -13,12 +13,12 @@ disabledcommands:
 - anothercommand
 
 #Language of the plugin (See language folder)
-#You can add a custom one by creating a new file and put the name in the "Language"
+#You can add a custom one by creating a new file and put the name of the file here.
 Language: EN
 
-#Enable a handy console?
+#Enable a handy console? (Opens a second window)
 console: false
-#Enable timber?
+#Enable timber (Auto chop trees)?
 Timber: false
 #Destroy the leaves? (Drops saplings)
 TimberLeaves: true
@@ -36,6 +36,8 @@ SmiteDamage: true
 AutoRespawn: false
 #GTool enabled? This is a tool that log blockchanges.
 gtool: true
+#May you move when you are jailed?
+jailmove: false
 
 Afk:
   Enabled: true
@@ -55,7 +57,7 @@ Autosave:
   time: 300
   message: false
 Chat:
-  #Enable the custom chat of Ultimate Core?
+  #Enable the custom chat of Ultimate Core? If false Filters are still enabled!
   EnableCustomChat: true
   
   #What is the format?
@@ -63,19 +65,39 @@ Chat:
   #+Prefix = Group prefix (If vault installed, else empty)
   #+Suffix = Group suffix (If vault installed, else empty)
   #+Name = Raw name
-  #+Displayname = Displayname [LET OP: Sommige plugins zetten automaisch de rank voor de displayname]
+  #+Displayname = Displayname [WARNING: Some plugins automaticly set the rank/faction/etc before the players displayname]
   #+World = Current World name
   #+WorldAlias = First letter of the worlds name
   #+Message = Message the player is trying to send
   #Color codes supported!
   Format: '&6+Prefix&6+Displayname: &r+Suffix+Message'
   
+  #Group formats: [REQUIRES VAULT + PERMISSION PLUGIN] 	`(Every group that is not registered here uses the Global format
+  Groups:
+    Enabled: false
+    #+Name = Raw name
+    #+Displayname = Nick name
+    #+World = Current World name
+    #+WorldAlias = First letter of the worlds name
+    #+Message = Message the player is trying to send
+    #Color codes supported!
+    #GROUP NAMES ARE CASE SENSITIVE!!!
+    Player: '&9[&6Player&9] &6+Displayname: &f+Message'
+    Admin: '&6[&4Admin&6] &6+Displayname: &f+Message'
+  Tab:
+    Enabled: false
+    #Groups tab prefixes
+    #Watchout! Too long prefixes can short player names for some characters
+    #GROUP NAMES ARE CASE SENSITIVE!!!
+    Player: '&6'
+    Admin: '&4'
   #Enable spam/swear/etc filter?
   SpamFilter: true
-  SwearFiler: true
+  SwearFilter: false
   RepeatFilter: true
+  CapsFilter: true
   
-  #Default chat(Command) colors
+  #Default message(Command) colors
   Default1: '&3'
   Default2: '&b'
   
@@ -133,10 +155,10 @@ messages:
   enabledbossbar: false
   #Will messages been shown in the chat?
   enabledchat: false
-  time: 30
-  list:
-  - '&bWelcome to my server'
-  - '&1This is a example'
-  - '&aOne message will show always that message'
-  - '&fMore messages will sycle through all messages'
-  - '&8Max 62 characters'
+  #Randomise the messages?
+  randomise: true
+  #The time between each message
+  time: 60
+  #Decrease: Will the bars health descrease until the next message shows?
+  decrease: true
+  #USE messages.txt TO CHANGE THE MESSAGES!

@@ -2,9 +2,6 @@ package Bammerbom.UltimateCore.Resources.Utils;
 
 import java.util.regex.Pattern;
 
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
 public class FormatUtil
 {
   static final transient Pattern VANILLA_PATTERN = Pattern.compile("§+[0-9A-FK-ORa-fk-or]?");
@@ -12,7 +9,34 @@ public class FormatUtil
   static final transient Pattern VANILLA_MAGIC_PATTERN = Pattern.compile("§+[Kk]");
   static final transient Pattern VANILLA_FORMAT_PATTERN = Pattern.compile("§+[L-ORl-or]");
 
-  static final transient Pattern REPLACE_ALL_PATTERN = Pattern.compile("(?<!&)&([0-9a-fk-orA-FK-OR])");
+  static final transient Pattern REPLACE_ALL_PATTERN = Pattern.compile("("
+  		+ "?"
+  		+ "<"
+  		+ "!"
+  		+ "&"
+  		+ ")"
+  		+ "&"
+  		+ "("
+  		+ "["
+  		+ "0"
+  		+ "-"
+  		+ "9"
+  		+ "a"
+  		+ "-"
+  		+ "f"
+  		+ "k"
+  		+ "-"
+  		+ "o"
+  		+ "r"
+  		+ "A"
+  		+ "-"
+  		+ "F"
+  		+ "K"
+  		+ "-"
+  		+ "O"
+  		+ "R"
+  		+ "]"
+  		+ ")");
   static final transient Pattern REPLACE_COLOR_PATTERN = Pattern.compile("(?<!&)&([0-9a-fA-F])");
   static final transient Pattern REPLACE_MAGIC_PATTERN = Pattern.compile("(?<!&)&([Kk])");
   static final transient Pattern REPLACE_FORMAT_PATTERN = Pattern.compile("(?<!&)&([l-orL-OR])");
@@ -40,16 +64,6 @@ public class FormatUtil
     return stripColor(input, REPLACE_ALL_PATTERN);
   }
 
-  public static String formatMessage(Player user, String permBase, String input)
-  {
-    if (input == null)
-    {
-      return null;
-    }
-    String message = formatString(user, permBase, input);
-    return message;
-  }
-
   public static String replaceFormat(String input)
   {
     if (input == null)
@@ -62,11 +76,6 @@ public class FormatUtil
   static String replaceColor(String input, Pattern pattern)
   {
     return REPLACE_PATTERN.matcher(pattern.matcher(input).replaceAll("§$1")).replaceAll("&");
-  }
-
-  public static String formatString(Player user, String permBase, String input)
-  {
-	  return ChatColor.translateAlternateColorCodes('&', input);
   }
 
   public static String stripLogColorFormat(String input)

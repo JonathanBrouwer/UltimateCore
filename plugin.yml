@@ -1,12 +1,109 @@
 name: UltimateCore
-version: 0.3.1
+version: 1.0.0
 description: Ultimate Core is all you need to setup a server and more!
 author: Bammerbom
 authors: [Bammerbom, blockbreaker21]
 website: dev.bukkit.org/bukkit-plugins/ultimate_core
 main: Bammerbom.UltimateCore.UltimateCore
 prefix: UltimateCore
+softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions]
 commands:
+  clearchat:
+    description: Clears the global chat
+    usage: /clearchat
+  accountstatus:
+    description: Check if an account is premium or not
+    usage: /accountstatus
+  uptime:
+    description: View the Uptime
+    usage: /uptime
+  signedit:
+    description: Edit a sign
+    usage: /signedit
+  editsign:
+    description: Edit a sign
+    usage: /editsign
+  motd:
+    description: View the Join MOTD
+    usage: /motd
+  skull:
+    description: Obtain a skull
+    usage: /skull
+  head:
+    description: Obtain a skull
+    usage: /head
+  clean:
+    description: Cleans lag
+    usage: /clean
+  rules:
+    description: Show the server rules
+    usage: /rules
+  jail:
+    description: Jail someone
+    usage: /jail [Player]
+  jails:
+    description: Get a list of who is jailed
+    usage: /jail [Player]
+  jaillist:
+    description: Get a list of who is jailed
+    usage: /jail [Player]
+  setjail:
+    description: Set a new jail or change a jail location
+    usage: /jail [Player]
+  deljail:
+    description: Delete a jail
+    usage: /jail [Player]
+  unjail:
+    description: Unjail someone
+    usage: /unjail [Player]
+  spawner:
+    description: Change spawner type
+    usage: /spawner <MobType>
+  enchtable:
+    description: Enchant something
+    usage: /ench
+  enchantingtable:
+    description: Enchant something
+    usage: /enchantingtable
+  spy:
+    description: Toggle spy mode
+    usage: /spy
+  near:
+    description: Get nearby players
+    usage: /near
+  gc:
+    description: Runs the Garbage Collector
+    usage: /gc
+  realname:
+    description: Get the real name of someone
+    usage: /realname <Player>
+  seen:
+    description: Get a players information
+    usage: /seen <Player>
+  setarmor:
+    description: Set someones armor type
+    usage: /setarmor [Player] [ArmorType]
+  sethealth:
+    discription: Set someones health level
+    usage: /sethealth [Player] [Health]
+  setfood:
+    discription: Set someones food level
+    usage: /setfood [Player] [Food]
+  sethunger:
+    discription: Set someones food level
+    usage: /sethunger [Player] [Food]
+  hunger:
+    description: Remove someones hunger
+    usage: /hunger [Player] [Damage]
+  starve:
+    description: Remove someones starve
+    usage: /starve [Player] [Damage]
+  damage:
+    description: Damage someone
+    usage: /damage [Player] [Damage]
+  hurt:
+    description: Damage someone
+    usage: /hurt [Player] [Damage]
   xp:
     description: Get or Modify a players xp
     usage: /xp [-][XP][L] [Player]
@@ -43,6 +140,42 @@ commands:
   delhome:
     description: Remove your home
     usage: /<command> <Name>
+  homes:
+    description: A list of all your homes
+    usage: /<command>
+  homelist:
+    description: A list of all your homes
+    usage: /<command>
+  mutes:
+    description: A list of all mutes
+    usage: /<command>
+  mutelist:
+    description: A list of all mutes
+    usage: /<command>
+  deafs:
+    description: A list of all deaf players
+    usage: /<command>
+  deaflist:
+    description: A list of all deaf players
+    usage: /<command>
+  freezes:
+    description: A list of all freezes
+    usage: /<command>
+  freezelist:
+    description: A list of all freezes
+    usage: /<command>
+  jais:
+    description: A list of all jailed players
+    usage: /<command>
+  jaillist:
+    description: A list of all jailed players
+    usage: /<command>
+  warps:
+    description: A list of all warps
+    usage: /<command>
+  warplist:
+    description: A list of all warps
+    usage: /<command>
   weather:
     description: Change the weather
     usage: /<command> <Sun/Rain/Storm>
@@ -67,6 +200,12 @@ commands:
   tphere:
     description: Teleport here
     usage: /<command> <Player>
+  tptoggle:
+    description: Toggles teleporting
+    usage: /<command>
+  alert:
+    description: Alert everyone
+    usage: /<command> <Message>
   bring:
     description: Teleport here
     usage: /<command> <Player>
@@ -76,9 +215,6 @@ commands:
   plugin:
     description: Manage plugins
     usage: /<command> <Enable/Disable/Load/Unload/Info/Reload/Restart> <Plugin>
-  gtool:
-    description: Check griefs
-    usage: /<command>
   gamemode:
     description: Set a player's gamemode
     usage: /<command> <Gamemode> [Player]
@@ -157,6 +293,18 @@ commands:
   smite:
     description: Smite someone with lightning
     usage: /<command> [Player]
+  strike:
+    description: Smite someone with lightning
+    usage: /<command> [Player]
+  megasmite:
+    description: MegaSmite someone with lightning
+    usage: /<command> [Player]
+  megastrike:
+    description: MegaSmite someone with lightning
+    usage: /<command> [Player]
+  coords:
+    description: Get the coordinates of someone or yourself
+    usage: /<command> [Player]
   time:
     description: Change the time
     usage: /<command> <day/night/ticks/enable/disable>
@@ -193,6 +341,9 @@ commands:
   ram:
     description: Check the current server RAM
     usage: /<command>
+  mem:
+    description: Check the current server RAM
+    usage: /<command>
   lag:
     description: Check how much lag is on the server.
     usage: /<command>
@@ -205,8 +356,23 @@ commands:
   tpa:
     description: Send a teleport request to a player
     usage: /<command> <Player>
+  tpaall:
+    description: Send a teleport request to everyone
+    usage: /<command>
+  tpahere:
+    description: Send a teleport request to a player to teleport the player here
+    usage: /<command> <Player>
   tpaccept:
     description: Accept a teleport request
+    usage: /<command>
+  tpyes:
+    description: Accept a teleport request
+    usage: /<command>
+  tpdeny:
+    description: Deny a teleport request
+    usage: /<command>
+  tpno:
+    description: Deny a teleport request
     usage: /<command>
   mcservers:
     description: Check if the minecraft servers are online
@@ -217,17 +383,32 @@ commands:
   ban:
     description: Ban someone for a specific time and reason
     usage: /<command> <Player> [Time] [Reason]
+  bans:
+    description: A list of all bans
+    usage: /<command>
+  banlist:
+    description: A list of all bans
+    usage: /<command>
   unban:
     description: Unban someone
     usage: /<command> <Player>
   kick:
     description: Kick the target player
     usage: /<command> <Player> [Reason]
+  kickall:
+    description: Kick everyone
+    usage: /<command> <Player> [Reason]
   mute:
     description: Mute someone for a specific time
     usage: /<command> <Player> [Time]
   unmute:
     description: Unmute someone
+    usage: /<command> <Player>
+  deaf:
+    description: Make someone deaf for a specific time
+    usage: /<command> <Player> [Time]
+  undeaf:
+    description: Undeaf someone
     usage: /<command> <Player>
   freeze:
     description: Freeze someone
@@ -244,6 +425,18 @@ commands:
   w:
     description: Send a private message to someone
     usage: /<command> <Player> <Message>
+  t:
+    description: Send a private message to someone
+    usage: /<command> <Player> <Message>
+  tell:
+    description: Send a private message to someone
+    usage: /<command> <Player> <Message>
+  m:
+    description: Send a private message to someone
+    usage: /<command> <Player> <Message>
+  reply:
+    description: Send a private message to the last player that sended you a message
+    usage: /<command> <Message>
   r:
     description: Send a private message to the last player that sended you a message
     usage: /<command> <Message>
@@ -340,4 +533,9 @@ commands:
   list:
     description: Check the list of online players
     usage: /<command>
-  
+  who:
+    description: Check the list of online players
+    usage: /<command>
+  online:
+    description: Check the list of online players
+    usage: /<command>

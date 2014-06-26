@@ -70,7 +70,6 @@ class LogWindow extends JFrame{
     caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     pane.setAutoscrolls(true);
     getContentPane().add(pane);
-    //TODO this.setResizable(false);
     textArea.setEditable(false);
     textArea.setForeground(null);
     textArea.setBackground(new Color(245,245,245));

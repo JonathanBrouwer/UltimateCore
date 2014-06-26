@@ -15,7 +15,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 public class UltimateFileLoader implements Listener{
@@ -60,6 +62,8 @@ public class UltimateFileLoader implements Listener{
 	public static File DFminigames;
 	public static File DFreports;
 	public static File DFglobal;
+	public static File DFjails;
+	public static File DFkits;
 
 	public static void Enable(){
 		if (!plugin.getDataFolder().exists()) {
@@ -79,10 +83,12 @@ public class UltimateFileLoader implements Listener{
 		DFregions = new File(plugin.getDataFolder() + File.separator + "Data", "regions.yml");
 		DFminigames = new File(plugin.getDataFolder() + File.separator + "Data", "minigames.yml");
 		DFreports = new File(plugin.getDataFolder() + File.separator + "Data", "reports.yml");
+		DFjails = new File(plugin.getDataFolder() + File.separator + "Data", "jails.yml");
+		DFkits = new File(plugin.getDataFolder() + File.separator + "Data", "kits.yml");
 		if(messages.exists() && new File(plugin.getDataFolder(), "config.yml").exists()){
-			r.log(ChatColor.YELLOW + "Loaded files." + ChatColor.RESET);
+			//r.log(ChatColor.YELLOW + "Loaded files." + ChatColor.RESET);
 		}else{
-			r.log(ChatColor.YELLOW + "Created files." + ChatColor.RESET);
+			//r.log(ChatColor.YELLOW + "Created files." + ChatColor.RESET);
 		}
 		//File creation
 		plugin.saveDefaultConfig();
@@ -92,69 +98,26 @@ public class UltimateFileLoader implements Listener{
 		}
 		createLang();
 		loadLang();
-		
-		if(!DFglobal.exists()){
-			try {
+		try{
+			if(!DFglobal.exists()){ 
 				DFglobal.createNewFile();
-			    YamlConfiguration conf = YamlConfiguration.loadConfiguration(DFglobal);
-			    conf.set("debug", false);
-			    conf.save(DFglobal);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+				YamlConfiguration conf = YamlConfiguration.loadConfiguration(DFglobal);
+				conf.set("debug", false);
+				conf.save(DFglobal);}
+			if(!DFspawns.exists()) DFspawns.createNewFile();
+			if(!DFwarps.exists()) DFwarps.createNewFile();
+			if(!DFworlds.exists()) DFworlds.createNewFile();
+			if(!DFregions.exists()) DFregions.createNewFile();
+			if(!DFminigames.exists()) DFminigames.createNewFile();
+			if(!DFreports.exists()) DFreports.createNewFile();
+			if(!DFjails.exists()) DFjails.createNewFile();
+			if(!DFkits.exists()) DFkits.createNewFile();
+		}catch(IOException e){
+			e.printStackTrace();
 		}
-		
-		if(!DFspawns.exists()){
-			try {
-				DFspawns.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		for(OfflinePlayer pl : Bukkit.getOfflinePlayers()){
+			getPlayerFile(pl);
 		}
-
-		if(!DFwarps.exists()){
-			try {
-			
-				DFwarps.createNewFile();
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		if(!DFworlds.exists()){
-			try {
-				
-				DFworlds.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		if(!DFregions.exists()){
-			try {
-				
-				DFregions.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		if(!DFminigames.exists()){
-			try{
-				DFminigames.createNewFile();
-			} catch (IOException e){
-				e.printStackTrace();
-			}
-		}
-		if(!DFreports.exists()){
-			try {
-				DFreports.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-			for(OfflinePlayer pl : Bukkit.getOfflinePlayers()){
-				getPlayerFile(pl);
-			}
 		configOptions();
 		addConfig();
 	} 
@@ -174,6 +137,9 @@ public class UltimateFileLoader implements Listener{
 	            writer.write("\n#GTool enabled? This is a tool that log blockchanges.\ngtool: true");
 	            r.log(ChatColor.YELLOW + "Added to config: gtool (standard true)" );
 			}
+			if(r.getCnfg().get("SweaAllowedWords") == null){
+				
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}finally{
@@ -183,12 +149,19 @@ public class UltimateFileLoader implements Listener{
 				e.printStackTrace();
 			}
 		}
-		if(r.mes("XP.Show") == null){
+		if(r.mes("Realname.Usage") == null){
 			resetFile(new File(plugin.getDataFolder() + "/Messages", "EN.yml"));
 			createLang();
 			loadLang();
 			r.log(r.error + "Configuration update found, files reset: 1 (EN.yml)");
-			r.log(r.error + "Configuration backups made: 1");
+			r.log(r.error + "Configuration backups made: 1 (EN.yml)");
+		}
+		if(r.getCnfg().get("jailmove") == null){
+			resetFile(new File(plugin.getDataFolder(), "config.yml"));
+			plugin.saveDefaultConfig();
+		
+			r.log(r.error + "Configuration update found, files reset: 1 (config.yml)");
+			r.log(r.error + "Configuration backups made: 1 (config.yml)");
 		}
 	}
 	public static void resetFile(File file){
@@ -229,9 +202,39 @@ public class UltimateFileLoader implements Listener{
 		return config;
 	}
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
-	public void join(PlayerLoginEvent e){
+	public void join(PlayerJoinEvent e){
 		OfflinePlayer p = Bukkit.getOfflinePlayer(e.getPlayer().getUniqueId());
 		getPlayerFile(p);
+		File file = getPlayerFile(e.getPlayer());
+		YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+		conf.set("lastconnect", System.currentTimeMillis());
+		try {
+			conf.save(file);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	@EventHandler()
+	public void quit(PlayerQuitEvent e){
+		File file = getPlayerFile(e.getPlayer());
+		YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+		conf.set("lastconnect", System.currentTimeMillis());
+		try {
+			conf.save(file);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	@EventHandler()
+	public void quit(PlayerKickEvent e){
+		File file = getPlayerFile(e.getPlayer());
+		YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+		conf.set("lastconnect", System.currentTimeMillis());
+		try {
+			conf.save(file);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	public static void configOptions(){
 		//

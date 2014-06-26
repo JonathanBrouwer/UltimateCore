@@ -7,8 +7,6 @@ import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
@@ -16,23 +14,18 @@ import org.bukkit.entity.Horse.Color;
 import org.bukkit.entity.Horse.Style;
 import org.bukkit.entity.Horse.Variant;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.MagmaCube;
-import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Skeleton.SkeletonType;
-import org.bukkit.entity.Slime;
-import org.bukkit.entity.Tameable;
-import org.bukkit.entity.Wolf;
-import org.bukkit.entity.Zombie;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.Resources.MobData;
 import Bammerbom.UltimateCore.Resources.MobType;
+import Bammerbom.UltimateCore.Resources.Utils.StringUtil;
 
 public class CmdSpawnmob{
 	static Plugin plugin;
@@ -81,9 +74,21 @@ public class CmdSpawnmob{
 			return;
 		}
 		if(args[0].equalsIgnoreCase("data")){
-			sender.sendMessage(r.default1 + "Sheep: " + r.default2 + "DyeColor, shaired");
-			sender.sendMessage(r.default1 + "Zombie: " + r.default2 + "diamondarmor, ironarmor, goldarmor, chainarmor, leatherarmor, baby");
-			sender.sendMessage(r.default1 + "Zombie: " + r.default2 + "diamondarmor, ironarmor, goldarmor, chainarmor, leatherarmor, skeleton");
+			for(MobType mob : MobType.values()){
+				String mes = r.default1 + StringUtil.firstUpperCase(mob.getType().name().toLowerCase()) + ": " + r.default2;
+			    StringBuilder b = new StringBuilder(mes);
+			    Boolean a = false;
+				for(String str : MobData.getValidHelp(mob.getType())){
+					if(a) b.append(", ");
+			    	 b.append(str);
+			    	 a = true;
+			     }
+				if(a){
+				sender.sendMessage(b.toString());
+				}
+			}
+			StringBuilder b = new StringBuilder(r.default1 + "Baby: " + r.default2 + "Chicken, Cow, Horse, Pig, Sheep, Wolf, Villager, Mushroomcow, Ocelot, Zombie");
+			sender.sendMessage(b.toString());
 			return;
 		}
 		
@@ -152,6 +157,7 @@ public class CmdSpawnmob{
 		}
 		//Unstacked
 		for (int i = 0; i < amount; i++){
+			try{
 			LivingEntity en = (LivingEntity) loc.getWorld().spawnEntity(loc, mob.getType());
 			if(args[0].equals("witherskeleton")){
 				Skeleton skel = (Skeleton) en;
@@ -169,6 +175,8 @@ public class CmdSpawnmob{
 			}
 			defaultMobData(mob.getType(), en);
 			Utilize(args, mob, en, p);
+			}catch(ClassCastException ex){
+			}
 		}
 		
 	
@@ -247,6 +255,21 @@ public class CmdSpawnmob{
 		Utilize((r.getFinalArg(args, 1)), mob, en, p);
 	}
 	static void Utilize(String args, MobType mob, LivingEntity en, Player p){
+		//TODO
+		for(String str : args.split("[: ]")){
+			MobData d = MobData.fromData(en, str);
+			if(d != null){
+				try {
+					d.setData(en, p, str);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}
+		
+		
+		/*
 		for(String str : args.split("[: ]")){
 			horse(mob.getType(), en, str);
 			if(str.equalsIgnoreCase("baby")){
@@ -430,6 +453,7 @@ public class CmdSpawnmob{
 			}
 			
 		}
+		*/
 	}
 	static boolean isHorseColor(String str){
 		for(Color color : Color.values()){

@@ -164,7 +164,7 @@ public class UltimateUpdater {
         this.type = type;
         this.announce = announce;
         this.file = file;
-        //this.id = id;
+
         this.updateFolder = plugin.getServer().getUpdateFolder();
 
         final File pluginFile = plugin.getDataFolder().getParentFile();
@@ -489,6 +489,7 @@ public class UltimateUpdater {
         return true;
     }
     public static String getLatestUpdate(){
+    	if(thread != null && thread.isAlive()) return "";
     	String versionName = getLatestName();
     	if(versionName == null || versionName.equalsIgnoreCase("")) return "";
     	final String remoteVersion = versionName.split(delimiter)[1].split(" ")[0]; 

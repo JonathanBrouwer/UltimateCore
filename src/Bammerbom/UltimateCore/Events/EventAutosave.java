@@ -1,6 +1,7 @@
 package Bammerbom.UltimateCore.Events;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -28,6 +29,13 @@ public class EventAutosave{
 							Bukkit.broadcastMessage(r.mes("Save.Start"));
 							for(World w : Bukkit.getWorlds()){
 								w.save();
+								for(Chunk chunk : w.getLoadedChunks()){
+									try{
+									chunk.unload(true, true);
+									}catch(Exception ex){
+										return;
+									}
+								}
 							}
 							UltimateCore.getSQLdatabase().save();
 							Bukkit.broadcastMessage(r.mes("Save.Done"));

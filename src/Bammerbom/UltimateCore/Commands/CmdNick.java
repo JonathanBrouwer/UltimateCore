@@ -7,10 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateFileLoader;
@@ -23,57 +20,63 @@ public class CmdNick implements Listener{
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
-		enable();
 	}
 	public static void handle(CommandSender sender, String[] args){
-		if(!r.isPlayer(sender)){
-			return;
-		}
 		if(!r.perm(sender, "uc.nick", false, true)){
 			return;
 		}
-		Player p = (Player) sender;
 		if(!r.checkArgs(args, 0)){
-			p.sendMessage(r.mes("Nick.Usage"));
+			sender.sendMessage(r.mes("Nick.Usage"));
 			return;
 		}
+		Boolean o = false;
 		if(r.checkArgs(args, 0) && args[0].equalsIgnoreCase("off")){
-			p.sendMessage(r.mes("Nick.Message").replaceAll("%Name", "off"));
-			p.setCustomName(null);
-			p.setCustomNameVisible(false);
-			YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+			Player t;
+			if(r.checkArgs(args, 1)){
+				o = true;
+				t = Bukkit.getPlayer(args[1]);
+				if(t == null){ sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1])); return; }
+			}else{
+				if(!r.isPlayer(sender)) return;
+				t = (Player) sender;
+			}
+			if(o && !r.perm(sender, "uc.nick.others", false, true)) return;
+			sender.sendMessage(r.mes("Nick.Message").replaceAll("%Name", "off").replaceAll("%Player", t.getName()));
+			if(o) t.sendMessage(r.mes("Nick.MessageOthers").replaceAll("%Player", sender.getName()).replaceAll("%Name", "off"));
+			YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
 			data.set("nick", null);
 			try {
-				data.save(UltimateFileLoader.getPlayerFile(p));
+				data.save(UltimateFileLoader.getPlayerFile(t));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			return;
 		}
-		String name = ChatColor.translateAlternateColorCodes('&', args[0]);
-		p.setCustomName(name);
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		Player t;
+		if(r.checkArgs(args, 1)){
+			o = true;
+			t = Bukkit.getPlayer(args[1]);
+			if(t == null){ sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1])); return; }
+		}else{
+			if(!r.isPlayer(sender)) return;
+			t = (Player) sender;
+		}
+		if(o && !r.perm(sender, "uc.nick.others", false, true)) return;
+		String name = args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", "");
+		if(r.perm(sender, "uc.nick.colors", false, false)) name = ChatColor.translateAlternateColorCodes('&', name);
+		if(!ChatColor.stripColor(name.replaceAll(" ", "").replaceAll("§", "").replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "")).equalsIgnoreCase("")){
+			sender.sendMessage(r.mes("Nick.NonAlpha"));
+			return;
+		}
+		name = ChatColor.translateAlternateColorCodes('&', args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", ""));
+		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
 		data.set("nick", name);
 		try {
-			data.save(UltimateFileLoader.getPlayerFile(p));
+			data.save(UltimateFileLoader.getPlayerFile(t));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		p.sendMessage(r.mes("Nick.Message").replaceAll("%Name", name));
-	}
-	public static void enable(){
-		for(Player p : Bukkit.getOnlinePlayers()){
-			YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
-			String nick = data.getString("nick");
-			if(nick == null) nick = p.getName();
-			p.setCustomName(nick);
-		}
-	}
-	@EventHandler(priority = EventPriority.LOW)
-	public void join(PlayerJoinEvent e){
-		Player p = e.getPlayer();
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
-		String nick = data.getString("nick");
-		if(nick == null) nick = p.getName();
-		p.setCustomName(nick);
+		sender.sendMessage(r.mes("Nick.Message").replaceAll("%Name", name).replaceAll("%Player", t.getName()));
+		if(o) t.sendMessage(r.mes("Nick.MessageOthers").replaceAll("%Player", sender.getName()).replaceAll("%Name", name));
 	}
 }

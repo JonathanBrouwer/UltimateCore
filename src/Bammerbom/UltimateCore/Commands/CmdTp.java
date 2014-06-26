@@ -27,6 +27,8 @@ import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateCommands;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
+import Bammerbom.UltimateCore.API.UCplayer;
 
 public class CmdTp implements Listener{
 	static Plugin plugin;
@@ -37,17 +39,83 @@ public class CmdTp implements Listener{
 		}
 	}
 	public static Map <String, String> tp = new HashMap <String, String>();
+	public static Map <String, String> tph = new HashMap <String, String>();
 	public static ArrayList<String> oi = new ArrayList<String>();
 	public static void handle(CommandSender sender, String label, String[] args){
-		if(label.equalsIgnoreCase("tpaccept")){
+		if(label.equalsIgnoreCase("tptoggle")){
+			tptoggle(sender);
+			return;
+		}
+		if(label.equalsIgnoreCase("tpaccept") || label.equalsIgnoreCase("tpyes")){
 			if(!r.isPlayer(sender)){
 				return;
 			}
-			if(!r.perm(sender, "uc.tp", false, false) && !r.perm(sender, "uc.tpa", true, false)){
+			if(!r.perm(sender, "uc.tpaccept", true, false)){
 				sender.sendMessage(r.mes("NoPermissions"));
 				return;
 			}
 			tpaccept(sender);
+			return;
+		}
+		if(label.equalsIgnoreCase("tpdeny") || label.equalsIgnoreCase("tpno")){
+			if(!r.isPlayer(sender)){
+				return;
+			}
+			if(!r.perm(sender, "uc.tpdeny", true, false)){
+				sender.sendMessage(r.mes("NoPermissions"));
+				return;
+			}
+			tpdeny(sender);
+			return;
+		}
+		if(label.equalsIgnoreCase("tpaall")){
+			if(!r.perm(sender, "uc.tpaall", true, true)) return;
+			if(!r.isPlayer(sender)) return;
+			final Player p = (Player) sender;
+			p.sendMessage(r.mes("Tp.Tpa.Send").replaceAll("%Player", "everyone"));
+			for(final Player t : Bukkit.getOnlinePlayers()){
+				if(UC.getPlayer(t).hasTeleportEnabled()){
+			tph.put(t.getName(), p.getName());
+			t.sendMessage(r.mes("Tp.Tpa.TpaTarget1_HERE").replaceAll("%Player", p.getName()));
+			t.sendMessage(r.mes("Tp.Tpa.TpaTarget2").replaceAll("%Player", p.getName()));
+			t.sendMessage(r.mes("Tp.Tpa.TpaTarget3").replaceAll("%Player", p.getName()));
+			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, 
+					new Runnable(){
+						public void run() {
+							tph.remove(p.getName());
+							tph.remove(t.getName());
+							
+						}}, plugin.getConfig().getInt("Tp.TpaCancelDelay") * 20L);
+			}
+			}
+			return;
+		}
+		if(label.equalsIgnoreCase("tpahere")){
+			if(!r.isPlayer(sender)) return;
+			if(!r.perm(sender, "uc.tpahere", true, true)) return;
+			if(!r.checkArgs(args, 0)){
+				sender.sendMessage(r.default1 + "/tpahere " + r.default2 + "<Player>");
+				return;
+			}
+			final Player p = (Player) sender;
+			final Player t = Bukkit.getPlayer(args[0]);
+			if(t == null){ p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0])); return; }
+			if(UC.getPlayer(t).hasTeleportEnabled() == false && !r.perm(sender, "uc.tptoggle.override", false, false)){
+				p.sendMessage(r.default1 + "This player has teleportation Disabled!");
+				return;
+			}
+			p.sendMessage(r.mes("Tp.Tpa.Send").replaceAll("%Player", t.getName()));
+			tph.put(t.getName(), p.getName());
+			t.sendMessage(r.mes("Tp.Tpa.TpaTarget1_HERE").replaceAll("%Player", p.getName()));
+			t.sendMessage(r.mes("Tp.Tpa.TpaTarget2").replaceAll("%Player", p.getName()));
+			t.sendMessage(r.mes("Tp.Tpa.TpaTarget3").replaceAll("%Player", p.getName()));
+			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, 
+					new Runnable(){
+						public void run() {
+							tph.remove(p.getName());
+							tph.remove(t.getName());
+							
+						}}, plugin.getConfig().getInt("Tp.TpaCancelDelay") * 20L);
 			return;
 		}
 		if(r.checkArgs(args, 0) == false){
@@ -109,11 +177,19 @@ public class CmdTp implements Listener{
 				tpa((Player) sender, tg);
 				return;
 			}
+			if(!label.equalsIgnoreCase("tp")){
+				sender.sendMessage(r.error + "Error. Teleport command not registered.");
+				return;
+			}
 			if(r.checkArgs(args, 1) == false){
 				if(!r.isPlayer(sender)){
 					return;
 				}
 				Player p = (Player) sender;
+				if(UC.getPlayer(tg).hasTeleportEnabled() == false && !r.perm(sender, "uc.tptoggle.override", false, false)){
+					p.sendMessage(r.default1 + "This player has teleportation Disabled!");
+					return;
+				}
 				p.teleport(tg);
 				playEffect(p, tg.getLocation());
 				sender
@@ -123,6 +199,14 @@ public class CmdTp implements Listener{
 				if(p == null){
 					sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1]));
 				}else{
+					if(UC.getPlayer(tg).hasTeleportEnabled() == false && !r.perm(sender, "uc.tptoggle.override", false, false)){
+						p.sendMessage(r.default1 + "The player " + tg.getName() + " has teleportation Disabled!");
+						return;
+					}
+					if(UC.getPlayer(p).hasTeleportEnabled() == false && !r.perm(sender, "uc.tptoggle.override", false, false)){
+						p.sendMessage(r.default1 + "The player " + p.getName() + " has teleportation Disabled!");
+						return;
+					}
 					tg.teleport(p);
 					playEffect(p, p.getLocation());
 					sender.sendMessage(r.mes("Tp.Tp2").replaceAll("%Player1", tg.getName()).replaceAll("%Player2", p.getName()));
@@ -137,6 +221,10 @@ public class CmdTp implements Listener{
 		Player pl = p;
 		if(Bukkit.getPlayer(args[0]) != null){
 			pl = Bukkit.getPlayer(args[0]);
+			if(UC.getPlayer(pl).hasTeleportEnabled() == false && !r.perm(p, "uc.tptoggle.override", false, false)){
+				p.sendMessage(r.default1 + "This player has teleportation Disabled!");
+				return;
+			}
 		}
 		try{
 			if(ip){
@@ -178,6 +266,10 @@ public class CmdTp implements Listener{
 		if(p == null){
 			return;
 		}
+		if(Bukkit.getOnlinePlayers().length > 64){
+			p.sendMessage(r.default1 + "Too much players online to display, use /tp(a) <Player>");
+			return;
+		}
 		Integer size = 9;
 		while(Bukkit.getOnlinePlayers().length > size){
 			size = size + 9;
@@ -188,7 +280,7 @@ public class CmdTp implements Listener{
 			ItemStack item = new ItemStack(Material.SKULL_ITEM);
 			item.setDurability(Short.parseShort("3")); 
 			ItemMeta meta = item.getItemMeta();
-			meta.setDisplayName(r.mes(r.default1 + pl.getName()));
+			meta.setDisplayName(r.default1 + pl.getName());
 			item.setItemMeta(meta);
 			inv.addItem(item);
 			}
@@ -202,22 +294,53 @@ public class CmdTp implements Listener{
 		oi.add(p.getName());
 		p.openInventory(inv);
 	}
+	
 	public static void tpa(final Player p, final Player t){
+		if(UC.getPlayer(t).hasTeleportEnabled() == false && !r.perm(p, "uc.tptoggle.override", false, false)){
+			p.sendMessage(r.default1 + "This player has teleportation Disabled!");
+			return;
+		}
 		p.sendMessage(r.mes("Tp.Tpa.Send").replaceAll("%Player", t.getName()));
 		tp.put(t.getName(), p.getName());
+		if(tph.containsKey(t.getName())){
+			tph.remove(t.getName());
+		}
+		ArrayList<String> remove = new ArrayList<String>();
+		for(String s : tph.keySet()){
+			if(tph.get(s).equals(t.getName())){
+				remove.add(s);
+			}
+		}
+		for(String str : remove) tph.remove(str);
 		t.sendMessage(r.mes("Tp.Tpa.TpaTarget1").replaceAll("%Player", p.getName()));
 		t.sendMessage(r.mes("Tp.Tpa.TpaTarget2").replaceAll("%Player", p.getName()));
 		t.sendMessage(r.mes("Tp.Tpa.TpaTarget3").replaceAll("%Player", p.getName()));
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, 
 				new Runnable(){
 					public void run() {
-						tp.remove(p);
-						tp.remove(t);
+						tp.remove(p.getName());
+						tp.remove(t.getName());
 						
 					}}, plugin.getConfig().getInt("Tp.TpaCancelDelay") * 20L);
 	}
 	public static void tpaccept(CommandSender player) {
 		Player p = (Player)player;
+		if(tph.containsKey(p.getName())){
+			Player t = Bukkit.getPlayer(tph.get(p.getName()));
+			if(t == null) {
+				p.sendMessage(r.mes("Tp.Tpa.NoRequests"));
+			}else{
+				p.teleport(t);
+				playEffect(t, p.getLocation());
+				p.sendMessage(r.mes("Tp.Tpa.AcceptTarget"));
+				t.sendMessage(r.mes("Tp.Tpa.AcceptSender").replaceAll("%Player", p.getName()));
+				tph.remove(p.getName());
+				tph.remove(t.getName());
+			}
+
+			
+			return;
+		}
 		if(!tp.containsKey(p.getName())){p.sendMessage(r.mes("Tp.Tpa.NoRequests")); return; }
 		Player t = Bukkit.getPlayer(tp.get(p.getName()));
 		if(tp.containsKey(p.getName())){
@@ -227,9 +350,40 @@ public class CmdTp implements Listener{
 				t.teleport(p);
 				playEffect(t, p.getLocation());
 				p.sendMessage(r.mes("Tp.Tpa.AcceptTarget"));
-				t.sendMessage(r.mes("Tp.Tpa.AcceptSender"));
-				tp.remove(p);
-				tp.remove(t);
+				t.sendMessage(r.mes("Tp.Tpa.AcceptSender").replaceAll("%Player", p.getName()));
+				tp.remove(p.getName());
+				tp.remove(t.getName());
+			}
+		}else{
+			p.sendMessage(r.mes("Tp.Tpa.NoRequests"));
+	    }
+	
+    }
+	public static void tptoggle(CommandSender sender){
+		if(!r.isPlayer(sender)) return;
+		if(!r.perm(sender, "uc.tptoggle", true, true)) return;
+	    Player p = (Player) sender;
+	    UCplayer up = UC.getPlayer(p);
+	    if(up.hasTeleportEnabled()){
+	    	up.setTeleportEnabled(false);
+	    	sender.sendMessage(r.default1 + "Teleportation is now " + r.default2 + "Disabled");
+	    }else{
+	    	up.setTeleportEnabled(true);
+	    	sender.sendMessage(r.default1 + "Teleportation is now " + r.default2 + "Enabled");
+	    }
+	}
+	public static void tpdeny(CommandSender player) {
+		Player p = (Player)player;
+		if(!tp.containsKey(p.getName())){p.sendMessage(r.mes("Tp.Tpa.NoRequests")); return; }
+		Player t = Bukkit.getPlayer(tp.get(p.getName()));
+		if(tp.containsKey(p.getName())){
+			if(t == null) {
+				p.sendMessage(r.mes("Tp.Tpa.NoRequests"));
+			}else{
+				tp.remove(p.getName());
+				tp.remove(t.getName());
+				p.sendMessage(r.mes("Tp.Tpa.DenySender"));
+				t.sendMessage(r.mes("Tp.Tpa.DenyTarget").replaceAll("%Player", p.getName()));
 			}
 		}else{
 			p.sendMessage(r.mes("Tp.Tpa.NoRequests"));

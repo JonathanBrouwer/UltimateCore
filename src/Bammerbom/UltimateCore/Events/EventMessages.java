@@ -1,7 +1,14 @@
 package Bammerbom.UltimateCore.Events;
 
+import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,36 +24,58 @@ import Bammerbom.UltimateCore.Resources.BossBar;
 
 public class EventMessages implements Listener{
 	static Plugin plugin;
+	static ArrayList<String> messages = new ArrayList<String>();
 	public EventMessages(Plugin instance){
 		plugin = instance;
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
-		show();
-	}
-	public static void setCurrentMessage(String msg){ currentmessage = msg; }
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onJoin(PlayerJoinEvent e){
-		if(plugin.getConfig().get("messages.list") == null){ return; }
-		List<String> messgs = plugin.getConfig().getStringList("messages.list");
-		Integer length = messgs.size();
-		if(length == 0){ return; }
-		if(length == 1){
-			if(plugin.getConfig().getBoolean("messages.enabledbossbar") == true){
-			BossBar.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0)), 100F);
-			currentmessage = ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0));
-			}
-			if(plugin.getConfig().getBoolean("messages.enabledchat") == true){
-				e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0)));
-			}
-		}else{
-			if(plugin.getConfig().getBoolean("messages.enabledbossbar") == true){
-			BossBar.setMessage(e.getPlayer(), ChatColor.AQUA + "Welcome on this server!");
-			currentmessage = ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0));
-			}
+		//
+		ArrayList<String> lines = new ArrayList<String>();
+		try{
+			File file = new File(plugin.getDataFolder(), "messages.txt");
+		if(!file.exists()) plugin.saveResource("messages.txt", true);
+	    Path path = Paths.get(file.getAbsolutePath());
+	    Charset ENCODING = StandardCharsets.UTF_8;
+			    try (Scanner scanner =  new Scanner(path, ENCODING.name())){
+			      while (scanner.hasNextLine()){
+			    	  lines.add(scanner.nextLine().replaceAll("\\\\n", "\n").replaceAll("\\n", "\n"));
+			      }      
+			    }
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
+		messages = lines;
+		//
+		if(r.getCnfg().contains("messages.decrease")){
+			decrease = r.getCnfg().getBoolean("messages.decrease");
+		}
+		show();
+		startt(); //TODO
+	}
+	//public static void setCurrentMessage(String msg){ currentmessage = msg; }
+	@EventHandler(priority = EventPriority.LOW)
+	public void onJoin(final PlayerJoinEvent e){
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+			public void run(){
+				ArrayList<String> messgs = messages;
+				Integer length = messgs.size();
+				if(length == 0){ return; }
+				if(length == 1){
+					if(plugin.getConfig().getBoolean("messages.enabledbossbar") == true){
+					BossBar.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage), 100F);
+					}
+				}else{
+					if(plugin.getConfig().getBoolean("messages.enabledbossbar") == true){
+					BossBar.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage));
+					}
+				}
+			}
+		}, 100L);
 	}
 	static String currentmessage = "";
+	static Integer currentID = -1;
+	static Boolean decrease = true;
 	public static void startt(){
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 			@Override
@@ -59,14 +88,28 @@ public class EventMessages implements Listener{
 	}
 	public static void timer(final List<String> messgs){
 		final Integer time = plugin.getConfig().getInt("messages.time");
+		final Boolean ur = r.getCnfg().contains("messages.randomise") ? r.getCnfg().getBoolean("messages.randomise") : true;
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
-		@Override
-		public void run() {
 			Random random = new Random();
-			String mess = messgs.get(random.nextInt(messgs.size()));
+			@Override
+		public void run() {
+			String mess = ur ? messgs.get(random.nextInt(messgs.size())) : "";
+			if(!ur){
+				currentID++;
+				if((messgs.size() - 1) < currentID){
+					mess = messgs.get(0);
+					currentID = 0;
+				}else{
+					mess = messgs.get(currentID);
+				}
+			}
 			for(Player p : Bukkit.getOnlinePlayers()){
 				if(plugin.getConfig().getBoolean("messages.enabledbossbar") == true){
-					BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1  + mess), time);
+					if(decrease){
+						BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1  + mess), time);
+					}else{
+						BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1  + mess));
+					}
 					currentmessage = ChatColor.translateAlternateColorCodes('&', r.default1  + mess);
 				}
 				if(plugin.getConfig().getBoolean("messages.enabledchat") == true){
@@ -74,21 +117,19 @@ public class EventMessages implements Listener{
 				}
 				
 			}
-		}}, time * 20, time * 20);
+		}}, 0, time * 20);
 	}
 	public static void show(){
 		if(plugin.getConfig().getBoolean("messages.enabledchat") == false && plugin.getConfig().getBoolean("messages.enabledbossbar") == false){ return; }
-		if(plugin.getConfig().get("messages.list") == null){ return; }
-		List<String> messgs = plugin.getConfig().getStringList("messages.list");
+		ArrayList<String> messgs = messages;
 		Integer length = messgs.size();
 		if(length == 0){ return; }
-		//startt();
 		if(length == 1){
 			for(Player p : Bukkit.getOnlinePlayers()){
 				if(plugin.getConfig().getBoolean("messages.enabledbossbar") == true){
 					BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0)), 100F);
 					currentmessage = ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0));
-					}
+				}
 					if(plugin.getConfig().getBoolean("messages.enabledchat") == true){
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0)));
 					}

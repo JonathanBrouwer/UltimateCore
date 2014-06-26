@@ -98,7 +98,7 @@ public class CmdHome{
 			return;
 		}
 		if(r.checkArgs(args, 0) == false){
-			sender.sendMessage(r.mes("Usage"));
+			sender.sendMessage(r.mes("Home.Usage"));
 		}else{
 			
 			List<String> homes = UltimateFileLoader.getPlayerConfig(p).getStringList("homeslist");
@@ -124,7 +124,7 @@ public class CmdHome{
 	}
 	public static void delHome(CommandSender sender, String label, String[] args){
 		if(r.checkArgs(args, 0) == false){
-			sender.sendMessage(r.mes("Usage2"));
+			sender.sendMessage(r.mes("Home.Usage2"));
 		}else{
 			if(!(r.isPlayer(sender))){
 				return;

@@ -53,12 +53,12 @@ public class CmdPlugin{
 				if(!r.perm(sender, "uc.plugin", false, false) && !r.perm(sender, "uc.plugin.reload", false, false)){ sender.sendMessage(r.mes("Nor.permissions"));return; }
 				message = PluginUtil.reload(Bukkit.getPluginManager().getPlugin(args[1]));
 			}else{
-				sender.sendMessage(r.default1 + "/plugin " + r.default2 + "info [Plugin] " + r.default1 + "- Info about plugin");
-				sender.sendMessage(r.default1 + "/plugin " + r.default2 + "enable [Plugin] " + r.default1 + "- Enable plugin");
-				sender.sendMessage(r.default1 + "/plugin " + r.default2 + "disable [Plugin] " + r.default1 + "- Disable plugin");
-				sender.sendMessage(r.default1 + "/plugin " + r.default2 + "load [Plugin] " + r.default1 + "- Load plugin");
-				sender.sendMessage(r.default1 + "/plugin " + r.default2 + "unload [Plugin] " + r.default1 + "- Unload plugin");
-				sender.sendMessage(r.default1 + "/plugin " + r.default2 + "reload [Plugin] " + r.default1 + "- Disable and Enable plugin");
+				sender.sendMessage(r.mes("Plugin.UsageInfo"));
+				sender.sendMessage(r.mes("Plugin.UsageEnable"));
+				sender.sendMessage(r.mes("Plugin.UsageDisable"));
+				sender.sendMessage(r.mes("Plugin.UsageLoad"));
+				sender.sendMessage(r.mes("Plugin.UsageUnload"));
+				sender.sendMessage(r.mes("Plugin.UsageReload"));
 			}
 			if(message != null){
 				sender.sendMessage(r.mes(message).replaceAll("%Plugin", args[1]));
@@ -68,12 +68,12 @@ public class CmdPlugin{
 				}
 			}
 		}else{
-			sender.sendMessage(r.default1 + "/plugin " + r.default2 + "info [Plugin] " + r.default1 + "- Info about plugin");
-			sender.sendMessage(r.default1 + "/plugin " + r.default2 + "enable [Plugin] " + r.default1 + "- Enable plugin");
-			sender.sendMessage(r.default1 + "/plugin " + r.default2 + "disable [Plugin] " + r.default1 + "- Disable plugin");
-			sender.sendMessage(r.default1 + "/plugin " + r.default2 + "load [Plugin] " + r.default1 + "- Load plugin");
-			sender.sendMessage(r.default1 + "/plugin " + r.default2 + "unload [Plugin] " + r.default1 + "- Unload plugin");
-			sender.sendMessage(r.default1 + "/plugin " + r.default2 + "reload [Plugin] " + r.default1 + "- Disable and Enable plugin");
+			sender.sendMessage(r.mes("Plugin.UsageInfo"));
+			sender.sendMessage(r.mes("Plugin.UsageEnable"));
+			sender.sendMessage(r.mes("Plugin.UsageDisable"));
+			sender.sendMessage(r.mes("Plugin.UsageLoad"));
+			sender.sendMessage(r.mes("Plugin.UsageUnload"));
+			sender.sendMessage(r.mes("Plugin.UsageReload"));
 		}
 		
 	}

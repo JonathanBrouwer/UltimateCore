@@ -59,7 +59,7 @@ public class CmdGTool implements Listener{
 		plugin = instance;
 		if(!r.getCnfg().contains("gtool") || r.getCnfg().getBoolean("gtool")){
 		if(this instanceof Listener){
-			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
+			//Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
 		}
 	}
@@ -116,6 +116,7 @@ public class CmdGTool implements Listener{
 			});
 			e.setCancelled(true);
 			locked = true;
+			thr.setName("UltimateCore: GTool thread.");
 			thr.run();
 		}
 	}
@@ -235,7 +236,11 @@ public class CmdGTool implements Listener{
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onSpread(BlockSpreadEvent e){
 		if(!e.isCancelled()){
+			try{
 		UltimateCore.getSQLdatabase().add("World", Calendar.getInstance().getTime(), e.getBlock().getLocation(), BlockAction.SPREAD, e.getNewState().getBlock().getType().name() + ":" + e.getNewState().getBlock().getData(), "");
+			}catch(Exception ex){
+				return;
+			}
 		}
 		
 	}

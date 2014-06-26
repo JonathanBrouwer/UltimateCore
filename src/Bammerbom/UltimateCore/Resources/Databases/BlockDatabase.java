@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class BlockDatabase {
 		plugin = instance;
 	}
 	public void disable(){
+		save();
 	}
 	public void enable(){
 	    try {
@@ -56,6 +58,33 @@ public class BlockDatabase {
 		      System.err.println( e.getClass().getName() + ": " + e.getMessage());
 		      e.printStackTrace();
 		    }
+	    Thread t = new Thread(
+	    new Runnable(){
+			@Override
+			public void run() {
+		    	Connection c = null;
+			    try{
+				      Class.forName("org.sqlite.JDBC");
+				      c = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().getAbsolutePath() + "/Data/BlockDatabase.db");
+			    	if(c == null){ return; }
+				      String execute = "DELETE FROM BLOCKDATA WHERE TIME <= date('now', '-1 month')";
+			    	Statement s = c.createStatement();
+			    	s.executeUpdate(execute);
+			    	
+			    	
+		    }catch( Exception e) {
+		    	e.printStackTrace();
+		    }finally{
+		    	if(c != null)
+					try {
+						c.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+		    }
+			}
+	    });
+	    t.start();
 	}
 	ArrayList<SQLset> unsavedsets = new ArrayList<SQLset>();
 	public void add(String playerid, Date date, Location loc, BlockAction action, String special, String special2){

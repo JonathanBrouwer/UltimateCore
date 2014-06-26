@@ -39,7 +39,9 @@ public class CmdSpawn{
 	        	p.teleport(location);
 	        }
 	    }else{
-	    	sender.sendMessage(r.mes("Set.SpawnNotSet"));
+	    	if(!r.isPlayer(sender)) return;
+	    	Player p = (Player) sender;
+	    	p.teleport(p.getWorld().getSpawnLocation());
 	    	return;
 	    }
 	}

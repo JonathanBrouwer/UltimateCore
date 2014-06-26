@@ -1,7 +1,5 @@
 package Bammerbom.UltimateCore.Resources.Utils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -19,25 +17,12 @@ public class SettingsUtil {
 	Plugin plugin;
 	public SettingsUtil(Plugin instance){
 		plugin = instance;
-		new Listeners(instance);
+		//new Listeners(instance);
 	}
 	public static HashMap<UUID, PSettings> settings = new HashMap<UUID, PSettings>();
     public static String getLanguage(Player p){
-        
-    	try {
-
-    		//
-        Object obj = getMethod("getHandle", p.getClass()).invoke(p, (Object[]) null);
-        Field f = obj.getClass().getDeclaredField("locale");
-        f.setAccessible(true);
-        String language = (String) f.get(obj);
-        //
-      
-        return language;
-        } catch (Exception e) {
-            return "en_en";
-          }
-        }
+    	return settings.containsKey(p.getUniqueId()) ? settings.get(p.getUniqueId()).locale : null;
+    }
     @Deprecated
     public static Difficulty getDifficulty(Player p){
     	try {
@@ -47,18 +32,15 @@ public class SettingsUtil {
               }
     	return null;
     }
-    private static Method getMethod(String n, Class<?> c) {
-    for (Method m : c.getDeclaredMethods()) {
-    if (m.getName().equals(n))
-    return m;
-    }
-    return null;
-    }
-    //
+    
     
 }
 class PSettings{
-
+	public String locale;
+	public Integer renderdistance;
+	public String chatvisibility;
+	public Boolean showcolors;
+	public Boolean showcapes;
 		
 }
 class Listeners{

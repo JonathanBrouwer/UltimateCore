@@ -13,6 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.API.UC;
+
 public class EventBleed implements Listener{
 	
 	static Plugin plugin;
@@ -32,6 +34,7 @@ public class EventBleed implements Listener{
 		if(e.getEntity() instanceof Player || plugin.getConfig().getBoolean("Bleed.PlayersOnly") == false){
 			if(e.getEntity() instanceof Player){
 				final Player p = (Player) e.getEntity();
+				if(UC.getPlayer(p).isGod()) return;
 				if(inCoolDown.contains(p.getName())) return;
 				inCoolDown.add(p.getName());
 				Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){

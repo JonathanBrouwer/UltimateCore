@@ -110,6 +110,7 @@ public class ItemDatabase {
 		    stmt = c.createStatement();
 		    String sql = "SELECT * FROM ITEMDATA WHERE " + search;
 		    ResultSet set = stmt.executeQuery(sql);
+		    //if(set.isClosed()) return null;
 		    id = set.getString("ID");
 		    if(dura == null || dura.equalsIgnoreCase("")){
 		    dura = set.getString("DURA");
@@ -128,6 +129,7 @@ public class ItemDatabase {
 	    return stack;
 	}
 	@SuppressWarnings("unused")
+	@Deprecated
 	private static void addKeys(){
 		try{
 		File file = new File(plugin.getDataFolder() + "/Data", "items.csv");

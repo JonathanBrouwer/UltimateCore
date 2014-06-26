@@ -7,6 +7,7 @@ import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateUpdater;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.Resources.Utils.PluginUtil;
 
 public class CmdUC{
 	static Plugin plugin;
@@ -29,9 +30,8 @@ public class CmdUC{
 			sender.sendMessage(r.default1 + "/uc version " + r.default2 + "> Get your, and the newest version of UltimateCore");
 		}else if(args[0].equalsIgnoreCase("reload")){
 			if(!r.perm(sender, "uc.menu.reload", false, true)) return;
-			Plugin core = plugin.getServer().getPluginManager().getPlugin(plugin.getName());
-			plugin.getServer().getPluginManager().disablePlugin(core);
-			plugin.getServer().getPluginManager().enablePlugin(core);
+			Plugin uc = plugin;
+			PluginUtil.reload(uc);
 			sender.sendMessage(r.default1 + "UltimateCore has been reloaded!");
 		}else if(args[0].equalsIgnoreCase("disable")){
 			if(!r.perm(sender, "uc.menu.disable", false, true)) return;

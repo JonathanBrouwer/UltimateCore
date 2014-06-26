@@ -24,7 +24,7 @@ public class EventSpawn implements Listener {
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
 	}
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onRespawn(final PlayerRespawnEvent e){
 		Location dl = e.getPlayer().getLocation();
 		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
@@ -48,7 +48,7 @@ public class EventSpawn implements Listener {
 	        	
 	        }, 1L);
 	        //Back
-	        if(r.perm(e.getPlayer(), "uc.back.death", true, true) == false){
+	        if(r.perm(e.getPlayer(), "uc.back.death", true, false) == false){
     			return;
     		}
 	        YamlConfiguration data2 = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));

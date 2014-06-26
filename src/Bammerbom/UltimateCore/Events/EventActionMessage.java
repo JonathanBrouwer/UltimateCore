@@ -1,7 +1,6 @@
 package Bammerbom.UltimateCore.Events;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -13,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class EventActionMessage implements Listener{
 	Plugin plugin;
@@ -26,15 +26,15 @@ public class EventActionMessage implements Listener{
 	@EventHandler(priority = EventPriority.LOW)
 	public void JoinMessage(PlayerJoinEvent e){
 		if(enb == true){
+			if(!e.getPlayer().hasPlayedBefore()){
+				Bukkit.broadcastMessage(r.mes("FirstJoin").replaceAll("%Player", e.getPlayer().getName()));
+				e.getPlayer().teleport(UC.getServer().getCustomSpawn() != null ? UC.getServer().getCustomSpawn() : e.getPlayer().getWorld().getSpawnLocation());
+			}
 			if(UltimateFileLoader.getPlayerConfig(e.getPlayer()).get("banned") != null && UltimateFileLoader.getPlayerConfig(e.getPlayer()).getBoolean("banned") == true ){
 				e.setJoinMessage(null);
 				return;
 			}
-			YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
-			String nick = data.getString("nick");
-			if(nick == null) nick = e.getPlayer().getName();
-			e.getPlayer().setDisplayName(nick);
-		e.setJoinMessage(r.mes("JoinMessage").replaceAll("%Player", e.getPlayer().getDisplayName()));
+		e.setJoinMessage(r.mes("JoinMessage").replaceAll("%Player", UC.getPlayer(e.getPlayer()).getNick()));
 		}else{
 			e.setJoinMessage(null);
 		}
@@ -46,7 +46,7 @@ public class EventActionMessage implements Listener{
 				e.setQuitMessage(null);
 				return;
 			}
-		    e.setQuitMessage(r.mes("LeaveMessage").replaceAll("%Player", e.getPlayer().getDisplayName()));
+		    e.setQuitMessage(r.mes("LeaveMessage").replaceAll("%Player", UC.getPlayer(e.getPlayer()).getNick()));
 		}else{
 			e.setQuitMessage(null);
 		}
@@ -54,7 +54,7 @@ public class EventActionMessage implements Listener{
 	@EventHandler(priority = EventPriority.LOW)
 	public void KickMessage(PlayerKickEvent e){
 		if(enb == true){
-		    e.setLeaveMessage(r.mes("LeaveMessage").replaceAll("%Player", e.getPlayer().getDisplayName()));
+		    e.setLeaveMessage(r.mes("LeaveMessage").replaceAll("%Player", UC.getPlayer(e.getPlayer()).getNick()));
 		}else{
 			e.setLeaveMessage(null);
 		}

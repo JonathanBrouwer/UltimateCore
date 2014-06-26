@@ -17,26 +17,21 @@ public class EventUnknownCommand implements Listener{
 		plugin.getServer().getPluginManager().registerEvents(this, loader);
 	}
 	public boolean isCmdRegistered(String cmd){
-		return Bukkit.getServer().getHelpMap().getHelpTopic(cmd) != null;
+		return Bukkit.getServer().getHelpMap().getHelpTopic((cmd.contains(":") ? "/" + cmd.split(":")[1] : cmd)) != null;
 	}
-			@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.LOWEST)
   public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
       String cmd = event.getMessage();
-      if(cmd == null || cmd.equalsIgnoreCase("/") || cmd.equalsIgnoreCase("")){
+      if(cmd == null || cmd.equalsIgnoreCase("")){
     	  event.getPlayer().sendMessage(r.mes("UnknownCommandMessage"));
     	  event.setCancelled(true);
           return;
-      }else{
-    	  if (!(cmd.charAt(0) == '/')) {
-        cmd = "/" + cmd;
       }
       cmd = cmd.split(" ")[0];
 
-      if (!isCmdRegistered(cmd)) {
+      if (!isCmdRegistered(cmd) || event.isCancelled()) {
     	  event.getPlayer().sendMessage(r.mes("UnknownCommandMessage"));
     	  event.setCancelled(true);
       }
-      }
   }
-
 }

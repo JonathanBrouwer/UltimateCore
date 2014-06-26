@@ -95,7 +95,7 @@ public class CmdWarp{
 			return;
 		}
 		if(r.checkArgs(args, 0) == false){
-			sender.sendMessage(r.mes(r.default1 + "/setwarp <Name>"));
+			sender.sendMessage(r.default1 + "/setwarp <Name>");
 		}else{
 			
 			List<String> warps = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFwarps).getStringList("warpslist");
@@ -121,7 +121,7 @@ public class CmdWarp{
 	}
 	public static void delWarp(CommandSender sender, String label, String[] args){
 		if(r.checkArgs(args, 0) == false){
-			sender.sendMessage(r.mes(r.default1 + "/delwarp <Name>"));
+			sender.sendMessage(r.default1 + "/delwarp <Name>");
 		}else{
 			if(r.perm(sender, "uc.delwarp", false, true) == false){
 				return;

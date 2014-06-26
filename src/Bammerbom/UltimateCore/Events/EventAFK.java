@@ -78,6 +78,9 @@ public class EventAFK implements Listener{
 			if(!afk.contains(sender.getName())){
 				Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", sender.getName()));
 				afk.add(sender.getName());
+			}else{
+				afk.remove(sender.getName());
+				Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", sender.getName()));
 			}
 		}else{
 			if(!r.perm(sender, "uc.afk.others", false, true)) return;
@@ -87,6 +90,9 @@ public class EventAFK implements Listener{
 				if(!afk.contains(t.getName())){
 					Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", t.getName()));
 					afk.add(t.getName());
+				}else{
+					afk.remove(t.getName());
+					Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", t.getName()));
 				}
 			}else{
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", target));
@@ -149,6 +155,7 @@ public class EventAFK implements Listener{
 	}
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void playerCommand(PlayerCommandPreprocessEvent e){
+		if(e.getMessage().equalsIgnoreCase("/afk") || e.getMessage().equalsIgnoreCase("afk")) return;
 		update(e);
 	}
 	@EventHandler

@@ -22,7 +22,7 @@ public class EventNoRespawnScreen implements Listener{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void ondeath(final PlayerDeathEvent e){
 		if(!r.getCnfg().getBoolean("AutoRespawn")) return;
-		if(!r.perm(e.getEntity(), "uc.fastrespawn", true, true)) return;
+		if(!r.perm(e.getEntity(), "uc.fastrespawn", true, false)) return;
 		//
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
 			@Override

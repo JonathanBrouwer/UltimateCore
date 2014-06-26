@@ -1,22 +1,20 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
-import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdFreeze implements Listener {
 	static Plugin plugin;
@@ -25,79 +23,44 @@ public class CmdFreeze implements Listener {
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
-		for(OfflinePlayer p : Bukkit.getOfflinePlayers()){
-			if(Freeze(p)){
-				frozen.add(p.getUniqueId().toString());
-			}
-		}
 	}
-	static ArrayList<String> frozen = new ArrayList<String>();
+	@SuppressWarnings("deprecation")
 	public static void handle(CommandSender sender, String[] args) {
-		if(!r.isPlayer(sender)){
-			return;
-		}
-		Player p = (Player)sender;
+		if(!r.perm(sender, "uc.freeze", false, true)) return;
 		if(r.checkArgs(args, 0) == true){
-			Player target = Bukkit.getPlayer(args[0]);
+			OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 	        if(target==null){
-	    	    p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
+	    	    sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 	        }
 	        else{
-				if(p.hasPermission("uc.antiban")){
-					sender.sendMessage(r.mes("AntiBan").replaceAll("%Player", p.getName()).replaceAll("%Action", "freeze"));
-					return;
-				}
-			        Freeze(target, true);
-			        p.sendMessage(r.mes("Freeze.Freezed").replaceAll("%Player", target.getName()));
+			        UC.getPlayer(target).setFrozen(true);
+			        sender.sendMessage(r.mes("Freeze.Freezed").replaceAll("%Player", target.getName()));
 	        }
 	    }
 	    else{
-	    	p.sendMessage(r.mes("Freeze.Usage"));
+	    	sender.sendMessage(r.mes("Freeze.Usage"));
 	    }
 	}
+	@SuppressWarnings("deprecation")
 	public static void unfreeze(CommandSender sender, String[] args){
-		if(!r.isPlayer(sender)){
-			return;
-		}
-		Player p = (Player)sender;
+		if(!r.perm(sender, "uc.unfreeze", false, true)) return;
 		if(r.checkArgs(args, 0) == true){
-			Player target = Bukkit.getPlayer(args[0]);
+			OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 	        if(target==null){
-	    	    p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
+	    	    sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 	        }
 	        else{
-			        Freeze(target, false);
-			        p.sendMessage(r.mes("Freeze.Unfreezed").replaceAll("%Player", target.getName()));
+			        UC.getPlayer(target).setFrozen(false);
+			        sender.sendMessage(r.mes("Freeze.Unfreezed").replaceAll("%Player", target.getName()));
 	        }
 	    }
 	    else{
-	    	p.sendMessage(r.mes("Freeze.Usage2"));
+	    	sender.sendMessage(r.mes("Freeze.Usage2"));
 	    }
-	}
-	public static boolean Freeze(OfflinePlayer p){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
-		if(data.get("freeze") == null){
-			return false;
-		}
-		return data.getBoolean("freeze");
-	}
-	public static void Freeze(OfflinePlayer p, Boolean set){
-		if(set){
-			frozen.add(p.getUniqueId().toString());
-		}else{
-			frozen.remove(p.getUniqueId().toString());
-		}
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
-		data.set("freeze", set);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(p));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onMove(PlayerMoveEvent e){
-		if(frozen.contains(e.getPlayer().getUniqueId().toString()) && Freeze(e.getPlayer()) ){
+		if(UC.getPlayer(e.getPlayer()).isFrozen()){
 			/*if(
 					e.getFrom().getBlockX() == e.getTo().getBlockX() &&
 					e.getFrom().getBlockY() == e.getTo().getBlockY() &&
@@ -116,6 +79,33 @@ public class CmdFreeze implements Listener {
 				e.getPlayer().setPassenger(null);
 			}*/
 		}
+	}
+	@EventHandler
+	public void interact(PlayerInteractEvent e){
+		if(UC.getPlayer(e.getPlayer()).isFrozen()){
+			e.setCancelled(true);
+		}
+	}
+	@EventHandler
+	public void pMove(PlayerTeleportEvent e){
+		if(UC.getPlayer(e.getPlayer()).isFrozen()){
+			if(e.getCause().equals(TeleportCause.COMMAND)){
+			e.setCancelled(true);
+			}
+		}
+	}
+	public static void freezes(CommandSender sender, String[] args){
+		if(!r.perm(sender, "uc.freezelist", false, true)) return;
+		StringBuilder mutes = new StringBuilder();
+		Integer i = 0;
+		for(OfflinePlayer pl : Bukkit.getOfflinePlayers()){
+			if(UC.getPlayer(pl).isFrozen()){
+				if(!mutes.toString().equalsIgnoreCase(""))mutes.append(", ");
+				mutes.append(pl.getName());
+				i++;
+			}
+		}
+		sender.sendMessage(r.mes("Freeze.List").replaceAll("%Amount", i + "").replaceAll("%Frozen", mutes.toString()));
 	}
 	
 }
