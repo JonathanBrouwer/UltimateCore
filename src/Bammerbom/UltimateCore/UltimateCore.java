@@ -110,6 +110,17 @@ public class UltimateCore extends JavaPlugin{
 		Long time = System.currentTimeMillis();
 		new r(this);
 		//r.log(ChatColor.GREEN + "Enabling Ultimate Core...");
+		//CHECK
+		String c = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
+		Integer v = Integer.parseInt(c.replaceAll("\\.", ""));
+		if(v < 176){
+			Bukkit.getConsoleSender().sendMessage(" ");
+			r.log(ChatColor.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+			r.log(ChatColor.YELLOW + "Warning! Version " + c + " of craftbukkit is not supported!");
+			r.log(ChatColor.YELLOW + "Use UltimateCore at your own risk!");
+			r.log(ChatColor.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+			Bukkit.getConsoleSender().sendMessage(" ");
+		}
 		//Register all classes
 	    new UltimateFileLoader(this);
 		UltimateFileLoader.Enable();
