@@ -34,7 +34,7 @@ public class CmdRepair implements Listener{
 		Boolean tb = false;
 		Player t = p;
 		if(r.checkArgs(args, 0) == true){
-			if(r.perm(sender, "uc.god.others", false, true) == false){
+			if(r.perm(sender, "uc.repair.others", false, true) == false){
 				return;
 			}
 			Player tl = Bukkit.getPlayer(args[0]);
@@ -45,7 +45,7 @@ public class CmdRepair implements Listener{
 			t = tl;
 			tb = true;
 		}else{
-			if(r.perm(sender, "uc.god", false, true) == false){
+			if(r.perm(sender, "uc.repair", false, true) == false){
 				return;
 			}
 		}

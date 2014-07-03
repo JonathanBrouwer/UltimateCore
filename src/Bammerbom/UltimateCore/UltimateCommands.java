@@ -146,6 +146,8 @@ public class UltimateCommands implements Listener{
 					 CmdJail.unJail(sender, label, args);
 				 }else if(label.equalsIgnoreCase("xp")){
 					 CmdXP.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("tempban")){
+					 CmdBan.ban(sender, args);
 				 }else if(label.equalsIgnoreCase("uptime")){
 					 CmdUptime.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("rules")){
@@ -492,9 +494,7 @@ public class UltimateCommands implements Listener{
 				for(String label : labels){
 					if(label.equalsIgnoreCase(uc.getLabel())){
 						overriddenList.put(uc, pc);
-						if(debug){
-						r.log(ChatColor.WHITE + "Command overridden: " + label + " (" + pc.getPlugin() + ")");
-						}
+						if(debug)r.log(ChatColor.WHITE + "Command overridden: " + label + " (" + pc.getPlugin() + ")");
 					}
 				}
 			}

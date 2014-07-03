@@ -137,10 +137,10 @@ public class EventChat implements Listener{
 				prefix = chat.getGroupPrefix(e.getPlayer().getWorld(), permission.getPrimaryGroup(e.getPlayer()));
 				suffix = chat.getGroupSuffix(e.getPlayer().getWorld(), permission.getPrimaryGroup(e.getPlayer()));
 			}
-			if((chat.getPlayerPrefix(e.getPlayer()) != null) && !chat.getPlayerPrefix(e.getPlayer()).equalsIgnoreCase("")){
+			if(chat != null && (chat.getPlayerPrefix(e.getPlayer()) != null) && !chat.getPlayerPrefix(e.getPlayer()).equalsIgnoreCase("")){
 				prefix = chat.getPlayerPrefix(e.getPlayer());
 			}
-			if((chat.getPlayerSuffix(e.getPlayer()) != null) && !chat.getPlayerSuffix(e.getPlayer()).equalsIgnoreCase("")){
+			if(chat != null && (chat.getPlayerSuffix(e.getPlayer()) != null) && !chat.getPlayerSuffix(e.getPlayer()).equalsIgnoreCase("")){
 				prefix = chat.getPlayerSuffix(e.getPlayer());
 			}
 			if(!f.contains("\\+Name")){

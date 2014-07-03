@@ -381,7 +381,10 @@ commands:
     description: Check if the minecraft servers are online
     usage: /<command>
   ban:
-    description: Ban someone for a specific time and reason
+    description: Ban someone for a specific time and/or reason
+    usage: /<command> <Player> [Time] [Reason]
+  tempban:
+    description: Ban someone for a specific time and/or reason
     usage: /<command> <Player> [Time] [Reason]
   bans:
     description: A list of all bans
