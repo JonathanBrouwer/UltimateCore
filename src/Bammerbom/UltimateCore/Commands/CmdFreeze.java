@@ -60,24 +60,13 @@ public class CmdFreeze implements Listener {
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onMove(PlayerMoveEvent e){
+		if(e.getFrom().getBlock().getLocation().equals(e.getTo().getBlock().getLocation())) return;
 		if(UC.getPlayer(e.getPlayer()).isFrozen()){
-			/*if(
-					e.getFrom().getBlockX() == e.getTo().getBlockX() &&
-					e.getFrom().getBlockY() == e.getTo().getBlockY() &&
-					e.getFrom().getBlockZ() == e.getTo().getBlockZ()
-					) return;*/
-			
 			Location to = e.getFrom();
 			to.setPitch(e.getTo().getPitch());
 			to.setYaw(e.getTo().getYaw());
 			e.setTo(to);
-			
-			//e.getPlayer().setPassenger(e.getPlayer());
 			e.getPlayer().sendMessage(r.mes("Freeze.MoveMessage"));
-		/*}else{
-			if(e.getPlayer().getPassenger().equals(e.getPlayer())){
-				e.getPlayer().setPassenger(null);
-			}*/
 		}
 	}
 	@EventHandler

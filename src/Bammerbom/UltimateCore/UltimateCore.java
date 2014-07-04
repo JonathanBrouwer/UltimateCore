@@ -248,7 +248,6 @@ public class UltimateCore extends JavaPlugin{
 		}catch(Exception ex){
 			r.log(ChatColor.RED + "Failed to load UltimateCore!");
 			r.log(ChatColor.RED + "Please create a ticket including the blue part of this error:");
-			r.log(ChatColor.YELLOW + "Create a ticket on:");
 			r.log(ChatColor.YELLOW + "dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket/");
 			r.log(ChatColor.AQUA + ExceptionUtils.getStackTrace(ex));
 			r.log(ChatColor.WHITE + "Returning startup of the server...");
@@ -258,7 +257,7 @@ public class UltimateCore extends JavaPlugin{
 			}
 		}
 		CmdWorld.loadws();
-		//new t(this);
+		new t(this);
 	}
     public static BlockDatabase getSQLdatabase(){
     	return database;
@@ -288,7 +287,7 @@ public class UltimateCore extends JavaPlugin{
 		}catch(Exception ex){
 			r.log(ChatColor.RED + "Failed to execute " + label + " command of UltimateCore!");
 			r.log(ChatColor.RED + "Please create a ticket including the blue part of this erro:");
-			r.log(ChatColor.YELLOW + "dev.bukkit.org/bukkit-plugins/ultimate_core");
+			r.log(ChatColor.YELLOW + "dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket/");
 			r.log(ChatColor.AQUA + ExceptionUtils.getStackTrace(ex));
 		}
 		return true;

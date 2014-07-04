@@ -20,26 +20,32 @@ public class EventExplosion implements Listener{
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
 	}
+	Boolean creeper = r.getCnfg().getBoolean("Explode.Creeper");
+	Boolean tnt = r.getCnfg().getBoolean("Explode.TNT");
+	Boolean ghast = r.getCnfg().getBoolean("Explode.Ghast");
+	Boolean enderdragon = r.getCnfg().getBoolean("Explode.Enderdragon");
+	Boolean wither = r.getCnfg().getBoolean("Explode.Wither");
+	Boolean lightning = r.getCnfg().getBoolean("Explode.Lightning");
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void EntityExplode(EntityExplodeEvent e){
 		try{
 		if(e.getEntityType() != null){
-		if(r.getCnfg().getBoolean("Explode.Creeper") == true && e.getEntityType().equals(EntityType.CREEPER)){
+		if(creeper && e.getEntityType().equals(EntityType.CREEPER)){
 			e.setYield(0.0F);
 		}
-		if(r.getCnfg().getBoolean("Explode.TNT") == true && e.getEntityType().equals(EntityType.PRIMED_TNT) || e.getEntityType().equals(EntityType.MINECART_TNT)){
+		if(tnt&& e.getEntityType().equals(EntityType.PRIMED_TNT) || e.getEntityType().equals(EntityType.MINECART_TNT)){
 			e.setYield(0.0F);
 		}
-		if(r.getCnfg().getBoolean("Explode.Ghast") == true && e.getEntityType().equals(EntityType.GHAST) || e.getEntityType().equals(Fireball.class) || e.getEntityType().equals(LargeFireball.class)){
+		if(ghast&& e.getEntityType().equals(EntityType.GHAST) || e.getEntityType().equals(Fireball.class) || e.getEntityType().equals(LargeFireball.class)){
 			e.setYield(0.0F);
 		}
-		if(r.getCnfg().getBoolean("Explode.Enderdragon") == true && e.getEntityType().equals(EntityType.ENDER_DRAGON) || e.getEntityType().equals(EntityType.ENDER_CRYSTAL)){
+		if(enderdragon && e.getEntityType().equals(EntityType.ENDER_DRAGON) || e.getEntityType().equals(EntityType.ENDER_CRYSTAL)){
 			e.setCancelled(true);
 		}
-		if(r.getCnfg().getBoolean("Explode.Wither") == true && e.getEntityType().equals(EntityType.WITHER) || e.getEntityType().equals(EntityType.WITHER_SKULL)){
+		if(wither && e.getEntityType().equals(EntityType.WITHER) || e.getEntityType().equals(EntityType.WITHER_SKULL)){
 			e.setYield(0.0F);
 		}
-		if(r.getCnfg().getBoolean("Explode.Lightning") == true && e.getEntityType().equals(EntityType.LIGHTNING)){
+		if(lightning && e.getEntityType().equals(EntityType.LIGHTNING)){
 			e.setYield(0.0F);
 		}
 		}
