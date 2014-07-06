@@ -21,22 +21,22 @@ public class CmdSpawner {
 		if(!r.perm(sender, "uc.spawner", false,true))return;
 		Player p = (Player) sender;
 		if(!r.checkArgs(args, 0)){
-			sender.sendMessage(r.default1 + "/spawner " + r.default2 + "<MobType>");
+			sender.sendMessage(r.mes("Spawner.Usage"));
 			return;
 		}
 		Block b = p.getTargetBlock(null, 10);
 		if(!(b.getState() instanceof CreatureSpawner)){
-		    p.sendMessage(r.default1 + "You are not looking at a mob spawner!");
+		    p.sendMessage(r.mes("Spawner.NotLooking"));
 			return;
 		}
 		CreatureSpawner c = (CreatureSpawner) b.getState();
 		MobType m = MobType.fromName(args[0]);
 		if(m == null || m.getType() == null || m.getType().equals(EntityType.UNKNOWN) || !m.getType().isSpawnable()){
-			sender.sendMessage(r.default1 + "MobType not found: " + r.default2 + args[0]);
+			sender.sendMessage(r.mes("Spawner.NotFound").replaceAll("%MobType",args[0]));
 			return;
 		}
 		c.setSpawnedType(m.getType());
 		c.update();
-		p.sendMessage(r.default1 + "Spawner type set to: " + r.default2 + m.name().toLowerCase());
+		p.sendMessage(r.mes("Spawner.set").replaceAll("%Name", m.name().toLowerCase()));
 	}
 }

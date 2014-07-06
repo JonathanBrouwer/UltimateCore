@@ -35,7 +35,7 @@ public class CmdSkull implements Listener{
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;
 			}
-		    sender.sendMessage(r.default1 + "You obtained the skull of " + r.default2 + t.getName());
+			sender.sendMessage(r.mes("Skull").replaceAll("%Player", t.getName()));
 		    ItemStack skull = new ItemStack(Material.SKULL_ITEM);
 		    skull.setDurability(Short.parseShort("3"));
 		    SkullMeta meta = (SkullMeta) skull.getItemMeta();
@@ -48,7 +48,7 @@ public class CmdSkull implements Listener{
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;
 			}
-		    sender.sendMessage(r.default1 + "You obtained the skull of " + r.default2 + p.getName());
+		    sender.sendMessage(r.mes("Skull").replaceAll("%Player", p.getName()));
 		    ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1);
 		    skull.setDurability(Short.parseShort("3"));
 		    SkullMeta meta = (SkullMeta) skull.getItemMeta();

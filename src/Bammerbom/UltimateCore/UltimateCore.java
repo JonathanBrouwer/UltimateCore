@@ -257,7 +257,7 @@ public class UltimateCore extends JavaPlugin{
 			}
 		}
 		CmdWorld.loadws();
-		new t(this);
+		//new t(this);
 	}
     public static BlockDatabase getSQLdatabase(){
     	return database;

@@ -57,12 +57,26 @@ NoPermissions: 'You do not have permissions to execute this command.'
 PlayerNotFound: 'Player not found: @2%Player.'
 AntiBan: 'You may not %Action %Player'
 NumberFormat: 'The amount (@2%Amount@1) is not a number!'
+#Words
+Words:
+  Premium: 'premium'
+  NotPremium: 'not premium'
+  Yes: 'Yes'
+  No: 'No'
 
+AccountStatus:
+  Usage: '@1/accountstatus @2<Player>'
+  FailedSupport: '@1System does not support UTF-8'
+  FailedConnect: '@1Failed to connect to the Minecraft Servers'
+  Succes: '@1Account @2%Account @1is %Status'
 Afk:
   Afk: '&6%Player &9is now afk.'
   Unafk: '&6%Player &9is no longer afk.'
   Kick: 'You have been kicked for being afk for too long'
-
+EditSign:
+  Usage: '@1/editsign @2<1-4> [Text]'
+  Clear: '@1Cleared line @2%Line@1.'
+  Set: '@1Line @2%Line @1set to @2%Text
 Warp:
   #List
   NoWarpsFound: 'No warps found.'
@@ -334,7 +348,9 @@ XP:
   Usage2: '/setlevel @2<LEVEL> [Player]'
   AmountNotValid: 'The amount (@2%Amount@1) is not a number!'
 Damage: 'Damaged @2%Player @1for @2%Health @2health'
-Hunger: 'Removed @2%Hunger @1hunger of @2%Player'
+Hunger:
+  Usage: '@1/hunger @2<Amount> [Player]'
+  Run: 'Removed @2%Hunger @1hunger of @2%Player'
 Sethealth: 'Set health of @2%Player @1to @2%Health'
 Sethunger: 'Set hunger of @2%Player @1to @2%Food'
 Setarmor:
@@ -345,6 +361,18 @@ Setarmor:
 Seen:
   Usage: '@1/seen @2<Player>'
   Message1: '@1Player @2%Player @1is @2%Status @1since @2%Time'
+  NotFound: '@1The player @2%Player @1has never joined this server.'
+  Location: '@1- Last location: @2%Location'
+  Banned: '@1- Banned: %Banned'
+  Bantime: '@1 - Bantime left: @2%Bantime'
+  Banreason: ' - Banreason: @2%Reason'
+  Muted: ' - Muted: %Muted'
+  Mutetime: ' - Mutetime left: @2%Mutetime'
+  Deaf: ' - Deaf: %Deaf'
+  Deaftime: ' - Deaftime left: @2%Deaftime'
+  Jailed: ' - Jailed: %Jailed'
+  Jailtime: ' - Jailtime left: @2%Jailtime'
+  Frozen: ' - Frozen: %Frozen'
 Alert:
   Usage: '@1/alert @2<Message>'
   Format: '&0[&4&lALERT&0] @2%Message'
@@ -369,3 +397,9 @@ Jail:
   CantUseCommands: '@1You cant use commands while jailed!'
   List2: 'There are @2%Amount @1jailed players: @2%List'
 GC: 'Garbage Collector has been runned!'
+Skull: 'You obtained the head of @2%Player'
+Spawner:
+  Usage: '@1/spawner @2<MobType>'
+  NotLooking: 'You are not looking at a mob spawner!'
+  NotFound: 'MobType not found: @2%MobType'
+  Set: 'Spawner set to: @2%Name'

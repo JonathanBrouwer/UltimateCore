@@ -113,6 +113,27 @@ public class r {
 			 return default1 + ChatColor.translateAlternateColorCodes('&', pad.replaceAll("@1", default1 + "").replaceAll("@2", default2 + ""));
 		}
 	}
+	public static String word(String padMessage){
+		YamlConfiguration lang = null;
+		if(UltimateFileLoader.LANGf == null){
+			return null;
+		}
+	    lang = YamlConfiguration.loadConfiguration(UltimateFileLoader.LANGf);
+	    if(lang.get(padMessage) == null){
+	    	return null;
+	    }
+	    
+	    if(lang.get(padMessage) != null){
+	    	String try1 = ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
+	        return try1;
+	    }
+	    lang = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Messages/EN.yml"));
+	    if(lang.get(padMessage) != null){
+	    	String try2 = ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
+	        return try2;
+	    }
+		return null;
+	}
 	public static String mes(String padMessage){
 			YamlConfiguration lang = null;
 			if(UltimateFileLoader.LANGf == null){

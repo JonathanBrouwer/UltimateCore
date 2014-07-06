@@ -21,7 +21,7 @@ public class CmdEditSign
     	if(!r.isPlayer(cs)) return;
           Player p = (Player)cs;
           if (args.length < 1) {
-              cs.sendMessage(r.default1 + "/editsign " + r.default2 + "<1-4> <Text>");
+              cs.sendMessage(r.mes("EditSign.Usage"));
             return;
           }
           Block b = p.getTargetBlock(null, 100);
@@ -36,17 +36,17 @@ public class CmdEditSign
             lineNumber = Integer.parseInt(args[0]);
             lineNumber--;
           } catch (NumberFormatException e) {
-            cs.sendMessage(r.default1 + "/editsign " + r.default2 + "<1-4> <Text>");
+              cs.sendMessage(r.mes("EditSign.Usage"));
             return;
           }
           if ((lineNumber < 0) || (lineNumber > 3)) {
-              cs.sendMessage(r.default1 + "/editsign " + r.default2 + "<1-4> <Text>");
+              cs.sendMessage(r.mes("EditSign.Usage"));
             return;
           }
           if (args.length < 2) {
             s.setLine(lineNumber, "");
             s.update();
-            cs.sendMessage(r.default1 + "Cleared line " + r.default2 + (lineNumber + 1) + r.default1 + ".");
+            cs.sendMessage(r.mes("EditSign.Clear").replaceAll("%Line", (lineNumber + 1) + ""));
             return;
           }
           String text = r.getFinalArg(args, 1);
@@ -59,7 +59,7 @@ public class CmdEditSign
   		}
           s.setLine(lineNumber, text);
           s.update();
-          cs.sendMessage(r.default1 + "Line " + r.default2 + (lineNumber + 1) + r.default1 + " set to " + r.default2 + text);
+          cs.sendMessage(r.mes("EditSign.Set").replaceAll("%Line", (lineNumber + 1) + "").replaceAll("%Text", r.getFinalArg(args, 1)));
           return;
   }
      public boolean canPlace(Player p, Block b, Sign s){

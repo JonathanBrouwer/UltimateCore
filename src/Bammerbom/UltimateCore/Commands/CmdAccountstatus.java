@@ -23,7 +23,7 @@ public class CmdAccountstatus
      public static void handle(final CommandSender cs, Command cmd, String label, String[] args) {
     	if(!r.perm(cs, "uc.accountstatus", false, true)) return;
     	 if(!r.checkArgs(args, 0)){
-    		cs.sendMessage(r.default1 + "/accountstatus " + r.default2 + "<Player>");
+    		cs.sendMessage(r.mes("AccountStatus.Usage"));
     		return;
     	}
     	 if(!r.getCnfg().getBoolean("mcstats")) return;
@@ -38,10 +38,10 @@ public class CmdAccountstatus
       URL u;
       try { u = new URL("https://minecraft.net/haspaid.jsp?user=" + URLEncoder.encode(name, "UTF-8"));
       } catch (MalformedURLException ex) {
-    	  cs.sendMessage(r.default1 + "System does not support UTF-8");
+    	  cs.sendMessage(r.mes("AccountStatus.FailedSupport"));
         return;
       } catch (UnsupportedEncodingException ex) {
-    	  cs.sendMessage(r.default1 + "System does not support UTF-8");
+    	  cs.sendMessage(r.mes("AccountStatus.FailedSupport"));
         return;
       }
       boolean isPremium;
@@ -49,11 +49,11 @@ public class CmdAccountstatus
         BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream()));
         isPremium = br.readLine().equalsIgnoreCase("true");
       } catch (IOException ex) {
-        cs.sendMessage(r.error + "Failed to connect to the Minecraft Servers.");
+    	  cs.sendMessage(r.mes("AccountStatus.FailedConnect"));
         return;
       }
-      String status = isPremium ? ChatColor.GREEN + "premium" : ChatColor.DARK_RED + "not premium";
-      cs.sendMessage(r.default1 + "Account " + r.default2 + p.getName() + r.default1 + " is " + status);
+      String status = isPremium ? ChatColor.GREEN + r.word("Words.Premium") : ChatColor.DARK_RED + r.word("Words.NotPremium");
+      cs.sendMessage(r.mes("AccountStatus.Succes").replaceAll("%Player", name).replaceAll("%Status", status));
     	  }});
       t.setName("UltimateCore: /accountstatus thread.");
       t.start();
