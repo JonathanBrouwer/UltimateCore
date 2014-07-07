@@ -1,5 +1,3 @@
-&bWelcome to my server
-&1This is an example
-&aOne message will show always that message
-&fMore messages will sycle through all messages
-&8Max 62 characters
+&bWelcome to my server\n&6I hope you enjoy!
+&5This are default messages. You can change them in messages.txt
+&5---            ---\n&6You are awesome.
