@@ -149,7 +149,7 @@ public class DateUtil
     StringBuilder sb = new StringBuilder();
     int[] types = { 1, 2, 5, 11, 12, 13 };
 
-    String[] names = {"years", "years", "months", "months", "days", "days", "hours", "hours", "minutes", "minutes", "seconds", "seconds" };
+    String[] names = {"years", "year", "months", "month", "days", "day", "hour", "hours", "minutes", "minute", "seconds", "second" };
 
     int accuracy = 0;
     for (int i = 0; i < types.length; i++)
@@ -162,7 +162,7 @@ public class DateUtil
       if (diff > 0)
       {
         accuracy++;
-        sb.append(" ").append(diff).append(" ").append(names[(i * 2 + 0)]);
+        sb.append(" ").append(diff).append(" ").append(names[((i * 2) + (diff == 1 ? 1 : 0))]);
       }
     }
     if (sb.length() == 0)

@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.math.BigInteger;
@@ -17,68 +18,150 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateCore;
 import Bammerbom.UltimateCore.r;
 
 public class ItemDatabase {
-    static private Plugin plugin;
-	public ItemDatabase(Plugin instance){
+    static private UltimateCore plugin;
+	public ItemDatabase(UltimateCore instance){
 		plugin = instance;
 	}
+	  private final transient static Map<String, Integer> items = new HashMap<String, Integer>();
+	  private final transient static Map<ItemData, List<String>> names = new HashMap<ItemData, List<String>>();
+	  private final transient static Map<ItemData, String> primaryName = new HashMap<ItemData, String>();
+	  private final transient static Map<String, Short> durabilities = new HashMap<String, Short>();
 	public void disable(){
 	}
 	public void enable(){
-	    try {
-		//File
-	    	@SuppressWarnings("unused")
-			Boolean exist = true;
-	    File file = new File(plugin.getDataFolder() + File.separator + "Data", "ItemDatabase.db");
-	    if(!file.exists()){
-	    	plugin.saveResource("Data/ItemDatabase.db", true);
-	    	exist = false;
+	   InputStream resource = plugin.getResource("Data/items.csv");
+	   BufferedReader r = new BufferedReader(new InputStreamReader(resource));
+	   ArrayList<String> lines = new ArrayList<String>();
+	   String lineC = "";
+	   try {
+		while((lineC = r.readLine()) != null){
+			   lines.add(lineC);
+		   }
+	   } catch (IOException e) {e.printStackTrace();}
+	    durabilities.clear();
+	    items.clear();
+	    names.clear();
+	    primaryName.clear();
+	    for (String line : lines)
+	    {
+	      line = line.trim().toLowerCase(Locale.ENGLISH);
+	      if ((line.length() <= 0) || (line.charAt(0) != '#'))
+	      {
+	        String[] parts = line.split("[^a-z0-9]");
+	        if (parts.length >= 2)
+	        {
+	          int numeric = Integer.parseInt(parts[1]);
+	          short data = (parts.length > 2) && (!parts[2].equals("0")) ? Short.parseShort(parts[2]) : 0;
+	          String itemName = parts[0].toLowerCase(Locale.ENGLISH);
+
+	          durabilities.put(itemName, Short.valueOf(data));
+	          items.put(itemName, Integer.valueOf(numeric));
+
+	          ItemData itemData = new ItemData(numeric, data);
+	          if (names.containsKey(itemData))
+	          {
+	            List<String> nameList = (List<String>)names.get(itemData);
+	            nameList.add(itemName);
+	            Collections.sort(nameList, new LengthCompare());
+	          }
+	          else
+	          {
+	            List<String> nameList = new ArrayList<String>();
+	            nameList.add(itemName);
+	            names.put(itemData, nameList);
+	            primaryName.put(itemData, itemName);
+	          }
+	        }
+	      }
 	    }
-	    //Connection
-		Connection c = null;
-	      Class.forName("org.sqlite.JDBC");
-	      c = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().getAbsolutePath() + "/Data/ItemDatabase.db");
-	    //Table REMOVED
-		    /*if(!exist){
-	    Statement stmt = null;
-	    stmt = c.createStatement();
-	      String sql = "CREATE TABLE ITEMDATA " +
-	    		  " (NAME    TEXT PRIMARY KEY, " + 
-                  " ID           TEXT    NOT NULL, " +
-	    		  " DURA           TEXT    NOT NULL)";
-	      stmt.executeUpdate(sql);
-	      stmt.close();
-	      addKeys();
-		    }*/
-	      c.close();
-	    } catch ( Exception e ) {
-		      System.err.println( e.getClass().getName() + ": " + e.getMessage());
-		      e.printStackTrace();
-		    }
 	}
-	@SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
+	public static ItemStack get(String id){
+	    int itemid = 0;
+		String itemname = null;
+		short metaData = 0;
+		Matcher parts = Pattern.compile("((.*)[:+',;.](\\d+))").matcher(id);
+		if (parts.matches()){
+		    itemname = parts.group(2);
+			metaData = Short.parseShort(parts.group(3));
+	    }else{
+			itemname = id;
+		}
+		if (r.isNumber(itemname)){
+		    itemid = Integer.parseInt(itemname);
+	    }
+		else if (r.isNumber(id)){
+			itemid = Integer.parseInt(id);
+	    }else{
+			itemname = itemname.toLowerCase(Locale.ENGLISH);
+	    }
+	    if (itemid < 1){
+	        if (items.containsKey(itemname)){
+			    itemid = ((Integer)items.get(itemname)).intValue();
+			    if ((durabilities.containsKey(itemname)) && (metaData == 0)){
+			        metaData = ((Short)durabilities.get(itemname)).shortValue();
+			    }
+	        }else if (Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH)) != null){
+			    Material bMaterial = Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH));
+			    itemid = bMaterial.getId();
+		    }else{
+			    try{
+			        Material bMaterial = Bukkit.getUnsafe().getMaterialFromInternalName(itemname.toLowerCase(Locale.ENGLISH));
+			        itemid = bMaterial.getId();
+			    }
+			    catch (Throwable throwable){
+			          return null;
+			    }
+			}
+	    }
+		if (itemid < 1){
+			return null;
+        }
+        Material mat = Material.getMaterial(itemid);
+	    if (mat == null){
+	        return null;
+	    }
+	    ItemStack retval = new ItemStack(mat);
+		retval.setAmount(mat.getMaxStackSize());
+		retval.setDurability(metaData);
+		return retval;
+    }
 	public static ItemStack getItem(String str){
-		String search = "";
-		String id = "";
-		String dura = "";
-		//1.7
 		if(str.contains("minecraft:")){
 		    str = str.replaceFirst("minecraft:", "");
 		}
+		if(Material.matchMaterial(str) != null){
+			Material mat = Material.matchMaterial(str);
+			ItemStack stack = new ItemStack(mat);
+			return stack;
+		}
+		return get(str);
+		/*String search = "";
+		String id = "";
+		String dura = "";
+		//1.7
+
 		//
 		if(!str.contains(":") && !r.isNumber(str)){
 			search = "NAME='" + str.toLowerCase() + "'";
@@ -102,31 +185,10 @@ public class ItemDatabase {
 		}
 		
 		//
-	    try {
-		Connection c = null;
-	      Class.forName("org.sqlite.JDBC");
-	      c = DriverManager.getConnection("jdbc:sqlite:Plugins/UltimateCore/Data/ItemDatabase.db");
-	      Statement stmt = null;
-		    stmt = c.createStatement();
-		    String sql = "SELECT * FROM ITEMDATA WHERE " + search;
-		    ResultSet set = stmt.executeQuery(sql);
-		    //if(set.isClosed()) return null;
-		    id = set.getString("ID");
-		    if(dura == null || dura.equalsIgnoreCase("")){
-		    dura = set.getString("DURA");
-		    }
-		    stmt.close();
-		    c.close();
-	    } catch ( Exception e ) {
-	    	if(e.getStackTrace().toString().contains("locked")){ r.log(r.error + "ItemDatabase locked."); }else{
-	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	      e.printStackTrace();
-	    	}
-	    	return null;
-	    }
+	    
 	    ItemStack stack = new ItemStack(Material.getMaterial(Integer.parseInt(id)));
 	    stack.setDurability(Short.parseShort(dura));
-	    return stack;
+	    return stack;*/
 	}
 	@SuppressWarnings("unused")
 	@Deprecated
@@ -363,4 +425,56 @@ class ManagedFile
       Bukkit.getLogger().log(Level.SEVERE, ex.getMessage(), ex);
     }return Collections.emptyList();
   }
+}
+class ItemData
+{
+  private final int itemNo;
+  private final short itemData;
+
+  ItemData(int itemNo, short itemData)
+  {
+    this.itemNo = itemNo;
+    this.itemData = itemData;
+  }
+
+  public int getItemNo()
+  {
+    return this.itemNo;
+  }
+
+  public short getItemData()
+  {
+    return this.itemData;
+  }
+
+  public int hashCode()
+  {
+    return 31 * this.itemNo ^ this.itemData;
+  }
+
+  public boolean equals(Object o)
+  {
+    if (o == null)
+    {
+      return false;
+    }
+    if (!(o instanceof ItemData))
+    {
+      return false;
+    }
+    ItemData pairo = (ItemData)o;
+    return (this.itemNo == pairo.getItemNo()) && (this.itemData == pairo.getItemData());
+  }
+}
+class LengthCompare
+implements Comparator<String>
+{
+public LengthCompare()
+{
+}
+
+public int compare(String s1, String s2)
+{
+  return s1.length() - s2.length();
+}
 }

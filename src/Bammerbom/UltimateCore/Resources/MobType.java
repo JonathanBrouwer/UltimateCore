@@ -23,7 +23,7 @@ public enum MobType
   GIANT("Giant", Enemies.ENEMY, EntityType.GIANT), 
   HORSE("Horse", Enemies.FRIENDLY, EntityType.HORSE), 
   PIG("Pig", Enemies.FRIENDLY, EntityType.PIG), 
-  PIGZOMB("PigZombie", Enemies.NEUTRAL, EntityType.PIG_ZOMBIE), 
+  PIGZOMBIE("PigZombie", Enemies.NEUTRAL, EntityType.PIG_ZOMBIE), 
   SHEEP("Sheep", Enemies.FRIENDLY, "", EntityType.SHEEP), 
   SKELETON("Skeleton", Enemies.ENEMY, EntityType.SKELETON), 
   SLIME("Slime", Enemies.ENEMY, EntityType.SLIME), 
@@ -119,6 +119,8 @@ public enum MobType
       hashMap.put(mob.name.toLowerCase(Locale.ENGLISH), mob);
       bukkitMap.put(mob.bukkitType, mob);
     }
+    hashMap.put("zombiepigman", MobType.PIGZOMBIE);
+    hashMap.put("zombiepig", MobType.PIGZOMBIE);
   }
 
   public static class MobException extends Exception

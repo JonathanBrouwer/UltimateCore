@@ -43,7 +43,6 @@ public class CmdJail implements Listener{
 		if(this instanceof Listener){
 			if(m){
 				Bukkit.getPluginManager().registerEvent(PlayerMoveEvent.class, this, EventPriority.HIGH, new EventExecutor(){
-					@Override
 					public void execute(Listener l, Event e)
 							throws EventException {
 						PlayerMoveEvent ev = (PlayerMoveEvent) e;

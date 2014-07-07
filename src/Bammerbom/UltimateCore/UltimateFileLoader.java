@@ -201,13 +201,15 @@ public class UltimateFileLoader implements Listener{
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 		return config;
 	}
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
 	public void join(PlayerJoinEvent e){
+		if(!e.getPlayer().isOnline()) return;
 		OfflinePlayer p = Bukkit.getOfflinePlayer(e.getPlayer().getUniqueId());
 		getPlayerFile(p);
 		File file = getPlayerFile(e.getPlayer());
 		YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
 		conf.set("lastconnect", System.currentTimeMillis());
+		conf.set("ip", (e.getPlayer().getAddress().toString().toString().split("/")[1].split(":")[0]));
 		try {
 			conf.save(file);
 		} catch (IOException e1) {

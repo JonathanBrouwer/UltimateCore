@@ -91,7 +91,6 @@ public class CmdSpawnmob{
 			sender.sendMessage(b.toString());
 			return;
 		}
-		
 		Location loc = p.getLocation();
 		MobType mob = MobType.fromName(args[0]);
 		Integer amount = 1;
@@ -176,6 +175,7 @@ public class CmdSpawnmob{
 			defaultMobData(mob.getType(), en);
 			Utilize(args, mob, en, p);
 			}catch(ClassCastException ex){
+				ex.printStackTrace();
 			}
 		}
 		

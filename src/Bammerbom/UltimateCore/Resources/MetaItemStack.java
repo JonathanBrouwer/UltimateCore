@@ -1,10 +1,5 @@
 package Bammerbom.UltimateCore.Resources;
 
-import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.Resources.Utils.FormatUtil;
-
-import com.google.common.base.Joiner;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,12 +26,18 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.Resources.Utils.AttributeUtil;
+import Bammerbom.UltimateCore.Resources.Utils.AttributeUtil.Attribute;
+import Bammerbom.UltimateCore.Resources.Utils.AttributeUtil.AttributeType;
+import Bammerbom.UltimateCore.Resources.Utils.FormatUtil;
+
+import com.google.common.base.Joiner;
+
 public class MetaItemStack
 {
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-private static final Map<String, DyeColor> colorMap = new HashMap();
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap();
+private static final Map<String, DyeColor> colorMap = new HashMap<String, DyeColor>();
+private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap<String, FireworkEffect.Type>();
 
   private final transient Pattern splitPattern = Pattern.compile("[:+',;.]");
   private ItemStack stack;
@@ -130,7 +131,6 @@ public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] 
     }
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
 public void addStringMeta(CommandSender sender, boolean allowUnsafe, String string, Plugin ess) throws Exception
   {
     String[] split = this.splitPattern.split(string, 2);
@@ -146,9 +146,47 @@ public void addStringMeta(CommandSender sender, boolean allowUnsafe, String stri
       meta.setDisplayName(displayName);
       this.stack.setItemMeta(meta);
     }
+    else if((split.length > 1) && (split[0].equalsIgnoreCase("maxhealth") || split[0].equalsIgnoreCase("health"))){
+    	if(r.isDouble(split[1])){
+    	Double max = Double.parseDouble(split[1]);
+    	max = r.normalize(max, 0.0, 2147483647.0);
+    	AttributeUtil attributes = new AttributeUtil(stack);
+    	attributes.add(Attribute.newBuilder().name("Health").type(AttributeType.GENERIC_MAX_HEALTH).amount(max).build());
+        stack = attributes.getStack();
+    	}
+    }
+    else if((split.length > 1) && (split[0].equalsIgnoreCase("damage") || split[0].equalsIgnoreCase("attack") || split[0].equalsIgnoreCase("attackdamage"))){
+    	if(r.isDouble(split[1])){
+    	Double max = Double.parseDouble(split[1]);
+    	max = r.normalize(max, 0.0, Double.MAX_VALUE);
+    	AttributeUtil attributes = new AttributeUtil(stack);
+    	attributes.add(Attribute.newBuilder().name("Attack Damage").type(AttributeType.GENERIC_ATTACK_DAMAGE).amount(max).build());
+        stack = attributes.getStack();
+    	}
+    }
+    else if((split.length > 1) && (split[0].equalsIgnoreCase("speed") || split[0].equalsIgnoreCase("movementspeed") || split[0].equalsIgnoreCase("swiftness"))){
+    	if(r.isDouble(split[1])){
+    	Double max = Double.parseDouble(split[1]);
+    	max = max / 50;
+    	max = r.normalize(max, 0.0, Double.MAX_VALUE);
+    	AttributeUtil attributes = new AttributeUtil(stack);
+    	attributes.add(Attribute.newBuilder().name("Speed").type(AttributeType.GENERIC_MOVEMENT_SPEED).amount(max).build());
+        stack = attributes.getStack();
+    	}
+    }
+    else if((split.length > 1) && (split[0].equalsIgnoreCase("knockback") || split[0].equalsIgnoreCase("knockbackresistance") || split[0].equalsIgnoreCase("resistance"))){
+    	if(r.isDouble(split[1])){
+    	Double max = Double.parseDouble(split[1]);
+    	max = r.normalize(max, 0.0, 100.0);
+    	max = max / 100.0;
+    	AttributeUtil attributes = new AttributeUtil(stack);
+    	attributes.add(Attribute.newBuilder().name("Knockback Resistance").type(AttributeType.GENERIC_KNOCKBACK_RESISTANCE).amount(max).build());
+        stack = attributes.getStack();
+    	}
+    }
     else if ((split.length > 1) && ((split[0].equalsIgnoreCase("lore")) || (split[0].equalsIgnoreCase("desc"))))
     {
-      List lore = new ArrayList();
+      List<String> lore = new ArrayList<String>();
       for (String line : split[1].split("\\|"))
       {
         lore.add(FormatUtil.replaceFormat(line.replace('_', ' ')));
@@ -219,6 +257,7 @@ public void addStringMeta(CommandSender sender, boolean allowUnsafe, String stri
     {
       parseEnchantmentStrings(sender, allowUnsafe, split, ess);
     }
+    
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })

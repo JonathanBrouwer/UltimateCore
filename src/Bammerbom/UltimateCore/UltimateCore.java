@@ -260,6 +260,9 @@ public class UltimateCore extends JavaPlugin{
 		CmdWorld.loadws();
 		//new t(this);
 	}
+	public ClassLoader getClassLoaderUC(){
+		return super.getClassLoader();
+	}
     public static BlockDatabase getSQLdatabase(){
     	return database;
     }
