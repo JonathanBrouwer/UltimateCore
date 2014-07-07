@@ -1,5 +1,3 @@
 &bWelcome to my server
-&1This is an example
-&aOne message will show always that message
-&fMore messages will sycle through all messages
-&8Max 62 characters
+&6I hope you enjoy!\n&bExample of an multi line!
+&4----------------------------\n&6This looks epic!\n&4----------------------------
