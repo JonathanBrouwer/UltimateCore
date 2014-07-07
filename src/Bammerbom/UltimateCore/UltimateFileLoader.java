@@ -149,7 +149,7 @@ public class UltimateFileLoader implements Listener{
 				e.printStackTrace();
 			}
 		}
-		if(r.mes("Realname.Usage") == null){
+		if(r.mes("Spawner.Usage") == null){
 			resetFile(new File(plugin.getDataFolder() + "/Messages", "EN.yml"));
 			createLang();
 			loadLang();

@@ -76,7 +76,7 @@ Afk:
 EditSign:
   Usage: '@1/editsign @2<1-4> [Text]'
   Clear: '@1Cleared line @2%Line@1.'
-  Set: '@1Line @2%Line @1set to @2%Text
+  Set: '@1Line @2%Line @1set to @2%Text'
 Warp:
   #List
   NoWarpsFound: 'No warps found.'
@@ -111,7 +111,9 @@ Home:
 
   #DelHome
   HomeDeleted: 'Home deleted: @2%Home'
-Weather: 'Weather set to @2%Weather'
+Weather:
+  Set: 'Weather set to @2%Weather'
+  Usage: '/weather @2sun/rain/thunder'
 Back: 'Teleported back'
 Whisper:
   Usage: '@1/w @2<Player> <Message>'
@@ -227,21 +229,22 @@ Kill:
   target: 'You have been killed by: @2%Player'
   killer: 'You killed: @2%Player'
 Set:
-  NoNumber: 'Your color is not a number.'
-  ChatColorSet: 'Your chat color is set'
   Spawn: 'Spawn set!'
   SpawnNotSet: 'Spawn is not set.'
 World:
   Create:
-    Created: "Created world: @2%world"
-    Creating: "Creating world: @2%world"
-  List: "Worlds: @2%worlds" 
+    Created: 'Created world: @2%world'
+    Creating: 'Creating world: @2%world'
+    Usage: '@1/world @2create <Name> [Options...]'
+  List: 'Worlds: @2%worlds' 
   Import:
-    Importing: "Importing world: @2%world"
-    Imported: "Imported world: @2%world"
-  Remove: "Removed world: @2%world"
-  NotFound: "World not found: @2%world" 
-  AlreadyExist: "World does already exist"
+    Importing: 'Importing world: @2%world'
+    Imported: 'Imported world: @2%world'
+    Usage: '@1/world @2import <Name> [Normal/Nether/End]'
+  Remove: 'Removed world: @2%world'
+  NotFound: 'World not found: @2%world' 
+  AlreadyExist: 'World does already exist'
+  NotAlpha: 'World name is not alphanumeric'
 Me:
   Usage: '@1/me @2<Message>'
 List:

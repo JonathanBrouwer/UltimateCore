@@ -21,7 +21,7 @@ public class CmdWeather implements Listener{
 	public static void handle(CommandSender sender, String[] args){
 		CommandSender p = sender;
 		if(checkArgs(args, 0) == false){
-			p.sendMessage(r.default1 + "/weather sun/rain/storm");
+			p.sendMessage(r.mes("Weather.Usage"));
 			return;
 		}else{
 			EventWeather.setLast(1);
@@ -84,13 +84,13 @@ public class CmdWeather implements Listener{
 		}
 		EventWeather.setLast(0);
 		if(weather == 1){
-			p.sendMessage(r.mes("Weather").replaceAll("%Weather", "sun"));
+			p.sendMessage(r.mes("Weather.Set").replaceAll("%Weather", "sun"));
 		}else if(weather == 2){
-			p.sendMessage(r.mes("Weather").replaceAll("%Weather", "rain"));
+			p.sendMessage(r.mes("Weather.Set").replaceAll("%Weather", "rain"));
 		}else if(weather == 3){
-			p.sendMessage(r.mes("Weather").replaceAll("%Weather", "storm"));
+			p.sendMessage(r.mes("Weather.Set").replaceAll("%Weather", "storm"));
 		}else{
-			p.sendMessage(r.default1 + "/weather sun/rain/storm");
+			p.sendMessage(r.mes("Weather.Usage"));
 		}
 		}
     }

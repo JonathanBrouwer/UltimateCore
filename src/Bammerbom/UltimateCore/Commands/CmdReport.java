@@ -36,12 +36,22 @@ public class CmdReport {
 	}
 }
 class Report{
+	Integer id;
 	Player reporter;
 	Player reported;
-	public Report(Integer id, String KEY){
-		
+	String reason;
+	Long time;
+	public Report(Integer id, Long time, Player reporter, Player reported, String reason){
+		this.id = id;
+		this.reporter = reporter;
+		this.reported = reported;
+		this.reason = reason;
+		this.time = time;
 	}
 	public void register(){
+		
+	}
+	public static void load(Integer id){
 		
 	}
 	public Player getReporter(){
@@ -49,5 +59,11 @@ class Report{
 	}
 	public Player getReported(){
 		return reported;
+	}
+	public String getReason(){
+		return reason;
+	}
+	public Long getTime(){
+		return time;
 	}
 }

@@ -106,6 +106,7 @@ public class UltimateCore extends JavaPlugin{
 	 public static Economy economy = null;
 	@Override
 	public void onEnable(){
+		super.onEnable();
 		try{
 		Long time = System.currentTimeMillis();
 		new r(this);

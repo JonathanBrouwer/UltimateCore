@@ -65,7 +65,7 @@ public class CmdWorld implements Listener{
 				return;
 			}
 			if(!args[1].replaceAll("[a-zA-Z0-9]", "").replaceAll("_", "").equalsIgnoreCase("")){
-				sender.sendMessage(r.default1 + "World name is not alphanumeric");
+				sender.sendMessage(r.mes("World.NotAlpha"));
 				return;
 			}
 			WorldCreator settings = new WorldCreator(args[1]);
@@ -130,7 +130,7 @@ public class CmdWorld implements Listener{
 			
 			sender.sendMessage(r.mes("World.Create.Created").replaceAll("%world", settings.name()));
 		}else{
-			sender.sendMessage(r.default1 + "/world" + r.default2 + " create [Name] [Options...]");
+			sender.sendMessage(r.mes("World.Create.Usage"));
 		}
 		
 	}
@@ -146,7 +146,7 @@ public class CmdWorld implements Listener{
 		//
 		if(r.checkArgs(args, 1) == true){
 			if(!new File(args[1]).exists()){
-				sender.sendMessage(r.default1 + "World not found!");
+				sender.sendMessage(r.mes("World.NotFound").replaceAll("%world", args[0]));
 				return;
 			}
 			WorldCreator settings = new WorldCreator(args[1]);
@@ -189,7 +189,7 @@ public class CmdWorld implements Listener{
 			}
 		sender.sendMessage(r.mes("World.Import.Imported").replaceAll("%world", settings.name()));
 		}else{
-			sender.sendMessage(r.default1 + "/world" + r.default2 + " import [Name] [Normal/Nether/End]");
+			sender.sendMessage(r.mes("World.Import.Usage"));
 		}
 	}
 	public static void list(CommandSender sender,  String[] args){

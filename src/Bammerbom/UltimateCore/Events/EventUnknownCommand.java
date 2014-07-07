@@ -17,7 +17,10 @@ public class EventUnknownCommand implements Listener{
 		plugin.getServer().getPluginManager().registerEvents(this, loader);
 	}
 	public boolean isCmdRegistered(String cmd){
-		return Bukkit.getServer().getHelpMap().getHelpTopic((cmd.contains(":") ? "/" + cmd.split(":")[1] : cmd)) != null;
+		return Bukkit.getPluginCommand(cmd.replaceFirst("/", "")) != null || Bukkit.getServer().getHelpMap().getHelpTopic(
+				(cmd.contains(":") 
+				? cmd.split(":")[0].equalsIgnoreCase("/bukkit") ? "/" + cmd.split(":")[1] : "////asasasas" 
+						: cmd)) != null;
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
   public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
