@@ -3,8 +3,11 @@ package Bammerbom.UltimateCore.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
@@ -13,7 +16,7 @@ import Bammerbom.UltimateCore.Resources.MetaItemStack;
 import Bammerbom.UltimateCore.Resources.Databases.ItemDatabase;
 import Bammerbom.UltimateCore.Resources.Utils.InventoryUtil;
 
-public class CmdGive {
+public class CmdGive implements Listener{
 	static Plugin plugin;
 	public CmdGive(Plugin instance){
 		plugin = instance;
@@ -66,6 +69,7 @@ public class CmdGive {
 	        try {
 				meta.parseStringMeta(sender, true, args, metaStart, plugin);
 			} catch (Exception e) {
+				e.printStackTrace();
 				sender.sendMessage(r.mes("Give.MetadataFailed").replaceAll("%Item", args[1]));
 			}
 	      }
@@ -101,7 +105,7 @@ public class CmdGive {
 		Integer amount = item.getMaxStackSize();
 		if(r.checkArgs(args, 1)){
 			if(!r.isNumber(args[1])){
-				sender.sendMessage(r.mes("Give.AmountNotValid").replaceAll("%Amount", args[0]));
+				sender.sendMessage(r.mes("Give.AmountNotValid").replaceAll("%Amount", args[1]));
 				return;
 			}
 			amount = Integer.parseInt(args[1]);
@@ -119,6 +123,7 @@ public class CmdGive {
 	        try {
 				meta.parseStringMeta(sender, true, args, metaStart, plugin);
 			} catch (Exception e) {
+				e.printStackTrace();
 				sender.sendMessage(r.mes("Give.MetadataFailed").replaceAll("%Item", args[0]));
 			}
 	      }
@@ -127,4 +132,35 @@ public class CmdGive {
 		InventoryUtil.addItem(target.getInventory(), item);
 		sender.sendMessage(r.mes("Give.SuccesSelf").replaceAll("%Item", item.getType().name().toLowerCase().replaceAll("_", "")).replaceAll("%Amount", amount.toString()).replaceAll("%Player", target.getName()));
 	}
+	@EventHandler
+	public void onItemSwitch(PlayerItemHeldEvent e){
+		updateHealth(e.getPlayer());
+	}
+	  public void updateHealth(final Player user){
+		  Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("UltimateCore"), new Runnable(){
+			@Override
+			public void run() {
+				user.setHealth(((Damageable)user).getHealth());
+			}}, 20L);
+		  Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("UltimateCore"), new Runnable(){
+			@Override
+			public void run() {
+				user.setHealth(((Damageable)user).getHealth());
+			}}, 40L);
+		  Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("UltimateCore"), new Runnable(){
+			@Override
+			public void run() {
+				user.setHealth(((Damageable)user).getHealth());
+			}}, 60L);
+		  Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("UltimateCore"), new Runnable(){
+			@Override
+			public void run() {
+				user.setHealth(((Damageable)user).getHealth());
+			}}, 80L);
+		  Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("UltimateCore"), new Runnable(){
+			@Override
+			public void run() {
+				user.setHealth(((Damageable)user).getHealth());
+			}}, 100L);
+	  }
 }

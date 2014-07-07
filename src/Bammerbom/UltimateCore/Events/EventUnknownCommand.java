@@ -1,6 +1,7 @@
 package Bammerbom.UltimateCore.Events;
 
 import org.bukkit.Bukkit;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -36,5 +37,6 @@ public class EventUnknownCommand implements Listener{
     	  event.getPlayer().sendMessage(r.mes("UnknownCommandMessage"));
     	  event.setCancelled(true);
       }
+      
   }
 }

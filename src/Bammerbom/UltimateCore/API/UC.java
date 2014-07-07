@@ -6,13 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 public class UC {
-	/*
-	@SuppressWarnings("deprecation")
-	public static UCplayer getPlayer(String s){
-		if(Bukkit.getOfflinePlayer(s) == null) return null;
-		return new UCplayer(s);
-	}
-	*/
 	public static UCplayer getPlayer(UUID u){
 		if(Bukkit.getOfflinePlayer(u) == null) return null;
 		return new UCplayer(u);

@@ -23,7 +23,7 @@ public class CmdDeaf implements Listener{
 		}
 		playerUpdateEvent();
 	}
-	@SuppressWarnings({ "unused", "deprecation" })
+	@SuppressWarnings({"deprecation" })
 	public static void handle(CommandSender sender, String[] args) {
 		if(r.checkArgs(args, 0) == false){
 			sender.sendMessage(r.mes("Deaf.Usage"));
@@ -39,10 +39,6 @@ public class CmdDeaf implements Listener{
 		if(r.checkArgs(args, 1) == false){
 		}else if(DateUtil.getTimeMillis(args[1]) != -1){
 			time = DateUtil.getTimeMillis(args[1]);
-		}
-		String timen = DateUtil.format(time);
-		if(time == 0){
-			timen = r.mes("Mute.Forever");
 		}
 		//Permcheck
 		if(!r.perm(sender, "uc.deaf.time", false, false) && !r.perm(sender, "uc.deaf", false, false) && time == 0L){
