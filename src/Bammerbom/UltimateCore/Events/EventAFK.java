@@ -2,6 +2,7 @@ package Bammerbom.UltimateCore.Events;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -51,8 +52,8 @@ public class EventAFK implements Listener{
 						Long seconds2 = System.currentTimeMillis() / 1000;
 						Long dif = seconds2 - seconds1;
 						if(dif > plugin.getConfig().getInt("Afk.AfkTime")){
-							if(!afk.contains(str)){
-							afk.add(str);
+							if(!afk.contains(p.getUniqueId())){
+							afk.add(p.getUniqueId());
 							Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", UC.getPlayer(p).getNick()));
 							}
 						}
@@ -69,18 +70,20 @@ public class EventAFK implements Listener{
 			}
 		}, 100L, 100L);
 	}
-	
+	public static boolean isAfk(Player p){
+		return afk.contains(p.getUniqueId());
+	}
 	static HashMap<String, Long> lastaction = new HashMap<String, Long>();
-	static ArrayList<String> afk = new ArrayList<String>();
+	static ArrayList<UUID> afk = new ArrayList<UUID>();
 	public static void handle(CommandSender sender, String[] args){
 		if(!r.checkArgs(args, 0)){
 			if(!r.isPlayer(sender)) return;
 			if(!r.perm(sender, "uc.afk", true, true)) return;
-			if(!afk.contains(sender.getName())){
+			if(!afk.contains(((Player) sender).getUniqueId())){
 				Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", UC.getPlayer((Player)sender).getNick()));
-				afk.add(sender.getName());
+				afk.add(((Player) sender).getUniqueId());
 			}else{
-				afk.remove(sender.getName());
+				afk.remove(((Player) sender).getUniqueId());
 				Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", UC.getPlayer((Player) sender).getNick()));
 			}
 		}else{
@@ -88,11 +91,11 @@ public class EventAFK implements Listener{
 			String target = args[0];
 			if(Bukkit.getPlayer(target) != null){
 				Player t = Bukkit.getPlayer(target);
-				if(!afk.contains(t.getName())){
+				if(!afk.contains(t.getUniqueId())){
 					Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", UC.getPlayer(t).getNick()));
-					afk.add(t.getName());
+					afk.add(t.getUniqueId());
 				}else{
-					afk.remove(t.getName());
+					afk.remove(t.getUniqueId());
 					Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", UC.getPlayer(t).getNick()));
 				}
 			}else{
@@ -161,8 +164,8 @@ public class EventAFK implements Listener{
 	}
 	@EventHandler
 	public void playerQuit(PlayerQuitEvent e){
-		if(afk.contains(e.getPlayer().getName())){
-			afk.remove(e.getPlayer().getName());
+		if(afk.contains(e.getPlayer().getUniqueId())){
+			afk.remove(e.getPlayer().getUniqueId());
 		}
 		if(lastaction.containsKey(e.getPlayer().getName())){
 			lastaction.remove(e.getPlayer().getName());
@@ -170,8 +173,8 @@ public class EventAFK implements Listener{
 	}
 	@EventHandler
 	public void playerKick(PlayerKickEvent e){
-		if(afk.contains(e.getPlayer().getName())){
-			afk.remove(e.getPlayer().getName());
+		if(afk.contains(e.getPlayer().getUniqueId())){
+			afk.remove(e.getPlayer().getUniqueId());
 		}
 		if(lastaction.containsKey(e.getPlayer().getName())){
 			lastaction.remove(e.getPlayer().getName());
@@ -182,8 +185,8 @@ public class EventAFK implements Listener{
 			public void run(){
 				Player p = e.getPlayer();
 				lastaction.put(p.getName(), System.currentTimeMillis());
-				if(afk.contains(p.getName())){
-					afk.remove(p.getName());
+				if(afk.contains(p.getUniqueId())){
+					afk.remove(p.getUniqueId());
 					Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", UC.getPlayer(p).getNick()));
 				}
 			}

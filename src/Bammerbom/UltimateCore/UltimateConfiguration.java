@@ -663,6 +663,9 @@ public void set(String path, Object value)
 public List getList(String path)
 {
   setRead(path);
+  if(this.source.getList(path) == null){
+	  return new ArrayList<Object>();
+  }
   return this.source.getList(path);
 }
 @SuppressWarnings("unchecked")

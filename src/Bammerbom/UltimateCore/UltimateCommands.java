@@ -111,9 +111,9 @@ public class UltimateCommands implements Listener{
 	public UltimateCommands(Plugin instance){
 		plugin = instance;
 		if(this instanceof Listener){
-			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
+			//Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
-		fixCommands();
+		//fixCommands();
 	}
 	public static void executecommand(CommandSender sender, String message){
 		try{
@@ -525,12 +525,15 @@ public class UltimateCommands implements Listener{
 	public static boolean checkOverridden(final CommandSender sender, Command cmd, final String label, final String[] args){	
 		PluginCommand uc = (PluginCommand) cmd;
 		if(overriddenList.containsKey(uc) || r.getCnfg().getList("disabledcommands").contains(label)){
+			r.debug(uc +" "+ overriddenList.get(uc));
 			PluginCommand pc = overriddenList.get(uc);
 			if(pc == null || pc.getExecutor() == null){ 
 				sender.sendMessage(r.mes("UnknownCommandMessage"));
 				return true;
 			}
-			pc.getExecutor().onCommand(sender, cmd, label, args);
+			r.debug("Executing " + sender + " " + pc + " " + label);
+			
+			pc.execute(sender, label, args);
 			return true;
 		}
 		return false;

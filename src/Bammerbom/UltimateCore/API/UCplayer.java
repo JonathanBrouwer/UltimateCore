@@ -16,6 +16,7 @@ import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.Commands.CmdSpeed;
+import Bammerbom.UltimateCore.Events.EventAFK;
 import Bammerbom.UltimateCore.Events.EventActionMessage;
 import Bammerbom.UltimateCore.Resources.Utils.DateUtil;
 import Bammerbom.UltimateCore.Resources.Utils.GhostsUtil;
@@ -67,6 +68,10 @@ public class UCplayer{
 			return false;
 		}
 		return conf.getBoolean("mute");
+	}
+	public boolean isAFK(){
+		if(!getPlayer().isOnline()) return false;
+		return EventAFK.isAfk(getOnlinePlayer());
 	}
 	public boolean isDeaf(){
 		final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));

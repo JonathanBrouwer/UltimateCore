@@ -29,6 +29,10 @@ public class CmdWarp{
 				return;
 			}
 			ArrayList<String> warps = (ArrayList<String>) UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFwarps).getStringList("warpslist");
+			if(warps == null || warps.isEmpty()){
+				sender.sendMessage(r.mes("Warp.NoWarpsFound"));
+				return;
+			}
 			String iets = "";
 			Integer hoeveel = 0;
 			try{
@@ -62,7 +66,7 @@ public class CmdWarp{
 				sender.sendMessage(r.mes("NoPermissions"));
 				return;
 			}
-			if(!warps.contains(args[0].toLowerCase())){
+			if(warps == null || !warps.contains(args[0].toLowerCase())){
 				sender.sendMessage(r.mes("Warp.WarpNotExist").replaceAll("%Warp", args[0].toLowerCase()));
 				return;
 			}

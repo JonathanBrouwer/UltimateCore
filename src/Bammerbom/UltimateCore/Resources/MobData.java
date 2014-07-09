@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import java.util.logging.Logger;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -115,7 +114,6 @@ public enum MobData
   BUTCHER_VILLAGER("butcher", EntityType.VILLAGER, Villager.Profession.BUTCHER, true), 
   SIZE_SLIME("", "<1-100>", EntityType.SLIME.getEntityClass(), Data.SIZE, true);
 
-  public static final Logger logger = Logger.getLogger("Essentials");
   private final String nickname;
   private final String helpMessage;
   private final Object type;
