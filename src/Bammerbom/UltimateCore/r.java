@@ -66,6 +66,17 @@ public class r {
 	File language = null;
 	static File config = null;
 	static UltimateConfiguration cnfg;
+	public static void debug(Object message){
+		if(!UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFglobal).getBoolean("debug")) return;
+		String logo = "&9[&bUC&9]&r";
+		if(message.toString().contains("@3")){
+			logo = "&4[&bUC&4]&r";
+		}
+		String msg = ChatColor.translateAlternateColorCodes('&', (logo + " " + ChatColor.WHITE + message.toString().replaceAll("@1", default1 + "")
+				.replaceAll("@2", default2 + "").replaceAll("@3", "" + error).replaceAll("\\\\n", "\n")));
+		Bukkit.getConsoleSender().sendMessage(msg);
+		//
+	}
 	public static void log(Object message){
 		String logo = "&9[&bUC&9]&r";
 		if(message.toString().contains("@3")){

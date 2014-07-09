@@ -469,7 +469,7 @@ public class UltimateCommands implements Listener{
 		
 	}
 	static //Label, overriden by
-	Boolean debug = false;
+	Boolean debug = true;
 	private static final transient Map<PluginCommand, PluginCommand> overriddenList = new HashMap<PluginCommand, PluginCommand>();
 	public static void fixCommands(){
 		debug = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFglobal).getBoolean("debug");
@@ -484,18 +484,18 @@ public class UltimateCommands implements Listener{
 			PluginCommand pc = (PluginCommand) command;
 			List<String> labels = new ArrayList<String>(pc.getAliases());
 			labels.add(pc.getName());
+			for(String lab : labels){
 			PluginCommand uc;
-			uc = plugin.getServer().getPluginCommand("ultimatecore:" + pc.getName());
-			if(uc == null){
+			uc = plugin.getServer().getPluginCommand("ultimatecore:" + lab);
+			/*if(uc == null){
 				uc = plugin.getServer().getPluginCommand(pc.getName().toLowerCase(Locale.ENGLISH));
-			}
+			}*/
 			if((uc != null) && uc.getPlugin().equals(plugin)){
-				for(String label : labels){
-					if(label.equalsIgnoreCase(uc.getLabel())){
+					if(lab.equalsIgnoreCase(uc.getLabel())){
 						overriddenList.put(uc, pc);
-						if(debug)r.log(ChatColor.WHITE + "Command overridden: " + label + " (" + pc.getPlugin() + ")");
+						r.debug(ChatColor.WHITE + "Command overridden: " + lab + " (" + pc.getPlugin() + ")");
 					}
-				}
+			}
 			}
 		}
 	}
