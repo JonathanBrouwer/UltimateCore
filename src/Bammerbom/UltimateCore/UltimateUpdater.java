@@ -6,7 +6,13 @@
 
 package Bammerbom.UltimateCore;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -15,7 +21,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -66,7 +71,7 @@ public class UltimateUpdater {
     private static final String delimiter = "^v|[\\s_-]v"; // Used for locating version numbers in file names
     //private static final String[] NO_UPDATE_TAG = { "-DEV", "-PRE", "-SNAPSHOT" }; // If the version number contains one of these, don't update.
     private static final int BYTE_SIZE = 1024; // Used for downloading files
-    private final YamlConfiguration config = new YamlConfiguration(); // Config file
+    private UltimateConfiguration config = new UltimateConfiguration(new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder(), "config.yml")); // Config file
     private String updateFolder;// The folder that downloads will be placed in
     private UltimateUpdater.UpdateResult result = UltimateUpdater.UpdateResult.SUCCESS; // Used for determining the outcome of the update process
 
@@ -171,7 +176,7 @@ public class UltimateUpdater {
         final File updaterFile = new File(pluginFile, "Updater");
         final File updaterConfigFile = new File(updaterFile, "config.yml");
 
-        this.config.options().header("This configuration file affects all plugins using the Updater system (version 2+ - http://forums.bukkit.org/threads/96681/ )" + '\n'
+        this.config.getSource().options().header("This configuration file affects all plugins using the Updater system (version 2+ - http://forums.bukkit.org/threads/96681/ )" + '\n'
                 + "If you wish to use your API key, read http://wiki.bukkit.org/ServerMods_API and place it below." + '\n'
                 + "Some updating systems will not adhere to the disabled value, but these may be turned off in their plugin's configuration.");
         this.config.addDefault("api-key", "PUT_API_KEY_HERE");
@@ -185,10 +190,10 @@ public class UltimateUpdater {
         try {
             if (createFile) {
                 updaterConfigFile.createNewFile();
-                this.config.options().copyDefaults(true);
+                this.config.getSource().options().copyDefaults(true);
                 this.config.save(updaterConfigFile);
             } else {
-                this.config.load(updaterConfigFile);
+                this.config = UltimateConfiguration.loadConfiguration(updaterConfigFile);
             }
         } catch (final Exception e) {
             if (createFile) {
@@ -218,6 +223,7 @@ public class UltimateUpdater {
         }
 
         UltimateUpdater.thread = new Thread(new UpdateRunnable());
+        UltimateUpdater.thread.setName("Updater");
         UltimateUpdater.thread.start();
     }
 

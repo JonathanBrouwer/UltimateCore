@@ -1,7 +1,6 @@
 package Bammerbom.UltimateCore;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,7 +9,6 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -60,13 +58,14 @@ public class r {
         return (permission != null);
     }
 	//All settings
-	public static ChatColor default1 = ChatColor.GOLD;
-	public static ChatColor default2 = ChatColor.YELLOW;
+	public static ChatColor default1 = ChatColor.DARK_AQUA;
+	public static ChatColor default2 = ChatColor.AQUA;
+	
 	public static ChatColor error = ChatColor.RED;
 	//Resource saving
 	File language = null;
 	static File config = null;
-	static YamlConfiguration cnfg;
+	static UltimateConfiguration cnfg;
 	public static void log(Object message){
 		String logo = "&9[&bUC&9]&r";
 		if(message.toString().contains("@3")){
@@ -114,11 +113,11 @@ public class r {
 		}
 	}
 	public static String word(String padMessage){
-		YamlConfiguration lang = null;
+		UltimateConfiguration lang = null;
 		if(UltimateFileLoader.LANGf == null){
 			return null;
 		}
-	    lang = YamlConfiguration.loadConfiguration(UltimateFileLoader.LANGf);
+	    lang = UltimateConfiguration.loadConfiguration(UltimateFileLoader.LANGf);
 	    if(lang.get(padMessage) == null){
 	    	return null;
 	    }
@@ -127,7 +126,7 @@ public class r {
 	    	String try1 = ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
 	        return try1;
 	    }
-	    lang = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Messages/EN.yml"));
+	    lang = UltimateConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Messages/EN.yml"));
 	    if(lang.get(padMessage) != null){
 	    	String try2 = ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
 	        return try2;
@@ -135,11 +134,11 @@ public class r {
 		return null;
 	}
 	public static String mes(String padMessage){
-			YamlConfiguration lang = null;
+			UltimateConfiguration lang = null;
 			if(UltimateFileLoader.LANGf == null){
 				return null;
 			}
-		    lang = YamlConfiguration.loadConfiguration(UltimateFileLoader.LANGf);
+		    lang = UltimateConfiguration.loadConfiguration(UltimateFileLoader.LANGf);
 		    if(lang.get(padMessage) == null){
 		    	return null;
 		    }
@@ -148,7 +147,7 @@ public class r {
 		    	String try1 = default1 + ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
 		        return try1;
 		    }
-		    lang = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Messages/EN.yml"));
+		    lang = UltimateConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Messages/EN.yml"));
 		    if(lang.get(padMessage) != null){
 		    	String try2 = default1 + ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
 		        return try2;
@@ -156,15 +155,11 @@ public class r {
 			return null;
 		
 	}
-	public static YamlConfiguration getCnfg(){
-		return YamlConfiguration.loadConfiguration(new File(r.plugin.getDataFolder(), "config.yml"));
+	public static UltimateConfiguration getCnfg(){
+		return UltimateConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
 	}
 	public static void saveCnfg(){
-	    try {
-			cnfg.save(config);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    cnfg.save(config);
 	}
 	
 	public static boolean isNumber(String check){

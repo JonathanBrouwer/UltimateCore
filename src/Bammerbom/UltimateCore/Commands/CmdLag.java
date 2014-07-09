@@ -55,7 +55,7 @@ public class CmdLag{
 			for(Chunk c : w.getLoadedChunks()){
 				tiles += c.getTileEntities().length;
 			}
-			msgs.add(r.default1 + "World '" + r.default2 + w.getName() + r.default1 + "': " + r.default2 + w.getLoadedChunks().length + r.default1 + " chunks, " + r.default2 + w.getEntities().size() + r.default1 + " entities, " + r.default2 + tiles);
+			msgs.add(r.default1 + "World '" + r.default2 + w.getName() + r.default1 + "': " + r.default2 + w.getLoadedChunks().length + r.default1 + " chunks, " + r.default2 + w.getEntities().size() + r.default1 + " entities, " + r.default2 + tiles + r.default1 + " tiles.");
 		}
 		for(String string : msgs){
 	    	sender.sendMessage(string);

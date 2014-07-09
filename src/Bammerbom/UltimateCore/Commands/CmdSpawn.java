@@ -4,11 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 
@@ -21,7 +21,7 @@ public class CmdSpawn{
 		}
 	}
 	public static void handle(CommandSender sender, String label, String[] args){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
 	    if(data.get("spawn") != null){
 		 String[] loc = data.getString("spawn").split(",");
 	        World w = Bukkit.getWorld(loc[0]);

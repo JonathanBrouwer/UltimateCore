@@ -29,6 +29,7 @@ import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class EventAFK implements Listener{
 	static Plugin plugin;
@@ -52,7 +53,7 @@ public class EventAFK implements Listener{
 						if(dif > plugin.getConfig().getInt("Afk.AfkTime")){
 							if(!afk.contains(str)){
 							afk.add(str);
-							Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", p.getName()));
+							Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", UC.getPlayer(p).getNick()));
 							}
 						}
 						if(dif > plugin.getConfig().getInt("Afk.KickTime")){
@@ -76,11 +77,11 @@ public class EventAFK implements Listener{
 			if(!r.isPlayer(sender)) return;
 			if(!r.perm(sender, "uc.afk", true, true)) return;
 			if(!afk.contains(sender.getName())){
-				Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", sender.getName()));
+				Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", UC.getPlayer((Player)sender).getNick()));
 				afk.add(sender.getName());
 			}else{
 				afk.remove(sender.getName());
-				Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", sender.getName()));
+				Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", UC.getPlayer((Player) sender).getNick()));
 			}
 		}else{
 			if(!r.perm(sender, "uc.afk.others", false, true)) return;
@@ -88,11 +89,11 @@ public class EventAFK implements Listener{
 			if(Bukkit.getPlayer(target) != null){
 				Player t = Bukkit.getPlayer(target);
 				if(!afk.contains(t.getName())){
-					Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", t.getName()));
+					Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", UC.getPlayer(t).getNick()));
 					afk.add(t.getName());
 				}else{
 					afk.remove(t.getName());
-					Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", t.getName()));
+					Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", UC.getPlayer(t).getNick()));
 				}
 			}else{
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", target));
@@ -183,7 +184,7 @@ public class EventAFK implements Listener{
 				lastaction.put(p.getName(), System.currentTimeMillis());
 				if(afk.contains(p.getName())){
 					afk.remove(p.getName());
-					Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", p.getName()));
+					Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", UC.getPlayer(p).getNick()));
 				}
 			}
 		});

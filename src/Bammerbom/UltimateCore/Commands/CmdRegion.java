@@ -8,7 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.Resources.Region;
@@ -112,7 +112,7 @@ public class CmdRegion implements Listener{
 			return;
 		}
 		String name = args[1];
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFregions);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFregions);
 		conf.set("regions." + name + "w", loc1.getWorld());
 		conf.set("regions." + name + ".x1", loc1.getBlockX());
 		conf.set("regions." + name + ".y1", loc1.getBlockY());

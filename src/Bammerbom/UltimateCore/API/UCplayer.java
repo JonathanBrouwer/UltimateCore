@@ -1,6 +1,5 @@
 package Bammerbom.UltimateCore.API;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -11,9 +10,9 @@ import org.bukkit.BanList.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.Commands.CmdSpeed;
@@ -49,7 +48,7 @@ public class UCplayer{
 		uuid = p.getPlayer().getUniqueId();
 	}
 	public Long getLastConnectMillis(){
-		final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		if(conf.get("lastconnect") != null){
 			return conf.getLong("lastconnect");
 		}else{
@@ -57,7 +56,7 @@ public class UCplayer{
 		}
 	}
 	public boolean isMuted(){
-		final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		if(conf.getBoolean("mute") == false) return false;
 		if(conf.getLong("mutetime") == 0 || conf.getLong("mute") == -1) return true;
 		if(System.currentTimeMillis() >= conf.getLong("mutetime")){
@@ -70,7 +69,7 @@ public class UCplayer{
 		return conf.getBoolean("mute");
 	}
 	public boolean isDeaf(){
-		final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		if(conf.getBoolean("deaf") == false) return false;
 		if(conf.getLong("deaftime") == 0 || conf.getLong("deaf") == -1) return true;
 		if(System.currentTimeMillis() >= conf.getLong("deaftime")){
@@ -83,81 +82,57 @@ public class UCplayer{
 		return conf.getBoolean("deaf");
 	}
 	public boolean isGod(){
-		final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		return (conf.get("godmode") != null) ? conf.getBoolean("godmode") : false;
 	}
 	public void setMuted(Boolean m){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		data.set("mute", m);
 		data.set("mutetime", 0);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 	}
 	public void setMuted(Boolean m, Long time){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		data.set("mute", m);
 		data.set("mutetime", time);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 	}
 	public void setDeaf(Boolean m){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		data.set("deaf", m);
 		data.set("deaftime", 0);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 	}
 	public void setDeaf(Boolean m, Long time){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		data.set("deaf", m);
 		data.set("deaftime", time);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 	}
 	public String getNick(){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		if(data.get("nick") == null) return getPlayer().getName();
 		String nick = ChatColor.translateAlternateColorCodes('&', data.getString("nick"));
 		if(getPlayer().isOnline() && r.perm((Player)getPlayer(), "uc.rainbow", false, false)) nick = nick.replaceAll("&y", r.getRandomChatColor() + "");
 		return nick + ChatColor.RESET;
 	}
 	public void setNick(String str){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		data.set("nick", str);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 	}
 	public Boolean isSpy(){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		if(data.get("spy") == null) return false;
 		return data.getBoolean("spy");
 	}
 	public void setSpy(Boolean str){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		data.set("spy", str);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 	}
 	public boolean isBanned(){
-		 final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		 final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		 if(conf.get("banned") == null){ return false; }
 		 if(!conf.getBoolean("banned") == true) return false;
 		 if(conf.get("bantime") != null && conf.getLong("bantime") < 1 ) return true;
@@ -165,11 +140,7 @@ public class UCplayer{
 				conf.set("banned", false);
 				conf.set("banreason", null);
 				conf.set("bantime", null);
-				try {
-					conf.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
+				conf.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 				return false;
 		 }else{
 			 return true;
@@ -177,37 +148,33 @@ public class UCplayer{
 		 
 	}
 	public boolean hasTeleportEnabled(){
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		if(conf.get("tpenabled") == null) return true;
 		return conf.getBoolean("tpenabled");
 	}
 	public void setTeleportEnabled(Boolean b){
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		conf.set("tpenabled", b);
-		try {
-			conf.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		conf.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 	}
 	public long getBanTimeLeftMillis(){
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		return conf.getLong("bantime");
 	}
     public String getBanReason(){
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		return conf.getString("banreason");
     }
     public long getMuteTimeLeftMillis(){
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		return conf.getLong("mutetime");
     }
     public long getDeafTimeLeftMillis(){
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		return conf.getLong("deaftime");
     }
     public long getFreezeTimeLeftMillis(){
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		return conf.getLong("freezetime");
     }
 	public void setBanned(Boolean banned, String reason){
@@ -221,15 +188,11 @@ public class UCplayer{
 			EventActionMessage.setEnb(true);
 		}
 		//pconf
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(banp));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(banp));
 		conf.set("banned", banned);
 		conf.set("banreason", reason);
 		conf.set("bantime", -1L);
-		try {
-			conf.save(UltimateFileLoader.getPlayerFile(banp));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		conf.save(UltimateFileLoader.getPlayerFile(banp));
 		if(banned == false){
 		Bukkit.getBanList(Type.NAME).pardon(name);
 		}else{
@@ -253,7 +216,7 @@ public class UCplayer{
 			EventActionMessage.setEnb(true);
 		}
 		//pconf
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(banp));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(banp));
 		conf.set("banned", banned);
 		conf.set("banreason", reason);
 		conf.set("bantime", timen);
@@ -262,7 +225,7 @@ public class UCplayer{
 		}
 		try {
 			conf.save(UltimateFileLoader.getPlayerFile(banp));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		if(banned == false){
@@ -289,20 +252,16 @@ public class UCplayer{
 	    p.getInventory().setBoots(null);
 	}
 	public boolean isFrozen(){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		if(data.get("freeze") == null){
 			return false;
 		}
 		return data.getBoolean("freeze");
 	}
 	public void setFrozen(Boolean set){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		data.set("freeze", set);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 	}
 	public void setSpeed(Float f){
 		getOnlinePlayer().setWalkSpeed(CmdSpeed.getSpeed(f, false));
@@ -330,17 +289,17 @@ public class UCplayer{
 		return getJail() != null;
 	}
 	public Long getJailTimeLeftMillis(){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		return data.getLong("jailtime");
 	}
 	public String getJail(){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		return data.getString("jail");
 	}
 	public void setJailed(Boolean b, String str, Long time){
 		if(b){
 		Random ra = new Random();
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFjails);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFjails);
 		String jail = "";
 		if(str != null){
 			jail = str;
@@ -351,23 +310,15 @@ public class UCplayer{
 			   }	
 			   jail = jails.get(ra.nextInt(jails.size()));
 		}
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		data.set("jail", jail);
 		data.set("jailtime", time);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 		
 		}else{
-			YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 			data.set("jail", null);
-			try {
-				data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 		}
 		
 	}

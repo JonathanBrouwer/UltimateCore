@@ -1,15 +1,13 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 
@@ -27,16 +25,12 @@ public class CmdSetSpawn{
 		    if(r.perm(p, "uc.setspawn", false, true) == false){
 				return;
 			}
-		    YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
+		    UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
 		    Location loc = p.getLocation();
 		    loc.getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 		    String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
 		    data.set("spawn", location);
-		    try {
-				data.save(UltimateFileLoader.DFspawns);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		    data.save(UltimateFileLoader.DFspawns);
 		    p.sendMessage(r.mes("Set.Spawn"));
 		}
 	}

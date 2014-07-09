@@ -1,15 +1,13 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 
@@ -43,13 +41,9 @@ public class CmdNick implements Listener{
 			if(o && !r.perm(sender, "uc.nick.others", false, true)) return;
 			sender.sendMessage(r.mes("Nick.Message").replaceAll("%Name", "off").replaceAll("%Player", t.getName()));
 			if(o) t.sendMessage(r.mes("Nick.MessageOthers").replaceAll("%Player", sender.getName()).replaceAll("%Name", "off"));
-			YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
 			data.set("nick", null);
-			try {
-				data.save(UltimateFileLoader.getPlayerFile(t));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			data.save(UltimateFileLoader.getPlayerFile(t));
 			return;
 		}
 		Player t;
@@ -69,13 +63,9 @@ public class CmdNick implements Listener{
 			return;
 		}
 		name = ChatColor.translateAlternateColorCodes('&', args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", ""));
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
 		data.set("nick", name);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(t));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data.save(UltimateFileLoader.getPlayerFile(t));
 		sender.sendMessage(r.mes("Nick.Message").replaceAll("%Name", name).replaceAll("%Player", t.getName()));
 		if(o) t.sendMessage(r.mes("Nick.MessageOthers").replaceAll("%Player", sender.getName()).replaceAll("%Name", name));
 	}

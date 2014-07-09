@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.util.org.apache.commons.lang3.exception.ExceptionUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -90,6 +89,7 @@ import Bammerbom.UltimateCore.Events.EventUnknownCommand;
 import Bammerbom.UltimateCore.Events.EventWeather;
 import Bammerbom.UltimateCore.Minigames.MinigameManager;
 import Bammerbom.UltimateCore.Resources.BossBar;
+import Bammerbom.UltimateCore.Resources.ErrorLogger;
 import Bammerbom.UltimateCore.Resources.FireworkEffectPlayer;
 import Bammerbom.UltimateCore.Resources.Window;
 import Bammerbom.UltimateCore.Resources.Databases.BlockDatabase;
@@ -110,8 +110,6 @@ public class UltimateCore extends JavaPlugin{
 		try{
 		Long time = System.currentTimeMillis();
 		new r(this);
-		//r.log(ChatColor.GREEN + "Enabling Ultimate Core...");
-		//CHECK
 		String c = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
 		Integer v = Integer.parseInt(c.replaceAll("\\.", ""));
 		if(v < 176){
@@ -212,7 +210,7 @@ public class UltimateCore extends JavaPlugin{
 	    //
 	    items = new ItemDatabase(this);
 	    items.enable();
-		database = new BlockDatabase(this);
+		//database = new BlockDatabase(this);
 		//database.enable();
 		//
 	    minigames = new MinigameManager(this);
@@ -247,18 +245,13 @@ public class UltimateCore extends JavaPlugin{
 		time = System.currentTimeMillis() - time;
 		r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");	
 		}catch(Exception ex){
-			r.log(ChatColor.RED + "Failed to load UltimateCore!");
-			r.log(ChatColor.RED + "Please create a ticket including the blue part of this error:");
-			r.log(ChatColor.YELLOW + "dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket/");
-			r.log(ChatColor.AQUA + ExceptionUtils.getStackTrace(ex));
-			r.log(ChatColor.WHITE + "Returning startup of the server...");
+		    new ErrorLogger(ex, "Failed to load UltimateCore.");
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 			}
 		}
 		CmdWorld.loadws();
-		//new t(this);
 	}
 	public ClassLoader getClassLoaderUC(){
 		return super.getClassLoader();
@@ -289,10 +282,7 @@ public class UltimateCore extends JavaPlugin{
 		try{
 		UltimateCommands.onCmd(sender, cmd, label, args);
 		}catch(Exception ex){
-			r.log(ChatColor.RED + "Failed to execute " + label + " command of UltimateCore!");
-			r.log(ChatColor.RED + "Please create a ticket including the blue part of this erro:");
-			r.log(ChatColor.YELLOW + "dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket/");
-			r.log(ChatColor.AQUA + ExceptionUtils.getStackTrace(ex));
+		    new ErrorLogger(ex, "Failed to execute " + cmd.getLabel() + " command.");
 		}
 		return true;
 	}

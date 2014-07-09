@@ -1,10 +1,7 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -16,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 
@@ -36,23 +34,19 @@ public class CmdGod implements Listener{
 				return;
 			}
 			Player p = (Player)sender;
-			FileConfiguration pconf = null;
+			UltimateConfiguration pconf = null;
 			String status = "on";
-			try {
-				 pconf = UltimateFileLoader.getPlayerConfig(p);
-				 if(pconf.get("godmode") == null){
-					 pconf.set("godmode", true); 
-				 }
-				 else if(pconf.getBoolean("godmode") == true){
-					 pconf.set("godmode", false);
-					 status = "off";
-				 }else{
-					 pconf.set("godmode", true);
-				 }
-				 pconf.save(UltimateFileLoader.getPlayerFile(p));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			pconf = UltimateFileLoader.getPlayerConfig(p);
+			 if(pconf.get("godmode") == null){
+				 pconf.set("godmode", true); 
+			 }
+			 else if(pconf.getBoolean("godmode") == true){
+				 pconf.set("godmode", false);
+				 status = "off";
+			 }else{
+				 pconf.set("godmode", true);
+			 }
+			 pconf.save(UltimateFileLoader.getPlayerFile(p));
 			sender.sendMessage(r.mes("God.forSelf").replaceAll("%Status", status));
 		}else{
 			if(r.perm(sender, "uc.god.others", false, true) == false){
@@ -62,23 +56,19 @@ public class CmdGod implements Listener{
 			if(t == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			}else{
-				FileConfiguration pconf = null;
+				UltimateConfiguration pconf = null;
 				String status = "on";
-				try {
-					 pconf = UltimateFileLoader.getPlayerConfig(t);
-					 if(pconf.get("godmode") == null){
-						 pconf.set("godmode", true); 
-					 }
-					 else if(pconf.getBoolean("godmode") == true){
-						 pconf.set("godmode", false);
-						 status = "off";
-					 }else{
-						 pconf.set("godmode", true);
-					 }
-					 pconf.save(UltimateFileLoader.getPlayerFile(t));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				pconf = UltimateFileLoader.getPlayerConfig(t);
+				 if(pconf.get("godmode") == null){
+					 pconf.set("godmode", true); 
+				 }
+				 else if(pconf.getBoolean("godmode") == true){
+					 pconf.set("godmode", false);
+					 status = "off";
+				 }else{
+					 pconf.set("godmode", true);
+				 }
+				 pconf.save(UltimateFileLoader.getPlayerFile(t));
 				sender.sendMessage(r.mes("God.selfMessage").replaceAll("%Status", status).replaceAll("%Player", t.getName()));
 				t.sendMessage(r.mes("God.otherMessage").replaceAll("%Status", status));
 			}

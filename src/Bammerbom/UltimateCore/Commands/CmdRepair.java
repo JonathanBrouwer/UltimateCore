@@ -1,11 +1,8 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,6 +12,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 
@@ -58,7 +56,7 @@ public class CmdRepair implements Listener{
 				t.sendMessage(r.mes("Repair.otherMessage"));
 			}
 		}else{
-			YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
 			
 			if(UltimateFileLoader.getPlayerConfig(t).get("repairmode") != null && UltimateFileLoader.getPlayerConfig(t).getBoolean("repairmode") == true){
 				data.set("repairmode", false);
@@ -78,11 +76,7 @@ public class CmdRepair implements Listener{
 				}
 			}
 			
-			try {
-				data.save(UltimateFileLoader.getPlayerFile(t));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			data.save(UltimateFileLoader.getPlayerFile(t));
 		}
 		
 		

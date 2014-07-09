@@ -1,6 +1,5 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventException;
@@ -26,6 +24,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.API.UC;
@@ -74,7 +73,7 @@ public class CmdJail implements Listener{
 	public static void jail(CommandSender sender, String label, String[] args){
 		if(r.checkArgs(args, 0) == false){
 			if(!r.perm(sender, "uc.jail", false, true)) return;
-		   YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFjails);
+		   UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFjails);
 		   StringBuilder b = new StringBuilder(r.mes("Jail.List").replaceAll("%Jails", ""));
 		   Boolean a = false;
 		   for(String str : conf.getConfigurationSection("Jails").getKeys(true)){
@@ -90,7 +89,7 @@ public class CmdJail implements Listener{
 				sender.sendMessage(r.mes("Jail.Usage"));
 				return;
 			}
-			YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFjails);
+			UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFjails);
 			String player = args[0];
 			if(Bukkit.getPlayer(player) == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
@@ -131,7 +130,7 @@ public class CmdJail implements Listener{
 		}
 	}
 	public static boolean jailgone(OfflinePlayer p, Boolean directreset){
-		final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
 		if(conf.get("jail") == null) return false;
 		if(conf.getLong("jailtime") == 0 || conf.getLong("jailtime") == -1) return false;
 		if(System.currentTimeMillis() >= conf.getLong("jailtime")){
@@ -160,7 +159,7 @@ public class CmdJail implements Listener{
 		}
 		ut.setJailed(false, null, 0L);
 		//
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
 	    if(data.get("spawn") != null){
 		 String[] loc = data.getString("spawn").split(",");
 	        World w = Bukkit.getWorld(loc[0]);
@@ -185,13 +184,9 @@ public class CmdJail implements Listener{
 		if(!r.isPlayer(sender)) return;
 		Player p = (Player) sender;
 		String loc = LocationUtil.convertLocationToString(p.getLocation());
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFjails);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFjails);
 		conf.set("Jails." + args[0], loc);
-		try {
-			conf.save(UltimateFileLoader.DFjails);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		conf.save(UltimateFileLoader.DFjails);
 		sender.sendMessage(r.mes("Jail.JailSet").replaceAll("%Name", args[0]));
 	}
 	public static void delJail(CommandSender sender, String label, String[] args){
@@ -200,17 +195,13 @@ public class CmdJail implements Listener{
 			sender.sendMessage(r.mes("Jail.Usage4"));
 			return;
 		}
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFjails);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFjails);
 		if(conf.get("Jails." + args[0]) == null){
 			sender.sendMessage(r.mes("Jail.NotFound").replaceAll("%Jail", args[0]));
 			return;
 		}
 		conf.set("Jails." + args[0], null);
-		try {
-			conf.save(UltimateFileLoader.DFjails);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		conf.save(UltimateFileLoader.DFjails);
         sender.sendMessage(r.mes("Jail.JailRemoved").replaceAll("%Name", args[0]));
 	}
 	@EventHandler

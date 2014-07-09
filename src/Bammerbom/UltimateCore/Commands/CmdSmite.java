@@ -25,6 +25,10 @@ public class CmdSmite{
     			return;
     		}
     		Player target = Bukkit.getPlayer(args[0]);
+    		if(target == null){
+    			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
+    			return;
+    		}
     		Location tPlayerLocation = target.getLocation();
     		if(r.getCnfg().getBoolean("SmiteDamage") == false){
     		    target.getWorld().strikeLightningEffect(tPlayerLocation);
@@ -55,6 +59,10 @@ public class CmdSmite{
     			return;
     		}
     		Player target = Bukkit.getPlayer(args[0]);
+    		if(target == null){
+    			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
+    			return;
+    		}
     		Location tPlayerLocation = target.getLocation();
     		if(r.getCnfg().getBoolean("SmiteDamage") == false){
     			for (int i = 0; i < 20; i++){

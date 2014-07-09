@@ -1,11 +1,8 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.Resources.Utils.InventoryUtil;
@@ -47,7 +45,7 @@ public class CmdInv implements Listener{
     	  			p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
     	  			return;
     	  		}
-	  			YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+	  			UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
 	  			if(conf.get("lastinventory") == null){
 	  				p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
     	  			return;
@@ -61,14 +59,10 @@ public class CmdInv implements Listener{
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void playerquit(PlayerQuitEvent e){
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 	    String inv = InventoryUtil.InventoryToString(e.getPlayer().getInventory());
 	    conf.set("lastinventory", inv);
-	    try {
-			conf.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+	    conf.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)

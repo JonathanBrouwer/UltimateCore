@@ -1,12 +1,9 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,6 +12,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 
@@ -29,15 +27,11 @@ public class CmdBack implements Listener{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onTp(PlayerTeleportEvent e){
 		if(e.getCause().equals(TeleportCause.COMMAND) || e.getCause().equals(TeleportCause.PLUGIN) || e.getCause().equals(TeleportCause.UNKNOWN)){
-			YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 			Location loc = e.getFrom();
 		    String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
 		    data.set("back", location);
-		    try {
-				data.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
+		    data.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 		}
 	}
 	public static void handle(CommandSender sender, String[] args){
@@ -48,7 +42,7 @@ public class CmdBack implements Listener{
         	return;
         }
         Player p = ((Player) sender);
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
 	    if(data.get("back") != null){
 		 String[] loc = data.getString("back").split(",");
 	        World w = Bukkit.getWorld(loc[0]);

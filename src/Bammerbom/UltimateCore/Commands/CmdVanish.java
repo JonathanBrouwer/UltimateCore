@@ -1,11 +1,8 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,6 +12,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateCommands;
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.Resources.Utils.DateUtil;
@@ -78,7 +76,7 @@ public class CmdVanish implements Listener{
 		}
 	}
 	public static boolean Vanish(OfflinePlayer p){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
 		if(data.get("vanish") == null){
 			return false;
 		}
@@ -86,7 +84,7 @@ public class CmdVanish implements Listener{
 		return data.getBoolean("vanish");
 	}
 	public static boolean vanishgone(OfflinePlayer p, Boolean directreset){
-		final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
 		if(conf.getBoolean("vanish") == false) return false;
 		if(conf.getLong("vanishtime") == 0 || conf.getLong("vanish") == -1) return false;
 		if(System.currentTimeMillis() >= conf.getLong("vanishtime")){
@@ -109,14 +107,10 @@ public class CmdVanish implements Listener{
 			}
 		}
 		
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
 		data.set("vanish", set);
 		data.set("vanishtime", time);
-		try {
-			data.save(UltimateFileLoader.getPlayerFile(p));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data.save(UltimateFileLoader.getPlayerFile(p));
 		
 	}
 	public void playerUpdateEvent(){

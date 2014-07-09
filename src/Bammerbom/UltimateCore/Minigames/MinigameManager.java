@@ -1,7 +1,6 @@
 package Bammerbom.UltimateCore.Minigames;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,8 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.Resources.Utils.GhostsUtil;
@@ -267,7 +265,7 @@ arena.getPlayers().remove(player.getName());
 //And our final method, loading each arena
 //This will be resonsible for creating each arena from the config, and creating an object to represent it
 //Call this method in your main class, onEnable
-public YamlConfiguration mc = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFminigames);
+public UltimateConfiguration mc = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFminigames);
 public File mcf = UltimateFileLoader.DFminigames;
 
 
@@ -275,7 +273,7 @@ public Integer loadArenas() {
 
 //I just create a quick Config Variable, obviously don't do this.
 //Use your own config file
-FileConfiguration fc = mc; //If you just use this code, it will erorr, its null. Read the notes above, USE YOUR OWN CONFIGURATION FILE
+UltimateConfiguration fc = mc; //If you just use this code, it will erorr, its null. Read the notes above, USE YOUR OWN CONFIGURATION FILE
 
 //Youll get an error here, FOR THE LOVE OF GAWD READ THE NOTES ABOVE!!!
 if(fc.get("arenas") == null) return 0;
@@ -331,8 +329,8 @@ public void createArena(String type, String arenaName, Location joinLocation, Lo
 //Now, lets create an arena object to represent it:
 Arena arena = new Arena(type, arenaName, joinLocation, startLocation, endLocation, maxPlayers, startPlayers);
 
-//Now here is where you would save it all to a file, again, im going to create a null FileConfiguration, USE YOUR OWN!!!
-FileConfiguration fc = mc; //USE YOUR OWN PUNK
+//Now here is where you would save it all to a file, again, im going to create a null UltimateConfiguration, USE YOUR OWN!!!
+UltimateConfiguration fc = mc; //USE YOUR OWN PUNK
 
 fc.set("arenas." + arenaName, null); //Set its name
 //Now sets the other values
@@ -365,11 +363,7 @@ fc.set(path + "endPITCH", endLocation.getPitch());
 fc.set(path + "maxPlayers", maxPlayers);
 fc.set(path + "startPlayers", startPlayers);
 
-try {
-	fc.save(mcf);
-} catch (IOException e) {
-	e.printStackTrace();
-}
+fc.save(mcf);
 
 }
 //EVENTS

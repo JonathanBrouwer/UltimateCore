@@ -12,7 +12,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.PluginCommandYamlParser;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -473,7 +472,7 @@ public class UltimateCommands implements Listener{
 	Boolean debug = false;
 	private static final transient Map<PluginCommand, PluginCommand> overriddenList = new HashMap<PluginCommand, PluginCommand>();
 	public static void fixCommands(){
-		debug = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFglobal).getBoolean("debug");
+		debug = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFglobal).getBoolean("debug");
 		for(Plugin pl : Bukkit.getPluginManager().getPlugins()){
 			if(pl.isEnabled() && !pl.equals(plugin)) addPlugin(pl);
 		}
@@ -525,7 +524,7 @@ public class UltimateCommands implements Listener{
 	}
 	public static boolean checkOverridden(final CommandSender sender, Command cmd, final String label, final String[] args){	
 		PluginCommand uc = (PluginCommand) cmd;
-		if(overriddenList.containsKey(uc) || r.getCnfg().getStringList("disabledcommands").contains(label)){
+		if(overriddenList.containsKey(uc) || r.getCnfg().getList("disabledcommands").contains(label)){
 			PluginCommand pc = overriddenList.get(uc);
 			if(pc == null || pc.getExecutor() == null){ 
 				sender.sendMessage(r.mes("UnknownCommandMessage"));

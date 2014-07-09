@@ -1,7 +1,6 @@
 package Bammerbom.UltimateCore.Commands;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +12,9 @@ import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +25,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.API.UCworld;
@@ -43,7 +43,7 @@ public class CmdWorld implements Listener{
 		}
 	}
 	public static void loadws(){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
 		if(data.get("worldlist") == null){ return; }
 		for(String str : data.getStringList("worldlist")){
 		    Bukkit.createWorld(new WorldCreator(str));
@@ -103,29 +103,22 @@ public class CmdWorld implements Listener{
 		}
 			sender.sendMessage(r.mes("World.Create.Creating").replaceAll("%world", settings.name()));
 			Bukkit.createWorld(settings);
+			
 			try{
-				YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+				UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
 				List<String> worlds = data.getStringList("worldlist");
 				if(worlds == null){ worlds = new ArrayList<String>(); }
 				worlds.add(settings.name());
 				data.set("worldlist", worlds);
 				data.set("worlds." + settings.name(), settings.type().toString());
-			try {
-				data.save(UltimateFileLoader.DFworlds);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			data.save(UltimateFileLoader.DFworlds);
 			}catch(NullPointerException e){
-				YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+				UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
 
 				HashMap<String, String> worlds = new HashMap<String, String>();
 				worlds.put(settings.name(), settings.environment().name());
 				data.set("worlds", worlds);
-				try {
-					data.save(UltimateFileLoader.DFworlds);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				data.save(UltimateFileLoader.DFworlds);
 			}
 			
 			sender.sendMessage(r.mes("World.Create.Created").replaceAll("%world", settings.name()));
@@ -167,25 +160,17 @@ public class CmdWorld implements Listener{
 		Bukkit.createWorld(settings);
 	
 		try{
-			YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
 			List<String> worlds = data.getStringList("worldlist");
 			if(worlds == null){ worlds = new ArrayList<String>(); }
 			worlds.add(settings.name());
 			data.set("worldlist", worlds);
 			data.set("worlds." + settings.name(), settings.type().toString());
-			try {
-				data.save(UltimateFileLoader.DFworlds);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			data.save(UltimateFileLoader.DFworlds);
 			}catch(NullPointerException e){
-				YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+				UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
 				data.set("worlds." + settings.name(), settings.type().toString());
-				try {
-					data.save(UltimateFileLoader.DFworlds);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				data.save(UltimateFileLoader.DFworlds);
 			}
 		sender.sendMessage(r.mes("World.Import.Imported").replaceAll("%world", settings.name()));
 		}else{
@@ -248,19 +233,15 @@ public class CmdWorld implements Listener{
 			Bukkit.getServer().unloadWorld(world, true);
 			WorldCreator settings = new WorldCreator(args[1]);
 			try{
-				YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+				UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
 				data.set("worlds." + world.getName(), null);
 				List<String> worldlist = data.getStringList("worldlist");
 				if(worldlist == null){ worldlist = new ArrayList<String>(); }
 				worldlist.remove(settings.name());
 				data.set("worldlist", worldlist);
-				try {
-					data.save(UltimateFileLoader.DFworlds);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				data.save(UltimateFileLoader.DFworlds);
 				}catch(NullPointerException e){
-					YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+					UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
 					HashMap<String, String> worlds = new HashMap<String, String>();
 					worlds.remove(settings.name());
 					data.set("worlds", worlds);
@@ -268,11 +249,7 @@ public class CmdWorld implements Listener{
 					if(worldlist == null){ worldlist = new ArrayList<String>(); }
 					worldlist.remove(settings.name());
 					data.set("worldlist", worldlist);
-					try {
-						data.save(UltimateFileLoader.DFworlds);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					data.save(UltimateFileLoader.DFworlds);
 				}
 			sender.sendMessage(r.mes("World.Remove").replaceAll("%world", world.getName()));
 		}else{
@@ -443,22 +420,22 @@ public class CmdWorld implements Listener{
 	}
 	@EventHandler(priority = EventPriority.LOW)
 	public void mobSpawn(CreatureSpawnEvent e){
-		if(e.getEntity() instanceof Monster || MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.ENEMY)){
-			if(e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG)){
-				return;
-			}
+		if(e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG) || e.getSpawnReason().equals(SpawnReason.CUSTOM)){
+			return;
+		}
+		
+		if(e.getEntity() instanceof Monster || MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.ENEMY) || e.getEntityType().equals(EntityType.GHAST) || e.getEntityType().equals(EntityType.SLIME)){
 			UCworld w = new UCworld(e.getLocation().getWorld());
 			if(w.isFlagDenied(WorldFlag.MONSTER)){
 			  e.setCancelled(true);
+			}else{
 			}
 		}
-		if(e.getEntity() instanceof Animals || (MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.FRIENDLY)) || MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.NEUTRAL)){
-			if(e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG)){
-				return;
-			}
+		if(e.getEntity() instanceof Animals || (MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.FRIENDLY)) || MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.NEUTRAL) || e.getEntityType().equals(EntityType.SQUID)){
 			UCworld w = new UCworld(e.getLocation().getWorld());
 			if(w.isFlagDenied(WorldFlag.ANIMAL)){
 			  e.setCancelled(true);
+			}else{
 			}
 		}
 	}

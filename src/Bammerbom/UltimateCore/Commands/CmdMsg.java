@@ -1,16 +1,15 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.API.UC;
@@ -40,21 +39,13 @@ public class CmdMsg{
 		}
 		if(sender instanceof Player){
 			//sender
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile((Player) sender));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile((Player) sender));
 		conf.set("lastmessage", pl.getUniqueId().toString());
-		try {
-			conf.save(UltimateFileLoader.getPlayerFile((Player) sender));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		conf.save(UltimateFileLoader.getPlayerFile((Player) sender));
 		//target
-		YamlConfiguration conf2 = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(pl));
+		UltimateConfiguration conf2 = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(pl));
 		conf2.set("lastmessage", ((Player)sender).getUniqueId().toString());
-		try {
-			conf2.save(UltimateFileLoader.getPlayerFile(pl));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		conf2.save(UltimateFileLoader.getPlayerFile(pl));
 		}
 		String chatcolor2 = r.getCnfg().getString("Chat.Color2") + "";
 		String cc2 = ChatColor.translateAlternateColorCodes('&', chatcolor2);
@@ -80,7 +71,7 @@ public class CmdMsg{
 			sender.sendMessage(r.mes("Whisper.Usage2"));
 			return;
 		}
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
 		if(conf.get("lastmessage") == null){
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", "-"));
 			return;
@@ -101,19 +92,11 @@ public class CmdMsg{
 		if(sender instanceof Player){
 			//sender
 		conf.set("lastmessage", t.getUniqueId().toString());
-		try {
-			conf.save(UltimateFileLoader.getPlayerFile((Player) sender));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		conf.save(UltimateFileLoader.getPlayerFile((Player) sender));
 		//target
-		YamlConfiguration conf2 = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+		UltimateConfiguration conf2 = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
 		conf2.set("lastmessage", ((Player)sender).getUniqueId().toString());
-		try {
-			conf2.save(UltimateFileLoader.getPlayerFile(t));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		conf2.save(UltimateFileLoader.getPlayerFile(t));
 		}
 		
 		

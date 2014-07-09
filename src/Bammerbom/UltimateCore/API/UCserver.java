@@ -3,15 +3,15 @@ package Bammerbom.UltimateCore.API;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.file.YamlConfiguration;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 
 public class UCserver {
 	public UCserver(){
 	}
 	public Location getCustomSpawn(){
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
 	    if(data.get("spawn") != null){
 		 String[] loc = data.getString("spawn").split(",");
 	        World w = Bukkit.getWorld(loc[0]);

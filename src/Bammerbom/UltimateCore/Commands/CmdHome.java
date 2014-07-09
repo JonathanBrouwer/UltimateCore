@@ -1,6 +1,5 @@
 package Bammerbom.UltimateCore.Commands;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,11 +7,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 
@@ -24,6 +23,7 @@ public class CmdHome{
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
 	}
+	@SuppressWarnings("unchecked")
 	public static void home(CommandSender sender, String label, String[] args){
 		if(r.checkArgs(args, 0) == false){
 			if(!(r.isPlayer(sender))){
@@ -33,7 +33,7 @@ public class CmdHome{
 			if(r.perm(p, "uc.home", true, true) == false){
 				return;
 			}
-			ArrayList<String> homes = (ArrayList<String>) UltimateFileLoader.getPlayerConfig(p).getStringList("homeslist");
+			ArrayList<String> homes = (ArrayList<String>) UltimateFileLoader.getPlayerConfig(p).getList("homeslist");
 			String iets = "";
 			Integer hoeveel = 0;
 			try{
@@ -65,14 +65,14 @@ public class CmdHome{
 				return;
 			}
 			//Exist
-			List<String> homes = UltimateFileLoader.getPlayerConfig(p).getStringList("homeslist");
+			List<String> homes = UltimateFileLoader.getPlayerConfig(p).getList("homeslist");
 			if(!homes.contains(args[0].toLowerCase())){
 				sender.sendMessage(r.mes("Home.HomeNotExist").replaceAll("%Home", args[0].toLowerCase()));
 				return;
 			}
 			
 			//Teleport
-			YamlConfiguration data = UltimateFileLoader.getPlayerConfig(p);
+			UltimateConfiguration data = UltimateFileLoader.getPlayerConfig(p);
 			String[] loc = data.getString("homes." + args[0].toLowerCase()).split(",");
 	        World w = Bukkit.getWorld(loc[0]);
 	        Double x = Double.parseDouble(loc[1]);
@@ -89,6 +89,7 @@ public class CmdHome{
 			
 		}
 	}
+	@SuppressWarnings("unchecked")
 	public static void setHome(CommandSender sender, String label, String[] args){
 		if(!(r.isPlayer(sender))){
 			return;
@@ -101,7 +102,7 @@ public class CmdHome{
 			sender.sendMessage(r.mes("Home.Usage"));
 		}else{
 			
-			List<String> homes = UltimateFileLoader.getPlayerConfig(p).getStringList("homeslist");
+			List<String> homes = UltimateFileLoader.getPlayerConfig(p).getList("homeslist");
 			if(homes.contains(args[0])){
 		    	 sender.sendMessage(r.mes("Home.Homemoved").replaceAll("%Home", args[0]));
 		    }else{
@@ -110,16 +111,12 @@ public class CmdHome{
 			if(!homes.contains(args[0].toLowerCase())){
 			homes.add(args[0].toLowerCase());
 			}
-			YamlConfiguration data = UltimateFileLoader.getPlayerConfig(p);
+			UltimateConfiguration data = UltimateFileLoader.getPlayerConfig(p);
 			data.set("homeslist", homes);
 			Location loc = p.getLocation();
 		    String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
 		    data.set("homes." + args[0].toLowerCase(), location);
-		    try {
-				 data.save(UltimateFileLoader.getPlayerFile(p));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		    data.save(UltimateFileLoader.getPlayerFile(p));
 		}
 	}
 	public static void delHome(CommandSender sender, String label, String[] args){
@@ -138,16 +135,12 @@ public class CmdHome{
 				sender.sendMessage(r.mes("Home.HomeNotExist").replaceAll("%Home", args[0].toLowerCase()));
 				return;
 			}
-			YamlConfiguration data = UltimateFileLoader.getPlayerConfig(p);
+			UltimateConfiguration data = UltimateFileLoader.getPlayerConfig(p);
 		    data.set("homes." + args[0].toLowerCase(), null);
 		    homes.remove(args[0].toLowerCase());
 		    data.set("homeslist", homes);
 		    sender.sendMessage(r.mes("Home.HomeDeleted").replaceAll("%Home", args[0]));
-		    try {
-				data.save(UltimateFileLoader.getPlayerFile(p));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		    data.save(UltimateFileLoader.getPlayerFile(p));
 		}
 	}
 }

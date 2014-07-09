@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,6 +13,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.API.UC;
@@ -103,7 +103,7 @@ public class CmdMute implements Listener{
 	public void onChat(AsyncPlayerChatEvent e){
 		if(UC.getPlayer(e.getPlayer()).isMuted()){
 			e.setCancelled(true);
-			final YamlConfiguration conf = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+			final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 			Long mutetime = conf.getLong("mutetime");
 			if(mutetime == 0 || mutetime == -1){
 			e.getPlayer().sendMessage(r.mes("Mute.ChatMessage"));

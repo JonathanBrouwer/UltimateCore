@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-import Bammerbom.UltimateCore.UltimateCore;
 import Bammerbom.UltimateCore.r;
 
 public class CmdSave{
@@ -25,7 +24,7 @@ public class CmdSave{
 		for(World w : Bukkit.getWorlds()){
 			w.save();
 		}
-		UltimateCore.getSQLdatabase().save();
+		//UltimateCore.getSQLdatabase().save();
 		Bukkit.broadcastMessage(r.mes("Save.Done"));
 	}
 }

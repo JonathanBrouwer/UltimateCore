@@ -1,11 +1,8 @@
 package Bammerbom.UltimateCore.Events;
 
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -13,6 +10,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 
@@ -27,7 +25,7 @@ public class EventSpawn implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onRespawn(final PlayerRespawnEvent e){
 		Location dl = e.getPlayer().getLocation();
-		YamlConfiguration data = YamlConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
+		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
 	    if(data.get("spawn") != null){
 		 String[] loc = data.getString("spawn").split(",");
 	        World w = Bukkit.getWorld(loc[0]);
@@ -51,15 +49,11 @@ public class EventSpawn implements Listener {
 	        if(r.perm(e.getPlayer(), "uc.back.death", true, false) == false){
     			return;
     		}
-	        YamlConfiguration data2 = YamlConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+	        UltimateConfiguration data2 = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 			Location loc2 = dl;
 		    String location2 = loc2.getWorld().getName() + "," + loc2.getX() + "," + loc2.getY() + "," + loc2.getZ() + "," + loc2.getYaw() + "," + loc2.getPitch();
 		    data2.set("back", location2);
-		    try {
-				data2.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
+		    data2.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 	        
 	        //
 	    }else{

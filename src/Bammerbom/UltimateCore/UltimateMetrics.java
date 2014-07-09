@@ -21,8 +21,6 @@ import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitTask;
@@ -62,7 +60,7 @@ public class UltimateMetrics {
     /**
      * The plugin configuration file
      */
-    private final YamlConfiguration configuration;
+    private UltimateConfiguration configuration;
 
     /**
      * The plugin configuration file
@@ -98,7 +96,7 @@ public class UltimateMetrics {
 
         // load the config
         configurationFile = getConfigFile();
-        configuration = YamlConfiguration.loadConfiguration(configurationFile);
+        configuration = UltimateConfiguration.loadConfiguration(configurationFile);
 
         // add some defaults
         configuration.addDefault("opt-out", false);
@@ -106,14 +104,14 @@ public class UltimateMetrics {
         configuration.addDefault("debug", false);
 
         // Do we need to create the file?
-        if (configuration.get("guid", null) == null) {
-            configuration.options().header("http://mcstats.org").copyDefaults(true);
+        if (configuration.get("guid") == null) {
+            configuration.getSource().options().header("http://mcstats.org").copyDefaults(true);
             configuration.save(configurationFile);
         }
 
         // Load the guid then
         guid = configuration.getString("guid");
-        debug = configuration.getBoolean("debug", false);
+        debug = false;
     }
 
     /**
@@ -217,21 +215,9 @@ public class UltimateMetrics {
      */
     public boolean isOptOut() {
         synchronized (optOutLock) {
-            try {
-                // Reload the metrics file
-                configuration.load(getConfigFile());
-            } catch (IOException ex) {
-                if (debug) {
-                    Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
-                }
-                return true;
-            } catch (InvalidConfigurationException ex) {
-                if (debug) {
-                    Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
-                }
-                return true;
-            }
-            return configuration.getBoolean("opt-out", false);
+            // Reload the metrics file
+			configuration = UltimateConfiguration.loadConfiguration(getConfigFile());
+            return configuration.getBoolean("opt-out");
         }
     }
 

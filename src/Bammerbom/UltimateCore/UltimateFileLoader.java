@@ -11,7 +11,6 @@ import net.minecraft.util.org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -101,7 +100,7 @@ public class UltimateFileLoader implements Listener{
 		try{
 			if(!DFglobal.exists()){ 
 				DFglobal.createNewFile();
-				YamlConfiguration conf = YamlConfiguration.loadConfiguration(DFglobal);
+				UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(DFglobal);
 				conf.set("debug", false);
 				conf.save(DFglobal);}
 			if(!DFspawns.exists()) DFspawns.createNewFile();
@@ -186,7 +185,7 @@ public class UltimateFileLoader implements Listener{
 			try {
 				directory.mkdir();
 				file.createNewFile();
-				YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+				UltimateConfiguration config = UltimateConfiguration.loadConfiguration(file);
 				config.set("name", p.getName());
 				config.save(file);
 			} catch (IOException e) {
@@ -196,9 +195,9 @@ public class UltimateFileLoader implements Listener{
 		return file;
 		
 	}
-	public static YamlConfiguration getPlayerConfig(OfflinePlayer p){
+	public static UltimateConfiguration getPlayerConfig(OfflinePlayer p){
 		File file = getPlayerFile(p);
-		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+		UltimateConfiguration config = UltimateConfiguration.loadConfiguration(file);
 		return config;
 	}
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
@@ -207,46 +206,34 @@ public class UltimateFileLoader implements Listener{
 		OfflinePlayer p = Bukkit.getOfflinePlayer(e.getPlayer().getUniqueId());
 		getPlayerFile(p);
 		File file = getPlayerFile(e.getPlayer());
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
 		conf.set("lastconnect", System.currentTimeMillis());
 		conf.set("ip", (e.getPlayer().getAddress().toString().toString().split("/")[1].split(":")[0]));
-		try {
-			conf.save(file);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		conf.save(file);
 	}
 	@EventHandler()
 	public void quit(PlayerQuitEvent e){
 		File file = getPlayerFile(e.getPlayer());
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
 		conf.set("lastconnect", System.currentTimeMillis());
-		try {
-			conf.save(file);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		conf.save(file);
 	}
 	@EventHandler()
 	public void quit(PlayerKickEvent e){
 		File file = getPlayerFile(e.getPlayer());
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
 		conf.set("lastconnect", System.currentTimeMillis());
-		try {
-			conf.save(file);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		conf.save(file);
 	}
 	public static void configOptions(){
 		//
-		
-		
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
 		
 		//
-		if(r.getCnfg().get("Chat.Default1") == null || r.getCnfg().get("Chat.Default2") == null) return;
-		String privatecolor1 = r.getCnfg().getString("Chat.Default1") + "";
-		String privatecolor2 = r.getCnfg().getString("Chat.Default2") + "";
+		
+		if(conf.getSource().get("Chat.Default1") == null || conf.getSource().get("Chat.Default2") == null) return;
+		String privatecolor1 = conf.getSource().getString("Chat.Default1");
+		String privatecolor2 = conf.getSource().getString("Chat.Default2");
 		ChatColor pc1 = ChatColor.getByChar(privatecolor1.replaceFirst("&", ""));
 		ChatColor pc2 = ChatColor.getByChar(privatecolor2.replaceFirst("&", ""));
 		Bammerbom.UltimateCore.r.setColors(pc1, pc2);

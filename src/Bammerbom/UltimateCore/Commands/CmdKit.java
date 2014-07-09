@@ -4,11 +4,11 @@ import java.io.File;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 
@@ -29,7 +29,7 @@ public class CmdKit{
 			return;
 		}
 		Player p = (Player) sender;
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(f);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(f);
 		if(!r.checkArgs(args, 0)){
 			StringBuilder b = new StringBuilder(r.default1 + "Kits: " + r.default2);
 			   Boolean a = false;

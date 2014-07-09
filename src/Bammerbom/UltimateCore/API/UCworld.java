@@ -1,14 +1,13 @@
 package Bammerbom.UltimateCore.API;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.file.YamlConfiguration;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.Resources.FireworkEffectPlayer;
 
 public class UCworld{
@@ -38,7 +37,7 @@ public class UCworld{
 	}
 	public boolean isFlagDenied(WorldFlag f){
 		File file = getDataFile();
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
 		if(!conf.contains("worldflags." + getWorld().getName() + "." + f.toString().toLowerCase())) return false;
 		return !conf.getBoolean("worldflags." + getWorld().getName() + "." + f.toString().toLowerCase());
 	}
@@ -47,22 +46,32 @@ public class UCworld{
 	}
 	public void setFlagAllowed(WorldFlag f){
 		File file = getDataFile();
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
 		conf.set("worldflags." + getWorld().getName() + "." + f.toString().toLowerCase(), true);
-		try {
-			conf.save(file);
-		} catch (IOException e) {
-			e.printStackTrace();
+		conf.save(file);
+		if(f.equals(WorldFlag.ANIMAL)){
+			getWorld().setAnimalSpawnLimit(15);
+		}
+		if(f.equals(WorldFlag.MONSTER)){
+			getWorld().setMonsterSpawnLimit(70);
+		}
+		if(f.equals(WorldFlag.PVP)){
+			getWorld().setPVP(true);
 		}
 	}
 	public void setFlagDenied(WorldFlag f){
 		File file = getDataFile();
-		YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
 		conf.set("worldflags." + getWorld().getName() + "." + f.toString().toLowerCase(), false);
-		try {
-			conf.save(file);
-		} catch (IOException e) {
-			e.printStackTrace();
+		conf.save(file);
+		if(f.equals(WorldFlag.ANIMAL)){
+			getWorld().setAnimalSpawnLimit(0);
+		}
+		if(f.equals(WorldFlag.MONSTER)){
+			getWorld().setMonsterSpawnLimit(0);
+		}
+		if(f.equals(WorldFlag.PVP)){
+			getWorld().setPVP(false);
 		}
 	}
 }
