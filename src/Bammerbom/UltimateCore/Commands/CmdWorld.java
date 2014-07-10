@@ -23,6 +23,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateConfiguration;
@@ -227,7 +228,7 @@ public class CmdWorld implements Listener{
 			for(Player pl : Bukkit.getOnlinePlayers()){
 				if(pl.getWorld().equals(world)){
 					World w2 = Bukkit.getWorlds().get(0);
-					pl.teleport(w2.getSpawnLocation());
+					pl.teleport(w2.getSpawnLocation(), TeleportCause.PLUGIN);
 				}
 			}
 			Bukkit.getServer().unloadWorld(world, true);
@@ -346,7 +347,7 @@ public class CmdWorld implements Listener{
 			}
 			final Player p = (Player) sender;
 			final Location loc = world.getSpawnLocation();
-			p.teleport(loc);
+			p.teleport(loc, TeleportCause.COMMAND);
 		}
 	}
 	public static void flag(CommandSender sender, String[] args){

@@ -6,7 +6,6 @@ import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-import Bammerbom.UltimateCore.UltimateCore;
 import Bammerbom.UltimateCore.r;
 
 public class EventAutosave{
@@ -37,13 +36,35 @@ public class EventAutosave{
 									}
 								}
 							}
-							UltimateCore.getSQLdatabase().save();
 							Bukkit.broadcastMessage(r.mes("Save.Done"));
+						}else{
+							for(World w : Bukkit.getWorlds()){
+								w.save();
+								for(Chunk chunk : w.getLoadedChunks()){
+									try{
+									chunk.unload(true, true);
+									}catch(Exception ex){
+										return;
+									}
+								}
+							}
 						}
 						
 					}
 			
 		},plugin.getConfig().getInt("Autosave.time") * 20, plugin.getConfig().getInt("Autosave.time") * 20);
-		
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
+			public void run(){
+				for(World w : Bukkit.getWorlds()){
+					for(Chunk chunk : w.getLoadedChunks()){
+						try{
+						chunk.unload(true, true);
+						}catch(Exception ex){
+							return;
+						}
+					}
+				}
+			}
+		}, 60 * 20, 60 * 20);
 	}
 }

@@ -2,8 +2,8 @@ package Bammerbom.UltimateCore.Commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
@@ -41,11 +41,10 @@ public class CmdSeen {
 				.replaceAll("%Status", p.getPlayer().isOnline() ?  "online" : "offline")
 				.replaceAll("%Time", DateUtil.formatDateDiff(p.getLastConnectMillis())));
 		//Last location
-		Player tempP = p.getPlayer().getPlayer();
-		tempP.loadData();
+		OfflinePlayer tempP = p.getPlayer();
 		String loc;
-		if(tempP != null && tempP.getLocation() != null){
-		loc = tempP.getWorld().getName() + " " + tempP.getLocation().getBlockX() + " " + tempP.getLocation().getBlockY() + " " + tempP.getLocation().getBlockZ();
+		if(tempP.getPlayer() != null && tempP.getPlayer().getLocation() != null){
+		loc = tempP.getPlayer().getWorld().getName() + " " + tempP.getPlayer().getLocation().getBlockX() + " " + tempP.getPlayer().getLocation().getBlockY() + " " + tempP.getPlayer().getLocation().getBlockZ();
 		}else{
 			loc = "Failed to find";
 		}

@@ -20,6 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -190,7 +191,7 @@ public class CmdTp implements Listener{
 					p.sendMessage(r.default1 + "This player has teleportation Disabled!");
 					return;
 				}
-				p.teleport(tg);
+				p.teleport(tg, TeleportCause.COMMAND);
 				playEffect(p, tg.getLocation());
 				sender
 				.sendMessage(r.mes("Tp.Tp1").replaceAll("%Player", tg.getName()));
@@ -207,7 +208,7 @@ public class CmdTp implements Listener{
 						p.sendMessage(r.default1 + "The player " + p.getName() + " has teleportation Disabled!");
 						return;
 					}
-					tg.teleport(p);
+					tg.teleport(p, TeleportCause.COMMAND);
 					playEffect(p, p.getLocation());
 					sender.sendMessage(r.mes("Tp.Tp2").replaceAll("%Player1", tg.getName()).replaceAll("%Player2", p.getName()));
 				}
@@ -239,7 +240,7 @@ public class CmdTp implements Listener{
 					y = Integer.parseInt(args[2]);
 					z= Integer.parseInt(args[3]);
 				}
-				pl.teleport(new Location(w,x,y,z));
+				pl.teleport(new Location(w,x,y,z), TeleportCause.COMMAND);
 				playEffect(pl, new Location(w,x,y,z));
 				p.sendMessage(r.mes("Tp.Tp4").replaceAll("%Player", pl.getName()).replaceAll("%x", x.toString()).replaceAll("%y", y.toString()).replaceAll("%z", z.toString()));
 			}else{
@@ -254,7 +255,7 @@ public class CmdTp implements Listener{
 					y = Integer.parseInt(args[1]);
 					z= Integer.parseInt(args[2]);
 				}
-				p.teleport(new Location(w,x,y,z));
+				p.teleport(new Location(w,x,y,z), TeleportCause.COMMAND);
 				playEffect(p, new Location(w,x,y,z));
 				p.sendMessage(r.mes("Tp.Tp3").replaceAll("%Player", pl.getName()).replaceAll("%x", x.toString()).replaceAll("%y", y.toString()).replaceAll("%z", z.toString()));
 			}
@@ -330,7 +331,7 @@ public class CmdTp implements Listener{
 			if(t == null) {
 				p.sendMessage(r.mes("Tp.Tpa.NoRequests"));
 			}else{
-				p.teleport(t);
+				p.teleport(t, TeleportCause.COMMAND);
 				playEffect(t, p.getLocation());
 				p.sendMessage(r.mes("Tp.Tpa.AcceptTarget"));
 				t.sendMessage(r.mes("Tp.Tpa.AcceptSender").replaceAll("%Player", p.getName()));
@@ -347,7 +348,7 @@ public class CmdTp implements Listener{
 			if(t == null) {
 				p.sendMessage(r.mes("Tp.Tpa.NoRequests"));
 			}else{
-				t.teleport(p);
+				t.teleport(p, TeleportCause.COMMAND);
 				playEffect(t, p.getLocation());
 				p.sendMessage(r.mes("Tp.Tpa.AcceptTarget"));
 				t.sendMessage(r.mes("Tp.Tpa.AcceptSender").replaceAll("%Player", p.getName()));

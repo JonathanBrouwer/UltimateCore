@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateConfiguration;
@@ -36,12 +37,12 @@ public class CmdSpawn{
 	        	if(r.perm(p, "uc.spawn", true, true) == false){
 	    			return;
 	    		}
-	        	p.teleport(location);
+	        	p.teleport(location, TeleportCause.COMMAND);
 	        }
 	    }else{
 	    	if(!r.isPlayer(sender)) return;
 	    	Player p = (Player) sender;
-	    	p.teleport(p.getWorld().getSpawnLocation());
+	    	p.teleport(p.getWorld().getSpawnLocation(), TeleportCause.COMMAND);
 	    	return;
 	    }
 	}

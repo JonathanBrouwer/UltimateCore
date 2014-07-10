@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateConfiguration;
@@ -82,7 +83,7 @@ public class CmdHome{
 	        float pitch = Float.parseFloat(loc[5]);
 	        Location location = new Location(w, x, y, z, yaw, pitch);
 	        if(r.isPlayer(sender)){
-	        	p.teleport(location);
+	        	p.teleport(location, TeleportCause.COMMAND);
 	        }
 			sender.sendMessage(r.mes("Home.Hometp").replaceAll("%Home", args[0]));
 			

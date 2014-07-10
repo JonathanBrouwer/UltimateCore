@@ -36,6 +36,7 @@ import Bammerbom.UltimateCore.Commands.CmdEnchantingtable;
 import Bammerbom.UltimateCore.Commands.CmdEnderchest;
 import Bammerbom.UltimateCore.Commands.CmdExtinguish;
 import Bammerbom.UltimateCore.Commands.CmdFeed;
+import Bammerbom.UltimateCore.Commands.CmdFireball;
 import Bammerbom.UltimateCore.Commands.CmdFly;
 import Bammerbom.UltimateCore.Commands.CmdFreeze;
 import Bammerbom.UltimateCore.Commands.CmdFullheal;
@@ -171,6 +172,8 @@ public class UltimateCommands implements Listener{
 					 CmdAlert.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("coords") || label.equalsIgnoreCase("coordinates")){
 					CmdCoords.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("fireball")){
+					 CmdFireball.handle(sender, args);
 				 }
 				 else if(label.equalsIgnoreCase("bans") || label.equalsIgnoreCase("banlist")){
 					 CmdBan.bans(sender, args);

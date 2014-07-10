@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
@@ -28,7 +29,7 @@ public class CmdTop {
 			p.sendMessage(r.mes("Top.Failed"));
 			return;
 		}
-		p.teleport(loc);
+		p.teleport(loc, TeleportCause.COMMAND);
 		p.sendMessage(r.mes("Top.Succes"));
 	}
 	public static Location getHighestY(Location loc){

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
@@ -26,7 +27,7 @@ public class CmdTpall{
 	    Player p = (Player) sender;
 	    for(Player t : Bukkit.getOnlinePlayers()){
 	    	if(!t.equals(p)){
-	    		t.teleport(p);
+	    		t.teleport(p, TeleportCause.COMMAND);
 	    	}
 	    }
 	}

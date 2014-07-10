@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -73,5 +74,17 @@ public class UCworld{
 		if(f.equals(WorldFlag.PVP)){
 			getWorld().setPVP(false);
 		}
+	}
+	public void setGamemode(GameMode gm){
+		File file = getDataFile();
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
+		conf.set("worldflags." + getWorld().getName() + ".gamemode", gm.name().toUpperCase());
+		conf.save(file);
+	}
+	public GameMode getGamemode(){
+		File file = getDataFile();
+		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
+		String gm = conf.getString("worldflags." + getWorld().getName() + ".gamemode");
+		return GameMode.valueOf(gm);
 	}
 }
