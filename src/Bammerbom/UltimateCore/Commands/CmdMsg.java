@@ -39,11 +39,11 @@ public class CmdMsg{
 		}
 		if(sender instanceof Player){
 			//sender
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile((Player) sender));
+		UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.getPlayerFile((Player) sender));
 		conf.set("lastmessage", pl.getUniqueId().toString());
 		conf.save(UltimateFileLoader.getPlayerFile((Player) sender));
 		//target
-		UltimateConfiguration conf2 = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(pl));
+		UltimateConfiguration conf2 = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(pl));
 		conf2.set("lastmessage", ((Player)sender).getUniqueId().toString());
 		conf2.save(UltimateFileLoader.getPlayerFile(pl));
 		}
@@ -71,7 +71,7 @@ public class CmdMsg{
 			sender.sendMessage(r.mes("Whisper.Usage2"));
 			return;
 		}
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(p));
 		if(conf.get("lastmessage") == null){
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", "-"));
 			return;
@@ -94,7 +94,7 @@ public class CmdMsg{
 		conf.set("lastmessage", t.getUniqueId().toString());
 		conf.save(UltimateFileLoader.getPlayerFile((Player) sender));
 		//target
-		UltimateConfiguration conf2 = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+		UltimateConfiguration conf2 = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(t));
 		conf2.set("lastmessage", ((Player)sender).getUniqueId().toString());
 		conf2.save(UltimateFileLoader.getPlayerFile(t));
 		}

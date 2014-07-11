@@ -44,7 +44,7 @@ public class CmdWorld implements Listener{
 		}
 	}
 	public static void loadws(){
-		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFworlds);
 		if(data.get("worldlist") == null){ return; }
 		for(String str : data.getStringList("worldlist")){
 		    Bukkit.createWorld(new WorldCreator(str));
@@ -106,7 +106,7 @@ public class CmdWorld implements Listener{
 			Bukkit.createWorld(settings);
 			
 			try{
-				UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+				UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFworlds);
 				List<String> worlds = data.getStringList("worldlist");
 				if(worlds == null){ worlds = new ArrayList<String>(); }
 				worlds.add(settings.name());
@@ -114,7 +114,7 @@ public class CmdWorld implements Listener{
 				data.set("worlds." + settings.name(), settings.type().toString());
 			data.save(UltimateFileLoader.DFworlds);
 			}catch(NullPointerException e){
-				UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+				UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFworlds);
 
 				HashMap<String, String> worlds = new HashMap<String, String>();
 				worlds.put(settings.name(), settings.environment().name());
@@ -161,7 +161,7 @@ public class CmdWorld implements Listener{
 		Bukkit.createWorld(settings);
 	
 		try{
-			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+			UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFworlds);
 			List<String> worlds = data.getStringList("worldlist");
 			if(worlds == null){ worlds = new ArrayList<String>(); }
 			worlds.add(settings.name());
@@ -169,7 +169,7 @@ public class CmdWorld implements Listener{
 			data.set("worlds." + settings.name(), settings.type().toString());
 			data.save(UltimateFileLoader.DFworlds);
 			}catch(NullPointerException e){
-				UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+				UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFworlds);
 				data.set("worlds." + settings.name(), settings.type().toString());
 				data.save(UltimateFileLoader.DFworlds);
 			}
@@ -234,7 +234,7 @@ public class CmdWorld implements Listener{
 			Bukkit.getServer().unloadWorld(world, true);
 			WorldCreator settings = new WorldCreator(args[1]);
 			try{
-				UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+				UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFworlds);
 				data.set("worlds." + world.getName(), null);
 				List<String> worldlist = data.getStringList("worldlist");
 				if(worldlist == null){ worldlist = new ArrayList<String>(); }
@@ -242,7 +242,7 @@ public class CmdWorld implements Listener{
 				data.set("worldlist", worldlist);
 				data.save(UltimateFileLoader.DFworlds);
 				}catch(NullPointerException e){
-					UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFworlds);
+					UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFworlds);
 					HashMap<String, String> worlds = new HashMap<String, String>();
 					worlds.remove(settings.name());
 					data.set("worlds", worlds);

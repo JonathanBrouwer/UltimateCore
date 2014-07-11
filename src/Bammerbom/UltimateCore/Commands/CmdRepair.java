@@ -56,7 +56,7 @@ public class CmdRepair implements Listener{
 				t.sendMessage(r.mes("Repair.otherMessage"));
 			}
 		}else{
-			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+			UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(t));
 			
 			if(UltimateFileLoader.getPlayerConfig(t).get("repairmode") != null && UltimateFileLoader.getPlayerConfig(t).getBoolean("repairmode") == true){
 				data.set("repairmode", false);

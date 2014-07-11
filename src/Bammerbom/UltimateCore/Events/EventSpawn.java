@@ -25,7 +25,7 @@ public class EventSpawn implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onRespawn(final PlayerRespawnEvent e){
 		Location dl = e.getPlayer().getLocation();
-		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFspawns);
 	    if(data.get("spawn") != null){
 		 String[] loc = data.getString("spawn").split(",");
 	        World w = Bukkit.getWorld(loc[0]);
@@ -49,7 +49,7 @@ public class EventSpawn implements Listener {
 	        if(r.perm(e.getPlayer(), "uc.back.death", true, false) == false){
     			return;
     		}
-	        UltimateConfiguration data2 = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+	        UltimateConfiguration data2 = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 			Location loc2 = dl;
 		    String location2 = loc2.getWorld().getName() + "," + loc2.getX() + "," + loc2.getY() + "," + loc2.getZ() + "," + loc2.getYaw() + "," + loc2.getPitch();
 		    data2.set("back", location2);

@@ -67,7 +67,7 @@ public class r {
 	static File config = null;
 	static UltimateConfiguration cnfg;
 	public static void debug(Object message){
-		if(!UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFglobal).getBoolean("debug")) return;
+		if(!new UltimateConfiguration(UltimateFileLoader.DFglobal).getBoolean("debug")) return;
 		String logo = "&9[&bUC&9]&r";
 		if(message.toString().contains("@3")){
 			logo = "&4[&bUC&4]&r";
@@ -78,13 +78,26 @@ public class r {
 		//
 	}
 	public static void log(Object message){
-		String logo = "&9[&bUC&9]&r";
-		if(message.toString().contains("@3")){
-			logo = "&4[&bUC&4]&r";
+		if(message == null){
+			r.log("null");
+			return;
 		}
+		String logo = "&9[&bUC&9]&r";
 		String msg = ChatColor.translateAlternateColorCodes('&', (logo + " " + ChatColor.YELLOW + message.toString().replaceAll("@1", default1 + "")
 				.replaceAll("@2", default2 + "").replaceAll("@3", "" + error).replaceAll("\\\\n", "\n")));
 		Bukkit.getConsoleSender().sendMessage(msg);
+		//
+	}
+	public static void logF(Object message){
+		if(message == null){
+			r.log("null");
+			return;
+		}
+		String logo = "&9[&bUC&9]&r ";
+		if(message.toString().contains("@3")){
+			logo = "&4[&bUC&4]&r ";
+		}
+		Bukkit.getConsoleSender().sendMessage(logo + message.toString());
 		//
 	}
 	public static boolean checkArgs(Object[] args, Integer numb){
@@ -124,50 +137,32 @@ public class r {
 		}
 	}
 	public static String word(String padMessage){
-		UltimateConfiguration lang = null;
-		if(UltimateFileLoader.LANGf == null){
-			return null;
-		}
-	    lang = UltimateConfiguration.loadConfiguration(UltimateFileLoader.LANGf);
-	    if(lang.get(padMessage) == null){
-	    	return null;
-	    }
-	    
-	    if(lang.get(padMessage) != null){
-	    	String try1 = ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
-	        return try1;
-	    }
-	    lang = UltimateConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Messages/EN.yml"));
-	    if(lang.get(padMessage) != null){
-	    	String try2 = ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
-	        return try2;
-	    }
-		return null;
+		if(mes(padMessage) == null) return null;
+		return mes(padMessage).substring(2);
 	}
 	public static String mes(String padMessage){
+		if(padMessage.equalsIgnoreCase("Words.Yes")) padMessage = "Words.true";
+		if(padMessage.equalsIgnoreCase("Words.No")) padMessage = "Words.false";
 			UltimateConfiguration lang = null;
 			if(UltimateFileLoader.LANGf == null){
 				return null;
 			}
-		    lang = UltimateConfiguration.loadConfiguration(UltimateFileLoader.LANGf);
-		    if(lang.get(padMessage) == null){
-		    	return null;
-		    }
-		    
-		    if(lang.get(padMessage) != null){
+		    lang = new UltimateConfiguration(UltimateFileLoader.LANGf);
+		    if(lang.contains(padMessage)){
 		    	String try1 = default1 + ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
 		        return try1;
 		    }
-		    lang = UltimateConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Messages/EN.yml"));
-		    if(lang.get(padMessage) != null){
+		    lang = new UltimateConfiguration(new File(plugin.getDataFolder() + "/Messages", "EN.yml"));
+		    if(lang.contains(padMessage)){
 		    	String try2 = default1 + ChatColor.translateAlternateColorCodes('&', lang.getString(padMessage).replaceAll("@1", default1 + "").replaceAll("@2", default2 + "").replaceAll("\\\\n", "\n"));
 		        return try2;
 		    }
+		    r.log(r.error + "Failed to find " + padMessage + " in Messages file.");
 			return null;
 		
 	}
 	public static UltimateConfiguration getCnfg(){
-		return UltimateConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
+		return new UltimateConfiguration(new File(plugin.getDataFolder(), "config.yml"));
 	}
 	public static void saveCnfg(){
 	    cnfg.save(config);

@@ -66,7 +66,7 @@ public class CmdHome{
 				return;
 			}
 			//Exist
-			List<String> homes = UltimateFileLoader.getPlayerConfig(p).getList("homeslist");
+			List<String> homes = UltimateFileLoader.getPlayerConfig(p).getStringList("homeslist");
 			if(!homes.contains(args[0].toLowerCase())){
 				sender.sendMessage(r.mes("Home.HomeNotExist").replaceAll("%Home", args[0].toLowerCase()));
 				return;
@@ -90,7 +90,6 @@ public class CmdHome{
 			
 		}
 	}
-	@SuppressWarnings("unchecked")
 	public static void setHome(CommandSender sender, String label, String[] args){
 		if(!(r.isPlayer(sender))){
 			return;
@@ -103,7 +102,7 @@ public class CmdHome{
 			sender.sendMessage(r.mes("Home.Usage"));
 		}else{
 			
-			List<String> homes = UltimateFileLoader.getPlayerConfig(p).getList("homeslist");
+			List<String> homes = UltimateFileLoader.getPlayerConfig(p).getStringList("homeslist");
 			if(homes.contains(args[0])){
 		    	 sender.sendMessage(r.mes("Home.Homemoved").replaceAll("%Home", args[0]));
 		    }else{

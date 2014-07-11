@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -151,7 +152,15 @@ public static String joinList(String seperator, Object[] list)
     }
     return -1;
   }
-
+  public static boolean containsChar(char value, CharSequence sequence)
+  {
+    for (int i = 0; i < sequence.length(); i++) {
+      if (sequence.charAt(i) == value) {
+        return true;
+      }
+    }
+    return false;
+  }
   public static boolean containsChar(char value, char[] values)
   {
     for (char v : values) {
@@ -450,6 +459,25 @@ public static String joinList(String seperator, Object[] list)
       CHAT_CODES[i] = c.charValue();
       i++;
     }
+  }
+  public static boolean nullOrEmpty(Map<?, ?> map)
+  {
+    return (map == null) || (map.isEmpty());
+  }
+
+  public static boolean nullOrEmpty(Collection<?> collection)
+  {
+    return (collection == null) || (collection.isEmpty());
+  }
+
+  public static boolean nullOrEmpty(String text)
+  {
+    return (text == null) || (text.isEmpty());
+  }
+
+  public static boolean nullOrEmpty(Object[] array)
+  {
+    return (array == null) || (array.length == 0);
   }
 
 }

@@ -45,7 +45,7 @@ public class CmdInv implements Listener{
     	  			p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
     	  			return;
     	  		}
-	  			UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+	  			UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(t));
 	  			if(conf.get("lastinventory") == null){
 	  				p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
     	  			return;
@@ -59,7 +59,7 @@ public class CmdInv implements Listener{
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void playerquit(PlayerQuitEvent e){
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+		UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 	    String inv = InventoryUtil.InventoryToString(e.getPlayer().getInventory());
 	    conf.set("lastinventory", inv);
 	    conf.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));

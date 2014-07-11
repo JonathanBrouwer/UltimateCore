@@ -27,7 +27,7 @@ public class CmdBack implements Listener{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onTp(PlayerTeleportEvent e){
 		if(e.getCause().equals(TeleportCause.COMMAND) || e.getCause().equals(TeleportCause.PLUGIN) || e.getCause().equals(TeleportCause.UNKNOWN)){
-			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+			UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 			Location loc = e.getFrom();
 		    String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
 		    data.set("back", location);
@@ -42,7 +42,7 @@ public class CmdBack implements Listener{
         	return;
         }
         Player p = ((Player) sender);
-		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(p));
 	    if(data.get("back") != null){
 		 String[] loc = data.getString("back").split(",");
 	        World w = Bukkit.getWorld(loc[0]);

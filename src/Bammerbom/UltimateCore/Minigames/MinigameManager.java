@@ -265,7 +265,7 @@ arena.getPlayers().remove(player.getName());
 //And our final method, loading each arena
 //This will be resonsible for creating each arena from the config, and creating an object to represent it
 //Call this method in your main class, onEnable
-public UltimateConfiguration mc = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFminigames);
+public UltimateConfiguration mc = new UltimateConfiguration(UltimateFileLoader.DFminigames);
 public File mcf = UltimateFileLoader.DFminigames;
 
 

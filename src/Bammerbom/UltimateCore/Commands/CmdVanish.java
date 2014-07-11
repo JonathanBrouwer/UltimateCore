@@ -76,7 +76,7 @@ public class CmdVanish implements Listener{
 		}
 	}
 	public static boolean Vanish(OfflinePlayer p){
-		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(p));
 		if(data.get("vanish") == null){
 			return false;
 		}
@@ -84,7 +84,7 @@ public class CmdVanish implements Listener{
 		return data.getBoolean("vanish");
 	}
 	public static boolean vanishgone(OfflinePlayer p, Boolean directreset){
-		final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		final UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(p));
 		if(conf.getBoolean("vanish") == false) return false;
 		if(conf.getLong("vanishtime") == 0 || conf.getLong("vanish") == -1) return false;
 		if(System.currentTimeMillis() >= conf.getLong("vanishtime")){
@@ -107,7 +107,7 @@ public class CmdVanish implements Listener{
 			}
 		}
 		
-		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(p));
 		data.set("vanish", set);
 		data.set("vanishtime", time);
 		data.save(UltimateFileLoader.getPlayerFile(p));

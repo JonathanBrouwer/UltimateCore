@@ -112,7 +112,7 @@ public class CmdRegion implements Listener{
 			return;
 		}
 		String name = args[1];
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFregions);
+		UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.DFregions);
 		conf.set("regions." + name + "w", loc1.getWorld());
 		conf.set("regions." + name + ".x1", loc1.getBlockX());
 		conf.set("regions." + name + ".y1", loc1.getBlockY());

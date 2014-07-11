@@ -29,7 +29,7 @@ public class CmdKit{
 			return;
 		}
 		Player p = (Player) sender;
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(f);
+		UltimateConfiguration conf = new UltimateConfiguration(f);
 		if(!r.checkArgs(args, 0)){
 			StringBuilder b = new StringBuilder(r.default1 + "Kits: " + r.default2);
 			   Boolean a = false;

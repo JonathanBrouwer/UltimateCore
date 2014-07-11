@@ -29,7 +29,7 @@ public class CmdWarp{
 			if(r.perm(sender, "uc.warplist", true, true) == false){
 				return;
 			}
-			ArrayList<String> warps = (ArrayList<String>) UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFwarps).getStringList("warpslist");
+			ArrayList<String> warps = (ArrayList<String>) new UltimateConfiguration(UltimateFileLoader.DFwarps).getStringList("warpslist");
 			if(warps == null || warps.isEmpty()){
 				sender.sendMessage(r.mes("Warp.NoWarpsFound"));
 				return;
@@ -61,7 +61,7 @@ public class CmdWarp{
 				return;
 			}
 			//Exist
-			List<String> warps = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFwarps).getStringList("warpslist");
+			List<String> warps = new UltimateConfiguration(UltimateFileLoader.DFwarps).getStringList("warpslist");
 			Player p = (Player) sender;
 			if(r.perm(p, "uc.warp", true, false) == false && r.perm(p, "uc.warp." + args[0], true, false) == false){
 				sender.sendMessage(r.mes("NoPermissions"));
@@ -73,7 +73,7 @@ public class CmdWarp{
 			}
 			
 			//Teleport
-			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFwarps);
+			UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFwarps);
 			String[] loc = data.getString("warps." + args[0].toLowerCase()).split(",");
 	        World w = Bukkit.getWorld(loc[0]);
 	        Double x = Double.parseDouble(loc[1]);
@@ -102,7 +102,7 @@ public class CmdWarp{
 			sender.sendMessage(r.default1 + "/setwarp <Name>");
 		}else{
 			
-			List<String> warps = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFwarps).getStringList("warpslist");
+			List<String> warps = new UltimateConfiguration(UltimateFileLoader.DFwarps).getStringList("warpslist");
 			if(warps.contains(args[0])){
 		    	 sender.sendMessage(r.mes("Warp.Warpmoved").replaceAll("%Warp", args[0]));
 		    }else{
@@ -111,7 +111,7 @@ public class CmdWarp{
 			if(!warps.contains(args[0].toLowerCase())){
 			warps.add(args[0].toLowerCase());
 			}
-			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFwarps);
+			UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFwarps);
 			data.set("warpslist", warps);
 			Location loc = p.getLocation();
 		    String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
@@ -126,12 +126,12 @@ public class CmdWarp{
 			if(r.perm(sender, "uc.delwarp", false, true) == false){
 				return;
 			}
-			List<String> warps = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFwarps).getStringList("warpslist");
+			List<String> warps = new UltimateConfiguration(UltimateFileLoader.DFwarps).getStringList("warpslist");
 			if(!warps.contains(args[0].toLowerCase())){
 				sender.sendMessage(r.mes("Warp.WarpNotExist").replaceAll("%Warp", args[0].toLowerCase()));
 				return;
 			}
-			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFwarps);
+			UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFwarps);
 		    data.set("warps." + args[0].toLowerCase(), null);
 		    warps.remove(args[0].toLowerCase());
 		    data.set("warpslist", warps);

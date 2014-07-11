@@ -11,7 +11,7 @@ public class UCserver {
 	public UCserver(){
 	}
 	public Location getCustomSpawn(){
-		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFspawns);
 	    if(data.get("spawn") != null){
 		 String[] loc = data.getString("spawn").split(",");
 	        World w = Bukkit.getWorld(loc[0]);

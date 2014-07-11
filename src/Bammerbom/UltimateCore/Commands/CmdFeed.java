@@ -53,7 +53,7 @@ public class CmdFeed implements Listener{
 				t.sendMessage(r.mes("Feed.otherMessage"));
 			}
 		}else{
-			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+			UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(t));
 			
 			if(UltimateFileLoader.getPlayerConfig(t).get("feedmode") != null && UltimateFileLoader.getPlayerConfig(t).getBoolean("feedmode") == true){
 				data.set("feedmode", false);
@@ -80,7 +80,7 @@ public class CmdFeed implements Listener{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onFeedLose(FoodLevelChangeEvent e){
 		if(e.getEntity() instanceof Player){
-			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile((Player) e.getEntity()));
+			UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile((Player) e.getEntity()));
 			if(data.getBoolean("feedmode") == true){
 				if(r.getCnfg().getBoolean("FeedMode") == false){
 					return;

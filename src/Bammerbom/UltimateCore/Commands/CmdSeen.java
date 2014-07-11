@@ -48,7 +48,6 @@ public class CmdSeen {
 		}else{
 			loc = "Failed to find";
 		}
-		
 		sender.sendMessage(r.mes("Seen.Location").replaceAll("%Location", loc));
 		//Ban
 		sender.sendMessage(r.mes("Seen.Banned").replaceAll("%Banned", ((p.isBanned() || p.getPlayer().isBanned()) ? ChatColor.GREEN + r.word("Words.Yes") : ChatColor.RED + r.word("Words.No"))));

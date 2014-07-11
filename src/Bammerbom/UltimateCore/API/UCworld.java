@@ -38,7 +38,7 @@ public class UCworld{
 	}
 	public boolean isFlagDenied(WorldFlag f){
 		File file = getDataFile();
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = new UltimateConfiguration(file);
 		if(!conf.contains("worldflags." + getWorld().getName() + "." + f.toString().toLowerCase())) return false;
 		return !conf.getBoolean("worldflags." + getWorld().getName() + "." + f.toString().toLowerCase());
 	}
@@ -47,7 +47,7 @@ public class UCworld{
 	}
 	public void setFlagAllowed(WorldFlag f){
 		File file = getDataFile();
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = new UltimateConfiguration(file);
 		conf.set("worldflags." + getWorld().getName() + "." + f.toString().toLowerCase(), true);
 		conf.save(file);
 		if(f.equals(WorldFlag.ANIMAL)){
@@ -62,7 +62,7 @@ public class UCworld{
 	}
 	public void setFlagDenied(WorldFlag f){
 		File file = getDataFile();
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = new UltimateConfiguration(file);
 		conf.set("worldflags." + getWorld().getName() + "." + f.toString().toLowerCase(), false);
 		conf.save(file);
 		if(f.equals(WorldFlag.ANIMAL)){
@@ -77,13 +77,13 @@ public class UCworld{
 	}
 	public void setGamemode(GameMode gm){
 		File file = getDataFile();
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = new UltimateConfiguration(file);
 		conf.set("worldflags." + getWorld().getName() + ".gamemode", gm.name().toUpperCase());
 		conf.save(file);
 	}
 	public GameMode getGamemode(){
 		File file = getDataFile();
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = new UltimateConfiguration(file);
 		String gm = conf.getString("worldflags." + getWorld().getName() + ".gamemode");
 		return GameMode.valueOf(gm);
 	}

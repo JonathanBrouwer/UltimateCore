@@ -25,7 +25,7 @@ public class CmdSetSpawn{
 		    if(r.perm(p, "uc.setspawn", false, true) == false){
 				return;
 			}
-		    UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFspawns);
+		    UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFspawns);
 		    Location loc = p.getLocation();
 		    loc.getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 		    String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();

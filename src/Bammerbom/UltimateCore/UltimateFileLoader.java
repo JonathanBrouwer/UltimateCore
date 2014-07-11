@@ -1,8 +1,6 @@
 package Bammerbom.UltimateCore;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -18,6 +16,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
+
+import Bammerbom.UltimateCore.Resources.Utils.StringUtil;
 
 public class UltimateFileLoader implements Listener{
 	
@@ -100,7 +100,7 @@ public class UltimateFileLoader implements Listener{
 		try{
 			if(!DFglobal.exists()){ 
 				DFglobal.createNewFile();
-				UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(DFglobal);
+				UltimateConfiguration conf = new UltimateConfiguration(DFglobal);
 				conf.set("debug", false);
 				conf.save(DFglobal);}
 			if(!DFspawns.exists()) DFspawns.createNewFile();
@@ -121,46 +121,12 @@ public class UltimateFileLoader implements Listener{
 		addConfig();
 	} 
 	private static void addConfig(){
-		BufferedWriter writer = null;
-		try{
-			writer = new BufferedWriter(new FileWriter(new File("plugins/UltimateCore", "config.yml"), true));
-			if(!r.getCnfg().contains("disabledcommands")){
-	            writer.write("\n#Disabled Commands\ndisabledcommands:\n  - command\n  - anothercommand\n");
-	            r.log(ChatColor.YELLOW + "Added to config: disabledcommands" );
-			}
-			if(!r.getCnfg().contains("console")){
-	            writer.write("\n#Enable handy console?\nconsole: false");
-	            r.log(ChatColor.YELLOW + "Added to config: console (standard false)" );
-			}
-			if(!r.getCnfg().contains("gtool")){
-	            writer.write("\n#GTool enabled? This is a tool that log blockchanges.\ngtool: true");
-	            r.log(ChatColor.YELLOW + "Added to config: gtool (standard true)" );
-			}
-			if(r.getCnfg().get("SweaAllowedWords") == null){
-				
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
-			try {
-				writer.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		if(r.mes("Spawner.Usage") == null){
+		if(StringUtil.nullOrEmpty(r.mes("Words.Yes"))){
 			resetFile(new File(plugin.getDataFolder() + "/Messages", "EN.yml"));
 			createLang();
 			loadLang();
 			r.log(r.error + "Configuration update found, files reset: 1 (EN.yml)");
 			r.log(r.error + "Configuration backups made: 1 (EN.yml)");
-		}
-		if(r.getCnfg().get("jailmove") == null){
-			resetFile(new File(plugin.getDataFolder(), "config.yml"));
-			plugin.saveDefaultConfig();
-		
-			r.log(r.error + "Configuration update found, files reset: 1 (config.yml)");
-			r.log(r.error + "Configuration backups made: 1 (config.yml)");
 		}
 	}
 	public static void resetFile(File file){
@@ -185,7 +151,7 @@ public class UltimateFileLoader implements Listener{
 			try {
 				directory.mkdir();
 				file.createNewFile();
-				UltimateConfiguration config = UltimateConfiguration.loadConfiguration(file);
+				UltimateConfiguration config = new UltimateConfiguration(file);
 				config.set("name", p.getName());
 				config.save(file);
 			} catch (IOException e) {
@@ -197,7 +163,7 @@ public class UltimateFileLoader implements Listener{
 	}
 	public static UltimateConfiguration getPlayerConfig(OfflinePlayer p){
 		File file = getPlayerFile(p);
-		UltimateConfiguration config = UltimateConfiguration.loadConfiguration(file);
+		UltimateConfiguration config = new UltimateConfiguration(file);
 		return config;
 	}
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
@@ -206,7 +172,7 @@ public class UltimateFileLoader implements Listener{
 		OfflinePlayer p = Bukkit.getOfflinePlayer(e.getPlayer().getUniqueId());
 		getPlayerFile(p);
 		File file = getPlayerFile(e.getPlayer());
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = new UltimateConfiguration(file);
 		conf.set("lastconnect", System.currentTimeMillis());
 		conf.set("ip", (e.getPlayer().getAddress().toString().toString().split("/")[1].split(":")[0]));
 		conf.save(file);
@@ -214,26 +180,26 @@ public class UltimateFileLoader implements Listener{
 	@EventHandler()
 	public void quit(PlayerQuitEvent e){
 		File file = getPlayerFile(e.getPlayer());
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = new UltimateConfiguration(file);
 		conf.set("lastconnect", System.currentTimeMillis());
 		conf.save(file);
 	}
 	@EventHandler()
 	public void quit(PlayerKickEvent e){
 		File file = getPlayerFile(e.getPlayer());
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(file);
+		UltimateConfiguration conf = new UltimateConfiguration(file);
 		conf.set("lastconnect", System.currentTimeMillis());
 		conf.save(file);
 	}
 	public static void configOptions(){
 		//
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
+		UltimateConfiguration conf = new UltimateConfiguration(new File(plugin.getDataFolder(), "config.yml"));
 		
 		//
 		
-		if(conf.getSource().get("Chat.Default1") == null || conf.getSource().get("Chat.Default2") == null) return;
-		String privatecolor1 = conf.getSource().getString("Chat.Default1");
-		String privatecolor2 = conf.getSource().getString("Chat.Default2");
+		if(!conf.contains("Chat.Default1") || !conf.contains("Chat.Default2")) return;
+		String privatecolor1 = conf.getString("Chat.Default1");
+		String privatecolor2 = conf.getString("Chat.Default2");
 		ChatColor pc1 = ChatColor.getByChar(privatecolor1.replaceFirst("&", ""));
 		ChatColor pc2 = ChatColor.getByChar(privatecolor2.replaceFirst("&", ""));
 		Bammerbom.UltimateCore.r.setColors(pc1, pc2);

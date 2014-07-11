@@ -30,7 +30,7 @@ public class CmdPowertool implements Listener{
 		}
 		if(!r.perm(sender, "uc.powertool", false, true)) return;
 		Player p = (Player) sender;
-		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(p));
 		ItemStack item = p.getItemInHand();
 		if(item == null || item.getType().equals(Material.AIR)){
 			p.sendMessage(r.mes("Powertool.NoItemInHand"));
@@ -60,7 +60,7 @@ public class CmdPowertool implements Listener{
 	public void interact(PlayerInteractEvent e){
 		Player p = e.getPlayer();
 		if(!r.perm(p, "uc.powertool", false, false)) return;
-		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(p));
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(p));
 		ItemStack item = p.getItemInHand();
 		if(data.get("powertool." + item.getType().name()) == null) return;
 		String cmd = data.getString("powertool." + item.getType().name());

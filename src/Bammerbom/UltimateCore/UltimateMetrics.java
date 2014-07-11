@@ -96,7 +96,7 @@ public class UltimateMetrics {
 
         // load the config
         configurationFile = getConfigFile();
-        configuration = UltimateConfiguration.loadConfiguration(configurationFile);
+        configuration = new UltimateConfiguration(configurationFile);
 
         // add some defaults
         configuration.addDefault("opt-out", false);
@@ -105,7 +105,7 @@ public class UltimateMetrics {
 
         // Do we need to create the file?
         if (configuration.get("guid") == null) {
-            configuration.getSource().options().header("http://mcstats.org").copyDefaults(true);
+            configuration.options().header("http://mcstats.org").copyDefaults(true);
             configuration.save(configurationFile);
         }
 
@@ -216,7 +216,7 @@ public class UltimateMetrics {
     public boolean isOptOut() {
         synchronized (optOutLock) {
             // Reload the metrics file
-			configuration = UltimateConfiguration.loadConfiguration(getConfigFile());
+			configuration = new UltimateConfiguration(getConfigFile());
             return configuration.getBoolean("opt-out");
         }
     }

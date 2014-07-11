@@ -41,7 +41,7 @@ public class CmdNick implements Listener{
 			if(o && !r.perm(sender, "uc.nick.others", false, true)) return;
 			sender.sendMessage(r.mes("Nick.Message").replaceAll("%Name", "off").replaceAll("%Player", t.getName()));
 			if(o) t.sendMessage(r.mes("Nick.MessageOthers").replaceAll("%Player", sender.getName()).replaceAll("%Name", "off"));
-			UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+			UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(t));
 			data.set("nick", null);
 			data.save(UltimateFileLoader.getPlayerFile(t));
 			return;
@@ -63,7 +63,7 @@ public class CmdNick implements Listener{
 			return;
 		}
 		name = ChatColor.translateAlternateColorCodes('&', args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", ""));
-		UltimateConfiguration data = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(t));
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(t));
 		data.set("nick", name);
 		data.save(UltimateFileLoader.getPlayerFile(t));
 		sender.sendMessage(r.mes("Nick.Message").replaceAll("%Name", name).replaceAll("%Player", t.getName()));

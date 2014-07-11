@@ -475,7 +475,7 @@ public class UltimateCommands implements Listener{
 	Boolean debug = true;
 	private static final transient Map<PluginCommand, PluginCommand> overriddenList = new HashMap<PluginCommand, PluginCommand>();
 	public static void fixCommands(){
-		debug = UltimateConfiguration.loadConfiguration(UltimateFileLoader.DFglobal).getBoolean("debug");
+		debug = new UltimateConfiguration(UltimateFileLoader.DFglobal).getBoolean("debug");
 		for(Plugin pl : Bukkit.getPluginManager().getPlugins()){
 			if(pl.isEnabled() && !pl.equals(plugin)) addPlugin(pl);
 		}

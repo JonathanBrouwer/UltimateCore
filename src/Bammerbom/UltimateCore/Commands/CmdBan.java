@@ -100,7 +100,7 @@ public class CmdBan implements Listener{
 		date.setTime(System.currentTimeMillis() + time);
 		list.addBan(banp.getName().toString(), reas, date, null);
 		//pconf
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(banp));
+		UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(banp));
 		conf.set("banned", true);
 		conf.set("banreason", reason);
 		conf.set("bantime", time);
@@ -114,7 +114,7 @@ public class CmdBan implements Listener{
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void joinOnBan(final PlayerLoginEvent e){
-		 final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+		 final UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 		 if(conf.get("banned") == null){ return; }
 		 if(!conf.getBoolean("banned") == true) return;
 		 if(conf.get("bantime") != null && conf.getLong("bantime") < 1 ){
@@ -154,7 +154,7 @@ public class CmdBan implements Listener{
 			return;
 		}
 		if(list.isBanned(banp.getName())) list.pardon(banp.getName().toString());
-		UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(banp));
+		UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(banp));
 		conf.set("banned", false);
 		conf.set("banreason", null);
 		conf.set("bantime", null);

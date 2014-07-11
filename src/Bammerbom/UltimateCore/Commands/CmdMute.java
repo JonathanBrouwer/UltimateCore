@@ -103,7 +103,7 @@ public class CmdMute implements Listener{
 	public void onChat(AsyncPlayerChatEvent e){
 		if(UC.getPlayer(e.getPlayer()).isMuted()){
 			e.setCancelled(true);
-			final UltimateConfiguration conf = UltimateConfiguration.loadConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+			final UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 			Long mutetime = conf.getLong("mutetime");
 			if(mutetime == 0 || mutetime == -1){
 			e.getPlayer().sendMessage(r.mes("Mute.ChatMessage"));
