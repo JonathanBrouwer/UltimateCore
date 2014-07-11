@@ -36,7 +36,7 @@ public class EventExplosion implements Listener{
 		if(tnt&& e.getEntityType().equals(EntityType.PRIMED_TNT) || e.getEntityType().equals(EntityType.MINECART_TNT)){
 			e.setYield(0.0F);
 		}
-		if(ghast&& e.getEntityType().equals(EntityType.GHAST) || e.getEntityType().equals(Fireball.class) || e.getEntityType().equals(LargeFireball.class)){
+		if(ghast&& e.getEntityType().equals(EntityType.GHAST) || e.getEntity() instanceof Fireball || e.getEntity() instanceof LargeFireball){
 			e.setYield(0.0F);
 		}
 		if(enderdragon && e.getEntityType().equals(EntityType.ENDER_DRAGON) || e.getEntityType().equals(EntityType.ENDER_CRYSTAL)){

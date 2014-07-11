@@ -1164,7 +1164,7 @@ final class ReflectionHandler {
 		}
  
 		public String getName() {
-			return this.getName();
+			return this.name;
 		}
  
 		public Class<?> getPacket() throws Exception {

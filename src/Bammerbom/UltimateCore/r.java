@@ -16,7 +16,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class r {
 	static Plugin plugin;
-	public static Permission permission;
+	static Permission permission;
 	public r(Plugin instance){
 		plugin = instance;
 		if(this instanceof Listener){

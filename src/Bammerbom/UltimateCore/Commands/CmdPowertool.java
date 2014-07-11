@@ -50,7 +50,7 @@ public class CmdPowertool implements Listener{
 			return;
 		}
 		String cmd = r.getFinalArg(args, 0);
-		if(cmd.startsWith("/")) cmd.replaceFirst("/", "");
+		if(cmd.startsWith("/")) cmd = cmd.replaceFirst("/", "");
 		data.set("powertool." + item.getType().name(), cmd);
 		data.save(UltimateFileLoader.getPlayerFile(p));
 		p.sendMessage(r.mes("Powertool.CommandSet").replaceAll("%Command", cmd).replaceAll("%Item", item.getType().name().toLowerCase().replaceAll("_", "")));

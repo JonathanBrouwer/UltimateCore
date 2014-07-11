@@ -18,7 +18,7 @@ public class CmdUptime {
 		}
 	}
 	public static void handle(CommandSender sender, String[] args){
-		if(r.perm(sender, "uc.uptime", false, true) == false);
+		if(r.perm(sender, "uc.uptime", false, true) == false) return;
 		sender.sendMessage(r.default1 + "Uptime since last reload: " + r.default2 + DateUtil.formatDateDiff(start));
 	}
 }

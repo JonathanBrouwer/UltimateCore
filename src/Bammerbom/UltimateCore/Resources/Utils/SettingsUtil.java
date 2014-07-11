@@ -71,7 +71,7 @@ class Listeners{
 		}
 		try{
 			Byte s1 = (Byte) ReflectionUtil.execute("getHandle().getDataWatcher().getByte({1})", p, 16);
-		  showcapes = s1.equals(0) ? true : false;
+		  showcapes = s1.equals(Byte.valueOf("0")) ? true : false;
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

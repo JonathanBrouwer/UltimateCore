@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -277,11 +276,6 @@ public static String joinList(String seperator, Object[] list)
     System.arraycopy(input, 0, rval, 0, index);
     System.arraycopy(input, index + 1, rval, index, input.length - index - 1);
     return rval;
-  }
-
-  public static String combineNames(Set<Object> items)
-  {
-    return combineNames(items);
   }
 
   public static String combineNames(Collection<Object> items)

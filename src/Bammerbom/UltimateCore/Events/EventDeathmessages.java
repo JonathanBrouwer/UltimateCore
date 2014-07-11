@@ -125,7 +125,7 @@ public class EventDeathmessages implements Listener{
 					
 				}else if(pr.getShooter() instanceof Skeleton){
 					Skeleton sk = (Skeleton) pr.getShooter();
-					if(sk.getType().equals(SkeletonType.NORMAL)){
+					if(sk.getSkeletonType().equals(SkeletonType.NORMAL)){
 						return (r.mes("DeathMessages.Skeleton").replaceAll("%Player", UC.getPlayer(p).getNick()));
 					}else{
 						return (r.mes("DeathMessages.WitherSkeleton").replaceAll("%Player", UC.getPlayer(p).getNick()));

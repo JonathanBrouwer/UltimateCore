@@ -181,7 +181,7 @@ public class AttributeUtil {
            return data.getString("Name", null);
        }
 
-       public void setName(@Nonnull String name) {
+       public void setName(String name) {
            Preconditions.checkNotNull(name, "name cannot be NULL.");
            data.put("Name", name);
        }
@@ -190,7 +190,7 @@ public class AttributeUtil {
            return new UUID(data.getLong("UUIDMost", null), data.getLong("UUIDLeast", null));
        }
 
-       public void setUUID(@Nonnull UUID id) {
+       public void setUUID(UUID id) {
            Preconditions.checkNotNull("id", "id cannot be NULL.");
            data.put("UUIDLeast", id.getLeastSignificantBits());
            data.put("UUIDMost", id.getMostSignificantBits());

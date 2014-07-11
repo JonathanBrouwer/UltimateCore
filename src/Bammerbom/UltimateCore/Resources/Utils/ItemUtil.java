@@ -208,8 +208,7 @@ class EnchantGlow extends EnchantmentWrapper
 
 	public static Enchantment getGlow()
 	{
-		if ( glow != null )
-			return glow;
+		if (glow != null) return glow;
 
 		try
 		{

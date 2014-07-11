@@ -323,11 +323,10 @@ return fc.getConfigurationSection("arenas").getKeys(false).size();
 }
 
 //Our final method, create arena!
-@SuppressWarnings("unused")
 public void createArena(String type, String arenaName, Location joinLocation, Location startLocation, Location endLocation, int maxPlayers, int startPlayers) {
 
 //Now, lets create an arena object to represent it:
-Arena arena = new Arena(type, arenaName, joinLocation, startLocation, endLocation, maxPlayers, startPlayers);
+new Arena(type, arenaName, joinLocation, startLocation, endLocation, maxPlayers, startPlayers);
 
 //Now here is where you would save it all to a file, again, im going to create a null UltimateConfiguration, USE YOUR OWN!!!
 UltimateConfiguration fc = mc; //USE YOUR OWN PUNK

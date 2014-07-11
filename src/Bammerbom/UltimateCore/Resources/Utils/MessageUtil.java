@@ -182,7 +182,7 @@ public class MessageUtil {
 	}
 
 	public MessageUtil tooltip(final List<String> lines) {
-		return tooltip((String[])lines.toArray());
+		return tooltip(lines);
 	}
 
 	public MessageUtil tooltip(final String... lines) {

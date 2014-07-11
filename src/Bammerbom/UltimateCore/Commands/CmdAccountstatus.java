@@ -31,6 +31,7 @@ public class CmdAccountstatus
       final OfflinePlayer p = Bukkit.getOfflinePlayer(args[0]);
       if(p == null){
     	  cs.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
+    	  return;
       }
       name = p.getName();
       Thread t = new Thread(new Runnable(){

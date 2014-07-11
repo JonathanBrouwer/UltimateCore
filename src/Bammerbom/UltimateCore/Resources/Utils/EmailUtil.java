@@ -794,8 +794,9 @@ public class EmailUtil {
     		throw new IllegalArgumentException("Email is empty. Make the email before you attach the file!");
     	}
     	byte[] bytes = new byte[40];
-    	new Random().nextBytes(bytes);
-    	String randomBoundary = Long.toString(new Random().nextLong());
+    	Random random = new Random();
+    	random.nextBytes(bytes);
+    	String randomBoundary = Long.toString(random.nextLong());
     	if(email.body.contains(randomBoundary))
     	{
     		addFileAttachment(email, fileList);

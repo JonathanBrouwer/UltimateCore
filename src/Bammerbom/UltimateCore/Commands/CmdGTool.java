@@ -117,7 +117,7 @@ public class CmdGTool implements Listener{
 			e.setCancelled(true);
 			locked = true;
 			thr.setName("UltimateCore: GTool thread.");
-			thr.run();
+			thr.start();
 		}
 	}
 

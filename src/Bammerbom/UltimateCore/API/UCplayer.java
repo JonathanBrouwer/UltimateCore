@@ -46,7 +46,7 @@ public class UCplayer{
 	public UCplayer(UUID uuid){
 		UCplayer p = new UCplayer(Bukkit.getOfflinePlayer(uuid));
 		name = p.getPlayer().getName();
-		uuid = p.getPlayer().getUniqueId();
+		this.uuid = p.getPlayer().getUniqueId();
 	}
 	public Long getLastConnectMillis(){
 		final UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));

@@ -28,7 +28,7 @@ public class ErrorLogger {
 			outFile = new FileWriter(file);
 		} catch (IOException e) {
 			e.printStackTrace();
-			outFile = null;
+			return;
 		}
 		PrintWriter out = new PrintWriter(outFile);
 		 out.println("=======================================");
