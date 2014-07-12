@@ -51,6 +51,7 @@ public class CmdInv implements Listener{
     	  			return;
 	  			}
 	  			Inventory inv = InventoryUtil.StringToInventory(conf.getString("lastinventory"));
+	  			
 	  			p.openInventory(inv);
     	  	}
     	}else{
@@ -68,6 +69,8 @@ public class CmdInv implements Listener{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onInventoryClick(InventoryClickEvent e){
 		if(e.getInventory() instanceof PlayerInventory){
+			if(e.getInventory().getHolder() == null) e.setCancelled(true);
+			r.log(e.getInventory().getHolder());
 			if(!r.perm((CommandSender) e.getWhoClicked(), "uc.inv.edit", false, false) && !e.getInventory().getHolder().equals(e.getWhoClicked())){ 
 				e.setCancelled(true);
 				return;
