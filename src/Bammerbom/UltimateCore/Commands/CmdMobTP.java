@@ -64,7 +64,7 @@ public class CmdMobTP implements Listener{
 		if(cantdrop.contains(e.getPlayer().getName())) return;
 		if(!(e.getRightClicked() instanceof LivingEntity)) return;
 		if(e.getRightClicked() instanceof Player) return;
-		if(!r.perm(e.getPlayer(), "uc.mobtp", false, true)) return;
+		if(!r.perm(e.getPlayer(), "uc.mobtp", false, false)) return;
 		if(e.getPlayer().getItemInHand() == null || e.getPlayer().getItemInHand().getType() == null) return;
 		if(e.getPlayer().getItemInHand().getItemMeta() == null || e.getPlayer().getItemInHand().getItemMeta().getDisplayName() == null) return;
 		if(!e.getPlayer().getItemInHand().getType().equals(Material.STICK)) return;
@@ -99,7 +99,7 @@ public class CmdMobTP implements Listener{
 		if(e.getPlayer().getItemInHand().getItemMeta() == null || e.getPlayer().getItemInHand().getItemMeta().getDisplayName() == null) return;
 		if(!e.getPlayer().getItemInHand().getType().equals(Material.BLAZE_ROD)) return;
 		if(!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.AQUA + "MobTP: place entity (right click)")) return;
-		if(!r.perm(e.getPlayer(), "uc.mobtp", false, true)) return;
+		if(!r.perm(e.getPlayer(), "uc.mobtp", false, false)) return;
 		ItemStack old = e.getPlayer().getItemInHand();
 		ItemStack stick = new ItemStack(Material.STICK);
 		ItemMeta meta = stick.getItemMeta();
@@ -120,10 +120,10 @@ public class CmdMobTP implements Listener{
 		en.setCustomName(eo.getCustomName());
 		en.setCustomNameVisible(eo.isCustomNameVisible());
 		en.setFireTicks(eo.getFireTicks());
+		en.setMaxHealth(((Damageable)eo).getMaxHealth());
 		en.setHealth(((Damageable)eo).getHealth());
 		en.setLastDamage(eo.getLastDamage());
 		en.setLastDamageCause(eo.getLastDamageCause());
-		en.setMaxHealth(((Damageable)eo).getMaxHealth());
 		en.setMaximumAir(eo.getMaximumAir());
 		en.setMaximumNoDamageTicks(eo.getMaximumNoDamageTicks());
 		en.setNoDamageTicks(eo.getNoDamageTicks());
