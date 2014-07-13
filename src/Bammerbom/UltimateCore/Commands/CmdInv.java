@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.PlayerInventory;
@@ -70,7 +71,17 @@ public class CmdInv implements Listener{
 	public void onInventoryClick(InventoryClickEvent e){
 		if(e.getInventory() instanceof PlayerInventory){
 			if(e.getInventory().getHolder() == null) e.setCancelled(true);
-			r.log(e.getInventory().getHolder());
+			if(!r.perm((CommandSender) e.getWhoClicked(), "uc.inv.edit", false, false) && !e.getInventory().getHolder().equals(e.getWhoClicked())){ 
+				e.setCancelled(true);
+				return;
+			}
+	
+		}
+	}
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onInventoryDrag(InventoryDragEvent e){
+		if(e.getInventory() instanceof PlayerInventory){
+			if(e.getInventory().getHolder() == null) e.setCancelled(true);
 			if(!r.perm((CommandSender) e.getWhoClicked(), "uc.inv.edit", false, false) && !e.getInventory().getHolder().equals(e.getWhoClicked())){ 
 				e.setCancelled(true);
 				return;
