@@ -2,6 +2,7 @@ package Bammerbom.UltimateCore.Commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -9,7 +10,6 @@ import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.API.UC;
-import Bammerbom.UltimateCore.API.UCplayer;
 
 public class CmdRealname implements Listener{
 	static Plugin plugin;
@@ -27,18 +27,40 @@ public class CmdRealname implements Listener{
 			sender.sendMessage(r.mes("Realname.Usage"));
 			return;
 		}
-		Player t = null;
-		for(Player p : Bukkit.getOnlinePlayers()){
-			UCplayer up = UC.getPlayer(p);
-			if(ChatColor.stripColor(up.getNick()).equalsIgnoreCase(args[0])){
-				t = p;
-			}
-		}
+		OfflinePlayer t = null;
+		//SEARCH
+	    String lowerName = args[0].toLowerCase();
+	    int delta = -1;
+	    for (Player player : Bukkit.getOnlinePlayers()){
+	      if (ChatColor.stripColor(UC.getPlayer(player).getNick()).toLowerCase().startsWith(lowerName)) {
+	        int curDelta = player.getName().length() - lowerName.length();
+	        if (curDelta < delta) {
+	          t = player;
+	          delta = curDelta;
+	        }
+	        if (curDelta == 0)
+	          break;
+	      }
+	    }
 		if(t == null){
+		    for (OfflinePlayer player : Bukkit.getOfflinePlayers()){
+		    	if(!player.hasPlayedBefore() && !player.isOnline()) continue;
+			      if (ChatColor.stripColor(UC.getPlayer(player).getNick()).toLowerCase().startsWith(lowerName)) {
+			        int curDelta = player.getName().length() - lowerName.length();
+			        if (curDelta < delta) {
+			          t = player;
+			          delta = curDelta;
+			        }
+			        if (curDelta == 0)
+			          break;
+			      }
+			    }
+		    if(t == null){
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			return;
+		    }
 		}
-		sender.sendMessage(r.mes("Realname.Usage").replaceAll("%Nick", UC.getPlayer(t).getNick()).replaceAll("%Name", t.getName()));
+		sender.sendMessage(r.mes("Realname.Message").replaceAll("%Nick", UC.getPlayer(t).getNick()).replaceAll("%Name", t.getName()));
 		
 	}
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -348,10 +349,12 @@ public class UltimateConfiguration implements Cloneable{
 		  return conf.getLong(path);
 	  }
 	  public List<?> getList(String path){
-		  return conf.getList(path);
+		  List<?> list = conf.getList(path);
+		  return list == null ? new ArrayList<Object>() : list;
 	  }
 	  public List<String> getStringList(String path){
-		  return conf.getStringList(path);
+		  List<String> list = conf.getStringList(path);
+		  return list == null ? new ArrayList<String>() : list;
 	  }
 	  //TODO set
 	  public void set(String path, Object value){
