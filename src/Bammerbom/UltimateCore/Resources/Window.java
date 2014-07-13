@@ -456,7 +456,7 @@ class ConsoleListener implements Listener{
 					Integer seconds = Calendar.getInstance(TimeZone.getDefault()).get(Calendar.SECOND);
 					if(!lastmessage.equalsIgnoreCase(message + hours + minutes + seconds)){
 						lastmessage = message + hours + minutes  + seconds;
-					Window.logMessage("[" + hours + ":" + minutes + ":" + seconds + "]: " + AnsiColor.ANSI_RED + message);
+					Window.logMessage("[" + hours + ":" + minutes + ":" + seconds + "]: " + message);
 					}
 				}else{
 					Integer hours = Calendar.getInstance(TimeZone.getDefault()).get(Calendar.HOUR_OF_DAY);

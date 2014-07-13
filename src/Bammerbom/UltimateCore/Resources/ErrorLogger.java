@@ -33,12 +33,13 @@ public class ErrorLogger {
 		PrintWriter out = new PrintWriter(outFile);
 		 out.println("=======================================");
 		 out.println("UltimateCore has run into an error ");
-		 out.println("Please report your error on " + ChatColor.YELLOW + "dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
+		 out.println("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
 		 out.println("Bukkit version: " + Bukkit.getServer().getVersion());
 		 out.println("UltimateCore version: " + Bukkit.getPluginManager().getPlugin("UltimateCore").getDescription().getVersion());
 		 out.println("Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()));
 		 out.println("Java version: " + System.getProperty("java.version"));
 		 out.println("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version"));
+		 out.println("Time: " + time);
 		 out.println("Error message: " + t.getMessage());
 		 out.println("UltimateCore message: " + s);
 		 out.println("=======================================");

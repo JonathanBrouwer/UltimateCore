@@ -252,9 +252,7 @@ public class UltimateCore extends JavaPlugin{
 			}
 		}
 		CmdWorld.loadws();
-	}
-	public ClassLoader getClassLoaderUC(){
-		return super.getClassLoader();
+		
 	}
     public static BlockDatabase getSQLdatabase(){
     	return database;
@@ -282,7 +280,7 @@ public class UltimateCore extends JavaPlugin{
 		try{
 		UltimateCommands.onCmd(sender, cmd, label, args);
 		}catch(Exception ex){
-		    new ErrorLogger(ex, "Failed to execute " + cmd.getLabel() + " command.");
+		    new ErrorLogger(ex, "Failed to execute /" + cmd.getLabel() + r.getFinalArg(args, 0) + " command.");
 		}
 		return true;
 	}
