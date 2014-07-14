@@ -150,6 +150,10 @@ public class CmdReport {
 				Player t = (Player) report.getReported();
 				t.sendMessage(r.default2 + sender.getName() + r.default1 + " reported you for " + r.default2 + reason);
 			}
+			for(Player pl : Bukkit.getOnlinePlayers()){
+				if(r.perm(pl, "uc.report.alert", false, false)) continue;
+				pl.sendMessage(ChatColor.DARK_PURPLE + report.getReporter().getName() + " reported " + report.getReported().getName() + " for " + report.getReason());
+			}
 		}
 	}
 }

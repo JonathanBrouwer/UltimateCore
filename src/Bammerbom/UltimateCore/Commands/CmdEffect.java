@@ -60,6 +60,14 @@ public class CmdEffect{
 			}
 			lev = Integer.parseInt(args[3]);
 		}
+		lev = r.normalize(lev, 0, 999999);
+		dur = r.normalize(dur, 0, 999999);
+		if(lev == 0 || dur == 0){
+			t.removePotionEffect(ef);
+			sender.sendMessage(r.mes("Effect.Succes").replaceAll("%Effect", ef.getName().toLowerCase()).replaceAll("%Target", t.getName()).replaceAll("%Duration", dur + "").replaceAll("%Level", lev + ""));
+			return;
+		}
+		t.removePotionEffect(ef);
 		PotionEffect effect = new PotionEffect(ef, dur * 20, lev - 1);
 		t.addPotionEffect(effect);
 		sender.sendMessage(r.mes("Effect.Succes").replaceAll("%Effect", ef.getName().toLowerCase()).replaceAll("%Target", t.getName()).replaceAll("%Duration", dur + "").replaceAll("%Level", lev + ""));

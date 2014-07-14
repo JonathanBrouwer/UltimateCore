@@ -47,7 +47,9 @@ public class CmdWorld implements Listener{
 		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFworlds);
 		if(data.get("worldlist") == null){ return; }
 		for(String str : data.getStringList("worldlist")){
-		    Bukkit.createWorld(new WorldCreator(str));
+			WorldCreator w = new WorldCreator(str);
+			
+		    Bukkit.createWorld(w);
 		}
 	}
 	public static void create(CommandSender sender, String[] args){
@@ -125,6 +127,7 @@ public class CmdWorld implements Listener{
 			sender.sendMessage(r.mes("World.Create.Created").replaceAll("%world", settings.name()));
 		}else{
 			sender.sendMessage(r.mes("World.Create.Usage"));
+			sender.sendMessage(r.default1 + "Types:" + r.default2 + " flat, largebiomes, amplified, normal, nether, end, nostructures, [SEED]");
 		}
 		
 	}
