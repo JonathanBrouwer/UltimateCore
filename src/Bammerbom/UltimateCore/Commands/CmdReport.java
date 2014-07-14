@@ -28,7 +28,7 @@ public class CmdReport {
 		if(!r.checkArgs(args, 0)){
 			sender.sendMessage(r.default1 + "/report <Player> <Message> - " + r.default2 + "Report someone");
 			sender.sendMessage(r.default1 + "/report view <ID> - " + r.default2 + "Views a report");
-			sender.sendMessage(r.default1 + "/report list - " + r.default2 + "View a list of reports");
+			sender.sendMessage(r.default1 + "/report list (-n -p -f -c) - " + r.default2 + "View a list of reports");
 			sender.sendMessage(r.default1 + "/report claim <ID> - " + r.default2 + "Claim a report");
 			sender.sendMessage(r.default1 + "/report finish <ID> - " + r.default2 + "Mark a report as finished");
 			sender.sendMessage(r.default1 + "/report delete/remove <ID> - " + r.default2 + "Removed a report");
@@ -38,7 +38,7 @@ public class CmdReport {
 			if(!r.checkArgs(args, 1) || !r.isNumber(args[1])){
 				sender.sendMessage(r.default1 + "/report <Player> <Message> - " + r.default2 + "Report someone");
 				sender.sendMessage(r.default1 + "/report view <ID> - " + r.default2 + "Views a report");
-				sender.sendMessage(r.default1 + "/report list - " + r.default2 + "View a list of reports");
+				sender.sendMessage(r.default1 + "/report list (-n -p -f -c) - " + r.default2 + "View a list of reports");
 				sender.sendMessage(r.default1 + "/report claim <ID> - " + r.default2 + "Claim a report");
 				sender.sendMessage(r.default1 + "/report finish <ID> - " + r.default2 + "Mark a report as finished");
 				sender.sendMessage(r.default1 + "/report delete/remove <ID> - " + r.default2 + "Removed a report");
@@ -96,10 +96,9 @@ public class CmdReport {
 			if(!r.checkArgs(args, 1) || !r.isNumber(args[1])){
 				sender.sendMessage(r.default1 + "/report <Player> <Message> - " + r.default2 + "Report someone");
 				sender.sendMessage(r.default1 + "/report view <ID> - " + r.default2 + "Views a report");
-				sender.sendMessage(r.default1 + "/report list - " + r.default2 + "View a list of reports");
+				sender.sendMessage(r.default1 + "/report list (-n -p -f -c) - " + r.default2 + "View a list of reports");
 				sender.sendMessage(r.default1 + "/report claim <ID> - " + r.default2 + "Claim a report");
 				sender.sendMessage(r.default1 + "/report finish <ID> - " + r.default2 + "Mark a report as finished");
-				sender.sendMessage(r.default1 + "/report delete/remove <ID> - " + r.default2 + "Removed a report");
 				return;
 			}
 			if(!Report.exists(Integer.parseInt(args[1]))){
@@ -113,10 +112,9 @@ public class CmdReport {
 			if(!r.checkArgs(args, 1) || !r.isNumber(args[1])){
 				sender.sendMessage(r.default1 + "/report <Player> <Message> - " + r.default2 + "Report someone");
 				sender.sendMessage(r.default1 + "/report view <ID> - " + r.default2 + "Views a report");
-				sender.sendMessage(r.default1 + "/report list - " + r.default2 + "View a list of reports");
+				sender.sendMessage(r.default1 + "/report list (-n -p -f -c) - " + r.default2 + "View a list of reports");
 				sender.sendMessage(r.default1 + "/report claim <ID> - " + r.default2 + "Claim a report");
 				sender.sendMessage(r.default1 + "/report finish <ID> - " + r.default2 + "Mark a report as finished");
-				sender.sendMessage(r.default1 + "/report delete/remove <ID> - " + r.default2 + "Removed a report");
 				return;
 			}
 			if(!Report.exists(Integer.parseInt(args[1]))){
@@ -131,10 +129,9 @@ public class CmdReport {
 			if(!r.checkArgs(args, 1)){
 				sender.sendMessage(r.default1 + "/report <Player> <Message> - " + r.default2 + "Report someone");
 				sender.sendMessage(r.default1 + "/report view <ID> - " + r.default2 + "Views a report");
-				sender.sendMessage(r.default1 + "/report list - " + r.default2 + "View a list of reports");
+				sender.sendMessage(r.default1 + "/report list (-n -p -f -c) - " + r.default2 + "View a list of reports");
 				sender.sendMessage(r.default1 + "/report claim <ID> - " + r.default2 + "Claim a report");
 				sender.sendMessage(r.default1 + "/report finish <ID> - " + r.default2 + "Mark a report as finished");
-				sender.sendMessage(r.default1 + "/report delete/remove <ID> - " + r.default2 + "Removed a report");
 				return;
 			}
 			String reporte = args[0];
@@ -148,6 +145,11 @@ public class CmdReport {
 			}
 			Report report = new Report(id, System.currentTimeMillis(), reporter.getUniqueId(), reported.getUniqueId(), reason, Report.State.NEW);
 			report.register();
+			sender.sendMessage(r.default1 + "You reported " + r.default2 + report.getReported().getName() + r.default1 + " for " + r.default2 + report.getReason());
+			if(report.getReported().isOnline()){
+				Player t = (Player) report.getReported();
+				t.sendMessage(r.default2 + sender.getName() + r.default1 + " reported you for " + r.default2 + reason);
+			}
 		}
 	}
 }
