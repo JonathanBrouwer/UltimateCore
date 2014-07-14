@@ -29,6 +29,7 @@ public class CmdReport {
 			sender.sendMessage(r.default1 + "/report <Player> <Message> - " + r.default2 + "Report someone");
 			sender.sendMessage(r.default1 + "/report view <ID> - " + r.default2 + "Views a report");
 			sender.sendMessage(r.default1 + "/report list - " + r.default2 + "View a list of reports");
+			sender.sendMessage(r.default1 + "/report claim <ID> - " + r.default2 + "Claim a report");
 			sender.sendMessage(r.default1 + "/report finish <ID> - " + r.default2 + "Mark a report as finished");
 			sender.sendMessage(r.default1 + "/report delete/remove <ID> - " + r.default2 + "Removed a report");
 			return;
@@ -38,6 +39,7 @@ public class CmdReport {
 				sender.sendMessage(r.default1 + "/report <Player> <Message> - " + r.default2 + "Report someone");
 				sender.sendMessage(r.default1 + "/report view <ID> - " + r.default2 + "Views a report");
 				sender.sendMessage(r.default1 + "/report list - " + r.default2 + "View a list of reports");
+				sender.sendMessage(r.default1 + "/report claim <ID> - " + r.default2 + "Claim a report");
 				sender.sendMessage(r.default1 + "/report finish <ID> - " + r.default2 + "Mark a report as finished");
 				sender.sendMessage(r.default1 + "/report delete/remove <ID> - " + r.default2 + "Removed a report");
 				return;
@@ -95,6 +97,7 @@ public class CmdReport {
 				sender.sendMessage(r.default1 + "/report <Player> <Message> - " + r.default2 + "Report someone");
 				sender.sendMessage(r.default1 + "/report view <ID> - " + r.default2 + "Views a report");
 				sender.sendMessage(r.default1 + "/report list - " + r.default2 + "View a list of reports");
+				sender.sendMessage(r.default1 + "/report claim <ID> - " + r.default2 + "Claim a report");
 				sender.sendMessage(r.default1 + "/report finish <ID> - " + r.default2 + "Mark a report as finished");
 				sender.sendMessage(r.default1 + "/report delete/remove <ID> - " + r.default2 + "Removed a report");
 				return;
@@ -111,6 +114,7 @@ public class CmdReport {
 				sender.sendMessage(r.default1 + "/report <Player> <Message> - " + r.default2 + "Report someone");
 				sender.sendMessage(r.default1 + "/report view <ID> - " + r.default2 + "Views a report");
 				sender.sendMessage(r.default1 + "/report list - " + r.default2 + "View a list of reports");
+				sender.sendMessage(r.default1 + "/report claim <ID> - " + r.default2 + "Claim a report");
 				sender.sendMessage(r.default1 + "/report finish <ID> - " + r.default2 + "Mark a report as finished");
 				sender.sendMessage(r.default1 + "/report delete/remove <ID> - " + r.default2 + "Removed a report");
 				return;
@@ -128,6 +132,7 @@ public class CmdReport {
 				sender.sendMessage(r.default1 + "/report <Player> <Message> - " + r.default2 + "Report someone");
 				sender.sendMessage(r.default1 + "/report view <ID> - " + r.default2 + "Views a report");
 				sender.sendMessage(r.default1 + "/report list - " + r.default2 + "View a list of reports");
+				sender.sendMessage(r.default1 + "/report claim <ID> - " + r.default2 + "Claim a report");
 				sender.sendMessage(r.default1 + "/report finish <ID> - " + r.default2 + "Mark a report as finished");
 				sender.sendMessage(r.default1 + "/report delete/remove <ID> - " + r.default2 + "Removed a report");
 				return;
