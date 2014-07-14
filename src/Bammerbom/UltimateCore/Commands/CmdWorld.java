@@ -1,9 +1,12 @@
 package Bammerbom.UltimateCore.Commands;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import net.minecraft.util.org.apache.commons.io.FileUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -48,7 +51,7 @@ public class CmdWorld implements Listener{
 		if(data.get("worldlist") == null){ return; }
 		for(String str : data.getStringList("worldlist")){
 			WorldCreator w = new WorldCreator(str);
-			
+			w.environment(Environment.valueOf(data.getString("worlds." + str)));
 		    Bukkit.createWorld(w);
 		}
 	}
@@ -62,6 +65,7 @@ public class CmdWorld implements Listener{
 			return;
 		}
 		//Usage = /a world create <Worldname> [WorldType]
+		Environment env = Environment.NORMAL;
 		if(r.checkArgs(args, 1) == true){
 			if(Bukkit.getWorld(args[1]) != null){
 				sender.sendMessage(r.mes("World.AlreadyExist"));
@@ -83,10 +87,13 @@ public class CmdWorld implements Listener{
 			}else if(args[na].equalsIgnoreCase("amplified")){
 				settings.type(WorldType.AMPLIFIED);
 			}else if(args[na].equalsIgnoreCase("normal")){
+				env = Environment.NORMAL;
 			}else if(args[na].equalsIgnoreCase("nether")){
 				settings.environment(Environment.NETHER);
+				env = Environment.NETHER;
 			}else if(args[na].equalsIgnoreCase("end")){
 				settings.environment(Environment.THE_END);
+				env = Environment.THE_END;
 			}else if(args[na].equalsIgnoreCase("nostructures")){
 				settings.generateStructures(false);
 			}else if(r.isNumber(args[na])){
@@ -113,13 +120,13 @@ public class CmdWorld implements Listener{
 				if(worlds == null){ worlds = new ArrayList<String>(); }
 				worlds.add(settings.name());
 				data.set("worldlist", worlds);
-				data.set("worlds." + settings.name(), settings.type().toString());
+				data.set("worlds." + settings.name(), env.name());
 			data.save(UltimateFileLoader.DFworlds);
 			}catch(NullPointerException e){
 				UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFworlds);
 
 				HashMap<String, String> worlds = new HashMap<String, String>();
-				worlds.put(settings.name(), settings.environment().name());
+				worlds.put(settings.name(), env.name());
 				data.set("worlds", worlds);
 				data.save(UltimateFileLoader.DFworlds);
 			}
@@ -292,6 +299,7 @@ public class CmdWorld implements Listener{
 				sender.sendMessage(r.default1 + "Can't reset world with players inside.");
 				return;
 			}
+			sender.sendMessage(r.default1 + "Resetting world: " + world.getName());
 			String i = "";
 			while(new File(world.getWorldFolder().getName() + "_OLD" + i).exists()){
 				if(i.equalsIgnoreCase("")){
@@ -303,22 +311,31 @@ public class CmdWorld implements Listener{
 				}
 			}
 			File f = new File(world.getWorldFolder().getName() + "_OLD" + i);
-			new File(world.getWorldFolder().getAbsolutePath()).renameTo(f);
-			sender.sendMessage(r.default1 + "Resetting world: " + world.getName());
+		    try {
+				copy(world.getWorldFolder(), f);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			resetAll(world);
 			sender.sendMessage(r.default1 + "Reset complete!");
 		}
 		
 	}
+	private static void copy(File source, File dest) throws IOException {
+		FileUtils.copyDirectory(source, dest);
+	}
+	private static void clear(File dir){
+		for (File file: dir.listFiles()) {
+			if(file.getName().toLowerCase().contains("player")) continue;
+	        if (file.isDirectory()) clear(file);
+	        file.delete();
+	    }
+	}
 	private static void resetAll(World world) {
 		world.save();
 		Bukkit.unloadWorld(world, true);
 		File dir = world.getWorldFolder();
-		for(File f : dir.listFiles()){
-			if(!f.getName().contains("player")){
-				f.delete();
-			}
-		}
+		clear(dir);
 		WorldCreator creator = new WorldCreator(world.getName());
 		creator.seed(world.getSeed());
 		creator.environment(world.getEnvironment());
