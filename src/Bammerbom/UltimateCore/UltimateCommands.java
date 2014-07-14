@@ -76,6 +76,7 @@ import Bammerbom.UltimateCore.Commands.CmdRegion;
 import Bammerbom.UltimateCore.Commands.CmdReload;
 import Bammerbom.UltimateCore.Commands.CmdRemoveAll;
 import Bammerbom.UltimateCore.Commands.CmdRepair;
+import Bammerbom.UltimateCore.Commands.CmdReport;
 import Bammerbom.UltimateCore.Commands.CmdRules;
 import Bammerbom.UltimateCore.Commands.CmdSave;
 import Bammerbom.UltimateCore.Commands.CmdSay;
@@ -132,6 +133,8 @@ public class UltimateCommands implements Listener{
 		if(label.startsWith("ultimatecore:")) label = label.replaceFirst("ultimatecore:", "");
 				 if(label.equalsIgnoreCase("afk")){
 					 EventAFK.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("report")){
+					 CmdReport.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("clearchat")){
 					 CmdClearchat.handle(sender, cmd, label, args);
 				 }else if(label.equalsIgnoreCase("accountstatus")){

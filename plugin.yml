@@ -8,6 +8,9 @@ main: Bammerbom.UltimateCore.UltimateCore
 prefix: UltimateCore
 softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions]
 commands:
+  report:
+    description: Report someone
+    usage: /report <Player> <Reason>
   clearchat:
     description: Clears the global chat
     usage: /clearchat

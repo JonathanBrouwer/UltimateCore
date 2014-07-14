@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -227,8 +228,14 @@ public class UltimateConfiguration implements Cloneable{
 	      
 	}
 	//TODO keys/values
+	public Set<String> getKeys(Boolean b){
+		return conf.getKeys(b);
+	}
 	public Set<String> getKeys(){
 		return conf.getKeys(true);
+	}
+	public Map<String, Object> getValues(Boolean v){
+		return conf.getValues(v);
 	}
 	public Map<String, Object> getValues(){
 		return conf.getValues(true);
@@ -370,6 +377,9 @@ public class UltimateConfiguration implements Cloneable{
 			          value = text;
 			        }
 			      }
+			  if(value instanceof UUID){
+				  value = ((UUID) value).toString();
+			  }
 		  }
 		  conf.set(path, value);
 	  }
