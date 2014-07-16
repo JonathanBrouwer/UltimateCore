@@ -17,6 +17,7 @@ import org.bukkit.plugin.Plugin;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.Utils.InventoryUtil;
 
 public class CmdInv implements Listener{
@@ -35,7 +36,7 @@ public class CmdInv implements Listener{
 		if(!r.perm(sender, "uc.inv", false, true)){ return; }
 		Player p = (Player)sender;
     	if(r.checkArgs(args, 0)){
-    		Player target = Bukkit.getPlayer(args[0]);
+    		Player target = UC.searchPlayer(args[0]);
     		if(target !=null){
     			//Inventory inv = Bukkit.createInventory(null, 45, ChatColor.RED + "Inventory from " + ChatColor.BLUE + target.getName());
     			PlayerInventory pinv = target.getInventory();

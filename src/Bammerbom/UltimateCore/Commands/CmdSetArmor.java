@@ -1,6 +1,5 @@
 package Bammerbom.UltimateCore.Commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -8,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.Utils.StringUtil;
 
 public class CmdSetArmor {
@@ -36,7 +36,7 @@ public class CmdSetArmor {
 				return;
 			}
 			if(isArmor(args[0])){
-				Player t = Bukkit.getPlayer(args[1]);
+				Player t = UC.searchPlayer(args[1]);
 				if(t == null){
 					sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1]));
 					return;
@@ -45,7 +45,7 @@ public class CmdSetArmor {
 				sender.sendMessage(r.mes("Setarmor.Set").replaceAll("%Player", t.getName()).replaceAll("%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name())));
 				t.sendMessage(r.mes("Setarmor.To").replaceAll("%Player", sender.getName()).replaceAll("%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name())));
 			}else if(isArmor(args[1])){
-				Player t = Bukkit.getPlayer(args[0]);
+				Player t = UC.searchPlayer(args[0]);
 				if(t == null){
 					sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 					return;

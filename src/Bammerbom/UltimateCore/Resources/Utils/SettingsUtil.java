@@ -8,6 +8,8 @@ import org.bukkit.Difficulty;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.API.UC;
+
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.ListeningWhitelist;
 import com.comphenix.protocol.events.PacketEvent;
@@ -46,7 +48,7 @@ class PSettings{
 class Listeners{
 	@SuppressWarnings("unused")
 	public Listeners(final Plugin plugin){
-		for(Player p : Bukkit.getOnlinePlayers()){
+		for(Player p : UC.getOnlinePlayers()){
 		//Values
 		String locale = "en_US";
 		Integer renderdistance = 0;

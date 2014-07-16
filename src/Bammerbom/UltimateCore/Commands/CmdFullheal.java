@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdFullheal{
 	static Plugin plugin;
@@ -42,7 +43,7 @@ public class CmdFullheal{
 			if(!r.perm(sender, "uc.fullheal.others", false, true)){
 				return;
 			}
-			Player target = Bukkit.getPlayer(args[0]);
+			Player target = UC.searchPlayer(args[0]);
 			if(target == null || !target.isOnline()){
 				p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;

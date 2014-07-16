@@ -92,7 +92,7 @@ public class CmdBan implements Listener{
 		String reas = r.mes("Ban.Message").replaceAll("%Time", timen).replaceAll("%Reason", reason);
 		if(banp.isOnline()){
 			EventActionMessage.setEnb(false);
-			Bukkit.getPlayer(banp.getName()).kickPlayer(reas);
+			UC.searchPlayer(banp.getName()).kickPlayer(reas);
 			EventActionMessage.setEnb(true);
 		}
 		BanList list = Bukkit.getBanList(Type.NAME);

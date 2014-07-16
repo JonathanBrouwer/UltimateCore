@@ -90,10 +90,10 @@ public class CmdMute implements Listener{
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 
 			public void run() {
-				for(Player p : Bukkit.getOnlinePlayers()){
+				for(Player p : UC.getOnlinePlayers()){
 					if(UC.getPlayer(p).isMuted()){
 					}
-					}
+				}
 				
 			}
 			

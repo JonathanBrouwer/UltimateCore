@@ -189,7 +189,7 @@ public class UCplayer{
 		String reas = r.mes("Ban.Message").replaceAll("%Time", timen).replaceAll("%Reason", reason);
 		if(banp.isOnline()){
 			EventActionMessage.setEnb(false);
-			Bukkit.getPlayer(banp.getName()).kickPlayer(reas);
+			UC.searchPlayer(banp.getName()).kickPlayer(reas);
 			EventActionMessage.setEnb(true);
 		}
 		//pconf
@@ -217,7 +217,7 @@ public class UCplayer{
 		String reas = r.mes("Ban.Message").replaceAll("%Time", times).replaceAll("%Reason", reason);
 		if(banp.isOnline()){
 			EventActionMessage.setEnb(false);
-			Bukkit.getPlayer(banp.getName()).kickPlayer(reas);
+			UC.searchPlayer(banp.getName()).kickPlayer(reas);
 			EventActionMessage.setEnb(true);
 		}
 		//pconf
@@ -243,7 +243,7 @@ public class UCplayer{
 		}
 	}
 	public Player getOnlinePlayer(){
-		return Bukkit.getPlayer(uuid);
+		return UC.searchPlayer(uuid);
 	}
 	public OfflinePlayer getPlayer(){
 		return Bukkit.getOfflinePlayer(uuid);

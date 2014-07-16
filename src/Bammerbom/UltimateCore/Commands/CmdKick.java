@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdKick{
 	static Plugin plugin;
@@ -23,7 +24,7 @@ public class CmdKick{
 			return;
 		}
 		CommandSender p = sender;
-		Player target = Bukkit.getPlayer(args[0]);
+		Player target = UC.searchPlayer(args[0]);
 		if(target == null){
 			p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			return;

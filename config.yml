@@ -16,8 +16,6 @@ disabledcommands:
 #You can add a custom one by creating a new file and put the name of the file here.
 Language: EN
 
-#Enable a handy console? (Opens a second window)
-console: false
 #Enable timber (Auto chop trees)?
 Timber: false
 #Destroy the leaves? (Drops saplings)

@@ -23,6 +23,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import Bammerbom.UltimateCore.API.UC;
+
 public class BossBar
   implements Listener
 {
@@ -36,7 +38,7 @@ public class BossBar
     plugin = pl;
   }
   public static void disable(){
-	  for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+	  for (Player player : UC.getOnlinePlayers()) {
 	      quit(player);
 	    }
 

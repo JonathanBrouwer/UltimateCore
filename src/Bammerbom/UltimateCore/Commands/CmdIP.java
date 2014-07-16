@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdIP {
 	static Plugin plugin;
@@ -28,7 +29,7 @@ public class CmdIP {
 				sender.sendMessage(r.mes("NoPermissions"));
 				return;
 			}
-			Player p = Bukkit.getPlayer(args[0]);
+			Player p = UC.searchPlayer(args[0]);
 			if(p == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;

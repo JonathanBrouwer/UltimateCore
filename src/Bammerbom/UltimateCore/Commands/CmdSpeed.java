@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdSpeed{
 	static Plugin plugin;
@@ -52,7 +53,7 @@ public class CmdSpeed{
 		p.setWalkSpeed(getSpeed(d, false));
 		p.sendMessage(r.mes("Speed.Self").replaceAll("%Speed", r.default2 + "" + args[0]));
 		}else{
-			Player t = Bukkit.getPlayer(args[1]);
+			Player t = UC.searchPlayer(args[1]);
 			if(t == null){
 				p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1]));
 				return;

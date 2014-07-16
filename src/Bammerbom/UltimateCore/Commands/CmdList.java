@@ -42,7 +42,7 @@ public class CmdList{
 		if(permission == null){
 		    StringBuilder online = new StringBuilder();
 
-		    Player[] players = Bukkit.getOnlinePlayers();
+		    Player[] players = UC.getOnlinePlayers();
 		    
 		    Integer i = 0;
 		    
@@ -63,7 +63,7 @@ public class CmdList{
 			}
 		}else{
 			StringBuilder online = new StringBuilder();
-			Player[] pls = Bukkit.getOnlinePlayers();
+			Player[] pls = UC.getOnlinePlayers();
 			ArrayList<Player> plz = new ArrayList<Player>();
 			for(Player pl : pls){
 				plz.add(pl);
@@ -86,7 +86,7 @@ public class CmdList{
 				Boolean any = false;
 				ArrayList<Player> remove = new ArrayList<Player>();
 			    for(Player pl : plz){
-			    	Player p = Bukkit.getPlayer(sender.getName());
+			    	Player p = UC.searchPlayer(sender.getName());
 			    	if(p == null || p.canSee(pl)){
 			    	if(permission.getPrimaryGroup(pl) != null && permission.getPrimaryGroup(pl).equalsIgnoreCase(g)){
 			    		if(!first){ online.append(", "); }
@@ -122,7 +122,7 @@ public class CmdList{
 	}
 	private static boolean isAnyUserOnline(String group){
 		if(permission == null) return true;
-		for(Player p : Bukkit.getOnlinePlayers()){
+		for(Player p : UC.getOnlinePlayers()){
 			if(permission.getPrimaryGroup(p).equalsIgnoreCase(group)) return true;
 		}
 		return false;

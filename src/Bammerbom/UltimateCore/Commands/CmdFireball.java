@@ -14,6 +14,7 @@ import org.bukkit.entity.ThrownExpBottle;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
 
 import Bammerbom.UltimateCore.r;
@@ -26,7 +27,7 @@ public class CmdFireball implements Listener{
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
 	}
-	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void handle(CommandSender sender, String[] args) {
 		if(!r.isPlayer(sender)){
 			return;
@@ -67,7 +68,7 @@ public class CmdFireball implements Listener{
 		    }
 		    Vector direction = p.getEyeLocation().getDirection().multiply(2);
 		    Projectile projectile = (Projectile)p.getWorld().spawn(p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), type);
-		    projectile.setShooter(p);
+		    projectile.setShooter((ProjectileSource) p);
 		    projectile.setVelocity(direction);
 	}
 }

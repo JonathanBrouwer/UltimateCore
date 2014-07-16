@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdGod implements Listener{
 	static Plugin plugin;
@@ -52,7 +53,7 @@ public class CmdGod implements Listener{
 			if(r.perm(sender, "uc.god.others", false, true) == false){
 				return;
 			}
-			Player t = Bukkit.getPlayer(args[0]);
+			Player t = UC.searchPlayer(args[0]);
 			if(t == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			}else{

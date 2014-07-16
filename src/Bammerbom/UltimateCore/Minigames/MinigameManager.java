@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.Utils.GhostsUtil;
 import Bammerbom.UltimateCore.Resources.Utils.InventoryUtil;
 
@@ -100,12 +101,12 @@ public void addSpectators(Player player, String arenaName){
 	InventoryUtil.saveInv(player, false);
 	Arena arena = getArena(arenaName);
 	for(String ps : arena.getSpectators()){
-		Player p = Bukkit.getPlayer(ps);
+		Player p = UC.searchPlayer(ps);
 		player.showPlayer(p);
 	}
 	GhostsUtil.setGhost(player, true);
 	for(String ps : arena.getPlayers()){
-		Player p = Bukkit.getPlayer(ps);
+		Player p = UC.searchPlayer(ps);
 		p.hidePlayer(player);
 	}
 }
@@ -136,7 +137,7 @@ arena.sendMessage(r.default1 + player.getName() + " has left the Arena! " + aren
 }else if(arena.getSpectators().contains(player.getName())){
 	arena.getSpectators().remove(player.getName());
 	for(String ps : arena.getSpectators()){
-		Player p = Bukkit.getPlayer(ps);
+		Player p = UC.searchPlayer(ps);
 		player.showPlayer(p);
 	}
 	player.setHealth(((Damageable)player).getMaxHealth()); //Heal the player
@@ -217,7 +218,7 @@ stopCountdown(arenaName);
 
 for (String s: arena.getPlayers()) {//Loop through every player in the arena
 
-Bukkit.getPlayer(s).teleport(arena.getStartLocation()); //Teleports the player to the arena start location
+UC.searchPlayer(s).teleport(arena.getStartLocation()); //Teleports the player to the arena start location
 
 //Do custom stuff here, like give weapons etc, but for the purpose of this tutorial, i'll do nothing
 
@@ -245,7 +246,7 @@ for (String s: arena.getPlayers()) {//Loop through every player in the arena
 
 //Teleport them:
 
-Player player = Bukkit.getPlayer(s); //Create a player by the name
+Player player = UC.searchPlayer(s); //Create a player by the name
 player.teleport(arena.getEndLocation());
 
 player.getInventory().clear(); //Clear the players inventory

@@ -12,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdFeed implements Listener{
 	static Plugin plugin;
@@ -32,7 +33,7 @@ public class CmdFeed implements Listener{
 			if(r.perm(sender, "uc.feed.others", false, true) == false){
 				return;
 			}
-			Player tl = Bukkit.getPlayer(args[0]);
+			Player tl = UC.searchPlayer(args[0]);
 			if(tl == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;

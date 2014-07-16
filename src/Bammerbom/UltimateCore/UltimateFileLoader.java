@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import net.minecraft.util.org.apache.commons.io.FilenameUtils;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -133,10 +131,10 @@ public class UltimateFileLoader implements Listener{
 	    Integer i = 1;
 	    File parent = new File(file.getParent());
 	    try {
-	    	File ren = new File(parent.getCanonicalPath(), FilenameUtils.removeExtension(file.getName()) + "_OLD" + i + ".yml");
+	    	File ren = new File(parent.getCanonicalPath(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "_OLD" + i + ".yml");
 			while(ren.exists()){
 				i++;
-				 ren = new File(parent.getCanonicalPath(), FilenameUtils.removeExtension(file.getName()) + "_OLD" + i + ".yml");
+				 ren = new File(parent.getCanonicalPath(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "_OLD" + i + ".yml");
 			}
 	    	file.renameTo(ren);
 		} catch (IOException e) {

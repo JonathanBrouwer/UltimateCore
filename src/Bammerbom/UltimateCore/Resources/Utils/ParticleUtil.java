@@ -15,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.Utils.ReflectionHandler.PackageType;
 import Bammerbom.UltimateCore.Resources.Utils.ReflectionHandler.PacketType;
 import Bammerbom.UltimateCore.Resources.Utils.ReflectionHandler.SubPackageType;
@@ -266,7 +267,7 @@ public enum ParticleUtil {
 		List<Player> players = new ArrayList<Player>();
 		String name = center.getWorld().getName();
 		double squared = range * range;
-		for (Player p : Bukkit.getOnlinePlayers())
+		for (Player p : UC.getOnlinePlayers())
 			if (p.getWorld().getName().equals(name) && p.getLocation().distanceSquared(center) <= squared)
 				players.add(p);
 		return players;

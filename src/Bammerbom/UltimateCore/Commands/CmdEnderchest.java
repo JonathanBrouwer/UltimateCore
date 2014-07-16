@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdEnderchest{
 	static Plugin plugin;
@@ -27,7 +28,7 @@ public class CmdEnderchest{
     		p.openInventory(p.getEnderChest());
     	}else{
     		if(!r.perm(sender, "uc.enderchest.others", false, true)){ return; }
-    		Player target = Bukkit.getPlayer(args[0]);
+    		Player target = UC.searchPlayer(args[0]);
     		if(target != null){
     			p.openInventory(target.getEnderChest());
     		}

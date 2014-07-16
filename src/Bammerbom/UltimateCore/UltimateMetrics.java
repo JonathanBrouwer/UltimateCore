@@ -25,6 +25,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitTask;
 
+import Bammerbom.UltimateCore.API.UC;
+
 public class UltimateMetrics {
 
     /**
@@ -291,7 +293,7 @@ public class UltimateMetrics {
         boolean onlineMode = Bukkit.getServer().getOnlineMode(); // TRUE if online mode is enabled
         String pluginVersion = description.getVersion();
         String serverVersion = Bukkit.getVersion();
-        int playersOnline = Bukkit.getServer().getOnlinePlayers().length;
+        int playersOnline = UC.getOnlinePlayers().length;
 
         // END server software specific section -- all code below does not use any code outside of this class / Java
 

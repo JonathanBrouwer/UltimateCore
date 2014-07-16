@@ -91,7 +91,6 @@ import Bammerbom.UltimateCore.Minigames.MinigameManager;
 import Bammerbom.UltimateCore.Resources.BossBar;
 import Bammerbom.UltimateCore.Resources.ErrorLogger;
 import Bammerbom.UltimateCore.Resources.FireworkEffectPlayer;
-import Bammerbom.UltimateCore.Resources.Window;
 import Bammerbom.UltimateCore.Resources.Databases.BlockDatabase;
 import Bammerbom.UltimateCore.Resources.Databases.ItemDatabase;
 import Bammerbom.UltimateCore.Resources.Utils.GhostsUtil;
@@ -99,8 +98,7 @@ import Bammerbom.UltimateCore.Resources.Utils.InventoryUtil;
 import Bammerbom.UltimateCore.Resources.Utils.SettingsUtil;
 
 public class UltimateCore extends JavaPlugin{
-	static MinigameManager minigames = null;
-	static Window window;	
+	static MinigameManager minigames = null;	
 	static BlockDatabase database;
 	static ItemDatabase items;
 	 public static Economy economy = null;
@@ -220,11 +218,6 @@ public class UltimateCore extends JavaPlugin{
 	    //
 	    //r.log(ChatColor.YELLOW + "Loaded commands and events.");
 	    //end
-		if(getConfig().getBoolean("console")){
-			try{
-		window = new Window(this);
-			}catch(Exception ex){}
-		}
 		if(getConfig().getBoolean("updater") == true){
 			new UltimateUpdater(this, 66979, this.getFile(), UpdateType.DEFAULT, true);
 			//r.log(ChatColor.YELLOW + "Loaded updater");
@@ -260,16 +253,10 @@ public class UltimateCore extends JavaPlugin{
 	public static MinigameManager getMinigamesManager(){
 		return minigames;
 	}
-	public static Window getWindow(){
-		return window;
-	}
 	@Override
 	public void onDisable(){
 		Bukkit.getScheduler().cancelTasks(this);
 		getServer().getServicesManager().unregisterAll(this);
-		if(window != null){
-		window.close();
-		}
 		BossBar.disable();
 		System.gc();
 		//database.disable();

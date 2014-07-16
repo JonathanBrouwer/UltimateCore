@@ -28,7 +28,7 @@ public class EventColoredTAB implements Listener{
 		if(Bukkit.getPluginManager().isPluginEnabled("Vault")){
 			setupPermissions();
 			if(permission == null) return;
-		for(Player p : Bukkit.getOnlinePlayers()){
+		for(Player p : UC.getOnlinePlayers()){
 		    String group = permission.getPrimaryGroup(p);
 		    if(group == null || group.equalsIgnoreCase("")) return;
 		    String prefix = r.getCnfg().getString("Chat.Tab." + group);
@@ -44,7 +44,7 @@ public class EventColoredTAB implements Listener{
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 			public void run(){
 				if(permission == null) return;
-				for(Player p : Bukkit.getOnlinePlayers()){
+				for(Player p : UC.getOnlinePlayers()){
 				    String group = permission.getPrimaryGroup(p);
 				    if(group == null || group.equalsIgnoreCase("")) return;
 				    String prefix = r.getCnfg().getString("Chat.Tab." + group);

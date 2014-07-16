@@ -1,8 +1,10 @@
 package Bammerbom.UltimateCore.Minigames;
 
 import java.util.ArrayList;
-import org.bukkit.Bukkit;
+
 import org.bukkit.Location;
+
+import Bammerbom.UltimateCore.API.UC;
  
 /**
 *
@@ -134,10 +136,10 @@ this.inGame = inGame;
 //To send each player in the arena a message
 public void sendMessage(String message) {
 for (String s: players) {
-Bukkit.getPlayer(s).sendMessage(message);
+UC.searchPlayer(s).sendMessage(message);
 }
 for(String s : spectators){
-	Bukkit.getPlayer(s).sendMessage(message);
+	UC.searchPlayer(s).sendMessage(message);
 }
 }
  

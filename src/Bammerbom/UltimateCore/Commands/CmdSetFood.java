@@ -1,11 +1,11 @@
 package Bammerbom.UltimateCore.Commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdSetFood {
 	static Plugin plugin;
@@ -37,7 +37,7 @@ public class CmdSetFood {
 			}
 			if(r.isNumber(args[0])){
 				Integer d = Integer.parseInt(args[0]);
-				Player t = Bukkit.getPlayer(args[1]);
+				Player t = UC.searchPlayer(args[1]);
 				if(t == null){
 					sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1]));
 					return;
@@ -46,7 +46,7 @@ public class CmdSetFood {
 				sender.sendMessage(r.mes("Sethunger").replaceAll("%Player", t.getName()).replaceAll("%Food", args[0]));
 			}else if(r.isNumber(args[1])){
 				Integer d = Integer.parseInt(args[1]);
-				Player t = Bukkit.getPlayer(args[0]);
+				Player t = UC.searchPlayer(args[0]);
 				if(t == null){
 					sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 					return;

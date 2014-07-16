@@ -2,10 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/spigot.jar"/>
 	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/Vault.jar"/>
 	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/WorldEdit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/PacketAPI_V1.5_for_1.7.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/ProtocolLib-3.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/spigot.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

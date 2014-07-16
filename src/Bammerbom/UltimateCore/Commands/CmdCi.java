@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdCi{
 	static Plugin plugin;
@@ -36,7 +37,7 @@ public class CmdCi{
 			if(!r.perm(sender, "uc.clear.others", false, true)){
 				return;
 			}
-    		Player t = Bukkit.getPlayer(args[0]);
+    		Player t = UC.searchPlayer(args[0]);
     		t.getInventory().clear();
     	    t.getInventory().setHelmet(null);
     	    t.getInventory().setChestplate(null);

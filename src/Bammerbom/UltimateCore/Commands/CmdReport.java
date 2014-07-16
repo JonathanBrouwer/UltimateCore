@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdReport {
 	public CmdReport(){
@@ -138,7 +139,7 @@ public class CmdReport {
 			String reason = r.getFinalArg(args, 1);
 			Integer id = Report.newID();
 			Player reporter = (Player) sender;
-			OfflinePlayer reported = Bukkit.getPlayer(reporte);
+			OfflinePlayer reported = UC.searchPlayer(reporte);
 			if(reported == null || (!reported.hasPlayedBefore() && !reported.isOnline())){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;

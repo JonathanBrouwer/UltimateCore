@@ -10,6 +10,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.Utils.InventoryUtil;
 
 public class CmdSkull implements Listener{
@@ -30,7 +31,7 @@ public class CmdSkull implements Listener{
 			if(!r.perm(sender, "uc.skull.others", false, true)){
 				return;
 			}
-			Player t = Bukkit.getPlayer(args[0]);
+			Player t = UC.searchPlayer(args[0]);
 			if(t == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;

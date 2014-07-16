@@ -85,7 +85,7 @@ public class CmdDeaf implements Listener{
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 
 			public void run() {
-				for(Player p : Bukkit.getOnlinePlayers()){
+				for(Player p : UC.getOnlinePlayers()){
 					UC.getPlayer(p).isDeaf();
 					}
 			}

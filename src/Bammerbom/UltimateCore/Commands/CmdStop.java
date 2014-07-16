@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdStop{
 	static Plugin plugin;
@@ -22,7 +23,7 @@ public class CmdStop{
 		}
 		try{
 		Bukkit.broadcastMessage(r.mes("Stop.Stop").replaceAll("%Player", sender.getName()));
-		for(Player p : Bukkit.getOnlinePlayers()){
+		for(Player p : UC.getOnlinePlayers()){
 			if(r.checkArgs(args, 0) == true){
 			    p.kickPlayer(r.default1 + r.getFinalArg(args, 0));
 		    }else{

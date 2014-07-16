@@ -9,6 +9,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdKill{
 	static Plugin plugin;
@@ -18,6 +19,7 @@ public class CmdKill{
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
 	}
+	@SuppressWarnings("deprecation")
 	public static void handle(CommandSender sender, String[] args) {
 		if(r.checkArgs(args, 0) == false){
 			if(!r.isPlayer(sender)){
@@ -27,14 +29,14 @@ public class CmdKill{
 					return;
 				}
 				Player p = (Player) sender;
-			p.setLastDamageCause(new EntityDamageEvent(p, DamageCause.SUICIDE, 0.0));
+			p.setLastDamageCause(new EntityDamageEvent(p, DamageCause.SUICIDE, Double.MAX_VALUE));
 			p.setHealth(0.0);
 		}
 		else{
 			if(!r.perm(sender, "uc.kill.others", false, true)){
 				return;
 			}
-			Player target = Bukkit.getPlayer(args[0]);
+			Player target = UC.searchPlayer(args[0]);
 			if(target == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;
@@ -42,7 +44,8 @@ public class CmdKill{
 			else{
 				target.sendMessage(r.mes("Kill.target").replaceAll("%Player", sender.getName()));
 				sender.sendMessage(r.mes("Kill.killer").replaceAll("%Player", target.getName()));
-				target.setLastDamageCause(new EntityDamageEvent(target, DamageCause.CUSTOM, 0.0));
+
+				target.setLastDamageCause(new EntityDamageEvent(target, DamageCause.CUSTOM, Double.MAX_VALUE));
 				target.setHealth(0.0);
 			}
 			

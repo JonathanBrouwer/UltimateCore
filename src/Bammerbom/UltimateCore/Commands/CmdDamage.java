@@ -1,11 +1,11 @@
 package Bammerbom.UltimateCore.Commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
 
 public class CmdDamage {
 	static Plugin plugin;
@@ -40,7 +40,7 @@ public class CmdDamage {
 			}
 			if(r.isDouble(args[0])){
 				Double d = Double.parseDouble(args[0]);
-				Player t = Bukkit.getPlayer(args[1]);
+				Player t = UC.searchPlayer(args[1]);
 				if(t == null){
 					sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1]));
 					return;
@@ -49,7 +49,7 @@ public class CmdDamage {
 				sender.sendMessage(r.mes("Damage").replaceAll("%Player", t.getName()).replaceAll("%Health", args[0]));
 			}else if(r.isDouble(args[1])){
 				Double d = Double.parseDouble(args[1]);
-				Player t = Bukkit.getPlayer(args[0]);
+				Player t = UC.searchPlayer(args[0]);
 				if(t == null){
 					sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 					return;
