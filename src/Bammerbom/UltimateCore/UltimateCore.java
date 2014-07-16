@@ -96,7 +96,6 @@ import Bammerbom.UltimateCore.Resources.Databases.BlockDatabase;
 import Bammerbom.UltimateCore.Resources.Databases.ItemDatabase;
 import Bammerbom.UltimateCore.Resources.Utils.GhostsUtil;
 import Bammerbom.UltimateCore.Resources.Utils.InventoryUtil;
-import Bammerbom.UltimateCore.Resources.Utils.SettingsUtil;
 
 public class UltimateCore extends JavaPlugin{
 	static MinigameManager minigames = null;	
@@ -206,7 +205,6 @@ public class UltimateCore extends JavaPlugin{
 	    //
 	    new FireworkEffectPlayer();
 	    new GhostsUtil(this);
-	    new SettingsUtil(this);
 	    //
 	    items = new ItemDatabase(this);
 	    items.enable();

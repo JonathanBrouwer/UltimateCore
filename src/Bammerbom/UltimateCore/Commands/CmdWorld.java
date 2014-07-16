@@ -53,9 +53,14 @@ public class CmdWorld implements Listener{
 		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFworlds);
 		if(data.get("worldlist") == null){ return; }
 		for(String str : data.getStringList("worldlist")){
+			try{
 			WorldCreator w = new WorldCreator(str);
 			w.environment(Environment.valueOf(data.getString("worlds." + str)));
 		    Bukkit.createWorld(w);
+			}catch(Exception ex){
+				WorldCreator w = new WorldCreator(str);
+			    Bukkit.createWorld(w);
+			}
 		}
 	}
 	public static void create(CommandSender sender, String[] args){
