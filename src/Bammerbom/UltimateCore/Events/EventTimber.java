@@ -31,7 +31,7 @@ public class EventTimber implements Listener{
 		if(!block.equals(Material.LOG) && !block.equals(Material.LOG_2)){
 			return;
 		}
-		if(plugin.getConfig().getBoolean("Timber") == false){
+		if(r.getCnfg().getBoolean("Timber.Enable") == false){
 			return;
 		}
 	    Player player = event.getPlayer();
@@ -55,7 +55,7 @@ public class EventTimber implements Listener{
 	    {
 	    	return;
 	    }
-	    if(isTool(handItem) || plugin.getConfig().getBoolean("TimberNeedAxe") == false)
+	    if(isTool(handItem) || r.getCnfg().getBoolean("Timber.NeedAxe") == false)
 	    {
 	      double x = brokenBlock.getBlockX();
 	      double x2 = brokenBlock.getBlockX() - 3;
@@ -121,7 +121,7 @@ public class EventTimber implements Listener{
 	              Material surroundType = surround.getBlock().getType();
 	              
 	              if (surroundType == Material.LEAVES || surroundType == Material.LEAVES_2) {
-	            	  if(plugin.getConfig().getBoolean("TimberLeaves") == true){
+	            	  if(r.getCnfg().getBoolean("Timber.Leaves") == true){
 	  	                surround.getBlock().breakNaturally();
 	            	  }
 	              } 
@@ -131,7 +131,7 @@ public class EventTimber implements Listener{
 	              {
 	                surround.getBlock().breakNaturally();               
 	                player.getWorld().playEffect(surround, Effect.SMOKE, 4);
-	                if(plugin.getConfig().getBoolean("TimberAllDurability") == true){
+	                if(r.getCnfg().getBoolean("Timber.AllDurability") == true){
 	          
 	                if (!player.getGameMode().equals(GameMode.CREATIVE)) {
 	                  int enchLvl = handItem.getEnchantmentLevel(Enchantment.DURABILITY);

@@ -84,6 +84,7 @@ import Bammerbom.UltimateCore.Events.EventMinecraftServers;
 import Bammerbom.UltimateCore.Events.EventNoPluginSteal;
 import Bammerbom.UltimateCore.Events.EventNoRespawnScreen;
 import Bammerbom.UltimateCore.Events.EventSpawn;
+import Bammerbom.UltimateCore.Events.EventTeleportDelay;
 import Bammerbom.UltimateCore.Events.EventTimber;
 import Bammerbom.UltimateCore.Events.EventUnknownCommand;
 import Bammerbom.UltimateCore.Events.EventWeather;
@@ -201,6 +202,7 @@ public class UltimateCore extends JavaPlugin{
 	    new EventWeather(this);
 	    new EventColoredTAB(this);
 	    new EventNoPluginSteal(this);
+	    new EventTeleportDelay(this);
 	    //
 	    new FireworkEffectPlayer();
 	    new GhostsUtil(this);

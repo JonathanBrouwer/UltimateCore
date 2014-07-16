@@ -38,7 +38,7 @@ public class EventChat implements Listener{
 		setupChat();
 		setupPermissions();
 		}
-		if(plugin.getConfig().getBoolean("Chat.SpamFilter") || plugin.getConfig().getBoolean("Chat.RepeatFilter"))
+		if(r.getCnfg().getBoolean("Chat.SpamFilter") || r.getCnfg().getBoolean("Chat.RepeatFilter"))
 		spamTask();
 	}
 	net.milkbowl.vault.chat.Chat chat = null;
@@ -181,7 +181,7 @@ public class EventChat implements Listener{
 		}
 		//Anti REPEAT
 		if(!r.perm(p, "uc.chat.repeat", false, false)){
-		if(plugin.getConfig().getBoolean("Chat.RepeatFilter")){
+		if(r.getCnfg().getBoolean("Chat.RepeatFilter")){
 		String lastmessage = "";
 		Integer lastmessageTimes = 0;
 		if(lastChatMessage.get(p.getName()) != null){
@@ -210,7 +210,7 @@ public class EventChat implements Listener{
 		}
 		//Anti SPAM
 		if(!r.perm(p, "uc.chat.spam", false, false)){
-		if(plugin.getConfig().getBoolean("Chat.SpamFilter")){
+		if(r.getCnfg().getBoolean("Chat.SpamFilter")){
 		if(spamTime.containsKey(p.getName())){
 	    Integer amount = spamTime.get(p.getName());
 	    spamTime.put(p.getName(), amount + 1);

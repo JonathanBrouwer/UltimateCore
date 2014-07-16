@@ -86,7 +86,7 @@ public class CmdTp implements Listener{
 							tph.remove(p.getName());
 							tph.remove(t.getName());
 							
-						}}, plugin.getConfig().getInt("Tp.TpaCancelDelay") * 20L);
+						}}, r.getCnfg().getInt("Tp.TpaCancelDelay") * 20L);
 			}
 			}
 			return;
@@ -116,7 +116,7 @@ public class CmdTp implements Listener{
 							tph.remove(p.getName());
 							tph.remove(t.getName());
 							
-						}}, plugin.getConfig().getInt("Tp.TpaCancelDelay") * 20L);
+						}}, r.getCnfg().getInt("Tp.TpaCancelDelay") * 20L);
 			return;
 		}
 		if(r.checkArgs(args, 0) == false){
@@ -322,7 +322,7 @@ public class CmdTp implements Listener{
 						tp.remove(p.getName());
 						tp.remove(t.getName());
 						
-					}}, plugin.getConfig().getInt("Tp.TpaCancelDelay") * 20L);
+					}}, r.getCnfg().getInt("Tp.TpaCancelDelay") * 20L);
 	}
 	public static void tpaccept(CommandSender player) {
 		Player p = (Player)player;

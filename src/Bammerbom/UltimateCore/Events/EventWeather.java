@@ -8,6 +8,8 @@ import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.r;
+
 public class EventWeather implements Listener{
 	static Plugin plugin;
 	public EventWeather(Plugin instance){
@@ -19,7 +21,7 @@ public class EventWeather implements Listener{
 	static Integer last = 0;
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void toRain(WeatherChangeEvent e){
-		if(plugin.getConfig().getBoolean("Weather.Rain") == true && last == 0){
+		if(r.getCnfg().getBoolean("Weather.Rain") == true && last == 0){
 			last = 1;
 			e.setCancelled(true);
 			e.getWorld().setThundering(false);
@@ -33,7 +35,7 @@ public class EventWeather implements Listener{
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void toThunder(ThunderChangeEvent e){
-		if(plugin.getConfig().getBoolean("Weather.Rain") == true && last == 0){
+		if(r.getCnfg().getBoolean("Weather.Rain") == true && last == 0){
 			last = 1;
 			e.setCancelled(true);
 			e.getWorld().setThundering(false);

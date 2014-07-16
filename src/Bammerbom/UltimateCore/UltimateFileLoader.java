@@ -44,7 +44,7 @@ public class UltimateFileLoader implements Listener{
 		}
 	}
 	public static void loadLang(){
-		File file = new File(plugin.getDataFolder() + File.separator + "Messages", plugin.getConfig().getString("Language").toUpperCase() + ".yml");
+		File file = new File(plugin.getDataFolder() + File.separator + "Messages", r.getCnfg().getString("Language").toUpperCase() + ".yml");
 		if(file.exists()){
 			LANGf = file;
 		}else{

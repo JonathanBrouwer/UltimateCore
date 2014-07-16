@@ -63,11 +63,11 @@ public class EventMessages implements Listener{
 				Integer length = messgs.size();
 				if(length == 0){ return; }
 				if(length == 1){
-					if(plugin.getConfig().getBoolean("messages.enabledbossbar") == true){
+					if(r.getCnfg().getBoolean("messages.enabledbossbar") == true){
 					BossBar.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage), 100F);
 					}
 				}else{
-					if(plugin.getConfig().getBoolean("messages.enabledbossbar") == true){
+					if(r.getCnfg().getBoolean("messages.enabledbossbar") == true){
 					BossBar.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage));
 					}
 				}
@@ -88,7 +88,7 @@ public class EventMessages implements Listener{
 			}}, 20L * 10, 20L * 10);
 	}
 	public static void timer(final List<String> messgs){
-		final Integer time = plugin.getConfig().getInt("messages.time");
+		final Integer time = r.getCnfg().getInt("messages.time");
 		final Boolean ur = r.getCnfg().contains("messages.randomise") ? r.getCnfg().getBoolean("messages.randomise") : true;
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 			Random random = new Random();
@@ -105,7 +105,7 @@ public class EventMessages implements Listener{
 				}
 			}
 			for(Player p : UC.getOnlinePlayers()){
-				if(plugin.getConfig().getBoolean("messages.enabledbossbar") == true){
+				if(r.getCnfg().getBoolean("messages.enabledbossbar") == true){
 					if(decrease){
 						BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1  + mess), time);
 					}else{
@@ -113,7 +113,7 @@ public class EventMessages implements Listener{
 					}
 					currentmessage = ChatColor.translateAlternateColorCodes('&', r.default1  + mess);
 				}
-				if(plugin.getConfig().getBoolean("messages.enabledchat") == true){
+				if(r.getCnfg().getBoolean("messages.enabledchat") == true){
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', r.default1 + mess));
 				}
 				
@@ -121,17 +121,17 @@ public class EventMessages implements Listener{
 		}}, 0, time * 20);
 	}
 	public static void show(){
-		if(plugin.getConfig().getBoolean("messages.enabledchat") == false && plugin.getConfig().getBoolean("messages.enabledbossbar") == false){ return; }
+		if(r.getCnfg().getBoolean("messages.enabledchat") == false && r.getCnfg().getBoolean("messages.enabledbossbar") == false){ return; }
 		ArrayList<String> messgs = messages;
 		Integer length = messgs.size();
 		if(length == 0){ return; }
 		if(length == 1){
 			for(Player p : UC.getOnlinePlayers()){
-				if(plugin.getConfig().getBoolean("messages.enabledbossbar") == true){
+				if(r.getCnfg().getBoolean("messages.enabledbossbar") == true){
 					BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0)), 100F);
 					currentmessage = ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0));
 				}
-					if(plugin.getConfig().getBoolean("messages.enabledchat") == true){
+					if(r.getCnfg().getBoolean("messages.enabledchat") == true){
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0)));
 					}
 			}

@@ -51,14 +51,14 @@ public class EventAFK implements Listener{
 						Long seconds1 = time / 1000;
 						Long seconds2 = System.currentTimeMillis() / 1000;
 						Long dif = seconds2 - seconds1;
-						if(dif > plugin.getConfig().getInt("Afk.AfkTime")){
+						if(dif > r.getCnfg().getInt("Afk.AfkTime")){
 							if(!afk.contains(p.getUniqueId())){
 							afk.add(p.getUniqueId());
 							Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", UC.getPlayer(p).getNick()));
 							}
 						}
-						if(dif > plugin.getConfig().getInt("Afk.KickTime")){
-							if(plugin.getConfig().getBoolean("Afk.Enabled")){
+						if(dif > r.getCnfg().getInt("Afk.KickTime")){
+							if(r.getCnfg().getBoolean("Afk.Enabled")){
 								if(!r.perm(p, "uc.antiban", false, false)){
 							p.kickPlayer(r.mes("Afk.Kick"));
 								}

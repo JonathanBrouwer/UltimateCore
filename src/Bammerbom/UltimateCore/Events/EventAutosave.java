@@ -18,13 +18,13 @@ public class EventAutosave{
 		startAutoSave(instance);
 	}
 	public static void startAutoSave(final Plugin plugin){
-		if(plugin.getConfig().getBoolean("Autosave.enabled") == false){ return; }
+		if(r.getCnfg().getBoolean("Autosave.enabled") == false){ return; }
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, 
 				new Runnable(){
 
 					@Override
 					public void run() {
-						if(plugin.getConfig().getBoolean("Autosave.message") == true){
+						if(r.getCnfg().getBoolean("Autosave.message") == true){
 							Bukkit.broadcastMessage(r.mes("Save.Start"));
 							for(World w : Bukkit.getWorlds()){
 								w.save();
@@ -52,7 +52,7 @@ public class EventAutosave{
 						
 					}
 			
-		},plugin.getConfig().getInt("Autosave.time") * 20, plugin.getConfig().getInt("Autosave.time") * 20);
+		},r.getCnfg().getInt("Autosave.time") * 20, r.getCnfg().getInt("Autosave.time") * 20);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 			public void run(){
 				for(World w : Bukkit.getWorlds()){

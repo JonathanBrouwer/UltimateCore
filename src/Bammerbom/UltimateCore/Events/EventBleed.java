@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.Utils.ParticleUtil;
 
@@ -32,8 +33,8 @@ public class EventBleed implements Listener{
 	public void bleed(final EntityDamageEvent e){
 		if(e.isCancelled() || e.getEntity().isDead()) return;
 		if(!(e.getEntity() instanceof LivingEntity)) return;
-		if(plugin.getConfig().getBoolean("Bleed.Enabled") == false) return;
-		if(e.getEntity() instanceof Player || plugin.getConfig().getBoolean("Bleed.PlayersOnly") == false){
+		if(r.getCnfg().getBoolean("Bleed.Enabled") == false) return;
+		if(e.getEntity() instanceof Player || r.getCnfg().getBoolean("Bleed.PlayersOnly") == false){
 			if(e.getEntity() instanceof Player){
 				final Player p = (Player) e.getEntity();
 				if(UC.getPlayer(p).isGod()) return;
