@@ -212,7 +212,7 @@ public class r {
 		return hasperm;
 	}
 	@Deprecated
-	public static boolean perm(Player p, String perm, Boolean def){
+	private static boolean perm(Player p, String perm, Boolean def){
 		if(permission != null){
 			if(p.isOp()) return true;
 			return permission.has(p.getWorld(), p.getName(), perm) || p.isOp();

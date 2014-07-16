@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -110,15 +111,15 @@ public class EventChat implements Listener{
 					}else{
 						e.getPlayer().setDisplayName(e.getPlayer().getName());
 					}
-					f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.rainbow", false, false) ? group.replaceAll("&y", r.getRandomChatColor() + "") : group);
-					f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.rainbow", false, false) ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : prefix);
-					f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.rainbow", false, false) ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : suffix);
+					f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? group.replaceAll("&y", r.getRandomChatColor() + "") : group);
+					f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : prefix);
+					f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : suffix);
 					f = r(f, "\\+Name", "\\%1\\$s");
 					f = r(f, "\\+Displayname", "\\%1\\$s");
 					f = r(f, "\\+World", e.getPlayer().getWorld().getName());
 					f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
 					f = ChatColor.translateAlternateColorCodes('&', f);
-					if(r.perm(e.getPlayer(), "uc.rainbow", false, false)) f = r(f, "&y", r.getRandomChatColor() + "");
+					if(r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) f = r(f, "&y", r.getRandomChatColor() + "");
 					f = r(f, "\\+Message", "\\%2\\$s");
 					synchronized (f){
 						e.setMessage(m);
@@ -148,16 +149,16 @@ public class EventChat implements Listener{
 			}else{
 				e.getPlayer().setDisplayName(e.getPlayer().getName());
 			}
-			f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.rainbow", false, false) ? (group != null ? group.replaceAll("&y", r.getRandomChatColor() + "") : "") : (group != null ? group : ""));
-			f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.rainbow", false, false) ? (prefix != null ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (prefix != null ? prefix : ""));
-			f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.rainbow", false, false) ? (suffix != null ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (suffix != null ? suffix : ""));
+			f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (group != null ? group.replaceAll("&y", r.getRandomChatColor() + "") : "") : (group != null ? group : ""));
+			f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (prefix != null ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (prefix != null ? prefix : ""));
+			f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (suffix != null ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (suffix != null ? suffix : ""));
 			f = r(f, "\\+Name", "\\%1\\$s");
 			f = r(f, "\\+Displayname", "\\%1\\$s");
 			f = r(f, "\\+World", e.getPlayer().getWorld().getName());
 			f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
 			f = ChatColor.translateAlternateColorCodes('&', f);
 			ChatColor value = Arrays.asList(ChatColor.values()).get(ra.nextInt(Arrays.asList(ChatColor.values()).size()));
-			if(r.perm(e.getPlayer(), "uc.rainbow", false, false)) f = r(f, "&y", value + "");
+			if(r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) f = r(f, "&y", value + "");
 			f = r(f, "\\+Message", "\\%2\\$s");
 			synchronized (f){
 				e.setMessage(m);
@@ -270,6 +271,84 @@ public class EventChat implements Listener{
 	        	set.setMessage(StringUtil.firstUpperCase(set.getMessage().toLowerCase()));
 	        }
 		}
+		}
+		//Anti IP
+		if(!r.perm(p, "uc.chat.ip", false, false)){
+			if(!r.getCnfg().contains("Chat.IpFilter") || r.getCnfg().getBoolean("Chat.IpFilter")){
+		    String ipPattern = "([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})";
+		    if (Pattern.compile(ipPattern).matcher(set.getMessage()).find()) {
+		    	set.setCancelled(true);
+		    	p.sendMessage(r.default1 + "You may not say IPs!");
+		    }
+			}
+		}
+		//Anti URL
+		if(!r.perm(p, "uc.chat.url", false, false)){
+			if(!r.getCnfg().contains("Chat.UrlFilter") || r.getCnfg().getBoolean("Chat.UrlFilter")){
+				String tlds = "AC|ACADEMY|ACCOUNTANTS|ACTIVE|ACTOR|AD|AE|AERO|AF|AG|AGENCY|AI"
+						+ "|AIRFORCE|AL|AM|AN|AO|AQ|AR|ARCHI|ARMY|ARPA|AS|ASIA|ASSOCIATES|AT|"
+						+ "ATTORNEY|AU|AUDIO|AUTOS|AW|AX|AXA|AZ|BA|BAR|BARGAINS|BAYERN|BB|BD|"
+						+ "BE|BEER|BERLIN|BEST|BF|BG|BH|BI|BID|BIKE|BIO|BIZ|BJ|BLACK|BLACKFRIDAY"
+						+ "|BLUE|BM|BMW|BN|BO|BOUTIQUE|BR|BRUSSELS|BS|BT|BUILD|BUILDERS|BUZZ"
+						+ "|BV|BW|BY|BZ|BZH|CA|CAB|CAMERA|CAMP|CANCERRESEARCH|CAPETOWN|"
+						+ "CAPITAL|CARDS|CARE|CAREER|CAREERS|CASH|CAT|CATERING|CC|CD|CENTER"
+						+ "|CEO|CF|CG|CH|CHEAP|CHRISTMAS|CHURCH|CI|CITIC|CITY|CK|CL|CLAIMS"
+						+ "|CLEANING|CLINIC|CLOTHING|CLUB|CM|CN|CO|CODES|COFFEE|COLLEGE|"
+						+ "COLOGNE|COM|COMMUNITY|COMPANY|COMPUTER|CONDOS|CONSTRUCTION|"
+						+ "CONSULTING|CONTRACTORS|COOKING|COOL|COOP|COUNTRY|CR|CREDIT|"
+						+ "CREDITCARD|CRUISES|CU|CUISINELLA|CV|CW|CX|CY|CZ|DANCE|DATING"
+						+ "|DE|DEALS|DEGREE|DEMOCRAT|DENTAL|DENTIST|DESI|DIAMONDS|DIGITAL"
+						+ "|DIRECT|DIRECTORY|DISCOUNT|DJ|DK|DM|DNP|DO|DOMAINS|DURBAN|DZ|EC"
+						+ "|EDU|EDUCATION|EE|EG|EMAIL|ENGINEER|ENGINEERING|ENTERPRISES"
+						+ "|EQUIPMENT|ER|ES|ESTATE|ET|EU|EUS|EVENTS|EXCHANGE|EXPERT|EXPOSED"
+						+ "|FAIL|FARM|FEEDBACK|FI|FINANCE|FINANCIAL|FISH|FISHING|FITNESS|FJ"
+						+ "|FK|FLIGHTS|FLORIST|FM|FO|FOO|FOUNDATION|FR|FROGANS|FUND|FURNITURE"
+						+ "|FUTBOL|GA|GAL|GALLERY|GB|GD|GE|GENT|GF|GG|GH|GI|GIFT|GIVES|GL|"
+						+ "GLASS|GLOBAL|GLOBO|GM|GMO|GN|GOP|GOV|GP|GQ|GR|GRAPHICS|GRATIS|"
+						+ "GREEN|GRIPE|GS|GT|GU|GUIDE|GUITARS|GURU|GW|GY|HAMBURG|HAUS|HIPHOP"
+						+ "|HIV|HK|HM|HN|HOLDINGS|HOLIDAY|HOMES|HORSE|HOST|HOUSE|HR|HT|HU|ID|"
+						+ "IE|IL|IM|IMMOBILIEN|IN|INDUSTRIES|INFO|INK|INSTITUTE|INSURE|INT|"
+						+ "INTERNATIONAL|INVESTMENTS|IO|IQ|IR|IS|IT|JE|JETZT|JM|JO|JOBS|"
+						+ "JOBURG|JP|JUEGOS|KAUFEN|KE|KG|KH|KI|KIM|KITCHEN|KIWI|KM|KN|"
+						+ "KOELN|KP|KR|KRED|KW|KY|KZ|LA|LAND|LAWYER|LB|LC|LEASE|LI|LIFE|"
+						+ "LIGHTING|LIMITED|LIMO|LINK|LK|LOANS|LONDON|LOTTO|LR|LS|LT|LU|"
+						+ "LUXE|LUXURY|LV|LY|MA|MAISON|MANAGEMENT|MANGO|MARKET|MARKETING|"
+						+ "MC|MD|ME|MEDIA|MEET|MELBOURNE|MENU|MG|MH|MIAMI|MIL|MINI|MK|ML|"
+						+ "MM|MN|MO|MOBI|MODA|MOE|MONASH|MORTGAGE|MOSCOW|MOTORCYCLES|MP|MQ"
+						+ "|MR|MS|MT|MU|MUSEUM|MV|MW|MX|MY|MZ|NA|NAGOYA|NAME|NAVY|NC|NE|NET"
+						+ "|NEUSTAR|NF|NG|NHK|NI|NINJA|NL|NO|NP|NR|NRW|NU|NYC|NZ|OKINAWA|OM"
+						+ "|ONL|ORG|ORGANIC|OVH|PA|PARIS|PARTNERS|PARTS|PE|PF|PG|PH|PHOTO|P"
+						+ "HOTOGRAPHY|PHOTOS|PHYSIO|PICS|PICTURES|PINK|PK|PL|PLACE|PLUMBING"
+						+ "|PM|PN|POST|PR|PRESS|PRO|PRODUCTIONS|PROPERTIES|PS|PT|PUB|PW|PY|"
+						+ "QA|QPON|QUEBEC|RE|RECIPES|RED|REHAB|REISE|REISEN|REN|RENTALS|REP"
+						+ "AIR|REPORT|REPUBLICAN|REST|REVIEWS|RICH|RIO|RO|ROCKS|RODEO|RS|RU"
+						+ "|RUHR|RW|RYUKYU|SA|SAARLAND|SB|SC|SCB|SCHMIDT|SCHULE|SCOT|SD|SE|"
+						+ "SERVICES|SEXY|SG|SH|SHIKSHA|SHOES|SI|SINGLES|SJ|SK|SL|SM|SN|SO|SOC"
+						+ "IAL|SOFTWARE|SOHU|SOLAR|SOLUTIONS|SOY|SPACE|SR|ST|SU|SUPPLIES|SUPPL"
+						+ "Y|SUPPORT|SURF|SURGERY|SUZUKI|SV|SX|SY|SYSTEMS|SZ|TATTOO|TAX|TC|TD|TE"
+						+ "CHNOLOGY|TEL|TF|TG|TH|TIENDA|TIPS|TIROL|TJ|TK|TL|TM|TN|TO|TODAY|TOKYO|"
+						+ "TOOLS|TOWN|TOYS|TP|TR|TRADE|TRAINING|TRAVEL|TT|TV|TW|TZ|UA|UG|UK|UNIVE"
+						+ "RSITY|UNO|US|UY|UZ|VA|VACATIONS|VC|VE|VEGAS|VENTURES|VERSICHERUNG|VET|V"
+						+ "G|VI|VIAJES|VILLAS|VISION|VLAANDEREN|VN|VODKA|VOTE|VOTING|VOTO|VOYAGE|V"
+						+ "U|WANG|WATCH|WEBCAM|WEBSITE|WED|WF|WIEN|WIKI|WORKS|WS|WTC|WTF|XN--3BST0"
+						+ "0M|XN--3DS443G|XN--3E0B707E|XN--45BRJ9C|XN--4GBRIM|XN--55QW42G|XN--55QX"
+						+ "5D|XN--6FRZ82G|XN--6QQ986B3XL|XN--80ADXHKS|XN--80AO21A|XN--80ASEHDB|XN-"
+						+ "-80ASWG|XN--90A3AC|XN--C1AVG|XN--CG4BKI|XN--CLCHC0EA0B2G2A9GCD|XN--CZR6"
+						+ "94B|XN--CZRU2D|XN--D1ACJ3B|XN--FIQ228C5HS|XN--FIQ64B|XN--FIQS8S|XN--FIQ"
+						+ "Z9S|XN--FPCRJ9C3D|XN--FZC2C9E2C|XN--GECRJ9C|XN--H2BRJ9C|XN--I1B6B1A6A2E|X"
+						+ "N--IO0A7I|XN--J1AMH|XN--J6W193G|XN--KPRW13D|XN--KPRY57D|XN--KPUT3I|XN--L1"
+						+ "ACC|XN--LGBBAT1AD8J|XN--MGB9AWBF|XN--MGBA3A4F16A|XN--MGBAAM7A8H|XN--MGBAB"
+						+ "2BD|XN--MGBAYH7GPA|XN--MGBBH1A71E|XN--MGBC0A9AZCG|XN--MGBERP4A5D4AR|XN--M"
+						+ "GBX4CD0AB|XN--NGBC5AZD|XN--NQV7F|XN--NQV7FS00EMA|XN--O3CW4H|XN--OGBPF8FL|X"
+						+ "N--P1AI|XN--PGBS0DH|XN--Q9JYB4C|XN--RHQV96G|XN--S9BRJ9C|XN--SES554G|XN--UN"
+						+ "UP4Y|XN--WGBH1C|XN--WGBL6A|XN--XKC2AL3HYE2A|XN--XKC2DL3A5EE0H|XN--YFRO4I67"
+						+ "O|XN--YGBI2AMMX|XN--ZFR164B|XXX|XYZ|YACHTS|YE|YOKOHAMA|YT|ZA|ZM|ZONE|ZW";
+				String domainPattern = "([a-z-0-9]{1,50})\\.(" + tlds + ")(?![a-z0-9])";
+			    if (Pattern.compile(domainPattern).matcher(set.getMessage()).find()) {
+			    	set.setCancelled(true);
+			    	p.sendMessage(r.default1 + "You may not say URLs!");
+			    }
+				}
 		}
 		return set;
 	}

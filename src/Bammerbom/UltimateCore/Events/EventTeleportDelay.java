@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
@@ -24,7 +25,7 @@ public class EventTeleportDelay implements Listener{
 	}
 	Integer delay = 0;
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onTeleport(final PlayerTeleportEvent e){
 		if(e.getCause().equals(TeleportCause.COMMAND)){
 			if(r.perm(e.getPlayer(), "uc.tp.timer.bypass", false, false)) return;

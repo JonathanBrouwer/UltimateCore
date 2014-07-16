@@ -118,7 +118,7 @@ public class UCplayer{
 		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
 		if(data.get("nick") == null) return getPlayer().getName();
 		String nick = ChatColor.translateAlternateColorCodes('&', data.getString("nick"));
-		if(getPlayer().isOnline() && r.perm((Player)getPlayer(), "uc.rainbow", false, false)) nick = nick.replaceAll("&y", r.getRandomChatColor() + "");
+		if(getPlayer().isOnline() && r.perm((Player)getPlayer(), "uc.chat.rainbow", false, false)) nick = nick.replaceAll("&y", r.getRandomChatColor() + "");
 		return nick + ChatColor.RESET;
 	}
 	public void setNick(String str){
