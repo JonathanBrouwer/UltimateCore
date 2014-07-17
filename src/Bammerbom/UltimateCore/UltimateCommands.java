@@ -26,6 +26,7 @@ import Bammerbom.UltimateCore.Commands.CmdButcher;
 import Bammerbom.UltimateCore.Commands.CmdCi;
 import Bammerbom.UltimateCore.Commands.CmdClean;
 import Bammerbom.UltimateCore.Commands.CmdClearchat;
+import Bammerbom.UltimateCore.Commands.CmdCompass;
 import Bammerbom.UltimateCore.Commands.CmdCoords;
 import Bammerbom.UltimateCore.Commands.CmdDamage;
 import Bammerbom.UltimateCore.Commands.CmdDeaf;
@@ -159,6 +160,8 @@ public class UltimateCommands implements Listener{
 					 CmdMotd.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("spawner")){
 					 CmdSpawner.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("compass")){
+					 CmdCompass.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("enchtable") || label.equalsIgnoreCase("enchantingtable")){
 					 CmdEnchantingtable.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("spy")){

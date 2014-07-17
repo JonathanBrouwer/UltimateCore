@@ -8,6 +8,9 @@ main: Bammerbom.UltimateCore.UltimateCore
 prefix: UltimateCore
 softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions]
 commands:
+  compass:
+    description: Set your compass point
+    usage: /compass
   report:
     description: Report someone
     usage: /report <Player> <Reason>
