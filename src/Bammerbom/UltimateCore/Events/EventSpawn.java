@@ -7,7 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateConfiguration;
@@ -36,19 +35,11 @@ public class EventSpawn implements Listener {
 	        float pitch = Float.parseFloat(loc[5]);
 	        final Location location = new Location(w, x, y, z, yaw, pitch);
 	        e.setRespawnLocation(location);
-	        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
-
-				@Override
-				public void run() {
-			        e.getPlayer().teleport(location, TeleportCause.ENDER_PEARL);
-					
-				}
-	        	
-	        }, 1L);
 	        //Back
 	        if(r.perm(e.getPlayer(), "uc.back.death", true, false) == false){
     			return;
     		}
+	        //e.getPlayer().sendMessage(ChatColor.GREEN + "> Back location set: " + dl.getWorld() + " " + dl.getBlockX() + " " + dl.getBlockY() + " " + dl.getBlockZ());
 	        UltimateConfiguration data2 = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 			Location loc2 = dl;
 		    String location2 = loc2.getWorld().getName() + "," + loc2.getX() + "," + loc2.getY() + "," + loc2.getZ() + "," + loc2.getYaw() + "," + loc2.getPitch();

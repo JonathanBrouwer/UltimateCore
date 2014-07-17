@@ -26,12 +26,13 @@ public class CmdBack implements Listener{
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onTp(PlayerTeleportEvent e){
-		if(e.getCause().equals(TeleportCause.COMMAND) || e.getCause().equals(TeleportCause.PLUGIN) || e.getCause().equals(TeleportCause.UNKNOWN)){
+		if(e.getCause().equals(TeleportCause.COMMAND) && !e.isCancelled()){
 			UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(e.getPlayer()));
 			Location loc = e.getFrom();
 		    String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
 		    data.set("back", location);
 		    data.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+		    //e.getPlayer().sendMessage(ChatColor.GREEN + "> Back location set: " + location);
 		}
 	}
 	public static void handle(CommandSender sender, String[] args){
