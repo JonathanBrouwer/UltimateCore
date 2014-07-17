@@ -44,7 +44,11 @@ public class CmdEnchant{
 			level = Integer.parseInt(args[1]);
 		}
 		if(level < 0) level = 0;
+		if(level == 0){
+		stack.removeEnchantment(ench);	
+		}else{
 		stack.addUnsafeEnchantment(ench, level);
+		}
 		sender.sendMessage(r.mes("Enchant.Succes").replaceAll("%Enchant", name).replaceAll("%Level", level + "").replaceAll("%Item", stack.getType().name().toLowerCase().replaceAll("_", "")));
 	}
 }
