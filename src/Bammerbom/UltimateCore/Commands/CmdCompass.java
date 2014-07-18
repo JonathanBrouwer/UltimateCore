@@ -21,6 +21,6 @@ public class CmdCompass{
 		if(!r.isPlayer(sender)) return;
 		Player p = (Player) sender;
 		p.setCompassTarget(p.getLocation());
-		
+		p.sendMessage(r.default1 + "Your compass location has been set to your current location!");
 	}
 }
