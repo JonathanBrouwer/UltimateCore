@@ -17,7 +17,7 @@ public class EventTeleportDelay implements Listener{
 	static Plugin plugin;
 	public EventTeleportDelay(Plugin instance){
 		plugin = instance;
-		if(!r.getCnfg().getBoolean("Teleport.EnableDelay")) return;
+		if(!r.getCnfg().contains("Teleport") || !r.getCnfg().getBoolean("Teleport.EnableDelay")) return;
 		delay = r.getCnfg().getInt("Teleport.Delay");
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);

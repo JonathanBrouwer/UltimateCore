@@ -126,6 +126,7 @@ public class UltimateFileLoader implements Listener{
 			r.log(r.error + "Configuration update found, files reset: 1 (EN.yml)");
 			r.log(r.error + "Configuration backups made: 1 (EN.yml)");
 		}
+		
 	}
 	public static void resetFile(File file){
 	    Integer i = 1;
