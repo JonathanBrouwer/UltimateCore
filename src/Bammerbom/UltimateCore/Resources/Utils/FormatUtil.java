@@ -9,34 +9,7 @@ public class FormatUtil
   static final transient Pattern VANILLA_MAGIC_PATTERN = Pattern.compile("§+[Kk]");
   static final transient Pattern VANILLA_FORMAT_PATTERN = Pattern.compile("§+[L-ORl-or]");
 
-  static final transient Pattern REPLACE_ALL_PATTERN = Pattern.compile("("
-  		+ "?"
-  		+ "<"
-  		+ "!"
-  		+ "&"
-  		+ ")"
-  		+ "&"
-  		+ "("
-  		+ "["
-  		+ "0"
-  		+ "-"
-  		+ "9"
-  		+ "a"
-  		+ "-"
-  		+ "f"
-  		+ "k"
-  		+ "-"
-  		+ "o"
-  		+ "r"
-  		+ "A"
-  		+ "-"
-  		+ "F"
-  		+ "K"
-  		+ "-"
-  		+ "O"
-  		+ "R"
-  		+ "]"
-  		+ ")");
+  static final transient Pattern REPLACE_ALL_PATTERN = Pattern.compile("(?<!&)[0-9a-fk-orA-FK-OR])");
   static final transient Pattern REPLACE_COLOR_PATTERN = Pattern.compile("(?<!&)&([0-9a-fA-F])");
   static final transient Pattern REPLACE_MAGIC_PATTERN = Pattern.compile("(?<!&)&([Kk])");
   static final transient Pattern REPLACE_FORMAT_PATTERN = Pattern.compile("(?<!&)&([l-orL-OR])");
