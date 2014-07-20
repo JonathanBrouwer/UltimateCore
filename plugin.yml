@@ -8,87 +8,79 @@ main: Bammerbom.UltimateCore.UltimateCore
 prefix: UltimateCore
 softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions]
 commands:
-  help:
-    description: View a list of all available commands.
-    usage: /help [Page]
+  accountstatus:
+    description: Check if an account is premium or not.
+    usage: /<command>
+  afk:
+    description: Marks you as away-from-keyboard.
+    usage: /<command> [Player]
   burn:
-    description: Set someone on fire
-    usage: /burn <Player> [Time]
-  ignite:
-    description: Set someone on fire
-    usage: /ignite <Player> [Time]
-  compass:
-    description: Set your compass point
-    usage: /compass
-  report:
-    description: Report someone
-    usage: /report <Player> <Reason>
+    description: Set a player on fire.
+    usage: /<command> <Player> [Seconds]
+    aliases: [ignite]
+  clean:
+    description: Clean the servers RAM usage.
+    usage: /<command>
   clearchat:
     description: Clears the global chat
-    usage: /clearchat
-  accountstatus:
-    description: Check if an account is premium or not
-    usage: /accountstatus
-  uptime:
-    description: View the Uptime
-    usage: /uptime
-  signedit:
-    description: Edit a sign
-    usage: /signedit
-  editsign:
-    description: Edit a sign
-    usage: /editsign
-  motd:
-    description: View the Join MOTD
-    usage: /motd
-  skull:
-    description: Obtain a skull
-    usage: /skull
-  head:
-    description: Obtain a skull
-    usage: /head
-  clean:
-    description: Cleans lag
-    usage: /clean
-  rules:
-    description: Show the server rules
-    usage: /rules
-  jail:
-    description: Jail someone
-    usage: /jail [Player]
-  jails:
-    description: Get a list of who is jailed
-    usage: /jail [Player]
-  jaillist:
-    description: Get a list of who is jailed
-    usage: /jail [Player]
-  setjail:
-    description: Set a new jail or change a jail location
-    usage: /jail [Player]
+    usage: /<command>
+  compass:
+    description: Sets your compass location to your current location.
+    usage: /<command>
   deljail:
     description: Delete a jail
     usage: /jail [Player]
-  unjail:
-    description: Unjail someone
-    usage: /unjail [Player]
-  spawner:
-    description: Change spawner type
-    usage: /spawner <MobType>
-  enchtable:
-    description: Enchant something
-    usage: /ench
   enchantingtable:
     description: Enchant something
     usage: /enchantingtable
-  spy:
-    description: Toggle spy mode
-    usage: /spy
-  near:
-    description: Get nearby players
-    usage: /near
+    aliases: [enchtable]
   gc:
     description: Runs the Garbage Collector
-    usage: /gc
+    usage: /<command>
+  help:
+    description: View a list of all available commands.
+    usage: /<command> [Page]
+  jail:
+    description: Jail someone
+    usage: /<command> [Player]
+  jails:
+    description: Get a list of who is jailed
+    usage: /<command> [Player]
+    aliases: [jaillist]
+  motd:
+    description: View the Message Of The Day.
+    usage: /<command>
+  near:
+    description: Get a list of nearby players
+    usage: /<command>
+  report:
+    description: Report the target player for some reason.
+    usage: /<command> <Player> <Reason>
+  rules:
+    description: Show the server rules
+    usage: /<command>
+  setjail:
+    description: Set a new jail or change a jail location
+    usage: /<command> <Name>
+  signedit:
+    description: Edit a sign
+    usage: /<command>
+  skull:
+    description: Obtains someones head.
+    usage: /<command>
+    aliases: [head]
+  spawner:
+    description: Change spawners mobtype
+    usage: /<command> <MobType>
+  spy:
+    description: Toggle spy mode
+    usage: /<command>
+  unjail:
+    description: Unjail someone
+    usage: /<command> [Player]
+  uptime:
+    description: View for how long the server is currently online.
+    usage: /<command>
   realname:
     description: Get the real name of someone
     usage: /realname <Player>
@@ -545,9 +537,6 @@ commands:
   workbench:
     description: Open a workbench for yourself
     usage: /<command>
-  afk:
-    description: Set afk status
-    usage: /<command> [Player]
   list:
     description: Check the list of online players
     usage: /<command>
