@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -35,7 +34,7 @@ public class UC {
 		if(Bukkit.getPlayer(s) != null){
 			return Bukkit.getPlayer(s);
 		}
-		Player f = null;
+		/*Player f = null;
 		for(Player p : getOnlinePlayers()){
 			if(ChatColor.stripColor(getPlayer(p).getNick()) != null){
 				Integer delta = 2147483647;
@@ -53,7 +52,7 @@ public class UC {
 		}
 		if(f != null){
 			return f;
-		}
+		}*/
 		return null;
 	}
 	public static Player searchPlayer(UUID u){
