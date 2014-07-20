@@ -8,6 +8,12 @@ main: Bammerbom.UltimateCore.UltimateCore
 prefix: UltimateCore
 softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions]
 commands:
+  burn:
+    description: Set someone on fire
+    usage: /burn <Player> [Time]
+  ignite:
+    description: Set someone on fire
+    usage: /ignite <Player> [Time]
   compass:
     description: Set your compass point
     usage: /compass
