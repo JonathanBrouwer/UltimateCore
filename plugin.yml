@@ -8,6 +8,9 @@ main: Bammerbom.UltimateCore.UltimateCore
 prefix: UltimateCore
 softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions]
 commands:
+  help:
+    description: View a list of all available commands.
+    usage: /help [Page]
   burn:
     description: Set someone on fire
     usage: /burn <Player> [Time]

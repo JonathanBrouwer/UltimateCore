@@ -7,6 +7,5 @@ public class t implements Listener{
 	Plugin plugin;
 	public t(Plugin instance){
 		plugin = instance;
-		//instance.getServer().getPluginManager().registerEvents(this, instance);
 	}
 }

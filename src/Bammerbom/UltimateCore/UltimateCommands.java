@@ -49,6 +49,7 @@ import Bammerbom.UltimateCore.Commands.CmdGm;
 import Bammerbom.UltimateCore.Commands.CmdGod;
 import Bammerbom.UltimateCore.Commands.CmdHat;
 import Bammerbom.UltimateCore.Commands.CmdHeal;
+import Bammerbom.UltimateCore.Commands.CmdHelp;
 import Bammerbom.UltimateCore.Commands.CmdHome;
 import Bammerbom.UltimateCore.Commands.CmdHunger;
 import Bammerbom.UltimateCore.Commands.CmdIP;
@@ -155,6 +156,8 @@ public class UltimateCommands implements Listener{
 					 CmdBan.ban(sender, args);
 				 }else if(label.equalsIgnoreCase("uptime")){
 					 CmdUptime.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("help")){
+					 CmdHelp.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("burn") || label.equalsIgnoreCase("ignite")){
 					 CmdBurn.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("rules")){

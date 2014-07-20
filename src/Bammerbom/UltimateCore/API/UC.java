@@ -30,6 +30,7 @@ public class UC {
 		}
 		return plz.toArray(new Player[plz.size()]);
 	}
+	@SuppressWarnings("deprecation")
 	public static Player searchPlayer(String s){
 		if(Bukkit.getPlayer(s) != null){
 			return Bukkit.getPlayer(s);

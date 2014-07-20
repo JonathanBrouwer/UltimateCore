@@ -28,6 +28,7 @@ import Bammerbom.UltimateCore.Commands.CmdGm;
 import Bammerbom.UltimateCore.Commands.CmdGod;
 import Bammerbom.UltimateCore.Commands.CmdHat;
 import Bammerbom.UltimateCore.Commands.CmdHeal;
+import Bammerbom.UltimateCore.Commands.CmdHelp;
 import Bammerbom.UltimateCore.Commands.CmdHome;
 import Bammerbom.UltimateCore.Commands.CmdIP;
 import Bammerbom.UltimateCore.Commands.CmdInv;
@@ -124,6 +125,7 @@ public class UltimateCore extends JavaPlugin{
 	    new UltimateCommands(this);
 		new InventoryUtil(this);
 	    //classload-system
+		new CmdHelp(this);
 	    new CmdBack(this);
 	    new CmdBan(this);
 	    new CmdDeaf(this);
