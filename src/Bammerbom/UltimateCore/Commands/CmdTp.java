@@ -281,7 +281,7 @@ public class CmdTp implements Listener{
 			ItemStack item = new ItemStack(Material.SKULL_ITEM);
 			item.setDurability(Short.parseShort("3")); 
 			ItemMeta meta = item.getItemMeta();
-			meta.setDisplayName(r.default1 + pl.getName());
+			meta.setDisplayName(r.default2 + pl.getName());
 			item.setItemMeta(meta);
 			inv.addItem(item);
 			}
