@@ -65,7 +65,7 @@ public class CmdGive implements Listener{
 	      if (args.length > metaStart)
 	      {
 	        try {
-				meta.parseStringMeta(sender, true, args, metaStart, plugin);
+				meta.parseStringMeta(sender, true, args, metaStart);
 			} catch (Exception e) {
 				e.printStackTrace();
 				sender.sendMessage(r.mes("Give.MetadataFailed").replaceAll("%Item", args[1]));
@@ -119,7 +119,7 @@ public class CmdGive implements Listener{
 	      if (args.length > metaStart)
 	      {
 	        try {
-				meta.parseStringMeta(sender, true, args, metaStart, plugin);
+				meta.parseStringMeta(sender, true, args, metaStart);
 			} catch (Exception e) {
 				e.printStackTrace();
 				sender.sendMessage(r.mes("Give.MetadataFailed").replaceAll("%Item", args[0]));

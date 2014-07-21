@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
@@ -22,7 +23,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -51,7 +51,18 @@ private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMa
   private boolean completePotion = false;
   private int power = 1;
   private int duration = 120;
-
+  
+  static{
+	    for (DyeColor color : DyeColor.values())
+	    {
+	      colorMap.put(color.name(), color);
+	    }
+	    for (FireworkEffect.Type type : FireworkEffect.Type.values())
+	    {
+	      fireworkShape.put(type.name(), type);
+	    }
+  }
+  
   public MetaItemStack(ItemStack stack)
   {
     this.stack = stack.clone();
@@ -98,13 +109,13 @@ private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMa
   }
 
   @SuppressWarnings("deprecation")
-public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] string, int fromArg, Plugin ess) throws Exception
+public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception
   {
     if (string[fromArg].startsWith("{"))
     {
       try
       {
-        this.stack = ess.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
+        this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
       }
       catch (NoSuchMethodError nsme)
       {
@@ -119,7 +130,7 @@ public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] 
     {
       for (int i = fromArg; i < string.length; i++)
       {
-        addStringMeta(sender, allowUnsafe, string[i], ess);
+        addStringMeta(sender, allowUnsafe, string[i]);
       }
       if (this.validFirework)
       {
@@ -131,7 +142,7 @@ public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] 
     }
   }
 
-public void addStringMeta(CommandSender sender, boolean allowUnsafe, String string, Plugin ess) throws Exception
+public void addStringMeta(CommandSender sender, boolean allowUnsafe, String string) throws Exception
   {
     String[] split = this.splitPattern.split(string, 2);
     if (split.length < 1)
@@ -231,11 +242,11 @@ public void addStringMeta(CommandSender sender, boolean allowUnsafe, String stri
     }
     else if (this.stack.getType() == Material.FIREWORK)
     {
-      addFireworkMeta(sender, false, string, ess);
+      addFireworkMeta(sender, false, string);
     }
     else if (this.stack.getType() == Material.POTION)
     {
-      addPotionMeta(sender, false, string, ess);
+      addPotionMeta(sender, false, string);
     }
     else if ((split.length > 1) && ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour"))) && ((this.stack.getType() == Material.LEATHER_BOOTS) || (this.stack.getType() == Material.LEATHER_CHESTPLATE) || (this.stack.getType() == Material.LEATHER_HELMET) || (this.stack.getType() == Material.LEATHER_LEGGINGS)))
     {
@@ -255,13 +266,13 @@ public void addStringMeta(CommandSender sender, boolean allowUnsafe, String stri
     }
     else
     {
-      parseEnchantmentStrings(sender, allowUnsafe, split, ess);
+      parseEnchantmentStrings(sender, allowUnsafe, split);
     }
     
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
-public void addFireworkMeta(CommandSender sender, boolean allowShortName, String string, Plugin ess) throws Exception
+public void addFireworkMeta(CommandSender sender, boolean allowShortName, String string) throws Exception
   {
     if (this.stack.getType() == Material.FIREWORK)
     {
@@ -358,7 +369,7 @@ public void addFireworkMeta(CommandSender sender, boolean allowShortName, String
     }
   }
 
-  public void addPotionMeta(CommandSender sender, boolean allowShortName, String string, Plugin ess) throws Exception
+  public void addPotionMeta(CommandSender sender, boolean allowShortName, String string) throws Exception
   {
     if (this.stack.getType() == Material.POTION)
     {
@@ -421,7 +432,7 @@ public void addFireworkMeta(CommandSender sender, boolean allowShortName, String
     }
   }
 
-  private void parseEnchantmentStrings(CommandSender sender, boolean allowUnsafe, String[] split, Plugin ess) throws Exception
+  private void parseEnchantmentStrings(CommandSender sender, boolean allowUnsafe, String[] split) throws Exception
   {
     Enchantment enchantment = MapEnchantments.getByName(split[0]);
     if ((enchantment == null))
@@ -493,11 +504,6 @@ public void addFireworkMeta(CommandSender sender, boolean allowShortName, String
   public Enchantment getEnchantment(Player user, String name) throws Exception
   {
     Enchantment enchantment = MapEnchantments.getByName(name);
-    if (enchantment == null)
-    {
-      return null;
-    }
-
     return enchantment;
   }
 }

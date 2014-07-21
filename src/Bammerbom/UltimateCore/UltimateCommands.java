@@ -39,6 +39,7 @@ import Bammerbom.UltimateCore.Commands.CmdEnderchest;
 import Bammerbom.UltimateCore.Commands.CmdExtinguish;
 import Bammerbom.UltimateCore.Commands.CmdFeed;
 import Bammerbom.UltimateCore.Commands.CmdFireball;
+import Bammerbom.UltimateCore.Commands.CmdFirework;
 import Bammerbom.UltimateCore.Commands.CmdFly;
 import Bammerbom.UltimateCore.Commands.CmdFreeze;
 import Bammerbom.UltimateCore.Commands.CmdFullheal;
@@ -154,6 +155,8 @@ public class UltimateCommands implements Listener{
 					 CmdXP.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("tempban")){
 					 CmdBan.ban(sender, args);
+				 }else if(label.equalsIgnoreCase("firework")){
+					 CmdFirework.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("uptime")){
 					 CmdUptime.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("help")){
