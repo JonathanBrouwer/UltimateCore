@@ -18,6 +18,7 @@ public class CmdPotion{
 	@SuppressWarnings("deprecation")
 	public static void handle(CommandSender sender, String[] args){
     	if(!r.isPlayer(sender)) return;
+    	if(!r.perm(sender, "uc.potion", false, true)) return;
   	    Player p = (Player) sender;
   	    if(!r.checkArgs(args, 0)){
   	    	StringBuilder sb = new StringBuilder();

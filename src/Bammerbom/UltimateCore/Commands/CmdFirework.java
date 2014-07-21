@@ -14,6 +14,7 @@ import Bammerbom.UltimateCore.Resources.MetaItemStack;
 public class CmdFirework{
 	public static void handle(CommandSender sender, String[] args){
     	if(!r.isPlayer(sender)) return;
+    	if(!r.perm(sender, "uc.firework", false, true)) return;
   	    Player p = (Player) sender;
   	    Boolean spawnin = !(p.getItemInHand().getType() == Material.FIREWORK);
         ItemStack stack = p.getItemInHand().getType() == Material.FIREWORK ? p.getItemInHand() : new ItemStack(Material.FIREWORK); 
