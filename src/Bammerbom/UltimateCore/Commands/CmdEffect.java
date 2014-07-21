@@ -70,7 +70,7 @@ public class CmdEffect{
 		}
 		t.removePotionEffect(ef);
 		PotionEffect effect = new PotionEffect(ef, dur * 20, lev - 1);
-		t.addPotionEffect(effect);
+		t.addPotionEffect(effect, true);
 		sender.sendMessage(r.mes("Effect.Succes").replaceAll("%Effect", ef.getName().toLowerCase()).replaceAll("%Target", t.getName()).replaceAll("%Duration", dur + "").replaceAll("%Level", lev + ""));
 	}
 }

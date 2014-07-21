@@ -74,6 +74,7 @@ import Bammerbom.UltimateCore.Commands.CmdNear;
 import Bammerbom.UltimateCore.Commands.CmdNick;
 import Bammerbom.UltimateCore.Commands.CmdPing;
 import Bammerbom.UltimateCore.Commands.CmdPlugin;
+import Bammerbom.UltimateCore.Commands.CmdPotion;
 import Bammerbom.UltimateCore.Commands.CmdPowertool;
 import Bammerbom.UltimateCore.Commands.CmdRealname;
 import Bammerbom.UltimateCore.Commands.CmdRegion;
@@ -157,6 +158,8 @@ public class UltimateCommands implements Listener{
 					 CmdBan.ban(sender, args);
 				 }else if(label.equalsIgnoreCase("firework")){
 					 CmdFirework.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("potion")){
+					 CmdPotion.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("uptime")){
 					 CmdUptime.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("help")){

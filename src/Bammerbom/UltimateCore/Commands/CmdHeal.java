@@ -20,7 +20,7 @@ public class CmdHeal{
 		}
 	}
     public enum NegativeEffects{
-        CONFUSION, HARM, HUNGER,POISON, SLOW_DIGGING, SLOW, WEAKNESS, WITHER;
+        CONFUSION, HARM, HUNGER,POISON, SLOW_DIGGING, SLOW, WEAKNESS, WITHER, BLINDNESS;
     }
  
 	public static void handle(CommandSender sender, String[] args) {
