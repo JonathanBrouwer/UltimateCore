@@ -27,6 +27,7 @@ import Bammerbom.UltimateCore.Commands.CmdButcher;
 import Bammerbom.UltimateCore.Commands.CmdCi;
 import Bammerbom.UltimateCore.Commands.CmdClean;
 import Bammerbom.UltimateCore.Commands.CmdClearchat;
+import Bammerbom.UltimateCore.Commands.CmdCompact;
 import Bammerbom.UltimateCore.Commands.CmdCompass;
 import Bammerbom.UltimateCore.Commands.CmdCoords;
 import Bammerbom.UltimateCore.Commands.CmdDamage;
@@ -155,6 +156,8 @@ public class UltimateCommands implements Listener{
 					 CmdJail.unJail(sender, label, args);
 				 }else if(label.equalsIgnoreCase("xp")){
 					 CmdXP.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("compact")){
+					 CmdCompact.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("tempban")){
 					 CmdBan.ban(sender, args);
 				 }else if(label.equalsIgnoreCase("firework")){

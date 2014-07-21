@@ -24,6 +24,9 @@ commands:
   clearchat:
     description: Clears the global chat
     usage: /<command>
+  compact:
+    description: Compact all items into blocks
+    usage: /<command> [Hand]
   compass:
     description: Sets your compass location to your current location.
     usage: /<command>
