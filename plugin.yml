@@ -37,6 +37,9 @@ commands:
   firework:
     description: Spawn in or modify firework.
     usage: /firework [clear] [power:<amount>] [color:<COLOR[,COLOR]]>] [fade:<COLOR[,COLOR]]>] [shape:<star/ball/large/creeper/burst>] [effect:<trail/twinkle>[,trail/twinkle]]
+  modify:
+    description: Modify an item (Same was as give meta)
+    usage: /modify <Meta...>
   potion:
     description: Spawn in or modify potions.
     usage: /potion <Effect/Clear> [Duration] [Amplifier] [Splash]

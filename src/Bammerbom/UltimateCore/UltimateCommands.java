@@ -66,6 +66,7 @@ import Bammerbom.UltimateCore.Commands.CmdLag;
 import Bammerbom.UltimateCore.Commands.CmdList;
 import Bammerbom.UltimateCore.Commands.CmdMe;
 import Bammerbom.UltimateCore.Commands.CmdMobTP;
+import Bammerbom.UltimateCore.Commands.CmdModify;
 import Bammerbom.UltimateCore.Commands.CmdMore;
 import Bammerbom.UltimateCore.Commands.CmdMotd;
 import Bammerbom.UltimateCore.Commands.CmdMsg;
@@ -160,6 +161,8 @@ public class UltimateCommands implements Listener{
 					 CmdFirework.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("potion")){
 					 CmdPotion.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("modify")){
+					 CmdModify.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("uptime")){
 					 CmdUptime.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("help")){

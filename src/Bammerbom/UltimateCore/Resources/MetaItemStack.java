@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
@@ -109,28 +110,17 @@ private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMa
   }
 
   @SuppressWarnings("deprecation")
-public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception
+public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] string, int fromArg)
   {
     if (string[fromArg].startsWith("{"))
     {
-      try
-      {
         this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
-      }
-      catch (NoSuchMethodError nsme)
-      {
-        throw new Exception("Failed to spawn in item");
-      }
-      catch (Throwable throwable)
-      {
-        throw new Exception(throwable.getMessage(), throwable);
-      }
     }
     else
     {
       for (int i = fromArg; i < string.length; i++)
       {
-        addStringMeta(sender, allowUnsafe, string[i]);
+    	  addStringMeta(sender, allowUnsafe, string[i]);
       }
       if (this.validFirework)
       {
@@ -142,7 +132,7 @@ public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] 
     }
   }
 
-public void addStringMeta(CommandSender sender, boolean allowUnsafe, String string) throws Exception
+public void addStringMeta(CommandSender sender, boolean allowUnsafe, String string)
   {
     String[] split = this.splitPattern.split(string, 2);
     if (split.length < 1)
@@ -152,7 +142,7 @@ public void addStringMeta(CommandSender sender, boolean allowUnsafe, String stri
 
     if ((split.length > 1) && (split[0].equalsIgnoreCase("name")))
     {
-      String displayName = FormatUtil.replaceFormat(split[1].replace('_', ' '));
+      String displayName = ChatColor.translateAlternateColorCodes('&', split[1].replace('_', ' '));
       ItemMeta meta = this.stack.getItemMeta();
       meta.setDisplayName(displayName);
       this.stack.setItemMeta(meta);
@@ -242,11 +232,19 @@ public void addStringMeta(CommandSender sender, boolean allowUnsafe, String stri
     }
     else if (this.stack.getType() == Material.FIREWORK)
     {
-      addFireworkMeta(sender, false, string);
+      try {
+		addFireworkMeta(sender, false, string);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
     }
     else if (this.stack.getType() == Material.POTION)
     {
-      addPotionMeta(sender, false, string);
+      try {
+		addPotionMeta(sender, false, string);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
     }
     else if ((split.length > 1) && ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour"))) && ((this.stack.getType() == Material.LEATHER_BOOTS) || (this.stack.getType() == Material.LEATHER_CHESTPLATE) || (this.stack.getType() == Material.LEATHER_HELMET) || (this.stack.getType() == Material.LEATHER_LEGGINGS)))
     {
@@ -266,7 +264,11 @@ public void addStringMeta(CommandSender sender, boolean allowUnsafe, String stri
     }
     else
     {
-      parseEnchantmentStrings(sender, allowUnsafe, split);
+      try {
+		parseEnchantmentStrings(sender, allowUnsafe, split);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
     }
     
   }
@@ -460,11 +462,11 @@ public void addFireworkMeta(CommandSender sender, boolean allowShortName, String
     addEnchantment(sender, allowUnsafe, enchantment, level);
   }
 
-  public void addEnchantment(CommandSender sender, boolean allowUnsafe, Enchantment enchantment, int level) throws Exception
+  public void addEnchantment(CommandSender sender, boolean allowUnsafe, Enchantment enchantment, int level)
   {
     if (enchantment == null)
     {
-    	throw new Exception("");
+    	return;
     }
     try
     {
@@ -497,7 +499,7 @@ public void addFireworkMeta(CommandSender sender, boolean allowShortName, String
     }
     catch (Exception ex)
     {
-      throw new Exception("Enchantment " + enchantment.getName() + ": " + ex.getMessage(), ex);
+      ex.printStackTrace();
     }
   }
 

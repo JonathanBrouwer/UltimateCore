@@ -11,6 +11,7 @@ import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.Resources.MapEnchantments;
+import Bammerbom.UltimateCore.Resources.MetaItemStack;
 
 public class CmdEnchant{
 	static Plugin plugin;
@@ -47,7 +48,8 @@ public class CmdEnchant{
 		if(level == 0){
 		stack.removeEnchantment(ench);	
 		}else{
-		stack.addUnsafeEnchantment(ench, level);
+			MetaItemStack stack2 = new MetaItemStack(stack);
+			stack2.addEnchantment(sender, true, ench, level);
 		}
 		sender.sendMessage(r.mes("Enchant.Succes").replaceAll("%Enchant", name).replaceAll("%Level", level + "").replaceAll("%Item", stack.getType().name().toLowerCase().replaceAll("_", "")));
 	}
