@@ -79,6 +79,7 @@ import Bammerbom.UltimateCore.Commands.CmdPlugin;
 import Bammerbom.UltimateCore.Commands.CmdPotion;
 import Bammerbom.UltimateCore.Commands.CmdPowertool;
 import Bammerbom.UltimateCore.Commands.CmdRealname;
+import Bammerbom.UltimateCore.Commands.CmdRecipe;
 import Bammerbom.UltimateCore.Commands.CmdRegion;
 import Bammerbom.UltimateCore.Commands.CmdReload;
 import Bammerbom.UltimateCore.Commands.CmdRemoveAll;
@@ -156,6 +157,8 @@ public class UltimateCommands implements Listener{
 					 CmdJail.unJail(sender, label, args);
 				 }else if(label.equalsIgnoreCase("xp")){
 					 CmdXP.handle(sender, args);
+				 }else if(label.equalsIgnoreCase("recipe")){
+					 CmdRecipe.run(sender, args);
 				 }else if(label.equalsIgnoreCase("compact")){
 					 CmdCompact.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("tempban")){

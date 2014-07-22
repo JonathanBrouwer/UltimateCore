@@ -27,6 +27,9 @@ commands:
   compact:
     description: Compact all items into blocks
     usage: /<command> [Hand]
+  recipe:
+    description: View the recipe of an item
+    usage: /recipe <Item>
   compass:
     description: Sets your compass location to your current location.
     usage: /<command>

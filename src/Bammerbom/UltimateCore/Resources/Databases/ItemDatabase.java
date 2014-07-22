@@ -97,7 +97,7 @@ public class ItemDatabase {
 	    }
 	}
     @SuppressWarnings("deprecation")
-	public static ItemStack get(String id){
+	private static ItemStack get(String id){
 	    int itemid = 0;
 		String itemname = null;
 		short metaData = 0;

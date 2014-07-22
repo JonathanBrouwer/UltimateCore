@@ -47,6 +47,7 @@ import Bammerbom.UltimateCore.Commands.CmdMute;
 import Bammerbom.UltimateCore.Commands.CmdNick;
 import Bammerbom.UltimateCore.Commands.CmdPlugin;
 import Bammerbom.UltimateCore.Commands.CmdPowertool;
+import Bammerbom.UltimateCore.Commands.CmdRecipe;
 import Bammerbom.UltimateCore.Commands.CmdRegion;
 import Bammerbom.UltimateCore.Commands.CmdReload;
 import Bammerbom.UltimateCore.Commands.CmdRemoveAll;
@@ -131,6 +132,7 @@ public class UltimateCore extends JavaPlugin{
 	    new CmdDeaf(this);
 	    new CmdButcher(this);
 	    new CmdCi(this);
+	    new CmdRecipe(this);
 	    new CmdEffect(this);
 	    new CmdEnchant(this);
 	    new CmdFeed(this);
