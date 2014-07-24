@@ -269,7 +269,7 @@ public class UltimateCommands implements Listener{
 					 CmdTp.handle(sender,  label, args);
 				 }
 				 else if(label.equalsIgnoreCase("plugin")){
-					 CmdPlugin.handle(sender, args);
+					 CmdPlugin.handle(sender, cmd, label, args);
 				 }
 				 else if(label.equalsIgnoreCase("gtool")){
 					 CmdGTool.handle(sender, args);

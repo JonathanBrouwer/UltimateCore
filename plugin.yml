@@ -236,7 +236,7 @@ commands:
     usage: /<command>
   plugin:
     description: Manage plugins
-    usage: /<command> <Enable/Disable/Load/Unload/Info/Reload/Restart> <Plugin>
+    usage: /<command> for help
   gamemode:
     description: Set a player's gamemode
     usage: /<command> <Gamemode> [Player]

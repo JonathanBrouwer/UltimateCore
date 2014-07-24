@@ -7,7 +7,6 @@ import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateUpdater;
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.Resources.Utils.PluginUtil;
 
 public class CmdUC{
 	static Plugin plugin;
@@ -26,12 +25,14 @@ public class CmdUC{
 			sender.sendMessage(r.default1 + "UltimateCore commands:");
 			sender.sendMessage(r.default1 + "/uc reload  " + r.default2 + "> Reload Ultimate Core");
 			sender.sendMessage(r.default1 + "/uc credits " + r.default2 + "> Credits of Ultimate Core");
-			sender.sendMessage(r.default1 + "/uc disable " + r.default2 + "> Disable core (If chrashed)");
+			sender.sendMessage(r.default1 + "/uc disable " + r.default2 + "> Disable Ultimate Core (If chrashed)");
 			sender.sendMessage(r.default1 + "/uc version " + r.default2 + "> Get your, and the newest version of UltimateCore");
 		}else if(args[0].equalsIgnoreCase("reload")){
 			if(!r.perm(sender, "uc.menu.reload", false, true)) return;
 			Plugin uc = plugin;
-			PluginUtil.reload(uc);
+			Bukkit.getPluginManager().disablePlugin(uc);
+			System.gc();
+			Bukkit.getPluginManager().enablePlugin(uc);
 			sender.sendMessage(r.default1 + "UltimateCore has been reloaded!");
 		}else if(args[0].equalsIgnoreCase("disable")){
 			if(!r.perm(sender, "uc.menu.disable", false, true)) return;
@@ -57,7 +58,7 @@ public class CmdUC{
 			sender.sendMessage(r.default1 + "UltimateCore commands:");
 			sender.sendMessage(r.default1 + "/uc reload  " + r.default2 + "> Reload Ultimate Core");
 			sender.sendMessage(r.default1 + "/uc credits " + r.default2 + "> Credits of Ultimate Core");
-			sender.sendMessage(r.default1 + "/uc disable " + r.default2 + "> Disable core (If chrashed)");
+			sender.sendMessage(r.default1 + "/uc disable " + r.default2 + "> Disable Ultimate Core (If chrashed)");
 			sender.sendMessage(r.default1 + "/uc version " + r.default2 + "> Get your, and the newest version of UltimateCore");
 		}
 	}
