@@ -32,6 +32,7 @@ public class UltimateConfiguration implements Cloneable{
 	private final YamlConfiguration conf;
 	  private final Map<String, String> headers;
 	private final Set<String> readkeys;
+	static boolean a = false;
 	public UltimateConfiguration(File file2){
 		file = file2;
 		conf = YamlConfiguration.loadConfiguration(file2);
@@ -101,132 +102,127 @@ public class UltimateConfiguration implements Cloneable{
 		save(file);
 	}
 	public void save(File fi){
-	    for (String key : conf.getKeys(true)) {
-	        Object value = conf.get(key);
-	        if ((value instanceof String)) {
-	          String text = (String)value;
-	          if (text.contains("\n")) {
-	            conf.set(key, Arrays.asList(text.split("\n", -1)));
-	          }
-	        }
-	      }
+		try{
+		for (String key : conf.getKeys(true)) {
+		      Object value = conf.get(key);
+		      if ((value instanceof String)) {
+		        String text = (String)value;
+		        if (text.contains("\n")) {
+		          conf.set(key, Arrays.asList(text.split("\n", -1)));
+		        }
+		      }
+		    }
 
-	      BufferedWriter writer = null;
-		try {
-			writer = new BufferedWriter(new OutputStreamWriter(StreamUtil.createOutputStream(fi)));
-		} catch (SecurityException | IOException e1) {
-			e1.printStackTrace();
+		    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(StreamUtil.createOutputStream(fi)));
+		    try
+		    {
+		      writeHeader(true, writer, getHeader(), 0);
+
+		      HashMap<Integer, String> anchorData = new HashMap<Integer, String>();
+
+		      int anchId = -1; int anchDepth = 0; int anchIndent = 0;
+
+		      StringBuilder refData = new StringBuilder();
+		      NodeBuilder node = new NodeBuilder(getIndent());
+		      for (String line : conf.saveToString().split("\n", -1)) {
+		    	  if(line.startsWith("#")) continue;
+		        line = StringUtil.colorToAmp(line);
+		        int indent = StringUtil.getSuccessiveCharCount(line, ' ');
+		        line = line.substring(indent);
+		        boolean wasAnchor = false;
+
+		        if (line.equals("'*':")) {
+		          line = "*:";
+		        }
+
+		        if (node.handle(line, indent))
+		        {
+		          if ((anchId >= 0) && (node.getDepth() <= anchDepth)) {
+		            anchorData.put(anchId, refData.toString());
+		            refData.setLength(0);
+		            anchId = -1;
+		          }
+
+		          writeHeader(false, writer, getHeader(node.getPath()), indent);
+
+		          int refStart = line.indexOf("*id", node.getName().length());
+		          int refEnd = line.indexOf(' ', refStart);
+		          if (refEnd == -1) {
+		            refEnd = line.length();
+		          }
+		          if ((refStart > 0) && (refEnd > refStart))
+		          {
+		            int refId = Integer.parseInt(line.substring(refStart + 3, refEnd), -1);
+		            if (refId >= 0)
+		            {
+		              String data = (String)anchorData.get(refId);
+		              if (data != null)
+		              {
+		                line = StringUtil.trimEnd(line.substring(0, refStart)) + " " + data;
+		              }
+		            }
+
+		          }
+
+		          int anchStart = line.indexOf("&id", node.getName().length());
+		          int anchEnd = line.indexOf(' ', anchStart);
+		          if (anchEnd == -1) {
+		            anchEnd = line.length();
+		          }
+		          if ((anchStart > 0) && (anchEnd > anchStart))
+		          {
+		            anchId = Integer.parseInt(line.substring(anchStart + 3, anchEnd), -1);
+		            anchDepth = node.getDepth();
+		            anchIndent = indent;
+		            if (anchId >= 0)
+		            {
+		              anchEnd += StringUtil.getSuccessiveCharCount(line.substring(anchEnd), ' ');
+
+		              refData.append(line.substring(anchEnd));
+
+		              line = StringUtil.replace(line, anchStart, anchEnd, "");
+		            }
+		            wasAnchor = true;
+		          }
+		        }
+		        if ((!wasAnchor) && (anchId >= 0))
+		        {
+		          refData.append('\n').append(StringUtil.getFilledString(" ", indent - anchIndent)).append(line);
+		        }
+
+		        if (StringUtil.containsChar('\n', line)) {
+		          for (String part : line.split("\n", -1)) {
+		            StreamUtil.writeIndent(writer, indent);
+		            writer.write(part);
+		            writer.newLine();
+		          }
+		        } else {
+		          StreamUtil.writeIndent(writer, indent);
+		          writer.write(line);
+		          writer.newLine();
+		        }
+		      }
+		    } finally {
+		      writer.close();
+		    }
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
-	      try
-	      {
-	    	  if (getHeader() != null)
-	    	      for (String headerLine : getHeader().split("\n", -1)) {
-	    	        StreamUtil.writeIndent(writer, 0);
-	    	        writer.write("#> ");
-	    	          writer.write(headerLine);
-	    	        writer.newLine();
-	    	      }
-	        HashMap<Integer, String> anchorData = new HashMap<Integer, String>();
-
-	        int anchId = -1; int anchDepth = 0; int anchIndent = 0;
-
-	        StringBuilder refData = new StringBuilder();
-	        NodeBuilder node = new NodeBuilder(getIndent());
-	        for (String line : conf.saveToString().split("\n", -1)) {
-	          line = StringUtil.colorToAmp(line);
-	          int indent = StringUtil.getSuccessiveCharCount(line, ' ');
-	          line = line.substring(indent);
-	          boolean wasAnchor = false;
-
-	          if (line.equals("'*':")) {
-	            line = "*:";
-	          }
-
-	          if (node.handle(line, indent))
-	          {
-	            if ((anchId >= 0) && (node.getDepth() <= anchDepth)) {
-	              anchorData.put(anchId, refData.toString());
-	              refData.setLength(0);
-	              anchId = -1;
-	            }
-		    	  if (getHeader() != null)
-		    	      for (String headerLine : getHeader().split("\n", -1)) {
-		    	        StreamUtil.writeIndent(writer, indent);
-		    	        if (headerLine.trim().length() > 0) {
-		    	          writer.write("# ");
-		    	          writer.write(headerLine);
-		    	        }
-		    	        writer.newLine();
-		    	      }
-
-	            int refStart = line.indexOf("*id", node.getName().length());
-	            int refEnd = line.indexOf(' ', refStart);
-	            if (refEnd == -1) {
-	              refEnd = line.length();
-	            }
-	            if ((refStart > 0) && (refEnd > refStart))
-	            {
-	              int refId = Integer.parseInt(line.substring(refStart + 3, refEnd), -1);
-	              if (refId >= 0)
-	              {
-	                String data = (String)anchorData.get(refId);
-	                if (data != null)
-	                {
-	                  line = StringUtil.trimEnd(line.substring(0, refStart)) + " " + data;
-	                }
-	              }
-
-	            }
-
-	            int anchStart = line.indexOf("&id", node.getName().length());
-	            int anchEnd = line.indexOf(' ', anchStart);
-	            if (anchEnd == -1) {
-	              anchEnd = line.length();
-	            }
-	            if ((anchStart > 0) && (anchEnd > anchStart))
-	            {
-	              anchId = Integer.parseInt(line.substring(anchStart + 3, anchEnd), -1);
-	              anchDepth = node.getDepth();
-	              anchIndent = indent;
-	              if (anchId >= 0)
-	              {
-	                anchEnd += StringUtil.getSuccessiveCharCount(line.substring(anchEnd), ' ');
-
-	                refData.append(line.substring(anchEnd));
-
-	                line = StringUtil.replace(line, anchStart, anchEnd, "");
-	              }
-	              wasAnchor = true;
-	            }
-	          }
-	          if ((!wasAnchor) && (anchId >= 0))
-	          {
-	            refData.append('\n').append(StringUtil.getFilledString(" ", indent - anchIndent)).append(line);
-	          }
-
-	          if (StringUtil.containsChar('\n', line)) {
-	            for (String part : line.split("\n", -1)) {
-	              StreamUtil.writeIndent(writer, indent);
-	              writer.write(part);
-	              writer.newLine();
-	            }
-	          } else {
-	            StreamUtil.writeIndent(writer, indent);
-	            writer.write(line);
-	            writer.newLine();
-	          }
-	        }
-	      }catch(Exception ex){
-	    	  ex.printStackTrace();
-	      } finally {
-	        try {
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	      }
-	      
 	}
+	  private void writeHeader(boolean main, BufferedWriter writer, String header, int indent) throws IOException {
+		    if (header != null/* && !header.contains("Enable Plugin Metrics")*/)
+		      for (String headerLine : header.split("\n", -1)) {
+		        StreamUtil.writeIndent(writer, indent);
+		        if (main) {
+		          writer.write("#> ");
+		          writer.write(headerLine);
+		        } else if (headerLine.trim().length() > 0) {
+		          writer.write("# ");
+		          writer.write(headerLine);
+		        }
+		        writer.newLine();
+		      }
+		  }
 	//TODO keys/values
 	public Set<String> getKeys(Boolean b){
 		return conf.getKeys(b);

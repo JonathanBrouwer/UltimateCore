@@ -162,6 +162,12 @@ public class r {
 		
 	}
 	public static UltimateConfiguration getCnfg(){
+		if(!new File(plugin.getDataFolder(), "config.yml").exists()){
+			UltimateFileLoader.Enable();
+			r.log(ChatColor.GOLD + "-----------------------------------------------");
+			r.log(ChatColor.AQUA + "Config file doesn't exist, creating a new file...");
+			r.log(ChatColor.GOLD + "-----------------------------------------------");
+		}
 		return new UltimateConfiguration(new File(plugin.getDataFolder(), "config.yml"));
 	}
 	public static void saveCnfg(){

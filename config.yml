@@ -76,7 +76,8 @@ Chat:
   #Color codes supported!
   Format: '&6+Prefix&6+Displayname: &r+Suffix+Message'
   
-  #Group formats: [REQUIRES VAULT + PERMISSION PLUGIN] 	`(Every group that is not registered here uses the Global format
+  #Group formats: [REQUIRES VAULT + PERMISSION PLUGIN] 	
+  #Every group that is not registered here uses the Global format
   Groups:
     Enabled: false
     #+Name = Raw name

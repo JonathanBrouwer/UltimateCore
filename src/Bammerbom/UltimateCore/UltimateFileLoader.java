@@ -1,12 +1,16 @@
 package Bammerbom.UltimateCore;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -14,8 +18,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
-
-import Bammerbom.UltimateCore.Resources.Utils.StringUtil;
 
 public class UltimateFileLoader implements Listener{
 	
@@ -30,6 +32,7 @@ public class UltimateFileLoader implements Listener{
 	public static File messages;
 	public static File datamap;
 	public static File LANGf;
+	public static File ENf;
 	
 	public static File getLangFile(){
 		return LANGf;
@@ -50,6 +53,7 @@ public class UltimateFileLoader implements Listener{
 		}else{
 			LANGf = new File(plugin.getDataFolder() + File.separator + "Messages", "EN.yml");
 		}
+		ENf = new File(plugin.getDataFolder() + File.separator + "Messages", "EN.yml");
 	}
 	//enable
 	public static File DFspawns;
@@ -119,15 +123,82 @@ public class UltimateFileLoader implements Listener{
 		addConfig();
 	} 
 	private static void addConfig(){
-		if(StringUtil.nullOrEmpty(r.mes("Words.Yes"))){
-			resetFile(new File(plugin.getDataFolder() + "/Messages", "EN.yml"));
-			createLang();
-			loadLang();
-			r.log(r.error + "Configuration update found, files reset: 1 (EN.yml)");
-			r.log(r.error + "Configuration backups made: 1 (EN.yml)");
+		//conf
+		{
+	    File tempFile = null;
+		try {
+			tempFile = File.createTempFile("temp_config", ".yml");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
+	    try (FileOutputStream out = new FileOutputStream(tempFile)) {
+		    tempFile.deleteOnExit();
+	        copy(plugin.getResource("config.yml"), out);
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
+	    UltimateConfiguration confL = new UltimateConfiguration(tempFile);
+	    UltimateConfiguration confS = r.getCnfg();
+	    for(String s : confL.getKeys()){
+	    	if(!confS.contains(s) && !(confL.get(s) instanceof MemorySection)){
+	    		confS.set(s, confL.get(s));
+	    	}
+	    }
+	    confS.save();
+	    tempFile.delete();
+		}
+	    //lang
+		{
+	    File tempFile = null;
+		try {
+			tempFile = File.createTempFile("temp_EN", ".yml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    try (FileOutputStream out = new FileOutputStream(tempFile)) {
+		    tempFile.deleteOnExit();
+	        copy(plugin.getResource("Messages/EN.yml"), out);
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
+	    UltimateConfiguration confL = new UltimateConfiguration(tempFile);
+	    UltimateConfiguration confS = new UltimateConfiguration(ENf);
+	    for(String s : confL.getKeys()){
+	    	if(!confS.contains(s) && !(confL.get(s) instanceof MemorySection)){
+	    		confS.set(s, confL.get(s));
+	    	}
+	    }
+	    confS.save();
+	    tempFile.delete();
+		}
 	}
+	  public static int copy(InputStream input, OutputStream output)
+			    throws IOException
+			  {
+			    long count = copyLarge(input, output);
+			    if (count > 2147483647L) {
+			      return -1;
+			    }
+			    return (int)count;
+			  }
+
+			  public static long copyLarge(InputStream input, OutputStream output)
+			    throws IOException
+			  {
+			    return copyLarge(input, output, new byte[4096]);
+			  }
+
+			  public static long copyLarge(InputStream input, OutputStream output, byte[] buffer)
+			    throws IOException
+			  {
+			    long count = 0L;
+			    int n = 0;
+			    while (-1 != (n = input.read(buffer))) {
+			      output.write(buffer, 0, n);
+			      count += n;
+			    }
+			    return count;
+			  }
 	public static void resetFile(File file){
 	    Integer i = 1;
 	    File parent = new File(file.getParent());
@@ -148,7 +219,7 @@ public class UltimateFileLoader implements Listener{
 		File directory = new File(plugin.getDataFolder() + File.separator + "Players");
 		if(!file.exists()){
 			try {
-				directory.mkdir();
+				directory.mkdirs();
 				file.createNewFile();
 				UltimateConfiguration config = new UltimateConfiguration(file);
 				config.set("name", p.getName());
