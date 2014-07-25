@@ -127,6 +127,7 @@ public TextInput(CommandSender sender, boolean createFile)
 		reader = new InputStreamReader(new FileInputStream(file), "utf-8");
 	} catch (UnsupportedEncodingException | FileNotFoundException e) {
 		e.printStackTrace();
+		return;
 	}
       BufferedReader bufferedReader = new BufferedReader(reader);
       try

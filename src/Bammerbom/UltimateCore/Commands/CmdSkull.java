@@ -45,10 +45,6 @@ public class CmdSkull implements Listener{
 		    InventoryUtil.addItem(p.getInventory(), skull);
 		}else{
 			Player t = p;
-			if(t == null){
-				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
-				return;
-			}
 		    sender.sendMessage(r.mes("Skull").replaceAll("%Player", p.getName()));
 		    ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1);
 		    skull.setDurability(Short.parseShort("3"));

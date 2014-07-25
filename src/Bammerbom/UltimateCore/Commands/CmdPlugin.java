@@ -606,7 +606,6 @@ public class CmdPlugin {
                         } else throw new Exception();
                     } catch (Exception e) {
                         cs.sendMessage(r.default1 + "Could not fetch download link! Either this plugin has no downloads, or you specified an invalid tag.");
-                        cs.sendMessage(r.default1 + "Tag: http://dev.bukkit.org/server-mods/" + r.default2 + "plugin-name" + r.default1 + "/");
                         return;
                     }
                     if (downloadAndMovePlugin(file, null, recursive, cs))

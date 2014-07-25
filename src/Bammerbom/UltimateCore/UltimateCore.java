@@ -232,9 +232,9 @@ public class UltimateCore extends JavaPlugin{
 			UltimateMetrics metrics = null;
 			try {
 				metrics = new UltimateMetrics(this);
+				metrics.start();
 			} catch (IOException e) {
 			}
-			metrics.start();
 			//r.log(ChatColor.YELLOW + "Loaded plugin metrics.");
 		}else{
 			//r.log(ChatColor.YELLOW + "Metrics disabled in config.");
