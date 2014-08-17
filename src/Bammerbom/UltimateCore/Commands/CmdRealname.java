@@ -31,7 +31,7 @@ public class CmdRealname implements Listener{
 		//SEARCH
 	    String lowerName = args[0].toLowerCase();
 	    int delta = -1;
-	    for (Player player : UC.getOnlinePlayers()){
+	    for (Player player : r.getOnlinePlayers()){
 	      if (ChatColor.stripColor(UC.getPlayer(player).getNick()).toLowerCase().startsWith(lowerName)) {
 	        int curDelta = player.getName().length() - lowerName.length();
 	        if (curDelta < delta) {

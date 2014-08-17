@@ -79,6 +79,7 @@ import Bammerbom.UltimateCore.Events.EventChat;
 import Bammerbom.UltimateCore.Events.EventColorSign;
 import Bammerbom.UltimateCore.Events.EventColoredTAB;
 import Bammerbom.UltimateCore.Events.EventDeathmessages;
+import Bammerbom.UltimateCore.Events.EventDynmapSupport;
 import Bammerbom.UltimateCore.Events.EventExplosion;
 import Bammerbom.UltimateCore.Events.EventMOTD;
 import Bammerbom.UltimateCore.Events.EventMessages;
@@ -206,6 +207,7 @@ public class UltimateCore extends JavaPlugin{
 	    new EventColoredTAB(this);
 	    new EventNoPluginSteal(this);
 	    new EventTeleportDelay(this);
+	    new EventDynmapSupport(this);
 	    //
 	    new FireworkEffectPlayer();
 	    new GhostsUtil(this);
@@ -263,6 +265,7 @@ public class UltimateCore extends JavaPlugin{
 		Bukkit.getScheduler().cancelTasks(this);
 		getServer().getServicesManager().unregisterAll(this);
 		BossBar.disable();
+		EventDynmapSupport.stop();
 		System.gc();
 		//database.disable();
 		items.disable();

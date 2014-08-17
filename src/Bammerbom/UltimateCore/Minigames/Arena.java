@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.Location;
 
-import Bammerbom.UltimateCore.API.UC;
+import Bammerbom.UltimateCore.r;
  
 /**
 *
@@ -136,10 +136,10 @@ this.inGame = inGame;
 //To send each player in the arena a message
 public void sendMessage(String message) {
 for (String s: players) {
-UC.searchPlayer(s).sendMessage(message);
+r.searchPlayer(s).sendMessage(message);
 }
 for(String s : spectators){
-	UC.searchPlayer(s).sendMessage(message);
+	r.searchPlayer(s).sendMessage(message);
 }
 }
  

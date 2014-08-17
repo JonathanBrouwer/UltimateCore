@@ -32,7 +32,7 @@ public class CmdMsg{
 			return;
 		}
 
-		Player pl = UC.searchPlayer(args[0]);
+		Player pl = r.searchPlayer(args[0]);
 		if(pl == null){
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			return;
@@ -52,7 +52,7 @@ public class CmdMsg{
 		sender.sendMessage(r.default1 + "[" + r.default2 + "me " + r.default1 + "-> " + r.default2 + pl.getName() + r.default1 + "] " + cc2 + r.getFinalArg(args, 1));
 		pl.sendMessage(r.default1 + "[" + r.default2 + sender.getName() + r.default1 + " -> " + r.default2 + "me" + r.default1 + "] " + cc2 + r.getFinalArg(args, 1));
 		//Spy
-		for(Player p : UC.getOnlinePlayers()){
+		for(Player p : r.getOnlinePlayers()){
 			UCplayer up = UC.getPlayer(p);
 			if(up.isSpy()){
 				p.sendMessage(ChatColor.GRAY + "[" + ChatColor.WHITE + sender.getName() + ChatColor.GRAY + " -> " + ChatColor.WHITE + pl.getName() + ChatColor.GRAY + "] " + ChatColor.WHITE + r.getFinalArg(args, 1));
@@ -79,7 +79,7 @@ public class CmdMsg{
 		String pl = conf.getString("lastmessage");
 		try{
 		UUID u = UUID.fromString(pl);
-		if(UC.searchPlayer(u) == null){
+		if(r.searchPlayer(u) == null){
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", "-"));
 			return;
 		}
@@ -87,7 +87,7 @@ public class CmdMsg{
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", "-"));
 			return;
 		}
-		Player t = UC.searchPlayer(UUID.fromString(pl));
+		Player t = r.searchPlayer(UUID.fromString(pl));
 		//TODO
 		if(sender instanceof Player){
 			//sender
@@ -109,7 +109,7 @@ public class CmdMsg{
 		sender.sendMessage(r.default1 + "[" + r.default2 + "me " + r.default1 + "-> " + r.default2 + t.getName() + r.default1 + "] " + cc2 + r.getFinalArg(args, 0));
 		t.sendMessage(r.default1 + "[" + r.default2 + sender.getName() + r.default1 + " -> " + r.default2 + "me" + r.default1 + "] " + cc2 + r.getFinalArg(args, 0));
 		//Spy
-		for(Player pp : UC.getOnlinePlayers()){
+		for(Player pp : r.getOnlinePlayers()){
 			UCplayer up = UC.getPlayer(pp);
 			if(up.isSpy()){
 				pp.sendMessage(ChatColor.GRAY + "[" + ChatColor.WHITE + sender.getName() + ChatColor.GRAY + " -> " + ChatColor.WHITE + t.getName() + ChatColor.GRAY + "] " + ChatColor.WHITE + r.getFinalArg(args, 0));

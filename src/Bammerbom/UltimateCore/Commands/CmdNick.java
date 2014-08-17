@@ -10,7 +10,6 @@ import org.bukkit.plugin.Plugin;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 
 public class CmdNick implements Listener{
 	static Plugin plugin;
@@ -33,7 +32,7 @@ public class CmdNick implements Listener{
 			Player t;
 			if(r.checkArgs(args, 1)){
 				o = true;
-				t = UC.searchPlayer(args[1]);
+				t = r.searchPlayer(args[1]);
 				if(t == null){ sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1])); return; }
 			}else{
 				if(!r.isPlayer(sender)) return;
@@ -50,7 +49,7 @@ public class CmdNick implements Listener{
 		Player t;
 		if(r.checkArgs(args, 1)){
 			o = true;
-			t = UC.searchPlayer(args[1]);
+			t = r.searchPlayer(args[1]);
 			if(t == null){ sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1])); return; }
 		}else{
 			if(!r.isPlayer(sender)) return;

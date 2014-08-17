@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 
 public class CmdXP {
 	Plugin plugin;
@@ -46,7 +45,7 @@ public class CmdXP {
 			
 		}else if(r.checkArgs(args, 1)){
 			if(!r.perm(sender, "uc.xp", false, false) && !r.perm(sender, "uc.xp.set.others", false, false)){ sender.sendMessage(r.mes("NoPermissions")); return; }
-			Player p = UC.searchPlayer(args[1]);
+			Player p = r.searchPlayer(args[1]);
 			if(p == null){ sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1])); return; }
 			String amount = args[0];
 			Integer x = null;
@@ -90,7 +89,7 @@ public class CmdXP {
 			
 		}else if(r.checkArgs(args, 1)){
 			if(!r.perm(sender, "uc.xp", false, false) && !r.perm(sender, "uc.xp.set.others", false, false)){ sender.sendMessage(r.mes("NoPermissions")); return; }
-			Player p = UC.searchPlayer(args[1]);
+			Player p = r.searchPlayer(args[1]);
 			if(p == null){ sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1])); return; }
 			String amount = args[0];
 			Integer x = null;
@@ -116,8 +115,8 @@ public class CmdXP {
 			String rawxp = args[0];
 			String xp = args[0].endsWith("L") ? rawxp : rawxp.replaceAll("L", "").replaceAll("l", "");
 			if(!r.isNumber(xp)){
-				if(UC.searchPlayer(args[0]) != null){
-					Player p = UC.searchPlayer(args[0]);
+				if(r.searchPlayer(args[0]) != null){
+					Player p = r.searchPlayer(args[0]);
 					if(!r.perm(sender, "uc.xp", false, false) && !r.perm(sender, "uc.xp.show.others", false, false)){ sender.sendMessage(r.mes("NoPermissions")); return; }
 					sender.sendMessage(r.mes("XP.Show").replaceAll("%Player", p.getName()).replaceAll("%XP", getXP(p) + "").replaceAll("%Levels", p.getLevel() + ""));
 					return;
@@ -160,7 +159,7 @@ public class CmdXP {
 					return;
 			}
 			Integer x = Integer.parseInt(xp);
-			Player t = UC.searchPlayer(args[1]);
+			Player t = r.searchPlayer(args[1]);
 			if(t == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1]));
 				return;

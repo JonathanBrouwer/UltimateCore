@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.Plugin;
 
-import Bammerbom.UltimateCore.API.UC;
+import Bammerbom.UltimateCore.r;
 
 public class EventMOTD implements Listener{
 	static Plugin plugin;
@@ -58,7 +58,7 @@ public class EventMOTD implements Listener{
 				if(!msg.equalsIgnoreCase("")){
 					e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', msg
 							.replaceAll("%Player", e.getPlayer().getName()).replaceAll("\\{PLAYER\\}", e.getPlayer().getName())
-							.replaceAll("%Online", UC.getOnlinePlayers().length + "").replaceAll("\\{ONLINE\\}", UC.getOnlinePlayers().length + "")
+							.replaceAll("%Online", r.getOnlinePlayers().length + "").replaceAll("\\{ONLINE\\}", r.getOnlinePlayers().length + "")
 							.replaceAll("%Unique", Bukkit.getOfflinePlayers().length + "").replaceAll("\\{UNIQUE\\}", Bukkit.getOfflinePlayers().length + "")));
 				}
 			}

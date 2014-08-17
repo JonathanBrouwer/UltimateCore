@@ -15,7 +15,6 @@ import Bammerbom.UltimateCore.UltimateCommands;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.Utils.DateUtil;
 
 
@@ -97,7 +96,7 @@ public class CmdVanish implements Listener{
 		return false;
 	}
 	public static void Vanish(OfflinePlayer p, Boolean set, Long time){
-		for(Player pl : UC.getOnlinePlayers()){
+		for(Player pl : r.getOnlinePlayers()){
 			if(p.isOnline()){
 				Player p2 = (Player) p;
 			if(set == true){
@@ -119,7 +118,7 @@ public class CmdVanish implements Listener{
 
 			@Override
 			public void run() {
-				for(Player p : UC.getOnlinePlayers()){
+				for(Player p : r.getOnlinePlayers()){
 					if(vanishgone(p, true)){
 						p.sendMessage(r.mes("Vanish.Unvanishtarget"));
 					}
@@ -131,7 +130,7 @@ public class CmdVanish implements Listener{
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onJoin(PlayerJoinEvent e){
-		for(Player pl : UC.getOnlinePlayers()){
+		for(Player pl : r.getOnlinePlayers()){
 			if(Vanish(pl)){
 				e.getPlayer().hidePlayer(pl);
 			}
@@ -139,12 +138,12 @@ public class CmdVanish implements Listener{
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onQuit(PlayerQuitEvent e){
-		for(Player pl : UC.getOnlinePlayers()){
+		for(Player pl : r.getOnlinePlayers()){
 			e.getPlayer().showPlayer(pl);
 		}
 		if(Vanish(e.getPlayer())){
 			Vanish(e.getPlayer(), false, 0L);
-			for(Player p : UC.getOnlinePlayers()){
+			for(Player p : r.getOnlinePlayers()){
 				p.showPlayer(e.getPlayer());
 			}
 		}

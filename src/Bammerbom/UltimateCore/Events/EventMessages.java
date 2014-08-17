@@ -20,7 +20,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.BossBar;
 
 public class EventMessages implements Listener{
@@ -81,7 +80,7 @@ public class EventMessages implements Listener{
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 			@Override
 			public void run() {
-				for(Player p : UC.getOnlinePlayers()){
+				for(Player p : r.getOnlinePlayers()){
 					BossBar.handleTeleport(p, p.getLocation());
 				}
 				
@@ -104,7 +103,7 @@ public class EventMessages implements Listener{
 					mess = messgs.get(currentID);
 				}
 			}
-			for(Player p : UC.getOnlinePlayers()){
+			for(Player p : r.getOnlinePlayers()){
 				if(r.getCnfg().getBoolean("messages.enabledbossbar") == true){
 					if(decrease){
 						BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1  + mess), time);
@@ -126,7 +125,7 @@ public class EventMessages implements Listener{
 		Integer length = messgs.size();
 		if(length == 0){ return; }
 		if(length == 1){
-			for(Player p : UC.getOnlinePlayers()){
+			for(Player p : r.getOnlinePlayers()){
 				if(r.getCnfg().getBoolean("messages.enabledbossbar") == true){
 					BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0)), 100F);
 					currentmessage = ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0));

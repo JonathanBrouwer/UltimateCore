@@ -9,7 +9,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.MapPotionEffects;
 
 public class CmdEffect{
@@ -28,7 +27,7 @@ public class CmdEffect{
 			return;
 		}
 		Player p = (Player) sender;
-		Player t = UC.searchPlayer(args[0]);
+		Player t = r.searchPlayer(args[0]);
 		if(t == null){
 			p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			return;

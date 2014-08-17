@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 
 public class CmdKickall{
 	static Plugin plugin;
@@ -22,14 +21,14 @@ public class CmdKickall{
 			return;
 		}
 		if(!r.checkArgs(args, 0)){
-			for(Player p : UC.getOnlinePlayers()){
+			for(Player p : r.getOnlinePlayers()){
 				if(!r.perm(p, "uc.antiban", false, false) && !p.equals(sender)){
 					p.kickPlayer("");
 				}
 			}
 			return;
 		}else{
-			for(Player p : UC.getOnlinePlayers()){
+			for(Player p : r.getOnlinePlayers()){
 				if(!r.perm(p, "uc.antiban", false, false) && !p.equals(sender)){
 					p.kickPlayer(r.getFinalArg(args, 0));
 				}

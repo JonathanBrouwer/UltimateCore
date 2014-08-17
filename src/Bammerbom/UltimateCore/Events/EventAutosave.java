@@ -27,7 +27,10 @@ public class EventAutosave{
 						if(r.getCnfg().getBoolean("Autosave.message") == true){
 							Bukkit.broadcastMessage(r.mes("Save.Start"));
 							for(World w : Bukkit.getWorlds()){
+								try{
 								w.save();
+								}catch(Exception ex){
+								}
 								for(Chunk chunk : w.getLoadedChunks()){
 									try{
 									chunk.unload(true, true);
@@ -39,7 +42,10 @@ public class EventAutosave{
 							Bukkit.broadcastMessage(r.mes("Save.Done"));
 						}else{
 							for(World w : Bukkit.getWorlds()){
+								try{
 								w.save();
+								}catch(Exception ex){
+								}
 								for(Chunk chunk : w.getLoadedChunks()){
 									try{
 									chunk.unload(true, true);
@@ -56,12 +62,15 @@ public class EventAutosave{
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 			public void run(){
 				for(World w : Bukkit.getWorlds()){
+					try{
 					for(Chunk chunk : w.getLoadedChunks()){
 						try{
 						chunk.unload(true, true);
 						}catch(Exception ex){
 							return;
 						}
+					}
+					}catch(Exception ex){
 					}
 				}
 			}

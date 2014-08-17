@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.Utils.ReflectionUtil;
 
 public class CmdPing {
@@ -25,7 +24,7 @@ public class CmdPing {
 			}
 			Player pl;
 			if(r.checkArgs(args, 0)){
-			    pl = UC.searchPlayer(args[0]);
+			    pl = r.searchPlayer(args[0]);
 			}else{
 				if(!r.isPlayer(sender)){
 					return;

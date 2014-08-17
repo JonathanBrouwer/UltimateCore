@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 
 public class CmdCoords{
 	static Plugin plugin;
@@ -22,7 +21,7 @@ public class CmdCoords{
     		if(!r.perm(sender, "uc.coords.others", false, true)){
     			return;
     		}
-    		Player p = UC.searchPlayer(args[0]);
+    		Player p = r.searchPlayer(args[0]);
     		if(p == null){ sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0])); return; }
     		sender.sendMessage(r.mes("Coords.Others").replaceAll("%Player", p.getName()).replaceAll("%Location", p.getWorld().getName() + " " + p.getLocation().getBlockX() + " " + p.getLocation().getBlockY() + " " + p.getLocation().getBlockZ()));
     	}else{

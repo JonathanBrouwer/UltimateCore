@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 
 public class CmdBurn{
 	static Plugin plugin;
@@ -30,8 +29,8 @@ public class CmdBurn{
 		}
 		Double time = 10.0;
 		Player t;
-		if(UC.searchPlayer(args[0]) != null){
-			t = UC.searchPlayer(args[0]);
+		if(r.searchPlayer(args[0]) != null){
+			t = r.searchPlayer(args[0]);
 		}else{
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			return;

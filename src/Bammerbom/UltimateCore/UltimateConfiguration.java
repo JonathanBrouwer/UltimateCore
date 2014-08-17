@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -98,6 +99,16 @@ public class UltimateConfiguration implements Cloneable{
 		    }
 		  }
 	//TODO save
+	@SuppressWarnings("deprecation")
+	public void reload() {
+	    // Look for defaults in the jar
+	    InputStream defConfigStream = Bukkit.getPluginManager().getPlugin("UltimateCore").getResource(file.getName());
+	    
+	    if (defConfigStream != null) {
+	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+	        conf.setDefaults(defConfig);
+	    }
+	}
 	public void save(){
 		save(file);
 	}

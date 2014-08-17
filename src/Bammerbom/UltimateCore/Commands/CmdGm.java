@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 
 public class CmdGm{
 	static Plugin plugin;
@@ -58,7 +57,7 @@ public class CmdGm{
 			}}
     	}
 		else if(args.length == 2){
-			Player target = UC.searchPlayer(args[1]);
+			Player target = r.searchPlayer(args[1]);
 			if(target == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1]));
 				return;

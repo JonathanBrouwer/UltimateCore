@@ -2,6 +2,8 @@ package Bammerbom.UltimateCore.API;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -9,7 +11,9 @@ import org.bukkit.BanList;
 import org.bukkit.BanList.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import Bammerbom.UltimateCore.UltimateConfiguration;
@@ -189,7 +193,7 @@ public class UCplayer{
 		String reas = r.mes("Ban.Message").replaceAll("%Time", timen).replaceAll("%Reason", reason);
 		if(banp.isOnline()){
 			EventActionMessage.setEnb(false);
-			UC.searchPlayer(banp.getName()).kickPlayer(reas);
+			r.searchPlayer(banp.getName()).kickPlayer(reas);
 			EventActionMessage.setEnb(true);
 		}
 		//pconf
@@ -217,7 +221,7 @@ public class UCplayer{
 		String reas = r.mes("Ban.Message").replaceAll("%Time", times).replaceAll("%Reason", reason);
 		if(banp.isOnline()){
 			EventActionMessage.setEnb(false);
-			UC.searchPlayer(banp.getName()).kickPlayer(reas);
+			r.searchPlayer(banp.getName()).kickPlayer(reas);
 			EventActionMessage.setEnb(true);
 		}
 		//pconf
@@ -243,7 +247,7 @@ public class UCplayer{
 		}
 	}
 	public Player getOnlinePlayer(){
-		return UC.searchPlayer(uuid);
+		return r.searchPlayer(uuid);
 	}
 	public OfflinePlayer getPlayer(){
 		return Bukkit.getOfflinePlayer(uuid);
@@ -326,5 +330,56 @@ public class UCplayer{
 			data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
 		}
 		
+	}
+	public boolean isVanished(){
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		if(data.get("vanish") == null){
+			return false;
+		}
+		if(data.getBoolean("vanish") == false) return false;
+		if(data.getLong("vanishtime") == 0 || data.getLong("vanish") == -1) return false;
+		if(System.currentTimeMillis() >= data.getLong("vanishtime")){
+			setVanished(false);
+			return true;
+		}
+		return data.getBoolean("vanish");
+	}
+	public void setVanished(Boolean van){
+		setVanished(van, 0L);
+	}
+	public void setVanished(Boolean van, Long time){
+		for(Player pl : r.getOnlinePlayers()){
+			if(getPlayer().isOnline()){
+				Player p2 = getOnlinePlayer();;
+			if(van){
+				pl.hidePlayer(p2);
+			}else{
+				pl.showPlayer(p2);
+			}
+			}
+		}
+		
+		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.getPlayerFile(getPlayer()));
+		data.set("vanish", van);
+		data.set("vanishtime", time);
+		data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
+	}
+	@SuppressWarnings("unchecked")
+	public Map<String, Location> getHomes(){
+		HashMap<String, Location> rtrn = new HashMap<String, Location>();
+		UltimateConfiguration data = UltimateFileLoader.getPlayerConfig(getPlayer());
+		ArrayList<String> homes = (ArrayList<String>) data.getList("homeslist");
+		for(String str : homes){
+		String[] loc = data.getString("homes." + str.toLowerCase().split(":")[1]).split(",");
+        World w = Bukkit.getWorld(loc[0]);
+        Double x = Double.parseDouble(loc[1]);
+        Double y = Double.parseDouble(loc[2]);
+        Double z = Double.parseDouble(loc[3]);
+        float yaw = Float.parseFloat(loc[4]);
+        float pitch = Float.parseFloat(loc[5]);
+        Location location = new Location(w, x, y, z, yaw, pitch);
+        rtrn.put(str, location);
+		}
+		return rtrn;
 	}
 }

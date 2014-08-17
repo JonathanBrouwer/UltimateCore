@@ -55,7 +55,7 @@ public class CmdJail implements Listener{
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 			@Override
 			public void run(){
-				for(Player p : UC.getOnlinePlayers()){
+				for(Player p : r.getOnlinePlayers()){
 					if(UC.getPlayer(p).isJailed()){
 					if(jailgone(p, true)){
 						UC.getPlayer(p).setJailed(false, "", 0L);
@@ -91,11 +91,11 @@ public class CmdJail implements Listener{
 			}
 			UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.DFjails);
 			String player = args[0];
-			if(UC.searchPlayer(player) == null){
+			if(r.searchPlayer(player) == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;
 			}
-			Player t = UC.searchPlayer(player);
+			Player t = r.searchPlayer(player);
 			UCplayer ut = UC.getPlayer(t);
 			if(ut.isJailed()){
 				sender.sendMessage(r.mes("Jail.AlreadyJailed").replaceAll("%Player", args[0]));
@@ -147,7 +147,7 @@ public class CmdJail implements Listener{
 			sender.sendMessage(r.mes("Jail.Usage2"));
 			return;
 		}
-		Player t = UC.searchPlayer(args[0]);
+		Player t = r.searchPlayer(args[0]);
 		if(t == null){
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			return;

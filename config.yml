@@ -42,6 +42,13 @@ AutoRespawn: false
 gtool: true
 #May you move when you are jailed?
 jailmove: false
+#Dynmap support (Nothing happens without Dynmap)
+Dynmap:
+  enable: false
+  #Show warps?
+  warps: true
+  #Warps that are not shown, you can even use world:someworld to show no warps in that world.
+  hiddenwarps: [hiddenwarp1, hiddenwarp2, world:hiddenworld]
 
 Afk:
   Enabled: true

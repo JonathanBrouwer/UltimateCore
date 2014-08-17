@@ -40,13 +40,13 @@ public class EventAFK implements Listener{
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
-		for(Player p : UC.getOnlinePlayers()){
+		for(Player p : r.getOnlinePlayers()){
 			lastaction.put(p.getName(), System.currentTimeMillis());
 		}
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new Runnable(){
 			public void run(){
 				for(String str : lastaction.keySet()){
-					Player p = UC.searchPlayer(str);
+					Player p = r.searchPlayer(str);
 					Long time = lastaction.get(str);
 						Long seconds1 = time / 1000;
 						Long seconds2 = System.currentTimeMillis() / 1000;
@@ -89,8 +89,8 @@ public class EventAFK implements Listener{
 		}else{
 			if(!r.perm(sender, "uc.afk.others", false, true)) return;
 			String target = args[0];
-			if(UC.searchPlayer(target) != null){
-				Player t = UC.searchPlayer(target);
+			if(r.searchPlayer(target) != null){
+				Player t = r.searchPlayer(target);
 				if(!afk.contains(t.getUniqueId())){
 					Bukkit.broadcastMessage(r.mes("Afk.Afk").replaceAll("%Player", UC.getPlayer(t).getNick()));
 					afk.add(t.getUniqueId());

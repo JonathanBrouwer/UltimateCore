@@ -1,12 +1,12 @@
 name: UltimateCore
-version: 1.0.7
+version: 1.0.9
 description: Ultimate Core is all you need to setup a server and more!
 author: Bammerbom
 authors: [Bammerbom, blockbreaker21, TheChunkWorld]
 website: dev.bukkit.org/bukkit-plugins/ultimate_core
 main: Bammerbom.UltimateCore.UltimateCore
 prefix: UltimateCore
-softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions]
+softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions, dynmap]
 commands:
   accountstatus:
     description: Check if an account is premium or not.

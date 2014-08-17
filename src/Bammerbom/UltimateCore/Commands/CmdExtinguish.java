@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 
 public class CmdExtinguish{
 	static Plugin plugin;
@@ -34,7 +33,7 @@ public class CmdExtinguish{
 			if(!r.perm(sender, "uc.extinguish.others", false, true)){
 				return;
 			}
-			Player target = UC.searchPlayer(args[0]);
+			Player target = r.searchPlayer(args[0]);
 			if(target == null || !target.isOnline()){
 				p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;

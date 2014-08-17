@@ -9,7 +9,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 
 public class CmdKill{
 	static Plugin plugin;
@@ -36,7 +35,7 @@ public class CmdKill{
 			if(!r.perm(sender, "uc.kill.others", false, true)){
 				return;
 			}
-			Player target = UC.searchPlayer(args[0]);
+			Player target = r.searchPlayer(args[0]);
 			if(target == null){
 				sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 				return;

@@ -34,7 +34,6 @@ import org.bukkit.plugin.Plugin;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.API.UCworld;
 import Bammerbom.UltimateCore.API.UCworld.WorldFlag;
 import Bammerbom.UltimateCore.Resources.MobType;
@@ -243,7 +242,7 @@ public class CmdWorld implements Listener{
 				sender.sendMessage(r.mes("World.NotFound").replaceAll("%world", args[1]));
 				return;
 			}
-			for(Player pl : UC.getOnlinePlayers()){
+			for(Player pl : r.getOnlinePlayers()){
 				if(pl.getWorld().equals(world)){
 					World w2 = Bukkit.getWorlds().get(0);
 					pl.teleport(w2.getSpawnLocation(), TeleportCause.PLUGIN);

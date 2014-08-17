@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 import Bammerbom.UltimateCore.Resources.MetaItemStack;
 import Bammerbom.UltimateCore.Resources.Databases.ItemDatabase;
 import Bammerbom.UltimateCore.Resources.Utils.InventoryUtil;
@@ -28,7 +27,7 @@ public class CmdGive implements Listener{
 			sender.sendMessage(r.mes("Give.Usage"));
 			return;
 		}
-		Player target = UC.searchPlayer(args[0]);
+		Player target = r.searchPlayer(args[0]);
 		if(target == null){
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 			return;

@@ -74,7 +74,7 @@ public class CmdTp implements Listener{
 			if(!r.isPlayer(sender)) return;
 			final Player p = (Player) sender;
 			p.sendMessage(r.mes("Tp.Tpa.Send").replaceAll("%Player", "everyone"));
-			for(final Player t : UC.getOnlinePlayers()){
+			for(final Player t : r.getOnlinePlayers()){
 				if(UC.getPlayer(t).hasTeleportEnabled()){
 			tph.put(t.getName(), p.getName());
 			t.sendMessage(r.mes("Tp.Tpa.TpaTarget1_HERE").replaceAll("%Player", p.getName()));
@@ -99,7 +99,7 @@ public class CmdTp implements Listener{
 				return;
 			}
 			final Player p = (Player) sender;
-			final Player t = UC.searchPlayer(args[0]);
+			final Player t = r.searchPlayer(args[0]);
 			if(t == null){ p.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0])); return; }
 			if(UC.getPlayer(t).hasTeleportEnabled() == false && !r.perm(sender, "uc.tptoggle.override", false, false)){
 				p.sendMessage(r.default1 + "This player has teleportation Disabled!");
@@ -152,7 +152,7 @@ public class CmdTp implements Listener{
 				return;
 			}
 		}
-		Player tg = UC.searchPlayer(args[0]);
+		Player tg = r.searchPlayer(args[0]);
 		if(tg == null){
 			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
 		}else{
@@ -196,7 +196,7 @@ public class CmdTp implements Listener{
 				sender
 				.sendMessage(r.mes("Tp.Tp1").replaceAll("%Player", tg.getName()));
 			}else{
-				Player p = UC.searchPlayer(args[1]);
+				Player p = r.searchPlayer(args[1]);
 				if(p == null){
 					sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[1]));
 				}else{
@@ -220,8 +220,8 @@ public class CmdTp implements Listener{
 	}
 	public static void tpCo(Player p, String[] args, Boolean ip){
 		Player pl = p;
-		if(UC.searchPlayer(args[0]) != null){
-			pl = UC.searchPlayer(args[0]);
+		if(r.searchPlayer(args[0]) != null){
+			pl = r.searchPlayer(args[0]);
 			if(UC.getPlayer(pl).hasTeleportEnabled() == false && !r.perm(p, "uc.tptoggle.override", false, false)){
 				p.sendMessage(r.default1 + "This player has teleportation Disabled!");
 				return;
@@ -267,16 +267,16 @@ public class CmdTp implements Listener{
 		if(p == null){
 			return;
 		}
-		if(UC.getOnlinePlayers().length > 64){
+		if(r.getOnlinePlayers().length > 64){
 			p.sendMessage(r.default1 + "Too much players online to display, use /tp(a) <Player>");
 			return;
 		}
 		Integer size = 9;
-		while(UC.getOnlinePlayers().length > size){
+		while(r.getOnlinePlayers().length > size){
 			size = size + 9;
 		}
 		Inventory inv = Bukkit.createInventory(null, size, r.default1 + "Select player");
-		for(Player pl : UC.getOnlinePlayers()){
+		for(Player pl : r.getOnlinePlayers()){
 			if(!(pl == p)){
 			ItemStack item = new ItemStack(Material.SKULL_ITEM);
 			item.setDurability(Short.parseShort("3")); 
@@ -327,7 +327,7 @@ public class CmdTp implements Listener{
 	public static void tpaccept(CommandSender player) {
 		Player p = (Player)player;
 		if(tph.containsKey(p.getName())){
-			Player t = UC.searchPlayer(tph.get(p.getName()));
+			Player t = r.searchPlayer(tph.get(p.getName()));
 			if(t == null) {
 				p.sendMessage(r.mes("Tp.Tpa.NoRequests"));
 			}else{
@@ -343,7 +343,7 @@ public class CmdTp implements Listener{
 			return;
 		}
 		if(!tp.containsKey(p.getName())){p.sendMessage(r.mes("Tp.Tpa.NoRequests")); return; }
-		Player t = UC.searchPlayer(tp.get(p.getName()));
+		Player t = r.searchPlayer(tp.get(p.getName()));
 		if(tp.containsKey(p.getName())){
 			if(t == null) {
 				p.sendMessage(r.mes("Tp.Tpa.NoRequests"));
@@ -376,7 +376,7 @@ public class CmdTp implements Listener{
 	public static void tpdeny(CommandSender player) {
 		Player p = (Player)player;
 		if(!tp.containsKey(p.getName())){p.sendMessage(r.mes("Tp.Tpa.NoRequests")); return; }
-		Player t = UC.searchPlayer(tp.get(p.getName()));
+		Player t = r.searchPlayer(tp.get(p.getName()));
 		if(tp.containsKey(p.getName())){
 			if(t == null) {
 				p.sendMessage(r.mes("Tp.Tpa.NoRequests"));
@@ -396,7 +396,7 @@ public class CmdTp implements Listener{
 		if(oi.contains(e.getWhoClicked().getName())){
 			oi.remove(e.getWhoClicked().getName());
 			e.setCancelled(true);
-			Player p = UC.searchPlayer(e.getWhoClicked().getName());
+			Player p = r.searchPlayer(e.getWhoClicked().getName());
 			UltimateCommands.executecommand(p, "tp " + ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()));
 			e.getWhoClicked().closeInventory();
 		}

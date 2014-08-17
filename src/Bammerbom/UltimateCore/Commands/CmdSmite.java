@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.API.UC;
 
 public class CmdSmite{
 	static Plugin plugin;
@@ -25,7 +24,7 @@ public class CmdSmite{
     		if(!r.perm(sender, "uc.smite.others", false, true)){
     			return;
     		}
-    		Player target = UC.searchPlayer(args[0]);
+    		Player target = r.searchPlayer(args[0]);
     		if(target == null){
     			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
     			return;
@@ -59,7 +58,7 @@ public class CmdSmite{
     		if(!r.perm(sender, "uc.megasmite.others", false, true)){
     			return;
     		}
-    		Player target = UC.searchPlayer(args[0]);
+    		Player target = r.searchPlayer(args[0]);
     		if(target == null){
     			sender.sendMessage(r.mes("PlayerNotFound").replaceAll("%Player", args[0]));
     			return;
