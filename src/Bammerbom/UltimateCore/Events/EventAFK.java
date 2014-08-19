@@ -181,17 +181,11 @@ public class EventAFK implements Listener{
 		}
 	}
 	public void update(final PlayerEvent e){
-		Thread thread = new Thread(new Runnable(){
-			public void run(){
-				Player p = e.getPlayer();
-				lastaction.put(p.getName(), System.currentTimeMillis());
-				if(afk.contains(p.getUniqueId())){
-					afk.remove(p.getUniqueId());
-					Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", UC.getPlayer(p).getNick()));
-				}
-			}
-		});
-		thread.setName("UltimateCore: AFK Thread");
-		thread.start();
+	    Player p = e.getPlayer();
+		lastaction.put(p.getName(), System.currentTimeMillis());
+		if(afk.contains(p.getUniqueId())){
+			afk.remove(p.getUniqueId());
+			Bukkit.broadcastMessage(r.mes("Afk.Unafk").replaceAll("%Player", UC.getPlayer(p).getNick()));
+		}
 	}
 }

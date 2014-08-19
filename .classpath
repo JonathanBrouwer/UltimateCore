@@ -3,8 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/Vault.jar"/>
-	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/WorldEdit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/craftbukkit-1.7.10-R0.1-20140716.024944-5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/dynmap.jar"/>
+	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/BKCommonLib.jar"/>
+	<classpathentry kind="lib" path="C:/Users/p6340nl/Desktop/WorldEdit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
