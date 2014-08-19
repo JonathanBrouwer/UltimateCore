@@ -15,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.Resources.Utils.LocationUtil;
 
 public class CmdWarp{
 	static Plugin plugin;
@@ -83,7 +84,7 @@ public class CmdWarp{
 	        float pitch = Float.parseFloat(loc[5]);
 	        Location location = new Location(w, x, y, z, yaw, pitch);
 	        if(r.isPlayer(sender)){
-	        	p.teleport(location, TeleportCause.COMMAND);
+	        	LocationUtil.teleportUnsafe(p, location, TeleportCause.COMMAND);
 	        }
 			sender.sendMessage(r.mes("Warp.Warped").replaceAll("%Warp", args[0]));
 			

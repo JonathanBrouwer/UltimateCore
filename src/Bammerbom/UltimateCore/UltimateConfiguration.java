@@ -350,16 +350,16 @@ public class UltimateConfiguration implements Cloneable{
 	  public String getString(String path){
 		  return conf.getString(path);
 	  }
-	  public Boolean getBoolean(String path){
+	  public boolean getBoolean(String path){
 		  return conf.getBoolean(path);
 	  }
-	  public Double getDouble(String path){
+	  public double getDouble(String path){
 		  return conf.getDouble(path);
 	  }
-	  public Integer getInt(String path){
+	  public int getInt(String path){
 		  return conf.getInt(path);
 	  }
-	  public Long getLong(String path){
+	  public long getLong(String path){
 		  return conf.getLong(path);
 	  }
 	  public List<?> getList(String path){

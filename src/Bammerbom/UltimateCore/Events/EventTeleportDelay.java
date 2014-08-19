@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.Resources.Utils.LocationUtil;
 
 public class EventTeleportDelay implements Listener{
 	
@@ -41,7 +42,7 @@ public class EventTeleportDelay implements Listener{
 				@Override
 				public void run() {
 					if(e.getPlayer().getLocation().getBlock().getLocation().equals(loc)){
-					    e.getPlayer().teleport(to);
+					    LocationUtil.teleport(e.getPlayer(), to, e.getCause());
 					    e.getPlayer().sendMessage(ChatColor.GREEN + "Teleportation succeed!");
 					}else{
 						e.getPlayer().sendMessage(ChatColor.DARK_RED + "Teleportation failed, you moved!");

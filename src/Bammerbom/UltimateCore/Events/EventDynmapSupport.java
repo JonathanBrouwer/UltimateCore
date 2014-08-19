@@ -40,6 +40,7 @@ public class EventDynmapSupport implements Listener{
 	static boolean warpsE = r.getCnfg().getBoolean("Dynmap.warps");
 	static private Set<UUID> hiddenasserts = new HashSet<UUID>();
 	public EventDynmapSupport(Plugin instance){
+		
 		reload = false;
 		plugin = instance;
 		if(r.getCnfg().getBoolean("Dynmap.enable") == true 

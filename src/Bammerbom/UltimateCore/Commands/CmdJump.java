@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.Resources.Utils.LocationUtil;
 
 public class CmdJump {
 	static Plugin plugin;
@@ -93,7 +94,7 @@ public class CmdJump {
 		loc.setYaw(cloc.getYaw());
 		loc.setPitch(cloc.getPitch());
 		loc.setY(loc.getY() + 1);
-		p.teleport(loc, TeleportCause.COMMAND);
+		LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
 	}
 	@SuppressWarnings("deprecation")
 	public static Location getTarget(final LivingEntity entity)

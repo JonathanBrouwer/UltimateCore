@@ -38,6 +38,7 @@ import Bammerbom.UltimateCore.API.UCworld;
 import Bammerbom.UltimateCore.API.UCworld.WorldFlag;
 import Bammerbom.UltimateCore.Resources.MobType;
 import Bammerbom.UltimateCore.Resources.MobType.Enemies;
+import Bammerbom.UltimateCore.Resources.Utils.LocationUtil;
 import Bammerbom.UltimateCore.Resources.Utils.StringUtil;
 
 public class CmdWorld implements Listener{
@@ -245,7 +246,7 @@ public class CmdWorld implements Listener{
 			for(Player pl : r.getOnlinePlayers()){
 				if(pl.getWorld().equals(world)){
 					World w2 = Bukkit.getWorlds().get(0);
-					pl.teleport(w2.getSpawnLocation(), TeleportCause.PLUGIN);
+				    LocationUtil.teleport(pl, w2.getSpawnLocation(), TeleportCause.PLUGIN);
 				}
 			}
 			Bukkit.getServer().unloadWorld(world, true);
@@ -289,19 +290,6 @@ public class CmdWorld implements Listener{
 				sender.sendMessage(r.mes("World.NotFound").replaceAll("%world", args[1]));
 				return;
 			}
-			/*Boolean found = false;
-				for(World w : Bukkit.getWorlds()){
-					if(w.getEnvironment().equals(Environment.NORMAL)){
-						if(!w.equals(world)){
-							for(Player p : world.getPlayers()){
-								p.teleport(w.getSpawnLocation());
-							}
-							found = true;
-							break;
-						}
-					}
-				}
-				*/
 			if(world.getPlayers().size() > 0){
 				sender.sendMessage(r.default1 + "Can't reset world with players inside.");
 				return;
@@ -408,7 +396,7 @@ public class CmdWorld implements Listener{
 			}
 			final Player p = (Player) sender;
 			final Location loc = world.getSpawnLocation();
-			p.teleport(loc, TeleportCause.COMMAND);
+			LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
 		}
 	}
 	public static void flag(CommandSender sender, String[] args){

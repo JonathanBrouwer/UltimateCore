@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.Resources.Utils.LocationUtil;
 
 public class CmdTop {
 	static Plugin plugin;
@@ -29,7 +30,7 @@ public class CmdTop {
 			p.sendMessage(r.mes("Top.Failed"));
 			return;
 		}
-		p.teleport(loc, TeleportCause.COMMAND);
+		LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
 		p.sendMessage(r.mes("Top.Succes"));
 	}
 	public static Location getHighestY(Location loc){

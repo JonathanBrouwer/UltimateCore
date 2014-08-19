@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.Resources.Utils.LocationUtil;
 
 public class CmdTpall{
 	static Plugin plugin;
@@ -27,7 +28,7 @@ public class CmdTpall{
 	    Player p = (Player) sender;
 	    for(Player t : r.getOnlinePlayers()){
 	    	if(!t.equals(p)){
-	    		t.teleport(p, TeleportCause.COMMAND);
+	    		LocationUtil.teleport(t, p, TeleportCause.COMMAND);
 	    	}
 	    }
 	}

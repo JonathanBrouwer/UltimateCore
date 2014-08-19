@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.Resources.Utils.LocationUtil;
 
 public class CmdHome{
 	static Plugin plugin;
@@ -122,7 +123,7 @@ public class CmdHome{
 		        float pitch = Float.parseFloat(loc[5]);
 		        Location location = new Location(w, x, y, z, yaw, pitch);
 		        if(r.isPlayer(sender)){
-		        	p.teleport(location, TeleportCause.COMMAND);
+		        	LocationUtil.teleport(p, location, TeleportCause.COMMAND);
 		        }
 				sender.sendMessage(r.mes("Home.Hometp").replaceAll("%Home", args[0]));
 				}catch(Exception ex){
@@ -149,7 +150,7 @@ public class CmdHome{
 	        float pitch = Float.parseFloat(loc[5]);
 	        Location location = new Location(w, x, y, z, yaw, pitch);
 	        if(r.isPlayer(sender)){
-	        	p.teleport(location, TeleportCause.COMMAND);
+	        	LocationUtil.teleport(p, location, TeleportCause.COMMAND);
 	        }
 			sender.sendMessage(r.mes("Home.Hometp").replaceAll("%Home", args[0]));
 			}catch(Exception ex){

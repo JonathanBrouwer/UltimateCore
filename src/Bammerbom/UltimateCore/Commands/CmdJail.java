@@ -60,7 +60,7 @@ public class CmdJail implements Listener{
 					if(jailgone(p, true)){
 						UC.getPlayer(p).setJailed(false, "", 0L);
 						p.sendMessage(r.mes("Jail.Unjail"));
-						p.teleport(UC.getServer().getCustomSpawn() != null ? UC.getServer().getCustomSpawn() : p.getWorld().getSpawnLocation(), TeleportCause.PLUGIN);
+						LocationUtil.teleportUnsafe(p, UC.getServer().getCustomSpawn() != null ? UC.getServer().getCustomSpawn() : p.getWorld().getSpawnLocation(), TeleportCause.PLUGIN);
 					}
 					}
 				}
@@ -122,7 +122,7 @@ public class CmdJail implements Listener{
 				return;
 			}
 			Location loc = LocationUtil.convertStringToLocation(conf.getString("Jails." + jail));
-			t.teleport(loc, TeleportCause.PLUGIN);
+			LocationUtil.teleportUnsafe(t, loc, TeleportCause.PLUGIN);
 			t.setGameMode(GameMode.ADVENTURE);
 			ut.setJailed(true, jail, time);
 			t.sendMessage(r.mes("Jail.JailTarget").replaceAll("%Time", (time != -1L ? DateUtil.format(time) : "ever")));
@@ -169,7 +169,7 @@ public class CmdJail implements Listener{
 	        float yaw = Float.parseFloat(loc[4]);
 	        float pitch = Float.parseFloat(loc[5]);
 	        Location location = new Location(w, x, y, z, yaw, pitch);
-			t.teleport(location, TeleportCause.PLUGIN);
+			LocationUtil.teleportUnsafe(t, location, TeleportCause.PLUGIN);
 	    }
 	    t.setGameMode(Bukkit.getDefaultGameMode());
 		//

@@ -23,6 +23,11 @@ public class EventSpawn implements Listener {
 	}
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onRespawn(final PlayerRespawnEvent e){
+	    Location bed = e.getPlayer().getBedSpawnLocation();
+	    if (bed != null){
+	        e.setRespawnLocation(bed);
+	    	return;
+	    }
 		Location dl = e.getPlayer().getLocation();
 		UltimateConfiguration data = new UltimateConfiguration(UltimateFileLoader.DFspawns);
 	    if(data.get("spawn") != null){
@@ -45,7 +50,6 @@ public class EventSpawn implements Listener {
 		    String location2 = loc2.getWorld().getName() + "," + loc2.getX() + "," + loc2.getY() + "," + loc2.getZ() + "," + loc2.getYaw() + "," + loc2.getPitch();
 		    data2.set("back", location2);
 		    data2.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));
-	        
 	        //
 	    }else{
 	    	

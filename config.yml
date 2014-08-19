@@ -48,7 +48,7 @@ Dynmap:
   #Show warps?
   warps: true
   #Warps that are not shown, you can even use world:someworld to show no warps in that world.
-  hiddenwarps: [hiddenwarp1, hiddenwarp2, world:hiddenworld]
+  hiddenwarps: ['hiddenwarp1', 'hiddenwarp2', 'world:hiddenworld']
 
 Afk:
   Enabled: true

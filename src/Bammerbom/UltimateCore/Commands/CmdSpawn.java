@@ -12,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 import Bammerbom.UltimateCore.UltimateConfiguration;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.Resources.Utils.LocationUtil;
 
 public class CmdSpawn{
 	static Plugin plugin;
@@ -37,12 +38,12 @@ public class CmdSpawn{
 	        	if(r.perm(p, "uc.spawn", true, true) == false){
 	    			return;
 	    		}
-	        	p.teleport(location, TeleportCause.COMMAND);
+	        	LocationUtil.teleportUnsafe(p, location, TeleportCause.COMMAND);
 	        }
 	    }else{
 	    	if(!r.isPlayer(sender)) return;
 	    	Player p = (Player) sender;
-	    	p.teleport(p.getWorld().getSpawnLocation(), TeleportCause.COMMAND);
+	    	LocationUtil.teleportUnsafe(p, p.getWorld().getSpawnLocation(), TeleportCause.COMMAND);
 	    	return;
 	    }
 	}

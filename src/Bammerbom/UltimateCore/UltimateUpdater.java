@@ -210,7 +210,7 @@ public class UltimateUpdater {
         boolean createFile = !updaterConfigFile.exists();
         try {
             if (createFile) {
-                this.fileIOOrError(updaterConfigFile, updaterConfigFile.mkdir(), true);
+                this.fileIOOrError(updaterConfigFile, updaterConfigFile.createNewFile(), true);
                 config.options().copyDefaults(true);
                 config.save(updaterConfigFile);
             } else {

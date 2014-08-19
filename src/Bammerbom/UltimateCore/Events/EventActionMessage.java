@@ -14,6 +14,7 @@ import org.bukkit.plugin.Plugin;
 import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.API.UC;
+import Bammerbom.UltimateCore.Resources.Utils.LocationUtil;
 
 public class EventActionMessage implements Listener{
 	Plugin plugin;
@@ -29,7 +30,7 @@ public class EventActionMessage implements Listener{
 		if(enb == true){
 			if(!e.getPlayer().hasPlayedBefore()){
 				Bukkit.broadcastMessage(r.mes("FirstJoin").replaceAll("%Player", e.getPlayer().getName()));
-				e.getPlayer().teleport(UC.getServer().getCustomSpawn() != null ? UC.getServer().getCustomSpawn() : e.getPlayer().getWorld().getSpawnLocation(), TeleportCause.PLUGIN);
+				LocationUtil.teleportUnsafe(e.getPlayer(), UC.getServer().getCustomSpawn() != null ? UC.getServer().getCustomSpawn() : e.getPlayer().getWorld().getSpawnLocation(), TeleportCause.PLUGIN);
 			}
 			if(UltimateFileLoader.getPlayerConfig(e.getPlayer()).get("banned") != null && UltimateFileLoader.getPlayerConfig(e.getPlayer()).getBoolean("banned") == true ){
 				e.setJoinMessage(null);
