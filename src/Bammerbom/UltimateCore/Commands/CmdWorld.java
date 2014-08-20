@@ -22,6 +22,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventException;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -29,6 +31,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateConfiguration;
@@ -47,6 +50,35 @@ public class CmdWorld implements Listener{
 		plugin = instance;
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
+		}
+		//
+		if(Bukkit.getPluginManager().getPlugin("BKCommonLib") != null
+				&& Bukkit.getPluginManager().isPluginEnabled("BKCommonLib")){
+			try{
+				Bukkit.getPluginManager().registerEvent(com.bergerkiller.bukkit.common.events.CreaturePreSpawnEvent.class, this, EventPriority.HIGH, new EventExecutor(){
+					public void execute(Listener l, Event e)
+							throws EventException {
+						com.bergerkiller.bukkit.common.events.CreaturePreSpawnEvent ev = (com.bergerkiller.bukkit.common.events.CreaturePreSpawnEvent) e;
+						
+						if(MobType.fromBukkitType(ev.getEntityType()).type.equals(Enemies.ENEMY) || ev.getEntityType().equals(EntityType.GHAST) || ev.getEntityType().equals(EntityType.SLIME)){
+							UCworld w = new UCworld(ev.getSpawnLocation().getWorld());
+							if(w.isFlagDenied(WorldFlag.MONSTER)){
+							  ev.setCancelled(true);
+							}else{
+							}
+						}
+						if((MobType.fromBukkitType(ev.getEntityType()).type.equals(Enemies.FRIENDLY)) || MobType.fromBukkitType(ev.getEntityType()).type.equals(Enemies.NEUTRAL) || ev.getEntityType().equals(EntityType.SQUID)){
+							UCworld w = new UCworld(ev.getSpawnLocation().getWorld());
+							if(w.isFlagDenied(WorldFlag.ANIMAL)){
+							  ev.setCancelled(true);
+							}else{
+							}
+						}
+					}
+				}, plugin);
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
 		}
 	}
 	public static void loadws(){
@@ -473,7 +505,6 @@ public class CmdWorld implements Listener{
 		if(e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG) || e.getSpawnReason().equals(SpawnReason.CUSTOM)){
 			return;
 		}
-		
 		if(e.getEntity() instanceof Monster || MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.ENEMY) || e.getEntityType().equals(EntityType.GHAST) || e.getEntityType().equals(EntityType.SLIME)){
 			UCworld w = new UCworld(e.getLocation().getWorld());
 			if(w.isFlagDenied(WorldFlag.MONSTER)){

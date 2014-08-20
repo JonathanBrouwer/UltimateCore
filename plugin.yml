@@ -6,7 +6,7 @@ authors: [Bammerbom, blockbreaker21, TheChunkWorld]
 website: dev.bukkit.org/bukkit-plugins/ultimate_core
 main: Bammerbom.UltimateCore.UltimateCore
 prefix: UltimateCore
-softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions, dynmap]
+softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions, dynmap, BKCommonLib]
 commands:
   accountstatus:
     description: Check if an account is premium or not.

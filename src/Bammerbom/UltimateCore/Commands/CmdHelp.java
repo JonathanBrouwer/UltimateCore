@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -229,7 +227,6 @@ public Map<String, Integer> getBookmarks()
 class HelpInput
 implements UText
 {
-private static final Logger logger = Logger.getLogger("Essentials");
 private final transient List<String> lines = new ArrayList<String>();
 private final transient List<String> chapters = new ArrayList<String>();
 private final transient Map<String, Integer> bookmarks = new HashMap<String, Integer>();
@@ -302,7 +299,6 @@ public HelpInput(Player user, String match){
     {
       if (!reported)
       {
-        logger.log(Level.WARNING, r.error + "Failed to handle " + pluginName, ex);
       }
       reported = true;
     }

@@ -5,7 +5,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
-import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -76,8 +75,6 @@ public class UltimateUpdater {
     private final File file;
     // The folder that downloads will be placed in
     private final File updateFolder;
-    // Project's Curse ID
-    private int id = -1;
     // BukkitDev ServerMods API key
     private String apiKey = null;
 
@@ -189,7 +186,6 @@ public class UltimateUpdater {
         this.type = type;
         this.announce = announce;
         this.file = file;
-        this.id = id;
         this.updateFolder = new File(plugin.getDataFolder().getParent(), plugin.getServer().getUpdateFolder());
 
         final File pluginFile = plugin.getDataFolder().getParentFile();
@@ -202,26 +198,17 @@ public class UltimateUpdater {
                 + "Some updating systems will not adhere to the disabled value, but these may be turned off in their plugin's configuration.");
         config.addDefault(API_KEY_CONFIG_KEY, API_KEY_DEFAULT);
         config.addDefault(DISABLE_CONFIG_KEY, DISABLE_DEFAULT);
-
-        if (!updaterFile.exists()) {
-            this.fileIOOrError(updaterFile, updaterFile.mkdir(), true);
-        }
+        updaterFile.mkdir();
 
         boolean createFile = !updaterConfigFile.exists();
         try {
             if (createFile) {
-                this.fileIOOrError(updaterConfigFile, updaterConfigFile.createNewFile(), true);
+                updaterConfigFile.createNewFile();
                 config.options().copyDefaults(true);
                 config.save(updaterConfigFile);
             } else {
             }
         } catch (final Exception e) {
-            if (createFile) {
-                plugin.getLogger().severe("The updater could not create configuration at " + updaterFile.getAbsolutePath());
-            } else {
-                plugin.getLogger().severe("The updater could not load configuration at " + updaterFile.getAbsolutePath());
-            }
-            plugin.getLogger().log(Level.SEVERE, null, e);
         }
 
         if (config.getBoolean(DISABLE_CONFIG_KEY)) {
@@ -239,7 +226,6 @@ public class UltimateUpdater {
         try {
             this.url = new URL(UltimateUpdater.HOST + UltimateUpdater.QUERY + id);
         } catch (final MalformedURLException e) {
-            plugin.getLogger().log(Level.SEVERE, "The project ID provided for updating, " + id + " is invalid.", e);
             this.result = UpdateResult.FAIL_BADID;
         }
 
@@ -323,7 +309,6 @@ public class UltimateUpdater {
             try {
                 thread.join();
             } catch (final InterruptedException e) {
-                plugin.getLogger().log(Level.SEVERE, null, e);
             }
         }
     }
@@ -338,7 +323,7 @@ public class UltimateUpdater {
     private void saveFile(File folder, String file, String link) {
         deleteOldFiles();
         if (!folder.exists()) {
-            this.fileIOOrError(folder, folder.mkdir(), true);
+            folder.mkdir();
         }
             downloadFile(link, folder);
 
@@ -349,7 +334,7 @@ public class UltimateUpdater {
             this.unzip(dFile.getAbsolutePath());
         }
         if (this.announce) {
-            UltimateUpdater.plugin.getLogger().info("Finished updating.");
+        	r.log("Update finished.");
         }
     }
 
@@ -369,20 +354,18 @@ public class UltimateUpdater {
 
             final byte[] data = new byte[UltimateUpdater.BYTE_SIZE];
             int count;
-            if (this.announce) {
-                UltimateUpdater.plugin.getLogger().info("About to download a new update: " + UltimateUpdater.versionName);
-            }
+            r.log("Downloading new update: " + versionName);
             long downloaded = 0;
             while ((count = in.read(data, 0, UltimateUpdater.BYTE_SIZE)) != -1) {
                 downloaded += count;
                 fout.write(data, 0, count);
                 final int percent = (int) ((downloaded * 100) / fileLength);
-                if (this.announce && ((percent % 10) == 0)) {
-                    UltimateUpdater.plugin.getLogger().info("Downloading update: " + percent + "% of " + fileLength + " bytes.");
+                if (this.announce && ((percent % 20) == 0)) {
+                	r.log("Downloading new update... (" + percent + "%)");
                 }
             }
         } catch (Exception ex) {
-            plugin.getLogger().log(Level.WARNING, "The auto-updater tried to download a new update, but was unsuccessful.", ex);
+            r.log("Failed to download new update.");
             this.result = UltimateUpdater.UpdateResult.FAIL_DOWNLOAD;
         } finally {
             try {
@@ -393,7 +376,6 @@ public class UltimateUpdater {
                     fout.close();
                 }
             } catch (final IOException ex) {
-                plugin.getLogger().log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -406,7 +388,7 @@ public class UltimateUpdater {
         File[] list = listFilesOrError(updateFolder);
         for (final File xFile : list) {
             if (xFile.getName().endsWith(".zip")) {
-                this.fileIOOrError(xFile, xFile.mkdir(), true);
+                xFile.mkdir();
             }
         }
     }
@@ -425,7 +407,7 @@ public class UltimateUpdater {
             while (e.hasMoreElements()) {
                 ZipEntry entry = e.nextElement();
                 File destinationFilePath = new File(zipPath, entry.getName());
-                this.fileIOOrError(destinationFilePath.getParentFile(), destinationFilePath.getParentFile().mkdirs(), true);
+                destinationFilePath.getParentFile().mkdirs();
                 if (!entry.isDirectory()) {
                     final BufferedInputStream bis = new BufferedInputStream(zipFile.getInputStream(entry));
                     int b;
@@ -441,7 +423,7 @@ public class UltimateUpdater {
                     final String name = destinationFilePath.getName();
                     if (name.endsWith(".jar") && this.pluginExists(name)) {
                         File output = new File(updateFolder, name);
-                        this.fileIOOrError(output, destinationFilePath.renameTo(output), true);
+                        destinationFilePath.renameTo(output);
                     }
                 }
             }
@@ -451,10 +433,8 @@ public class UltimateUpdater {
             moveNewZipFiles(zipPath);
 
         } catch (final IOException e) {
-            UltimateUpdater.plugin.getLogger().log(Level.SEVERE, "The auto-updater tried to unzip a new update file, but was unsuccessful.", e);
-            this.result = UltimateUpdater.UpdateResult.FAIL_DOWNLOAD;
         } finally {
-            this.fileIOOrError(fSourceZip, fSourceZip.delete(), false);
+            fSourceZip.delete();
         }
     }
 
@@ -485,17 +465,17 @@ public class UltimateUpdater {
                     if (!found) {
                         // Move the new file into the current dir
                         File output = new File(oFile, cFile.getName());
-                        this.fileIOOrError(output, cFile.renameTo(output), true);
+                        cFile.renameTo(output);
                     } else {
                         // This file already exists, so we don't need it anymore.
-                        this.fileIOOrError(cFile, cFile.delete(), false);
+                        cFile.delete();
                     }
                 }
             }
-            this.fileIOOrError(dFile, dFile.delete(), false);
+            dFile.delete();
         }
         File zip = new File(zipPath);
-        this.fileIOOrError(zip, zip.delete(), false);
+        zip.delete();
     }
 
     /**
@@ -529,15 +509,12 @@ public class UltimateUpdater {
 
                 if (this.hasTag(localVersion) || !this.shouldUpdate(localVersion, remoteVersion)) {
                     // We already have the latest version, or this build is tagged for no-update
+                	r.log("No update available.");
                     this.result = UltimateUpdater.UpdateResult.NO_UPDATE;
                     return false;
                 }
             } else {
                 // The file's name did not contain the string 'vVersion'
-                final String authorInfo = UltimateUpdater.plugin.getDescription().getAuthors().isEmpty() ? "" : " (" + UltimateUpdater.plugin.getDescription().getAuthors().get(0) + ")";
-                UltimateUpdater.plugin.getLogger().warning("The author of this plugin" + authorInfo + " has misconfigured their Auto Update system");
-                UltimateUpdater.plugin.getLogger().warning("File versions should follow the format 'PluginName vVERSION'");
-                UltimateUpdater.plugin.getLogger().warning("Please notify the author of this error.");
                 this.result = UltimateUpdater.UpdateResult.FAIL_NOVERSION;
                 return false;
             }
@@ -634,7 +611,7 @@ public class UltimateUpdater {
             final JSONArray array = (JSONArray) JSONValue.parse(response);
 
             if (array.isEmpty()) {
-                UltimateUpdater.plugin.getLogger().warning("The updater could not find any files for the project id " + this.id);
+                r.log("No updates found.");
                 this.result = UpdateResult.FAIL_BADID;
                 return false;
             }
@@ -647,15 +624,12 @@ public class UltimateUpdater {
             return true;
         } catch (final IOException e) {
             if (e.getMessage().contains("HTTP response code: 403")) {
-                UltimateUpdater.plugin.getLogger().severe("dev.bukkit.org rejected the API key provided in plugins/Updater/config.yml");
-                UltimateUpdater.plugin.getLogger().severe("Please double-check your configuration to ensure it is correct.");
+            	r.log("Invalid API key.");
                 this.result = UpdateResult.FAIL_APIKEY;
             } else {
-                UltimateUpdater.plugin.getLogger().severe("The updater could not contact dev.bukkit.org for updating.");
-                UltimateUpdater.plugin.getLogger().severe("If you have not recently modified your configuration and this is the first time you are seeing this message, the site may be experiencing temporary downtime.");
+            	r.log("Could not connect to bukkit.org, update failed.");
                 this.result = UpdateResult.FAIL_DBO;
             }
-            UltimateUpdater.plugin.getLogger().log(Level.SEVERE, null, e);
             return false;
         }
     }
@@ -666,16 +640,9 @@ public class UltimateUpdater {
      * @param result result of file operation.
      * @param create true if a file is being created, false if deleted.
      */
-    private void fileIOOrError(File file, boolean result, boolean create) {
-        if (!result) {
-            plugin.getLogger().severe("The updater could not " + (create ? "create" : "delete") + " file at: " + file.getAbsolutePath());
-        }
-    }
-
     private File[] listFilesOrError(File folder) {
         File[] contents = folder.listFiles();
         if (contents == null) {
-            plugin.getLogger().severe("The updater could not access files at: " + updateFolder.getAbsolutePath());
             return new File[0];
         } else {
             return contents;

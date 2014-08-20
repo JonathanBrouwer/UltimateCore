@@ -22,6 +22,7 @@ public class EventBleed implements Listener{
 	static Plugin plugin;
 	public EventBleed(Plugin instance){
 		plugin = instance;
+		if(r.getCnfg().getBoolean("Bleed.Enabled") == false) return;
 		if(this instanceof Listener){
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}

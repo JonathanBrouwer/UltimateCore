@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -56,7 +55,6 @@ public enum MobType
   ENDERCRYSTAL("EnderCrystal", Enemies.NEUTRAL, EntityType.ENDER_CRYSTAL), 
   EXPERIENCEORB("ExperienceOrb", Enemies.NEUTRAL, EntityType.EXPERIENCE_ORB);
 
-  public static final Logger logger;
   public String suffix = "s";
   public final String name;
   public final Enemies type;
@@ -109,8 +107,6 @@ public enum MobType
 
   static
   {
-    logger = Logger.getLogger("Minecraft");
-
     hashMap = new HashMap();
     bukkitMap = new HashMap();
 

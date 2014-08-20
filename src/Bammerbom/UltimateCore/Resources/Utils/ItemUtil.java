@@ -131,7 +131,6 @@ public class ItemUtil
 
 			if ( mat == null )
 			{
-				Bukkit.getLogger().info("unknown material: " + mat_string);
 				return null;
 			}
 

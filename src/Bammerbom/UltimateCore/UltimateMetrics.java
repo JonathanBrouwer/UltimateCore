@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
 
 import org.bukkit.Bukkit;
@@ -197,9 +196,6 @@ public class UltimateMetrics {
                         // Each post thereafter will be a ping
                         firstPost = false;
                     } catch (IOException e) {
-                        if (debug) {
-                            Bukkit.getLogger().log(Level.INFO, "[Metrics] " + e.getMessage());
-                        }
                     }
                 }
             }, 0, PING_INTERVAL * 1200);

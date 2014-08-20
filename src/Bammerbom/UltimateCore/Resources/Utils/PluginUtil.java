@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
@@ -121,7 +119,7 @@ public static boolean unload(Plugin plugin)
       try {
         ((URLClassLoader)cl).close();
       } catch (IOException ex) {
-        Logger.getLogger(PluginUtil.class.getName()).log(Level.SEVERE, null, ex);
+        ex.printStackTrace();
       }
 
     }
