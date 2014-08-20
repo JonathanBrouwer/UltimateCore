@@ -365,7 +365,7 @@ public class UltimateUpdater {
                 }
             }
         } catch (Exception ex) {
-            r.log("Failed to download new update.");
+            r.log("Failed to download new update. (" + ex.getCause() + ")");
             this.result = UltimateUpdater.UpdateResult.FAIL_DOWNLOAD;
         } finally {
             try {
@@ -627,7 +627,7 @@ public class UltimateUpdater {
             	r.log("Invalid API key.");
                 this.result = UpdateResult.FAIL_APIKEY;
             } else {
-            	r.log("Could not connect to bukkit.org, update failed.");
+            	r.log("Could not connect to bukkit.org, update failed. (" + e.getCause() + ")");
                 this.result = UpdateResult.FAIL_DBO;
             }
             return false;
