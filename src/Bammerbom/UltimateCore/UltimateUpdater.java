@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -230,6 +231,7 @@ public class UltimateUpdater {
         }
 
         UltimateUpdater.thread = new Thread(new UpdateRunnable());
+        thread.setName("UltimateCore Updater");
         UltimateUpdater.thread.start();
     }
 
@@ -304,7 +306,7 @@ public class UltimateUpdater {
      * As the result of Updater output depends on the thread's completion, it is necessary to wait for the thread to finish
      * before allowing anyone to check the result.
      */
-    private static void waitForThread() {
+    public static void waitForThread() {
         if ((thread != null) && thread.isAlive()) {
             try {
                 thread.join();
@@ -334,7 +336,8 @@ public class UltimateUpdater {
             this.unzip(dFile.getAbsolutePath());
         }
         if (this.announce) {
-        	r.log("Update finished.");
+        	r.log("Update completed.");
+        	r.log(ChatColor.GREEN + "Reload/Restart the server to activate the update.");
         }
     }
 
@@ -350,22 +353,24 @@ public class UltimateUpdater {
             URL fileUrl = new URL(link);
             final int fileLength = fileUrl.openConnection().getContentLength();
             in = new BufferedInputStream(fileUrl.openStream());
-            fout = new FileOutputStream(folder.getAbsolutePath() + File.separator + file);
+            fout = new FileOutputStream(folder.getAbsolutePath() + File.separator + file.getName());
 
             final byte[] data = new byte[UltimateUpdater.BYTE_SIZE];
             int count;
             r.log("Downloading new update: " + versionName);
             long downloaded = 0;
+            int lastpercent = 0;
             while ((count = in.read(data, 0, UltimateUpdater.BYTE_SIZE)) != -1) {
                 downloaded += count;
                 fout.write(data, 0, count);
                 final int percent = (int) ((downloaded * 100) / fileLength);
-                if (this.announce && ((percent % 20) == 0)) {
+                if (this.announce && ((percent % 20) == 0) && !(lastpercent == percent)) {
+                	lastpercent = percent;
                 	r.log("Downloading new update... (" + percent + "%)");
                 }
             }
         } catch (Exception ex) {
-            r.log("Failed to download new update. (" + ex.getCause() + ")");
+            r.log("Failed to download new update. " + (ex.getCause() != null ? "(" + ex.getCause() + ")" : ""));
             this.result = UltimateUpdater.UpdateResult.FAIL_DOWNLOAD;
         } finally {
             try {
@@ -627,7 +632,7 @@ public class UltimateUpdater {
             	r.log("Invalid API key.");
                 this.result = UpdateResult.FAIL_APIKEY;
             } else {
-            	r.log("Could not connect to bukkit.org, update failed. (" + e.getCause() + ")");
+            	r.log("Could not connect to bukkit.org, update failed. " + (e.getCause() != null ? "(" + e.getCause() + ")" : ""));
                 this.result = UpdateResult.FAIL_DBO;
             }
             return false;

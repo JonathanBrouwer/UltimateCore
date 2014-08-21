@@ -24,7 +24,7 @@ public class CmdReload{
 				}
 				try{
 				Bukkit.broadcastMessage(r.mes("Reload.Start").replaceAll("%Player", sender.getName()));
-				Bukkit.getServer().reload();;
+				Bukkit.getServer().reload();
 				Bukkit.broadcastMessage(r.mes("Reload.Done").replaceAll("%Player", sender.getName()));
 				}catch(Exception ex){
 					Bukkit.getServer().reload();

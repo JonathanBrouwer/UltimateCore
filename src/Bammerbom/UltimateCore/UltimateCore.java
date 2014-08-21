@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import Bammerbom.UltimateCore.UltimateUpdater.UpdateResult;
 import Bammerbom.UltimateCore.UltimateUpdater.UpdateType;
 import Bammerbom.UltimateCore.Commands.CmdBack;
 import Bammerbom.UltimateCore.Commands.CmdBan;
@@ -105,9 +106,10 @@ public class UltimateCore extends JavaPlugin{
 	static BlockDatabase database;
 	static ItemDatabase items;
 	 public static Economy economy = null;
+	 public static boolean enabling = false;
 	@Override
 	public void onEnable(){
-		super.onEnable();
+		enabling = true;
 		try{
 		Long time = System.currentTimeMillis();
 		new r(this);
@@ -174,7 +176,7 @@ public class UltimateCore extends JavaPlugin{
 	    new CmdTime(this);
 	    new CmdTop(this);
 	    new CmdTp(this);
-	    new CmdUC(this);
+	    new CmdUC(this, this.getFile());
 	    new CmdVanish(this);
 	    new CmdWarp(this);
 	    new CmdWeather(this);
@@ -214,18 +216,47 @@ public class UltimateCore extends JavaPlugin{
 	    //
 	    items = new ItemDatabase(this);
 	    items.enable();
-		//database = new BlockDatabase(this);
-		//database.enable();
-		//
 	    minigames = new MinigameManager(this);
 	    minigames.loadArenas();
-	    //Integer amount = minigames.loadArenas();
-	    //r.log(ChatColor.YELLOW + "Loaded " + amount + " minigame arenas.");
-	    //
-	    //r.log(ChatColor.YELLOW + "Loaded commands and events.");
-	    //end
-		if(getConfig().getBoolean("updater") == true){
-			new UltimateUpdater(this, 66979, this.getFile(), UpdateType.DEFAULT, true);
+		if(getConfig().getBoolean("Updater.check") == true){
+			/*final Plugin plugin = this;
+			final PluginUtil util = new PluginUtil();*/
+			Boolean download = getConfig().getBoolean("Updater.download");
+			final UltimateUpdater up = new UltimateUpdater(this, 66979, this.getFile(), download ? UpdateType.DEFAULT : UpdateType.NO_DOWNLOAD, true);
+			Thread thr = new Thread(new Runnable(){
+				@Override
+				public void run() {
+					UltimateUpdater.waitForThread();
+					if(up.getResult().equals(UpdateResult.UPDATE_AVAILABLE)){
+						r.log("There is an update available for UltimateCore.");
+						r.log("Use /uc update to update UltimateCore.");
+					}else if(up.getResult().equals(UpdateResult.SUCCESS)){
+						if(r.getCnfg().getBoolean("Updater.reload")){
+							while(enabling){
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+							/*util.unloadNS(plugin);
+							try {
+								Bukkit.getPluginManager().loadPlugin(new File(getDataFolder().getParentFile() + File.separator + "UltimateCore.jar"));
+							} catch (UnknownDependencyException
+									| InvalidPluginException
+									| InvalidDescriptionException e) {
+								e.printStackTrace();
+							}
+							Bukkit.getPluginManager().enablePlugin(plugin);*/
+							
+							return;
+						}
+					}
+				}
+			});
+			thr.setName("UC Updater (Finishing thread)");
+			thr.start();
+			
 			//r.log(ChatColor.YELLOW + "Loaded updater");
 		}else{
 			//r.log(ChatColor.YELLOW + "Updater disabled in config.");
@@ -252,7 +283,7 @@ public class UltimateCore extends JavaPlugin{
 		}
 		CmdWorld.loadws();
 		new t(this);
-		
+		enabling = false;
 	}
     public static BlockDatabase getSQLdatabase(){
     	return database;

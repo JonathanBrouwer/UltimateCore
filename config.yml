@@ -2,7 +2,11 @@
 metrics: true
 
 #Enable Automatic Updater???
-updater: true
+Updater:
+  #Check for updates? (Set to false to totaly disable the Updater (And /uc update)
+  check: true
+  #Download the updates automaticly? (When disabled you can still use /uc update to update)
+  download: true
 
 #Enable mcstats??? (Request data from mojang servers)
 mcstats: true

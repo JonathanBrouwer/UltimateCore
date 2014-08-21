@@ -133,9 +133,12 @@ public class UltimateFileLoader implements Listener{
 		}
 	    try (FileOutputStream out = new FileOutputStream(tempFile)) {
 		    tempFile.deleteOnExit();
-	        copy(plugin.getResource("config.yml"), out);
+	        copy(Bukkit.getPluginManager().getPlugin("UltimateCore").getResource("config.yml"), out);
 	    } catch (IOException e) {
 			e.printStackTrace();
+		} catch (Exception e){
+			r.log("WARNING: Failed to complete config.yml");
+			r.log("Restart your server to fix this problem.");
 		}
 	    UltimateConfiguration confL = new UltimateConfiguration(tempFile);
 	    UltimateConfiguration confS = r.getCnfg();
@@ -191,6 +194,7 @@ public class UltimateFileLoader implements Listener{
 			  public static long copyLarge(InputStream input, OutputStream output, byte[] buffer)
 			    throws IOException
 			  {
+				  try{
 			    long count = 0L;
 			    int n = 0;
 			    while (-1 != (n = input.read(buffer))) {
@@ -198,6 +202,11 @@ public class UltimateFileLoader implements Listener{
 			      count += n;
 			    }
 			    return count;
+					} catch (Exception e){
+						r.log("WARNING: Failed to complete config.yml");
+						r.log("Restart your server to fix this problem.");
+						return -1L;
+					}
 			  }
 	public static void resetFile(File file){
 	    Integer i = 1;
