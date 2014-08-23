@@ -66,7 +66,6 @@ public class r {
 	//Resource saving
 	File language = null;
 	static File config = null;
-	static UltimateConfiguration cnfg;
 	//TODO 1.7.10 support
 	@SuppressWarnings("deprecation")
 	public static Player[] getOnlinePlayers(){
@@ -76,7 +75,6 @@ public class r {
 		}
 		return plz.toArray(new Player[plz.size()]);
 	}
-	@SuppressWarnings("deprecation")
 	public static Player searchPlayer(String s){
 		if(Bukkit.getPlayer(s) != null){
 			return Bukkit.getPlayer(s);
@@ -209,9 +207,6 @@ public class r {
 			r.log(ChatColor.GOLD + "-----------------------------------------------");
 		}
 		return new UltimateConfiguration(new File(plugin.getDataFolder(), "config.yml"));
-	}
-	public static void saveCnfg(){
-	    cnfg.save(config);
 	}
 	
 	public static boolean isNumber(String check){

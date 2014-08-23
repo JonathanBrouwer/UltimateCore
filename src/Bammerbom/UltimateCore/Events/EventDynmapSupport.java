@@ -110,7 +110,7 @@ public class EventDynmapSupport implements Listener{
     		Player p = r.searchPlayer(name);
     		if(p != null){
     			UCplayer pl = UC.getPlayer(p);
-    			if(pl != null && pl.isBanned() || pl.isMuted()){
+    			if(pl != null && (pl.isBanned() || pl.isMuted())){
     				e.setCancelled(true);
     			}
     		}

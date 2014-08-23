@@ -291,6 +291,13 @@ public class UltimateCore extends JavaPlugin{
 	public static MinigameManager getMinigamesManager(){
 		return minigames;
 	}
+	static UltimateCore pl;
+	public void onLoad(){
+		pl = this;
+	}
+	public static UltimateCore getPlugin(){
+		return pl;
+	}
 	@Override
 	public void onDisable(){
 		Bukkit.getScheduler().cancelTasks(this);

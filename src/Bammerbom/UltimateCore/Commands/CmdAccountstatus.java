@@ -14,13 +14,14 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import Bammerbom.UltimateCore.UltimateCommand;
 import Bammerbom.UltimateCore.r;
 
-public class CmdAccountstatus
+public class CmdAccountstatus extends UltimateCommand
 {
 
      @SuppressWarnings("deprecation")
-     public static void handle(final CommandSender cs, Command cmd, String label, String[] args) {
+     public void run(final CommandSender cs, Command cmd, String label, String[] args) {
     	if(!r.perm(cs, "uc.accountstatus", false, true)) return;
     	 if(!r.checkArgs(args, 0)){
     		cs.sendMessage(r.mes("AccountStatus.Usage"));
@@ -54,7 +55,7 @@ public class CmdAccountstatus
         return;
       }
       String status = isPremium ? ChatColor.GREEN + r.word("Words.Premium") : ChatColor.DARK_RED + r.word("Words.NotPremium");
-      cs.sendMessage(r.mes("AccountStatus.Succes").replaceAll("%Player", name).replaceAll("%Status", status));
+      cs.sendMessage(r.mes("AccountStatus.Succes").replaceAll("%Account", name).replaceAll("%Status", status));
     	  }});
       t.setName("UltimateCore: /accountstatus thread.");
       t.start();

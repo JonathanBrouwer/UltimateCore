@@ -200,8 +200,7 @@ public TextInput(CommandSender sender, boolean createFile)
         try {
 			output.close();
 	        input.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 		}
       }
       return;

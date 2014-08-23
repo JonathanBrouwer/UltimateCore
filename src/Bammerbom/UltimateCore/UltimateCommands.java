@@ -146,7 +146,7 @@ public class UltimateCommands implements Listener{
 				 }else if(label.equalsIgnoreCase("clearchat")){
 					 CmdClearchat.handle(sender, cmd, label, args);
 				 }else if(label.equalsIgnoreCase("accountstatus")){
-					 CmdAccountstatus.handle(sender, cmd, label, args);
+					 new CmdAccountstatus().run(sender, cmd, label, args);
 				 }else if(label.equalsIgnoreCase("jail")){
 					 CmdJail.jail(sender, label, args);
 				 }else if(label.equalsIgnoreCase("setjail")){

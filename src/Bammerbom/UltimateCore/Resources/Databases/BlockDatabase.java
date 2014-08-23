@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
@@ -118,7 +119,7 @@ public class BlockDatabase {
 					      c.commit();
 					      c.close();
 					    } catch ( Exception e ) {
-					    	if(e.getStackTrace().toString().contains("locked")){ r.log(r.error + "BlockDatabase locked."); }else{
+					    	if(ExceptionUtils.getFullStackTrace(e).contains("locked")){ r.log(r.error + "BlockDatabase locked."); }else{
 					      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 					      e.printStackTrace();
 					    	}
