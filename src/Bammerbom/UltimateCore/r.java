@@ -2,6 +2,7 @@ package Bammerbom.UltimateCore;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -74,6 +75,14 @@ public class r {
 		  	plz.add(p);
 		}
 		return plz.toArray(new Player[plz.size()]);
+	}
+	@SuppressWarnings("deprecation")
+	public static List<Player> getOnlinePlayersL(){
+		ArrayList<Player> plz = new ArrayList<Player>();
+		for(Player p : Bukkit.getOnlinePlayers()){
+		  	plz.add(p);
+		}
+		return plz;
 	}
 	public static Player searchPlayer(String s){
 		if(Bukkit.getPlayer(s) != null){

@@ -12,6 +12,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.PluginCommandYamlParser;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -116,7 +118,7 @@ import Bammerbom.UltimateCore.Commands.CmdXP;
 import Bammerbom.UltimateCore.Events.EventAFK;
 import Bammerbom.UltimateCore.Events.EventMinecraftServers;
 
-public class UltimateCommands implements Listener{
+public class UltimateCommands implements Listener, TabCompleter{
 	static Plugin plugin;
 	public UltimateCommands(Plugin instance){
 		plugin = instance;
@@ -124,6 +126,21 @@ public class UltimateCommands implements Listener{
 			//Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
 		//fixCommands();
+		for(UltimateCommand cmd : Rcmds){
+			Bukkit.getPluginCommand(cmd.getName()).setTabCompleter(this);
+		}
+
+	}
+	public static ArrayList<UltimateCommand> Rcmds = new ArrayList<UltimateCommand>();
+	static{
+		Rcmds.add(new CmdAccountstatus());
+		
+		
+		
+		
+		
+		//
+
 	}
 	public static void executecommand(CommandSender sender, String message){
 		try{
@@ -139,14 +156,20 @@ public class UltimateCommands implements Listener{
 		if(checkOverridden(sender, cmd, label, args)) return true;
 		shortCut(sender, cmd, label, args);
 		if(label.startsWith("ultimatecore:")) label = label.replaceFirst("ultimatecore:", "");
-				 if(label.equalsIgnoreCase("afk")){
+		//NEW
+		for(UltimateCommand cmdr : Rcmds){
+			if(cmd.getLabel().equals(cmdr.getName())){
+				cmdr.run(sender, label, args);
+			}
+		}
+		
+		//OLD
+		if(label.equalsIgnoreCase("afk")){
 					 EventAFK.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("report")){
 					 CmdReport.handle(sender, args);
 				 }else if(label.equalsIgnoreCase("clearchat")){
 					 CmdClearchat.handle(sender, cmd, label, args);
-				 }else if(label.equalsIgnoreCase("accountstatus")){
-					 new CmdAccountstatus().run(sender, cmd, label, args);
 				 }else if(label.equalsIgnoreCase("jail")){
 					 CmdJail.jail(sender, label, args);
 				 }else if(label.equalsIgnoreCase("setjail")){
@@ -577,6 +600,23 @@ public class UltimateCommands implements Listener{
 	@EventHandler
 	public void plDisable(PluginDisableEvent e){
 		if(!e.getPlugin().equals(plugin)) removePlugin(e.getPlugin());
+	}
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd,
+			String label, String[] args) {
+		List<String> rtrn = null;
+		for(UltimateCommand cmdr : Rcmds){
+			if(cmdr.getName().equals(cmd.getLabel())){
+				rtrn = cmdr.onTabComplete(sender, cmd, label, args, args[args.length - 1], args.length - 1);
+			}
+		}
+		if(rtrn == null){
+			rtrn = new ArrayList<String>();
+		    for(Player p : r.getOnlinePlayers()){
+		    	rtrn.add(p.getName());
+		    }
+		}
+		return rtrn;
 	}
 	
 

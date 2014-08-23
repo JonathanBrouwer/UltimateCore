@@ -34,6 +34,7 @@ public class EventDeathmessages implements Listener{
 	  {
 	    Player p = e.getEntity().getPlayer();
 	    EntityDamageEvent damageEvent = p.getLastDamageCause();
+	    if(e.getDeathMessage() == null || e.getDeathMessage().equalsIgnoreCase("")) return;
 	    if(damageEvent.getCause() != null){
 	    	switch(damageEvent.getCause()){
 			case BLOCK_EXPLOSION:

@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,11 +18,10 @@ import org.bukkit.command.CommandSender;
 import Bammerbom.UltimateCore.UltimateCommand;
 import Bammerbom.UltimateCore.r;
 
-public class CmdAccountstatus extends UltimateCommand
+public class CmdAccountstatus implements UltimateCommand
 {
-
      @SuppressWarnings("deprecation")
-     public void run(final CommandSender cs, Command cmd, String label, String[] args) {
+     public void run(final CommandSender cs, String label, String[] args) {
     	if(!r.perm(cs, "uc.accountstatus", false, true)) return;
     	 if(!r.checkArgs(args, 0)){
     		cs.sendMessage(r.mes("AccountStatus.Usage"));
@@ -60,5 +60,12 @@ public class CmdAccountstatus extends UltimateCommand
       t.setName("UltimateCore: /accountstatus thread.");
       t.start();
       return;
-  }
+    }
+    public String getName(){
+        return "accountstatus";
+    }
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args, String curs, Integer curn) {
+		return null;
+	}
 }
