@@ -117,7 +117,11 @@ public class LocationUtil {
     	teleportUnsafe(p, l.getLocation(), c);
     }
     public static void teleport(Player p, Location l, TeleportCause c){
-    	l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;
+    	if(!p.getAllowFlight()){
+    		l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;
+    	}else{
+    		p.setFlying(true);
+    	}
     	if(p.isInsideVehicle()) p.leaveVehicle();
     	p.teleport(l, c);
     }

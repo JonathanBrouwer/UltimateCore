@@ -184,6 +184,11 @@ public static Enchantment getByName(String str){
 
 		      ench.put("lure", Enchantment.LURE);
 		      ench.put("rodlure", Enchantment.LURE);
+		      for(Enchantment enc : Enchantment.values()){
+		    	  if(!ench.containsKey(enc.getName().toLowerCase())){
+		    		  ench.put(enc.getName().toLowerCase(), enc);
+		    	  }
+		      }
 	  }
 	  return ench.get(str.toLowerCase());
 	  }
