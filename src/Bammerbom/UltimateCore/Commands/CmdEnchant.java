@@ -50,6 +50,7 @@ public class CmdEnchant{
 		}else{
 			MetaItemStack stack2 = new MetaItemStack(stack);
 			stack2.addEnchantment(sender, true, ench, level);
+			p.setItemInHand(stack2.getItemStack());
 		}
 		sender.sendMessage(r.mes("Enchant.Succes").replaceAll("%Enchant", name).replaceAll("%Level", level + "").replaceAll("%Item", stack.getType().name().toLowerCase().replaceAll("_", "")));
 	}
