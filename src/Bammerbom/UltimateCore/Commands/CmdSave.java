@@ -20,11 +20,19 @@ public class CmdSave{
 		if(!r.perm(sender, "uc.save", false, true)){
 			return;
 		}
-		Bukkit.broadcastMessage(r.mes("Save.Start"));
+		if(r.getCnfg().getBoolean("Autosave.message") == true){
+			Bukkit.broadcastMessage(r.mes("Save.Start"));
+		}else{
+			sender.sendMessage(r.mes("Save.Start"));
+		}
 		for(World w : Bukkit.getWorlds()){
 			w.save();
 		}
 		//UltimateCore.getSQLdatabase().save();
-		Bukkit.broadcastMessage(r.mes("Save.Done"));
+		if(r.getCnfg().getBoolean("Autosave.message") == true){
+			Bukkit.broadcastMessage(r.mes("Save.Done"));
+		}else{
+			sender.sendMessage(r.mes("Save.Done"));
+		}
 	}
 }
