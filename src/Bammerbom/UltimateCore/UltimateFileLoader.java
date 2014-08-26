@@ -5,12 +5,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.MemorySection;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -231,7 +236,32 @@ public class UltimateFileLoader implements Listener{
 				directory.mkdirs();
 				file.createNewFile();
 				UltimateConfiguration config = new UltimateConfiguration(file);
-				config.set("name", p.getName());
+				if(!config.contains("name")){
+					config.set("name", p.getName());
+					config.save();
+				}
+				if(!config.contains("names")){
+					ArrayList<String> names = new ArrayList<String>();
+					Calendar timeCal = Calendar.getInstance();
+				    timeCal.setTimeInMillis(System.currentTimeMillis());
+				    String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
+					names.add(p.getName() + " - " + date);
+					config.save();
+				}
+				if(!config.getString("name").equalsIgnoreCase(p.getName())){
+					String oldname = config.getString("name");
+					config.set("name", p.getName());
+					Calendar timeCal = Calendar.getInstance();
+				    timeCal.setTimeInMillis(System.currentTimeMillis());
+				    String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
+				    List<String> names = config.getStringList("names");
+				    if(names == null) names = new ArrayList<String>();
+				    names.add(p.getName() + " - " + date);
+				    config.set("names", names);
+				    if(p.isOnline()){
+				    	((Player) p).sendMessage(r.default1 + "Your name has been changed from " + r.default2 + oldname + r.default1 + " to " + r.default2 + p.getName() + r.default1 + ".");
+				    }
+				}
 				config.save(file);
 			} catch (IOException e) {
 				e.printStackTrace();
