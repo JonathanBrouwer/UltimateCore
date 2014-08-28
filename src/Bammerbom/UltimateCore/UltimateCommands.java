@@ -74,6 +74,7 @@ import Bammerbom.UltimateCore.Commands.CmdMore;
 import Bammerbom.UltimateCore.Commands.CmdMotd;
 import Bammerbom.UltimateCore.Commands.CmdMsg;
 import Bammerbom.UltimateCore.Commands.CmdMute;
+import Bammerbom.UltimateCore.Commands.CmdNames;
 import Bammerbom.UltimateCore.Commands.CmdNear;
 import Bammerbom.UltimateCore.Commands.CmdNick;
 import Bammerbom.UltimateCore.Commands.CmdPing;
@@ -108,6 +109,7 @@ import Bammerbom.UltimateCore.Commands.CmdTop;
 import Bammerbom.UltimateCore.Commands.CmdTp;
 import Bammerbom.UltimateCore.Commands.CmdTpall;
 import Bammerbom.UltimateCore.Commands.CmdUC;
+import Bammerbom.UltimateCore.Commands.CmdUUID;
 import Bammerbom.UltimateCore.Commands.CmdUptime;
 import Bammerbom.UltimateCore.Commands.CmdVanish;
 import Bammerbom.UltimateCore.Commands.CmdWarp;
@@ -127,6 +129,10 @@ public class UltimateCommands implements Listener, TabCompleter{
 		}
 		//fixCommands();
 		for(UltimateCommand cmd : Rcmds){
+			if(Bukkit.getPluginCommand(cmd.getName()) == null){
+				r.log("Failed to load command: " + cmd.getName());
+				continue;
+			}
 			Bukkit.getPluginCommand(cmd.getName()).setTabCompleter(this);
 		}
 
@@ -134,13 +140,8 @@ public class UltimateCommands implements Listener, TabCompleter{
 	public static ArrayList<UltimateCommand> Rcmds = new ArrayList<UltimateCommand>();
 	static{
 		Rcmds.add(new CmdAccountstatus());
-		
-		
-		
-		
-		
-		//
-
+		Rcmds.add(new CmdNames());
+		Rcmds.add(new CmdUUID());
 	}
 	public static void executecommand(CommandSender sender, String message){
 		try{

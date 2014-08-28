@@ -10,11 +10,15 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
+
+import Bammerbom.UltimateCore.API.UC;
+import Bammerbom.UltimateCore.API.UCplayer;
 
 public class r {
 	static Plugin plugin;
@@ -84,33 +88,86 @@ public class r {
 		}
 		return plz;
 	}
+	public static OfflinePlayer[] getOfflinePlayers(){
+		ArrayList<OfflinePlayer> plz = new ArrayList<OfflinePlayer>();
+		for(OfflinePlayer p : Bukkit.getOfflinePlayers()){
+		  	plz.add(p);
+		}
+		return plz.toArray(new OfflinePlayer[plz.size()]);
+	}
+	public static List<OfflinePlayer> getOfflinePlayersL(){
+		ArrayList<OfflinePlayer> plz = new ArrayList<OfflinePlayer>();
+		for(OfflinePlayer p : Bukkit.getOfflinePlayers()){
+		  	plz.add(p);
+		}
+		return plz;
+	}
 	public static Player searchPlayer(String s){
-		if(Bukkit.getPlayer(s) != null){
-			return Bukkit.getPlayer(s);
-		}
-		/*Player f = null;
-		for(Player p : getOnlinePlayers()){
-			if(ChatColor.stripColor(getPlayer(p).getNick()) != null){
-				Integer delta = 2147483647;
-				String lowerName = ChatColor.stripColor(getPlayer(p).getNick()).toLowerCase();
-				if (p.getName().toLowerCase().startsWith(lowerName)) {
-			        int curDelta = p.getName().length() - lowerName.length();
-			        if (curDelta < delta) {
-			          f = p;
-			          delta = curDelta;
-			        }
-			        if (curDelta == 0)
-			          break;
-			      }
-			}
-		}
-		if(f != null){
-			return f;
-		}*/
-		return null;
+	    Player found = null;
+	    String lowerName = s.toLowerCase();
+	    {int delta = 2147483647;
+	    for (Player player : getOnlinePlayers())
+	      if (player.getName().toLowerCase().startsWith(lowerName)) {
+	        int curDelta = player.getName().length() - lowerName.length();
+	        if (curDelta < delta) {
+	          found = player;
+	          delta = curDelta;
+	        }
+	        if (curDelta == 0)
+	          break;
+	    }}
+	    if(found == null){
+		    int delta = 2147483647;
+		    for (Player player : getOnlinePlayers()){
+		    	UCplayer pl = UC.getPlayer(player);
+		        if (pl.getNick().toLowerCase().startsWith(lowerName)) {
+		            int curDelta = player.getName().length() - lowerName.length();
+		            if (curDelta < delta) {
+		                found = player;
+		                 delta = curDelta;
+		            }
+		        if (curDelta == 0)break;
+		        }
+		    }
+	    }
+	    return found;
+	}
+	public static OfflinePlayer searchOfflinePlayer(String s){
+		if(searchPlayer(s) != null) return searchPlayer(s);
+	    OfflinePlayer found = null;
+	    String lowerName = s.toLowerCase();
+	    {int delta = 2147483647;
+	    for (OfflinePlayer player : getOfflinePlayers())
+	      if (player.getName().toLowerCase().startsWith(lowerName)) {
+	        int curDelta = player.getName().length() - lowerName.length();
+	        if (curDelta < delta) {
+	          found = player;
+	          delta = curDelta;
+	        }
+	        if (curDelta == 0)
+	          break;
+	    }}
+	    if(found == null){
+		    int delta = 2147483647;
+		    for (OfflinePlayer player : getOfflinePlayers()){
+		    	UCplayer pl = UC.getPlayer(player);
+		        if (pl.getNick().toLowerCase().startsWith(lowerName)) {
+		            int curDelta = player.getName().length() - lowerName.length();
+		            if (curDelta < delta) {
+		                found = player;
+		                 delta = curDelta;
+		            }
+		        if (curDelta == 0)break;
+		        }
+		    }
+	    }
+	    return found;
 	}
 	public static Player searchPlayer(UUID u){
 		return Bukkit.getPlayer(u);
+	}
+	public static OfflinePlayer searchOfflinePlayer(UUID u){
+		return Bukkit.getOfflinePlayer(u);
 	}
 	//
 	public static void debug(Object message){

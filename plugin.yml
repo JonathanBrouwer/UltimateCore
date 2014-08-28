@@ -27,9 +27,17 @@ commands:
   compact:
     description: Compact all items into blocks
     usage: /<command> [Hand]
+  names:
+    description: Get all names of a player
+    usage: /<command> <Player>
+    aliases: [getnames]
   recipe:
     description: View the recipe of an item
     usage: /recipe <Item>
+  uuid:
+    description: Get someones uuid
+    usage: /uuid <Name>
+    aliases: [getuuid]
   compass:
     description: Sets your compass location to your current location.
     usage: /<command>
