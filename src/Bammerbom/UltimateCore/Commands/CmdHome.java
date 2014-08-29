@@ -2,6 +2,7 @@ package Bammerbom.UltimateCore.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -168,10 +169,10 @@ public class CmdHome{
 		if(r.perm(p, "uc.sethome", true, true) == false){
 			return;
 		}
-		if(r.checkArgs(args, 0) == false){
-			sender.sendMessage(r.mes("Home.Usage"));
-		}else{
-			if(args[0].contains(":")){
+		/*if(r.checkArgs(args, 0) == false){
+			sender.sendMessage(r.mes("Home.Usage"));*/
+		{
+			if(r.checkArgs(args, 0) && args[0].contains(":")){
 				if(r.perm(p, "uc.sethome.others", true, true) == false){
 					return;
 				}
@@ -197,20 +198,34 @@ public class CmdHome{
 			    data.save(UltimateFileLoader.getPlayerFile(t));
 				return;
 			}
+			Set<String> multihomes = r.getCnfg().getConfigurationSection("Home-limits").getKeys(false);
+			Integer limit = 1;
+			if(multihomes != null){
+				for(String s : multihomes){
+					if(r.perm(sender, "uc.sethome." + s, false, false)){
+						limit = r.getCnfg().getInt("Home-limits." + s);
+					}
+				}
+			}
 			List<String> homes = UltimateFileLoader.getPlayerConfig(p).getStringList("homeslist");
-			if(homes.contains(args[0])){
-		    	 sender.sendMessage(r.mes("Home.Homemoved").replaceAll("%Home", args[0]));
+			if(homes.size() >= limit){
+				sender.sendMessage(r.default1 + "You reached your maximum number of homes (" + r.default2 + limit + r.default1 + ")");
+				return;
+			}
+			String name = r.checkArgs(args, 0) ? args[0] : "home";
+			if(homes.contains(name.toLowerCase())){
+		    	 sender.sendMessage(r.mes("Home.Homemoved").replaceAll("%Home", name));
 		    }else{
-		        sender.sendMessage(r.mes("Home.Homeset").replaceAll("%Home", args[0]));
+		        sender.sendMessage(r.mes("Home.Homeset").replaceAll("%Home", name));
 		    }
-			if(!homes.contains(args[0].toLowerCase())){
-			homes.add(args[0].toLowerCase());
+			if(!homes.contains(name.toLowerCase())){
+			homes.add(name.toLowerCase());
 			}
 			UltimateConfiguration data = UltimateFileLoader.getPlayerConfig(p);
 			data.set("homeslist", homes);
 			Location loc = p.getLocation();
 		    String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
-		    data.set("homes." + args[0].toLowerCase(), location);
+		    data.set("homes." + name.toLowerCase(), location);
 		    data.save(UltimateFileLoader.getPlayerFile(p));
 		}
 	}

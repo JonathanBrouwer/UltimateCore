@@ -212,9 +212,6 @@ public class r {
 			return false;
 		}
 	}
-	public static enum MesType {
-		Normal, Direct
-	}
 	public static Integer normalize(Integer a, Integer b, Integer c){
 		if(a < b){
 			a = b;
