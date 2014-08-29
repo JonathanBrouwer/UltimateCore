@@ -275,11 +275,12 @@ public class UltimateCore extends JavaPlugin{
 		time = System.currentTimeMillis() - time;
 		r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");	
 		}catch(Exception ex){
-		    new ErrorLogger(ex, "Failed to load UltimateCore.");
+		    /*new ErrorLogger(ex, "Failed to load UltimateCore.");
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
-			}
+			}*/
+			ex.printStackTrace();
 		}
 		CmdWorld.loadws();
 		new t(this);

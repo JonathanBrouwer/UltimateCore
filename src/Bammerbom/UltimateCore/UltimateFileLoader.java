@@ -27,6 +27,9 @@ import org.bukkit.plugin.Plugin;
 public class UltimateFileLoader implements Listener{
 	
 	static Plugin plugin;
+	static{
+		plugin = Bukkit.getPluginManager().getPlugin("UltimateCore");
+	}
 	public UltimateFileLoader(Plugin instance){
 		plugin = instance;
 		if(this instanceof Listener){
@@ -128,8 +131,6 @@ public class UltimateFileLoader implements Listener{
 		addConfig();
 	} 
 	private static void addConfig(){
-		//conf
-		{
 	    File tempFile = null;
 		try {
 			tempFile = File.createTempFile("temp_config", ".yml");
@@ -153,7 +154,7 @@ public class UltimateFileLoader implements Listener{
 	    	}
 	    }
 	    confS.save();
-	    tempFile.delete();
+	    tempFile.deleteOnExit();
 		}
 	    //lang
 		{
@@ -170,15 +171,14 @@ public class UltimateFileLoader implements Listener{
 			e.printStackTrace();
 		}
 	    UltimateConfiguration confL = new UltimateConfiguration(tempFile);
-	    UltimateConfiguration confS = new UltimateConfiguration(ENf);
+	    UltimateConfiguration confS = new UltimateConfiguration(new File(plugin.getDataFolder() + File.separator + "Messages", "EN.yml"));
 	    for(String s : confL.getKeys()){
 	    	if(!confS.contains(s) && !(confL.get(s) instanceof MemorySection)){
 	    		confS.set(s, confL.get(s));
 	    	}
 	    }
 	    confS.save();
-	    tempFile.delete();
-		}
+	    tempFile.deleteOnExit();
 	}
 	  public static int copy(InputStream input, OutputStream output)
 			    throws IOException
