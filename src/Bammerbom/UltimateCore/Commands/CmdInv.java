@@ -1,5 +1,8 @@
 package Bammerbom.UltimateCore.Commands;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -8,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -27,6 +31,9 @@ public class CmdInv implements Listener{
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
 	}
+	static ArrayList<UUID> inOnlineInv = new ArrayList<UUID>();
+	static ArrayList<UUID> inOfflineInv = new ArrayList<UUID>();
+	
 	@SuppressWarnings("deprecation")
 	public static void handle(CommandSender sender, String[] args) {
 		if(!(r.isPlayer(sender))){
@@ -40,6 +47,7 @@ public class CmdInv implements Listener{
     			//Inventory inv = Bukkit.createInventory(null, 45, ChatColor.RED + "Inventory from " + ChatColor.BLUE + target.getName());
     			PlayerInventory pinv = target.getInventory();
 	    	    p.openInventory(pinv);
+	    	    inOnlineInv.add(p.getUniqueId());
     	  	}else{
     	  		OfflinePlayer t = Bukkit.getOfflinePlayer(args[0]);
     	  		if(t == null){
@@ -52,8 +60,8 @@ public class CmdInv implements Listener{
     	  			return;
 	  			}
 	  			Inventory inv = InventoryUtil.StringToInventory(conf.getString("lastinventory"));
-	  			
 	  			p.openInventory(inv);
+	  			inOfflineInv.add(p.getUniqueId());
     	  	}
     	}else{
     		p.sendMessage(r.mes("Invsee.Usage"));
@@ -65,6 +73,8 @@ public class CmdInv implements Listener{
 	    String inv = InventoryUtil.InventoryToString(e.getPlayer().getInventory());
 	    conf.set("lastinventory", inv);
 	    conf.save(UltimateFileLoader.getPlayerFile(e.getPlayer()));
+	    inOfflineInv.remove(e.getPlayer().getUniqueId());
+	    inOnlineInv.remove(e.getPlayer().getUniqueId());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
@@ -75,7 +85,9 @@ public class CmdInv implements Listener{
 				e.setCancelled(true);
 				return;
 			}
-	
+			if(inOfflineInv.contains(e.getWhoClicked().getUniqueId())){
+				e.setCancelled(true);
+			}
 		}
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
@@ -88,5 +100,10 @@ public class CmdInv implements Listener{
 			}
 	
 		}
+	}
+	@EventHandler(priority = EventPriority.LOW)
+	public void onInventoryClose(InventoryCloseEvent e){
+		inOfflineInv.remove(e.getPlayer().getUniqueId());
+	    inOnlineInv.remove(e.getPlayer().getUniqueId());
 	}
 }
