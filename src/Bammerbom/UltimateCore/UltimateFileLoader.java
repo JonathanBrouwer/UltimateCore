@@ -131,7 +131,8 @@ public class UltimateFileLoader implements Listener{
 		addConfig();
 	} 
 	private static void addConfig(){
-	    File tempFile = null;
+		{
+		File tempFile = null;
 		try {
 			tempFile = File.createTempFile("temp_config", ".yml");
 		} catch (IOException e) {
@@ -156,8 +157,7 @@ public class UltimateFileLoader implements Listener{
 	    confS.save();
 	    tempFile.deleteOnExit();
 		}
-	    //lang
-		{
+	    {
 	    File tempFile = null;
 		try {
 			tempFile = File.createTempFile("temp_EN", ".yml");
@@ -179,7 +179,9 @@ public class UltimateFileLoader implements Listener{
 	    }
 	    confS.save();
 	    tempFile.deleteOnExit();
+	    }
 	}
+
 	  public static int copy(InputStream input, OutputStream output)
 			    throws IOException
 			  {

@@ -42,7 +42,7 @@ public class EventTeleportDelay implements Listener{
 				@Override
 				public void run() {
 					if(e.getPlayer().getLocation().getBlock().getLocation().equals(loc)){
-					    LocationUtil.teleport(e.getPlayer(), to, e.getCause());
+					    LocationUtil.teleport(e.getPlayer(), to, TeleportCause.UNKNOWN);
 					    e.getPlayer().sendMessage(ChatColor.GREEN + "Teleportation succeed!");
 					}else{
 						e.getPlayer().sendMessage(ChatColor.DARK_RED + "Teleportation failed, you moved!");

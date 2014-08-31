@@ -33,20 +33,6 @@ public class UCplayer{
 		name = p.getName();
 		uuid = p.getUniqueId();
 	}
-	/*
-	@SuppressWarnings("deprecation")
-	public UCplayer(String str){
-		if(UUID.fromString(str) != null){
-			UCplayer p = new UCplayer(UUID.fromString(str));
-			name = p.getPlayer().getName();
-			uuid = p.getPlayer().getUniqueId();
-			return;
-		}
-		UCplayer p = new UCplayer(Bukkit.getOfflinePlayer(str));
-		name = p.getPlayer().getName();
-		uuid = p.getPlayer().getUniqueId();
-	}
-	*/
 	public UCplayer(UUID uuid){
 		UCplayer p = new UCplayer(Bukkit.getOfflinePlayer(uuid));
 		name = p.getPlayer().getName();

@@ -79,8 +79,7 @@ public class CmdInv implements Listener{
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onInventoryClick(InventoryClickEvent e){
-		if(e.getInventory() instanceof PlayerInventory && (inOfflineInv.contains(e.getWhoClicked().getUniqueId()) || inOnlineInv.contains(e.getWhoClicked().getUniqueId()))){
-			if(e.getInventory().getHolder() == null) e.setCancelled(true);
+		if((inOfflineInv.contains(e.getWhoClicked().getUniqueId()) || inOnlineInv.contains(e.getWhoClicked().getUniqueId()))){
 			if(!r.perm((CommandSender) e.getWhoClicked(), "uc.inv.edit", false, false) && !e.getInventory().getHolder().equals(e.getWhoClicked())){ 
 				e.setCancelled(true);
 				return;
@@ -92,14 +91,10 @@ public class CmdInv implements Listener{
 	}
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onInventoryDrag(InventoryDragEvent e){
-		if(e.getInventory() instanceof PlayerInventory){
-			if(e.getInventory().getHolder() == null) e.setCancelled(true);
 			if(!r.perm((CommandSender) e.getWhoClicked(), "uc.inv.edit", false, false) && !e.getInventory().getHolder().equals(e.getWhoClicked())){ 
 				e.setCancelled(true);
 				return;
 			}
-	
-		}
 	}
 	@EventHandler(priority = EventPriority.LOW)
 	public void onInventoryClose(InventoryCloseEvent e){
