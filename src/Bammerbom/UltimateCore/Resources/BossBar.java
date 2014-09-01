@@ -21,7 +21,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import Bammerbom.UltimateCore.r;
 
@@ -137,7 +136,7 @@ public class BossBar
     cancelTimer(player);
 
     timers.put(player.getUniqueId(), 
-      Integer.valueOf(Bukkit.getScheduler().runTaskTimer(plugin, new BukkitRunnable()
+      Integer.valueOf(Bukkit.getScheduler().runTaskTimer(plugin, new Runnable()
     {
       public void run()
       {

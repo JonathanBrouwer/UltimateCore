@@ -83,7 +83,6 @@ import Bammerbom.UltimateCore.Commands.CmdPotion;
 import Bammerbom.UltimateCore.Commands.CmdPowertool;
 import Bammerbom.UltimateCore.Commands.CmdRealname;
 import Bammerbom.UltimateCore.Commands.CmdRecipe;
-import Bammerbom.UltimateCore.Commands.CmdRegion;
 import Bammerbom.UltimateCore.Commands.CmdReload;
 import Bammerbom.UltimateCore.Commands.CmdRemoveAll;
 import Bammerbom.UltimateCore.Commands.CmdRepair;
@@ -285,9 +284,6 @@ public class UltimateCommands implements Listener, TabCompleter{
 				 }
 				 else if(label.equalsIgnoreCase("weather")){
 					 CmdWeather.handle(sender, args);
-				 }
-				 else if(label.equalsIgnoreCase("region")){
-					 CmdRegion.handle(sender, args);
 				 }
 				 else if(label.equalsIgnoreCase("tp") || label.equalsIgnoreCase("tpa") || label.equalsIgnoreCase("tpaccept") || label.equalsIgnoreCase("tpdeny") || label.equalsIgnoreCase("tpahere") || label.equalsIgnoreCase("tpaall") || label.equalsIgnoreCase("tptoggle") || label.equalsIgnoreCase("tpyes") || label.equalsIgnoreCase("tpno")){
 					 CmdTp.handle(sender,  label, args);

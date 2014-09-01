@@ -49,7 +49,6 @@ import Bammerbom.UltimateCore.Commands.CmdNick;
 import Bammerbom.UltimateCore.Commands.CmdPlugin;
 import Bammerbom.UltimateCore.Commands.CmdPowertool;
 import Bammerbom.UltimateCore.Commands.CmdRecipe;
-import Bammerbom.UltimateCore.Commands.CmdRegion;
 import Bammerbom.UltimateCore.Commands.CmdReload;
 import Bammerbom.UltimateCore.Commands.CmdRemoveAll;
 import Bammerbom.UltimateCore.Commands.CmdRepair;
@@ -184,7 +183,6 @@ public class UltimateCore extends JavaPlugin{
 	    new CmdWorld(this);
 	    new CmdKittycannon(this);
 	    new CmdGTool(this);
-	    new CmdRegion(this);
 	    new CmdJail(this);
 	    new CmdRules(this);
 	    new CmdUptime(this);
