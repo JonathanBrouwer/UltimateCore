@@ -1,5 +1,6 @@
 package Bammerbom.UltimateCore.Events;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -82,12 +83,14 @@ public class EventDynmapSupport implements Listener{
                 				hiddenasserts.add(pl.getUniqueId());
             				}
             			}
+            			List<UUID> toRemove = new ArrayList<UUID>();
             			for(UUID id : hiddenasserts){
             				if(!UC.getPlayer(id).isVanished()){
             				    api.assertPlayerInvisibility(Bukkit.getPlayer(id), false, plugin);
-                				hiddenasserts.remove(id);
+                				toRemove.add(id);
             				}
             			}
+            			hiddenasserts.removeAll(toRemove);
             		}
             	}
             }, 100L, 100L);
