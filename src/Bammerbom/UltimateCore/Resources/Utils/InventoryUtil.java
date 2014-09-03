@@ -88,7 +88,6 @@ public class InventoryUtil implements Listener{
           i.clear();
       }
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
-			@SuppressWarnings("deprecation")
 			@Override
 			public void run() {
 				p.updateInventory();
