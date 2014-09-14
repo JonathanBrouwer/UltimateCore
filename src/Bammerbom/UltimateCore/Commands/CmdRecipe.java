@@ -182,7 +182,6 @@ public class CmdRecipe implements Listener{
 			e.setCancelled(true);
 		      Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
 		      {
-		        @SuppressWarnings("deprecation")
 				public void run()
 		        {
 		          ((Player)e.getWhoClicked()).updateInventory();

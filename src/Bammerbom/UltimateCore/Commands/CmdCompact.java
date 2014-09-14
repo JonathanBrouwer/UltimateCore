@@ -26,7 +26,6 @@ public class CmdCompact{
 			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 		}
 	}
-	@SuppressWarnings("deprecation")
 	public static void handle(CommandSender sender, String[] args){
 		if(!r.perm(sender, "uc.compact", false, true)) return;
 		if(!r.isPlayer(sender)) return;
