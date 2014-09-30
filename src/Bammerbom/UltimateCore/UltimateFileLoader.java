@@ -125,7 +125,10 @@ public class UltimateFileLoader implements Listener{
 			e.printStackTrace();
 		}
 		for(OfflinePlayer pl : Bukkit.getOfflinePlayers()){
+			try{
 			getPlayerFile(pl);
+			}catch(Exception ex){
+			}
 		}
 		configOptions();
 		addConfig();
@@ -255,6 +258,7 @@ public class UltimateFileLoader implements Listener{
 			config.set("names", names);
 			config.save();
 		}
+		config = new UltimateConfiguration(file);
 		if(!config.getString("name").equalsIgnoreCase(p.getName())){
 			String oldname = config.getString("name");
 			config.set("name", p.getName());

@@ -312,7 +312,7 @@ public class UltimateCore extends JavaPlugin{
 		try{
 		UltimateCommands.onCmd(sender, cmd, label, args);
 		}catch(Exception ex){
-		    new ErrorLogger(ex, "Failed to execute /" + cmd.getLabel() + r.getFinalArg(args, 0) + " command.");
+		    new ErrorLogger(ex, "Failed to execute /" + cmd.getLabel() + " " + r.getFinalArg(args, 0) + " command.");
 		}
 		return true;
 	}

@@ -1,11 +1,14 @@
 package Bammerbom.UltimateCore.Events;
 
-import org.bukkit.Bukkit;
+import java.lang.reflect.Field;
 
+import org.bukkit.Bukkit;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.plugin.SimplePluginManager;
 
 import Bammerbom.UltimateCore.UltimateCore;
 import Bammerbom.UltimateCore.r;
@@ -18,11 +21,29 @@ public class EventUnknownCommand implements Listener{
 		plugin.getServer().getPluginManager().registerEvents(this, loader);
 	}
 	public boolean isCmdRegistered(String cmd){
-		return Bukkit.getPluginCommand(cmd.replaceFirst("/", "")) != null || Bukkit.getServer().getHelpMap().getHelpTopic(
-				(cmd.contains(":") 
-				? cmd.split(":")[0].equalsIgnoreCase("/bukkit") ? "/" + cmd.split(":")[1] : "////asasasas" 
-						: cmd)) != null;
+		return getCommandMap().getCommand(cmd.replaceFirst("/", "")) != null;
 	}
+	private SimpleCommandMap getCommandMap(){
+		    if ((Bukkit.getPluginManager() instanceof SimplePluginManager)) {
+		      Field f = null;
+			try {
+				f = SimplePluginManager.class
+				    .getDeclaredField("commandMap");
+			} catch (NoSuchFieldException | SecurityException e) {
+				e.printStackTrace();
+				return null;
+			}
+		      f.setAccessible(true);
+		      try {
+				return (SimpleCommandMap)f.get(Bukkit.getPluginManager());
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+				return null;
+			}
+		    }
+		    r.log("PluginManager invalid!");
+		    return null;
+		  }
 	@EventHandler(priority = EventPriority.LOWEST)
   public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
       String cmd = event.getMessage();
@@ -33,7 +54,7 @@ public class EventUnknownCommand implements Listener{
       }
       cmd = cmd.split(" ")[0];
 
-      if (!isCmdRegistered(cmd) || event.isCancelled()) {
+      if (!isCmdRegistered(cmd)) {
     	  event.getPlayer().sendMessage(r.mes("UnknownCommandMessage"));
     	  event.setCancelled(true);
       }

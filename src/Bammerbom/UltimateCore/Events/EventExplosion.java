@@ -32,21 +32,26 @@ public class EventExplosion implements Listener{
 		if(e.getEntityType() != null){
 		if(creeper && e.getEntityType().equals(EntityType.CREEPER)){
 			e.setYield(0.0F);
-		}
-		if(tnt&& e.getEntityType().equals(EntityType.PRIMED_TNT) || e.getEntityType().equals(EntityType.MINECART_TNT)){
-			e.setYield(0.0F);
-		}
-		if(ghast&& e.getEntityType().equals(EntityType.GHAST) || e.getEntity() instanceof Fireball || e.getEntity() instanceof LargeFireball){
-			e.setYield(0.0F);
-		}
-		if(enderdragon && e.getEntityType().equals(EntityType.ENDER_DRAGON) || e.getEntityType().equals(EntityType.ENDER_CRYSTAL)){
 			e.setCancelled(true);
 		}
-		if(wither && e.getEntityType().equals(EntityType.WITHER) || e.getEntityType().equals(EntityType.WITHER_SKULL)){
+		if(tnt&& (e.getEntityType().equals(EntityType.PRIMED_TNT) || e.getEntityType().equals(EntityType.MINECART_TNT))){
 			e.setYield(0.0F);
+			e.setCancelled(true);
+		}
+		if(ghast&& (e.getEntityType().equals(EntityType.GHAST) || e.getEntity() instanceof Fireball || e.getEntity() instanceof LargeFireball)){
+			e.setYield(0.0F);
+			e.setCancelled(true);
+		}
+		if(enderdragon && (e.getEntityType().equals(EntityType.ENDER_DRAGON) || e.getEntityType().equals(EntityType.ENDER_CRYSTAL))){
+			e.setCancelled(true);
+		}
+		if(wither && (e.getEntityType().equals(EntityType.WITHER) || e.getEntityType().equals(EntityType.WITHER_SKULL))){
+			e.setYield(0.0F);
+			e.setCancelled(true);
 		}
 		if(lightning && e.getEntityType().equals(EntityType.LIGHTNING)){
 			e.setYield(0.0F);
+			e.setCancelled(true);
 		}
 		}
 		}catch(Exception exc){

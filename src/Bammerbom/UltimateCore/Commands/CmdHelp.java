@@ -22,7 +22,6 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -37,18 +36,16 @@ public class CmdHelp implements Listener{
 		plugin = instance;
 	}
 	public static void handle(CommandSender sender, String args[]){
-		if(!r.isPlayer(sender)) return;
-		Player p = (Player) sender;
 	    String command = "help";
 	    String pageStr = args.length > 0 ? args[0] : null;
 	    String chapterPageStr = args.length > 1 ? args[1] : null;
-	    UText input = new TextInput(p, false);
+	    UText input = new TextInput(sender, false);
 	    UText output;
 	    if (input.getLines().isEmpty())
 	    {
 	      if ((r.isNumber(pageStr)) || (pageStr == null))
 	      {
-	        output = new HelpInput(p, "");
+	        output = new HelpInput(sender, "");
 	      }
 	      else
 	      {
@@ -56,7 +53,7 @@ public class CmdHelp implements Listener{
 	        {
 	          pageStr = pageStr.substring(0, 25);
 	        }
-	        output = new HelpInput(p, pageStr.toLowerCase(Locale.ENGLISH));
+	        output = new HelpInput(sender, pageStr.toLowerCase(Locale.ENGLISH));
 	        command = command.concat(" ").concat(pageStr);
 	        pageStr = chapterPageStr;
 	      }
@@ -67,7 +64,7 @@ public class CmdHelp implements Listener{
 	      output = input;
 	    }
 	    TextPager pager = new TextPager(output);
-	    pager.showPage(pageStr, chapterPageStr, command, p);
+	    pager.showPage(pageStr, chapterPageStr, command, sender);
 		
 	}
 }
@@ -85,11 +82,7 @@ private final transient long lastChange;
 public TextInput(CommandSender sender, boolean createFile)
 {
   File file = null;
-  if (r.isPlayer(sender))
-  {
-    Player user = (Player) sender;
-    file = new File(CmdHelp.plugin.getDataFolder(), "help_" + StringUtil.sanitizeFileName(user.getName()) + ".txt");
-  }
+ file = new File(CmdHelp.plugin.getDataFolder(), "help_" + StringUtil.sanitizeFileName(sender.getName()) + ".txt");
   if ((file == null) || (!file.exists()))
   {
     file = new File(CmdHelp.plugin.getDataFolder(), "help.txt");
@@ -231,7 +224,7 @@ private final transient List<String> chapters = new ArrayList<String>();
 private final transient Map<String, Integer> bookmarks = new HashMap<String, Integer>();
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public HelpInput(Player user, String match){
+public HelpInput(CommandSender user, String match){
   boolean reported = false;
   List newLines = new ArrayList();
   String pluginName = "";
