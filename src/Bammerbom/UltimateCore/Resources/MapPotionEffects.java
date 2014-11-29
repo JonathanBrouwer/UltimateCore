@@ -24,6 +24,7 @@ public static PotionEffectType getByName(String str){
     pf.put("resistance", PotionEffectType.DAMAGE_RESISTANCE);
     pf.put("invis", PotionEffectType.INVISIBILITY);
     pf.put("blind", PotionEffectType.BLINDNESS);
+    pf.put("jumpboost", PotionEffectType.JUMP);
     for(PotionEffectType type : PotionEffectType.values()){
     	if(type == null || type.getName() == null) continue;
     	if(type.getName().contains("_")){

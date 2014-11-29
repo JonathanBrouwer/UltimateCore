@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Horse.Color;
 import org.bukkit.entity.Horse.Style;
@@ -135,13 +136,15 @@ public class CmdSpawnmob{
 		    		 EntityEquipment invent = ((LivingEntity)skel).getEquipment();
 			   	      invent.setItemInHand(new ItemStack(Material.STONE_SWORD, 1));
 			   	      invent.setItemInHandDropChance(0.09F);
-				}else{
-					if(kit.a().name().equalsIgnoreCase("skeleton")){
-						Skeleton skel = (Skeleton) en;
-						skel.setSkeletonType(SkeletonType.NORMAL);
-						skel.getEquipment().setItemInHand(new ItemStack(Material.BOW));
-						skel.getEquipment().setItemInHandDropChance(0.09F);
-					}
+				}else if(kit.a().name().equalsIgnoreCase("skeleton")){
+					Skeleton skel = (Skeleton) en;
+					skel.setSkeletonType(SkeletonType.NORMAL);
+					skel.getEquipment().setItemInHand(new ItemStack(Material.BOW));
+					skel.getEquipment().setItemInHandDropChance(0.09F);
+				}
+				if(kit.a().name().equalsIgnoreCase("elderguardian")){
+					Guardian g = (Guardian) en;
+					
 				}
 				defaultMobData(type, en);
 				//TODO Utilize(kit.b, mob, en, p);

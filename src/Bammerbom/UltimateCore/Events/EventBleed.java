@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +14,6 @@ import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
 import Bammerbom.UltimateCore.API.UC;
-import Bammerbom.UltimateCore.Resources.Utils.ParticleUtil;
 
 public class EventBleed implements Listener{
 	
@@ -29,7 +27,6 @@ public class EventBleed implements Listener{
 	}
 	ArrayList<String> inCoolDown = new ArrayList<String>();
 	ArrayList<Integer> iCD = new ArrayList<Integer>();
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void bleed(final EntityDamageEvent e){
 		if(e.isCancelled() || e.getEntity().isDead()) return;
@@ -60,7 +57,7 @@ public class EventBleed implements Listener{
 					}
 				}, 4L);
 			}
-			ParticleUtil.displayBlockDust(e.getEntity().getLocation().add(0.0, 1.0, 0.0), Material.REDSTONE_BLOCK.getId(), Byte.parseByte("0"), 0.5F, 0.5F, 0.5F, 0, 30);
+			//TODO
 		}//55
 	}
 }

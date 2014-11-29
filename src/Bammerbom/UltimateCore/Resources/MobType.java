@@ -53,8 +53,14 @@ public enum MobType
   MINECART_HOPPER("HopperMinecart", Enemies.NEUTRAL, EntityType.MINECART_HOPPER), 
   MINECART_MOB_SPAWNER("SpawnerMinecart", Enemies.NEUTRAL, EntityType.MINECART_MOB_SPAWNER), 
   ENDERCRYSTAL("EnderCrystal", Enemies.NEUTRAL, EntityType.ENDER_CRYSTAL), 
-  EXPERIENCEORB("ExperienceOrb", Enemies.NEUTRAL, EntityType.EXPERIENCE_ORB);
-
+  EXPERIENCEORB("ExperienceOrb", Enemies.NEUTRAL, EntityType.EXPERIENCE_ORB),
+  ENDERMITE("Endermite", Enemies.ENEMY, EntityType.ENDERMITE),
+  GUARDIAN("Guardian", Enemies.ENEMY, EntityType.GUARDIAN),
+  ELDERGUARDIAN("ElderGuardian", Enemies.ENEMY, EntityType.GUARDIAN),
+  RABBIT("Rabbit", Enemies.FRIENDLY, EntityType.RABBIT),
+  ARMOR_STAND("ArmorStand", Enemies.NEUTRAL, EntityType.ARMOR_STAND);
+  
+  
   public String suffix = "s";
   public final String name;
   public final Enemies type;

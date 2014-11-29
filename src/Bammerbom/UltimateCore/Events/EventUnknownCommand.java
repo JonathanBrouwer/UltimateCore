@@ -44,8 +44,9 @@ public class EventUnknownCommand implements Listener{
 		    r.log("PluginManager invalid!");
 		    return null;
 		  }
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
   public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+		if(event.isCancelled()) return;
       String cmd = event.getMessage();
       if(cmd == null || cmd.equalsIgnoreCase("")){
     	  event.getPlayer().sendMessage(r.mes("UnknownCommandMessage"));

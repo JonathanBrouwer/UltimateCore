@@ -339,6 +339,16 @@ public class EventDeathmessages implements Listener{
 				
 			case ZOMBIE:
 				return (r.mes("DeathMessages.Zombie").replaceAll("%Player", UC.getPlayer(p).getNick()));
+			case ARMOR_STAND:
+				return (r.mes("DeathMessages.Unknown").replaceAll("%Player", UC.getPlayer(p).getNick()));
+			case ENDERMITE:
+				return (r.mes("DeathMessages.Endermite").replaceAll("%Player", UC.getPlayer(p).getNick()));
+			case GUARDIAN:
+				return (r.mes("DeathMessages.Guardian").replaceAll("%Player", UC.getPlayer(p).getNick()));
+			case RABBIT:
+				return (r.mes("DeathMessages.Rabbit").replaceAll("%Player", UC.getPlayer(p).getNick()));
+			default:
+				break;
 		    }
 		}
 		return "FALSE";

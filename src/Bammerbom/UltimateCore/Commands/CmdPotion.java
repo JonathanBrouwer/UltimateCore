@@ -43,6 +43,7 @@ public class CmdPotion{
   	    	stack.setItemMeta(meta);
   	    	sender.sendMessage(r.default1 + "Removed all effects from the potion.");
   	    	return;
+  	    	
   	    }
   	    PotionEffectType ef = MapPotionEffects.getByName(args[0]);
   	    if(ef == null){

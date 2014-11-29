@@ -1,5 +1,5 @@
 package Bammerbom.UltimateCore.Resources.Utils;
-
+ 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -17,7 +17,7 @@ public class ReflectionUtil {
      * The NMS Path of the current Bukkit version.
      * EG: net.minecraft.server.1_6_2R
      */
-    public static String NMS_PATH = "net.minecraft.serve" + (Bukkit.getServer() != null ? Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] : "UNKNOWN");
+    public static String NMS_PATH = "net.minecraft.server." + (Bukkit.getServer() != null ? Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] : "UNKNOWN");
  
     /**
      * Execute a reflection command

@@ -6,8 +6,8 @@ import org.bukkit.enchantments.Enchantment;
 
 public class MapEnchantments {
 	  static HashMap<String, Enchantment> ench = new HashMap<String, Enchantment>();
-public static Enchantment getByName(String str){
-	  if(ench.isEmpty()){
+    public static Enchantment getByName(String str){
+	    if(ench.isEmpty()){
 			ench.put("power",Enchantment.ARROW_DAMAGE);
 			ench.put("flame",Enchantment.ARROW_FIRE);
 			ench.put("infinite",Enchantment.ARROW_INFINITE);
@@ -177,19 +177,21 @@ public static Enchantment getByName(String str){
 		    ench.put("unlimited", Enchantment.ARROW_INFINITE);
 		    ench.put("unlimitedarrows", Enchantment.ARROW_INFINITE);
 		    ench.put("ai", Enchantment.ARROW_INFINITE);
-		      ench.put("luck", Enchantment.LUCK);
-		      ench.put("luckofsea", Enchantment.LUCK);
-		      ench.put("luckofseas", Enchantment.LUCK);
-		      ench.put("rodluck", Enchantment.LUCK);
-
-		      ench.put("lure", Enchantment.LURE);
-		      ench.put("rodlure", Enchantment.LURE);
-		      for(Enchantment enc : Enchantment.values()){
-		    	  if(!ench.containsKey(enc.getName().toLowerCase())){
-		    		  ench.put(enc.getName().toLowerCase(), enc);
-		    	  }
-		      }
-	  }
-	  return ench.get(str.toLowerCase());
-	  }
+		    
+		    ench.put("luck", Enchantment.LUCK);
+		    ench.put("luckofsea", Enchantment.LUCK);
+		    ench.put("luckofseas", Enchantment.LUCK);
+		    ench.put("rodluck", Enchantment.LUCK);
+		    
+   	        ench.put("lure", Enchantment.LURE);
+		    ench.put("rodlure", Enchantment.LURE);
+		      
+		    for(Enchantment enc : Enchantment.values()){
+		        if(!ench.containsKey(enc.getName().toLowerCase())){
+		    	    ench.put(enc.getName().toLowerCase(), enc);
+		    	}
+            }
+	    }
+	    return ench.get(str.toLowerCase());
+	}
 }

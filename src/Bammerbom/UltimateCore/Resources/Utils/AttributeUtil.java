@@ -53,6 +53,7 @@ import com.google.common.io.OutputSupplier;
 import com.google.common.primitives.Primitives;
 
 
+@SuppressWarnings("deprecation")
 public class AttributeUtil {
    public enum Operation {
        ADD_NUMBER(0),
@@ -519,7 +520,8 @@ class NbtFactory {
          * @param option - whether or not to compress the output.
          * @throws IOException If anything went wrong.
          */
-        public void saveTo(OutputSupplier<? extends OutputStream> stream, StreamOptions option) throws IOException {
+        @SuppressWarnings("deprecation")
+		public void saveTo(OutputSupplier<? extends OutputStream> stream, StreamOptions option) throws IOException {
             saveStream(this, stream, option);
         }
         
@@ -717,7 +719,8 @@ class NbtFactory {
      * @return The decoded NBT compound.
      * @throws IOException If anything went wrong.
      */
-    public static NbtCompound fromStream(InputSupplier<? extends InputStream> stream, StreamOptions option) throws IOException {
+    @SuppressWarnings("deprecation")
+	public static NbtCompound fromStream(InputSupplier<? extends InputStream> stream, StreamOptions option) throws IOException {
         InputStream input = null;
         DataInputStream data = null;
         boolean suppress = true;
@@ -749,7 +752,8 @@ class NbtFactory {
      * @param option - whether or not to compress the output.
      * @throws IOException If anything went wrong.
      */
-    public static void saveStream(NbtCompound source, OutputSupplier<? extends OutputStream> stream, StreamOptions option) throws IOException {
+    @SuppressWarnings("deprecation")
+	public static void saveStream(NbtCompound source, OutputSupplier<? extends OutputStream> stream, StreamOptions option) throws IOException {
         OutputStream output = null;
         DataOutputStream data = null;
         boolean suppress = true;

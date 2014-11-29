@@ -50,6 +50,14 @@ public class CmdGm{
 				sender.sendMessage(r.mes("Gamemode.setSelf").replaceAll("%Gamemode", "adventure"));
 				p.setGameMode(GameMode.ADVENTURE);
             }
+			else if("3".equalsIgnoreCase(args[0]) || "spectate".equalsIgnoreCase(args[0]) || "spectator".equalsIgnoreCase(args[0])){
+				if(r.perm(sender, "uc.gm", false, false) == false && r.perm(sender, "uc.gm.self.spectate", false, false) == false && r.perm(sender, "uc.gm.self", false, false) == false){
+					sender.sendMessage(r.mes("NoPermissions"));
+					return;
+				}
+				sender.sendMessage(r.mes("Gamemode.setSelf").replaceAll("%Gamemode", "spectator"));
+				p.setGameMode(GameMode.SPECTATOR);
+            }
 			else{
 				if(r.perm(sender, "uc.gm", false, true)){
 				sender.sendMessage(r.mes("Gamemode.Usage"));
@@ -90,6 +98,15 @@ public class CmdGm{
 				sender.sendMessage(r.mes("Gamemode.selfMessage").replaceAll("%Gamemode", "adventure").replaceAll("%Player", target.getName()));
 				target.sendMessage(r.mes("Gamemode.otherMessage").replaceAll("%Gamemode", "adventure"));
 				target.setGameMode(GameMode.ADVENTURE);
+			}
+			else if("3".equalsIgnoreCase(args[0]) || "spectate".equalsIgnoreCase(args[0]) || "spectator".equalsIgnoreCase(args[0])){
+				if(r.perm(sender, "uc.gm", false, false) == false && r.perm(sender, "uc.gm.others.spectator", false, false) == false && r.perm(sender, "uc.gm.others", false, false) == false){
+					sender.sendMessage(r.mes("NoPermissions"));
+					return;
+				}
+				sender.sendMessage(r.mes("Gamemode.selfMessage").replaceAll("%Gamemode", "adventure").replaceAll("%Player", target.getName()));
+				target.sendMessage(r.mes("Gamemode.otherMessage").replaceAll("%Gamemode", "adventure"));
+				target.setGameMode(GameMode.SPECTATOR);
             }else{
             	sender.sendMessage(r.mes("Gamemode.Usage"));
             }

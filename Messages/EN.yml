@@ -47,7 +47,9 @@ DeathMessages: # %Player    !!!CASE SENSITIVE!!!
   Wither: '&6%Player &9has been killed by the Wither.'
   WitherSkeleton: '&6%Player &9has been killed by a Wither Skeleton.'
   IronGolem: '&6%Player &9has been killed by an Iron Golem.'
-
+  Endermite: '&6%Player &9has been killed by an Endermite.'
+  Rabbit: '&6%Player &9has been killed by a Rabbit.'
+  
   Unknown: '&6%Player &9died.'
   
 #Commands
