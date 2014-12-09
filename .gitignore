@@ -41,3 +41,8 @@ Icon
 bin/
 bin
 *.class
+.settings/
+*.classpath
+*.gitattributes
+*.gitignore
+*.project
