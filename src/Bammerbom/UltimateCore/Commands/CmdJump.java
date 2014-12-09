@@ -100,7 +100,7 @@ public class CmdJump {
 	public static Location getTarget(final LivingEntity entity)
 	{
 
-		final Block block = entity.getTargetBlock(null, 300);
+		final Block block = entity.getTargetBlock(TRANSPARENT_MATERIALS, 300);
 		if (block == null)
 		{
 			return null;

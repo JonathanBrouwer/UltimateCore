@@ -46,8 +46,7 @@ public class CmdLag{
 		Long freeram2 = Runtime.getRuntime().freeMemory() / mb;
 		//Long usedram1 = totalram1 - freeram1;
 		Long usedram2 = maxram - freeram2;
-		Double percentage1 = ((usedram2 * 1.0) / (maxram * 1.0)) * 100.0;
-		Float percentage2 = Math.round(percentage1 * 10) / 10F;   
+		Float percentage2 = Math.round((((usedram2 * 1.0) / (maxram * 1.0)) * 100.0) * 10) / 10F;   
 	    msgs.add(r.default1 + "Tps: " + r.default2 + (Math.round(tps * 10.0) / 10.0));
 	    msgs.add(r.default1 + "Memory used: " + r.default2 + usedram2 + "/" + totalram + "/" + maxram + r.default1 + " MB (Used/Total/Max) (" + r.default2 + percentage2 + "%" + r.default1 + ")");
 	    for(World w : Bukkit.getWorlds()){

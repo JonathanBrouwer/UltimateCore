@@ -112,8 +112,8 @@ public enum MobData
   FATHER_VILLAGER("father", EntityType.VILLAGER, Villager.Profession.PRIEST, false), 
   SMITH_VILLAGER("smith", EntityType.VILLAGER, Villager.Profession.BLACKSMITH, true), 
   BUTCHER_VILLAGER("butcher", EntityType.VILLAGER, Villager.Profession.BUTCHER, true), 
-  SIZE_SLIME("", "<1-100>", EntityType.SLIME.getEntityClass(), Data.SIZE, true);
-
+  SIZE_SLIME("slimesize", "<1-100>", EntityType.SLIME.getEntityClass(), Data.SIZE, true);
+  
   private final String nickname;
   private final String helpMessage;
   private final Object type;

@@ -14,12 +14,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MagmaCube;
+import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.Tameable;
+import org.bukkit.entity.Villager;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
@@ -207,6 +209,16 @@ public class CmdMobTP implements Listener{
 			Creeper eo2 = (Creeper) eo;
 			Creeper en2 = (Creeper) en;
 			en2.setPowered(eo2.isPowered());
+		}
+		if(eo instanceof Ocelot){
+			Ocelot eo2 = (Ocelot) eo;
+			Ocelot en2 = (Ocelot) en;
+			en2.setCatType(eo2.getCatType());
+		}
+		if(eo instanceof Villager){
+			Villager eo2 = (Villager) eo;
+			Villager en2 = (Villager) en;
+			en2.setProfession(eo2.getProfession());
 		}
 	}
 }

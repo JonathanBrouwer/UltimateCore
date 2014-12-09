@@ -145,11 +145,9 @@ public class MapEnchantments {
 		    ench.put("projprot", Enchantment.PROTECTION_PROJECTILE);
 		    ench.put("pp", Enchantment.PROTECTION_PROJECTILE);
 
-		    ench.put("silktouch", Enchantment.SILK_TOUCH);
 		    ench.put("softtouch", Enchantment.SILK_TOUCH);
 		    ench.put("st", Enchantment.SILK_TOUCH);
 
-		    ench.put("waterworker", Enchantment.WATER_WORKER);
 		    ench.put("aquaaffinity", Enchantment.WATER_WORKER);
 		    ench.put("watermine", Enchantment.WATER_WORKER);
 		    ench.put("ww", Enchantment.WATER_WORKER);
@@ -159,12 +157,10 @@ public class MapEnchantments {
 		    ench.put("flamearrow", Enchantment.ARROW_FIRE);
 		    ench.put("af", Enchantment.ARROW_FIRE);
 
-		    ench.put("arrowdamage", Enchantment.ARROW_DAMAGE);
 		    ench.put("power", Enchantment.ARROW_DAMAGE);
 		    ench.put("arrowpower", Enchantment.ARROW_DAMAGE);
 		    ench.put("ad", Enchantment.ARROW_DAMAGE);
 
-		    ench.put("arrowknockback", Enchantment.ARROW_KNOCKBACK);
 		    ench.put("arrowkb", Enchantment.ARROW_KNOCKBACK);
 		    ench.put("punch", Enchantment.ARROW_KNOCKBACK);
 		    ench.put("arrowpunch", Enchantment.ARROW_KNOCKBACK);
@@ -178,17 +174,23 @@ public class MapEnchantments {
 		    ench.put("unlimitedarrows", Enchantment.ARROW_INFINITE);
 		    ench.put("ai", Enchantment.ARROW_INFINITE);
 		    
-		    ench.put("luck", Enchantment.LUCK);
 		    ench.put("luckofsea", Enchantment.LUCK);
 		    ench.put("luckofseas", Enchantment.LUCK);
 		    ench.put("rodluck", Enchantment.LUCK);
 		    
    	        ench.put("lure", Enchantment.LURE);
 		    ench.put("rodlure", Enchantment.LURE);
+		    
+		    ench.put("depthstrider", Enchantment.DEPTH_STRIDER);
+		    ench.put("depth", Enchantment.DEPTH_STRIDER);
+		    ench.put("ds", Enchantment.DEPTH_STRIDER);
 		      
 		    for(Enchantment enc : Enchantment.values()){
 		        if(!ench.containsKey(enc.getName().toLowerCase())){
 		    	    ench.put(enc.getName().toLowerCase(), enc);
+		    	    if(enc.getName().contains("_")){
+		    	    	ench.put(enc.getName().toLowerCase().replace("_", ""), enc);
+		    	    }
 		    	}
             }
 	    }
