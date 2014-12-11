@@ -1,8 +1,8 @@
 name: UltimateCore
-version: 1.1.0
+version: 1.1.2
 description: Ultimate Core is all you need to setup a server and more!
 author: Bammerbom
-authors: [Bammerbom, blockbreaker21, TheChunkWorld]
+authors: [Bammerbom, blockbreaker21]
 website: dev.bukkit.org/bukkit-plugins/ultimate_core
 main: Bammerbom.UltimateCore.UltimateCore
 prefix: UltimateCore

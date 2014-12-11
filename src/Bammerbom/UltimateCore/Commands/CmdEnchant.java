@@ -25,7 +25,7 @@ public class CmdEnchant{
 		if(!r.perm(sender, "uc.enchant", false, true)) return;
 		if(!r.isPlayer(sender)) return;
 		if(!r.checkArgs(args, 0)){
-			sender.sendMessage(r.mes("Enchantment.Usage"));
+			sender.sendMessage(r.mes("Enchant.Usage"));
 			return;
 		}
 		Player p = (Player) sender;

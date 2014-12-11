@@ -153,7 +153,7 @@ public class CmdXP {
 		}else if(r.checkArgs(args, 1)){
 			if(!r.perm(sender, "uc.xp", false, false) && !r.perm(sender, "uc.xp.set.others", false, false)){ sender.sendMessage(r.mes("NoPermissions")); return; }
 			String rawxp = args[0];
-			String xp = args[0].endsWith("L") ? rawxp : rawxp.replaceAll("L", "").replaceAll("l", "");
+			String xp = !args[0].endsWith("L") ? rawxp : rawxp.replaceAll("L", "").replaceAll("l", "");
 			if(!r.isNumber(xp)){
 					sender.sendMessage(r.mes("XP.AmountNotValid").replaceAll("%Amount", args[0]));
 					return;
