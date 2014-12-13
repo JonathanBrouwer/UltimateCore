@@ -37,6 +37,6 @@ public class CmdSpawner {
 		}
 		c.setSpawnedType(m.getType());
 		c.update();
-		p.sendMessage(r.mes("Spawner.set").replaceAll("%Name", m.name().toLowerCase()));
+		p.sendMessage(r.mes("Spawner.Set").replaceAll("%Name", m.name().toLowerCase()));
 	}
 }

@@ -92,11 +92,11 @@ import Bammerbom.UltimateCore.Events.EventTimber;
 import Bammerbom.UltimateCore.Events.EventUnknownCommand;
 import Bammerbom.UltimateCore.Events.EventWeather;
 import Bammerbom.UltimateCore.Minigames.MinigameManager;
-import Bammerbom.UltimateCore.Resources.BossBar;
 import Bammerbom.UltimateCore.Resources.ErrorLogger;
 import Bammerbom.UltimateCore.Resources.FireworkEffectPlayer;
 import Bammerbom.UltimateCore.Resources.Databases.BlockDatabase;
 import Bammerbom.UltimateCore.Resources.Databases.ItemDatabase;
+import Bammerbom.UltimateCore.Resources.Utils.BossbarUtil;
 import Bammerbom.UltimateCore.Resources.Utils.GhostsUtil;
 import Bammerbom.UltimateCore.Resources.Utils.InventoryUtil;
 
@@ -187,7 +187,6 @@ public class UltimateCore extends JavaPlugin{
 	    new CmdRules(this);
 	    new CmdUptime(this);
 	    //
-	    new BossBar(this);
 	    new EventAFK(this);
 	    new EventAutosave(this);
 	    new EventBleed(this);
@@ -216,6 +215,7 @@ public class UltimateCore extends JavaPlugin{
 	    items.enable();
 	    minigames = new MinigameManager(this);
 	    minigames.loadArenas();
+	    BossbarUtil.enable();
 		if(getConfig().getBoolean("Updater.check") == true){
 			/*final Plugin plugin = this;
 			final PluginUtil util = new PluginUtil();*/
@@ -301,7 +301,7 @@ public class UltimateCore extends JavaPlugin{
 	public void onDisable(){
 		Bukkit.getScheduler().cancelTasks(this);
 		getServer().getServicesManager().unregisterAll(this);
-		BossBar.disable();
+		BossbarUtil.disable();
 		EventDynmapSupport.stop();
 		System.gc();
 		//database.disable();

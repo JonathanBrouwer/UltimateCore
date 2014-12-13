@@ -55,6 +55,9 @@ public class r {
 				}
 			}, 1200L, 1200L);*/
 	}
+	public static Plugin plugin(){
+		return plugin;
+	}
     private boolean setupPermissions()
     {
         RegisteredServiceProvider<Permission> permissionProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);

@@ -20,7 +20,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.r;
-import Bammerbom.UltimateCore.Resources.BossBar;
+import Bammerbom.UltimateCore.Resources.Utils.BossbarUtil;
 
 public class EventMessages implements Listener{
 	static Plugin plugin;
@@ -51,7 +51,6 @@ public class EventMessages implements Listener{
 			decrease = r.getCnfg().getBoolean("messages.decrease");
 		}
 		show();
-		startt(); //TODO
 	}
 	//public static void setCurrentMessage(String msg){ currentmessage = msg; }
 	@EventHandler(priority = EventPriority.LOW)
@@ -63,11 +62,11 @@ public class EventMessages implements Listener{
 				if(length == 0){ return; }
 				if(length == 1){
 					if(r.getCnfg().getBoolean("messages.enabledbossbar") == true){
-					BossBar.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage), 100F);
+					BossbarUtil.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage), 100F);
 					}
 				}else{
 					if(r.getCnfg().getBoolean("messages.enabledbossbar") == true){
-					BossBar.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage));
+					BossbarUtil.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage));
 					}
 				}
 			}
@@ -76,16 +75,6 @@ public class EventMessages implements Listener{
 	static String currentmessage = "";
 	static Integer currentID = -1;
 	static Boolean decrease = true;
-	public static void startt(){
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
-			@Override
-			public void run() {
-				for(Player p : r.getOnlinePlayers()){
-					BossBar.handleTeleport(p, p.getLocation());
-				}
-				
-			}}, 20L * 10, 20L * 10);
-	}
 	public static void timer(final List<String> messgs){
 		final Integer time = r.getCnfg().getInt("messages.time");
 		final Boolean ur = r.getCnfg().contains("messages.randomise") ? r.getCnfg().getBoolean("messages.randomise") : true;
@@ -106,9 +95,9 @@ public class EventMessages implements Listener{
 			for(Player p : r.getOnlinePlayers()){
 				if(r.getCnfg().getBoolean("messages.enabledbossbar") == true){
 					if(decrease){
-						BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1  + mess), time);
+						BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1  + mess), time);
 					}else{
-						BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1  + mess));
+						BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1  + mess));
 					}
 					currentmessage = ChatColor.translateAlternateColorCodes('&', r.default1  + mess);
 				}
@@ -127,7 +116,7 @@ public class EventMessages implements Listener{
 		if(length == 1){
 			for(Player p : r.getOnlinePlayers()){
 				if(r.getCnfg().getBoolean("messages.enabledbossbar") == true){
-					BossBar.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0)), 100F);
+					BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0)), 100F);
 					currentmessage = ChatColor.translateAlternateColorCodes('&', r.default1 + messgs.get(0));
 				}
 					if(r.getCnfg().getBoolean("messages.enabledchat") == true){

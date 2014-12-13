@@ -144,7 +144,7 @@ public class CmdSpawnmob{
 				}
 				if(kit.a().name().equalsIgnoreCase("elderguardian")){
 					Guardian g = (Guardian) en;
-					
+					g.setElder(true);
 				}
 				defaultMobData(type, en);
 				//TODO Utilize(kit.b, mob, en, p);
