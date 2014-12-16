@@ -1,16 +1,28 @@
 package Bammerbom.UltimateCore.Commands;
 
 import java.io.File;
+import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
+import Bammerbom.UltimateCore.UltimateConfiguration;
+import Bammerbom.UltimateCore.UltimateFileLoader;
 import Bammerbom.UltimateCore.UltimateUpdater;
 import Bammerbom.UltimateCore.UltimateUpdater.UpdateType;
 import Bammerbom.UltimateCore.r;
+import Bammerbom.UltimateCore.API.UC;
+import Bammerbom.UltimateCore.API.UCplayer;
+import Bammerbom.UltimateCore.Resources.Utils.LocationUtil;
+
+import com.earth2me.essentials.IEssentials;
+import com.earth2me.essentials.User;
+import com.earth2me.essentials.api.IJails;
+import com.earth2me.essentials.api.IWarps;
 
 public class CmdUC{
 	static Plugin plugin;
@@ -33,6 +45,8 @@ public class CmdUC{
 			sender.sendMessage(r.default1 + "/uc credits " + r.default2 + "> Credits of Ultimate Core");
 			sender.sendMessage(r.default1 + "/uc disable " + r.default2 + "> Disable Ultimate Core (If chrashed)");
 			sender.sendMessage(r.default1 + "/uc version " + r.default2 + "> Get your, and the newest version of UltimateCore");
+			sender.sendMessage(r.default1 + "/uc update  " + r.default2 + "> Update UltimateCore to the newest version.");
+			sender.sendMessage(r.default1 + "/uc convert  " + r.default2 + "> Copy data from Essentials.");
 		}else if(args[0].equalsIgnoreCase("reload")){
 			if(!r.perm(sender, "uc.menu.reload", false, true)) return;
 			Plugin uc = plugin;
@@ -57,6 +71,7 @@ public class CmdUC{
 			sender.sendMessage(r.default1 + "Your version of UltimateCore: " + r.default2 + plugin.getDescription().getVersion());
 			sender.sendMessage(r.default1 + "Newest version of UltimateCore: " + r.default2 + UltimateUpdater.getLatestUpdate());
 		}else if(args[0].equalsIgnoreCase("update")){
+			if(!r.perm(sender, "uc.menu.updater", false, true)) return;
 			if(r.getCnfg().getBoolean("Updater.check")){
 				//final PluginUtil util = new PluginUtil();
 				final Thread thr = new Thread(new Runnable(){
@@ -98,6 +113,62 @@ public class CmdUC{
 			}else{
 				sender.sendMessage(r.default1 + "The updater is disabled.");
 			}
+		}else if(args[0].equalsIgnoreCase("convert")){
+			if(!r.perm(sender, "uc.updater.convert", false, true)) return;
+			sender.sendMessage(r.default1 + "Converting from Essentials...");
+			if(!Bukkit.getPluginManager().isPluginEnabled("Essentials")){
+				sender.sendMessage(r.default1 + "Converting Failed: Essentials is not installed.");
+				return;
+			}
+			IEssentials es = (IEssentials) Bukkit.getPluginManager().getPlugin("Essentials");
+			try{
+				r.log("Importing Jails...");
+			    IJails j = es.getJails();
+			    UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.DFjails);
+			    for(String s : j.getList()){
+			    	conf.set("Jails." + s, LocationUtil.convertLocationToString(j.getJail(s)));
+			    }
+			    conf.save(UltimateFileLoader.DFjails);
+			    
+			    r.log("Importing Warps...");
+			    UltimateConfiguration conf2 = new UltimateConfiguration(UltimateFileLoader.DFwarps);
+			    IWarps w = es.getWarps();
+			    List<String> warps = conf2.getStringList("warpslist");
+			    for(String s : w.getList()){
+			    	warps.add(s.toLowerCase());
+			    	Location loc = w.getWarp(s);
+			    	conf2.set("warps." + s.toLowerCase(), loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch());
+			    }
+			    conf2.set("warpslist", warps);
+			    conf2.save();
+			    
+			    r.log("Importing Player Data...");
+			    for(org.bukkit.OfflinePlayer pl : r.getOfflinePlayers()){
+			    	User u2 = es.getOfflineUser(pl.getName());
+			    	if(u2 == null){
+			    		r.log("Failed to import player data of " + pl.getName());
+			    		continue;
+			    	}
+		    		UCplayer uc = UC.getPlayer(pl);
+			    	UltimateConfiguration data = UltimateFileLoader.getPlayerConfig(pl);
+			    	List<String> homes = data.getStringList("homeslist");
+			    	for(String s : u2.getHomes()){
+			    		homes.add(s);
+			    		Location loc = u2.getHome(s);
+			    		data.set("homes." + s.toLowerCase(), loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch());
+			    	}
+			    	data.set("homeslist", homes);
+			    	data.save();
+			    	//Jail
+			    	if(u2.getJail() != null){
+			    		uc.setJailed(true, u2.getJail(), u2.getJailTimeout());
+			    	}
+			    	uc.setNick(u2.getNickname());
+			    }
+			    sender.sendMessage(r.default1 + "Converting complete!");
+			}catch(Exception ex){
+				ex.printStackTrace(); 
+			}
 		}else{
 			if(!r.perm(sender, "uc.menu", false, true)) return;
 			sender.sendMessage(r.default1 + "-----------------------------------------");
@@ -109,6 +180,7 @@ public class CmdUC{
 			sender.sendMessage(r.default1 + "/uc disable " + r.default2 + "> Disable Ultimate Core (If chrashed)");
 			sender.sendMessage(r.default1 + "/uc version " + r.default2 + "> Get your, and the newest version of UltimateCore");
 			sender.sendMessage(r.default1 + "/uc update  " + r.default2 + "> Update UltimateCore to the newest version.");
+			sender.sendMessage(r.default1 + "/uc convert  " + r.default2 + "> Copy data from Essentials.");
 		}
 	}
 
