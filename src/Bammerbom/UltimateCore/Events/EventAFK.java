@@ -1,8 +1,9 @@
 package Bammerbom.UltimateCore.Events;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -45,7 +46,7 @@ public class EventAFK implements Listener{
 		}
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new Runnable(){
 			public void run(){
-				for(String str : lastaction.keySet()){
+				for(String str : new HashSet<String>(lastaction.keySet())){
 					Player p = r.searchPlayer(str);
 					Long time = lastaction.get(str);
 						Long seconds1 = time / 1000;
@@ -60,7 +61,7 @@ public class EventAFK implements Listener{
 						if(dif > r.getCnfg().getInt("Afk.KickTime")){
 							if(r.getCnfg().getBoolean("Afk.Enabled")){
 								if(!r.perm(p, "uc.antiban", false, false)){
-							p.kickPlayer(r.mes("Afk.Kick"));
+							        p.kickPlayer(r.mes("Afk.Kick"));
 								}
 							}
 						}
@@ -73,7 +74,7 @@ public class EventAFK implements Listener{
 	public static boolean isAfk(Player p){
 		return afk.contains(p.getUniqueId());
 	}
-	static HashMap<String, Long> lastaction = new HashMap<String, Long>();
+	static ConcurrentHashMap<String, Long> lastaction = new ConcurrentHashMap<String, Long>();
 	static ArrayList<UUID> afk = new ArrayList<UUID>();
 	public static void handle(CommandSender sender, String[] args){
 		if(!r.checkArgs(args, 0)){
