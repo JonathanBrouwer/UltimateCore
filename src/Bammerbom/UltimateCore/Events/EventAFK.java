@@ -60,7 +60,7 @@ public class EventAFK implements Listener{
 						}
 						if(dif > r.getCnfg().getInt("Afk.KickTime")){
 							if(r.getCnfg().getBoolean("Afk.Enabled")){
-								if(!r.perm(p, "uc.antiban", false, false)){
+								if(!r.perm(p, "uc.afk.excempt", false, false)){
 							        p.kickPlayer(r.mes("Afk.Kick"));
 								}
 							}
