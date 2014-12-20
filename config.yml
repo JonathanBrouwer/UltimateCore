@@ -55,12 +55,15 @@ Dynmap:
   hiddenwarps: ['hiddenwarp1', 'hiddenwarp2', 'world:hiddenworld']
 
 Afk:
+  #Is the AFK system enabled?
   Enabled: true
-  #Seconds, minimal 10 seconds
+  #The time in seconds before you are afk, minimal 10 seconds.
   AfkTime: 180
+  #Kick players for being afk too long?
   KickEnabled: true
-  #Seconds, minimal 20 seconds
+  #The time in seconds before you get kicked, minimal 20 seconds
   KickTime: 300
+  
 Bleed:
   #Enable bleed?
   Enabled: false
