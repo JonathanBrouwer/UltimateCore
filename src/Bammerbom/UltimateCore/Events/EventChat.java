@@ -24,7 +24,6 @@ import Bammerbom.UltimateCore.Resources.Utils.StringUtil;
 public class EventChat implements Listener{
 	static Plugin plugin;
 	Random ra = new Random();
-	@Heavy
 	public EventChat(Plugin instance){
 		plugin = instance;
 		if(!r.getCnfg().contains("Chat.Groups.Enabled")){
@@ -58,23 +57,13 @@ public class EventChat implements Listener{
         }
         return (permission != null);
     }
-	@Heavy
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void ChatListener(AsyncPlayerChatEvent e){
 		if(!e.isCancelled()){
-			/*if(e.getMessage().contains("%")){
-				e.setCancelled(true);
-				e.getPlayer().sendMessage(r.error + "Illegal characters in chat.");
-				return;
-			}*/
 			String m = e.getMessage();
 			if(r.perm(e.getPlayer(), "uc.coloredchat", false, false)){
 				m = ChatColor.translateAlternateColorCodes('&', m);
 			}
-			/*if(UC.getPlayer(e.getPlayer()).isMuted()){
-				e.setCancelled(true);
-				return;
-			}*/
 			ChatSet set = SwearDetector(m, e.getPlayer());
 			if(set.isCancelled()){
 				e.setCancelled(true);
@@ -82,7 +71,6 @@ public class EventChat implements Listener{
 			}
 			m = set.getMessage();
 			e.setMessage(m);
-			//
 			if(r.getCnfg().getBoolean("Chat.EnableCustomChat") == false) return;
 			if((Bukkit.getPluginManager().getPlugin("EssentialsChat") != null && Bukkit.getPluginManager().getPlugin("EssentialsChat").isEnabled()) || (Bukkit.getPluginManager().getPlugin("Essentials") != null && Bukkit.getPluginManager().isPluginEnabled("Essentials"))){
 				if(!ChatColor.stripColor(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")){
@@ -355,10 +343,5 @@ class ChatSet{
 		cancelled = false;
 		message = mes;
 	}
-}
-/**
- * This class is heavy. Touch it can make this class unstable.
- */
-@interface Heavy {
 }
 
