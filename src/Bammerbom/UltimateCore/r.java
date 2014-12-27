@@ -320,7 +320,7 @@ public class r {
 	}
 	@Deprecated
 	private static boolean perm(Player p, String perm, Boolean def){
-		if(permission != null){
+		if(permission != null && !permission.getName().equals("SuperPerms")){
 			if(p.isOp()) return true;
 			return permission.has(p.getWorld(), p.getName(), perm) || p.isOp();
 		}else{
