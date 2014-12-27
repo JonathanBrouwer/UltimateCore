@@ -76,10 +76,12 @@ public class CmdJail implements Listener{
 		   UltimateConfiguration conf = new UltimateConfiguration(UltimateFileLoader.DFjails);
 		   StringBuilder b = new StringBuilder(r.mes("Jail.List").replaceAll("%Jails", ""));
 		   Boolean a = false;
-		   for(String str : conf.getConfigurationSection("Jails").getKeys(true)){
-			   if(a) b.append(", ");
-			   a = true;
-			   b.append(str);
+		   if(conf.contains("Jails")){
+		       for(String str : conf.getConfigurationSection("Jails").getKeys(true)){
+			       if(a) b.append(", ");
+			       a = true;
+			       b.append(str);
+		       }
 		   }
 		   if(!a) b.append("none");
 		   sender.sendMessage(b.toString());
