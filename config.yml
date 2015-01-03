@@ -69,6 +69,12 @@ Bleed:
   Enabled: false
   #Players only?
   PlayersOnly: false
+  
+Spawn:
+  # Set this to lowest, if you want Multiverse to handle the respawning.
+  # Set this to high, if you want UltimateCore to handle the respawning.
+  # Set this to highest, if you want to force UltimateCore to handle the respawning.
+  priority: high
 #The amount of homes someone can have
 #Players with uc.sethome.default = 3 homes
 #With uc.sethome.vip it overrides default and the player has 5 homes.

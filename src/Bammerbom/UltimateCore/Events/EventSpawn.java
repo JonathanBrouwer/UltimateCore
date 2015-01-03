@@ -3,10 +3,12 @@ package Bammerbom.UltimateCore.Events;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.event.EventHandler;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventException;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
 import Bammerbom.UltimateCore.UltimateConfiguration;
@@ -17,11 +19,26 @@ public class EventSpawn implements Listener {
 	static Plugin plugin;
 	public EventSpawn(Plugin instance){
 		plugin = instance;
-		if(this instanceof Listener){
-			Bukkit.getPluginManager().registerEvents((Listener) this, instance);
+		EventPriority p;
+		String s = r.getCnfg().getString("Spawn.priority");
+		if(s.equalsIgnoreCase("low")){
+			p = EventPriority.LOW;
+		}else if(s.equalsIgnoreCase("high")){
+			p = EventPriority.HIGH;
+		}else if(s.equalsIgnoreCase("highest")){
+			p = EventPriority.HIGHEST;
+		}else{
+			r.log("Spawn priority is invalid.");
+			return;
 		}
+		Bukkit.getPluginManager().registerEvent(PlayerRespawnEvent.class, this, p, new EventExecutor(){
+			@Override
+			public void execute(Listener l, Event e) throws EventException {
+				onRespawn((PlayerRespawnEvent) e);
+			}
+		}, plugin);
+		Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 	}
-	@EventHandler(priority = EventPriority.MONITOR)
 	public void onRespawn(final PlayerRespawnEvent e){
 	    Location bed = e.getPlayer().getBedSpawnLocation();
 	    if (bed != null){
