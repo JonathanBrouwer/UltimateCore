@@ -37,7 +37,6 @@ public class EventSpawn implements Listener {
 				onRespawn((PlayerRespawnEvent) e);
 			}
 		}, plugin);
-		Bukkit.getPluginManager().registerEvents((Listener) this, instance);
 	}
 	public void onRespawn(final PlayerRespawnEvent e){
 	    Location bed = e.getPlayer().getBedSpawnLocation();
