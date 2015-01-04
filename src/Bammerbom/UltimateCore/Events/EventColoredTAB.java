@@ -74,7 +74,6 @@ public class EventColoredTAB implements Listener{
 		    if(prefix == null || prefix.equalsIgnoreCase("")) return;
 		    String name = prefix + UC.getPlayer(e.getPlayer()).getNick();
 		    name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-		    if(name.length() > 15) name = name.substring(0, 14);
 		    e.getPlayer().setPlayerListName(name);
 	  }
 	
