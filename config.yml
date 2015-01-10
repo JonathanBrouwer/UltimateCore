@@ -181,7 +181,7 @@ Explode:
   Wither: false
   Lightning: false
 Weather:
-  #Disable rain? (True = Disabled)
+  #Disable weather? (True = Disabled)
   Rain: false
 Tp:
   TpaCancelDelay: 30
