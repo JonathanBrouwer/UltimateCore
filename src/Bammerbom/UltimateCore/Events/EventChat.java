@@ -104,8 +104,8 @@ public class EventChat implements Listener{
 					f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : suffix);
 					f = r(f, "\\+Name", "\\%1\\$s");
 					f = r(f, "\\+Displayname", "\\%1\\$s");
-					f = r(f, "\\+World", e.getPlayer().getWorld().getName());
 					f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
+					f = r(f, "\\+World", e.getPlayer().getWorld().getName());
 					f = ChatColor.translateAlternateColorCodes('&', f);
 					if(r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) f = r(f, "&y", r.getRandomChatColor() + "");
 					f = r(f, "\\+Message", "\\%2\\$s");
@@ -142,8 +142,8 @@ public class EventChat implements Listener{
 			f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (suffix != null ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (suffix != null ? suffix : ""));
 			f = r(f, "\\+Name", "\\%1\\$s");
 			f = r(f, "\\+Displayname", "\\%1\\$s");
-			f = r(f, "\\+World", e.getPlayer().getWorld().getName());
 			f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
+			f = r(f, "\\+World", e.getPlayer().getWorld().getName());
 			f = ChatColor.translateAlternateColorCodes('&', f);
 			ChatColor value = Arrays.asList(ChatColor.values()).get(ra.nextInt(Arrays.asList(ChatColor.values()).size()));
 			if(r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) f = r(f, "&y", value + "");

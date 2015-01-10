@@ -105,7 +105,7 @@ public class UltimateCore extends JavaPlugin{
 	static BlockDatabase database;
 	static ItemDatabase items;
 	 public static Economy economy = null;
-	 public static boolean enabling = false;
+     public static boolean enabling = false;
 	@Override
 	public void onEnable(){
 		enabling = true;
