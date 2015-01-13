@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.bukkit;
+package bammerbom.ultimatecore.bukkit.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

@@ -23,7 +23,6 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
-import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
 import net.md_5.bungee.api.ChatColor;

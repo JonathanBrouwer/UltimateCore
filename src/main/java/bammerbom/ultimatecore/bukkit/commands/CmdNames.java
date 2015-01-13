@@ -23,7 +23,6 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
-import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;

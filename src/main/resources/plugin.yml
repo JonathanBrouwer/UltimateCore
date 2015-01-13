@@ -355,6 +355,15 @@ commands:
     usage: /<command>
     description: Teleport to the spawn
     permissions: uc.spawn
+  skull:
+    usage: /<command> [Player]
+    description: Get the head of a player
+    permissions: uc.skull
+    aliases: [head]
+  smite:
+    usage: /<command> [Player]
+    description: Throw lightning at a player
+    permissions: uc.smite
   unban:
     description: Unbans the target player.
     usage: /<command> <Player>

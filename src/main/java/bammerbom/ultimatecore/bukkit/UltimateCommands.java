@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
+import bammerbom.ultimatecore.bukkit.commands.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.commands.*;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
@@ -121,6 +122,8 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdSethunger());
         cmds.add(new CmdSetjail());
         cmds.add(new CmdSetspawn());
+        cmds.add(new CmdSkull());
+        cmds.add(new CmdSmite());
 
         cmds.add(new CmdSpawn());
         cmds.add(new CmdUnban());
