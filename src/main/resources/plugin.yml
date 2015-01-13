@@ -364,6 +364,10 @@ commands:
     usage: /<command> [Player]
     description: Throw lightning at a player
     permissions: uc.smite
+  spawner:
+    usage: /<command> <MobType>
+    description: Set the mob type of a spawner
+    permissions: uc.spawner
   unban:
     description: Unbans the target player.
     usage: /<command> <Player>
