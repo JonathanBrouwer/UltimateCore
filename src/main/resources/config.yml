@@ -1,0 +1,55 @@
+#Enable Automatic Updater???
+Updater:
+  #Check for updates? (Set to false to totaly disable the Updater (And /uc update))
+  check: true
+  #Download the updates automaticly? (When disabled you can still use /uc update to download)
+  download: false
+#Enable Pugin Metrics (MCstats.org)
+Metrics: true
+#Allow this plugin to connect to the mojang servers?
+Mojang: true
+#Language of the plugin (See Messages folder)
+#You can add a custom one by creating a new file and put the name of the file here.
+Language: EN
+
+#Chat customization
+Chat:
+  #How is the /alert command displayed?
+  AlertFormat: "&0[&4&lALERT&0] @2%Message"
+  #How is the /broadcast command displayed?
+  BroadcastFormat: "&6[&e&lBROADCAST&6] @2%Message"
+  #How is the /me command displayed?
+  MeFormat: "&7* %Player %Message"
+  #How is the /msg command displayed?
+  MsgFormat: "@1[@2%Player1 @1-> @2%Player2@1] &e%Message"
+  #How is the /msg command displayed for spies?
+  MsgFormatSpy: "&7[&f%Player1 &7-> &f%Player2&7] &f%Message"
+  #How is the /say command displayed??
+  SayFormat: "&5[&d%Player&5] %Message"
+  
+#Command customization
+Command:
+  #Broadcast when someone gets banned?
+  BanBroadcast: true
+  #Remove positive effects when being healed?
+  HealPositive: false
+  #Home limits for permissions. Default limit is 1
+  HomeLimits:
+    #Player with uc.sethome.member has 2 homes
+    member: 2
+    #Player with uc.sethome.vip has 5 homes
+    vip: 5
+    #Player with uc.sethome.unlimited has infinite homes
+  Jail:
+    #Allow jailed players to move?
+    move: true
+    #Allow jailed players to talk?
+    talk: true
+    #Teleport players to the spawn when unjailed?
+    spawn: true
+  Save:
+    #Show autosave messages?
+    autosaveMessage: false
+  Smite:
+    #Is smite just an effect, or is it real? (False = Effect)
+    smiteDamage: false

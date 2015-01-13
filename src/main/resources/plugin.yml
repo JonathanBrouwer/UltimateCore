@@ -1,0 +1,378 @@
+name: UltimateCore
+version: 2.0.0
+description: Ultimate Core is all you need to setup a server and more!
+author: Bammerbom
+authors: [Bammerbom, blockbreaker21]
+website: dev.bukkit.org/bukkit-plugins/ultimate_core
+main: bammerbom.ultimatecore.bukkit.UltimateCore
+prefix: UltimateCore
+softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions, dynmap, BKCommonLib, ProtocolLib, PacketAPI]
+commands:
+  accountstatus:
+    description: Checks if an account is premium or not.
+    usage: /<command> <Player>
+    permisssions: uc.accountstatus
+    aliases: [acstatus]
+  alert:
+    description: Sends everyone on the server an alert message.
+    usage: /<command> <Message>
+    permisssions: uc.alert
+  back:
+    description: Teleports you to your location prior to tp/spawn/warp.
+    usage: /<command>
+    permissions: uc.back
+    aliases: [return]
+  ban:
+    description: Bans the target player.
+    usage: /<command> <Player> [Time] [Reason]
+    permissions: uc.ban
+  broadcast:
+    description: Broadcasts a message
+    usage: /<command> <Message>
+    permissions: uc.broadcast
+    aliases: [bc]
+  burn:
+    description: Set someone on fire.
+    usage: /<command> <Player> [Time]
+    permissions: uc.burn
+    aliases: [ignite]
+  butcher:
+    description: Kill all monsters in a certain area.
+    usage: /<command> [Type] [Range]
+    permissions: uc.butcher
+    aliases: [killmonsters]
+  clean:
+    description: Clean the world, to reduce lag
+    usage: /<command> [World]
+    permissions: uc.clean
+  clear:
+    description: Clear all items in your inventory.
+    usage: /<command> [player] [item[:<data>]] [amount]
+    permissions: uc.clear
+    aliases: [clearinventory, ci]
+  clearchat:
+    description: Clears the chat
+    usage: /<command> [Player]
+    permissions: uc.clearchat
+    aliases: [cleanchat]
+  compact:
+    usage: /<command> [Hand]
+    description: Compact the items in your inventory
+    permissions: uc.compact
+    aliases: [compact]
+  compass:
+    usage: /<command> [Player]
+    description: Set the compass location of someone to your current location
+    permissions: uc.compass
+    aliases: [setcompass]
+  coordinates:
+    usage: /<command> [Player]
+    description: Get the location of a certain player
+    permissions: uc.coordinates
+    aliases: [coords, location, loc]
+  damage:
+    usage: /<command> [Player] [Damage]
+    description: Damage someone for a certain amount of damage
+    permissions: uc.damage
+    aliases: [hurt]
+  deaf:
+    usage: /<command> <Player> [Time]
+    description: Make someone not able to receive chat
+    permissions: uc.deaf
+  delhome:
+    usage: /<command> [Player:][Name]
+    description: Remove a home
+    permissions: uc.delhome
+  deljail:
+    usage: /<command> <Name>
+    description: Remove a jail
+    permissions: uc.deljail
+    aliases: [removejail]
+  editsign:
+    usage: /<command> <1-4> [Text]
+    description: Edit a sign
+    permissions: uc.editsign
+    aliases: [signedit]
+  effect:
+    usage: /<command> <Player> <Effect/Clear> [Duration] [Level]
+    description: Give someone a certain potion effect.
+    permissions: uc.effect
+  enchant:
+    usage: /<command> <Enchantment> [Level]
+    description: Enchant the item in your hand.
+    permissions: uc.enchant
+  enchantingtable:
+    usage: /<command>
+    description: Open an enchanting inventory
+    permissions: uc.enchantingtable
+    aliases: [ectable]
+  enderchest:
+    usage: /<command> [Player]
+    description: Open an enderchest
+    permissions: uc.enderchest
+    aliases: [echest]
+  extinguish:
+    usage: /<command> [Player]
+    description: Extinguish someone
+    permissions: uc.extinguish
+    aliases: [unfire]
+  feed:
+    usage: /<command> [Player]
+    description: Feed someone
+    permissions: uc.feed
+    aliases: [feed]
+  fireball:
+    usage: /<command> [Type]
+    description: Shoot a fireball
+    permissions: uc.fireball
+  firework:
+    usage: /<command> [clear] [power:<amount>] [color:<COLOR[,COLOR]]>] [fade:<COLOR[,COLOR]]>] [shape:<star/ball/large/creeper/burst>] [effect:<trail/twinkle>[,trail/twinkle]]
+    description: Spawn in or modify firework.
+    permissions: uc.firework
+  fly:
+    usage: /<command> [Player]
+    description: Enable/Disable fly mode
+    permissions: uc.fly
+  freeze:
+    usage: /<command> <Player> [Time]
+    description: Freeze someone
+    permissions: uc.freeze
+  gamemode:
+    usage: /gamemode|gm <Gamemode> [Player] OR /survival|creative|adventure|s|c|a [Player]
+    description: Change your gamemode
+    permissions: uc.gamemode
+    aliases: [gm, survival, s, creative, c, adventure, a, spec, specator]
+  garbagecollector:
+    usage: /<command>
+    description: Runs the Java garbage collector
+    permissions: uc.garbagecollector
+    aliases: [gc]
+  give:
+    usage: /<command> <Player> <Item> [Amount] [Data...]
+    description: Give an item to a certain player
+    permissions: uc.give
+  god:
+    usage: /<command> [Player] [Time]
+    description: Enable/Disable god mode for a certain time
+    permissions: uc.god
+  hat:
+    usage: /<command>
+    description: Puts the item in your hand on your head.
+    permissions: uc.hat
+  heal:
+    usage: /<command> [Player]
+    description: Heals the target
+    permissions: uc.heal
+  help:
+    usage: /<command> [search term] [page]
+    description: View a list of available commands.
+    permissions: uc.help
+  home:
+    usage: /<command> [Player:][Name]
+    description: Teleport to your home
+    permissions: uc.home
+  hunger:
+    usage: /<command> <Amount> [Player]
+    description: Remove hunger points
+    permissions: uc.hunger
+  inventory:
+    usage: /<command> <Player>
+    description: Open a players inventory
+    permissions: uc.inventory
+    aliases: [inv, invsee]
+  ip:
+    usage: /<command> [Player]
+    description: Get the servers or a players ip
+    permissions: uc.ip
+  item:
+    usage: /<command> <Item> [Amount] [Data...]
+    description: Give an item to yourself
+    permissions: uc.item
+    aliases: [i]
+  jail:
+    usage: /<command> <Player> [Jail]
+    description: Jail someone
+    permissions: uc.jail
+  jump:
+    usage: /<command>
+    description: Jump to the place where you are looking at
+    permissions: uc.jump
+  kick:
+    usage: /<command> <Player> [Reason]
+    description: Kick someone
+    permissions: uc.kick
+  kickall:
+    usage: /<command> [Reason]
+    description: Kick everyone
+    permissions: uc.kickall
+  kill:
+    usage: /<command> [Player]
+    description: Kill someone or yourself
+    permissions: uc.kill
+  killall:
+    usage: /<command> [Type] [Radius]
+    description: Kill all mobs
+    permissions: uc.killall
+  kittycannon:
+    usage: /<command>
+    description: Ocelot boom
+    permissions: uc.kittycannon
+    aliases: [kittyboom]
+  lag:
+    usage: /<command>
+    description: Check the performance of the server
+    permissions: uc.lag
+    aliases: [ram, tps, mem, memory]
+  list:
+    usage: /<command>
+    description: A list of online players
+    permissions: uc.list
+    aliases: [players]
+  me:
+    usage: /<command> <Message>
+    description: Message in me format
+    permissions: uc.me
+  mobtp:
+    usage: /<command>
+    description: Teleport mobs using a stick
+    permissions: uc.mobtp
+  modify:
+    usage: /<command> <Meta...>
+    description: Modify the meta of the item in your hand
+    permissions: uc.modify
+  more:
+    usage: /<command>
+    description: Gives you 64 of the item in your hand.
+    permissions: uc.more
+  motd:
+    usage: /<command>
+    description: Sends the MOTD in the chat
+    permissions: uc.motd
+  msg:
+    usage: /<command> <Player> <Message>
+    description: Send a private message
+    permissions: uc.msg
+    aliases: [w, m, t, pm, tell, whisper]
+  mute:
+    usage: /<command> <Player> [Time]
+    description: Make someone not able to chat
+    permissions: uc.mute
+  names:
+    usage: /<command> <Player>
+    description: View all names a player had in the past
+    permissions: uc.names
+  near:
+    usage: /<command> [Range]
+    description: View all nearby players
+    permissions: uc.near
+  nick:
+    usage: /<command> <Name>/off [Player]
+    description: Set a players nickname
+    permissions: uc.nick
+  ping:
+    usage: /<command> [Player]
+    description: View a players ping
+    permissions: uc.ping
+  plugin:
+    usage: /<command> help
+    description: Plugin manager.
+    permissions: uc.plugin
+  potion:
+    usage: /<command> <Effect> [Duration] [Amplifier] [Splash]
+    description: Spawn in or modify a potion
+    permissions: uc.potion
+  powertool:
+    usage: /<command> <Clear/Clearall/Add/Remove/list/<Command>> [Command]
+    description: Bind an item to a command.
+    permissions: uc.powertool
+    aliases: [pt]
+  realname:
+    usage: /<command> <Nick>
+    description: Get the real name of a certain nick.
+    permissions: uc.realname
+  recipe:
+    usage: /recipe <Item> [Recipe]
+    description: View the recipe of an item.
+    permissions: uc.recipe
+  removeall:
+    usage: /removeall [Type] [Range]
+    description: Remove all entities of a certain type.
+    permissions: uc.removeall
+  repair:
+    usage: /repair [All] [Player]
+    description: Repair an item.
+    permissions: uc.repair
+    aliases: [fix]
+  reply:
+    usage: /<command> <Message>
+    description: Reply to a private message.
+    permissions: uc.reply
+    aliases: [r]
+  rules:
+    usage: /rules
+    description: Read the rules.
+    permissions: uc.rules
+  save:
+    usage: /save [World]
+    description: Save a world.
+    permissions: uc.save
+  say:
+    usage: /say <Message>
+    description: Broadcast a message
+    permissions: uc.say
+  seen:
+    usage: /seen <Player>
+    description: View information about a player
+    permissions: uc.seen
+  setarmor:
+    usage: /setarmor <ArmorType> [Player]
+    description: Set someones armor.
+    permissions: uc.setarmor
+  sethealth:
+    usage: /<command> <Food> [Player]
+    description: Set the amount of health of a player
+    permissions: uc.sethealth
+    aliases: [setlives]
+  sethome:
+    usage: /<command> [Player:][Name]
+    description: Set/move a home.
+    permissions: uc.sethome
+  sethunger:
+    usage: /<command> <Food> [Player]
+    description: Set the amount of food bars of a player
+    permissions: uc.sethunger
+    aliases: [setfood]
+  setjail:
+    usage: /<command> <Name>
+    description: Set a jail
+    permissions: uc.setjail
+    aliases: [addjail]
+  setspawn:
+    usage: /<command>
+    description: Set the global spawn
+    permissions: uc.setspawn
+  spawn:
+    usage: /<command>
+    description: Teleport to the spawn
+    permissions: uc.spawn
+  unban:
+    description: Unbans the target player.
+    usage: /<command> <Player>
+    permissions: uc.unban
+    aliases: [pardon]
+  undeaf:
+    description: Undeafs the target player.
+    usage: /<command> <Player>
+    permissions: uc.undeaf
+  unfreeze:
+    description: Unfreezes the target player
+    usage: /<command> <Player>
+    permissions: uc.unfreeze
+  unjail:
+    usage: /<command> <Player>
+    description: Unjail someone
+    permissions: uc.unjail
+  unmute:
+    usage: /<command> <Player>
+    description: Unmute someone
+    permissions: uc.unmute

@@ -1,0 +1,358 @@
+/*
+ * This file is part of UltimateCore, licensed under the MIT License (MIT).
+ *
+ * Copyright (c) Bammerbom
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+package bammerbom.ultimatecore.bukkit.listeners;
+
+import bammerbom.ultimatecore.bukkit.api.UC;
+import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.commands.CmdEnchantingtable;
+import bammerbom.ultimatecore.bukkit.commands.CmdMobtp;
+import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+
+public class PlayerListener implements Listener {
+
+    Boolean jailChat = r.getCnfg().getBoolean("Command.Jail.talk");
+    Boolean jailedmove = r.getCnfg().getBoolean("Command.Jail.move");
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onTeleport(PlayerTeleportEvent e) {
+        try {
+            //Back
+            if (e.getCause().equals(TeleportCause.COMMAND)) {
+                UC.getPlayer(e.getPlayer()).setLastLocation(e.getFrom());
+            }
+            //Jail
+            if (!jailedmove && UC.getPlayer(e.getPlayer()).isJailed()) {
+                if (!e.getCause().equals(TeleportCause.UNKNOWN)) {
+                    Location loc = e.getFrom().getBlock().getLocation().add(0.5, 0.1, 0.5);
+                    loc.setPitch(e.getFrom().getPitch());
+                    loc.setYaw(e.getFrom().getYaw());
+                    e.setTo(loc);
+                }
+            }
+            //
+
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerTeleportEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onJoin(PlayerJoinEvent e) {
+        try {
+            //Inventory
+            UC.getPlayer(e.getPlayer()).updateLastInventory();
+            //Jail
+            if (UC.getPlayer(e.getPlayer()).isJailed()) {
+                e.getPlayer().teleport(UC.getServer().getJail(UC.getPlayer(e.getPlayer()).getJail()));
+            }
+            //Lastconnect
+            UC.getPlayer(e.getPlayer()).updateLastConnectMillis();
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerJoinEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onQuit(PlayerQuitEvent e) {
+        try {
+            //Inventory
+            UC.getPlayer(e.getPlayer()).updateLastInventory();
+            //
+            UC.getPlayer(e.getPlayer()).updateLastConnectMillis();
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerQuitEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onLogin(PlayerLoginEvent e) {
+        try {
+            //Ban
+            if (UC.getPlayer(e.getPlayer()).isBanned()) {
+                UCplayer pl = UC.getPlayer(e.getPlayer());
+                String msg = r.mes("banFormat").replace("%Time", DateUtil.format(pl.getBanTimeLeft() + System.currentTimeMillis())).replace("%Reason", pl.getBanReason());
+                e.disallow(Result.KICK_BANNED, msg);
+            } else {
+                e.allow();
+            }
+            //
+
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerLoginEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onChat(AsyncPlayerChatEvent e) {
+        try {
+            //Deaf
+            e.getRecipients().removeAll(UC.getServer().getDeafOnlinePlayers());
+            if (UC.getPlayer(e.getPlayer()).isDeaf()) {
+                r.sendMes(e.getPlayer(), "deafTalk");
+                e.setCancelled(true);
+            }
+            //Jail
+            if (!jailChat && UC.getPlayer(e.getPlayer()).isJailed()) {
+                r.sendMes(e.getPlayer(), "jailNotAllowedTalk");
+                e.setCancelled(true);
+            }
+            //Mute
+            if (UC.getPlayer(e.getPlayer()).isMuted()) {
+                e.setCancelled(true);
+                if (UC.getPlayer(e.getPlayer()).getMuteTime() == 0 || UC.getPlayer(e.getPlayer()).getMuteTime() == -1) {
+                    r.sendMes(e.getPlayer(), "muteChat");
+                } else {
+                    r.sendMes(e.getPlayer(), "muteChatTime", "%Time", DateUtil.format(UC.getPlayer(e.getPlayer()).getMuteTime()));
+                }
+            }
+            //
+
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: AsyncPlayerChatEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPrepareItemEnchant(PrepareItemEnchantEvent e) {
+        try {
+            //EnchantingTable
+            if (UC.getPlayer(e.getEnchanter()).isInCommandEnchantingtable()) {
+                e.getExpLevelCostsOffered()[0] = 1;
+                e.getExpLevelCostsOffered()[1] = 15;
+                e.getExpLevelCostsOffered()[2] = 30;
+            }
+            //
+
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PrepareItemEnchantEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onInventoryClose(InventoryCloseEvent e) {
+        try {
+            //EnchantingTable
+            if (UC.getPlayer((Player) e.getPlayer()).isInCommandEnchantingtable()) {
+                CmdEnchantingtable.inCmd.remove(e.getPlayer().getUniqueId());
+            }
+            //Inventory
+            if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOfflineInventory()) {
+                UC.getPlayer(e.getPlayer().getUniqueId()).setInOfflineInventory(false);
+            }
+            if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOnlineInventory()) {
+                UC.getPlayer(e.getPlayer().getUniqueId()).setInOnlineInventory(false);
+            }
+            //Recipe
+            if (UC.getPlayer((Player) e.getPlayer()).isInRecipeView()) {
+                UC.getPlayer((Player) e.getPlayer()).isInRecipeView();
+                e.getInventory().clear();
+            }
+            //
+
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: InventoryCloseEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onInventoryClick(final InventoryClickEvent e) {
+        try {
+            //Inventory
+            if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInOfflineInventory()) {
+                e.setCancelled(true);
+            }
+            if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInOnlineInventory()) {
+                if (!r.perm(((Player) e.getWhoClicked()), "uc.inventory.edit", false, true)) {
+                    e.setCancelled(true);
+                }
+            }
+            //Recipe
+            if (UC.getPlayer((Player) e.getWhoClicked()).isInRecipeView() && e.getInventory().getType() == InventoryType.WORKBENCH) {
+                e.setCancelled(true);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+                    public void run() {
+                        ((Player) e.getWhoClicked()).updateInventory();
+                    }
+                }, 1L);
+            }
+            //
+
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: InventoryClickEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onMove(PlayerMoveEvent e) {
+        if (e.getFrom().getBlock().getLocation().equals(e.getTo().getBlock().getLocation())) {
+            return;
+        }
+        try {
+            //Freeze
+            if (UC.getPlayer(e.getPlayer()).isFrozen()) {
+                Location loc = e.getFrom().getBlock().getLocation().add(0.5, 0.1, 0.5);
+                loc.setPitch(e.getFrom().getPitch());
+                loc.setYaw(e.getFrom().getYaw());
+                e.setTo(loc);
+            }
+
+            //Jail
+            if (!jailedmove && UC.getPlayer(e.getPlayer()).isJailed()) {
+                Location loc = e.getFrom().getBlock().getLocation().add(0.5, 0.1, 0.5);
+                loc.setPitch(e.getFrom().getPitch());
+                loc.setYaw(e.getFrom().getYaw());
+                e.setTo(loc);
+                r.sendMes(e.getPlayer(), "jailNotAllowedMove");
+            }
+            //
+
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerMoveEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onDeath(PlayerDeathEvent e) {
+        try {
+            //Back
+            if (r.perm(e.getEntity(), "uc.back.death", true, false)) {
+                UC.getPlayer(e.getEntity()).setLastLocation();
+            }
+
+            //
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerMoveEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onDamage(EntityDamageEvent e) {
+        try {
+            //God
+            if (e.getEntity().getType().equals(EntityType.PLAYER)) {
+                Player p = (Player) e.getEntity();
+                if (UC.getPlayer(p).isGod()) {
+                    p.setFireTicks(0);
+                    p.setHealth(((Damageable) p).getMaxHealth());
+                    p.setRemainingAir(p.getMaximumAir());
+                    e.setCancelled(true);
+                }
+            }
+            //
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: EntityDamageEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onFoodLevelChange(FoodLevelChangeEvent e) {
+        try {
+            //God
+            if (e.getEntity() instanceof Player) {
+                Player p = (Player) e.getEntity();
+                if (UC.getPlayer(p).isGod()) {
+                    e.setCancelled(true);
+                    p.setFoodLevel(20);
+                }
+            }
+            //
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: FoodLevelChangeEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onCommand(PlayerCommandPreprocessEvent e) {
+        try {
+            //Jail
+            if (UC.getPlayer(e.getPlayer()).isJailed() && !e.getMessage().startsWith("/unjail")) {
+                e.setCancelled(true);
+                r.sendMes(e.getPlayer(), "jailNotAllowedCommand");
+            }
+            //
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerCommandPreprocessEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onInteract(PlayerInteractEvent e) {
+        try {
+            //Mobtp
+            if (!e.isCancelled() && !e.getAction().equals(Action.PHYSICAL)) {
+                e.setCancelled(CmdMobtp.place(e.getPlayer()));
+            }
+            //Powertool
+            if (!e.getAction().equals(Action.PHYSICAL)
+                    && e.getPlayer() != null
+                    && e.getPlayer().getItemInHand() != null
+                    && e.getPlayer().getItemInHand().getType() != null
+                    && !e.getPlayer().getItemInHand().getType().equals(Material.AIR)
+                    && UC.getPlayer(e.getPlayer()).hasPowertool(e.getPlayer().getItemInHand().getType())) {
+                for (String s : UC.getPlayer(e.getPlayer()).getPowertools(e.getPlayer().getItemInHand().getType())) {
+                    e.getPlayer().performCommand(s);
+                }
+            }
+
+            //
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerInteractEvent");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onInteractEntity(PlayerInteractEntityEvent e) {
+        try {
+            //Mobtp
+            if (!e.isCancelled()) {
+                e.setCancelled(CmdMobtp.pickup(e.getPlayer(), e.getRightClicked()));
+            }
+            //
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerInteractEntityEvent");
+        }
+    }
+}
