@@ -80,7 +80,9 @@ public class CmdUnban implements UltimateCommand {
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (!r.perm(cs, "uc.unban", false, true)) return new ArrayList<>();
+        if (!r.perm(cs, "uc.unban", false, true)) {
+            return new ArrayList<>();
+        }
         ArrayList<String> str = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
             r.log(pl.getName() + " - " + UC.getPlayer(pl).isBanned());

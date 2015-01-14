@@ -46,6 +46,7 @@ class YamlRepresenter extends Representer {
     }
 
     private class RepresentConfigurationSerializable extends RepresentMap {
+
         @Override
         public Node representData(Object data) {
             ConfigurationSerializable serializable = (ConfigurationSerializable) data;

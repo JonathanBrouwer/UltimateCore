@@ -52,31 +52,37 @@ public class CmdSmite implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if(!r.perm(cs, "uc.smite", false, true)) return;
-        if(r.checkArgs(args, 0)){
-    	    if(!r.perm(cs, "uc.smite.others", false, true)) return;
-    	    Player target = r.searchPlayer(args[0]);
-    	    if(target == null){
+        if (!r.perm(cs, "uc.smite", false, true)) {
+            return;
+        }
+        if (r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.smite.others", false, true)) {
+                return;
+            }
+            Player target = r.searchPlayer(args[0]);
+            if (target == null) {
                 r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
                 return;
-    	    }
-    	    Location tPlayerLocation = target.getLocation();
-    	    if(r.getCnfg().getBoolean("command.Smite.smiteDamage") == false){
-    	        target.getWorld().strikeLightningEffect(tPlayerLocation);
-    	    }else{
+            }
+            Location tPlayerLocation = target.getLocation();
+            if (r.getCnfg().getBoolean("command.Smite.smiteDamage") == false) {
+                target.getWorld().strikeLightningEffect(tPlayerLocation);
+            } else {
                 target.getWorld().strikeLightning(tPlayerLocation);
-    	    }
-    	}else{
-    	    if(!(r.isPlayer(cs))) return;
-    	    Player p = (Player) cs;
-    	    Block strike = p.getTargetBlock(null, 150);
-    	    Location strikel = strike.getLocation();
-    	    if(r.getCnfg().getBoolean("command.Smite.smiteDamage") == false){
-    	        p.getWorld().strikeLightningEffect(strikel);
-    	    }else{
-    		p.getWorld().strikeLightning(strikel);
-    	    }
-    	}
+            }
+        } else {
+            if (!(r.isPlayer(cs))) {
+                return;
+            }
+            Player p = (Player) cs;
+            Block strike = p.getTargetBlock(null, 150);
+            Location strikel = strike.getLocation();
+            if (r.getCnfg().getBoolean("command.Smite.smiteDamage") == false) {
+                p.getWorld().strikeLightningEffect(strikel);
+            } else {
+                p.getWorld().strikeLightning(strikel);
+            }
+        }
     }
 
     @Override

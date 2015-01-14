@@ -351,10 +351,6 @@ commands:
     usage: /<command>
     description: Set the global spawn
     permissions: uc.setspawn
-  spawn:
-    usage: /<command>
-    description: Teleport to the spawn
-    permissions: uc.spawn
   skull:
     usage: /<command> [Player]
     description: Get the head of a player
@@ -364,10 +360,19 @@ commands:
     usage: /<command> [Player]
     description: Throw lightning at a player
     permissions: uc.smite
+  spawn:
+    usage: /<command>
+    description: Teleport to the spawn
+    permissions: uc.spawn
   spawner:
     usage: /<command> <MobType>
     description: Set the mob type of a spawner
     permissions: uc.spawner
+  spawnmob:
+    usage: /<command> <Type> [Amount] [Data...]
+    description: Spawn a mob
+    permissions: uc.spawnmob
+    aliases: [mob]
   unban:
     description: Unbans the target player.
     usage: /<command> <Player>

@@ -53,7 +53,9 @@ public class BossbarUtil implements Listener {
     private static HashMap<UUID, Integer> timers = new HashMap<UUID, Integer>();
 
     public static void enable() {
-        if (enabled == true) return;
+        if (enabled == true) {
+            return;
+        }
         enabled = true;
         Bukkit.getServer().getPluginManager().registerEvents(new BossbarUtil(), r.getUC());
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
@@ -71,7 +73,7 @@ public class BossbarUtil implements Listener {
             removeBar(player);
         }
         players.clear();
-        for (Iterator<Integer> i = timers.values().iterator(); i.hasNext(); ) {
+        for (Iterator<Integer> i = timers.values().iterator(); i.hasNext();) {
             int timerID = ((Integer) i.next()).intValue();
             Bukkit.getScheduler().cancelTask(timerID);
         }
@@ -87,7 +89,9 @@ public class BossbarUtil implements Listener {
 
     private static void cancelTimer(Player player) {
         Integer timerID = (Integer) timers.remove(player.getUniqueId());
-        if (timerID != null) Bukkit.getScheduler().cancelTask(timerID.intValue());
+        if (timerID != null) {
+            Bukkit.getScheduler().cancelTask(timerID.intValue());
+        }
     }
 
     private static void sendDragon(FakeDragon dragon, Player player) {
@@ -124,16 +128,26 @@ public class BossbarUtil implements Listener {
     @SuppressWarnings("unused")
     private static BlockFace getDirection(Location loc) {
         float dir = Math.round(loc.getYaw() / 90.0F);
-        if ((dir == -4.0F) || (dir == 0.0F) || (dir == 4.0F)) return BlockFace.SOUTH;
-        if ((dir == -1.0F) || (dir == 3.0F)) return BlockFace.EAST;
-        if ((dir == -2.0F) || (dir == 2.0F)) return BlockFace.NORTH;
-        if ((dir == -3.0F) || (dir == 1.0F)) return BlockFace.WEST;
+        if ((dir == -4.0F) || (dir == 0.0F) || (dir == 4.0F)) {
+            return BlockFace.SOUTH;
+        }
+        if ((dir == -1.0F) || (dir == 3.0F)) {
+            return BlockFace.EAST;
+        }
+        if ((dir == -2.0F) || (dir == 2.0F)) {
+            return BlockFace.NORTH;
+        }
+        if ((dir == -3.0F) || (dir == 1.0F)) {
+            return BlockFace.WEST;
+        }
         return null;
     }
 
     //Api
     public static void setMessage(String message) {
-        for (Player player : r.getOnlinePlayers()) setMessage(player, message);
+        for (Player player : r.getOnlinePlayers()) {
+            setMessage(player, message);
+        }
     }
 
     public static void setMessage(Player player, String message) {
@@ -145,8 +159,9 @@ public class BossbarUtil implements Listener {
     }
 
     public static void setMessage(String message, float percent) {
-        for (Player player : r.getOnlinePlayers())
+        for (Player player : r.getOnlinePlayers()) {
             setMessage(player, message, percent);
+        }
     }
 
     public static void setMessage(Player player, String message, float percent) {
@@ -159,8 +174,9 @@ public class BossbarUtil implements Listener {
     }
 
     public static void setMessage(String message, int seconds) {
-        for (Player player : r.getOnlinePlayers())
+        for (Player player : r.getOnlinePlayers()) {
             setMessage(player, message, seconds);
+        }
     }
 
     public static void setMessage(final Player player, String message, int seconds) {
@@ -183,8 +199,7 @@ public class BossbarUtil implements Listener {
                     sendDragon(drag, player);
                 }
             }
-        }
-                , 20L, 20L).getTaskId()));
+        }, 20L, 20L).getTaskId()));
 
         sendDragon(dragon, player);
     }
@@ -213,10 +228,11 @@ public class BossbarUtil implements Listener {
 
         cancelTimer(player);
 
-        if (percent == 0.0F)
+        if (percent == 0.0F) {
             removeBar(player);
-        else
+        } else {
             sendDragon(dragon, player);
+        }
     }
 
     public static float getHealth(Player player) {
@@ -278,6 +294,7 @@ public class BossbarUtil implements Listener {
 }
 
 class Util {
+
     public static String version = (Bukkit.getServer() != null ? Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] : "UNKNOWN") + ".";
 
     public static FakeDragon newDragon(String message, Location loc) {
@@ -403,8 +420,9 @@ class Util {
     public static boolean ClassListEqual(Class<?>[] l1, Class<?>[] l2) {
         boolean equal = true;
 
-        if (l1.length != l2.length)
+        if (l1.length != l2.length) {
             return false;
+        }
         for (int i = 0; i < l1.length; i++) {
             if (l1[i] != l2[i]) {
                 equal = false;
@@ -417,6 +435,7 @@ class Util {
 }
 
 class FakeDragon {
+
     public float health = 0.0F;
     public String name;
     private float maxHealth = 200.0F;

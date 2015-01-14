@@ -35,6 +35,7 @@ import org.bukkit.entity.Skeleton.SkeletonType;
 import java.util.*;
 
 public enum MobType {
+
     CHICKEN("Chicken", Enemies.FRIENDLY, EntityType.CHICKEN),
     COW("Cow", Enemies.FRIENDLY, EntityType.COW),
     CREEPER("Creeper", Enemies.ENEMY, EntityType.CREEPER),
@@ -74,7 +75,6 @@ public enum MobType {
     MINECART_MOB_SPAWNER("SpawnerMinecart", Enemies.NEUTRAL, EntityType.MINECART_MOB_SPAWNER),
     ENDERCRYSTAL("EnderCrystal", Enemies.NEUTRAL, EntityType.ENDER_CRYSTAL),
     EXPERIENCEORB("ExperienceOrb", Enemies.NEUTRAL, EntityType.EXPERIENCE_ORB),
-
     ENDERMITE("Endermite", Enemies.ENEMY, EntityType.ENDERMITE),
     GUARDIAN("Guardian", Enemies.ENEMY, EntityType.GUARDIAN),
     ELDERGUARDIAN("ElderGuardian", Enemies.ENEMY, EntityType.GUARDIAN),
@@ -109,9 +109,12 @@ public enum MobType {
     }
 
     public static MobType fromBukkitType(EntityType type) {
-        if (!bukkitMap.containsKey(type)) return null;
+        if (!bukkitMap.containsKey(type)) {
+            return null;
+        }
         return (MobType) bukkitMap.get(type);
     }
+
     static {
         hashMap = new HashMap<String, MobType>();
         bukkitMap = new HashMap<EntityType, MobType>();
@@ -145,6 +148,7 @@ public enum MobType {
     }
 
     public static enum Enemies {
+
         FRIENDLY("friendly"),
         NEUTRAL("neutral"),
         ENEMY("enemy");
@@ -158,6 +162,7 @@ public enum MobType {
     }
 
     public static class MobException extends Exception {
+
         private static final long serialVersionUID = 1L;
     }
 }

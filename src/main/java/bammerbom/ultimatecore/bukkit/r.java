@@ -45,7 +45,9 @@ import java.util.*;
 public class r {
 
     static {
-        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) vault = new r().new Vault();
+        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+            vault = new r().new Vault();
+        }
     }
 
     //Colors
@@ -60,9 +62,7 @@ public class r {
     public static UltimateMetrics metrics;
     public static ResourceBundle en = null;
     public static ResourceBundle cu = null;
-    public
-    //
-    static Random ra = new Random();
+    public static Random ra = new Random();
     //Vault end
     //Methods
     static UltimateCore uc = UltimateCore.getInstance();
@@ -123,7 +123,9 @@ public class r {
                     filename = "config_CORRUPT" + i + ".yml";
                 }
                 i--;
-                if (!(i == 0)) filename = "config_CORRUPT" + i + ".yml";
+                if (!(i == 0)) {
+                    filename = "config_CORRUPT" + i + ".yml";
+                }
                 r.log(ChatColor.GOLD + "---------------------------------------------------");
                 r.log(ChatColor.AQUA + "Config file failed to load, creating a new file...");
                 r.log(ChatColor.AQUA + "Corrupt file saved as " + ChatColor.YELLOW + filename);
@@ -177,7 +179,9 @@ public class r {
     }
 
     private static boolean perm(Player p, String perm, Boolean def) {
-        if (p.isOp()) return true;
+        if (p.isOp()) {
+            return true;
+        }
         if (r.getVault() != null && r.getVault().getPermission() != null && !r.getVault().getPermission().getName().equals("SuperPerms")) {
             return r.getVault().getPermission().has(p, perm);
         } else {
@@ -274,7 +278,9 @@ public class r {
     }
 
     public static void debug(Object message) {
-        if (!debug) return;
+        if (!debug) {
+            return;
+        }
         log(ChatColor.WHITE + message.toString());
         //
     }
@@ -302,7 +308,9 @@ public class r {
                         found = player;
                         delta = curDelta;
                     }
-                    if (curDelta == 0) break;
+                    if (curDelta == 0) {
+                        break;
+                    }
                 }
             }
         }
@@ -391,6 +399,7 @@ public class r {
     }
 
     public class Vault {
+
         private Permission permission = null;
         private Chat chat = null;
         private Economy economy = null;

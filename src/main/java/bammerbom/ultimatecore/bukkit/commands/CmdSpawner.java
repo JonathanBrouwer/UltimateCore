@@ -55,33 +55,37 @@ public class CmdSpawner implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if(!r.isPlayer(cs)) return;
-	if(!r.perm(cs, "uc.spawner", false,true))return;
-	Player p = (Player) cs;
-	if(!r.checkArgs(args, 0)){
-	    r.sendMes(cs, "spawnerUsage");
-	    return;
-	}
-	Block b = p.getTargetBlock(null, 10);
-        if(!(b.getState() instanceof CreatureSpawner)){
-	    r.sendMes(cs, "spawnerNotLooking");
-	    return;
+        if (!r.isPlayer(cs)) {
+            return;
         }
-	CreatureSpawner c = (CreatureSpawner) b.getState();
-	MobType m = MobType.fromName(args[0]);
-	if(m == null || m.getType() == null || m.getType().equals(EntityType.UNKNOWN) || !m.getType().isSpawnable()){
-	    r.sendMes(cs, "spawnerNotFound", "%MobType", args[0]);
-	    return;
-	}
-	c.setSpawnedType(m.getType());
-	c.update();
-	r.sendMes(cs, "spawnerMessage", "%MobType", m.name());
+        if (!r.perm(cs, "uc.spawner", false, true)) {
+            return;
+        }
+        Player p = (Player) cs;
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "spawnerUsage");
+            return;
+        }
+        Block b = p.getTargetBlock(null, 10);
+        if (!(b.getState() instanceof CreatureSpawner)) {
+            r.sendMes(cs, "spawnerNotLooking");
+            return;
+        }
+        CreatureSpawner c = (CreatureSpawner) b.getState();
+        MobType m = MobType.fromName(args[0]);
+        if (m == null || m.getType() == null || m.getType().equals(EntityType.UNKNOWN) || !m.getType().isSpawnable()) {
+            r.sendMes(cs, "spawnerNotFound", "%MobType", args[0]);
+            return;
+        }
+        c.setSpawnedType(m.getType());
+        c.update();
+        r.sendMes(cs, "spawnerMessage", "%MobType", m.name());
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         List<String> rtrn = new ArrayList<>();
-        for(MobType t : MobType.values()){
+        for (MobType t : MobType.values()) {
             rtrn.add(t.name);
         }
         return rtrn;

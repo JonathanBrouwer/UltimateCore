@@ -29,6 +29,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.HashMap;
 
 public class EffectDatabase {
+
     static HashMap<String, PotionEffectType> pf = new HashMap<String, PotionEffectType>();
 
     @SuppressWarnings("deprecation")
@@ -48,7 +49,9 @@ public class EffectDatabase {
             pf.put("invis", PotionEffectType.INVISIBILITY);
             pf.put("blind", PotionEffectType.BLINDNESS);
             for (PotionEffectType type : PotionEffectType.values()) {
-                if (type == null || type.getName() == null) continue;
+                if (type == null || type.getName() == null) {
+                    continue;
+                }
                 if (type.getName().contains("_")) {
                     pf.put(type.getName().toLowerCase().replace("_", ""), type);
                     pf.put(type.getName().toLowerCase(), type);

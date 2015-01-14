@@ -55,13 +55,19 @@ public class CmdSkull implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if(!r.perm(cs, "uc.skull", false, true)) return;
-        if(!r.isPlayer(cs)) return;
+        if (!r.perm(cs, "uc.skull", false, true)) {
+            return;
+        }
+        if (!r.isPlayer(cs)) {
+            return;
+        }
         Player p = (Player) cs;
-        if(r.checkArgs(args, 0)){
-            if(!r.perm(cs, "uc.skull.others", false, true)) return;
+        if (r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.skull.others", false, true)) {
+                return;
+            }
             OfflinePlayer t = r.searchOfflinePlayer(args[0]);
-            if(t == null){
+            if (t == null) {
                 r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
                 return;
             }
@@ -70,14 +76,14 @@ public class CmdSkull implements UltimateCommand {
             meta.setOwner(t.getName());
             skull.setItemMeta(meta);
             InventoryUtil.addItem(p.getInventory(), skull);
-	    r.sendMes(cs, "skullMessage", "%Player", t.getName());
-        }else{
+            r.sendMes(cs, "skullMessage", "%Player", t.getName());
+        } else {
             ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();
             meta.setOwner(p.getName());
             skull.setItemMeta(meta);
             InventoryUtil.addItem(p.getInventory(), skull);
-	    r.sendMes(cs, "skullMessage", "%Player", p.getName());
+            r.sendMes(cs, "skullMessage", "%Player", p.getName());
         }
     }
 

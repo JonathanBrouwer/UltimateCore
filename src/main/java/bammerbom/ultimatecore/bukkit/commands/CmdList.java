@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CmdList implements UltimateCommand {
+
     @Override
     public String getName() {
         return "list";
@@ -53,7 +54,9 @@ public class CmdList implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.list", true, true)) return;
+        if (!r.perm(cs, "uc.list", true, true)) {
+            return;
+        }
         if (r.getVault() == null || r.getVault().getPermission() == null) {
             StringBuilder online = new StringBuilder();
             Player[] players = r.getOnlinePlayers();
@@ -81,7 +84,12 @@ public class CmdList implements UltimateCommand {
             for (String g : r.getVault().getPermission().getGroups()) {
                 Boolean an = false;
                 for (Player p : r.getOnlinePlayers()) {
-                    if (r.getVault().getPermission().getPrimaryGroup(p).equalsIgnoreCase(g)) an = true;
+                    if (r.getVault().getPermission().getPrimaryGroup(p) == null) {
+                        continue;
+                    }
+                    if (r.getVault().getPermission().getPrimaryGroup(p).equalsIgnoreCase(g)) {
+                        an = true;
+                    }
                 }
                 if (an) {
                     String gn = g;
@@ -101,7 +109,7 @@ public class CmdList implements UltimateCommand {
                                 if (!first) {
                                     online.append(", ");
                                 }
-                                online.append(r.neutral + /*UC.getPlayer(pl).getNick()*/ pl.getName());
+                                online.append(r.neutral + UC.getPlayer(pl).getNick());
                                 i++;
                                 any = true;
                                 first = false;

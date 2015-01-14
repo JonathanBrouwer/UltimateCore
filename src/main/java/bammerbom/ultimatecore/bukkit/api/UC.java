@@ -35,8 +35,8 @@ public class UC {
 
     public static ArrayList<UCplayer> uplayers = new ArrayList<>();
     public static UCserver userver = new UCserver();
-     public static ArrayList<UCworld> uworlds = new ArrayList<>();
- 
+    public static ArrayList<UCworld> uworlds = new ArrayList<>();
+
     public static UCplayer getPlayer(UUID u) {
         for (UCplayer p : uplayers) {
             if (p.uuid.equals(u)) {

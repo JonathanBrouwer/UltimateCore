@@ -45,6 +45,7 @@ import java.util.Set;
 public class ItemUtil {
 
     static HashMap<Material, String> ids = new HashMap<>();
+
     static {
         //ids
         try {

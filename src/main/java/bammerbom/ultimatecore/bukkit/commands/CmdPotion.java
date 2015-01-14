@@ -173,7 +173,9 @@ public class CmdPotion implements UltimateCommand {
         if (curn == 0) {
             List<String> l = new ArrayList<String>();
             for (PotionEffectType t : PotionEffectType.values()) {
-                if (t == null || t.getName() == null) continue;
+                if (t == null || t.getName() == null) {
+                    continue;
+                }
                 l.add(t.getName().toLowerCase());
             }
             return l;

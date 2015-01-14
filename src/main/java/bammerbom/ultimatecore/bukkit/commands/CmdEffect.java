@@ -114,7 +114,9 @@ public class CmdEffect implements UltimateCommand {
         } else if (curn == 1) {
             ArrayList<String> s = new ArrayList<>();
             for (PotionEffectType t : EffectDatabase.values()) {
-                if (t == null || t.getName() == null) continue;
+                if (t == null || t.getName() == null) {
+                    continue;
+                }
                 s.add(t.getName().toLowerCase().replaceAll("_", ""));
             }
             return s;

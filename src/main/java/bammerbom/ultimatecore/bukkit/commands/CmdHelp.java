@@ -34,6 +34,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import java.util.*;
 
 abstract interface UText {
+
     public abstract List<String> getLines();
 
     public abstract List<String> getChapters();
@@ -42,6 +43,7 @@ abstract interface UText {
 }
 
 public class CmdHelp implements UltimateCommand {
+
     @Override
     public String getName() {
         return "help";
@@ -88,6 +90,7 @@ public class CmdHelp implements UltimateCommand {
 
 //Textinput
 class TextInput implements UText {
+
     private final transient List<String> lines;
     private final transient List<String> chapters;
     private final transient Map<String, Integer> bookmarks;
@@ -116,6 +119,7 @@ class TextInput implements UText {
 
 class HelpInput
         implements UText {
+
     private final transient List<String> lines = new ArrayList<>();
     private final transient List<String> chapters = new ArrayList<>();
     private final transient Map<String, Integer> bookmarks = new HashMap<>();
@@ -181,7 +185,7 @@ class HelpInput
     public List<String> getLines() {
         return this.lines;
     }
-    
+
     @Override
     public List<String> getChapters() {
         return this.chapters;
@@ -195,6 +199,7 @@ class HelpInput
 
 class PluginCommandsInput
         implements UText {
+
     private final transient List<String> lines = new ArrayList<>();
     private final transient List<String> chapters = new ArrayList<>();
     private final transient Map<String, Integer> bookmarks = new HashMap<>();
@@ -273,6 +278,7 @@ class PluginCommandsInput
 }
 
 class TextPager {
+
     private final transient UText text;
     private final transient boolean onePage;
 
@@ -347,8 +353,9 @@ class TextPager {
                 r.sendMes(sender, "helpHeader", "%Content", content, "%Page", page, "%MaxPages", pages);
             }
             for (int i = start; i < end; i++) {
-                if (i >= start + (this.onePage ? 20 : 9))
+                if (i >= start + (this.onePage ? 20 : 9)) {
                     break;
+                }
                 sender.sendMessage(new StringBuilder().append("ï¿½r").append((String) lines.get(i)).toString());
             }
             if ((!this.onePage) && (page < pages) && (commandName != null)) {
@@ -400,8 +407,9 @@ class TextPager {
             r.sendMes(sender, "helpHeader", "%Content", content, "%Page", page, "%Pages", pages);
         }
         for (int i = start; i < chapterend; i++) {
-            if (i >= start + (this.onePage ? 20 : 9))
+            if (i >= start + (this.onePage ? 20 : 9)) {
                 break;
+            }
             sender.sendMessage(new StringBuilder().append("ï¿½r").append((String) lines.get(i)).toString());
         }
         if ((!this.onePage) && (page < pages) && (commandName != null)) {
