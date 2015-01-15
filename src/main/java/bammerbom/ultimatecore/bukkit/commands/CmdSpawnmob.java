@@ -199,7 +199,19 @@ public class CmdSpawnmob implements UltimateCommand {
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        List<String> rtrn = new ArrayList<>();
+        if (curn == 0) {
+            for (MobType t : MobType.values()) {
+                rtrn.add(t.name().toLowerCase());
+            }
+            return rtrn;
+        }
+        if(!r.checkArgs(args, 0)) return rtrn;
+        if(MobType.fromName(args[0]) == null) return rtrn;
+        for (String s : MobData.getPossibleData(MobType.fromName(args[0]).getType(), true).keySet()) {
+            rtrn.add(s);
+        }
+        return rtrn;
     }
 
     static void horse(EntityType type, Entity spawned, String str) {
@@ -281,7 +293,9 @@ public class CmdSpawnmob implements UltimateCommand {
 
     static void utilize(String args, MobType mob, LivingEntity en, Player p) {
         for (String str : args.split("[: ]")) {
-            if(str.isEmpty()) continue;
+            if (str.isEmpty()) {
+                continue;
+            }
             MobData d = MobData.fromData(en, str);
             if (d != null) {
                 try {
@@ -289,7 +303,7 @@ public class CmdSpawnmob implements UltimateCommand {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else{
+            } else {
                 r.sendMes(p, "spawnmobDataNotFound", "%Data", str);
             }
         }
@@ -362,7 +376,6 @@ public class CmdSpawnmob implements UltimateCommand {
             }
         }
     }
-    
 
     static DyeColor getDyeColor(String str) {
         for (DyeColor dye : DyeColor.values()) {

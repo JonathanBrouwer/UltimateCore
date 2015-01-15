@@ -270,7 +270,7 @@ public enum MobData {
             if (this.type.equals(EntityType.HORSE)) {
                 ((Horse) spawned).setTamed(true);
                 ((Horse) spawned).getInventory().setArmor(new ItemStack((Material) this.value, 1));
-            } else if ((this.type.equals(EntityType.ZOMBIE.getEntityClass())) || (this.type.equals(EntityType.SKELETON))) {
+            } else if ((this.type.equals(EntityType.ZOMBIE)) || (this.type.equals(EntityType.SKELETON))) {
                 EntityEquipment invent = ((LivingEntity) spawned).getEquipment();
                 invent.setItemInHand(new ItemStack((Material) this.value, 1));
                 invent.setItemInHandDropChance(0.1F);

@@ -232,6 +232,10 @@ commands:
     usage: /<command> <Message>
     description: Message in me format
     permissions: uc.me
+  megasmite:
+    usage: /<command> [Player]
+    description: Throw a lot of lighting on a player
+    permissions: uc.megasmite
   mobtp:
     usage: /<command>
     description: Teleport mobs using a stick

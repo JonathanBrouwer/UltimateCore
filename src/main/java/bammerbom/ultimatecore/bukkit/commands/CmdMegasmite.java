@@ -24,25 +24,29 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
-import bammerbom.ultimatecore.bukkit.api.UC;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 
-public class CmdSetspawn implements UltimateCommand {
+public class CmdMegasmite implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "setspawn";
+        return "megasmite";
     }
 
     @Override
     public String getPermission() {
-        return "uc.setspawn";
+        return "uc.megasmite";
     }
 
     @Override
@@ -52,16 +56,45 @@ public class CmdSetspawn implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
-            return;
+        if (r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.megasmite.others", false, true)) {
+                return;
+            }
+            Player target = r.searchPlayer(args[0]);
+            if (target == null) {
+                r.sendMes(cs, "%PlayerNotFound", "%Player", args[0]);
+                return;
+            }
+            Location tPlayerLocation = target.getLocation();
+            if (r.getCnfg().getBoolean("command.Smite.smiteDamage") == false) {
+                for (int i = 0; i < 20; i++) {
+                    target.getWorld().strikeLightningEffect(tPlayerLocation);
+                }
+            } else {
+                for (int i = 0; i < 20; i++) {
+                    target.getWorld().strikeLightning(tPlayerLocation);
+                }
+            }
+        } else {
+            if (!r.perm(cs, "uc.megasmite", false, true)) {
+                return;
+            }
+            if (!(r.isPlayer(cs))) {
+                return;
+            }
+            Player p = (Player) cs;
+            Block strike = p.getTargetBlock(null, 150);
+            Location strikel = strike.getLocation();
+            if (r.getCnfg().getBoolean("command.Smite.smiteDamage") == false) {
+                for (int i = 0; i < 20; i++) {
+                    p.getWorld().strikeLightningEffect(strikel);
+                }
+            } else {
+                for (int i = 0; i < 20; i++) {
+                    p.getWorld().strikeLightning(strikel);
+                }
+            }
         }
-        if (!r.perm(cs, "uc.setspawn", false, true)) {
-            return;
-        }
-        Player p = (Player) cs;
-        UC.getServer().setSpawn(p.getLocation());
-        p.getWorld().setSpawnLocation(p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
-        r.sendMes(cs, "setspawnMessage");
     }
 
     @Override

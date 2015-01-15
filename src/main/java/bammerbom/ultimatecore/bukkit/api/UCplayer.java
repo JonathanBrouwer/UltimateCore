@@ -144,7 +144,7 @@ public class UCplayer {
     public void setLastLocation(Location loc) {
         lastLocation = loc;
         Config conf = getPlayerConfig();
-        conf.set("lastlocation", LocationUtil.convertLocationToString(loc));
+        conf.set("lastlocation", loc == null ? null : LocationUtil.convertLocationToString(loc));
         conf.save();
     }
 

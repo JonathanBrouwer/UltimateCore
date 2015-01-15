@@ -260,6 +260,8 @@ public class PlayerListener implements Listener {
             //Back
             if (r.perm(e.getEntity(), "uc.back.death", true, false)) {
                 UC.getPlayer(e.getEntity()).setLastLocation();
+            }else{
+                UC.getPlayer(e.getEntity()).setLastLocation(null);
             }
 
             //
@@ -353,6 +355,17 @@ public class PlayerListener implements Listener {
             //
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerInteractEntityEvent");
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.LOW)
+    public void onRespawn(PlayerRespawnEvent e) {
+        try {
+            if(UC.getServer().getSpawn() != null){
+                e.setRespawnLocation(UC.getServer().getSpawn());
+            }
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerRespawnEvent");
         }
     }
 }
