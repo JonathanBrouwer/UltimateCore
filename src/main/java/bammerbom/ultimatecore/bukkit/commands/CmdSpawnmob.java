@@ -26,7 +26,6 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobData;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobType;
-import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import java.util.ArrayList;
 import org.bukkit.command.Command;
 import org.bukkit.DyeColor;
@@ -105,22 +104,15 @@ public class CmdSpawnmob implements UltimateCommand {
             return;
         }
         if (args[0].equalsIgnoreCase("data")) {
-            for (MobType mob : MobType.values()) {
-                String mes = r.positive + StringUtil.firstUpperCase(mob.getType().name().toLowerCase()) + ": " + r.neutral;
-                StringBuilder b = new StringBuilder(mes);
-                Boolean a = false;
-                for (String str : MobData.getValidHelp(mob.getType())) {
-                    if (a) {
-                        b.append(", ");
-                    }
-                    b.append(str);
-                    a = true;
-                }
-                if (a) {
-                    cs.sendMessage(b.toString());
-                }
-            }
-            r.sendMes(cs, "spawnmobBaby");
+            r.sendMes(cs, "spawnmobData1");
+            r.sendMes(cs, "spawnmobData2");
+            r.sendMes(cs, "spawnmobData3");
+            r.sendMes(cs, "spawnmobData4");
+            r.sendMes(cs, "spawnmobData5");
+            r.sendMes(cs, "spawnmobData6");
+            r.sendMes(cs, "spawnmobData7");
+            r.sendMes(cs, "spawnmobData8");
+            r.sendMes(cs, "spawnmobData9");
             return;
         }
         Location loc = p.getLocation();
@@ -135,7 +127,7 @@ public class CmdSpawnmob implements UltimateCommand {
         }
         if (mob == null || mob.name == null || mob.name.equals("") || mob.getType() == null) {
             if (!args[0].contains(",")) {
-                p.sendMessage(r.mes("Spawnmob.MobNotFound").replaceAll("%Mob", args[0]));
+                r.sendMes(cs, "spawnmobNotFound", "%Mob", args[0]);
                 return;
             }
             //Stacked
@@ -145,7 +137,7 @@ public class CmdSpawnmob implements UltimateCommand {
                 if (mo1 == null || mo1.name == null || mo1.name.equals("") || mo1.getType() == null) {
                     mo1 = MobType.fromName(string.split(":")[0]);
                     if (mo1 == null || mo1.name == null || mo1.name.equals("") || mo1.getType() == null) {
-                        p.sendMessage(r.mes("Spawnmob.MobNotFound").replaceAll("%Mob", string));
+                        r.sendMes(cs, "spawnmobNotFound", "%Mob", string);
                         return;
                     } else {
                         kits.add(new SpawnKit(mo1, string.split(":")[1]));
@@ -154,7 +146,6 @@ public class CmdSpawnmob implements UltimateCommand {
                     kits.add(new SpawnKit(mo1, ""));
                 }
             }
-            smob.clear(); //Remove memory
             for (int i = 0; i < amount; i++) {
                 LivingEntity lastmob = null;
                 for (SpawnKit kit : kits) {
@@ -197,16 +188,9 @@ public class CmdSpawnmob implements UltimateCommand {
                     EntityEquipment invent = ((LivingEntity) skel).getEquipment();
                     invent.setItemInHand(new ItemStack(Material.STONE_SWORD, 1));
                     invent.setItemInHandDropChance(0.09F);
-                } else {
-                    if (args[0].equalsIgnoreCase("skeleton")) {
-                        Skeleton skel = (Skeleton) en;
-                        skel.setSkeletonType(SkeletonType.NORMAL);
-                        skel.getEquipment().setItemInHand(new ItemStack(Material.BOW));
-                        skel.getEquipment().setItemInHandDropChance(0.09F);
-                    }
                 }
                 defaultMobData(mob.getType(), en);
-                Utilize(args, mob, en, p);
+                utilize(args, mob, en, p);
             } catch (ClassCastException ex) {
                 ex.printStackTrace();
             }
@@ -291,13 +275,13 @@ public class CmdSpawnmob implements UltimateCommand {
         }
     }
 
-    static void Utilize(String[] args, MobType mob, LivingEntity en, Player p) {
-        Utilize((r.getFinalArg(args, 1)), mob, en, p);
+    static void utilize(String[] args, MobType mob, LivingEntity en, Player p) {
+        utilize((r.getFinalArg(args, 1)), mob, en, p);
     }
 
-    static void Utilize(String args, MobType mob, LivingEntity en, Player p) {
-        //TODO
+    static void utilize(String args, MobType mob, LivingEntity en, Player p) {
         for (String str : args.split("[: ]")) {
+            if(str.isEmpty()) continue;
             MobData d = MobData.fromData(en, str);
             if (d != null) {
                 try {
@@ -305,195 +289,10 @@ public class CmdSpawnmob implements UltimateCommand {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
+            }else{
+                r.sendMes(p, "spawnmobDataNotFound", "%Data", str);
             }
         }
-
-        /*
-         for(String str : args.split("[: ]")){
-         horse(mob.getType(), en, str);
-         if(str.equalsIgnoreCase("baby")){
-         if(!(en instanceof Ageable) && !(en instanceof Zombie)){
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }else if(en instanceof Ageable){
-         Ageable en1 = (Ageable) en;
-         en1.setBaby();
-         en1.setAgeLock(true);
-         }else if(en instanceof Zombie){
-         Zombie en1 = (Zombie) en;
-         en1.setBaby(true);
-         }
-         }else if(r.isNumber(str)){
-         }else if(getDyeColor(str) != null){
-         if(mob.getType().equals(EntityType.WOLF)){
-         Wolf wolf = (Wolf) en;
-         wolf.setCollarColor(getDyeColor(str));
-         }
-         else if(!(mob.getType().equals(EntityType.SHEEP))){
-         if(!isHorseColor(str)){
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }
-         }else{
-         Sheep sheep = (Sheep) en;
-         sheep.setColor(getDyeColor(str));
-         }
-         }else if(str.equalsIgnoreCase("sheared")){
-         if(!(mob.getType().equals(EntityType.SHEEP))){
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }else{
-         Sheep sheep = (Sheep) en;
-         sheep.setSheared(true);
-         }
-         }else if(str.equalsIgnoreCase("diamondarmor") || str.equalsIgnoreCase("diamond")){
-         if(mob.getType().equals(EntityType.ZOMBIE) || mob.getType().equals(EntityType.SKELETON)){
-         EntityEquipment eq = en.getEquipment();
-         eq.setHelmet(new ItemStack(Material.DIAMOND_HELMET));
-         eq.setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
-         eq.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
-         eq.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
-         eq.setBootsDropChance(0F);
-         eq.setLeggingsDropChance(0F);
-         eq.setChestplateDropChance(0F);
-         eq.setHelmetDropChance(0F);
-         }else{
-         if(!mob.getType().equals(EntityType.HORSE)){
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }
-         }
-         }else if(str.equalsIgnoreCase("ironarmor") || str.equalsIgnoreCase("iron")){
-         if(mob.getType().equals(EntityType.ZOMBIE) || mob.getType().equals(EntityType.SKELETON)){
-         EntityEquipment eq = en.getEquipment();
-         eq.setHelmet(new ItemStack(Material.IRON_HELMET));
-         eq.setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
-         eq.setLeggings(new ItemStack(Material.IRON_LEGGINGS));
-         eq.setBoots(new ItemStack(Material.IRON_BOOTS));
-         eq.setBootsDropChance(0F);
-         eq.setLeggingsDropChance(0F);
-         eq.setChestplateDropChance(0F);
-         eq.setHelmetDropChance(0F);
-         }else{
-         if(!mob.getType().equals(EntityType.HORSE)){
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }
-         }
-         }else if(str.equalsIgnoreCase("goldarmor") || str.equalsIgnoreCase("gold")){
-         if(mob.getType().equals(EntityType.ZOMBIE) || mob.getType().equals(EntityType.SKELETON)){
-         EntityEquipment eq = en.getEquipment();
-         eq.setHelmet(new ItemStack(Material.GOLD_HELMET));
-         eq.setChestplate(new ItemStack(Material.GOLD_CHESTPLATE));
-         eq.setLeggings(new ItemStack(Material.GOLD_LEGGINGS));
-         eq.setBoots(new ItemStack(Material.GOLD_BOOTS));
-         eq.setBootsDropChance(0F);
-         eq.setLeggingsDropChance(0F);
-         eq.setChestplateDropChance(0F);
-         eq.setHelmetDropChance(0F);
-         }else{
-         if(!mob.getType().equals(EntityType.HORSE)){
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }
-         }
-         }else if(str.equalsIgnoreCase("chainarmor") || str.equalsIgnoreCase("chain")){
-         if(mob.getType().equals(EntityType.ZOMBIE) || mob.getType().equals(EntityType.SKELETON)){
-         EntityEquipment eq = en.getEquipment();
-         eq.setHelmet(new ItemStack(Material.CHAINMAIL_HELMET));
-         eq.setChestplate(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
-         eq.setLeggings(new ItemStack(Material.CHAINMAIL_LEGGINGS));
-         eq.setBoots(new ItemStack(Material.CHAINMAIL_BOOTS));
-         eq.setBootsDropChance(0F);
-         eq.setLeggingsDropChance(0F);
-         eq.setChestplateDropChance(0F);
-         eq.setHelmetDropChance(0F);
-         }else{
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }
-         }else if(str.equalsIgnoreCase("leatherarmor") || str.equalsIgnoreCase("leather")){
-         if(mob.getType().equals(EntityType.ZOMBIE) || mob.getType().equals(EntityType.SKELETON)){
-         EntityEquipment eq = en.getEquipment();
-         eq.setHelmet(new ItemStack(Material.LEATHER_HELMET));
-         eq.setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
-         eq.setLeggings(new ItemStack(Material.LEATHER_LEGGINGS));
-         eq.setBoots(new ItemStack(Material.LEATHER_BOOTS));
-         eq.setBootsDropChance(0F);
-         eq.setLeggingsDropChance(0F);
-         eq.setChestplateDropChance(0F);
-         eq.setHelmetDropChance(0F);
-         }else{
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }
-         }else if(str.equalsIgnoreCase("saddled")){
-         if(en.getType().equals(EntityType.PIG)){
-         Pig pig = (Pig) en;
-         pig.setSaddle(true);
-         }else{
-         if(!mob.getType().equals(EntityType.HORSE)){
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }
-         }
-         }else if(str.equalsIgnoreCase("tamed")){
-         if(en instanceof Tameable){
-         Tameable tame = (Tameable) en;
-         tame.setTamed(true);
-         tame.setOwner(p);
-         }else{
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }
-         }else if(str.startsWith("size:")){
-         if(en instanceof Slime || en instanceof MagmaCube){
-         String sizes = str.replaceAll("size:", "");
-         if(!r.isNumber(sizes)){
-         en.remove();
-         p.sendMessage(r.default1 + "size:[1-50]");
-         return; 
-         }
-         Integer size = Integer.parseInt(sizes);
-         if(size > 50) size = 50;
-         if(size < 1) size = 1;
-         if(en instanceof Slime){
-         Slime slime = (Slime) en;
-         slime.setSize(size);
-         }else{
-         MagmaCube cube = (MagmaCube) en;
-         cube.setSize(size);
-         }
-					
-         }else{
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }
-         }else if(str.equalsIgnoreCase("charged") || str.equalsIgnoreCase("powered")){
-         if(en instanceof Creeper){
-         Creeper creeper = (Creeper) en;
-         creeper.setPowered(true);
-         }else{
-         p.sendMessage(r.mes("Spawnmob.PropertyNotCompitable").replaceAll("%Property", str).replaceAll("%Type", mob.getType().name().toLowerCase().replaceAll("_", "")));
-         en.remove();
-         return;
-         }
-         }
-			
-         }
-         */
     }
 
     static boolean isHorseColor(String str) {
@@ -548,19 +347,22 @@ public class CmdSpawnmob implements UltimateCommand {
 
     static void defaultMobData(EntityType type, Entity spawned) {
         if (type == EntityType.SKELETON) {
-            return;
-        }
+            if (!((Skeleton) spawned).getSkeletonType().equals(SkeletonType.WITHER)) {
+                Skeleton skel = (Skeleton) spawned;
+                skel.setSkeletonType(SkeletonType.NORMAL);
+                skel.getEquipment().setItemInHand(new ItemStack(Material.BOW));
+                skel.getEquipment().setItemInHandDropChance(0.09F);
+                return;
+            }
 
-        if (type == EntityType.PIG_ZOMBIE) {
-            EntityEquipment invent = ((LivingEntity) spawned).getEquipment();
-            invent.setItemInHand(new ItemStack(Material.GOLD_SWORD, 1));
-            invent.setItemInHandDropChance(0.05F);
-        }
-
-        if (type == EntityType.HORSE) {
-            ((Horse) spawned).setJumpStrength(1.3D);
+            if (type == EntityType.PIG_ZOMBIE) {
+                EntityEquipment invent = ((LivingEntity) spawned).getEquipment();
+                invent.setItemInHand(new ItemStack(Material.GOLD_SWORD, 1));
+                invent.setItemInHandDropChance(0.05F);
+            }
         }
     }
+    
 
     static DyeColor getDyeColor(String str) {
         for (DyeColor dye : DyeColor.values()) {

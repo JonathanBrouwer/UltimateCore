@@ -79,7 +79,7 @@ public class CmdSpawner implements UltimateCommand {
         }
         c.setSpawnedType(m.getType());
         c.update();
-        r.sendMes(cs, "spawnerMessage", "%MobType", m.name());
+        r.sendMes(cs, "spawnerMessage", "%MobType", m.name().toLowerCase());
     }
 
     @Override

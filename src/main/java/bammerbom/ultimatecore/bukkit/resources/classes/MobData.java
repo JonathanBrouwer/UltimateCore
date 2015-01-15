@@ -43,8 +43,18 @@ public enum MobData {
     BABY_HORSE("colt", EntityType.HORSE, Data.BABY, false),
     BABY_OCELOT("kitten", EntityType.OCELOT, Data.BABY, false),
     BABY_SHEEP("lamb", EntityType.SHEEP, Data.BABY, false),
-    BABY_COW("calf", EntityType.COW.getEntityClass(), Data.BABY, false),
+    BABY_COW("calf", EntityType.COW, Data.BABY, false),
     BABY_VILLAGER("child", EntityType.VILLAGER, Data.BABY, false),
+    BABY_MUSHROOMCOW("baby", EntityType.MUSHROOM_COW, Data.BABY, false),
+    BABY_PIG2("baby", EntityType.PIG, Data.BABY, false),
+    BABY_WOLF2("baby", EntityType.WOLF, Data.BABY, false),
+    BABY_CHICKEN2("baby", EntityType.CHICKEN, Data.BABY, false),
+    BABY_HORSE2("baby", EntityType.HORSE, Data.BABY, false),
+    BABY_OCELOT2("baby", EntityType.OCELOT, Data.BABY, false),
+    BABY_SHEEP2("baby", EntityType.SHEEP, Data.BABY, false),
+    BABY_COW2("baby", EntityType.COW, Data.BABY, false),
+    BABY_VILLAGER2("baby", EntityType.VILLAGER, Data.BABY, false),
+    AGELOCK("agelock", Ageable.class, Data.AGELOCK, false),
     TAMED_TAMEABLE("tamed", Tameable.class, Data.TAMED, true),
     TAME_TAMEABLE("tame", Tameable.class, Data.TAMED, false),
     RANDOM_SHEEP("random", EntityType.SHEEP, Data.COLORABLE, true),
@@ -80,7 +90,7 @@ public enum MobData {
     SADDLE_HORSE("saddle", EntityType.HORSE, Data.HORSESADDLE, true),
     GOLD_ARMOR_HORSE("goldarmor", EntityType.HORSE, Material.GOLD_BARDING, true),
     DIAMOND_ARMOR_HORSE("diamondarmor", EntityType.HORSE, Material.DIAMOND_BARDING, true),
-    ARMOR_HORSE("armor", EntityType.HORSE, Material.IRON_BARDING, true),
+    ARMOR_HORSE("ironarmor", EntityType.HORSE, Material.IRON_BARDING, true),
     SIAMESE_CAT("siamese", EntityType.OCELOT, Ocelot.Type.SIAMESE_CAT, true),
     WHITE_CAT("white", EntityType.OCELOT, Ocelot.Type.SIAMESE_CAT, false),
     RED_CAT("red", EntityType.OCELOT, Ocelot.Type.RED_CAT, true),
@@ -88,14 +98,14 @@ public enum MobData {
     TABBY_CAT("tabby", EntityType.OCELOT, Ocelot.Type.RED_CAT, false),
     BLACK_CAT("black", EntityType.OCELOT, Ocelot.Type.BLACK_CAT, true),
     TUXEDO_CAT("tuxedo", EntityType.OCELOT, Ocelot.Type.BLACK_CAT, false),
-    VILLAGER_ZOMBIE("villager", EntityType.ZOMBIE.getEntityClass(), Data.VILLAGER, true),
-    BABY_ZOMBIE("baby", EntityType.ZOMBIE.getEntityClass(), Data.BABYZOMBIE, true),
-    ADULT_ZOMBIE("adult", EntityType.ZOMBIE.getEntityClass(), Data.ADULTZOMBIE, true),
-    DIAMOND_SWORD_ZOMBIE("diamondsword", EntityType.ZOMBIE.getEntityClass(), Material.DIAMOND_SWORD, true),
-    GOLD_SWORD_ZOMBIE("goldsword", EntityType.ZOMBIE.getEntityClass(), Material.GOLD_SWORD, true),
-    IRON_SWORD_ZOMBIE("ironsword", EntityType.ZOMBIE.getEntityClass(), Material.IRON_SWORD, true),
-    STONE_SWORD_ZOMBIE("stonesword", EntityType.ZOMBIE.getEntityClass(), Material.STONE_SWORD, false),
-    SWORD_ZOMBIE("sword", EntityType.ZOMBIE.getEntityClass(), Material.STONE_SWORD, true),
+    VILLAGER_ZOMBIE("villager", EntityType.ZOMBIE, Data.VILLAGER, true),
+    BABY_ZOMBIE("baby", EntityType.ZOMBIE, Data.BABYZOMBIE, true),
+    ADULT_ZOMBIE("adult", EntityType.ZOMBIE, Data.ADULTZOMBIE, true),
+    DIAMOND_SWORD_ZOMBIE("diamondsword", EntityType.ZOMBIE, Material.DIAMOND_SWORD, true),
+    GOLD_SWORD_ZOMBIE("goldsword", EntityType.ZOMBIE, Material.GOLD_SWORD, true),
+    IRON_SWORD_ZOMBIE("ironsword", EntityType.ZOMBIE, Material.IRON_SWORD, true),
+    STONE_SWORD_ZOMBIE("stonesword", EntityType.ZOMBIE, Material.STONE_SWORD, false),
+    SWORD_ZOMBIE("sword", EntityType.ZOMBIE, Material.STONE_SWORD, true),
     DIAMOND_SWORD_SKELETON("diamondsword", EntityType.SKELETON, Material.DIAMOND_SWORD, true),
     GOLD_SWORD_SKELETON("goldsword", EntityType.SKELETON, Material.GOLD_SWORD, true),
     IRON_SWORD_SKELETON("ironsword", EntityType.SKELETON, Material.IRON_SWORD, true),
@@ -115,8 +125,9 @@ public enum MobData {
     FATHER_VILLAGER("father", EntityType.VILLAGER, Villager.Profession.PRIEST, false),
     SMITH_VILLAGER("smith", EntityType.VILLAGER, Villager.Profession.BLACKSMITH, true),
     BUTCHER_VILLAGER("butcher", EntityType.VILLAGER, Villager.Profession.BUTCHER, true),
-    SIZE_SLIME("", "<1-100>", EntityType.SLIME.getEntityClass(), Data.SIZE, true),
-    ELDER_GUARDIAN("elder", EntityType.GUARDIAN, Data.ELDER, true);
+    SIZE_SLIME("", "<1-100>", EntityType.SLIME, Data.SIZE, true),
+    ELDER_GUARDIAN("elder", EntityType.GUARDIAN, Data.ELDER, true),
+    NUM_EXPERIENCE_ORB("", "<1-2000000000>", EntityType.EXPERIENCE_ORB, Data.EXP, true);
 
     private final String nickname;
     private final String helpMessage;
@@ -191,6 +202,8 @@ public enum MobData {
             ((Wolf) spawned).setAngry(true);
         } else if (this.value.equals(Data.ADULT)) {
             ((Ageable) spawned).setAdult();
+        } else if(this.value.equals(Data.AGELOCK)){
+            ((Ageable) spawned).setAgeLock(true);
         } else if (this.value.equals(Data.BABY)) {
             ((Ageable) spawned).setBaby();
         } else if (this.value.equals(Data.ADULTZOMBIE)) {
@@ -241,6 +254,8 @@ public enum MobData {
                 this.matched = rawData;
             } catch (NumberFormatException e) {
             }
+        } else if (this.value.equals(Data.ELDER)) {
+            ((Guardian) spawned).setElder(true);
         } else if ((this.value instanceof Horse.Color)) {
             ((Horse) spawned).setColor((Horse.Color) this.value);
         } else if ((this.value instanceof Horse.Style)) {
@@ -266,6 +281,7 @@ public enum MobData {
     public static enum Data {
 
         ADULT,
+        AGELOCK,
         BABY,
         CHEST,
         ADULTZOMBIE,
