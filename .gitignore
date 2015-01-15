@@ -44,8 +44,6 @@ bin
 .settings/
 *.classpath
 *.project
-C:\Users\p6340nl\Desktop\NetBeans projects\UltimateCore\nbactions.xml
-/target/
+/nbactions.xml
+/nb-configuration.xml
 /target
-target/
-target
