@@ -202,7 +202,7 @@ public enum MobData {
             ((Wolf) spawned).setAngry(true);
         } else if (this.value.equals(Data.ADULT)) {
             ((Ageable) spawned).setAdult();
-        } else if(this.value.equals(Data.AGELOCK)){
+        } else if (this.value.equals(Data.AGELOCK)) {
             ((Ageable) spawned).setAgeLock(true);
         } else if (this.value.equals(Data.BABY)) {
             ((Ageable) spawned).setBaby();

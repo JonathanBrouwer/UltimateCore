@@ -88,7 +88,6 @@ class FileConfigurationOptions extends MemoryConfigurationOptions {
      * Gets whether or not the header should be copied from a default source.
      * <p/>
      * If this is true, if a default {@link FileConfiguration} is passed to null
-     * null null null     {@link
      * FileConfiguration#setDefaults(org.bukkit.configuration.Configuration)}
      * then upon saving it will use the header from that config, instead of the
      * one provided here.
@@ -110,7 +109,6 @@ class FileConfigurationOptions extends MemoryConfigurationOptions {
      * Sets whether or not the header should be copied from a default source.
      * <p/>
      * If this is true, if a default {@link FileConfiguration} is passed to null
-     * null null null     {@link
      * FileConfiguration#setDefaults(org.bukkit.configuration.Configuration)}
      * then upon saving it will use the header from that config, instead of the
      * one provided here.

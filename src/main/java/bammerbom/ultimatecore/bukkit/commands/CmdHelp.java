@@ -356,7 +356,7 @@ class TextPager {
                 if (i >= start + (this.onePage ? 20 : 9)) {
                     break;
                 }
-                sender.sendMessage(new StringBuilder().append("ï¿½r").append((String) lines.get(i)).toString());
+                sender.sendMessage(new StringBuilder().append(ChatColor.RESET).append((String) lines.get(i)).toString());
             }
             if ((!this.onePage) && (page < pages) && (commandName != null)) {
                 if (commandName.startsWith("plugin")) {
@@ -410,7 +410,7 @@ class TextPager {
             if (i >= start + (this.onePage ? 20 : 9)) {
                 break;
             }
-            sender.sendMessage(new StringBuilder().append("ï¿½r").append((String) lines.get(i)).toString());
+            sender.sendMessage(new StringBuilder().append(ChatColor.RESET).append((String) lines.get(i)).toString());
         }
         if ((!this.onePage) && (page < pages) && (commandName != null)) {
             if (commandName.startsWith("plugin")) {

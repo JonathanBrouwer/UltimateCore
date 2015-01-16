@@ -206,8 +206,12 @@ public class CmdSpawnmob implements UltimateCommand {
             }
             return rtrn;
         }
-        if(!r.checkArgs(args, 0)) return rtrn;
-        if(MobType.fromName(args[0]) == null) return rtrn;
+        if (!r.checkArgs(args, 0)) {
+            return rtrn;
+        }
+        if (MobType.fromName(args[0]) == null) {
+            return rtrn;
+        }
         for (String s : MobData.getPossibleData(MobType.fromName(args[0]).getType(), true).keySet()) {
             rtrn.add(s);
         }
