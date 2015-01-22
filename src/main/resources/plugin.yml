@@ -385,6 +385,10 @@ commands:
     usage: /<command>
     description: Toggle spymode for yourself.
     permissions: uc.spy
+  time:
+    usage: /<command> day/night/ticks/disable/enable/add/query
+    description: Set the time
+    permissions: uc.time
   unban:
     description: Unbans the target player.
     usage: /<command> <Player>
