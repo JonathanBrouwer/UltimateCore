@@ -377,6 +377,10 @@ commands:
     description: Spawn a mob
     permissions: uc.spawnmob
     aliases: [mob]
+  speed:
+    usage: /<command> <0-10> [Player]
+    description: Set your fly and walkspeed.
+    permissions: uc.speed
   unban:
     description: Unbans the target player.
     usage: /<command> <Player>

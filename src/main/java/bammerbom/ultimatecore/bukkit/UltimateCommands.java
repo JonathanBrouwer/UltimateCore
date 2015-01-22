@@ -128,6 +128,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdSpawn());
         cmds.add(new CmdSpawner());
         cmds.add(new CmdSpawnmob());
+        cmds.add(new CmdSpeed());
 
         cmds.add(new CmdUnban());
         cmds.add(new CmdUndeaf());
