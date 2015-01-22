@@ -381,6 +381,10 @@ commands:
     usage: /<command> <0-10> [Player]
     description: Set your fly and walkspeed.
     permissions: uc.speed
+  spy:
+    usage: /<command>
+    description: Toggle spymode for yourself.
+    permissions: uc.spy
   unban:
     description: Unbans the target player.
     usage: /<command> <Player>

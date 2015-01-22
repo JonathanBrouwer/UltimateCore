@@ -23,24 +23,26 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
+import bammerbom.ultimatecore.bukkit.api.UC;
+import bammerbom.ultimatecore.bukkit.api.UCplayer;
 import bammerbom.ultimatecore.bukkit.r;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.entity.Player;
 
-public class CmdFly implements UltimateCommand {
+public class CmdSpy implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "fly";
+        return "spy";
     }
 
     @Override
     public String getPermission() {
-        return "uc.fly";
+        return "uc.spy";
     }
 
     @Override
@@ -50,42 +52,16 @@ public class CmdFly implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.checkArgs(args, 0) == false) {
-            if (!(r.isPlayer(cs))) {
-                return;
-            }
-            if (!r.perm(cs, "uc.fly", false, true)) {
-                return;
-            }
-            Player p = (Player) cs;
-            if (p.getAllowFlight() == true) {
-                p.setAllowFlight(false);
-                r.sendMes(cs, "flySelf", "%Status", r.mes("off"));
-            } else {
-                p.setAllowFlight(true);
-                p.setFlySpeed(0.1F);
-                r.sendMes(cs, "flySelf", "%Status", r.mes("on"));
-            }
-        } else {
-            if (!r.perm(cs, "uc.fly.others", false, true)) {
-                return;
-            }
-            Player target = r.searchPlayer(args[0]);
-            if (target != null) {
-                if (target.getAllowFlight() == true) {
-                    target.setAllowFlight(false);
-                    r.sendMes(target, "flyOthersOther", "%Status", r.mes("off"), "%Player", cs.getName());
-                    r.sendMes(cs, "flyOthersSelf", "%Status", r.mes("off"), "%Player", target.getName());
-                } else {
-                    target.setAllowFlight(true);
-                    r.sendMes(target, "flyOthersOther", "%Status", r.mes("on"), "%Player", cs.getName());
-                    r.sendMes(cs, "flyOthersSelf", "%Status", r.mes("on"), "%Player", target.getName());
-                }
-            } else {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
-            }
-
+        if (!r.perm(cs, "uc.spy", true, true)) {
+            return;
         }
+        if (!r.isPlayer(cs)) {
+            return;
+        }
+        Player p = (Player) cs;
+        UCplayer up = UC.getPlayer(p);
+        up.setSpy(!up.isSpy());
+        r.sendMes(cs, "spyMessage", "%Spy", up.isSpy() ? r.mes("on") : r.mes("off"));
     }
 
     @Override
