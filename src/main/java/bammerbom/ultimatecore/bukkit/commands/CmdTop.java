@@ -24,24 +24,28 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
 import java.util.ArrayList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-public class CmdSpeed implements UltimateCommand {
+public class CmdTop implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "speed";
+        return "top";
     }
 
     @Override
     public String getPermission() {
-        return "uc.speed";
+        return "uc.top";
     }
 
     @Override
@@ -54,70 +58,39 @@ public class CmdSpeed implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return;
         }
-        if (!r.perm(cs, "uc.speed", false, true)) {
-            return;
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "speedUsage");
-            return;
-        }
-        if (!r.isFloat(args[0])) {
-            if (r.isFloat(args[1])) {
-                run(cs, label, new String[]{args[1], args[0]});
-                return;
-            }
-            r.sendMes(cs, "speedUsage");
-            return;
-        }
         Player p = (Player) cs;
-        Float d = Float.parseFloat(args[0]);
-        if (d > 10 || d < 0) {
-            r.sendMes(cs, "speedUsage");
+        if (!r.perm(cs, "uc.top", false, true)) {
             return;
         }
-        if (r.checkArgs(args, 1) == false) {
-            p.setFlySpeed(getSpeed(d, true));
-            p.setWalkSpeed(getSpeed(d, false));
-            r.sendMes(cs, "speedSelf", "%Speed", args[0]);
-        } else {
-            Player t = r.searchPlayer(args[1]);
-            if (t == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
-                return;
-            }
-            if (!r.perm(cs, "uc.speed.others", false, true)) {
-                return;
-            }
-            t.setFlySpeed(getSpeed(d, true));
-            t.setWalkSpeed(getSpeed(d, false));
-            r.sendMes(cs, "speedOtherSelf", "%Player", t.getName(), "%Speed", args[0]);
-            r.sendMes(cs, "speedOtherSelf", "%Speed", args[0]);
+        Location loc = getHighestY(p.getLocation());
+        if (loc == null || loc.getY() == 0) {
+            r.sendMes(cs, "topFailed");
+            return;
         }
+        loc.add(0, 1.01, 0);
+        LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
+        r.sendMes(cs, "topMessage");
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (curn == 1) {
-            return null;
-        }
         return new ArrayList<>();
     }
 
-    public static Float getSpeed(Float f, Boolean fly) {
-        float userSpeed;
-        userSpeed = f;
-        if (userSpeed > 10.0F) {
-            userSpeed = 10.0F;
-        } else if (userSpeed < 1.0E-004F) {
-            userSpeed = 1.0E-004F;
+    public static Location getHighestY(Location loc) {
+        Integer highest = 0;
+        Integer current = 0;
+        while (current < loc.getWorld().getMaxHeight()) {
+            Integer cur = current;
+            current++;
+            Location loc2 = new Location(loc.getWorld(), loc.getX(), cur, loc.getZ());
+            if (loc2.getBlock() != null && loc2.getBlock().getType() != null && !loc2.getBlock().getType().equals(Material.AIR)) {
+                highest = cur;
+            }
         }
-
-        float defaultSpeed = fly ? 0.1F : 0.2F;
-        float maxSpeed = 1.0F;
-        if (userSpeed < 1.0F) {
-            return defaultSpeed * userSpeed;
-        }
-        float ratio = (userSpeed - 1.0F) / 9.0F * (maxSpeed - defaultSpeed);
-        return ratio + defaultSpeed;
+        Location loc3 = new Location(loc.getWorld(), loc.getX(), highest, loc.getZ());
+        loc3.setPitch(loc.getPitch());
+        loc3.setYaw(loc.getYaw());
+        return loc3;
     }
 }

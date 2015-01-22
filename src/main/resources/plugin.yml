@@ -389,6 +389,10 @@ commands:
     usage: /<command> day/night/ticks/disable/enable/add/query
     description: Set the time
     permissions: uc.time
+  top:
+    usage: /<command>
+    description: Teleport yourself to the highest location.
+    permissions: uc.top
   unban:
     description: Unbans the target player.
     usage: /<command> <Player>
