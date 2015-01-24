@@ -353,32 +353,32 @@ public class UCserver {
         }
         return pls;
     }
-    
+
     //Receiver, Sender
     static Map<UUID, UUID> tp = new HashMap<>();
     static Map<UUID, UUID> tph = new HashMap<>();
-    
-    public Map<UUID, UUID> getTeleportRequests(){
+
+    public Map<UUID, UUID> getTeleportRequests() {
         return tp;
     }
-    
-    public Map<UUID, UUID> getTeleportHereRequests(){
+
+    public Map<UUID, UUID> getTeleportHereRequests() {
         return tph;
     }
-    
-    public void addTeleportRequest(UUID u1, UUID u2){
+
+    public void addTeleportRequest(UUID u1, UUID u2) {
         tp.put(u1, u2);
     }
-    
-    public void addTeleportHereRequest(UUID u1, UUID u2){
+
+    public void addTeleportHereRequest(UUID u1, UUID u2) {
         tph.put(u1, u2);
     }
-    
-    public void removeTeleportRequest(UUID u){
+
+    public void removeTeleportRequest(UUID u) {
         tp.remove(u);
     }
-    
-    public void removeTeleportHereRequest(UUID u){
+
+    public void removeTeleportHereRequest(UUID u) {
         tph.remove(u);
     }
 }

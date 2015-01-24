@@ -86,7 +86,7 @@ public class CmdTeleportall implements UltimateCommand {
                 LocationUtil.teleport(pl, t.getLocation(), TeleportCause.COMMAND);
             }
             LocationUtil.playEffect(null, t.getLocation());
-            r.sendMes(cs, "teleportallOthers" ,"%Player", t.getName());
+            r.sendMes(cs, "teleportallOthers", "%Player", t.getName());
         }
     }
 

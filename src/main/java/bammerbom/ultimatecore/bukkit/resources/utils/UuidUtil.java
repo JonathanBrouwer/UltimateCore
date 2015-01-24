@@ -69,7 +69,7 @@ public class UuidUtil {
             if (p.getName() == null) {
                 if (!conf.contains("name")) {
                     if (request == null) {
-                        request = new ArrayList<UUID>();
+                        request = new ArrayList<>();
                     }
                     request.add(p.getUniqueId());
                 }
@@ -105,54 +105,49 @@ public class UuidUtil {
         }
         if (request != null) {
             final ArrayList<UUID> req = request;
-            Thread t = new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        r.log("Starting playerfile update...");
-                        HashMap<UUID, String> s = new UuidToName(req).call();
-                        for (UUID u : s.keySet()) {
-                            String n = s.get(u);
-                            File f = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + u + ".yml");
-                            Config conf = new Config(f);
-                            conf.set("name", n);
-                            conf.save();
-                            //
-                            if (!conf.contains("names")) {
-                                ArrayList<String> names = new ArrayList<>();
-                                Calendar timeCal = Calendar.getInstance();
-                                timeCal.setTimeInMillis(System.currentTimeMillis());
-                                String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
-                                names.add(n + " - " + date);
-                                conf.set("names", names);
-                                conf.save();
-                            }
-                            if (conf.contains("name") && !conf.getString("name").equalsIgnoreCase(n)) {
-                                String oldname = conf.getString("name");
-                                Calendar timeCal = Calendar.getInstance();
-                                timeCal.setTimeInMillis(System.currentTimeMillis());
-                                String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
-                                List<String> names = conf.getStringList("names");
-                                if (names == null) {
-                                    names = new ArrayList<>();
-                                }
-                                names.add(n + " - " + date);
-                                conf.set("names", names);
-                                conf.save();
-                                if (Bukkit.getPlayer(u).isOnline()) {
-                                    r.sendMes(Bukkit.getPlayer(u), "nameChanged", "%Oldname", oldname, "%Newname", n);
-                                }
-                            }
-                            //
-                        }
-                        r.log("Playerfile update complete.");
-                    } catch (Exception e) {
-                        ErrorLogger.log(e, "Failed to convert uuids to names.");
+            try {
+                r.log("Starting playerfile update...");
+                HashMap<UUID, String> s = new UuidToName(req).call();
+                for (UUID u : s.keySet()) {
+                    String n = s.get(u);
+                    r.log(u + " - " + n);
+                    File f = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + u + ".yml");
+                    Config conf = new Config(f);
+                    conf.set("name", n);
+                    conf.save();
+                    //
+                    if (!conf.contains("names")) {
+                        ArrayList<String> names = new ArrayList<>();
+                        Calendar timeCal = Calendar.getInstance();
+                        timeCal.setTimeInMillis(System.currentTimeMillis());
+                        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
+                        names.add(n + " - " + date);
+                        conf.set("names", names);
+                        conf.save();
                     }
+                    if (conf.contains("name") && !conf.getString("name").equalsIgnoreCase(n)) {
+                        String oldname = conf.getString("name");
+                        Calendar timeCal = Calendar.getInstance();
+                        timeCal.setTimeInMillis(System.currentTimeMillis());
+                        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
+                        List<String> names = conf.getStringList("names");
+                        if (names == null) {
+                            names = new ArrayList<>();
+                        }
+                        names.add(n + " - " + date);
+                        conf.set("names", names);
+                        conf.save();
+                        if (Bukkit.getPlayer(u).isOnline()) {
+                            r.sendMes(Bukkit.getPlayer(u), "nameChanged", "%Oldname", oldname, "%Newname", n);
+                        }
+                    }
+                    //
                 }
-            });
-            t.start();
+                r.log("Playerfile update complete.");
+            } catch (Exception e) {
+                ErrorLogger.log(e, "Failed to convert uuids to names.");
+            }
         }
-
     }
 
     public static class UuidToName implements Callable<Map<UUID, String>> {
@@ -171,7 +166,7 @@ public class UuidUtil {
 
         @Override
         public HashMap<UUID, String> call() throws Exception {
-            HashMap<UUID, String> uuidStringMap = new HashMap<UUID, String>();
+            HashMap<UUID, String> uuidStringMap = new HashMap<>();
             for (UUID uuid : uuids) {
                 HttpURLConnection connection = (HttpURLConnection) new URL(PROFILE_URL + uuid.toString().replace("-", "")).openConnection();
                 JSONObject response = (JSONObject) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
@@ -200,15 +195,31 @@ public class UuidUtil {
             this.names = ImmutableList.copyOf(names);
         }
 
-        public NameToUuid(String name) {
-            this.names = Arrays.asList(name);
+        @Override
+        public Map<String, UUID> call() throws Exception {
+            Map<String, UUID> uuidMap = new HashMap<>();
+            int requests = (int) Math.ceil(names.size() / 100);
+            for (int i = 0; i < requests; i++) {
+                HttpURLConnection connection = createConnection();
+                String body = JSONArray.toJSONString(names.subList(i * 100, Math.min((i + 1) * 100, names.size())));
+                writeBody(connection, body);
+                JSONArray array = (JSONArray) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
+                for (Object profile : array) {
+                    JSONObject jsonProfile = (JSONObject) profile;
+                    String id = (String) jsonProfile.get("id");
+                    String name = (String) jsonProfile.get("name");
+                    UUID uuid = NameToUuid.getUUID(id);
+                    uuidMap.put(name, uuid);
+                }
+            }
+            return uuidMap;
         }
 
         private static void writeBody(HttpURLConnection connection, String body) throws Exception {
-            OutputStream stream = connection.getOutputStream();
-            stream.write(body.getBytes());
-            stream.flush();
-            stream.close();
+            try (OutputStream stream = connection.getOutputStream()) {
+                stream.write(body.getBytes());
+                stream.flush();
+            }
         }
 
         private static HttpURLConnection createConnection() throws Exception {
@@ -243,20 +254,8 @@ public class UuidUtil {
             return new UUID(mostSignificant, leastSignificant);
         }
 
-        public HashMap<String, UUID> call() throws Exception {
-            HashMap<String, UUID> uuidMap = new HashMap<String, UUID>();
-            HttpURLConnection connection = createConnection();
-            String body = JSONArray.toJSONString(names);
-            writeBody(connection, body);
-            JSONArray array = (JSONArray) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
-            for (Object profile : array) {
-                JSONObject jsonProfile = (JSONObject) profile;
-                String id = (String) jsonProfile.get("id");
-                String name = (String) jsonProfile.get("name");
-                UUID uuid = getUUID(id);
-                uuidMap.put(name, uuid);
-            }
-            return uuidMap;
+        public static UUID getUUIDOf(String name) throws Exception {
+            return new NameToUuid(Arrays.asList(name)).call().get(name);
         }
     }
 }

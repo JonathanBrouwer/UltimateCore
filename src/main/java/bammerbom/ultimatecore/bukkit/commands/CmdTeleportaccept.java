@@ -57,7 +57,9 @@ public class CmdTeleportaccept implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return;
         }
-        if(!r.perm(cs, "uc.teleportaccept", true, true)) return;
+        if (!r.perm(cs, "uc.teleportaccept", true, true)) {
+            return;
+        }
         Player p = (Player) cs;
         if (UC.getServer().getTeleportHereRequests().containsKey(p.getUniqueId())) {
             Player t = r.searchPlayer(UC.getServer().getTeleportHereRequests().get(p.getUniqueId()));
