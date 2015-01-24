@@ -311,7 +311,7 @@ public class UCserver {
         return mt;
     }
     //Spawn
-    Location spawn = null;
+    static Location spawn = null;
 
     public void setSpawn(Location loc) {
         spawn = loc;
@@ -332,5 +332,53 @@ public class UCserver {
             return loc;
         }
         return spawn;
+    }
+
+    public List<OfflinePlayer> getInTeleportMenuOffline() {
+        List<OfflinePlayer> pls = new ArrayList<OfflinePlayer>();
+        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+            if (UC.getPlayer(pl).isInTeleportMenu()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+
+    public List<Player> getInTeleportMenuOnline() {
+        List<Player> pls = new ArrayList<Player>();
+        for (Player pl : r.getOnlinePlayers()) {
+            if (UC.getPlayer(pl).isInTeleportMenu()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+    
+    //Receiver, Sender
+    static Map<UUID, UUID> tp = new HashMap<>();
+    static Map<UUID, UUID> tph = new HashMap<>();
+    
+    public Map<UUID, UUID> getTeleportRequests(){
+        return tp;
+    }
+    
+    public Map<UUID, UUID> getTeleportHereRequests(){
+        return tph;
+    }
+    
+    public void addTeleportRequest(UUID u1, UUID u2){
+        tp.put(u1, u2);
+    }
+    
+    public void addTeleportHereRequest(UUID u1, UUID u2){
+        tph.put(u1, u2);
+    }
+    
+    public void removeTeleportRequest(UUID u){
+        tp.remove(u);
+    }
+    
+    public void removeTeleportHereRequest(UUID u){
+        tph.remove(u);
     }
 }

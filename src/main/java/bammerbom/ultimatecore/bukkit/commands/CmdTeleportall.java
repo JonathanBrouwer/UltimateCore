@@ -25,45 +25,73 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import java.util.ArrayList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-public class CmdEnchantingtable implements UltimateCommand {
+public class CmdTeleportall implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "enchantingtable";
+        return "teleportall";
     }
 
     @Override
     public String getPermission() {
-        return "uc.enchantingtable";
+        return "uc.teleportall";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("ectable");
+        return Arrays.asList("tpall");
     }
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
+        if (!r.perm(cs, "uc.teleportall", false, true)) {
             return;
         }
-        if (!r.perm(cs, "uc.enchantingtable", false, true)) {
-            return;
+        if (!r.checkArgs(args, 0)) {
+            if (!r.isPlayer(cs)) {
+                return;
+            }
+            Player p = (Player) cs;
+            for (Player pl : Bukkit.getOnlinePlayers()) {
+                if (!UC.getPlayer(pl).hasTeleportEnabled() && !r.perm(cs, "uc.tptoggle.override", false, false)) {
+                    r.sendMes(cs, "teleportDisabled", "%Player", pl.getName());
+                    continue;
+                }
+                LocationUtil.teleport(pl, p.getLocation(), TeleportCause.COMMAND);
+            }
+            LocationUtil.playEffect(null, p.getLocation());
+            r.sendMes(cs, "teleportallSelf");
+        } else {
+            Player t = r.searchPlayer(args[0]);
+            if (t == null) {
+                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                return;
+            }
+            for (Player pl : Bukkit.getOnlinePlayers()) {
+                if (!UC.getPlayer(pl).hasTeleportEnabled() && !r.perm(cs, "uc.tptoggle.override", false, false)) {
+                    r.sendMes(cs, "teleportDisabled", "%Player", pl.getName());
+                    continue;
+                }
+                LocationUtil.teleport(pl, t.getLocation(), TeleportCause.COMMAND);
+            }
+            LocationUtil.playEffect(null, t.getLocation());
+            r.sendMes(cs, "teleportallOthers" ,"%Player", t.getName());
         }
-        Player p = (Player) cs;
-        p.openEnchanting(p.getLocation(), true);
-        UC.getPlayer(p).setInCommandEnchantingtable(true);
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
 }

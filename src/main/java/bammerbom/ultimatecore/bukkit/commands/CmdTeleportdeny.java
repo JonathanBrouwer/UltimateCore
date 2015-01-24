@@ -25,28 +25,29 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.ArrayList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.entity.Player;
 
-public class CmdEnchantingtable implements UltimateCommand {
+public class CmdTeleportdeny implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "enchantingtable";
+        return "teleportdeny";
     }
 
     @Override
     public String getPermission() {
-        return "uc.enchantingtable";
+        return "uc.teleportdeny";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("ectable");
+        return Arrays.asList("tpdeny");
     }
 
     @Override
@@ -54,16 +55,29 @@ public class CmdEnchantingtable implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return;
         }
-        if (!r.perm(cs, "uc.enchantingtable", false, true)) {
+        if (!r.perm(cs, "uc.teleportdeny", true, true)) {
             return;
         }
         Player p = (Player) cs;
-        p.openEnchanting(p.getLocation(), true);
-        UC.getPlayer(p).setInCommandEnchantingtable(true);
+        if (UC.getServer().getTeleportRequests().containsKey(p.getUniqueId()) || UC.getServer().getTeleportHereRequests().containsKey(p.getUniqueId())) {
+            Player t1 = r.searchPlayer(UC.getServer().getTeleportRequests().get(p.getUniqueId()));
+            Player t2 = r.searchPlayer(UC.getServer().getTeleportHereRequests().get(p.getUniqueId()));
+            r.sendMes(cs, "teleportdenySender");
+            if(t1 != null){
+                r.sendMes(t1, "teleportdenyTarget", "%Player", p.getName());
+            }
+            if(t2 != null){
+                r.sendMes(t2, "teleportdenyTarget", "%Player", p.getName());
+            }
+            UC.getServer().removeTeleportRequest(p.getUniqueId());
+            UC.getServer().removeTeleportHereRequest(p.getUniqueId());
+        }else{
+            r.sendMes(p, "teleportaskNoRequests");
+        }
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
 }

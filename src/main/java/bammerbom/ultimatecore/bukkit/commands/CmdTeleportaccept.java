@@ -25,28 +25,31 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import java.util.ArrayList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-public class CmdEnchantingtable implements UltimateCommand {
+public class CmdTeleportaccept implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "enchantingtable";
+        return "teleportaccept";
     }
 
     @Override
     public String getPermission() {
-        return "uc.enchantingtable";
+        return "uc.teleportaccept";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("ectable");
+        return Arrays.asList("tpaccept");
     }
 
     @Override
@@ -54,16 +57,37 @@ public class CmdEnchantingtable implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return;
         }
-        if (!r.perm(cs, "uc.enchantingtable", false, true)) {
-            return;
-        }
+        if(!r.perm(cs, "uc.teleportaccept", true, true)) return;
         Player p = (Player) cs;
-        p.openEnchanting(p.getLocation(), true);
-        UC.getPlayer(p).setInCommandEnchantingtable(true);
+        if (UC.getServer().getTeleportHereRequests().containsKey(p.getUniqueId())) {
+            Player t = r.searchPlayer(UC.getServer().getTeleportHereRequests().get(p.getUniqueId()));
+            if (t == null) {
+                r.sendMes(p, "teleportaskNoRequests");
+            } else {
+                LocationUtil.teleport(p, t, TeleportCause.COMMAND);
+                LocationUtil.playEffect(t, p.getLocation());
+                r.sendMes(cs, "teleportaskhereAcceptSender", "%Player", t.getName());
+                r.sendMes(t, "teleportaskhereAcceptTarget", "%Player", p.getName());
+                UC.getServer().removeTeleportHereRequest(t.getUniqueId());
+            }
+        } else if (!UC.getServer().getTeleportRequests().containsKey(p.getUniqueId())) {
+            r.sendMes(p, "teleportaskNoRequests");
+        } else {
+            Player t = r.searchPlayer(UC.getServer().getTeleportRequests().get(p.getUniqueId()));
+            if (t == null) {
+                r.sendMes(p, "teleportaskNoRequests");
+            } else {
+                LocationUtil.teleport(t, p, TeleportCause.COMMAND);
+                LocationUtil.playEffect(t, p.getLocation());
+                r.sendMes(cs, "teleportaskAcceptSender", "%Player", t.getName());
+                r.sendMes(t, "teleportaskAcceptTarget", "%Player", p.getName());
+                UC.getServer().removeTeleportRequest(p.getUniqueId());
+            }
+        }
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
 }

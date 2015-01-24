@@ -23,30 +23,31 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
-import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-public class CmdEnchantingtable implements UltimateCommand {
+public class CmdTeleporthere implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "enchantingtable";
+        return "teleporthere";
     }
 
     @Override
     public String getPermission() {
-        return "uc.enchantingtable";
+        return "uc.teleporthere";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("ectable");
+        return Arrays.asList("tphere");
     }
 
     @Override
@@ -54,12 +55,22 @@ public class CmdEnchantingtable implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return;
         }
-        if (!r.perm(cs, "uc.enchantingtable", false, true)) {
+        if (!r.perm(cs, "uc.teleporthere", false, true)) {
+            return;
+        }
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "teleporthereUsage");
             return;
         }
         Player p = (Player) cs;
-        p.openEnchanting(p.getLocation(), true);
-        UC.getPlayer(p).setInCommandEnchantingtable(true);
+        Player t = r.searchPlayer(args[0]);
+        if (t == null) {
+            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            return;
+        }
+        LocationUtil.teleport(p, t, TeleportCause.COMMAND);
+        LocationUtil.playEffect(p, t.getLocation());
+        r.sendMes(cs, "teleporthereMessage");
     }
 
     @Override

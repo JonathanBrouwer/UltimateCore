@@ -25,12 +25,12 @@ package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UCplayer;
-import bammerbom.ultimatecore.bukkit.commands.CmdEnchantingtable;
 import bammerbom.ultimatecore.bukkit.commands.CmdMobtp;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Damageable;
@@ -176,7 +176,7 @@ public class PlayerListener implements Listener {
         try {
             //EnchantingTable
             if (UC.getPlayer((Player) e.getPlayer()).isInCommandEnchantingtable()) {
-                CmdEnchantingtable.inCmd.remove(e.getPlayer().getUniqueId());
+                UC.getPlayer((Player) e.getPlayer()).setInCommandEnchantingtable(false);
             }
             //Inventory
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOfflineInventory()) {
@@ -190,7 +190,10 @@ public class PlayerListener implements Listener {
                 UC.getPlayer((Player) e.getPlayer()).isInRecipeView();
                 e.getInventory().clear();
             }
-            //
+            //Teleportmenu
+            if (UC.getPlayer(e.getPlayer().getUniqueId()).isInTeleportMenu()) {
+                UC.getPlayer(e.getPlayer().getUniqueId()).setInTeleportMenu(false);
+            }
 
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: InventoryCloseEvent");
@@ -213,10 +216,18 @@ public class PlayerListener implements Listener {
             if (UC.getPlayer((Player) e.getWhoClicked()).isInRecipeView() && e.getInventory().getType() == InventoryType.WORKBENCH) {
                 e.setCancelled(true);
                 Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+                    @Override
                     public void run() {
                         ((Player) e.getWhoClicked()).updateInventory();
                     }
                 }, 1L);
+            }
+            //Teleportmenu
+            if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInTeleportMenu()) {
+                UC.getPlayer(e.getWhoClicked().getUniqueId()).setInTeleportMenu(false);
+                Bukkit.getServer().dispatchCommand(e.getWhoClicked(), "tp " + ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()));
+                e.setCancelled(true);
+                e.getWhoClicked().closeInventory();
             }
             //
 

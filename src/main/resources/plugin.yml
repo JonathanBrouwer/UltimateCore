@@ -385,6 +385,51 @@ commands:
     usage: /<command>
     description: Toggle spymode for yourself.
     permissions: uc.spy
+  teleport:
+    usage: /<command> [Player] <Player> OR [Player] <X> [Y] <Z>
+    description: Teleport yourself or someone else.
+    permissions: uc.teleport
+    aliases: [tp]
+  teleportaccept:
+    usage: /<command>
+    description: Accept a teleport request.
+    permissions: uc.teleportaccept
+    aliases: [tpaccept]
+  teleportall:
+    usage: /<command> [Player]
+    description: Teleport everyone to a certain player or yourself.
+    permissions: uc.teleportall
+    aliases: [tpall]
+  teleportask:
+    usage: /<command> <Player>
+    description: Ask to teleport to someone
+    permissions: uc.teleport
+    aliases: [tpa]
+  teleportaskall:
+    usage: /<command>
+    description: Ask everyone to teleport to you.
+    permissions: uc.teleportaskall
+    aliases: [tpaall]
+  teleportaskhere:
+    usage: /<command> [Player]
+    description: Ask someone to teleport to you.
+    permissions: uc.teleportaskhere
+    aliases: [tpahere]
+  teleportdeny:
+    usage: /<command>
+    description: Deny a teleport request.
+    permissions: uc.teleportdeny
+    aliases: [tpdeny]
+  teleporthere:
+    usage: /<command> <Player>
+    description: Teleport someone to you.
+    permissions: uc.teleporthere
+    aliases: [tphere]
+  teleporttoggle:
+    usage: /<command> [Player]
+    description: Toggle teleporting for yourself or someone else.
+    permissions: uc.teleporttoggle
+    aliases: [tptoggle]
   time:
     usage: /<command> day/night/ticks/disable/enable/add/query
     description: Set the time

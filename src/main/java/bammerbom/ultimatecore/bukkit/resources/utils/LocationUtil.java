@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import bammerbom.ultimatecore.bukkit.api.UC;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,12 +35,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import java.util.*;
+import org.bukkit.Effect;
+import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
 
 public class LocationUtil {
 
     public static final Vector3D[] VOLUME;
-    private static final Set<Material> HOLLOW_MATERIALS = new HashSet<Material>();
-    private static final HashSet<Material> TRANSPARENT_MATERIALS = new HashSet<Material>();
+    private static final Set<Material> HOLLOW_MATERIALS = new HashSet<>();
+    private static final HashSet<Material> TRANSPARENT_MATERIALS = new HashSet<>();
 
     public static Location convertStringToLocation(String s) {
         if (s == null) {
@@ -232,7 +236,7 @@ public class LocationUtil {
         }
         TRANSPARENT_MATERIALS.add(Material.WATER);
         TRANSPARENT_MATERIALS.add(Material.STATIONARY_WATER);
-        List<Vector3D> pos = new ArrayList<Vector3D>();
+        List<Vector3D> pos = new ArrayList<>();
         for (int x = -3; x <= 3; x++) {
             for (int y = -3; y <= 3; y++) {
                 for (int z = -3; z <= 3; z++) {
@@ -241,11 +245,55 @@ public class LocationUtil {
             }
         }
         Collections.sort(pos, new Comparator<Vector3D>() {
+            @Override
             public int compare(Vector3D a, Vector3D b) {
                 return a.x * a.x + a.y * a.y + a.z * a.z - (b.x * b.x + b.y * b.y + b.z * b.z);
             }
         });
         VOLUME = (Vector3D[]) pos.toArray(new Vector3D[0]);
+    }
+
+    /**
+     * Creates a teleport effect
+     *
+     * @param p The player who is teleported
+     * @param loc The location where the effect is shown
+     */
+    public static void playEffect(Player p, Location loc) {
+        //if(UC.getPlayer(p).isVanished()) return; TODO
+        for (Player pl : Bukkit.getOnlinePlayers()) {
+            if (p != null && !pl.canSee(p)) {
+                continue;
+            }
+            pl.playEffect(loc, Effect.ENDER_SIGNAL, 10);
+            pl.playSound(loc, Sound.ENDERMAN_TELEPORT, 1, 1);
+        }
+    }
+
+    public static double getCoordinate(String input, double current) {
+        boolean relative = input.startsWith("~");
+        double result = relative ? current : 0.0D;
+        if ((!relative) || (input.length() > 1)) {
+            boolean exact = input.contains(".");
+            if (relative) {
+                input = input.substring(1);
+            }
+            double testResult = Double.parseDouble(input);
+            if (testResult == -30000001.0D) {
+                return -30000001.0D;
+            }
+            result += testResult;
+            if ((!exact) && (!relative)) {
+                result += 0.5D;
+            }
+        }
+        if (result < -30000000) {
+            result = -30000000.0D;
+        }
+        if (result > 30000000) {
+            result = 30000000.0D;
+        }
+        return result;
     }
 
     private static class Vector3D {

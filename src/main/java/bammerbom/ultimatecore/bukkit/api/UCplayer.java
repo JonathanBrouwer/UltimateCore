@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.bukkit.api;
 
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
-import bammerbom.ultimatecore.bukkit.commands.CmdEnchantingtable;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.InventoryUtil;
@@ -42,40 +41,27 @@ public class UCplayer {
     static Random ra = new Random();
     String name = null;
     UUID uuid = null;
-    //Back last location
     Location lastLocation = null;
-    //Ban
     Boolean banned = null;
     Long bantime = null;
     String banreason = null;
-    //Deaf
     Boolean deaf = null;
     Long deaftime = null;
-    //Freeze
     Boolean freeze = null;
     Long freezetime = null;
-    //God
     Boolean god = null;
     Long godtime = null;
-    //Home
     HashMap<String, Location> homes = null;
-    //Inventory
     Boolean onlineInv = false;
     Boolean offlineInv = false;
-    //Jail
     Boolean jailed = null;
     Long jailtime = null;
     String jail = null;
-    //Reply
     UUID reply = null;
-    //Spy
     Boolean spy = null;
-    //Mute
     Boolean mute = null;
     Long mutetime = null;
-    //Nick
     String nickname = null;
-    //Powertool
     Boolean pte = null;
     HashMap<Material, List<String>> pts = null;
     Boolean inRecipeView = false;
@@ -91,6 +77,11 @@ public class UCplayer {
         this.uuid = p.getUniqueId();
     }
 
+    private void save() {
+        UC.uplayers.remove(this);
+        UC.uplayers.add(this);
+    }
+
     public OfflinePlayer getPlayer() {
         return Bukkit.getOfflinePlayer(uuid);
     }
@@ -103,19 +94,38 @@ public class UCplayer {
     }
 
     //Last connect
+    Long lastconnect = null;
+
     public long getLastConnectMillis() {
+        if (lastconnect != null) {
+            return lastconnect;
+        }
         final Config conf = getPlayerConfig();
         if (conf.get("lastconnect") != null) {
+            lastconnect = conf.getLong("lastconnect");
+            save();
             return conf.getLong("lastconnect");
         } else {
+            lastconnect = getPlayer().getLastPlayed();
+            save();
             return getPlayer().getLastPlayed();
         }
     }
 
     public void updateLastConnectMillis() {
+        lastconnect = System.currentTimeMillis();
         final Config conf = getPlayerConfig();
         conf.set("lastconnect", System.currentTimeMillis());
         conf.save();
+        save();
+    }
+
+    public void updateLastConnectMillis(Long millis) {
+        lastconnect = millis;
+        final Config conf = getPlayerConfig();
+        conf.set("lastconnect", millis);
+        conf.save();
+        save();
     }
 
     //Configuration
@@ -136,7 +146,10 @@ public class UCplayer {
 
     public Location getLastLocation() {
         if (lastLocation == null) {
-            return LocationUtil.convertStringToLocation(getPlayerConfig().getString("lastlocation"));
+            Location loc = LocationUtil.convertStringToLocation(getPlayerConfig().getString("lastlocation"));
+            lastLocation = loc;
+            save();
+            return loc;
         }
         return lastLocation;
     }
@@ -146,6 +159,7 @@ public class UCplayer {
         Config conf = getPlayerConfig();
         conf.set("lastlocation", loc == null ? null : LocationUtil.convertLocationToString(loc));
         conf.save();
+        save();
     }
 
     public boolean isBanned() {
@@ -176,6 +190,7 @@ public class UCplayer {
             return 0L;
         }
         bantime = getPlayerConfig().getLong("bantime");
+        save();
         return getPlayerConfig().getLong("bantime");
 
     }
@@ -185,10 +200,14 @@ public class UCplayer {
     }
 
     public String getBanReason() {
+        if (banreason != null) {
+            return banreason;
+        }
         if (!getPlayerConfig().contains("banreason")) {
             return "";
         }
         banreason = getPlayerConfig().getString("banreason");
+        save();
         return getPlayerConfig().getString("banreason");
     }
 
@@ -196,6 +215,7 @@ public class UCplayer {
         banned = false;
         bantime = 0L;
         banreason = "";
+        save();
         Config conf = getPlayerConfig();
         conf.set("banned", false);
         conf.set("bantime", null);
@@ -224,6 +244,10 @@ public class UCplayer {
         conf.save();
         BanList list = Bukkit.getBanList(Type.NAME);
         list.addBan(getPlayer().getName(), reason, null, "");
+        banned = true;
+        bantime = time;
+        banreason = reason;
+        save();
     }
 
     public void ban(Long time) {
@@ -254,6 +278,7 @@ public class UCplayer {
             return deaf;
         }
         deaf = getPlayerConfig().getBoolean("deaf");
+        save();
         return getPlayerConfig().getBoolean("deaf");
     }
 
@@ -269,6 +294,7 @@ public class UCplayer {
             return 0L;
         }
         deaftime = getPlayerConfig().getLong("deaftime");
+        save();
         return getPlayerConfig().getLong("deaftime");
 
     }
@@ -290,11 +316,7 @@ public class UCplayer {
         conf.save();
         deaf = dea;
         deaftime = deaf ? time : 0L;
-    }
-
-    //Enchantingtable
-    public boolean isInCommandEnchantingtable() {
-        return CmdEnchantingtable.inCmd.contains(uuid);
+        save();
     }
 
     public boolean isFrozen() {
@@ -313,6 +335,7 @@ public class UCplayer {
             return freeze;
         }
         freeze = getPlayerConfig().getBoolean("freeze");
+        save();
         return getPlayerConfig().getBoolean("freeze");
     }
 
@@ -328,6 +351,7 @@ public class UCplayer {
             return 0L;
         }
         freezetime = getPlayerConfig().getLong("freezetime");
+        save();
         return getPlayerConfig().getLong("freezetime");
 
     }
@@ -348,8 +372,8 @@ public class UCplayer {
         conf.set("freezetime", time);
         conf.save();
         freeze = fr;
-        ;
         freezetime = fr ? time : 0L;
+        save();
     }
 
     public boolean isGod() {
@@ -368,6 +392,7 @@ public class UCplayer {
             return god;
         }
         god = getPlayerConfig().getBoolean("god");
+        save();
         return getPlayerConfig().getBoolean("god");
     }
 
@@ -383,6 +408,7 @@ public class UCplayer {
             return 0L;
         }
         godtime = getPlayerConfig().getLong("godtime");
+        save();
         return getPlayerConfig().getLong("godtime");
 
     }
@@ -404,13 +430,14 @@ public class UCplayer {
         conf.save();
         god = fr;
         godtime = fr ? time : 0L;
+        save();
     }
 
     public HashMap<String, Location> getHomes() {
         if (homes != null) {
             return homes;
         }
-        homes = new HashMap<String, Location>();
+        homes = new HashMap<>();
         Config conf = getPlayerConfig();
         if (!conf.contains("homes")) {
             return homes;
@@ -418,11 +445,13 @@ public class UCplayer {
         for (String hname : conf.getConfigurationSection("homes").getKeys(false)) {
             homes.put(hname, LocationUtil.convertStringToLocation(conf.getString("homes." + hname)));
         }
+        save();
         return homes;
     }
 
     public void setHomes(HashMap<String, Location> nh) {
         homes = nh;
+        save();
         Config conf = getPlayerConfig();
         conf.set("homes", null);
         for (String s : nh.keySet()) {
@@ -463,6 +492,7 @@ public class UCplayer {
 
     public void setInOnlineInventory(Boolean b) {
         onlineInv = b;
+        save();
     }
 
     public boolean isInOfflineInventory() {
@@ -471,6 +501,7 @@ public class UCplayer {
 
     public void setInOfflineInventory(Boolean b) {
         offlineInv = b;
+        save();
     }
 
     public void updateLastInventory() {
@@ -511,6 +542,7 @@ public class UCplayer {
         conf.set("jail", n);
         conf.set("jailtime", l == null ? 0L : l);
         conf.save();
+        save();
     }
 
     public void unjail() {
@@ -522,7 +554,7 @@ public class UCplayer {
         conf.set("jail", null);
         conf.set("jailtime", null);
         conf.save();
-
+        save();
     }
 
     public boolean isJailed() {
@@ -541,6 +573,7 @@ public class UCplayer {
             return jailed;
         }
         jailed = getPlayerConfig().getBoolean("jailed");
+        save();
         return getPlayerConfig().getBoolean("jailed");
     }
 
@@ -552,6 +585,7 @@ public class UCplayer {
             return 0L;
         }
         jailtime = getPlayerConfig().getLong("jailtime");
+        save();
         return getPlayerConfig().getLong("jailtime");
 
     }
@@ -585,6 +619,7 @@ public class UCplayer {
         Config conf = getPlayerConfig();
         conf.set("reply", pl.getUniqueId().toString());
         conf.save();
+        save();
     }
 
     public boolean isSpy() {
@@ -594,7 +629,9 @@ public class UCplayer {
         if (!getPlayerConfig().contains("spy")) {
             return false;
         }
-        return getPlayerConfig().getBoolean("spy");
+        spy = getPlayerConfig().getBoolean("spy");
+        save();
+        return spy;
     }
 
     public void setSpy(Boolean sp) {
@@ -602,6 +639,7 @@ public class UCplayer {
         Config conf = getPlayerConfig();
         conf.set("spy", sp);
         conf.save();
+        save();
     }
 
     public boolean isMuted() {
@@ -620,6 +658,7 @@ public class UCplayer {
             return mute;
         }
         mute = getPlayerConfig().getBoolean("mute");
+        save();
         return getPlayerConfig().getBoolean("mute");
     }
 
@@ -635,6 +674,7 @@ public class UCplayer {
             return 0L;
         }
         mutetime = getPlayerConfig().getLong("mutetime");
+        save();
         return getPlayerConfig().getLong("mutetime");
 
     }
@@ -656,6 +696,7 @@ public class UCplayer {
         conf.save();
         mute = fr;
         mutetime = fr ? time : -1L;
+        save();
     }
 
     public String getNick() {
@@ -667,18 +708,20 @@ public class UCplayer {
             return null;
         }
         String nick = ChatColor.translateAlternateColorCodes('&', data.getString("nick"));
-        nickname = nick + ChatColor.RESET;
         if (getPlayer().isOnline()) {
             getPlayer().getPlayer().setDisplayName(nickname.replace("&y", ""));
         }
         if (getPlayer().isOnline() && r.perm((Player) getPlayer(), "uc.chat.rainbow", false, false)) {
             nick = nick.replaceAll("&y", r.getRandomChatColor() + "");
         }
+        nickname = nick + ChatColor.RESET;
+        save();
         return nick + ChatColor.RESET;
     }
 
     public void setNick(String str) {
         nickname = str == null ? null : str + ChatColor.RESET;
+        save();
         if (str != null) {
             if (getPlayer().isOnline()) {
                 getPlayer().getPlayer().setDisplayName(nickname.replace("&y", ""));
@@ -699,12 +742,13 @@ public class UCplayer {
         if (pts != null) {
             pts.clear(); //Just to make sure
         }
+        save();
     }
 
     public void clearPowertool(Material mat) {
         if (pts == null) {
             Config data = getPlayerConfig();
-            pts = new HashMap<Material, List<String>>();
+            pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.getConfigurationSection("powertool").getValues(false).keySet()) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
@@ -716,6 +760,7 @@ public class UCplayer {
         Config data = getPlayerConfig();
         data.set("powertool." + mat.toString(), null);
         data.save();
+        save();
     }
 
     public List<String> getPowertools(Material mat) {
@@ -732,6 +777,7 @@ public class UCplayer {
                 }
             }
         }
+        save();
         if (pts.containsKey(mat)) {
             return new ArrayList<>(pts.get(mat));
         }
@@ -748,6 +794,7 @@ public class UCplayer {
                     pts.put(Material.getMaterial(s), l);
                 }
             }
+            save();
         }
         return !pts.isEmpty();
     }
@@ -762,6 +809,7 @@ public class UCplayer {
                     pts.put(Material.getMaterial(s), l);
                 }
             }
+            save();
         }
         return pts.containsKey(mat);
     }
@@ -780,6 +828,7 @@ public class UCplayer {
         pts.put(mat, cmds);
         data.set("powertool." + mat.toString(), cmds);
         data.save();
+        save();
     }
 
     public void addPowertool(Material mat, String c) {
@@ -803,6 +852,50 @@ public class UCplayer {
 
     public void setInRecipeView(Boolean b) {
         inRecipeView = b;
+        save();
     }
 
+    Boolean inTeleportMenu = false;
+
+    public boolean isInTeleportMenu() {
+        return inTeleportMenu;
+    }
+
+    public void setInTeleportMenu(Boolean b) {
+        inTeleportMenu = b;
+        save();
+    }
+
+    Boolean inCmdEnchantingtable = false;
+
+    public boolean isInCommandEnchantingtable() {
+        return inCmdEnchantingtable;
+    }
+
+    public void setInCommandEnchantingtable(Boolean b) {
+        inCmdEnchantingtable = b;
+        save();
+    }
+
+    Boolean teleportEnabled = null;
+
+    public boolean hasTeleportEnabled() {
+        if (teleportEnabled != null) {
+            return teleportEnabled;
+        }
+        if (!getPlayerConfig().contains("teleportenabled")) {
+            return false;
+        }
+        teleportEnabled = getPlayerConfig().getBoolean("teleportenabled");
+        save();
+        return teleportEnabled;
+    }
+
+    public void setTeleportEnabled(Boolean tpe) {
+        teleportEnabled = tpe;
+        Config conf = getPlayerConfig();
+        conf.set("teleportenabled", tpe);
+        conf.save();
+        save();
+    }
 }

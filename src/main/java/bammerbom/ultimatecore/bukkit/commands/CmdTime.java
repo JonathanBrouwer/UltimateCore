@@ -157,9 +157,9 @@ public class CmdTime implements UltimateCommand {
                 } else if ("night".equalsIgnoreCase(args[0])) {
                     r.sendMes(cs, "timeMessage", "%Time", r.mes("timeNight"));
                 } else if ("disable".equalsIgnoreCase(args[0])) {
-                    r.sendMes(cs, "timeMessage", "%Time", r.mes("timeDisabled"));
+                    r.sendMes(cs, "timeMessage", "%Time", r.mes("disabled"));
                 } else if ("enable".equalsIgnoreCase(args[0])) {
-                    r.sendMes(cs, "timeMessage", "%Time", r.mes("timeEnabled"));
+                    r.sendMes(cs, "timeMessage", "%Time", r.mes("enabled"));
                 } else if (r.isInt(args[0])) {
                     r.sendMes(cs, "timeMessage", "%Time", args[0]);
                 } else if (args[0].equalsIgnoreCase("query")) {
@@ -198,9 +198,9 @@ public class CmdTime implements UltimateCommand {
                     } else if ("night".equalsIgnoreCase(args[1])) {
                         r.sendMes(cs, "timeMessage", "%Time", r.mes("timeNight"));
                     } else if ("disable".equalsIgnoreCase(args[1])) {
-                        r.sendMes(cs, "timeMessage", "%Time", r.mes("timeDisabled"));
+                        r.sendMes(cs, "timeMessage", "%Time", r.mes("disabled"));
                     } else if ("enable".equalsIgnoreCase(args[1])) {
-                        r.sendMes(cs, "timeMessage", "%Time", r.mes("timeEnabled"));
+                        r.sendMes(cs, "timeMessage", "%Time", r.mes("enabled"));
                     } else if (r.isInt(args[1])) {
                         r.sendMes(cs, "timeMessage", "%Time", args[1]);
                     } else {
@@ -236,14 +236,14 @@ public class CmdTime implements UltimateCommand {
                         return;
                     }
                     world.setGameRuleValue("doDaylightCycle", "false");
-                    r.sendMes(cs, "timeMessage", "%Time", r.mes("timeDisabled"));
+                    r.sendMes(cs, "timeMessage", "%Time", r.mes("disabled"));
                 } else if ("enable".equalsIgnoreCase(args[0])) {
                     if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.enable", false, false)) {
                         r.sendMes(cs, "NoPermissions");
                         return;
                     }
                     world.setGameRuleValue("doDaylightCycle", "true");
-                    r.sendMes(cs, "timeMessage", "%Time", r.mes("timeEnabled"));
+                    r.sendMes(cs, "timeMessage", "%Time", r.mes("enabled"));
                 } else if (r.isInt(args[0])) {
                     if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.ticks", false, false)) {
                         r.sendMes(cs, "NoPermissions");
@@ -313,14 +313,14 @@ public class CmdTime implements UltimateCommand {
                             return;
                         }
                         world.setGameRuleValue("doDaylightCycle", "false");
-                        r.sendMes(cs, "timeMessage", "%Time", r.mes("timeDisabled"));
+                        r.sendMes(cs, "timeMessage", "%Time", r.mes("disabled"));
                     } else if ("enable".equalsIgnoreCase(args[1])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.enable", false, false)) {
                             r.sendMes(cs, "NoPermissions");
                             return;
                         }
                         world.setGameRuleValue("doDaylightCycle", "true");
-                        r.sendMes(cs, "timeMessage", "%Time", r.mes("timeEnabled"));
+                        r.sendMes(cs, "timeMessage", "%Time", r.mes("enabled"));
                     } else if (r.isInt(args[1])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.ticks", false, false)) {
                             r.sendMes(cs, "NoPermissions");
@@ -341,6 +341,6 @@ public class CmdTime implements UltimateCommand {
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return Arrays.asList("day", "night", "ticks", "disable", "enable", "add", "query");
     }
 }

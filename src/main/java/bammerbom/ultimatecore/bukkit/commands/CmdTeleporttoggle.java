@@ -27,39 +27,48 @@ import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.entity.Player;
 
-public class CmdEnchantingtable implements UltimateCommand {
+public class CmdTeleporttoggle implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "enchantingtable";
+        return "teleporttoggle";
     }
 
     @Override
     public String getPermission() {
-        return "uc.enchantingtable";
+        return "uc.teleporttoggle";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("ectable");
+        return Arrays.asList("tptoggle");
     }
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
+        if (!r.perm(cs, "uc.teleporttoggle", true, true)) {
             return;
         }
-        if (!r.perm(cs, "uc.enchantingtable", false, true)) {
-            return;
+        if (!r.checkArgs(args, 0)) {
+            Player p = (Player) cs;
+            UC.getPlayer(p).setTeleportEnabled(!UC.getPlayer(p).hasTeleportEnabled());
+            r.sendMes(cs, "teleporttoggleMessage", "%Enabled", UC.getPlayer(p).hasTeleportEnabled() ? r.mes("on") : r.mes("off"));
+        } else {
+            Player t = r.searchPlayer(args[0]);
+            if (t == null) {
+                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                return;
+            }
+            UC.getPlayer(t).setTeleportEnabled(!UC.getPlayer(t).hasTeleportEnabled());
+            r.sendMes(cs, "teleporttoggleOthersSelf", "%Player", t.getName(), "%Enabled", UC.getPlayer(t).hasTeleportEnabled() ? r.mes("enabled") : r.mes("disabled"));
+            r.sendMes(t, "teleporttoggleOthersOthers", "%Player", cs.getName(), "%Enabled", UC.getPlayer(t).hasTeleportEnabled() ? r.mes("enabled") : r.mes("disabled"));
         }
-        Player p = (Player) cs;
-        p.openEnchanting(p.getLocation(), true);
-        UC.getPlayer(p).setInCommandEnchantingtable(true);
+
     }
 
     @Override
