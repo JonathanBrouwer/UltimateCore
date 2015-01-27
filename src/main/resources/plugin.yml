@@ -466,5 +466,9 @@ commands:
     permissions: uc.unmute
   uptime:
     usage: /<command>
-    description: Get how long the server is running
+    description: View how long the server is running
     permissions: uc.uptime
+  uuid:
+    usage: /<command> <Player>
+    description: View the uuid of a certain player
+    permissions: uc.uuid
