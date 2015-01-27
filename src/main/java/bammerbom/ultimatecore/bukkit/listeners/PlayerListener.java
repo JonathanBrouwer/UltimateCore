@@ -52,10 +52,10 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class PlayerListener implements Listener {
-
+    
     Boolean jailChat = r.getCnfg().getBoolean("Command.Jail.talk");
     Boolean jailedmove = r.getCnfg().getBoolean("Command.Jail.move");
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onTeleport(PlayerTeleportEvent e) {
         try {
@@ -78,7 +78,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: PlayerTeleportEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent e) {
         try {
@@ -90,23 +90,36 @@ public class PlayerListener implements Listener {
             }
             //Lastconnect
             UC.getPlayer(e.getPlayer()).updateLastConnectMillis();
+            //Vanish
+            for (Player p : UC.getServer().getVanishOnlinePlayers()) {
+                e.getPlayer().hidePlayer(p);
+            }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerJoinEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onQuit(PlayerQuitEvent e) {
         try {
             //Inventory
             UC.getPlayer(e.getPlayer()).updateLastInventory();
-            //
+            //Last connect
             UC.getPlayer(e.getPlayer()).updateLastConnectMillis();
+            //Vanish
+            for (Player p : UC.getServer().getVanishOnlinePlayers()) {
+                e.getPlayer().showPlayer(p);
+            }
+            if (UC.getPlayer(e.getPlayer()).isVanish()) {
+                for (Player p : r.getOnlinePlayers()) {
+                    p.showPlayer(e.getPlayer());
+                }
+            }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerQuitEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onLogin(PlayerLoginEvent e) {
         try {
@@ -124,7 +137,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: PlayerLoginEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onChat(AsyncPlayerChatEvent e) {
         try {
@@ -154,7 +167,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: AsyncPlayerChatEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onPrepareItemEnchant(PrepareItemEnchantEvent e) {
         try {
@@ -170,7 +183,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: PrepareItemEnchantEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onInventoryClose(InventoryCloseEvent e) {
         try {
@@ -194,12 +207,12 @@ public class PlayerListener implements Listener {
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInTeleportMenu()) {
                 UC.getPlayer(e.getPlayer().getUniqueId()).setInTeleportMenu(false);
             }
-
+            
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: InventoryCloseEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onInventoryClick(final InventoryClickEvent e) {
         try {
@@ -235,7 +248,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: InventoryClickEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onMove(PlayerMoveEvent e) {
         if (e.getFrom().getBlock().getLocation().equals(e.getTo().getBlock().getLocation())) {
@@ -264,7 +277,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: PlayerMoveEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onDeath(PlayerDeathEvent e) {
         try {
@@ -280,7 +293,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: PlayerMoveEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onDamage(EntityDamageEvent e) {
         try {
@@ -299,7 +312,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: EntityDamageEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onFoodLevelChange(FoodLevelChangeEvent e) {
         try {
@@ -316,7 +329,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: FoodLevelChangeEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         try {
@@ -330,7 +343,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: PlayerCommandPreprocessEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onInteract(PlayerInteractEvent e) {
         try {
@@ -355,7 +368,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: PlayerInteractEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onInteractEntity(PlayerInteractEntityEvent e) {
         try {
@@ -368,7 +381,7 @@ public class PlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: PlayerInteractEntityEvent");
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOW)
     public void onRespawn(PlayerRespawnEvent e) {
         try {

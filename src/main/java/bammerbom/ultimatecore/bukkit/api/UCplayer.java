@@ -65,6 +65,8 @@ public class UCplayer {
     Boolean pte = null;
     HashMap<Material, List<String>> pts = null;
     Boolean inRecipeView = false;
+    Boolean vanish = null;
+    Long vanishtime = null;
 
     public UCplayer(OfflinePlayer p) {
         name = p.getName();
@@ -87,10 +89,7 @@ public class UCplayer {
     }
 
     public Player getOnlinePlayer() {
-        if (!getPlayer().isOnline()) {
-            return null;
-        }
-        return getPlayer().getPlayer();
+        return Bukkit.getPlayer(uuid);
     }
 
     //Last connect
@@ -769,7 +768,7 @@ public class UCplayer {
         }
         if (pts == null) {
             Config data = getPlayerConfig();
-            pts = new HashMap<Material, List<String>>();
+            pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.getConfigurationSection("powertool").getValues(false).keySet()) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
@@ -787,7 +786,7 @@ public class UCplayer {
     public boolean hasPowertools() {
         if (pts == null) {
             Config data = getPlayerConfig();
-            pts = new HashMap<Material, List<String>>();
+            pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.getConfigurationSection("powertool").getValues(false).keySet()) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
@@ -802,7 +801,7 @@ public class UCplayer {
     public boolean hasPowertool(Material mat) {
         if (pts == null) {
             Config data = getPlayerConfig();
-            pts = new HashMap<Material, List<String>>();
+            pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.getConfigurationSection("powertool").getValues(false).keySet()) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
@@ -817,7 +816,7 @@ public class UCplayer {
     public void setPowertool(Material mat, List<String> cmds) {
         Config data = getPlayerConfig();
         if (pts == null) {
-            pts = new HashMap<Material, List<String>>();
+            pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.getConfigurationSection("powertool").getValues(false).keySet()) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
@@ -896,6 +895,68 @@ public class UCplayer {
         Config conf = getPlayerConfig();
         conf.set("teleportenabled", tpe);
         conf.save();
+        save();
+    }
+
+    public boolean isVanish() {
+        if (!getPlayerConfig().contains("vanish")) {
+            vanish = false;
+            return false;
+        }
+        if (getVanishTime() >= 1 && getVanishTimeLeft() <= 1 && getPlayerConfig().getBoolean("vanish")) {
+            setVanish(false);
+            if (getPlayer().isOnline()) {
+                r.sendMes(getOnlinePlayer(), "unvanishTarget");
+            }
+            return false;
+        }
+        if (vanish != null) {
+            return vanish;
+        }
+        vanish = getPlayerConfig().getBoolean("vanish");
+        save();
+        return getPlayerConfig().getBoolean("vanish");
+    }
+
+    public void setVanish(Boolean fr) {
+        setVanish(fr, -1L);
+    }
+
+    public Long getVanishTime() {
+        if (vanishtime != null) {
+            return vanishtime;
+        }
+        if (!getPlayerConfig().contains("vanishtime")) {
+            return 0L;
+        }
+        vanishtime = getPlayerConfig().getLong("vanishtime");
+        save();
+        return getPlayerConfig().getLong("vanishtime");
+
+    }
+
+    public Long getVanishTimeLeft() {
+        return getVanishTime() - System.currentTimeMillis();
+    }
+
+    public void setVanish(Boolean fr, Long time) {
+        Config conf = getPlayerConfig();
+        if (vanishtime == null || vanishtime == 0L) {
+            vanishtime = -1L;
+        }
+        if (time >= 1) {
+            time = time + System.currentTimeMillis();
+        }
+        conf.set("vanish", fr);
+        conf.set("vanishtime", time);
+        conf.save();
+        vanish = fr;
+        vanishtime = fr ? time : 0L;
+        if (getOnlinePlayer() != null) {
+            for (Player pl : r.getOnlinePlayers()) {
+                pl.hidePlayer(getOnlinePlayer());
+            }
+        }
         save();
     }
 }

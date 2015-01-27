@@ -144,6 +144,27 @@ public class UCserver {
         return pls;
     }
 
+    //God
+    public List<OfflinePlayer> getGodOfflinePlayers() {
+        List<OfflinePlayer> pls = new ArrayList<OfflinePlayer>();
+        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+            if (UC.getPlayer(pl).isGod()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+
+    public List<Player> getGodOnlinePlayers() {
+        List<Player> pls = new ArrayList<Player>();
+        for (Player pl : r.getOnlinePlayers()) {
+            if (UC.getPlayer(pl).isGod()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+
     //Invsee
     public List<Player> getInOnlineInventoryOnlinePlayers() {
         List<Player> pls = new ArrayList<Player>();
@@ -380,5 +401,27 @@ public class UCserver {
 
     public void removeTeleportHereRequest(UUID u) {
         tph.remove(u);
+    }
+
+    //Vanish
+    //Deaf
+    public List<OfflinePlayer> getVanishOfflinePlayers() {
+        List<OfflinePlayer> pls = new ArrayList<OfflinePlayer>();
+        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+            if (UC.getPlayer(pl).isVanish()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+
+    public List<Player> getVanishOnlinePlayers() {
+        List<Player> pls = new ArrayList<Player>();
+        for (Player pl : r.getOnlinePlayers()) {
+            if (UC.getPlayer(pl).isVanish()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
     }
 }

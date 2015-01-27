@@ -149,6 +149,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdUnmute());
         cmds.add(new CmdUptime());
         cmds.add(new CmdUuid());
+        cmds.add(new CmdVanish());
         //
         ucmds = new UltimateCommands();
         //

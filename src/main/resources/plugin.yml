@@ -453,22 +453,26 @@ commands:
     usage: /<command> <Player>
     permissions: uc.undeaf
   unfreeze:
-    description: Unfreezes the target player
+    description: Unfreezes the target player.
     usage: /<command> <Player>
     permissions: uc.unfreeze
   unjail:
     usage: /<command> <Player>
-    description: Unjail someone
+    description: Unjail someone.
     permissions: uc.unjail
   unmute:
     usage: /<command> <Player>
-    description: Unmute someone
+    description: Unmute someone.
     permissions: uc.unmute
   uptime:
     usage: /<command>
-    description: View how long the server is running
+    description: View how long the server is running.
     permissions: uc.uptime
   uuid:
     usage: /<command> <Player>
-    description: View the uuid of a certain player
+    description: View the uuid of a certain player.
     permissions: uc.uuid
+  vanish:
+    usage: /vanish [Player] [Time]
+    description: Hide or show a player.
+    permissions: uc.vanish

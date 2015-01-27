@@ -50,13 +50,15 @@ public class CmdUuid implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if(!r.perm(cs, "uc.uuid", false, true)) return;
-        if(!r.checkArgs(args, 0)){
+        if (!r.perm(cs, "uc.uuid", false, true)) {
+            return;
+        }
+        if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "uuidUsage");
             return;
         }
         OfflinePlayer p = r.searchOfflinePlayer(args[0]);
-        if(p == null){
+        if (p == null) {
             r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
             return;
         }
