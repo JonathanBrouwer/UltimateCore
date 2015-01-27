@@ -464,3 +464,7 @@ commands:
     usage: /<command> <Player>
     description: Unmute someone
     permissions: uc.unmute
+  uptime:
+    usage: /<command>
+    description: Get how long the server is running
+    permissions: uc.uptime
