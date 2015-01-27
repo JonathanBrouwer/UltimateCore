@@ -438,6 +438,11 @@ commands:
     usage: /<command>
     description: Teleport yourself to the highest location.
     permissions: uc.top
+  ultimatecore:
+    usage: /<command> reload/credits/disable/version/update/convert
+    description: The ultimatecore menu command.
+    permissions: uc.ultimatecore
+    aliases: [uc]
   unban:
     description: Unbans the target player.
     usage: /<command> <Player>
