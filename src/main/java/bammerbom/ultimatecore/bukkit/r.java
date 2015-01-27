@@ -188,10 +188,7 @@ public class r {
             if (def == true) {
                 return true;
             }
-            if (p.hasPermission(perm)) {
-                return true;
-            }
-            return false;
+            return p.hasPermission(perm);
         }
     }
 
