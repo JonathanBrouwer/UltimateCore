@@ -23,7 +23,6 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import bammerbom.ultimatecore.bukkit.api.UC;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,7 +36,6 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import java.util.*;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
-import org.bukkit.command.CommandSender;
 
 public class LocationUtil {
 

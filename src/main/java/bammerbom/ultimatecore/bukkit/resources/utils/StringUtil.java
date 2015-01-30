@@ -55,6 +55,15 @@ public class StringUtil {
         return ret;
     }
 
+    public static boolean containsIgnoreCase(List<? extends String> l, String s) {
+        for (String c : l) {
+            if (c.equalsIgnoreCase(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static String sanitizeFileName(String name) {
         return INVALIDFILECHARS.matcher(name.toLowerCase(Locale.ENGLISH)).replaceAll("_");
     }

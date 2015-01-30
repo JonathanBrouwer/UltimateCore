@@ -61,6 +61,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdDeaf());
         cmds.add(new CmdDelhome());
         cmds.add(new CmdDeljail());
+        cmds.add(new CmdDelwarp());
         cmds.add(new CmdEditsign());
         cmds.add(new CmdEffect());
         cmds.add(new CmdEnchant());
@@ -123,6 +124,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdSethunger());
         cmds.add(new CmdSetjail());
         cmds.add(new CmdSetspawn());
+        cmds.add(new CmdSetwarp());
         cmds.add(new CmdSkull());
         cmds.add(new CmdSmite());
         cmds.add(new CmdSpawn());
@@ -150,6 +152,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdUptime());
         cmds.add(new CmdUuid());
         cmds.add(new CmdVanish());
+        cmds.add(new CmdWarp());
         //
         ucmds = new UltimateCommands();
         //

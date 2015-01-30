@@ -288,9 +288,17 @@ public class r {
         return plz.toArray(new Player[plz.size()]);
     }
 
+    public static List<Player> getOnlinePlayersL() {
+        return (List<Player>) Bukkit.getOnlinePlayers();
+    }
+
     public static OfflinePlayer[] getOfflinePlayers() {
         List<OfflinePlayer> plz = Arrays.asList(Bukkit.getOfflinePlayers());
         return plz.toArray(new OfflinePlayer[plz.size()]);
+    }
+
+    public static List<OfflinePlayer> getOfflinePlayersL() {
+        return (List<OfflinePlayer>) Arrays.asList(Bukkit.getOfflinePlayers());
     }
 
     public static Player searchPlayer(String s) {

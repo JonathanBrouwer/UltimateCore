@@ -424,4 +424,67 @@ public class UCserver {
         }
         return pls;
     }
+
+    //Warps
+    static HashMap<String, Location> warps = null;
+
+    public HashMap<String, Location> getWarps() {
+        if (warps != null) {
+            return warps;
+        }
+        warps = new HashMap<>();
+        Config conf = new Config(UltimateFileLoader.DFwarps);
+        if (!conf.contains("warps")) {
+            return warps;
+        }
+        for (String hname : conf.getConfigurationSection("warps").getKeys(false)) {
+            warps.put(hname, LocationUtil.convertStringToLocation(conf.getString("warps." + hname)));
+        }
+        return warps;
+    }
+
+    public void setWarps(HashMap<String, Location> nh) {
+        warps = nh;
+        Config conf = new Config(UltimateFileLoader.DFwarps);
+        conf.set("warps", null);
+        for (String s : nh.keySet()) {
+            conf.set("warps." + s, LocationUtil.convertLocationToString(nh.get(s.toLowerCase())));
+        }
+        conf.save();
+    }
+
+    public ArrayList<String> getWarpNames() {
+        ArrayList<String> h = new ArrayList<>();
+        h.addAll(getWarps().keySet());
+        return h;
+    }
+
+    public void addWarp(String s, Location l) {
+        HashMap<String, Location> h = getWarps();
+        h.put(s.toLowerCase(), l);
+        setWarps(h);
+    }
+
+    public void removeWarp(String s) {
+        HashMap<String, Location> h = getWarps();
+        for (String w : h.keySet()) {
+            if (w.equalsIgnoreCase(s)) {
+                h.remove(w);
+            }
+        }
+        setWarps(h);
+    }
+
+    public Location getWarp(String s) {
+        for (String w : getWarps().keySet()) {
+            if (w.equalsIgnoreCase(s)) {
+                return getWarps().get(w);
+            }
+        }
+        return null;
+    }
+
+    public void clearWarps() {
+        setWarps(new HashMap<String, Location>());
+    }
 }
