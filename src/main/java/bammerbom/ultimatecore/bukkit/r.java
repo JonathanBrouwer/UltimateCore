@@ -27,6 +27,16 @@ import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateResult;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.PropertyResourceBundle;
+import java.util.Random;
+import java.util.ResourceBundle;
+import java.util.UUID;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -36,11 +46,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.*;
 
 public class r {
 
@@ -86,7 +91,7 @@ public class r {
             public void run() {
                 updater.waitForThread();
                 try {
-                    if (updater.getResult().equals(UpdateResult.UPDATE_AVAILABLE)) {
+                    if (updater.getResult() == null || updater.getResult().equals(UpdateResult.UPDATE_AVAILABLE)) {
                         r.log("There is an update available for UltimateCore.");
                         r.log("Use /uc update to update UltimateCore.");
                     }
