@@ -481,10 +481,15 @@ commands:
     description: View the uuid of a certain player.
     permissions: uc.uuid
   vanish:
-    usage: /vanish [Player] [Time]
+    usage: /<command> [Player] [Time]
     description: Hide or show a player.
     permissions: uc.vanish
   warp:
-    usage: /warp <Warp>
+    usage: /<command> <Warp>
     description: Teleport yourself to a warp.
     permissions: uc.warp
+  weather:
+    usage: /<command> clear/rain/thunder [Time]
+    description: Change the weather.
+    permissions: uc.weather
+    aliases: [sun, rain, thunder, storm]
