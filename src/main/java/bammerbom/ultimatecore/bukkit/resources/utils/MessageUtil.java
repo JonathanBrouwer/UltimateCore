@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import static bammerbom.ultimatecore.bukkit.resources.utils.TextualComponent.rawText;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -32,8 +33,28 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 import org.apache.commons.lang.Validate;
-import org.bukkit.*;
+import org.bukkit.Achievement;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.Statistic.Type;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -41,28 +62,6 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.concurrent.Immutable;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.logging.Level;
-
-/**
- * Represents an object that can be serialized to a JSON writer instance.
- */
-interface JsonRepresentedObject {
-
-    /**
-     * Writes the JSON representation of this object to the specified writer.
-     *
-     * @param writer The JSON writer which will receive the object.
-     * @throws IOException If an error occurs writing to the stream.
-     */
-    public void writeJson(JsonWriter writer) throws IOException;
-
-}
 
 /**
  * Represents a formattable message. Such messages can use elements such as
@@ -87,14 +86,24 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     static {
         ConfigurationSerialization.registerClass(MessageUtil.class);
     }
-    private static Constructor<?> nmsPacketPlayOutChatConstructor;
-    // The ChatSerializer's instance of Gson
-    private static Object nmsChatSerializerGsonInstance;
-    private static Method fromJsonMethod;
-    private static JsonParser _stringParser = new JsonParser();
+
     private List<MessagePart> messageParts;
     private String jsonString;
     private boolean dirty;
+
+    private static Constructor<?> nmsPacketPlayOutChatConstructor;
+
+    @Override
+    public MessageUtil clone() throws CloneNotSupportedException {
+        MessageUtil instance = (MessageUtil) super.clone();
+        messageParts = new ArrayList<MessagePart>(messageParts.size());
+        for (int i = 0; i < messageParts.size(); i++) {
+            messageParts.add(i, messageParts.get(i).clone());
+        }
+        instance.dirty = false;
+        instance.jsonString = null;
+        return instance;
+    }
 
     /**
      * Creates a JSON message with text.
@@ -102,7 +111,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      * @param firstPartText The existing text in the message.
      */
     public MessageUtil(final String firstPartText) {
-        this(TextualComponent.rawText(firstPartText));
+        this(rawText(firstPartText));
     }
 
     public MessageUtil(final TextualComponent firstPartText) {
@@ -131,92 +140,16 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Deserializes a JSON-represented message from a mapping of key-value
-     * pairs. This is called by the Bukkit serialization API. It is not intended
-     * for direct public API consumption.
+     * Sets the text of the current editing component to a value.
      *
-     * @param serialized The key-value mapping which represents a fancy message.
+     * @param text The new text of the current editing component.
+     * @return This builder instance.
      */
-    public static MessageUtil deserialize(Map<String, Object> serialized) {
-        MessageUtil msg = new MessageUtil();
-        msg.messageParts = (List<MessagePart>) serialized.get("messageParts");
-        msg.jsonString = serialized.containsKey("JSON") ? serialized.get("JSON").toString() : null;
-        msg.dirty = !serialized.containsKey("JSON");
-        return msg;
-    }
-
-    /**
-     * Deserializes a fancy message from its JSON representation. This JSON
-     * representation is of the format of that returned by
-     * {@link #toJSONString()}, and is compatible with vanilla inputs.
-     *
-     * @param json The JSON string which represents a fancy message.
-     * @return A {@code FancyMessage} representing the parameterized JSON
-     * message.
-     */
-    public static MessageUtil deserialize(String json) {
-        JsonObject serialized = _stringParser.parse(json).getAsJsonObject();
-        JsonArray extra = serialized.getAsJsonArray("extra"); // Get the extra component
-        MessageUtil returnVal = new MessageUtil();
-        returnVal.messageParts.clear();
-        for (JsonElement mPrt : extra) {
-            MessagePart component = new MessagePart();
-            JsonObject messagePart = mPrt.getAsJsonObject();
-            for (Map.Entry<String, JsonElement> entry : messagePart.entrySet()) {
-                // Deserialize text
-                if (TextualComponent.isTextKey(entry.getKey())) {
-                    // The map mimics the YAML serialization, which has a "key" field and one or more "value" fields
-                    Map<String, Object> serializedMapForm = new HashMap<String, Object>(); // Must be object due to Bukkit serializer API compliance
-                    serializedMapForm.put("key", entry.getKey());
-                    if (entry.getValue().isJsonPrimitive()) {
-                        // Assume string
-                        serializedMapForm.put("value", entry.getValue().getAsString());
-                    } else {
-                        // Composite object, but we assume each element is a string
-                        for (Map.Entry<String, JsonElement> compositeNestedElement : entry.getValue().getAsJsonObject().entrySet()) {
-                            serializedMapForm.put("value." + compositeNestedElement.getKey(), compositeNestedElement.getValue().getAsString());
-                        }
-                    }
-                    component.text = TextualComponent.deserialize(serializedMapForm);
-                } else if (MessagePart.stylesToNames.inverse().containsKey(entry.getKey())) {
-                    if (entry.getValue().getAsBoolean()) {
-                        component.styles.add(MessagePart.stylesToNames.inverse().get(entry.getKey()));
-                    }
-                } else if (entry.getKey().equals("color")) {
-                    component.color = ChatColor.valueOf(entry.getValue().getAsString().toUpperCase());
-                } else if (entry.getKey().equals("clickEvent")) {
-                    JsonObject object = entry.getValue().getAsJsonObject();
-                    component.clickActionName = object.get("action").getAsString();
-                    component.clickActionData = object.get("value").getAsString();
-                } else if (entry.getKey().equals("hoverEvent")) {
-                    JsonObject object = entry.getValue().getAsJsonObject();
-                    component.hoverActionName = object.get("action").getAsString();
-                    if (object.get("value").isJsonPrimitive()) {
-                        // Assume string
-                        component.hoverActionData = new JsonString(object.get("value").getAsString());
-                    } else {
-                        // Assume composite type
-                        // The only composite type we currently store is another FancyMessage
-                        // Therefore, recursion time!
-                        component.hoverActionData = deserialize(object.get("value").toString() /* This should properly serialize the JSON object as a JSON string */);
-                    }
-                }
-            }
-            returnVal.messageParts.add(component);
-        }
-        return returnVal;
-    }
-
-    @Override
-    public MessageUtil clone() throws CloneNotSupportedException {
-        MessageUtil instance = (MessageUtil) super.clone();
-        instance.messageParts = new ArrayList<MessagePart>(messageParts.size());
-        for (int i = 0; i < messageParts.size(); i++) {
-            instance.messageParts.add(i, messageParts.get(i).clone());
-        }
-        instance.dirty = false;
-        instance.jsonString = null;
-        return instance;
+    public MessageUtil text(String text) {
+        MessagePart latest = latest();
+        latest.text = rawText(text);
+        dirty = true;
+        return this;
     }
 
     /**
@@ -224,24 +157,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      *
      * @param text The new text of the current editing component.
      * @return This builder instance.
-     * @throws IllegalStateException If the text for the current editing
-     * component has already been set.
      */
-    public MessageUtil text(String text) {
-        MessagePart latest = latest();
-        if (latest.hasText()) {
-            throw new IllegalStateException("text for this message part is already set");
-        }
-        latest.text = TextualComponent.rawText(text);
-        dirty = true;
-        return this;
-    }
-
     public MessageUtil text(TextualComponent text) {
         MessagePart latest = latest();
-        if (latest.hasText()) {
-            throw new IllegalStateException("text for this message part is already set");
-        }
         latest.text = text;
         dirty = true;
         return this;
@@ -252,8 +170,8 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      *
      * @param color The new color of the current editing component.
      * @return This builder instance.
-     * @throws IllegalArgumentException If the specified enumeration value does
-     * not represent a color.
+     * @exception IllegalArgumentException If the specified {@code ChatColor}
+     * enumeration value is not a color (but a format value).
      */
     public MessageUtil color(final ChatColor color) {
         if (!color.isColor()) {
@@ -269,8 +187,8 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      *
      * @param styles The array of styles to apply to the editing component.
      * @return This builder instance.
-     * @throws IllegalArgumentException If any of the enumeration values in the
-     * array do not represent formatters.
+     * @exception IllegalArgumentException If any of the enumeration values in
+     * the array do not represent formatters.
      */
     public MessageUtil style(ChatColor... styles) {
         for (final ChatColor style : styles) {
@@ -286,7 +204,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     /**
      * Set the behavior of the current editing component to instruct the client
      * to open a file on the client side filesystem when the currently edited
-     * part of the {@code FancyMessage} is clicked.
+     * part of the {@code MessageUtil} is clicked.
      *
      * @param path The path of the file on the client filesystem.
      * @return This builder instance.
@@ -299,7 +217,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     /**
      * Set the behavior of the current editing component to instruct the client
      * to open a webpage in the client's web browser when the currently edited
-     * part of the {@code FancyMessage} is clicked.
+     * part of the {@code MessageUtil} is clicked.
      *
      * @param url The URL of the page to open when the link is clicked.
      * @return This builder instance.
@@ -312,7 +230,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     /**
      * Set the behavior of the current editing component to instruct the client
      * to replace the chat input box content with the specified string when the
-     * currently edited part of the {@code FancyMessage} is clicked. The client
+     * currently edited part of the {@code MessageUtil} is clicked. The client
      * will not immediately send the command to the server to be executed unless
      * the client player submits the command/chat message, usually with the
      * enter key.
@@ -327,8 +245,25 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
 
     /**
      * Set the behavior of the current editing component to instruct the client
+     * to append the chat input box content with the specified string when the
+     * currently edited part of the {@code MessageUtil} is SHIFT-CLICKED. The
+     * client will not immediately send the command to the server to be executed
+     * unless the client player submits the command/chat message, usually with
+     * the enter key.
+     *
+     * @param command The text to append to the chat bar of the client.
+     * @return This builder instance.
+     */
+    public MessageUtil insert(final String command) {
+        latest().insertionData = command;
+        dirty = true;
+        return this;
+    }
+
+    /**
+     * Set the behavior of the current editing component to instruct the client
      * to send the specified string to the server as a chat message when the
-     * currently edited part of the {@code FancyMessage} is clicked. The client
+     * currently edited part of the {@code MessageUtil} is clicked. The client
      * <b>will</b> immediately send the command to the server to be executed
      * when the editing component is clicked.
      *
@@ -352,7 +287,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      * @return This builder instance.
      */
     public MessageUtil achievementTooltip(final String name) {
-        onHover("show_achievement", new JsonString("achievement." + (name.contains(".") ? name.split("\\.")[1] : name)));
+        onHover("show_achievement", new JsonString("achievement." + name));
         return this;
     }
 
@@ -369,7 +304,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     public MessageUtil achievementTooltip(final Achievement which) {
         try {
             Object achievement = Reflection.getMethod(Reflection.getOBCClass("CraftStatistic"), "getNMSAchievement", Achievement.class).invoke(null, which);
-            return achievementTooltip(((String) ReflectionUtil.execute("name", achievement).fetch()));
+            return achievementTooltip((String) Reflection.getField(Reflection.getNMSClass("Achievement"), "name").get(achievement));
         } catch (IllegalAccessException e) {
             Bukkit.getLogger().log(Level.WARNING, "Could not access method.", e);
             return this;
@@ -378,9 +313,6 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
             return this;
         } catch (InvocationTargetException e) {
             Bukkit.getLogger().log(Level.WARNING, "A error has occured durring invoking of method.", e);
-            return this;
-        } catch (Exception e) {
-            e.printStackTrace();
             return this;
         }
     }
@@ -394,7 +326,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      *
      * @param which The statistic to display.
      * @return This builder instance.
-     * @throws IllegalArgumentException If the statistic requires a parameter
+     * @exception IllegalArgumentException If the statistic requires a parameter
      * which was not supplied.
      */
     public MessageUtil statisticTooltip(final Statistic which) {
@@ -428,7 +360,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      * @param which The statistic to display.
      * @param item The sole material parameter to the statistic.
      * @return This builder instance.
-     * @throws IllegalArgumentException If the statistic requires a parameter
+     * @exception IllegalArgumentException If the statistic requires a parameter
      * which was not supplied, or was supplied a parameter that was not
      * required.
      */
@@ -466,7 +398,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      * @param which The statistic to display.
      * @param entity The sole entity type parameter to the statistic.
      * @return This builder instance.
-     * @throws IllegalArgumentException If the statistic requires a parameter
+     * @exception IllegalArgumentException If the statistic requires a parameter
      * which was not supplied, or was supplied a parameter that was not
      * required.
      */
@@ -641,7 +573,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
                     }
                 }
                 if (i != lines.length - 1) {
-                    result.messageParts.add(new MessagePart(TextualComponent.rawText("\n")));
+                    result.messageParts.add(new MessagePart(rawText("\n")));
                 }
             } catch (CloneNotSupportedException e) {
                 Bukkit.getLogger().log(Level.WARNING, "Failed to clone object", e);
@@ -668,6 +600,73 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
+     * If the text is a translatable key, and it has replaceable values, this
+     * function can be used to set the replacements that will be used in the
+     * message.
+     *
+     * @param replacements The replacements, in order, that will be used in the
+     * language-specific message.
+     * @return This builder instance.
+     */
+    public MessageUtil translationReplacements(final String... replacements) {
+        for (String str : replacements) {
+            latest().translationReplacements.add(new JsonString(str));
+        }
+        dirty = true;
+
+        return this;
+    }
+    /*
+
+     /**
+     * If the text is a translatable key, and it has replaceable values, this function can be used to set the replacements that will be used in the message.
+     * @param replacements The replacements, in order, that will be used in the language-specific message.
+     * @return This builder instance.
+     */   /* ------------
+     public MessageUtil translationReplacements(final Iterable<? extends CharSequence> replacements){
+     for(CharSequence str : replacements){
+     latest().translationReplacements.add(new JsonString(str));
+     }
+
+     return this;
+     }
+
+     */
+
+
+    /**
+     * If the text is a translatable key, and it has replaceable values, this
+     * function can be used to set the replacements that will be used in the
+     * message.
+     *
+     * @param replacements The replacements, in order, that will be used in the
+     * language-specific message.
+     * @return This builder instance.
+     */
+    public MessageUtil translationReplacements(final MessageUtil... replacements) {
+        for (MessageUtil str : replacements) {
+            latest().translationReplacements.add(str);
+        }
+
+        dirty = true;
+
+        return this;
+    }
+
+    /**
+     * If the text is a translatable key, and it has replaceable values, this
+     * function can be used to set the replacements that will be used in the
+     * message.
+     *
+     * @param replacements The replacements, in order, that will be used in the
+     * language-specific message.
+     * @return This builder instance.
+     */
+    public MessageUtil translationReplacements(final Iterable<MessageUtil> replacements) {
+        return translationReplacements(ArrayWrapper.toArray(replacements, MessageUtil.class));
+    }
+
+    /**
      * Terminate construction of the current editing component, and begin
      * construction of a new message component. After a successful call to this
      * method, all setter methods will refer to a new message component, created
@@ -677,7 +676,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      * @return This builder instance.
      */
     public MessageUtil then(final String text) {
-        return then(TextualComponent.rawText(text));
+        return then(rawText(text));
     }
 
     /**
@@ -784,6 +783,10 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
             Bukkit.getLogger().log(Level.WARNING, "Could not find method.", e);
         }
     }
+
+    // The ChatSerializer's instance of Gson
+    private static Object nmsChatSerializerGsonInstance;
+    private static Method fromJsonMethod;
 
     private Object createChatPacket(String json) throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
         if (nmsChatSerializerGsonInstance == null) {
@@ -893,11 +896,119 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
+     * Deserializes a JSON-represented message from a mapping of key-value
+     * pairs. This is called by the Bukkit serialization API. It is not intended
+     * for direct public API consumption.
+     *
+     * @param serialized The key-value mapping which represents a fancy message.
+     */
+    @SuppressWarnings("unchecked")
+    public static MessageUtil deserialize(Map<String, Object> serialized) {
+        MessageUtil msg = new MessageUtil();
+        msg.messageParts = (List<MessagePart>) serialized.get("messageParts");
+        msg.jsonString = serialized.containsKey("JSON") ? serialized.get("JSON").toString() : null;
+        msg.dirty = !serialized.containsKey("JSON");
+        return msg;
+    }
+
+    /**
      * <b>Internally called method. Not for API consumption.</b>
      */
     public Iterator<MessagePart> iterator() {
         return messageParts.iterator();
     }
+
+    private static JsonParser _stringParser = new JsonParser();
+
+    /**
+     * Deserializes a fancy message from its JSON representation. This JSON
+     * representation is of the format of that returned by
+     * {@link #toJSONString()}, and is compatible with vanilla inputs.
+     *
+     * @param json The JSON string which represents a fancy message.
+     * @return A {@code MessageUtil} representing the parameterized JSON
+     * message.
+     */
+    public static MessageUtil deserialize(String json) {
+        JsonObject serialized = _stringParser.parse(json).getAsJsonObject();
+        JsonArray extra = serialized.getAsJsonArray("extra"); // Get the extra component
+        MessageUtil returnVal = new MessageUtil();
+        returnVal.messageParts.clear();
+        for (JsonElement mPrt : extra) {
+            MessagePart component = new MessagePart();
+            JsonObject messagePart = mPrt.getAsJsonObject();
+            for (Map.Entry<String, JsonElement> entry : messagePart.entrySet()) {
+                // Deserialize text
+                if (TextualComponent.isTextKey(entry.getKey())) {
+                    // The map mimics the YAML serialization, which has a "key" field and one or more "value" fields
+                    Map<String, Object> serializedMapForm = new HashMap<String, Object>(); // Must be object due to Bukkit serializer API compliance
+                    serializedMapForm.put("key", entry.getKey());
+                    if (entry.getValue().isJsonPrimitive()) {
+                        // Assume string
+                        serializedMapForm.put("value", entry.getValue().getAsString());
+                    } else {
+                        // Composite object, but we assume each element is a string
+                        for (Map.Entry<String, JsonElement> compositeNestedElement : entry.getValue().getAsJsonObject().entrySet()) {
+                            serializedMapForm.put("value." + compositeNestedElement.getKey(), compositeNestedElement.getValue().getAsString());
+                        }
+                    }
+                    component.text = TextualComponent.deserialize(serializedMapForm);
+                } else if (MessagePart.stylesToNames.inverse().containsKey(entry.getKey())) {
+                    if (entry.getValue().getAsBoolean()) {
+                        component.styles.add(MessagePart.stylesToNames.inverse().get(entry.getKey()));
+                    }
+                } else if (entry.getKey().equals("color")) {
+                    component.color = ChatColor.valueOf(entry.getValue().getAsString().toUpperCase());
+                } else if (entry.getKey().equals("clickEvent")) {
+                    JsonObject object = entry.getValue().getAsJsonObject();
+                    component.clickActionName = object.get("action").getAsString();
+                    component.clickActionData = object.get("value").getAsString();
+                } else if (entry.getKey().equals("hoverEvent")) {
+                    JsonObject object = entry.getValue().getAsJsonObject();
+                    component.hoverActionName = object.get("action").getAsString();
+                    if (object.get("value").isJsonPrimitive()) {
+                        // Assume string
+                        component.hoverActionData = new JsonString(object.get("value").getAsString());
+                    } else {
+                        // Assume composite type
+                        // The only composite type we currently store is another MessageUtil
+                        // Therefore, recursion time!
+                        component.hoverActionData = deserialize(object.get("value").toString() /* This should properly serialize the JSON object as a JSON string */);
+                    }
+                } else if (entry.getKey().equals("insertion")) {
+                    component.insertionData = entry.getValue().getAsString();
+                } else if (entry.getKey().equals("with")) {
+                    for (JsonElement object : entry.getValue().getAsJsonArray()) {
+                        if (object.isJsonPrimitive()) {
+                            component.translationReplacements.add(new JsonString(object.getAsString()));
+                        } else {
+                            // Only composite type stored in this array is - again - MessageUtils
+                            // Recurse within this function to parse this as a translation replacement
+                            component.translationReplacements.add(deserialize(object.toString()));
+                        }
+                    }
+                }
+            }
+            returnVal.messageParts.add(component);
+        }
+        return returnVal;
+    }
+
+}
+
+/**
+ * Represents an object that can be serialized to a JSON writer instance.
+ */
+interface JsonRepresentedObject {
+
+    /**
+     * Writes the JSON representation of this object to the specified writer.
+     *
+     * @param writer The JSON writer which will receive the object.
+     * @throws IOException If an error occurs writing to the stream.
+     */
+    public void writeJson(JsonWriter writer) throws IOException;
+
 }
 
 /**
@@ -905,17 +1016,12 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
  * values nor begin/end objects in the JSON stream. All writes merely write the
  * represented string value.
  */
-@Immutable
 final class JsonString implements JsonRepresentedObject, ConfigurationSerializable {
 
     private String _value;
 
-    public JsonString(String value) {
-        _value = value;
-    }
-
-    public static JsonString deserialize(Map<String, Object> map) {
-        return new JsonString(map.get("stringValue").toString());
+    public JsonString(CharSequence value) {
+        _value = value == null ? null : value.toString();
     }
 
     @Override
@@ -933,6 +1039,10 @@ final class JsonString implements JsonRepresentedObject, ConfigurationSerializab
         return theSingleValue;
     }
 
+    public static JsonString deserialize(Map<String, Object> map) {
+        return new JsonString(map.get("stringValue").toString());
+    }
+
     @Override
     public String toString() {
         return _value;
@@ -944,6 +1054,42 @@ final class JsonString implements JsonRepresentedObject, ConfigurationSerializab
  * {@link MessageUtil}.
  */
 final class MessagePart implements JsonRepresentedObject, ConfigurationSerializable, Cloneable {
+
+    ChatColor color = ChatColor.WHITE;
+    ArrayList<ChatColor> styles = new ArrayList<ChatColor>();
+    String clickActionName = null, clickActionData = null,
+            hoverActionName = null;
+    JsonRepresentedObject hoverActionData = null;
+    TextualComponent text = null;
+    String insertionData = null;
+    ArrayList<JsonRepresentedObject> translationReplacements = new ArrayList<JsonRepresentedObject>();
+
+    MessagePart(final TextualComponent text) {
+        this.text = text;
+    }
+
+    MessagePart() {
+        this.text = null;
+    }
+
+    boolean hasText() {
+        return text != null;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public MessagePart clone() throws CloneNotSupportedException {
+        MessagePart obj = (MessagePart) super.clone();
+        obj.styles = (ArrayList<ChatColor>) styles.clone();
+        if (hoverActionData instanceof JsonString) {
+            obj.hoverActionData = new JsonString(((JsonString) hoverActionData).getValue());
+        } else if (hoverActionData instanceof MessageUtil) {
+            obj.hoverActionData = ((MessageUtil) hoverActionData).clone();
+        }
+        obj.translationReplacements = (ArrayList<JsonRepresentedObject>) translationReplacements.clone();
+        return obj;
+
+    }
 
     static final BiMap<ChatColor, String> stylesToNames;
 
@@ -971,54 +1117,6 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
         }
         stylesToNames = builder.build();
     }
-    ChatColor color = ChatColor.WHITE;
-    ArrayList<ChatColor> styles = new ArrayList<ChatColor>();
-    String clickActionName = null, clickActionData = null,
-            hoverActionName = null;
-    JsonRepresentedObject hoverActionData = null;
-    TextualComponent text = null;
-
-    MessagePart(final TextualComponent text) {
-        this.text = text;
-    }
-
-    MessagePart() {
-        this.text = null;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static MessagePart deserialize(Map<String, Object> serialized) {
-        MessagePart part = new MessagePart((TextualComponent) serialized.get("text"));
-        part.styles = (ArrayList<ChatColor>) serialized.get("styles");
-        part.color = ChatColor.getByChar(serialized.get("color").toString());
-        part.hoverActionName = serialized.get("hoverActionName").toString();
-        part.hoverActionData = (JsonRepresentedObject) serialized.get("hoverActionData");
-        part.clickActionName = serialized.get("clickActionName").toString();
-        part.clickActionData = serialized.get("clickActionData").toString();
-        return part;
-    }
-
-    static {
-        ConfigurationSerialization.registerClass(MessagePart.class);
-    }
-
-    boolean hasText() {
-        return text != null;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public MessagePart clone() throws CloneNotSupportedException {
-        MessagePart obj = (MessagePart) super.clone();
-        obj.styles = (ArrayList<ChatColor>) styles.clone();
-        if (hoverActionData instanceof JsonString) {
-            obj.hoverActionData = new JsonString(((JsonString) hoverActionData).getValue());
-        } else if (hoverActionData instanceof MessageUtil) {
-            obj.hoverActionData = ((MessageUtil) hoverActionData).clone();
-        }
-        return obj;
-
-    }
 
     public void writeJson(JsonWriter json) {
         try {
@@ -1043,6 +1141,16 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
                 hoverActionData.writeJson(json);
                 json.endObject();
             }
+            if (insertionData != null) {
+                json.name("insertion").value(insertionData);
+            }
+            if (translationReplacements.size() > 0 && text != null && TextualComponent.isTranslatableText(text)) {
+                json.name("with").beginArray();
+                for (JsonRepresentedObject obj : translationReplacements) {
+                    obj.writeJson(json);
+                }
+                json.endArray();
+            }
             json.endObject();
         } catch (IOException e) {
             Bukkit.getLogger().log(Level.WARNING, "A problem occured during writing of JSON string", e);
@@ -1058,7 +1166,27 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
         map.put("hoverActionData", hoverActionData);
         map.put("clickActionName", clickActionName);
         map.put("clickActionData", clickActionData);
+        map.put("insertion", insertionData);
+        map.put("translationReplacements", translationReplacements);
         return map;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static MessagePart deserialize(Map<String, Object> serialized) {
+        MessagePart part = new MessagePart((TextualComponent) serialized.get("text"));
+        part.styles = (ArrayList<ChatColor>) serialized.get("styles");
+        part.color = ChatColor.getByChar(serialized.get("color").toString());
+        part.hoverActionName = (String) serialized.get("hoverActionName");
+        part.hoverActionData = (JsonRepresentedObject) serialized.get("hoverActionData");
+        part.clickActionName = (String) serialized.get("clickActionName");
+        part.clickActionData = (String) serialized.get("clickActionData");
+        part.insertionData = (String) serialized.get("insertion");
+        part.translationReplacements = (ArrayList<JsonRepresentedObject>) serialized.get("translationReplacements");
+        return part;
+    }
+
+    static {
+        ConfigurationSerialization.registerClass(MessagePart.class);
     }
 
 }
@@ -1067,6 +1195,9 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
  * Represents a textual component of a message part. This can be used to not
  * only represent string literals in a JSON message, but also to represent
  * localized strings and other text values.
+ * <p>
+ * Different instances of this class can be created with static constructor
+ * methods.</p>
  */
 abstract class TextualComponent implements Cloneable {
 
@@ -1074,6 +1205,39 @@ abstract class TextualComponent implements Cloneable {
         ConfigurationSerialization.registerClass(TextualComponent.ArbitraryTextTypeComponent.class);
         ConfigurationSerialization.registerClass(TextualComponent.ComplexTextTypeComponent.class);
     }
+
+    @Override
+    public String toString() {
+        return getReadableString();
+    }
+
+    /**
+     * @return The JSON key used to represent text components of this type.
+     */
+    public abstract String getKey();
+
+    /**
+     * @return A readable String
+     */
+    public abstract String getReadableString();
+
+    /**
+     * Clones a textual component instance. The returned object should not
+     * reference this textual component instance, but should maintain the same
+     * key and value.
+     */
+    @Override
+    public abstract TextualComponent clone() throws CloneNotSupportedException;
+
+    /**
+     * Writes the text data represented by this textual component to the
+     * specified JSON writer object. A new object within the writer is not
+     * started.
+     *
+     * @param writer The object to which to write the JSON data.
+     * @throws IOException If an error occurs while writing to the stream.
+     */
+    public abstract void writeJson(JsonWriter writer) throws IOException;
 
     static TextualComponent deserialize(Map<String, Object> map) {
         if (map.containsKey("key") && map.size() == 2 && map.containsKey("value")) {
@@ -1089,6 +1253,154 @@ abstract class TextualComponent implements Cloneable {
 
     static boolean isTextKey(String key) {
         return key.equals("translate") || key.equals("text") || key.equals("score") || key.equals("selector");
+    }
+
+    static boolean isTranslatableText(TextualComponent component) {
+        return component instanceof ComplexTextTypeComponent && ((ComplexTextTypeComponent) component).getKey().equals("translate");
+    }
+
+    /**
+     * Internal class used to represent all types of text components. Exception
+     * validating done is on keys and values.
+     */
+    private static final class ArbitraryTextTypeComponent extends TextualComponent implements ConfigurationSerializable {
+
+        public ArbitraryTextTypeComponent(String key, String value) {
+            setKey(key);
+            setValue(value);
+        }
+
+        @Override
+        public String getKey() {
+            return _key;
+        }
+
+        public void setKey(String key) {
+            Preconditions.checkArgument(key != null && !key.isEmpty(), "The key must be specified.");
+            _key = key;
+        }
+
+        public String getValue() {
+            return _value;
+        }
+
+        public void setValue(String value) {
+            Preconditions.checkArgument(value != null, "The value must be specified.");
+            _value = value;
+        }
+
+        private String _key;
+        private String _value;
+
+        @Override
+        public TextualComponent clone() throws CloneNotSupportedException {
+            // Since this is a private and final class, we can just reinstantiate this class instead of casting super.clone
+            return new ArbitraryTextTypeComponent(getKey(), getValue());
+        }
+
+        @Override
+        public void writeJson(JsonWriter writer) throws IOException {
+            writer.name(getKey()).value(getValue());
+        }
+
+        @SuppressWarnings("serial")
+        public Map<String, Object> serialize() {
+            return new HashMap<String, Object>() {
+                {
+                    put("key", getKey());
+                    put("value", getValue());
+                }
+            };
+        }
+
+        public static ArbitraryTextTypeComponent deserialize(Map<String, Object> map) {
+            return new ArbitraryTextTypeComponent(map.get("key").toString(), map.get("value").toString());
+        }
+
+        @Override
+        public String getReadableString() {
+            return getValue();
+        }
+    }
+
+    /**
+     * Internal class used to represent a text component with a nested JSON
+     * value. Exception validating done is on keys and values.
+     */
+    private static final class ComplexTextTypeComponent extends TextualComponent implements ConfigurationSerializable {
+
+        public ComplexTextTypeComponent(String key, Map<String, String> values) {
+            setKey(key);
+            setValue(values);
+        }
+
+        @Override
+        public String getKey() {
+            return _key;
+        }
+
+        public void setKey(String key) {
+            Preconditions.checkArgument(key != null && !key.isEmpty(), "The key must be specified.");
+            _key = key;
+        }
+
+        public Map<String, String> getValue() {
+            return _value;
+        }
+
+        public void setValue(Map<String, String> value) {
+            Preconditions.checkArgument(value != null, "The value must be specified.");
+            _value = value;
+        }
+
+        private String _key;
+        private Map<String, String> _value;
+
+        @Override
+        public TextualComponent clone() throws CloneNotSupportedException {
+            // Since this is a private and final class, we can just reinstantiate this class instead of casting super.clone
+            return new ComplexTextTypeComponent(getKey(), getValue());
+        }
+
+        @Override
+        public void writeJson(JsonWriter writer) throws IOException {
+            writer.name(getKey());
+            writer.beginObject();
+            for (Map.Entry<String, String> jsonPair : _value.entrySet()) {
+                writer.name(jsonPair.getKey()).value(jsonPair.getValue());
+            }
+            writer.endObject();
+        }
+
+        @SuppressWarnings("serial")
+        public Map<String, Object> serialize() {
+            return new java.util.HashMap<String, Object>() {
+                {
+                    put("key", getKey());
+                    for (Map.Entry<String, String> valEntry : getValue().entrySet()) {
+                        put("value." + valEntry.getKey(), valEntry.getValue());
+                    }
+                }
+            };
+        }
+
+        public static ComplexTextTypeComponent deserialize(Map<String, Object> map) {
+            String key = null;
+            Map<String, String> value = new HashMap<String, String>();
+            for (Map.Entry<String, Object> valEntry : map.entrySet()) {
+                if (valEntry.getKey().equals("key")) {
+                    key = (String) valEntry.getValue();
+                } else if (valEntry.getKey().startsWith("value.")) {
+                    value.put(((String) valEntry.getKey()).substring(6) /* Strips out the value prefix */, valEntry.getValue().toString());
+                }
+            }
+            return new ComplexTextTypeComponent(key, value);
+        }
+
+        @Override
+        public String getReadableString() {
+            return getKey();
+        }
     }
 
     /**
@@ -1195,183 +1507,6 @@ abstract class TextualComponent implements Cloneable {
 
         return new ArbitraryTextTypeComponent("selector", selector);
     }
-
-    @Override
-    public String toString() {
-        return getReadableString();
-    }
-
-    /**
-     * @return The JSON key used to represent text components of this type.
-     */
-    public abstract String getKey();
-
-    /**
-     * @return A readable String
-     */
-    public abstract String getReadableString();
-
-    /**
-     * Clones a textual component instance. The returned object should not
-     * reference this textual component instance, but should maintain the same
-     * key and value.
-     */
-    @Override
-    public abstract TextualComponent clone() throws CloneNotSupportedException;
-
-    /**
-     * Writes the text data represented by this textual component to the
-     * specified JSON writer object. A new object within the writer is not
-     * started.
-     *
-     * @param writer The object to which to write the JSON data.
-     * @throws IOException If an error occurs while writing to the stream.
-     */
-    public abstract void writeJson(JsonWriter writer) throws IOException;
-
-    /**
-     * Internal class used to represent all types of text components. Exception
-     * validating done is on keys and values.
-     */
-    private static final class ArbitraryTextTypeComponent extends TextualComponent implements ConfigurationSerializable {
-
-        private String _key;
-        private String _value;
-
-        public ArbitraryTextTypeComponent(String key, String value) {
-            setKey(key);
-            setValue(value);
-        }
-
-        public static ArbitraryTextTypeComponent deserialize(Map<String, Object> map) {
-            return new ArbitraryTextTypeComponent(map.get("key").toString(), map.get("value").toString());
-        }
-
-        @Override
-        public String getKey() {
-            return _key;
-        }
-
-        public void setKey(String key) {
-            Preconditions.checkArgument(key != null && !key.isEmpty(), "The key must be specified.");
-            _key = key;
-        }
-
-        public String getValue() {
-            return _value;
-        }
-
-        public void setValue(String value) {
-            Preconditions.checkArgument(value != null, "The value must be specified.");
-            _value = value;
-        }
-
-        @Override
-        public TextualComponent clone() throws CloneNotSupportedException {
-            // Since this is a private and final class, we can just reinstantiate this class instead of casting super.clone
-            return new ArbitraryTextTypeComponent(getKey(), getValue());
-        }
-
-        @Override
-        public void writeJson(JsonWriter writer) throws IOException {
-            writer.name(getKey()).value(getValue());
-        }
-
-        @SuppressWarnings("serial")
-        public Map<String, Object> serialize() {
-            return new HashMap<String, Object>() {
-                {
-                    put("key", getKey());
-                    put("value", getValue());
-                }
-            };
-        }
-
-        @Override
-        public String getReadableString() {
-            return getValue();
-        }
-    }
-
-    /**
-     * Internal class used to represent a text component with a nested JSON
-     * value. Exception validating done is on keys and values.
-     */
-    private static final class ComplexTextTypeComponent extends TextualComponent implements ConfigurationSerializable {
-
-        private String _key;
-        private Map<String, String> _value;
-
-        public ComplexTextTypeComponent(String key, Map<String, String> values) {
-            setKey(key);
-            setValue(values);
-        }
-
-        public static ComplexTextTypeComponent deserialize(Map<String, Object> map) {
-            String key = null;
-            Map<String, String> value = new HashMap<String, String>();
-            for (Map.Entry<String, Object> valEntry : map.entrySet()) {
-                if (valEntry.getKey().equals("key")) {
-                    key = (String) valEntry.getValue();
-                } else if (valEntry.getKey().startsWith("value.")) {
-                    value.put(((String) valEntry.getKey()).substring(6) /* Strips out the value prefix */, valEntry.getValue().toString());
-                }
-            }
-            return new ComplexTextTypeComponent(key, value);
-        }
-
-        @Override
-        public String getKey() {
-            return _key;
-        }
-
-        public void setKey(String key) {
-            Preconditions.checkArgument(key != null && !key.isEmpty(), "The key must be specified.");
-            _key = key;
-        }
-
-        public Map<String, String> getValue() {
-            return _value;
-        }
-
-        public void setValue(Map<String, String> value) {
-            Preconditions.checkArgument(value != null, "The value must be specified.");
-            _value = value;
-        }
-
-        @Override
-        public TextualComponent clone() throws CloneNotSupportedException {
-            // Since this is a private and final class, we can just reinstantiate this class instead of casting super.clone
-            return new ComplexTextTypeComponent(getKey(), getValue());
-        }
-
-        @Override
-        public void writeJson(JsonWriter writer) throws IOException {
-            writer.name(getKey());
-            writer.beginObject();
-            for (Map.Entry<String, String> jsonPair : _value.entrySet()) {
-                writer.name(jsonPair.getKey()).value(jsonPair.getValue());
-            }
-            writer.endObject();
-        }
-
-        @SuppressWarnings("serial")
-        public Map<String, Object> serialize() {
-            return new java.util.HashMap<String, Object>() {
-                {
-                    put("key", getKey());
-                    for (Map.Entry<String, String> valEntry : getValue().entrySet()) {
-                        put("value." + valEntry.getKey(), valEntry.getValue());
-                    }
-                }
-            };
-        }
-
-        @Override
-        public String getReadableString() {
-            return getKey();
-        }
-    }
 }
 
 /**
@@ -1381,56 +1516,22 @@ abstract class TextualComponent implements Cloneable {
  * This class is intended for use as a key to a map.
  * </p>
  *
- * @param <E> The type of elements in the array.
  * @author Glen Husman
+ * @param <E> The type of elements in the array.
  * @see Arrays
  */
 final class ArrayWrapper<E> {
-
-    private E[] _array;
 
     /**
      * Creates an array wrapper with some elements.
      *
      * @param elements The elements of the array.
      */
-    public ArrayWrapper(@SuppressWarnings("unchecked") E... elements) {
+    public ArrayWrapper(E... elements) {
         setArray(elements);
     }
 
-    /**
-     * Converts an iterable element collection to an array of elements. The
-     * iteration order of the specified object will be used as the array element
-     * order.
-     *
-     * @param list The iterable of objects which will be converted to an array.
-     * @param c The type of the elements of the array.
-     * @return An array of elements in the specified iterable.
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> T[] toArray(Iterable<? extends T> list, Class<T> c) {
-        int size = -1;
-        if (list instanceof Collection<?>) {
-            @SuppressWarnings("rawtypes")
-            Collection coll = (Collection) list;
-            size = coll.size();
-        }
-
-        if (size < 0) {
-            size = 0;
-            // Ugly hack: Count it ourselves
-            for (@SuppressWarnings("unused") T element : list) {
-                size++;
-            }
-        }
-
-        T[] result = (T[]) Array.newInstance(c, size);
-        int i = 0;
-        for (T element : list) { // Assumes iteration order is consistent
-            result[i++] = element; // Assign array element at index THEN increment counter
-        }
-        return result;
-    }
+    private E[] _array;
 
     /**
      * Retrieves a reference to the wrapped array instance.
@@ -1468,12 +1569,46 @@ final class ArrayWrapper<E> {
     /**
      * Gets the hash code represented by this objects value.
      *
-     * @return This object's hash code.
      * @see Arrays#hashCode(Object[])
+     * @return This object's hash code.
      */
     @Override
     public int hashCode() {
         return Arrays.hashCode(_array);
+    }
+
+    /**
+     * Converts an iterable element collection to an array of elements. The
+     * iteration order of the specified object will be used as the array element
+     * order.
+     *
+     * @param list The iterable of objects which will be converted to an array.
+     * @param c The type of the elements of the array.
+     * @return An array of elements in the specified iterable.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T[] toArray(Iterable<? extends T> list, Class<T> c) {
+        int size = -1;
+        if (list instanceof Collection<?>) {
+            @SuppressWarnings("rawtypes")
+            Collection coll = (Collection) list;
+            size = coll.size();
+        }
+
+        if (size < 0) {
+            size = 0;
+            // Ugly hack: Count it ourselves
+            for (@SuppressWarnings("unused") T element : list) {
+                size++;
+            }
+        }
+
+        T[] result = (T[]) Array.newInstance(c, size);
+        int i = 0;
+        for (T element : list) { // Assumes iteration order is consistent
+            result[i++] = element; // Assign array element at index THEN increment counter
+        }
+        return result;
     }
 }
 
@@ -1484,21 +1619,6 @@ final class ArrayWrapper<E> {
  */
 final class Reflection {
 
-    /**
-     * Stores loaded classes from the {@code net.minecraft.server} package.
-     */
-    private static final Map<String, Class<?>> _loadedNMSClasses = new HashMap<String, Class<?>>();
-    /**
-     * Stores loaded classes from the {@code org.bukkit.craftbukkit} package
-     * (and subpackages).
-     */
-    private static final Map<String, Class<?>> _loadedOBCClasses = new HashMap<String, Class<?>>();
-    private static final Map<Class<?>, Map<String, Field>> _loadedFields = new HashMap<Class<?>, Map<String, Field>>();
-    /**
-     * Contains loaded methods in a cache. The map maps [types to maps of
-     * [method names to maps of [parameter types to method instances]]].
-     */
-    private static final Map<Class<?>, Map<String, Map<ArrayWrapper<Class<?>>, Method>>> _loadedMethods = new HashMap<Class<?>, Map<String, Map<ArrayWrapper<Class<?>>, Method>>>();
     private static String _versionString;
 
     private Reflection() {
@@ -1525,6 +1645,16 @@ final class Reflection {
 
         return _versionString;
     }
+
+    /**
+     * Stores loaded classes from the {@code net.minecraft.server} package.
+     */
+    private static final Map<String, Class<?>> _loadedNMSClasses = new HashMap<String, Class<?>>();
+    /**
+     * Stores loaded classes from the {@code org.bukkit.craftbukkit} package
+     * (and subpackages).
+     */
+    private static final Map<String, Class<?>> _loadedOBCClasses = new HashMap<String, Class<?>>();
 
     /**
      * Gets a {@link Class} object representing a type contained within the
@@ -1606,6 +1736,8 @@ final class Reflection {
         }
     }
 
+    private static final Map<Class<?>, Map<String, Field>> _loadedFields = new HashMap<Class<?>, Map<String, Field>>();
+
     /**
      * Retrieves a {@link Field} instance declared by the specified class with
      * the specified name. Java access modifiers are ignored during this
@@ -1657,6 +1789,12 @@ final class Reflection {
     }
 
     /**
+     * Contains loaded methods in a cache. The map maps [types to maps of
+     * [method names to maps of [parameter types to method instances]]].
+     */
+    private static final Map<Class<?>, Map<String, Map<ArrayWrapper<Class<?>>, Method>>> _loadedMethods = new HashMap<Class<?>, Map<String, Map<ArrayWrapper<Class<?>>, Method>>>();
+
+    /**
      * Retrieves a {@link Method} instance declared by the specified class with
      * the specified name and argument types. Java access modifiers are ignored
      * during this retrieval. No guarantee is made as to whether the field
@@ -1673,7 +1811,7 @@ final class Reflection {
      * callers do not have to check or worry about Java access modifiers when
      * dealing with the returned instance.
      * </p>
-     * <p/>
+     * <p>
      * This method does <em>not</em> search superclasses of the specified type
      * for methods with the specified signature. Callers wishing this behavior
      * should use {@link Class#getDeclaredMethod(String, Class...)}.
