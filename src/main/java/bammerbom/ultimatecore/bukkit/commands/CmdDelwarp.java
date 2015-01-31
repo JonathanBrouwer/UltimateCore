@@ -23,24 +23,24 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
+import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-public class CmdKick implements UltimateCommand {
+public class CmdDelwarp implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "kick";
+        return "delwarp";
     }
 
     @Override
     public String getPermission() {
-        return "uc.kick";
+        return "uc.delwarp";
     }
 
     @Override
@@ -50,35 +50,23 @@ public class CmdKick implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.kick", false, true)) {
+        if (!r.perm(cs, "uc.delwarp", false, true)) {
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
-            r.sendMes(cs, "kickUsage");
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "delwarpUsage");
             return;
         }
-        Player target = r.searchPlayer(args[0]);
-        if (target == null) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+        if (!StringUtil.containsIgnoreCase(UC.getServer().getWarpNames(), args[0])) {
+            r.sendMes(cs, "warpNotExist", "%Warp", args[0]);
             return;
         }
-        if (cs.getName().equalsIgnoreCase(target.getName())) {
-            r.sendMes(cs, "kickSelf");
-            return;
-        }
-        if (r.checkArgs(args, 1) == false) {
-            Bukkit.broadcastMessage(r.mes("kickBroadcast", "%Kicker", cs.getName(), "%Player", target.getName()));
-            Bukkit.broadcastMessage(r.mes("kickBroadcast2", "%Reason", r.mes("kickDefaultReason")));
-            target.kickPlayer(r.mes("kickMessage", "%Reason", r.mes("kickDefaultReason")));
-        } else {
-            Bukkit.broadcastMessage(r.mes("kickBroadcast", "%Kicker", cs.getName(), "%Player", target.getName()));
-            Bukkit.broadcastMessage(r.mes("kickBroadcast2", "%Reason", r.getFinalArg(args, 1)));
-            target.kickPlayer(r.mes("kickMessage", "%Reason", r.getFinalArg(args, 1)));
-        }
+        UC.getServer().removeWarp(args[0]);
+        r.sendMes(cs, "delwarpMessage", "%Warp", args[0]);
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return UC.getServer().getWarpNames();
     }
 }

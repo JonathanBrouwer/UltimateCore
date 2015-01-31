@@ -94,11 +94,11 @@ public class CmdVanish implements UltimateCommand {
         }
         //Permcheck
         if (!r.perm(cs, "uc.vanish.time", false, false) && !r.perm(cs, "uc.vanish", false, false) && time == 0L) {
-            cs.sendMessage(r.mes("NoPermissions"));
+            r.sendMes(cs, "NoPermissions");
             return;
         }
         if (!r.perm(cs, "uc.vanish.perm", false, false) && !r.perm(cs, "uc.vanish", false, false) && time != 0L) {
-            cs.sendMessage(r.mes("NoPermissions"));
+            r.sendMes(cs, "NoPermissions");
             return;
         }
         UC.getPlayer(banp).setVanish(!UC.getPlayer(banp).isVanish(), time);

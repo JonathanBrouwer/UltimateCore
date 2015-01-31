@@ -24,12 +24,11 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdDamage implements UltimateCommand {
 
@@ -84,7 +83,7 @@ public class CmdDamage implements UltimateCommand {
                 Double d = Double.parseDouble(args[0]);
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
-                    cs.sendMessage(r.mes("PlayerNotFound").replace("%Player", args[1]));
+                    r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
                     return;
                 }
                 t.damage(d);
@@ -93,7 +92,7 @@ public class CmdDamage implements UltimateCommand {
                 Double d = Double.parseDouble(args[1]);
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
-                    cs.sendMessage(r.mes("PlayerNotFound").replace("%Player", args[0]));
+                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
                     return;
                 }
                 t.damage(d);

@@ -74,11 +74,7 @@ public class CmdList implements UltimateCommand {
             r.sendMes(cs, "listList", "%Online", i, "%Max", Bukkit.getMaxPlayers(), "%List", online.toString());
         } else {
             StringBuilder online = new StringBuilder();
-            Player[] pls = r.getOnlinePlayers();
-            ArrayList<Player> plz = new ArrayList<Player>();
-            for (Player pl : pls) {
-                plz.add(pl);
-            }
+            List<Player> plz = r.getOnlinePlayersL();
             Boolean first2 = true;
             Integer i = 0;
             for (String g : r.getVault().getPermission().getGroups()) {
@@ -131,8 +127,6 @@ public class CmdList implements UltimateCommand {
                 }
             }
             plz.clear();
-            pls = null;
-            plz = null;
             r.sendMes(cs, "listList", "%Online", i, "%Max", Bukkit.getMaxPlayers(), "%List", online.toString());
         }
     }

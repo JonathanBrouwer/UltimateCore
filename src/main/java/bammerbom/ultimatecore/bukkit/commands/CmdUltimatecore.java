@@ -164,7 +164,7 @@ public class CmdUltimatecore implements UltimateCommand {
                 r.log("Importing Warps...");
                 IWarps w = es.getWarps();
                 for (String s : w.getList()) {
-                    //TODO warp UC.getServer().a
+                    UC.getServer().addWarp(s, w.getWarp(s));
                 }
                 try {
                     IEssentialsSpawn esp = (IEssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");

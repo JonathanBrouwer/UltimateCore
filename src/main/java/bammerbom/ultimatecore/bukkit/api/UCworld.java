@@ -23,13 +23,14 @@
  */
 package bammerbom.ultimatecore.bukkit.api;
 
+import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.utils.FireworkUtil;
+import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
-
-import java.io.File;
 
 public class UCworld {
 
@@ -58,6 +59,93 @@ public class UCworld {
     //Datafile
     public File getDataFile() {
         return new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + File.separator + "Data", "worlds.yml");
+    }
+
+    public World getWorld() {
+        return base;
+    }
+
+    //Register
+    public void register() {
+        Config conf = new Config(getDataFile());
+        conf.set(base.getName() + ".env", base.getEnvironment().name());
+        conf.save();
+    }
+
+    public void unregister() {
+        Config conf = new Config(getDataFile());
+        conf.set(base.getName(), null);
+        conf.save();
+    }
+
+    public void resetData() {
+        unregister();
+        register();
+    }
+
+    //World
+    public static enum WorldFlag {
+
+        MONSTER, ANIMAL, PVP
+    }
+
+    public boolean isFlagDenied(WorldFlag f) {
+        File file = getDataFile();
+        Config conf = new Config(file);
+        if (!conf.contains(getWorld().getName() + ".flags." + f.toString())) {
+            return false;
+        }
+        return !conf.getBoolean(getWorld().getName() + ".flags." + f.toString());
+    }
+
+    public boolean isFlagAllowed(WorldFlag f) {
+        return !isFlagDenied(f);
+    }
+
+    public void setFlagAllowed(WorldFlag f) {
+        File file = getDataFile();
+        Config conf = new Config(file);
+        conf.set(getWorld().getName() + ".flags." + f.toString(), true);
+        conf.save(file);
+        if (f.equals(WorldFlag.ANIMAL)) {
+            getWorld().setAnimalSpawnLimit(15);
+        }
+        if (f.equals(WorldFlag.MONSTER)) {
+            getWorld().setMonsterSpawnLimit(70);
+        }
+        if (f.equals(WorldFlag.PVP)) {
+            getWorld().setPVP(true);
+        }
+    }
+
+    public void setFlagDenied(WorldFlag f) {
+        File file = getDataFile();
+        Config conf = new Config(file);
+        conf.set(getWorld().getName() + ".flags." + f.toString(), false);
+        conf.save(file);
+        if (f.equals(WorldFlag.ANIMAL)) {
+            getWorld().setAnimalSpawnLimit(0);
+        }
+        if (f.equals(WorldFlag.MONSTER)) {
+            getWorld().setMonsterSpawnLimit(0);
+        }
+        if (f.equals(WorldFlag.PVP)) {
+            getWorld().setPVP(false);
+        }
+    }
+
+    public void setDefaultGamemode(GameMode gm) {
+        File file = getDataFile();
+        Config conf = new Config(file);
+        conf.set(getWorld().getName() + ".flags.gamemode", gm.name());
+        conf.save(file);
+    }
+
+    public GameMode getDefaultGamemode() {
+        File file = getDataFile();
+        Config conf = new Config(file);
+        String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
+        return GameMode.valueOf(gm);
     }
 
 }

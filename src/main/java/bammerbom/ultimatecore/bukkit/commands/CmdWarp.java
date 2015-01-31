@@ -23,23 +23,29 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
+import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
-import java.util.Arrays;
-import java.util.List;
+import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import java.util.ArrayList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-public class CmdHunger implements UltimateCommand {
+import java.util.Arrays;
+import java.util.List;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+
+public class CmdWarp implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "hunger";
+        return "warp";
     }
 
     @Override
     public String getPermission() {
-        return "uc.hunger";
+        return "uc.warp";
     }
 
     @Override
@@ -49,56 +55,50 @@ public class CmdHunger implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.hunger", false, true)) {
+        if (r.checkArgs(args, 0) == false) {
+            if (r.perm(cs, "uc.warplist", true, true) == false) {
+                return;
+            }
+            List<String> warps = UC.getServer().getWarpNames();
+            if (warps == null || warps.isEmpty()) {
+                r.sendMes(cs, "warpNoWarpsFound");
+                return;
+            }
+            StringBuilder warplist = new StringBuilder();
+            Integer cur = 0;
+            String result;
+            for (int i = 0; i < warps.size(); i++) {
+                warplist.append(warps.get(cur) + ", ");
+                cur++;
+
+            }
+            result = warplist.substring(0, warplist.length() - 2);
+            r.sendMes(cs, "warpWarps", "%Warps", result);
             return;
-        }
-        if (!r.checkArgs(args, 0)) {
-            if (!r.isPlayer(cs)) {
+        } else {
+            if (!(r.isPlayer(cs))) {
                 return;
             }
-            r.sendMes(cs, "hungerUsage");
-        } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
-            if (!r.isPlayer(cs)) {
+            //Exist
+            Player p = (Player) cs;
+            if (r.perm(p, "uc.warp", true, false) == false && r.perm(p, "uc.warp." + args[0], true, false) == false) {
+                r.sendMes(cs, "NoPermissions");
                 return;
             }
-            if (r.isInt(args[0])) {
-                Integer d = Integer.parseInt(args[0]);
-                Player p = (Player) cs;
-                p.setFoodLevel(p.getFoodLevel() - r.normalize(d, 0, 20));
-                r.sendMes(cs, "hungerSelf", "%Player", p.getName(), "%Hunger", args[0]);
-            } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
-            }
-        } else if (r.checkArgs(args, 1)) {
-            if (!r.perm(cs, "uc.hunger.others", false, true)) {
+            if (UC.getServer().getWarp(args[0]) == null) {
+                r.sendMes(cs, "warpNotExist", "%Warp", args[0]);
                 return;
             }
-            if (r.isInt(args[0])) {
-                Integer d = Integer.parseInt(args[0]);
-                Player t = r.searchPlayer(args[1]);
-                if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
-                    return;
-                }
-                t.setFoodLevel(t.getFoodLevel() - r.normalize(d, 0, 20));
-                r.sendMes(cs, "hungerOthers", "%Player", t.getName(), "%Hunger", args[0]);
-            } else if (r.isInt(args[1])) {
-                Integer d = Integer.parseInt(args[1]);
-                Player t = r.searchPlayer(args[0]);
-                if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
-                    return;
-                }
-                t.setFoodLevel(t.getFoodLevel() - r.normalize(d, 0, 20));
-                r.sendMes(cs, "hungerOthers", "%Player", t.getName(), "%Hunger", args[1]);
-            } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
-            }
+
+            //Teleport
+            Location loc = UC.getServer().getWarp(args[0]);
+            LocationUtil.teleportUnsafe(p, loc, TeleportCause.COMMAND);
+            r.sendMes(cs, "warpMessage", "%Warp", args[0]);
         }
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return UC.getServer().getWarpNames();
     }
 }

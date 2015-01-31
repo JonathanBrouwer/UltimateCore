@@ -27,7 +27,7 @@ commands:
     usage: /<command> <Player> [Time] [Reason]
     permissions: uc.ban
   broadcast:
-    description: Broadcasts a message
+    description: Broadcasts a message.
     usage: /<command> <Message>
     permissions: uc.broadcast
     aliases: [bc]
@@ -42,7 +42,7 @@ commands:
     permissions: uc.butcher
     aliases: [killmonsters]
   clean:
-    description: Clean the world, to reduce lag
+    description: Clean the world, to reduce lag.
     usage: /<command> [World]
     permissions: uc.clean
   clear:
@@ -51,46 +51,50 @@ commands:
     permissions: uc.clear
     aliases: [clearinventory, ci]
   clearchat:
-    description: Clears the chat
+    description: Clears the chat.
     usage: /<command> [Player]
     permissions: uc.clearchat
     aliases: [cleanchat]
   compact:
     usage: /<command> [Hand]
-    description: Compact the items in your inventory
+    description: Compact the items in your inventory.
     permissions: uc.compact
     aliases: [compact]
   compass:
     usage: /<command> [Player]
-    description: Set the compass location of someone to your current location
+    description: Set the compass location of someone to your current location.
     permissions: uc.compass
     aliases: [setcompass]
   coordinates:
     usage: /<command> [Player]
-    description: Get the location of a certain player
+    description: Get the location of a certain player.
     permissions: uc.coordinates
     aliases: [coords, location, loc]
   damage:
     usage: /<command> [Player] [Damage]
-    description: Damage someone for a certain amount of damage
+    description: Damage someone for a certain amount of damage.
     permissions: uc.damage
     aliases: [hurt]
   deaf:
     usage: /<command> <Player> [Time]
-    description: Make someone not able to receive chat
+    description: Make someone not able to receive chat.
     permissions: uc.deaf
   delhome:
     usage: /<command> [Player:][Name]
-    description: Remove a home
+    description: Remove a home.
     permissions: uc.delhome
   deljail:
     usage: /<command> <Name>
-    description: Remove a jail
+    description: Remove a jail.
     permissions: uc.deljail
     aliases: [removejail]
+  delwarp:
+    usage: /<command> <Warp>
+    description: Remove a warp.
+    permissions: uc.delwarp
   editsign:
     usage: /<command> <1-4> [Text]
-    description: Edit a sign
+    description: Edit a sign.
     permissions: uc.editsign
     aliases: [signedit]
   effect:
@@ -103,27 +107,27 @@ commands:
     permissions: uc.enchant
   enchantingtable:
     usage: /<command>
-    description: Open an enchanting inventory
+    description: Open an enchanting inventory.
     permissions: uc.enchantingtable
     aliases: [ectable]
   enderchest:
     usage: /<command> [Player]
-    description: Open an enderchest
+    description: Open an enderchest.
     permissions: uc.enderchest
     aliases: [echest]
   extinguish:
     usage: /<command> [Player]
-    description: Extinguish someone
+    description: Extinguish someone.
     permissions: uc.extinguish
     aliases: [unfire]
   feed:
     usage: /<command> [Player]
-    description: Feed someone
+    description: Feed someone.
     permissions: uc.feed
     aliases: [feed]
   fireball:
     usage: /<command> [Type]
-    description: Shoot a fireball
+    description: Shoot a fireball.
     permissions: uc.fireball
   firework:
     usage: /<command> [clear] [power:<amount>] [color:<COLOR[,COLOR]]>] [fade:<COLOR[,COLOR]]>] [shape:<star/ball/large/creeper/burst>] [effect:<trail/twinkle>[,trail/twinkle]]
@@ -131,29 +135,29 @@ commands:
     permissions: uc.firework
   fly:
     usage: /<command> [Player]
-    description: Enable/Disable fly mode
+    description: Enable/Disable fly mode.
     permissions: uc.fly
   freeze:
     usage: /<command> <Player> [Time]
-    description: Freeze someone
+    description: Freeze someone.
     permissions: uc.freeze
   gamemode:
     usage: /gamemode|gm <Gamemode> [Player] OR /survival|creative|adventure|s|c|a [Player]
-    description: Change your gamemode
+    description: Change your gamemode.
     permissions: uc.gamemode
     aliases: [gm, survival, s, creative, c, adventure, a, spec, specator]
   garbagecollector:
     usage: /<command>
-    description: Runs the Java garbage collector
+    description: Runs the Java garbage collector.
     permissions: uc.garbagecollector
     aliases: [gc]
   give:
     usage: /<command> <Player> <Item> [Amount] [Data...]
-    description: Give an item to a certain player
+    description: Give an item to a certain player.
     permissions: uc.give
   god:
     usage: /<command> [Player] [Time]
-    description: Enable/Disable god mode for a certain time
+    description: Enable/Disable god mode for a certain time.
     permissions: uc.god
   hat:
     usage: /<command>
@@ -161,7 +165,7 @@ commands:
     permissions: uc.hat
   heal:
     usage: /<command> [Player]
-    description: Heals the target
+    description: Heals the target.
     permissions: uc.heal
   help:
     usage: /<command> [search term] [page]
@@ -169,80 +173,80 @@ commands:
     permissions: uc.help
   home:
     usage: /<command> [Player:][Name]
-    description: Teleport to your home
+    description: Teleport to your home.
     permissions: uc.home
   hunger:
     usage: /<command> <Amount> [Player]
-    description: Remove hunger points
+    description: Remove hunger points.
     permissions: uc.hunger
   inventory:
     usage: /<command> <Player>
-    description: Open a players inventory
+    description: Open a players inventory.
     permissions: uc.inventory
     aliases: [inv, invsee]
   ip:
     usage: /<command> [Player]
-    description: Get the servers or a players ip
+    description: Get the servers or a players ip.
     permissions: uc.ip
   item:
     usage: /<command> <Item> [Amount] [Data...]
-    description: Give an item to yourself
+    description: Give an item to yourself.
     permissions: uc.item
     aliases: [i]
   jail:
     usage: /<command> <Player> [Jail]
-    description: Jail someone
+    description: Jail someone.
     permissions: uc.jail
   jump:
     usage: /<command>
-    description: Jump to the place where you are looking at
+    description: Jump to the place where you are looking at.
     permissions: uc.jump
   kick:
     usage: /<command> <Player> [Reason]
-    description: Kick someone
+    description: Kick someone.
     permissions: uc.kick
   kickall:
     usage: /<command> [Reason]
-    description: Kick everyone
+    description: Kick everyone.
     permissions: uc.kickall
   kill:
     usage: /<command> [Player]
-    description: Kill someone or yourself
+    description: Kill someone or yourself.
     permissions: uc.kill
   killall:
     usage: /<command> [Type] [Radius]
-    description: Kill all mobs
+    description: Kill all mobs.
     permissions: uc.killall
   kittycannon:
     usage: /<command>
-    description: Ocelot boom
+    description: Summon an exploding ocelot.
     permissions: uc.kittycannon
     aliases: [kittyboom]
   lag:
     usage: /<command>
-    description: Check the performance of the server
+    description: View the performance of the server.
     permissions: uc.lag
     aliases: [ram, tps, mem, memory]
   list:
     usage: /<command>
-    description: A list of online players
+    description: A list of online players.
     permissions: uc.list
     aliases: [players]
   me:
     usage: /<command> <Message>
-    description: Message in me format
+    description: Message in me format.
     permissions: uc.me
   megasmite:
     usage: /<command> [Player]
-    description: Throw a lot of lighting on a player
+    description: Throw a lot of lighting on a player.
     permissions: uc.megasmite
   mobtp:
     usage: /<command>
-    description: Teleport mobs using a stick
+    description: Teleport mobs using a stick.
     permissions: uc.mobtp
   modify:
     usage: /<command> <Meta...>
-    description: Modify the meta of the item in your hand
+    description: Modify the meta of the item in your hand.
     permissions: uc.modify
   more:
     usage: /<command>
@@ -250,32 +254,32 @@ commands:
     permissions: uc.more
   motd:
     usage: /<command>
-    description: Sends the MOTD in the chat
+    description: Sends the MOTD in the chat.
     permissions: uc.motd
   msg:
     usage: /<command> <Player> <Message>
-    description: Send a private message
+    description: Send a private message.
     permissions: uc.msg
     aliases: [w, m, t, pm, tell, whisper]
   mute:
     usage: /<command> <Player> [Time]
-    description: Make someone not able to chat
+    description: Make someone not able to chat.
     permissions: uc.mute
   names:
     usage: /<command> <Player>
-    description: View all names a player had in the past
+    description: View all names a player had in the past.
     permissions: uc.names
   near:
     usage: /<command> [Range]
-    description: View all nearby players
+    description: View all nearby players.
     permissions: uc.near
   nick:
     usage: /<command> <Name>/off [Player]
-    description: Set a players nickname
+    description: Set a players nickname.
     permissions: uc.nick
   ping:
     usage: /<command> [Player]
-    description: View a players ping
+    description: View a players ping.
     permissions: uc.ping
   plugin:
     usage: /<command> help
@@ -283,7 +287,7 @@ commands:
     permissions: uc.plugin
   potion:
     usage: /<command> <Effect> [Duration] [Amplifier] [Splash]
-    description: Spawn in or modify a potion
+    description: Spawn in or modify a potion.
     permissions: uc.potion
   powertool:
     usage: /<command> <Clear/Clearall/Add/Remove/list/<Command>> [Command]
@@ -322,11 +326,11 @@ commands:
     permissions: uc.save
   say:
     usage: /say <Message>
-    description: Broadcast a message
+    description: Broadcast a message.
     permissions: uc.say
   seen:
     usage: /seen <Player>
-    description: View information about a player
+    description: View information about a player.
     permissions: uc.seen
   setarmor:
     usage: /setarmor <ArmorType> [Player]
@@ -334,7 +338,7 @@ commands:
     permissions: uc.setarmor
   sethealth:
     usage: /<command> <Food> [Player]
-    description: Set the amount of health of a player
+    description: Set the amount of health of a player.
     permissions: uc.sethealth
     aliases: [setlives]
   sethome:
@@ -343,38 +347,42 @@ commands:
     permissions: uc.sethome
   sethunger:
     usage: /<command> <Food> [Player]
-    description: Set the amount of food bars of a player
+    description: Set the amount of food bars of a player.
     permissions: uc.sethunger
     aliases: [setfood]
   setjail:
     usage: /<command> <Name>
-    description: Set a jail
+    description: Set a jail.
     permissions: uc.setjail
     aliases: [addjail]
   setspawn:
     usage: /<command>
-    description: Set the global spawn
+    description: Set the global spawn.
     permissions: uc.setspawn
+  setwarp:
+    usage: /<command> <Warp>
+    description: Set a new warp, or move a warp.
+    permissions: uc.setwarp
   skull:
     usage: /<command> [Player]
-    description: Get the head of a player
+    description: Get the head of a player.
     permissions: uc.skull
     aliases: [head]
   smite:
     usage: /<command> [Player]
-    description: Throw lightning at a player
+    description: Throw lightning at a player.
     permissions: uc.smite
   spawn:
     usage: /<command>
-    description: Teleport to the spawn
+    description: Teleport to the spawn.
     permissions: uc.spawn
   spawner:
     usage: /<command> <MobType>
-    description: Set the mob type of a spawner
+    description: Set the mob type of a spawner.
     permissions: uc.spawner
   spawnmob:
     usage: /<command> <Type> [Amount] [Data...]
-    description: Spawn a mob
+    description: Spawn a mob.
     permissions: uc.spawnmob
     aliases: [mob]
   speed:
@@ -402,7 +410,7 @@ commands:
     aliases: [tpall]
   teleportask:
     usage: /<command> <Player>
-    description: Ask to teleport to someone
+    description: Ask to teleport to someone.
     permissions: uc.teleport
     aliases: [tpa]
   teleportaskall:
@@ -432,7 +440,7 @@ commands:
     aliases: [tptoggle]
   time:
     usage: /<command> day/night/ticks/disable/enable/add/query
-    description: Set the time
+    description: Set the time.
     permissions: uc.time
   top:
     usage: /<command>
@@ -473,6 +481,24 @@ commands:
     description: View the uuid of a certain player.
     permissions: uc.uuid
   vanish:
-    usage: /vanish [Player] [Time]
+    usage: /<command> [Player] [Time]
     description: Hide or show a player.
     permissions: uc.vanish
+  warp:
+    usage: /<command> <Warp>
+    description: Teleport yourself to a warp.
+    permissions: uc.warp
+  weather:
+    usage: /<command> clear/rain/thunder [Time]
+    description: Change the weather.
+    permissions: uc.weather
+    aliases: [sun, rain, thunder, storm]
+  workbench:
+    usage: /<command>
+    description: Open a crafting table.
+    permissions: uc.workbench
+    aliases: [wb, craftingtable, ct]
+  world:
+    usage: /<command> create/import/remove/list/tp/flag/reset
+    description: World management command.
+    permissions: uc.world

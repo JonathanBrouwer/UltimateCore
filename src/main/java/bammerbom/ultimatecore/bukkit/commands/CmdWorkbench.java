@@ -24,61 +24,44 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdKick implements UltimateCommand {
+public class CmdWorkbench implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "kick";
+        return "workbench";
     }
 
     @Override
     public String getPermission() {
-        return "uc.kick";
+        return "uc.workbench";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("wb", "craftingtable", "ct");
     }
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.kick", false, true)) {
+        if (!r.perm(cs, "uc.workbench", false, true)) {
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
-            r.sendMes(cs, "kickUsage");
+        if (!r.isPlayer(cs)) {
             return;
         }
-        Player target = r.searchPlayer(args[0]);
-        if (target == null) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
-            return;
-        }
-        if (cs.getName().equalsIgnoreCase(target.getName())) {
-            r.sendMes(cs, "kickSelf");
-            return;
-        }
-        if (r.checkArgs(args, 1) == false) {
-            Bukkit.broadcastMessage(r.mes("kickBroadcast", "%Kicker", cs.getName(), "%Player", target.getName()));
-            Bukkit.broadcastMessage(r.mes("kickBroadcast2", "%Reason", r.mes("kickDefaultReason")));
-            target.kickPlayer(r.mes("kickMessage", "%Reason", r.mes("kickDefaultReason")));
-        } else {
-            Bukkit.broadcastMessage(r.mes("kickBroadcast", "%Kicker", cs.getName(), "%Player", target.getName()));
-            Bukkit.broadcastMessage(r.mes("kickBroadcast2", "%Reason", r.getFinalArg(args, 1)));
-            target.kickPlayer(r.mes("kickMessage", "%Reason", r.getFinalArg(args, 1)));
-        }
+        Player p = (Player) cs;
+        p.openWorkbench(p.getLocation(), true);
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
 }
