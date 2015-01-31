@@ -91,7 +91,7 @@ public class r {
             public void run() {
                 updater.waitForThread();
                 try {
-                    if (updater.getResult() == null || updater.getResult().equals(UpdateResult.UPDATE_AVAILABLE)) {
+                    if (updater != null && updater.getResult() != null && updater.getResult().equals(UpdateResult.UPDATE_AVAILABLE)) {
                         r.log("There is an update available for UltimateCore.");
                         r.log("Use /uc update to update UltimateCore.");
                     }

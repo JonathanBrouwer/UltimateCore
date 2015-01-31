@@ -287,7 +287,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      * @return This builder instance.
      */
     public MessageUtil achievementTooltip(final String name) {
-        onHover("show_achievement", new JsonString("achievement." + name));
+        onHover("show_achievement", new JsonString("achievement." + (name.contains(".") ? name.split("\\.")[1] : name)));
         return this;
     }
 
@@ -304,7 +304,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     public MessageUtil achievementTooltip(final Achievement which) {
         try {
             Object achievement = Reflection.getMethod(Reflection.getOBCClass("CraftStatistic"), "getNMSAchievement", Achievement.class).invoke(null, which);
-            return achievementTooltip((String) Reflection.getField(Reflection.getNMSClass("Achievement"), "name").get(achievement));
+            return achievementTooltip(((String) ReflectionUtil.execute("name", achievement).fetch()));
         } catch (IllegalAccessException e) {
             Bukkit.getLogger().log(Level.WARNING, "Could not access method.", e);
             return this;
@@ -313,6 +313,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
             return this;
         } catch (InvocationTargetException e) {
             Bukkit.getLogger().log(Level.WARNING, "A error has occured durring invoking of method.", e);
+            return this;
+        } catch (Exception ex) {
+            Bukkit.getLogger().log(Level.WARNING, "A error has occured durring invoking of method.", ex);
             return this;
         }
     }
@@ -336,7 +339,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
         }
         try {
             Object statistic = Reflection.getMethod(Reflection.getOBCClass("CraftStatistic"), "getNMSStatistic", Statistic.class).invoke(null, which);
-            return achievementTooltip((String) Reflection.getField(Reflection.getNMSClass("Statistic"), "name").get(statistic));
+            return achievementTooltip(((String) ReflectionUtil.execute("name", statistic).fetch()));
         } catch (IllegalAccessException e) {
             Bukkit.getLogger().log(Level.WARNING, "Could not access method.", e);
             return this;
@@ -345,6 +348,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
             return this;
         } catch (InvocationTargetException e) {
             Bukkit.getLogger().log(Level.WARNING, "A error has occured durring invoking of method.", e);
+            return this;
+        } catch (Exception ex) {
+            Bukkit.getLogger().log(Level.WARNING, "A error has occured durring invoking of method.", ex);
             return this;
         }
     }
@@ -374,7 +380,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
         }
         try {
             Object statistic = Reflection.getMethod(Reflection.getOBCClass("CraftStatistic"), "getMaterialStatistic", Statistic.class, Material.class).invoke(null, which, item);
-            return achievementTooltip((String) Reflection.getField(Reflection.getNMSClass("Statistic"), "name").get(statistic));
+            return achievementTooltip(((String) ReflectionUtil.execute("name", statistic).fetch()));
         } catch (IllegalAccessException e) {
             Bukkit.getLogger().log(Level.WARNING, "Could not access method.", e);
             return this;
@@ -383,6 +389,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
             return this;
         } catch (InvocationTargetException e) {
             Bukkit.getLogger().log(Level.WARNING, "A error has occured durring invoking of method.", e);
+            return this;
+        } catch (Exception ex) {
+            Bukkit.getLogger().log(Level.WARNING, "A error has occured durring invoking of method.", ex);
             return this;
         }
     }
@@ -412,7 +421,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
         }
         try {
             Object statistic = Reflection.getMethod(Reflection.getOBCClass("CraftStatistic"), "getEntityStatistic", Statistic.class, EntityType.class).invoke(null, which, entity);
-            return achievementTooltip((String) Reflection.getField(Reflection.getNMSClass("Statistic"), "name").get(statistic));
+            return achievementTooltip(((String) ReflectionUtil.execute("name", statistic).fetch()));
         } catch (IllegalAccessException e) {
             Bukkit.getLogger().log(Level.WARNING, "Could not access method.", e);
             return this;
@@ -421,6 +430,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
             return this;
         } catch (InvocationTargetException e) {
             Bukkit.getLogger().log(Level.WARNING, "A error has occured durring invoking of method.", e);
+            return this;
+        } catch (Exception ex) {
+            Bukkit.getLogger().log(Level.WARNING, "A error has occured durring invoking of method.", ex);
             return this;
         }
     }
