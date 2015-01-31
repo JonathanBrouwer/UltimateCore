@@ -493,3 +493,8 @@ commands:
     description: Change the weather.
     permissions: uc.weather
     aliases: [sun, rain, thunder, storm]
+  workbench:
+    usage: /<command>
+    description: Open a crafting table.
+    permissions: uc.workbench
+    aliases: [wb, craftingtable, ct]

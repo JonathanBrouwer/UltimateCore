@@ -132,6 +132,7 @@ import bammerbom.ultimatecore.bukkit.commands.CmdUuid;
 import bammerbom.ultimatecore.bukkit.commands.CmdVanish;
 import bammerbom.ultimatecore.bukkit.commands.CmdWarp;
 import bammerbom.ultimatecore.bukkit.commands.CmdWeather;
+import bammerbom.ultimatecore.bukkit.commands.CmdWorkbench;
 import bammerbom.ultimatecore.bukkit.commands.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
@@ -270,6 +271,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdVanish());
         cmds.add(new CmdWarp());
         cmds.add(new CmdWeather());
+        cmds.add(new CmdWorkbench());
         //
         ucmds = new UltimateCommands();
         //
