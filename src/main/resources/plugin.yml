@@ -498,3 +498,7 @@ commands:
     description: Open a crafting table.
     permissions: uc.workbench
     aliases: [wb, craftingtable, ct]
+  world:
+    usage: /<command> create/import/remove/list/tp/flag/reset
+    description: World management command.
+    permissions: uc.world

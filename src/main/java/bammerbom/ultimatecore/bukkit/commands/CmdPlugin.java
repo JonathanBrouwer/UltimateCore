@@ -27,27 +27,43 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.PluginUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import com.google.common.io.Files;
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.*;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.InvalidDescriptionException;
+import org.bukkit.plugin.InvalidPluginException;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.UnknownDependencyException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class CmdPlugin implements UltimateCommand {
 
@@ -404,7 +420,7 @@ public class CmdPlugin implements UltimateCommand {
         } //info
         else if (args[0].equalsIgnoreCase("info")) {
             if (!r.perm(cs, "uc.plugin.info", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
-                cs.sendMessage(r.mes("NoPermissions"));
+                r.sendMes(cs, "NoPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -454,7 +470,7 @@ public class CmdPlugin implements UltimateCommand {
         } //updatecheck
         else if (args[0].equalsIgnoreCase("updatecheck")) {
             if (!r.perm(cs, "uc.plugin.updatecheck", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
-                cs.sendMessage(r.mes("NoPermissions"));
+                r.sendMes(cs, "NoPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -510,7 +526,7 @@ public class CmdPlugin implements UltimateCommand {
         } //updatecheckall
         else if (args[0].equalsIgnoreCase("updatecheckall")) {
             if (!r.perm(cs, "uc.plugin.updatecheckall", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
-                cs.sendMessage(r.mes("NoPermissions"));
+                r.sendMes(cs, "NoPermissions");
                 return;
             }
             final Runnable ru = new Runnable() {
@@ -558,7 +574,7 @@ public class CmdPlugin implements UltimateCommand {
         } //download
         else if (args[0].equalsIgnoreCase("download")) {
             if (!r.perm(cs, "uc.plugin.download", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
-                cs.sendMessage(r.mes("NoPermissions"));
+                r.sendMes(cs, "NoPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -677,7 +693,7 @@ public class CmdPlugin implements UltimateCommand {
             Bukkit.getServer().getScheduler().runTaskAsynchronously(r.getUC(), ru);
         } else if (args[0].equalsIgnoreCase("search")) {
             if (!r.perm(cs, "uc.plugin.search", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
-                cs.sendMessage(r.mes("NoPermissions"));
+                r.sendMes(cs, "NoPermissions");
                 return;
             }
             int page = 1;

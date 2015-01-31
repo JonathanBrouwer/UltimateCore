@@ -25,15 +25,14 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.databases.EffectDatabase;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdEffect implements UltimateCommand {
 
@@ -63,7 +62,7 @@ public class CmdEffect implements UltimateCommand {
         }
         Player t = r.searchPlayer(args[0]);
         if (t == null) {
-            cs.sendMessage(r.mes("PlayerNotFound").replace("%Player", args[0]));
+            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
             return;
         }
         PotionEffectType ef = EffectDatabase.getByName(args[1]);

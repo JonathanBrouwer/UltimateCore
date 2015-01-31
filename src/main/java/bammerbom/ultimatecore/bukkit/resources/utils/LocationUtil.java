@@ -23,19 +23,24 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import bammerbom.ultimatecore.bukkit.api.UC;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-
-import java.util.*;
-import org.bukkit.Effect;
-import org.bukkit.Sound;
 
 public class LocationUtil {
 
@@ -258,7 +263,9 @@ public class LocationUtil {
      * @param loc The location where the effect is shown
      */
     public static void playEffect(Player p, Location loc) {
-        //if(UC.getPlayer(p).isVanished()) return; TODO
+        if (UC.getPlayer(p).isVanish()) {
+            return;
+        }
         for (Player pl : Bukkit.getOnlinePlayers()) {
             if (p != null && !pl.canSee(p)) {
                 continue;

@@ -25,19 +25,19 @@ package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.listeners.PlayerListener;
+import bammerbom.ultimatecore.bukkit.listeners.WorldListener;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.PerformanceUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.UuidUtil;
+import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
 
 public class UltimateCore extends JavaPlugin {
 
@@ -67,6 +67,7 @@ public class UltimateCore extends JavaPlugin {
             UltimateCommands.load();
             PerformanceUtil.getTps();
             BossbarUtil.enable();
+            ItemDatabase.enable();
             //
             String c = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
             Integer v = Integer.parseInt(c.replace(".", ""));
@@ -82,10 +83,9 @@ public class UltimateCore extends JavaPlugin {
             r.runUpdater();
             r.runMetrics();
             //
-            ItemDatabase.enable();
-            //
             PluginManager pm = Bukkit.getPluginManager();
             pm.registerEvents(new PlayerListener(), this);
+            pm.registerEvents(new WorldListener(), this);
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
@@ -93,6 +93,7 @@ public class UltimateCore extends JavaPlugin {
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to enable UltimateCore");
         }
+        UltimateWorldLoader.startWorldLoading();
         test();
     }
 

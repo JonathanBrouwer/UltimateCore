@@ -24,13 +24,12 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdIp implements UltimateCommand {
 
@@ -53,13 +52,13 @@ public class CmdIp implements UltimateCommand {
     public void run(final CommandSender cs, String label, String[] args) {
         if (r.checkArgs(args, 0) == false) {
             if (!r.perm(cs, "uc.ip.server", false, false) && !r.perm(cs, "uc.ip", false, false)) {
-                cs.sendMessage(r.mes("NoPermissions"));
+                r.sendMes(cs, "NoPermissions");
                 return;
             }
             r.sendMes(cs, "ipServer", "%IP", Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort());
         } else {
             if (!r.perm(cs, "uc.ip.player", false, false) && !r.perm(cs, "uc.ip", false, false)) {
-                cs.sendMessage(r.mes("NoPermissions"));
+                r.sendMes(cs, "NoPermissions");
                 return;
             }
             Player p = r.searchPlayer(args[0]);

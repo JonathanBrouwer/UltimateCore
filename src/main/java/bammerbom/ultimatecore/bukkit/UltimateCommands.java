@@ -133,6 +133,7 @@ import bammerbom.ultimatecore.bukkit.commands.CmdVanish;
 import bammerbom.ultimatecore.bukkit.commands.CmdWarp;
 import bammerbom.ultimatecore.bukkit.commands.CmdWeather;
 import bammerbom.ultimatecore.bukkit.commands.CmdWorkbench;
+import bammerbom.ultimatecore.bukkit.commands.CmdWorld;
 import bammerbom.ultimatecore.bukkit.commands.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
@@ -272,6 +273,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdWarp());
         cmds.add(new CmdWeather());
         cmds.add(new CmdWorkbench());
+        cmds.add(new CmdWorld());
         //
         ucmds = new UltimateCommands();
         //
@@ -397,18 +399,18 @@ public class UltimateCommands implements TabCompleter {
             }
         }
 
-        public static boolean checkOverridden(final CommandSender sender, Command cmd, final String label, final String[] args) {
+        public static boolean checkOverridden(final CommandSender cs, Command cmd, final String label, final String[] args) {
             PluginCommand uc = (PluginCommand) cmd;
             if (overriddenList.containsKey(uc) || r.getCnfg().getList("disabledcommands").contains(label)) {
                 r.debug(uc + " " + overriddenList.get(uc));
                 PluginCommand pc = overriddenList.get(uc);
                 if (pc == null || pc.getExecutor() == null) {
-                    sender.sendMessage(r.mes("UnknownCommandMessage"));
+                    r.sendMes(cs, "UnknownCommand");
                     return true;
                 }
-                r.debug("Executing " + sender + " " + pc + " " + label);
+                r.debug("Executing " + cs + " " + pc + " " + label);
 
-                pc.execute(sender, label, args);
+                pc.execute(cs, label, args);
                 return true;
             }
             return false;

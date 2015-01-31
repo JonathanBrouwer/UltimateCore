@@ -26,13 +26,12 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdGod implements UltimateCommand {
 
@@ -101,11 +100,11 @@ public class CmdGod implements UltimateCommand {
         }
         //Permcheck
         if (!r.perm(cs, "uc.god.time", false, false) && !r.perm(cs, "uc.god", false, false) && time == 0L) {
-            cs.sendMessage(r.mes("NoPermissions"));
+            r.sendMes(cs, "NoPermissions");
             return;
         }
         if (!r.perm(cs, "uc.god.perm", false, false) && !r.perm(cs, "uc.god", false, false) && time != 0L) {
-            cs.sendMessage(r.mes("NoPermissions"));
+            r.sendMes(cs, "NoPermissions");
             return;
         }
         UC.getPlayer(banp).setGod(!UC.getPlayer(banp).isGod(), time);
