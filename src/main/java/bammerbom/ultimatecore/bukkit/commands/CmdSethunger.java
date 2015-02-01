@@ -24,12 +24,11 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdSethunger implements UltimateCommand {
 
@@ -59,6 +58,7 @@ public class CmdSethunger implements UltimateCommand {
             }
             Player p = (Player) cs;
             p.setFoodLevel(20);
+            p.setSaturation(10F);
             r.sendMes(cs, "sethungerMessage", "%Player", p.getName(), "%Food", "20");
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
@@ -84,6 +84,7 @@ public class CmdSethunger implements UltimateCommand {
                     return;
                 }
                 t.setFoodLevel(r.normalize(d, 0, 20));
+                t.setSaturation(10F);
                 r.sendMes(cs, "sethungerMessage", "%Player", t.getName(), "%Food", r.normalize(d, 0, 20));
                 r.sendMes(t, "sethungerOthers", "%Player", cs.getName(), "%Food", r.normalize(d, 0, 20));
             } else if (r.isInt(args[1])) {
@@ -94,6 +95,7 @@ public class CmdSethunger implements UltimateCommand {
                     return;
                 }
                 t.setFoodLevel(r.normalize(d, 0, 20));
+                t.setSaturation(10F);
                 r.sendMes(cs, "sethungerMessage", "%Player", t.getName(), "%Food", r.normalize(d, 0, 20));
                 r.sendMes(t, "sethungerOthers", "%Player", cs.getName(), "%Food", r.normalize(d, 0, 20));
             } else {

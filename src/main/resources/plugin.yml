@@ -115,6 +115,11 @@ commands:
     description: Open an enderchest.
     permissions: uc.enderchest
     aliases: [echest]
+  experience:
+    usage: /<command> [-][XP][L] [Player]
+    description: View or set the expierence of someone or yourself.
+    permissions: uc.experience
+    aliases: [xp, exp]
   extinguish:
     usage: /<command> [Player]
     description: Extinguish someone.
@@ -307,7 +312,7 @@ commands:
     description: Remove all entities of a certain type.
     permissions: uc.removeall
   repair:
-    usage: /repair [All] [Player]
+    usage: /<command> [All] [Player]
     description: Repair an item.
     permissions: uc.repair
     aliases: [fix]
@@ -317,25 +322,30 @@ commands:
     permissions: uc.reply
     aliases: [r]
   rules:
-    usage: /rules
+    usage: /<command>
     description: Read the rules.
     permissions: uc.rules
   save:
-    usage: /save [World]
+    usage: /<command> [World]
     description: Save a world.
     permissions: uc.save
   say:
-    usage: /say <Message>
+    usage: /<command> <Message>
     description: Broadcast a message.
     permissions: uc.say
   seen:
-    usage: /seen <Player>
+    usage: /<command> <Player>
     description: View information about a player.
     permissions: uc.seen
   setarmor:
-    usage: /setarmor <ArmorType> [Player]
+    usage: /<command> <ArmorType> [Player]
     description: Set someones armor.
     permissions: uc.setarmor
+  setexperience:
+    usage: /<command> <Experience>[L] [Player]
+    description: Set the experience for someone or yourself.
+    permissions: uc.setexperience
+    aliases: [setxp, setexp]
   sethealth:
     usage: /<command> <Food> [Player]
     description: Set the amount of health of a player.
@@ -355,6 +365,11 @@ commands:
     description: Set a jail.
     permissions: uc.setjail
     aliases: [addjail]
+  setlevel:
+    usage: /setlevel <Level> [Player]
+    description: Set the experience level of someone or yourself.
+    permissions: uc.setlevel
+    aliases: [setlvl]
   setspawn:
     usage: /<command>
     description: Set the global spawn.
