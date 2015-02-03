@@ -37,6 +37,14 @@ Messages:
   Decrease: true
   #Use messages.txt to change the messages.
   
+Autosave:
+  #Enable autosaving?
+  Enabled: true
+  #Show a message each autosave?
+  Message: false
+  #The time between each autosave.
+  Time: 300
+  
 
 #Chat customization
 Chat:
