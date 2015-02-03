@@ -24,13 +24,12 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdSave implements UltimateCommand {
 
@@ -59,7 +58,7 @@ public class CmdSave implements UltimateCommand {
         if (r.checkArgs(args, 0)) {
             World w = Bukkit.getWorld(args[0]);
             if (w == null) {
-                r.sendMes(cs, "saveWorldNotFound", "%World", args[0]);
+                r.sendMes(cs, "worldNotFound", "%World", args[0]);
                 return;
             }
             if (autosaveMessage) {

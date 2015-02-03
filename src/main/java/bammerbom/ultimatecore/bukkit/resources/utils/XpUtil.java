@@ -27,7 +27,7 @@ import org.bukkit.entity.Player;
 
 public class XpUtil {
 
-    public static void setTotalExperience(Player player, int exp) {
+    public static void setTotalExp(Player player, int exp) {
         if (exp < 0) {
             exp = 0;
         }
@@ -49,13 +49,13 @@ public class XpUtil {
     }
 
     public static int getExpAtLevel(int level) {
-        if (level > 29) {
-            return 62 + (level - 30) * 7;
+        if (level <= 15) {
+            return (2 * level) + 7;
         }
-        if (level > 15) {
-            return 17 + (level - 15) * 3;
+        if (level >= 16 && level <= 30) {
+            return (5 * level) - 38;
         }
-        return 17;
+        return (9 * level) - 158;
     }
 
     public static int getExpToLevel(int level) {
@@ -72,7 +72,7 @@ public class XpUtil {
         return exp;
     }
 
-    public static int getExperience(Player player) {
+    public static int getExp(Player player) {
         int exp = Math.round(getExpAtLevel(player.getLevel()) * player.getExp());
         int currentLevel = player.getLevel();
         while (currentLevel > 0) {

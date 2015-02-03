@@ -64,7 +64,7 @@ public class CmdPing implements UltimateCommand {
             pl = (Player) cs;
         }
         if (pl == null) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         if (r.checkArgs(args, 0) && !r.perm(cs, "uc.ping.others", false, true)) {

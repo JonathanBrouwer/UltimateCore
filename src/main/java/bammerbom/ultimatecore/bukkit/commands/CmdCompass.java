@@ -63,7 +63,7 @@ public class CmdCompass implements UltimateCommand {
             }
             Player pl = r.searchPlayer(args[0]);
             if (pl == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
             pl.setCompassTarget(p.getLocation());

@@ -61,7 +61,7 @@ public class CmdTeleporttoggle implements UltimateCommand {
         } else {
             Player t = r.searchPlayer(args[0]);
             if (t == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
             UC.getPlayer(t).setTeleportEnabled(!UC.getPlayer(t).hasTeleportEnabled());

@@ -59,7 +59,7 @@ public class CmdUuid implements UltimateCommand {
         }
         OfflinePlayer p = r.searchOfflinePlayer(args[0]);
         if (p == null) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         r.sendMes(cs, "uuidMessage", "%Name", p.getName(), "%Uuid", p.getUniqueId());

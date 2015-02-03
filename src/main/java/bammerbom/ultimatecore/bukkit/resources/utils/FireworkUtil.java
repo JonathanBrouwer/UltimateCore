@@ -98,7 +98,6 @@ public class FireworkUtil {
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             ErrorLogger.log(ex, "Failed to play firework");
         }
-        //TODO errorlogger
         // null checks are fast, so having this seperate is ok
         if (nms_world_broadcastEntityEffect == null) {
             // get the method of the nms_world

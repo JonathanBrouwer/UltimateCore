@@ -61,7 +61,7 @@ public class CmdUndeaf implements UltimateCommand {
         }
         OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
         if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         if (!UC.getPlayer(banp).isDeaf()) {

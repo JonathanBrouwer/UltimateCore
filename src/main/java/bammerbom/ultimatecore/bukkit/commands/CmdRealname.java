@@ -99,7 +99,7 @@ public class CmdRealname implements UltimateCommand {
             }
         }
         if (t == null) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         r.sendMes(cs, "realnameMessage", "%Nick", UC.getPlayer(t).getNick(), "%Name", t.getName());

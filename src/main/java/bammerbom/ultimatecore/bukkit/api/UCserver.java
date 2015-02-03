@@ -25,20 +25,30 @@ package bammerbom.ultimatecore.bukkit.api;
 
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.bukkit.resources.utils.*;
+import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.PerformanceUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import java.io.File;
-import java.lang.management.ManagementFactory;
-import java.text.DateFormat;
-import java.util.*;
 
 public class UCserver {
 
@@ -96,6 +106,48 @@ public class UCserver {
         List<Player> pls = new ArrayList<Player>();
         for (Player pl : r.getOnlinePlayers()) {
             if (UC.getPlayer(pl).isDeaf()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+
+    //Mutes
+    public List<OfflinePlayer> getMutedOfflinePlayers() {
+        List<OfflinePlayer> pls = new ArrayList<OfflinePlayer>();
+        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+            if (UC.getPlayer(pl).isMuted()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+
+    public List<Player> getMutedOnlinePlayers() {
+        List<Player> pls = new ArrayList<Player>();
+        for (Player pl : r.getOnlinePlayers()) {
+            if (UC.getPlayer(pl).isMuted()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+
+    //Jails
+    public List<OfflinePlayer> getJailedOfflinePlayers() {
+        List<OfflinePlayer> pls = new ArrayList<OfflinePlayer>();
+        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+            if (UC.getPlayer(pl).isJailed()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+
+    public List<Player> getJailedOnlinePlayers() {
+        List<Player> pls = new ArrayList<Player>();
+        for (Player pl : r.getOnlinePlayers()) {
+            if (UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
         }
@@ -487,4 +539,23 @@ public class UCserver {
     public void clearWarps() {
         setWarps(new HashMap<String, Location>());
     }
+
+    public List<Player> getAfkPlayers() {
+        List<Player> pls = new ArrayList<>();
+        for (Player pl : r.getOnlinePlayers()) {
+            if (UC.getPlayer(pl).isAfk()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+
+    public List<String> getAutomessageMessages() {
+        return AutomessageListener.messages;
+    }
+
+    public String getAutomessageCurrentmessage() {
+        return AutomessageListener.currentmessage;
+    }
+
 }

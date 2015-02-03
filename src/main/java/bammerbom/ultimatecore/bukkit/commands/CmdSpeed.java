@@ -82,7 +82,7 @@ public class CmdSpeed implements UltimateCommand {
         } else {
             Player t = r.searchPlayer(args[1]);
             if (t == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                 return;
             }
             if (!r.perm(cs, "uc.speed.others", false, true)) {

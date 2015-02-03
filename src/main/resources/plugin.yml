@@ -13,6 +13,10 @@ commands:
     usage: /<command> <Player>
     permisssions: uc.accountstatus
     aliases: [acstatus]
+  afk:
+    description: Toggle your or someone elses afk status.
+    usage: /afk [Player]
+    permissions: uc.afk
   alert:
     description: Sends everyone on the server an alert message.
     usage: /<command> <Message>
@@ -26,6 +30,11 @@ commands:
     description: Bans the target player.
     usage: /<command> <Player> [Time] [Reason]
     permissions: uc.ban
+  banlist:
+    description: View a list of all current bans.
+    usage: /<command>
+    permissions: uc.banlist
+    aliases: [bans]
   broadcast:
     description: Broadcasts a message.
     usage: /<command> <Message>
@@ -79,6 +88,11 @@ commands:
     usage: /<command> <Player> [Time]
     description: Make someone not able to receive chat.
     permissions: uc.deaf
+  deaflist:
+    description: View a list of all current deaf players.
+    usage: /<command>
+    permissions: uc.deaflist
+    aliases: [deafs]
   delhome:
     usage: /<command> [Player:][Name]
     description: Remove a home.
@@ -115,6 +129,11 @@ commands:
     description: Open an enderchest.
     permissions: uc.enderchest
     aliases: [echest]
+  experience:
+    usage: /<command> [-][XP][L] [Player]
+    description: View or set the expierence of someone or yourself.
+    permissions: uc.experience
+    aliases: [xp, exp]
   extinguish:
     usage: /<command> [Player]
     description: Extinguish someone.
@@ -141,8 +160,13 @@ commands:
     usage: /<command> <Player> [Time]
     description: Freeze someone.
     permissions: uc.freeze
+  freezelist:
+    description: View a list of all current frozen players.
+    usage: /<command>
+    permissions: uc.freezelist
+    aliases: [freezes]
   gamemode:
-    usage: /gamemode|gm <Gamemode> [Player] OR /survival|creative|adventure|s|c|a [Player]
+    usage: /<command> <Gamemode> [Player]
     description: Change your gamemode.
     permissions: uc.gamemode
     aliases: [gm, survival, s, creative, c, adventure, a, spec, specator]
@@ -175,6 +199,11 @@ commands:
     usage: /<command> [Player:][Name]
     description: Teleport to your home.
     permissions: uc.home
+  homelist:
+    description: View a list of all of your current homes.
+    usage: /<command>
+    permissions: uc.home
+    aliases: [homes]
   hunger:
     usage: /<command> <Amount> [Player]
     description: Remove hunger points.
@@ -197,6 +226,11 @@ commands:
     usage: /<command> <Player> [Jail]
     description: Jail someone.
     permissions: uc.jail
+  jaillist:
+    description: View a list of all current jailed players.
+    usage: /<command>
+    permissions: uc.jaillist
+    aliases: [jails]
   jump:
     usage: /<command>
     description: Jump to the place where you are looking at.
@@ -265,6 +299,11 @@ commands:
     usage: /<command> <Player> [Time]
     description: Make someone not able to chat.
     permissions: uc.mute
+  mutelist:
+    description: View a list of all current muted players.
+    usage: /<command>
+    permissions: uc.mutelist
+    aliases: [mutes]
   names:
     usage: /<command> <Player>
     description: View all names a player had in the past.
@@ -299,15 +338,15 @@ commands:
     description: Get the real name of a certain nick.
     permissions: uc.realname
   recipe:
-    usage: /recipe <Item> [Recipe]
+    usage: <command> <Item> [Recipe]
     description: View the recipe of an item.
     permissions: uc.recipe
   removeall:
-    usage: /removeall [Type] [Range]
+    usage: /<command> [Type] [Range]
     description: Remove all entities of a certain type.
     permissions: uc.removeall
   repair:
-    usage: /repair [All] [Player]
+    usage: /<command> [All] [Player]
     description: Repair an item.
     permissions: uc.repair
     aliases: [fix]
@@ -317,25 +356,30 @@ commands:
     permissions: uc.reply
     aliases: [r]
   rules:
-    usage: /rules
+    usage: /<command>
     description: Read the rules.
     permissions: uc.rules
   save:
-    usage: /save [World]
+    usage: /<command> [World]
     description: Save a world.
     permissions: uc.save
   say:
-    usage: /say <Message>
+    usage: /<command> <Message>
     description: Broadcast a message.
     permissions: uc.say
   seen:
-    usage: /seen <Player>
+    usage: /<command> <Player>
     description: View information about a player.
     permissions: uc.seen
   setarmor:
-    usage: /setarmor <ArmorType> [Player]
+    usage: /<command> <ArmorType> [Player]
     description: Set someones armor.
     permissions: uc.setarmor
+  setexperience:
+    usage: /<command> <Experience>[L] [Player]
+    description: Set the experience for someone or yourself.
+    permissions: uc.setexperience
+    aliases: [setxp, setexp]
   sethealth:
     usage: /<command> <Food> [Player]
     description: Set the amount of health of a player.
@@ -355,6 +399,11 @@ commands:
     description: Set a jail.
     permissions: uc.setjail
     aliases: [addjail]
+  setlevel:
+    usage: /setlevel <Level> [Player]
+    description: Set the experience level of someone or yourself.
+    permissions: uc.setlevel
+    aliases: [setlvl]
   setspawn:
     usage: /<command>
     description: Set the global spawn.
@@ -488,6 +537,11 @@ commands:
     usage: /<command> <Warp>
     description: Teleport yourself to a warp.
     permissions: uc.warp
+  warplist:
+    description: View a list of all warps.
+    usage: /<command>
+    permissions: uc.warplist
+    aliases: [bans]
   weather:
     usage: /<command> clear/rain/thunder [Time]
     description: Change the weather.

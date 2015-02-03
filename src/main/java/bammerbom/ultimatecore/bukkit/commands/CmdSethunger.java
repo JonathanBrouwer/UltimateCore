@@ -24,12 +24,11 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdSethunger implements UltimateCommand {
 
@@ -59,6 +58,7 @@ public class CmdSethunger implements UltimateCommand {
             }
             Player p = (Player) cs;
             p.setFoodLevel(20);
+            p.setSaturation(10F);
             r.sendMes(cs, "sethungerMessage", "%Player", p.getName(), "%Food", "20");
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
@@ -70,7 +70,7 @@ public class CmdSethunger implements UltimateCommand {
                 p.setFoodLevel(r.normalize(d, 0, 20));
                 r.sendMes(cs, "sethungerMessage", "%Player", p.getName(), "%Food", r.normalize(d, 0, 20));
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
         } else if (r.checkArgs(args, 1)) {
             if (!r.perm(cs, "uc.sethunger.others", false, true)) {
@@ -80,24 +80,26 @@ public class CmdSethunger implements UltimateCommand {
                 Integer d = Integer.parseInt(args[0]);
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
                 t.setFoodLevel(r.normalize(d, 0, 20));
+                t.setSaturation(10F);
                 r.sendMes(cs, "sethungerMessage", "%Player", t.getName(), "%Food", r.normalize(d, 0, 20));
                 r.sendMes(t, "sethungerOthers", "%Player", cs.getName(), "%Food", r.normalize(d, 0, 20));
             } else if (r.isInt(args[1])) {
                 Integer d = Integer.parseInt(args[1]);
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 t.setFoodLevel(r.normalize(d, 0, 20));
+                t.setSaturation(10F);
                 r.sendMes(cs, "sethungerMessage", "%Player", t.getName(), "%Food", r.normalize(d, 0, 20));
                 r.sendMes(t, "sethungerOthers", "%Player", cs.getName(), "%Food", r.normalize(d, 0, 20));
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
         }
     }

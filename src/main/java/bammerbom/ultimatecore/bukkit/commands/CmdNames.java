@@ -61,7 +61,7 @@ public class CmdNames implements UltimateCommand {
         }
         OfflinePlayer p = r.searchOfflinePlayer(args[0]);
         if (p == null || (!p.isOnline() && !p.hasPlayedBefore())) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         Config conf = UltimateFileLoader.getPlayerConfig(p);

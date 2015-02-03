@@ -85,7 +85,7 @@ public class CmdVanish implements UltimateCommand {
         }
         OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
         if (banp != null && (banp.isOnline() || banp.hasPlayedBefore())) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         Long time = 0L;
@@ -94,11 +94,11 @@ public class CmdVanish implements UltimateCommand {
         }
         //Permcheck
         if (!r.perm(cs, "uc.vanish.time", false, false) && !r.perm(cs, "uc.vanish", false, false) && time == 0L) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (!r.perm(cs, "uc.vanish.perm", false, false) && !r.perm(cs, "uc.vanish", false, false) && time != 0L) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         UC.getPlayer(banp).setVanish(!UC.getPlayer(banp).isVanish(), time);

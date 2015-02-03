@@ -86,7 +86,7 @@ public class CmdItem implements UltimateCommand {
         Integer amount = item.getMaxStackSize();
         if (r.checkArgs(args, 1)) {
             if (!r.isInt(args[1])) {
-                r.sendMes(cs, "NumberFormat", "%Number", args[1]);
+                r.sendMes(cs, "numberFormat", "%Number", args[1]);
                 return;
             }
             amount = Integer.parseInt(args[1]);

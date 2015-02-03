@@ -121,7 +121,7 @@ public class CmdWorld implements UltimateCommand {
 
     public static void create(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.create", false, false)) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (r.checkArgs(args, 0) == false) {
@@ -189,7 +189,7 @@ public class CmdWorld implements UltimateCommand {
 
     public static void importw(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.import", false, false)) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (r.checkArgs(args, 0) == false) {
@@ -199,7 +199,7 @@ public class CmdWorld implements UltimateCommand {
         //
         if (r.checkArgs(args, 1) == true) {
             if (!new File(args[1]).exists()) {
-                r.sendMes(cs, "WorldNotFound", "%World", args[1]);
+                r.sendMes(cs, "worldNotFound", "%World", args[1]);
                 return;
             }
             WorldCreator settings = new WorldCreator(args[1]);
@@ -229,7 +229,7 @@ public class CmdWorld implements UltimateCommand {
 
     public static void list(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.list", false, false)) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (r.checkArgs(args, 0) == false) {
@@ -258,7 +258,7 @@ public class CmdWorld implements UltimateCommand {
 
     public static void remove(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.remove", false, false)) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (r.checkArgs(args, 0) == false) {
@@ -269,7 +269,7 @@ public class CmdWorld implements UltimateCommand {
         if (r.checkArgs(args, 1) == true) {
             World world = Bukkit.getWorld(args[1]);
             if (world == null) {
-                r.sendMes(cs, "WorldNotFound", "%World", args[1]);
+                r.sendMes(cs, "worldNotFound", "%World", args[1]);
                 return;
             }
             for (Player pl : r.getOnlinePlayers()) {
@@ -288,7 +288,7 @@ public class CmdWorld implements UltimateCommand {
 
     public static void reset(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.reset", false, false)) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (r.checkArgs(args, 1) == false) {
@@ -298,7 +298,7 @@ public class CmdWorld implements UltimateCommand {
         if (r.checkArgs(args, 1) == true) {
             World world = Bukkit.getWorld(args[1]);
             if (world == null) {
-                r.sendMes(cs, "WorldNotFound", "%World", args[1]);
+                r.sendMes(cs, "worldNotFound", "%World", args[1]);
                 return;
             }
             if (world.getPlayers().size() > 0) {
@@ -354,7 +354,7 @@ public class CmdWorld implements UltimateCommand {
 
     public static void tp(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.tp", false, false)) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (r.checkArgs(args, 1) == false) {
@@ -365,7 +365,7 @@ public class CmdWorld implements UltimateCommand {
         if (r.checkArgs(args, 1) == true) {
             World world = Bukkit.getWorld(args[1]);
             if (world == null) {
-                r.sendMes(cs, "WorldNotFound", "%World", args[1]);
+                r.sendMes(cs, "worldNotFound", "%World", args[1]);
                 return;
             }
             if (!r.isPlayer(cs)) {
@@ -379,7 +379,7 @@ public class CmdWorld implements UltimateCommand {
 
     public static void flag(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.flag", false, false)) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (r.checkArgs(args, 3) == false) {

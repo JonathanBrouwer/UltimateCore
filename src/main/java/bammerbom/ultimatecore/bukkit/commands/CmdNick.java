@@ -67,7 +67,7 @@ public class CmdNick implements UltimateCommand {
                 o = true;
                 t = r.searchPlayer(args[1]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
             } else {
@@ -91,7 +91,7 @@ public class CmdNick implements UltimateCommand {
             o = true;
             t = r.searchPlayer(args[1]);
             if (t == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                 return;
             }
         } else {

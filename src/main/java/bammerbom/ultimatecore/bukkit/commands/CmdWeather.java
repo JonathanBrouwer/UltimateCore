@@ -118,7 +118,7 @@ public class CmdWeather implements UltimateCommand {
                 for (World world : Bukkit.getWorlds()) {
                     if ("sun".equalsIgnoreCase(args[0]) || "clear".equalsIgnoreCase(args[0])) {
                         if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.sun", false, false) == false) {
-                            r.sendMes(cs, "NoPermissions");
+                            r.sendMes(cs, "noPermissions");
                             return;
                         }
                         world.setStorm(false);
@@ -126,7 +126,7 @@ public class CmdWeather implements UltimateCommand {
                         weather = 1;
                     } else if ("rain".equalsIgnoreCase(args[0])) {
                         if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.rain", false, false) == false) {
-                            r.sendMes(cs, "NoPermissions");
+                            r.sendMes(cs, "noPermissions");
                             return;
                         }
                         world.setStorm(true);
@@ -134,7 +134,7 @@ public class CmdWeather implements UltimateCommand {
                         weather = 2;
                     } else if ("storm".equalsIgnoreCase(args[0]) || "thunder".equalsIgnoreCase(args[0]) || "thunderstorm".equalsIgnoreCase(args[0])) {
                         if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.storm", false, false) == false) {
-                            r.sendMes(cs, "NoPermissions");
+                            r.sendMes(cs, "noPermissions");
                             return;
                         }
                         world.setStorm(true);
@@ -149,7 +149,7 @@ public class CmdWeather implements UltimateCommand {
                 World world = ((Player) cs).getWorld();
                 if ("sun".equalsIgnoreCase(args[0]) || "clear".equalsIgnoreCase(args[0])) {
                     if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.sun", false, false) == false) {
-                        r.sendMes(cs, "NoPermissions");
+                        r.sendMes(cs, "noPermissions");
                         return;
                     }
                     world.setStorm(false);
@@ -157,7 +157,7 @@ public class CmdWeather implements UltimateCommand {
                     weather = 1;
                 } else if ("rain".equalsIgnoreCase(args[0])) {
                     if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.rain", false, false) == false) {
-                        r.sendMes(cs, "NoPermissions");
+                        r.sendMes(cs, "noPermissions");
                         return;
                     }
                     world.setStorm(true);
@@ -165,7 +165,7 @@ public class CmdWeather implements UltimateCommand {
                     weather = 2;
                 } else if ("storm".equalsIgnoreCase(args[0]) || "thunder".equalsIgnoreCase(args[0]) || "thunderstorm".equalsIgnoreCase(args[0])) {
                     if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.storm", false, false) == false) {
-                        r.sendMes(cs, "NoPermissions");
+                        r.sendMes(cs, "noPermissions");
                         return;
                     }
                     world.setStorm(true);

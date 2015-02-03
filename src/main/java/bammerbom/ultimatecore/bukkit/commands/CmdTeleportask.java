@@ -63,7 +63,7 @@ public class CmdTeleportask implements UltimateCommand {
         final Player p = (Player) cs;
         final Player t = r.searchPlayer(args[0]);
         if (t == null) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         if (UC.getPlayer(t).hasTeleportEnabled() == false && !r.perm(cs, "uc.tptoggle.override", false, false)) {

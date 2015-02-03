@@ -69,7 +69,7 @@ public class CmdKill implements UltimateCommand {
             }
             Player target = r.searchPlayer(args[0]);
             if (target == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             } else {
                 r.sendMes(target, "killTarget", "%Player", cs.getName());

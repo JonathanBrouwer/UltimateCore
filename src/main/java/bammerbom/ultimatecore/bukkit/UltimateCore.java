@@ -24,8 +24,10 @@
 package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.listeners.PlayerListener;
-import bammerbom.ultimatecore.bukkit.listeners.WorldListener;
+import bammerbom.ultimatecore.bukkit.listeners.AfkListener;
+import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
+import bammerbom.ultimatecore.bukkit.listeners.GlobalPlayerListener;
+import bammerbom.ultimatecore.bukkit.listeners.GlobalWorldListener;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
@@ -84,8 +86,12 @@ public class UltimateCore extends JavaPlugin {
             r.runMetrics();
             //
             PluginManager pm = Bukkit.getPluginManager();
-            pm.registerEvents(new PlayerListener(), this);
-            pm.registerEvents(new WorldListener(), this);
+            pm.registerEvents(new GlobalPlayerListener(), this);
+            pm.registerEvents(new GlobalWorldListener(), this);
+            if (r.getCnfg().getBoolean("Afk.Enabled")) {
+                pm.registerEvents(new AfkListener(), this);
+            }
+            AutomessageListener.start();
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");

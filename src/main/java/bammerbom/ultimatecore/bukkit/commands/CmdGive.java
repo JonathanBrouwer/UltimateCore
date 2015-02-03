@@ -66,7 +66,7 @@ public class CmdGive implements UltimateCommand {
         }
         Player target = r.searchPlayer(args[0]);
         if (target == null) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         ItemStack item;
@@ -87,7 +87,7 @@ public class CmdGive implements UltimateCommand {
         Integer amount = item.getMaxStackSize();
         if (r.checkArgs(args, 2)) {
             if (!r.isInt(args[2])) {
-                r.sendMes(cs, "NumberFormat", "%Number", args[2]);
+                r.sendMes(cs, "numberFormat", "%Number", args[2]);
                 return;
             }
             amount = Integer.parseInt(args[2]);

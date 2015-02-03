@@ -68,7 +68,7 @@ public class CmdSkull implements UltimateCommand {
             }
             OfflinePlayer t = r.searchOfflinePlayer(args[0]);
             if (t == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
             ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);

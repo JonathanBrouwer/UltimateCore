@@ -92,7 +92,7 @@ public class CmdHeal implements UltimateCommand {
             }
             Player t = r.searchPlayer(args[0]);
             if (t == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             } else {
                 r.sendMes(cs, "healOthersSelf", "%Player", t.getName());

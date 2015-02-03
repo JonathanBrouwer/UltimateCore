@@ -82,7 +82,7 @@ public class CmdFly implements UltimateCommand {
                     r.sendMes(cs, "flyOthersSelf", "%Status", r.mes("on"), "%Player", target.getName());
                 }
             } else {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             }
 
         }

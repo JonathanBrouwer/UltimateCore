@@ -58,7 +58,7 @@ public class CmdFreeze implements UltimateCommand {
         }
         OfflinePlayer t = r.searchOfflinePlayer(args[0]);
         if (t == null) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         Long time = 0L;
@@ -69,11 +69,11 @@ public class CmdFreeze implements UltimateCommand {
         }
         //Permcheck
         if (!r.perm(cs, "uc.freeze.time", false, false) && !r.perm(cs, "uc.freeze", false, false) && time == 0L) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (!r.perm(cs, "uc.freeze.perm", false, false) && !r.perm(cs, "uc.freeze", false, false) && time != 0L) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         UC.getPlayer(t).setFrozen(true, time);

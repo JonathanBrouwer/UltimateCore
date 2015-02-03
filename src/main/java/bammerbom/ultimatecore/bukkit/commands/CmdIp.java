@@ -52,18 +52,18 @@ public class CmdIp implements UltimateCommand {
     public void run(final CommandSender cs, String label, String[] args) {
         if (r.checkArgs(args, 0) == false) {
             if (!r.perm(cs, "uc.ip.server", false, false) && !r.perm(cs, "uc.ip", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             r.sendMes(cs, "ipServer", "%IP", Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort());
         } else {
             if (!r.perm(cs, "uc.ip.player", false, false) && !r.perm(cs, "uc.ip", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             Player p = r.searchPlayer(args[0]);
             if (p == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
             r.sendMes(cs, "ipPlayer1", "%Player", p.getName(), "%Hostname", p.getAddress().getHostName());

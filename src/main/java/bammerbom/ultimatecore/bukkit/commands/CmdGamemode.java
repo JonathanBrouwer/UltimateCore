@@ -71,7 +71,7 @@ public class CmdGamemode implements UltimateCommand {
                 }
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 t.setGameMode(GameMode.SURVIVAL);
@@ -95,7 +95,7 @@ public class CmdGamemode implements UltimateCommand {
                 }
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 t.setGameMode(GameMode.CREATIVE);
@@ -119,7 +119,7 @@ public class CmdGamemode implements UltimateCommand {
                 }
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 t.setGameMode(GameMode.ADVENTURE);
@@ -142,7 +142,7 @@ public class CmdGamemode implements UltimateCommand {
                 }
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 t.setGameMode(GameMode.SPECTATOR);
@@ -191,7 +191,7 @@ public class CmdGamemode implements UltimateCommand {
             if (r.checkArgs(args, 1)) {
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
                 t.setGameMode(mode);

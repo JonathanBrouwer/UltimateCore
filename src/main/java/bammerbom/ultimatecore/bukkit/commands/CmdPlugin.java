@@ -89,7 +89,7 @@ public class CmdPlugin implements UltimateCommand {
         //help
         if (!r.checkArgs(args, 0) || args[0].equalsIgnoreCase("help")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.help", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             cs.sendMessage(ChatColor.GOLD + "================================");
@@ -112,7 +112,7 @@ public class CmdPlugin implements UltimateCommand {
         } //load
         else if (args[0].equalsIgnoreCase("load")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.load", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -158,7 +158,7 @@ public class CmdPlugin implements UltimateCommand {
         } //unload
         else if (args[0].equalsIgnoreCase("unload")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.unload", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -196,7 +196,7 @@ public class CmdPlugin implements UltimateCommand {
         } //enable
         else if (args[0].equalsIgnoreCase("enable")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.enable", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -222,7 +222,7 @@ public class CmdPlugin implements UltimateCommand {
         } //disable
         else if (args[0].equalsIgnoreCase("disable")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.disable", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -260,7 +260,7 @@ public class CmdPlugin implements UltimateCommand {
         } //reload
         else if (args[0].equalsIgnoreCase("reload")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.reload", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -283,7 +283,7 @@ public class CmdPlugin implements UltimateCommand {
         } //reloadall
         else if (args[0].equalsIgnoreCase("reloadall")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.reloadall", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             for (Plugin p : pm.getPlugins()) {
@@ -295,7 +295,7 @@ public class CmdPlugin implements UltimateCommand {
         } //delete
         else if (args[0].equalsIgnoreCase("delete")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.delete", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -324,7 +324,7 @@ public class CmdPlugin implements UltimateCommand {
         } //commands
         else if (args[0].equalsIgnoreCase("commands")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.commands", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -361,7 +361,7 @@ public class CmdPlugin implements UltimateCommand {
         } //update
         else if (args[0].equalsIgnoreCase("update")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.update", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -412,7 +412,7 @@ public class CmdPlugin implements UltimateCommand {
         } //list
         else if (args[0].equalsIgnoreCase("list")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.list", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             r.sendMes(cs, "pluginsList", "%Plugins", PluginUtil.getPluginList());
@@ -420,7 +420,7 @@ public class CmdPlugin implements UltimateCommand {
         } //info
         else if (args[0].equalsIgnoreCase("info")) {
             if (!r.perm(cs, "uc.plugin.info", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -470,7 +470,7 @@ public class CmdPlugin implements UltimateCommand {
         } //updatecheck
         else if (args[0].equalsIgnoreCase("updatecheck")) {
             if (!r.perm(cs, "uc.plugin.updatecheck", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -526,7 +526,7 @@ public class CmdPlugin implements UltimateCommand {
         } //updatecheckall
         else if (args[0].equalsIgnoreCase("updatecheckall")) {
             if (!r.perm(cs, "uc.plugin.updatecheckall", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             final Runnable ru = new Runnable() {
@@ -574,7 +574,7 @@ public class CmdPlugin implements UltimateCommand {
         } //download
         else if (args[0].equalsIgnoreCase("download")) {
             if (!r.perm(cs, "uc.plugin.download", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -693,7 +693,7 @@ public class CmdPlugin implements UltimateCommand {
             Bukkit.getServer().getScheduler().runTaskAsynchronously(r.getUC(), ru);
         } else if (args[0].equalsIgnoreCase("search")) {
             if (!r.perm(cs, "uc.plugin.search", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             int page = 1;

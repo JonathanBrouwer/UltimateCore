@@ -69,7 +69,7 @@ public class CmdDelhome implements UltimateCommand {
                 }
                 OfflinePlayer t = r.searchOfflinePlayer(args[0].split(":")[0]);
                 if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 List<String> homes = UC.getPlayer(t).getHomeNames();

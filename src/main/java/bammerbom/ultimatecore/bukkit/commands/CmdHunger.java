@@ -67,7 +67,7 @@ public class CmdHunger implements UltimateCommand {
                 p.setFoodLevel(p.getFoodLevel() - r.normalize(d, 0, 20));
                 r.sendMes(cs, "hungerSelf", "%Player", p.getName(), "%Hunger", args[0]);
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
         } else if (r.checkArgs(args, 1)) {
             if (!r.perm(cs, "uc.hunger.others", false, true)) {
@@ -77,7 +77,7 @@ public class CmdHunger implements UltimateCommand {
                 Integer d = Integer.parseInt(args[0]);
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
                 t.setFoodLevel(t.getFoodLevel() - r.normalize(d, 0, 20));
@@ -86,13 +86,13 @@ public class CmdHunger implements UltimateCommand {
                 Integer d = Integer.parseInt(args[1]);
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 t.setFoodLevel(t.getFoodLevel() - r.normalize(d, 0, 20));
                 r.sendMes(cs, "hungerOthers", "%Player", t.getName(), "%Hunger", args[1]);
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
         }
     }
