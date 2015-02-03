@@ -26,6 +26,11 @@ commands:
     description: Bans the target player.
     usage: /<command> <Player> [Time] [Reason]
     permissions: uc.ban
+  banlist:
+    description: View a list of all current bans.
+    usage: /<command>
+    permissions: uc.banlist
+    aliases: [bans]
   broadcast:
     description: Broadcasts a message.
     usage: /<command> <Message>
@@ -79,6 +84,11 @@ commands:
     usage: /<command> <Player> [Time]
     description: Make someone not able to receive chat.
     permissions: uc.deaf
+  deaflist:
+    description: View a list of all current deaf players.
+    usage: /<command>
+    permissions: uc.deaflist
+    aliases: [deafs]
   delhome:
     usage: /<command> [Player:][Name]
     description: Remove a home.
@@ -146,8 +156,13 @@ commands:
     usage: /<command> <Player> [Time]
     description: Freeze someone.
     permissions: uc.freeze
+  freezelist:
+    description: View a list of all current frozen players.
+    usage: /<command>
+    permissions: uc.freezelist
+    aliases: [freezes]
   gamemode:
-    usage: /gamemode|gm <Gamemode> [Player] OR /survival|creative|adventure|s|c|a [Player]
+    usage: /<command> <Gamemode> [Player]
     description: Change your gamemode.
     permissions: uc.gamemode
     aliases: [gm, survival, s, creative, c, adventure, a, spec, specator]
@@ -180,6 +195,11 @@ commands:
     usage: /<command> [Player:][Name]
     description: Teleport to your home.
     permissions: uc.home
+  homelist:
+    description: View a list of all of your current homes.
+    usage: /<command>
+    permissions: uc.home
+    aliases: [homes]
   hunger:
     usage: /<command> <Amount> [Player]
     description: Remove hunger points.
@@ -202,6 +222,11 @@ commands:
     usage: /<command> <Player> [Jail]
     description: Jail someone.
     permissions: uc.jail
+  jaillist:
+    description: View a list of all current jailed players.
+    usage: /<command>
+    permissions: uc.jaillist
+    aliases: [jails]
   jump:
     usage: /<command>
     description: Jump to the place where you are looking at.
@@ -270,6 +295,11 @@ commands:
     usage: /<command> <Player> [Time]
     description: Make someone not able to chat.
     permissions: uc.mute
+  mutelist:
+    description: View a list of all current muted players.
+    usage: /<command>
+    permissions: uc.mutelist
+    aliases: [mutes]
   names:
     usage: /<command> <Player>
     description: View all names a player had in the past.
@@ -304,11 +334,11 @@ commands:
     description: Get the real name of a certain nick.
     permissions: uc.realname
   recipe:
-    usage: /recipe <Item> [Recipe]
+    usage: <command> <Item> [Recipe]
     description: View the recipe of an item.
     permissions: uc.recipe
   removeall:
-    usage: /removeall [Type] [Range]
+    usage: /<command> [Type] [Range]
     description: Remove all entities of a certain type.
     permissions: uc.removeall
   repair:
@@ -503,6 +533,11 @@ commands:
     usage: /<command> <Warp>
     description: Teleport yourself to a warp.
     permissions: uc.warp
+  warplist:
+    description: View a list of all warps.
+    usage: /<command>
+    permissions: uc.warplist
+    aliases: [bans]
   weather:
     usage: /<command> clear/rain/thunder [Time]
     description: Change the weather.
