@@ -76,7 +76,7 @@ public class CmdSethealth implements UltimateCommand {
                 p.setHealth(d);
                 r.sendMes(cs, "sethealthMessage", "%Player", p.getName(), "%Health", d);
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
         } else if (r.checkArgs(args, 1)) {
             if (!r.perm(cs, "uc.sethealth.others", false, true)) {
@@ -87,7 +87,7 @@ public class CmdSethealth implements UltimateCommand {
                 d = r.normalize(d, 0.0, 999999.0);
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
                 if (((Damageable) t).getMaxHealth() < d) {
@@ -101,7 +101,7 @@ public class CmdSethealth implements UltimateCommand {
                 d = r.normalize(d, 0.0, 999999.0);
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 if (((Damageable) t).getMaxHealth() < d) {
@@ -111,7 +111,7 @@ public class CmdSethealth implements UltimateCommand {
                 r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Healh", d);
                 r.sendMes(t, "sethealthOthers", "%Player", cs.getName(), "%Health", d);
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
         }
     }

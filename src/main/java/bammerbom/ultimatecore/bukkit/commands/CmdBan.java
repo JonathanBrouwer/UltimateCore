@@ -64,7 +64,7 @@ public class CmdBan implements UltimateCommand {
         }
         OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
         if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         Long time = 0L;
@@ -85,11 +85,11 @@ public class CmdBan implements UltimateCommand {
             timen = "" + timen;
         }
         if (!r.perm(cs, "uc.ban.time", false, false) && !r.perm(cs, "uc.ban", false, false) && time <= 0L) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (!r.perm(cs, "uc.ban.perm", false, false) && !r.perm(cs, "uc.ban", false, false) && !(time <= 0L)) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         String msg = r.mes("banFormat").replace("%Time", timen).replace("%Reason", reason);

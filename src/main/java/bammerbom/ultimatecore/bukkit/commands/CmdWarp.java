@@ -82,7 +82,7 @@ public class CmdWarp implements UltimateCommand {
             //Exist
             Player p = (Player) cs;
             if (r.perm(p, "uc.warp", true, false) == false && r.perm(p, "uc.warp." + args[0], true, false) == false) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             if (UC.getServer().getWarp(args[0]) == null) {

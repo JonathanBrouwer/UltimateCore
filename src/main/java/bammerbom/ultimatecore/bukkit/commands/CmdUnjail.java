@@ -70,7 +70,7 @@ public class CmdUnjail implements UltimateCommand {
         }
         OfflinePlayer pl = r.searchOfflinePlayer(args[0]);
         if (pl == null || (!pl.hasPlayedBefore() && !pl.isOnline())) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         UCplayer plu = UC.getPlayer(pl);

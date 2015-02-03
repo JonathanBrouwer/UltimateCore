@@ -59,7 +59,7 @@ public class CmdMute implements UltimateCommand {
         }
         OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
         if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         if (UC.getPlayer(banp).isMuted()) {
@@ -74,11 +74,11 @@ public class CmdMute implements UltimateCommand {
         }
         //Permcheck
         if (!r.perm(cs, "uc.mute.time", false, false) && !r.perm(cs, "uc.mute", false, false) && time == 0L) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (!r.perm(cs, "uc.mute.perm", false, false) && !r.perm(cs, "uc.mute", false, false) && time != 0L) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         UC.getPlayer(banp).setMuted(true, time);

@@ -61,7 +61,7 @@ public class CmdUnmute implements UltimateCommand {
         }
         OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
         if (banp == null) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         if (!UC.getPlayer(banp).isMuted()) {

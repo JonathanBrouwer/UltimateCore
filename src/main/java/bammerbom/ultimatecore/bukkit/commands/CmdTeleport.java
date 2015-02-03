@@ -132,7 +132,7 @@ public class CmdTeleport implements UltimateCommand {
             }
             Player t = r.searchPlayer(args[0]);
             if (t == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
             World w = p.getWorld();
@@ -153,7 +153,7 @@ public class CmdTeleport implements UltimateCommand {
         } else {
             Player tg = r.searchPlayer(args[0]);
             if (tg == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             } else {
                 if (r.checkArgs(args, 1) == false) {
@@ -171,7 +171,7 @@ public class CmdTeleport implements UltimateCommand {
                 } else {
                     Player tg2 = r.searchPlayer(args[1]);
                     if (tg2 == null) {
-                        r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                        r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     } else {
                         if (UC.getPlayer(tg).hasTeleportEnabled() == false && !r.perm(cs, "uc.tptoggle.override", false, false)) {
                             r.sendMes(cs, "teleportDisabled", "%Player", tg.getName());

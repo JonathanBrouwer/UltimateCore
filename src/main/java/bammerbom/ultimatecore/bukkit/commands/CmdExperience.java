@@ -57,7 +57,7 @@ public class CmdExperience implements UltimateCommand {
             }
             Player p = (Player) cs;
             if (!r.perm(cs, "uc.experience", false, false) && !r.perm(cs, "uc.experience.show", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             r.sendMes(cs, "experienceShow", "%Player", cs.getName(), "%Experience", XpUtil.getExp(p), "%Levels", p.getLevel());
@@ -68,18 +68,18 @@ public class CmdExperience implements UltimateCommand {
                 if (r.searchPlayer(args[0]) != null) {
                     Player p = r.searchPlayer(args[0]);
                     if (!r.perm(cs, "uc.xp", false, false) && !r.perm(cs, "uc.xp.show.others", false, false)) {
-                        r.sendMes(cs, "NoPermissions");
+                        r.sendMes(cs, "noPermissions");
                         return;
                     }
                     r.sendMes(cs, "experienceShow", "%Player", p.getName(), "%Experience", XpUtil.getExp(p), "%Levels", p.getLevel());
                     return;
                 } else {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
             }
             if (!r.perm(cs, "uc.experience", false, false) && !r.perm(cs, "uc.experience.set", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             Integer x = Integer.parseInt(xp.replace("L", "").replace("l", ""));
@@ -114,19 +114,19 @@ public class CmdExperience implements UltimateCommand {
             }
         } else if (r.checkArgs(args, 1)) {
             if (!r.perm(cs, "uc.xp", false, false) && !r.perm(cs, "uc.xp.set.others", false, false)) {
-                r.sendMes(cs, "NoPermissions");
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             String rawxp = args[0];
             String xp = !args[0].endsWith("L") ? rawxp : rawxp.replaceAll("L", "").replaceAll("l", "");
             if (!r.isInt(xp)) {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
                 return;
             }
             Integer x = Integer.parseInt(xp);
             Player t = r.searchPlayer(args[1]);
             if (t == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                 return;
             }
             if (rawxp.endsWith("L") || rawxp.endsWith("l")) {

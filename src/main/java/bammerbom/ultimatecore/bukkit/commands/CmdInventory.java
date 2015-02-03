@@ -78,11 +78,11 @@ public class CmdInventory implements UltimateCommand {
             } else {
                 OfflinePlayer t2 = r.searchOfflinePlayer(args[0]);
                 if (t2 == null || (!t2.hasPlayedBefore() && !t2.isOnline())) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 if (UC.getPlayer(t2).getLastInventory() == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
 

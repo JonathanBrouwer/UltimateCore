@@ -64,7 +64,7 @@ public class CmdNear implements UltimateCommand {
         Integer range = 250;
         if (r.checkArgs(args, 0)) {
             if (!r.isInt(args[0])) {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
                 return;
             }
             range = r.normalize(Integer.parseInt(args[0]), 1, 5000);

@@ -56,14 +56,14 @@ public class CmdSetlevel implements UltimateCommand {
             return;
         }
         if (!r.isInt(args[0])) {
-            r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+            r.sendMes(cs, "numberFormat", "%Number", args[0]);
         }
         Integer i = Integer.parseInt(args[0]);
         Player t;
         if (r.checkArgs(args, 1)) {
             t = Bukkit.getPlayer(args[1]);
             if (t == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                 return;
             }
         } else if (r.isPlayer(cs)) {

@@ -84,7 +84,7 @@ public class CmdGod implements UltimateCommand {
         }
         OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
         if (banp != null && (banp.isOnline() || banp.hasPlayedBefore())) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         /*//Info
@@ -100,11 +100,11 @@ public class CmdGod implements UltimateCommand {
         }
         //Permcheck
         if (!r.perm(cs, "uc.god.time", false, false) && !r.perm(cs, "uc.god", false, false) && time == 0L) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (!r.perm(cs, "uc.god.perm", false, false) && !r.perm(cs, "uc.god", false, false) && time != 0L) {
-            r.sendMes(cs, "NoPermissions");
+            r.sendMes(cs, "noPermissions");
             return;
         }
         UC.getPlayer(banp).setGod(!UC.getPlayer(banp).isGod(), time);

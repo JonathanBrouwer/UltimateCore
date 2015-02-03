@@ -77,7 +77,7 @@ public class CmdRepair implements UltimateCommand {
             //repair <Player>
             Player p = r.searchPlayer(args[0]);
             if (p == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                 return;
             }
             ItemStack stack = p.getItemInHand();
@@ -100,7 +100,7 @@ public class CmdRepair implements UltimateCommand {
             if (r.checkArgs(args, 1)) {
                 Player p = r.searchPlayer(args[1]);
                 if (p == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
                 for (ItemStack stack : p.getInventory().getContents()) {

@@ -67,7 +67,7 @@ public class CmdEnderchest implements UltimateCommand {
             if (target != null) {
                 p.openInventory(target.getEnderChest());
             } else {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             }
         }
     }

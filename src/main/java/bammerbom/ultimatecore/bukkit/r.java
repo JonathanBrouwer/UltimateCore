@@ -167,18 +167,18 @@ public class r {
         if (cs instanceof Player) {
             return true;
         }
-        r.sendMes(cs, "NotPlayer");
+        r.sendMes(cs, "notPlayer");
         return false;
     }
 
-    public static boolean perm(CommandSender p, String perm, Boolean def, Boolean message) {
-        if (!(p instanceof Player)) {
+    public static boolean perm(CommandSender cs, String perm, Boolean def, Boolean message) {
+        if (!(cs instanceof Player)) {
             return true;
         }
-        Player pl = (Player) p;
+        Player pl = (Player) cs;
         Boolean hasperm = perm(pl, perm, def);
         if (hasperm == false && message == true) {
-            p.sendMessage(mes("NoPermissions"));
+            r.sendMes(cs, "noPermissions");
         }
         return hasperm;
     }

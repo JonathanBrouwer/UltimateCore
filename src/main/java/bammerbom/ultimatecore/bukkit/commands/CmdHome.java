@@ -97,7 +97,7 @@ public class CmdHome implements UltimateCommand {
                 if (args[0].endsWith(":") || args[0].endsWith(":list")) {
                     t = r.searchPlayer(args[0].split(":")[0]);
                     if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                        r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                        r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                         return;
                     }
                     ArrayList<String> homes = UC.getPlayer(t).getHomeNames();
@@ -127,7 +127,7 @@ public class CmdHome implements UltimateCommand {
                 Player p = (Player) cs;
                 t = r.searchOfflinePlayer(args[0].split(":")[0]);
                 if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0].split(":")[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
                     return;
                 }
                 List<String> homes = UC.getPlayer(t).getHomeNames();

@@ -153,7 +153,7 @@ public class CmdRecipe implements UltimateCommand {
             if (r.isInt(args[1])) {
                 recipeNo = Integer.parseInt(args[1]) - 1;
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[1]);
+                r.sendMes(cs, "numberFormat", "%Number", args[1]);
                 return;
             }
         }

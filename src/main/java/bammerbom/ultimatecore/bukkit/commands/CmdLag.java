@@ -71,7 +71,7 @@ public class CmdLag implements UltimateCommand {
             r.sendMes(cs, "lagWorld", "%World", w.getName(), "%Chunks", w.getLoadedChunks().length, "%Entities", w.getEntities().size(), "%Tiles", tiles);
         }
         if (ws == 0) {
-            r.sendMes(cs, "WorldNotFound", "%World", args[0]);
+            r.sendMes(cs, "worldNotFound", "%World", args[0]);
         }
     }
 

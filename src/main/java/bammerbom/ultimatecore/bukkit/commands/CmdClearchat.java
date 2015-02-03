@@ -62,7 +62,7 @@ public class CmdClearchat implements UltimateCommand {
         } else {
             Player pl = r.searchPlayer(args[0]);
             if (pl == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
             for (int i = 0; i < 100; i++) {

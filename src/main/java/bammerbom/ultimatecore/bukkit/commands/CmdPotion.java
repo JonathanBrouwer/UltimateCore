@@ -107,7 +107,7 @@ public class CmdPotion implements UltimateCommand {
         Integer lev = 1;
         if (r.checkArgs(args, 1)) {
             if (!r.isInt(args[1]) && !args[1].equalsIgnoreCase("splash")) {
-                r.sendMes(cs, "NumberFormat", "%Number", args[1]);
+                r.sendMes(cs, "numberFormat", "%Number", args[1]);
                 return;
             } else if (r.isInt(args[1])) {
                 dur = Integer.parseInt(args[1]);
@@ -115,7 +115,7 @@ public class CmdPotion implements UltimateCommand {
         }
         if (r.checkArgs(args, 2)) {
             if (!r.isInt(args[2]) && !args[1].equalsIgnoreCase("splash")) {
-                r.sendMes(cs, "NumberFormat", "%Number", args[2]);
+                r.sendMes(cs, "numberFormat", "%Number", args[2]);
                 return;
             } else if (r.isInt(args[2])) {
                 lev = Integer.parseInt(args[2]);

@@ -68,7 +68,7 @@ public class CmdSetexperience implements UltimateCommand {
             if (r.isInt(amount.replace("l", "").replace("L", ""))) {
                 x = Integer.parseInt(amount.replace("l", "").replace("L", ""));
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0].replace("l", "").replace("L", ""));
+                r.sendMes(cs, "numberFormat", "%Number", args[0].replace("l", "").replace("L", ""));
                 return;
             }
             r.normalize(x, 0, 999999);
@@ -87,7 +87,7 @@ public class CmdSetexperience implements UltimateCommand {
             }
             Player p = r.searchPlayer(args[1]);
             if (p == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                 return;
             }
             String amount = args[0];
@@ -95,7 +95,7 @@ public class CmdSetexperience implements UltimateCommand {
             if (r.isInt(amount.replace("l", "").replace("L", ""))) {
                 x = Integer.parseInt(amount.replace("l", "").replace("L", ""));
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0].replace("l", "").replace("L", ""));
+                r.sendMes(cs, "numberFormat", "%Number", args[0].replace("l", "").replace("L", ""));
                 return;
             }
             r.normalize(x, 0, 999999);

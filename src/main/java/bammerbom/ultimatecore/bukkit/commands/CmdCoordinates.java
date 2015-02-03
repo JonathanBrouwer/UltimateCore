@@ -59,7 +59,7 @@ public class CmdCoordinates implements UltimateCommand {
             }
             Player p = r.searchPlayer(args[0]);
             if (p == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
             r.sendMes(cs, "coordinatesOthers", "%Player", p.getName(), "%W", p.getWorld().getName(), "%X", p.getLocation().getBlockX(), "%Y", p.getLocation().getBlockY(), "%Z", p.getLocation().getBlockZ());

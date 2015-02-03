@@ -67,7 +67,7 @@ public class CmdClear implements UltimateCommand {
             }
             Player t = r.searchPlayer(args[0]);
             if (t == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
             InventoryUtil.clearHandler(cs, t, args, 1, true);

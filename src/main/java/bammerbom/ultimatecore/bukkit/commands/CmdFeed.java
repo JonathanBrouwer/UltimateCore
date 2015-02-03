@@ -64,7 +64,7 @@ public class CmdFeed implements UltimateCommand {
         } else {
             Player p = r.searchPlayer(args[0]);
             if (p == null) {
-                r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
             p.setFoodLevel(20);

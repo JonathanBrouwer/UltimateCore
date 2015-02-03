@@ -132,7 +132,7 @@ public class CmdSetarmor implements UltimateCommand {
             if (isArmor(args[0])) {
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
                 setArmor(t, getArmor(args[0]));
@@ -141,7 +141,7 @@ public class CmdSetarmor implements UltimateCommand {
             } else if (isArmor(args[1])) {
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 setArmor(t, getArmor(args[1]));

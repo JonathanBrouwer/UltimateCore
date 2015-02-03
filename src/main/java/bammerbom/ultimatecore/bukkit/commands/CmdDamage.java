@@ -72,7 +72,7 @@ public class CmdDamage implements UltimateCommand {
                 p.damage(d);
                 r.sendMes(cs, "damageMessage", "%Player", p.getName(), "%Health", d);
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
                 return;
             }
         } else if (r.checkArgs(args, 1)) {
@@ -83,7 +83,7 @@ public class CmdDamage implements UltimateCommand {
                 Double d = Double.parseDouble(args[0]);
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[1]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
                 t.damage(d);
@@ -92,13 +92,13 @@ public class CmdDamage implements UltimateCommand {
                 Double d = Double.parseDouble(args[1]);
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
-                    r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 t.damage(d);
                 r.sendMes(cs, "damageMessage", "%Player", t.getName(), "%Health", args[1]);
             } else {
-                r.sendMes(cs, "NumberFormat", "%Number", args[0]);
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
                 return;
             }
         }

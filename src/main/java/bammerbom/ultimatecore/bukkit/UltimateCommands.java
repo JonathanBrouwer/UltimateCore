@@ -425,7 +425,7 @@ public class UltimateCommands implements TabCompleter {
                 r.debug(uc + " " + overriddenList.get(uc));
                 PluginCommand pc = overriddenList.get(uc);
                 if (pc == null || pc.getExecutor() == null) {
-                    r.sendMes(cs, "UnknownCommand");
+                    r.sendMes(cs, "unknownCommand");
                     return true;
                 }
                 r.debug("Executing " + cs + " " + pc + " " + label);

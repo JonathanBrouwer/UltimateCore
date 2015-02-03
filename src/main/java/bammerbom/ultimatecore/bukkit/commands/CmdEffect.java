@@ -62,7 +62,7 @@ public class CmdEffect implements UltimateCommand {
         }
         Player t = r.searchPlayer(args[0]);
         if (t == null) {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         PotionEffectType ef = EffectDatabase.getByName(args[1]);
@@ -81,14 +81,14 @@ public class CmdEffect implements UltimateCommand {
         Integer lev = 1;
         if (r.checkArgs(args, 2)) {
             if (!r.isInt(args[2])) {
-                r.sendMes(cs, "NumberFormat", args[2]);
+                r.sendMes(cs, "numberFormat", args[2]);
                 return;
             }
             dur = Integer.parseInt(args[2]);
         }
         if (r.checkArgs(args, 3)) {
             if (!r.isInt(args[3])) {
-                r.sendMes(cs, "NumberFormat", args[3]);
+                r.sendMes(cs, "numberFormat", args[3]);
                 return;
             }
             lev = Integer.parseInt(args[3]);

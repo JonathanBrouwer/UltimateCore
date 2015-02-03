@@ -66,7 +66,7 @@ public class CmdBurn implements UltimateCommand {
         if (r.searchPlayer(args[0]) != null) {
             t = r.searchPlayer(args[0]);
         } else {
-            r.sendMes(cs, "PlayerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         if (r.checkArgs(args, 1) && r.isDouble(args[1])) {
