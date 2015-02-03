@@ -12,6 +12,32 @@ Mojang: true
 #You can add a custom one by creating a new file and put the name of the file here.
 Language: EN
 
+Afk:
+  #Is the afk system enabled?
+  Enabled: true
+  #How long does it take before someone is marked as afk?
+  AfkTime: 180
+  #Kick players when they are afk for too long?
+  KickEnabled: true
+  #How long does it take before someone is kicked for being inactive? (Including the time before the player was marked as afk)
+  KickTime: 900
+  
+Messages:
+  #Are the messages shown in the chat?
+  Enabledchat: false
+  #Are the messages shown in the bossbar?
+  Enabledbossbar: false
+  #Are the messages shown in the action bar?
+  Enabledactionbar: false
+  #Show the messages in a random order?
+  Randomise: false
+  #The time until the next message is shown
+  Time: 120
+  #(Only for the bossbar) Let the bossbar decrease until the next message?
+  Decrease: true
+  #Use messages.txt to change the messages.
+  
+
 #Chat customization
 Chat:
   #How is the /alert command displayed?

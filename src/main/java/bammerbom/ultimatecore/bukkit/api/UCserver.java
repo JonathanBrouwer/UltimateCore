@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.api;
 
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
@@ -538,4 +539,23 @@ public class UCserver {
     public void clearWarps() {
         setWarps(new HashMap<String, Location>());
     }
+
+    public List<Player> getAfkPlayers() {
+        List<Player> pls = new ArrayList<>();
+        for (Player pl : r.getOnlinePlayers()) {
+            if (UC.getPlayer(pl).isAfk()) {
+                pls.add(pl);
+            }
+        }
+        return pls;
+    }
+
+    public List<String> getAutomessageMessages() {
+        return AutomessageListener.messages;
+    }
+
+    public String getAutomessageCurrentmessage() {
+        return AutomessageListener.currentmessage;
+    }
+
 }

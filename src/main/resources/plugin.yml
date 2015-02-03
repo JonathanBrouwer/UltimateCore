@@ -13,6 +13,10 @@ commands:
     usage: /<command> <Player>
     permisssions: uc.accountstatus
     aliases: [acstatus]
+  afk:
+    description: Toggle your or someone elses afk status.
+    usage: /afk [Player]
+    permissions: uc.afk
   alert:
     description: Sends everyone on the server an alert message.
     usage: /<command> <Message>

@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.commands.CmdAccountstatus;
+import bammerbom.ultimatecore.bukkit.commands.CmdAfk;
 import bammerbom.ultimatecore.bukkit.commands.CmdAlert;
 import bammerbom.ultimatecore.bukkit.commands.CmdBack;
 import bammerbom.ultimatecore.bukkit.commands.CmdBan;
@@ -173,6 +174,7 @@ public class UltimateCommands implements TabCompleter {
 
     public static void load() {
         cmds.add(new CmdAccountstatus());
+        cmds.add(new CmdAfk());
         cmds.add(new CmdAlert());
         cmds.add(new CmdBack());
         cmds.add(new CmdBan());

@@ -28,13 +28,21 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
-import org.bukkit.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import org.bukkit.BanList;
 import org.bukkit.BanList.Type;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-
-import java.io.File;
-import java.util.*;
 
 public class UCplayer {
 
@@ -52,8 +60,8 @@ public class UCplayer {
     Boolean god = null;
     Long godtime = null;
     HashMap<String, Location> homes = null;
-    Boolean onlineInv = false;
-    Boolean offlineInv = false;
+    boolean onlineInv = false;
+    boolean offlineInv = false;
     Boolean jailed = null;
     Long jailtime = null;
     String jail = null;
@@ -957,6 +965,36 @@ public class UCplayer {
                 pl.hidePlayer(getOnlinePlayer());
             }
         }
+        save();
+    }
+
+    //Afk
+    boolean afk = false;
+    long lastaction = System.currentTimeMillis();
+
+    public boolean isAfk() {
+        return afk;
+    }
+
+    public void setAfk(boolean news) {
+        afk = news;
+        save();
+    }
+
+    public long getLastActivity() {
+        return lastaction;
+    }
+
+    public void updateLastActivity() {
+        setLastActivity(System.currentTimeMillis());
+        if (isAfk()) {
+            setAfk(false);
+            Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getNick() == null ? (getPlayer().isOnline() ? getOnlinePlayer().getDisplayName() : getPlayer().getName()) : UC.getPlayer(getPlayer()).getNick()));
+        }
+    }
+
+    public void setLastActivity(Long last) {
+        lastaction = last;
         save();
     }
 }
