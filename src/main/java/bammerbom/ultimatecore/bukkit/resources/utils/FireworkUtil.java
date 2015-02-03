@@ -23,13 +23,13 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * FireworkEffectPlayer v1.0
@@ -49,16 +49,16 @@ public class FireworkUtil {
 
     /*
      * Example use:
-     * 
+     *
      * public class FireWorkPlugin implements Listener {
-     * 
+     *
      * FireworkEffectPlayer fplayer = new FireworkEffectPlayer();
-     * 
+     *
      * @EventHandler
      * public void onPlayerLogin(PlayerLoginEvent event) {
      *   fplayer.playFirework(event.getPlayer().getWorld(), event.getPlayer.getLocation(), Util.getRandomFireworkEffect());
      * }
-     * 
+     *
      * }
      */
     // internal references, performance improvements
@@ -70,10 +70,8 @@ public class FireworkUtil {
      * Play a pretty firework at the location with the FireworkEffect when
      * called
      *
-     * @param world
      * @param loc
      * @param fe
-     * @throws Exception
      */
     public static void play(Location loc, FireworkEffect fe) {
         // Bukkity load (CraftFirework)
@@ -88,18 +86,19 @@ public class FireworkUtil {
             // get the methods of the craftbukkit objects
             world_getHandle = getMethod(loc.getWorld().getClass(), "getHandle");
             firework_getHandle = getMethod(fw.getClass(), "getHandle");
-            try {
-                nms_world = world_getHandle.invoke(loc.getWorld(), (Object[]) null);
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
         }
-        // invoke with no arguments
+        try {
+            // invoke with no arguments
+            nms_world = world_getHandle.invoke(loc.getWorld(), (Object[]) null);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            ErrorLogger.log(ex, "Failed to play firework");
+        }
         try {
             nms_firework = firework_getHandle.invoke(fw, (Object[]) null);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            ErrorLogger.log(ex, "Failed to play firework");
         }
+        //TODO errorlogger
         // null checks are fast, so having this seperate is ok
         if (nms_world_broadcastEntityEffect == null) {
             // get the method of the nms_world
@@ -118,14 +117,14 @@ public class FireworkUtil {
         data.addEffect(fe);
         // set the meta
         fw.setFireworkMeta(data);
-        /*
-         * Finally, we broadcast the entity effect then kill our fireworks object
-         */
-        // invoke with arguments
         try {
+            /*
+             * Finally, we broadcast the entity effect then kill our fireworks object
+             */
+            // invoke with arguments
             nms_world_broadcastEntityEffect.invoke(nms_world, new Object[]{nms_firework, (byte) 17});
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            ErrorLogger.log(ex, "Failed to play firework");
         }
         // remove from the game
         fw.remove();
