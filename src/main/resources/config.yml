@@ -67,6 +67,49 @@ Chat:
   #How is the /say command displayed??
   SayFormat: "&5[&d%Player&5] %Message"
   
+  #Enable the custom chat of Ultimate Core? If false Filters are still enabled!
+  EnableCustomChat: true
+  
+  #What is the format?
+  #+Group = Group name (If vault installed, else empty)
+  #+Prefix = Group prefix (If vault installed, else empty)
+  #+Suffix = Group suffix (If vault installed, else empty)
+  #+Name = Raw name
+  #+Displayname = Displayname [WARNING: Some plugins automaticly set the rank/faction/etc before the players displayname]
+  #+World = Current World name
+  #+WorldAlias = First letter of the worlds name
+  #+Message = Message the player is trying to send
+  #Color codes supported!
+  Format: '&6+Prefix&6+Displayname: &r+Suffix+Message'
+  
+  #Group formats: [REQUIRES VAULT + PERMISSION PLUGIN] 	
+  #Every group that is not registered here uses the Global format
+  Groups:
+    Enabled: false
+    #+Name = Raw name
+    #+Displayname = Nick name
+    #+World = Current World name
+    #+WorldAlias = First letter of the worlds name
+    #+Message = Message the player is trying to send
+    #Color codes supported!
+    #GROUP NAMES ARE CASE SENSITIVE!!!
+    Player: '&9[&6Player&9] &6+Displayname: &f+Message'
+    Admin: '&6[&4Admin&6] &6+Displayname: &f+Message'
+  Tab:
+    Enabled: false
+    #Groups tab prefixes
+    #Watchout! Too long prefixes can short player names for some characters
+    #GROUP NAMES ARE CASE SENSITIVE!!!
+    Player: '&6'
+    Admin: '&4'
+  #Enable spam/swear/etc filter?
+  SpamFilter: true
+  SwearFilter: false
+  RepeatFilter: true
+  CapsFilter: true
+  UrlFilter: true
+  IpFilter: true
+  
 #Command customization
 Command:
   #Broadcast when someone gets banned?
