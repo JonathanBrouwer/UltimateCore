@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.bukkit.listeners;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UCplayer;
 import bammerbom.ultimatecore.bukkit.commands.CmdMobtp;
+import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
@@ -47,8 +48,17 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class GlobalPlayerListener implements Listener {
@@ -93,6 +103,13 @@ public class GlobalPlayerListener implements Listener {
             //Vanish
             for (Player p : UC.getServer().getVanishOnlinePlayers()) {
                 e.getPlayer().hidePlayer(p);
+            }
+            //Name changes
+            if (UC.getPlayer(e.getPlayer()).getPlayerConfig().contains("oldname")) {
+                Config conf = UC.getPlayer(e.getPlayer()).getPlayerConfig();
+                r.sendMes(e.getPlayer(), "nameChanged", "%Oldname", conf.getString("oldname"), "%Newname", e.getPlayer().getName());
+                conf.set("oldname", null);
+                conf.save();
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerJoinEvent");
