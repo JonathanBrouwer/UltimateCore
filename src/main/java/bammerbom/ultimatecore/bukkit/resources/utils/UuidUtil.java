@@ -27,13 +27,6 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import com.google.common.collect.ImmutableList;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -42,8 +35,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Callable;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class UuidUtil {
 
@@ -74,31 +78,46 @@ public class UuidUtil {
                     request.add(p.getUniqueId());
                 }
             } else {
-                conf.set("name", p.getName());
-                conf.save();
-                if (!conf.contains("names")) {
-                    ArrayList<String> names = new ArrayList<>();
-                    Calendar timeCal = Calendar.getInstance();
-                    timeCal.setTimeInMillis(System.currentTimeMillis());
-                    String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
-                    names.add(p.getName() + " - " + date);
-                    conf.set("names", names);
+                if (!conf.contains("name")) {
+                    conf.set("name", p.getName());
                     conf.save();
-                }
-                if (conf.contains("name") && !conf.getString("name").equalsIgnoreCase(p.getName())) {
-                    String oldname = conf.getString("name");
-                    Calendar timeCal = Calendar.getInstance();
-                    timeCal.setTimeInMillis(System.currentTimeMillis());
-                    String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
-                    List<String> names = conf.getStringList("names");
-                    if (names == null) {
-                        names = new ArrayList<>();
+                    if (!conf.contains("names")) {
+                        ArrayList<String> names = new ArrayList<>();
+                        Calendar timeCal = Calendar.getInstance();
+                        timeCal.setTimeInMillis(System.currentTimeMillis());
+                        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
+                        names.add(p.getName() + " - " + date);
+                        conf.set("names", names);
+                        conf.save();
                     }
-                    names.add(p.getName() + " - " + date);
-                    conf.set("names", names);
-                    conf.save();
-                    if (p.isOnline()) {
-                        r.sendMes((Player) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
+                } else {
+                    if (!conf.contains("names")) {
+                        ArrayList<String> names = new ArrayList<>();
+                        Calendar timeCal = Calendar.getInstance();
+                        timeCal.setTimeInMillis(System.currentTimeMillis());
+                        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
+                        names.add(p.getName() + " - " + date);
+                        conf.set("names", names);
+                        conf.save();
+                    }
+                    if (!conf.getString("name").equals(p.getName())) {
+                        String oldname = conf.getString("name");
+                        Calendar timeCal = Calendar.getInstance();
+                        timeCal.setTimeInMillis(System.currentTimeMillis());
+                        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
+                        List<String> names = conf.getStringList("names");
+                        if (names == null) {
+                            names = new ArrayList<>();
+                        }
+                        names.add(p.getName() + " - " + date);
+                        conf.set("names", names);
+                        conf.set("name", p.getName());
+                        if (p.isOnline()) {
+                            r.sendMes((Player) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
+                        } else {
+                            conf.set("oldname", oldname);
+                        }
+                        conf.save();
                     }
                 }
             }
@@ -110,7 +129,6 @@ public class UuidUtil {
                 HashMap<UUID, String> s = new UuidToName(req).call();
                 for (UUID u : s.keySet()) {
                     String n = s.get(u);
-                    r.log(u + " - " + n);
                     File f = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + u + ".yml");
                     Config conf = new Config(f);
                     conf.set("name", n);
@@ -125,22 +143,6 @@ public class UuidUtil {
                         conf.set("names", names);
                         conf.save();
                     }
-                    if (conf.contains("name") && !conf.getString("name").equalsIgnoreCase(n)) {
-                        String oldname = conf.getString("name");
-                        Calendar timeCal = Calendar.getInstance();
-                        timeCal.setTimeInMillis(System.currentTimeMillis());
-                        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
-                        List<String> names = conf.getStringList("names");
-                        if (names == null) {
-                            names = new ArrayList<>();
-                        }
-                        names.add(n + " - " + date);
-                        conf.set("names", names);
-                        conf.save();
-                        if (Bukkit.getPlayer(u).isOnline()) {
-                            r.sendMes(Bukkit.getPlayer(u), "nameChanged", "%Oldname", oldname, "%Newname", n);
-                        }
-                    }
                     //
                 }
                 r.log("Playerfile update complete.");
@@ -148,6 +150,7 @@ public class UuidUtil {
                 ErrorLogger.log(e, "Failed to convert uuids to names.");
             }
         }
+
     }
 
     public static class UuidToName implements Callable<Map<UUID, String>> {
