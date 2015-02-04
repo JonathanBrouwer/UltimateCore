@@ -22,6 +22,12 @@ Afk:
   #How long does it take before someone is kicked for being inactive? (Including the time before the player was marked as afk)
   KickTime: 900
   
+Blood:
+  #Enable blood?
+  Enabled: false
+  #Enable it for players only?
+  PlayersOnly: true
+  
 Messages:
   #Are the messages shown in the chat?
   Enabledchat: false

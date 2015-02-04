@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.listeners.AfkListener;
 import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
 import bammerbom.ultimatecore.bukkit.listeners.AutosaveListener;
+import bammerbom.ultimatecore.bukkit.listeners.BloodListener;
 import bammerbom.ultimatecore.bukkit.listeners.GlobalPlayerListener;
 import bammerbom.ultimatecore.bukkit.listeners.GlobalWorldListener;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
@@ -89,11 +90,10 @@ public class UltimateCore extends JavaPlugin {
             PluginManager pm = Bukkit.getPluginManager();
             pm.registerEvents(new GlobalPlayerListener(), this);
             pm.registerEvents(new GlobalWorldListener(), this);
-            if (r.getCnfg().getBoolean("Afk.Enabled")) {
-                pm.registerEvents(new AfkListener(), this);
-            }
+            AfkListener.start();
             AutomessageListener.start();
             AutosaveListener.start();
+            BloodListener.start();
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
