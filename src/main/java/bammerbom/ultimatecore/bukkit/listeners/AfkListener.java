@@ -49,8 +49,9 @@ import org.bukkit.event.player.PlayerVelocityEvent;
 
 public class AfkListener implements Listener {
 
-    static {
+    public static void start() {
         if (r.getCnfg().getBoolean("Afk.Enabled")) {
+            Bukkit.getPluginManager().registerEvents(new AfkListener(), r.getUC());
             Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
                 @Override
                 public void run() {
