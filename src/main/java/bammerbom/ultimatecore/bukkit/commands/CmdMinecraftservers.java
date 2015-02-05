@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
-import bammerbom.ultimatecore.bukkit.commands.ServerCheck.Server;
+import bammerbom.ultimatecore.bukkit.commands.ServerCheck.MinecraftServer;
 import bammerbom.ultimatecore.bukkit.commands.ServerCheck.Status;
 import bammerbom.ultimatecore.bukkit.r;
 import java.io.BufferedReader;
@@ -57,10 +57,10 @@ public class CmdMinecraftservers implements UltimateCommand {
     }
 
     static Boolean on = false;
-    static ArrayList<Server> offline = new ArrayList<>();
-    static ArrayList<Server> unknown = new ArrayList<>();
-    static ArrayList<Server> problems = new ArrayList<>();
-    static ArrayList<Server> online = new ArrayList<>();
+    static ArrayList<MinecraftServer> offline = new ArrayList<>();
+    static ArrayList<MinecraftServer> unknown = new ArrayList<>();
+    static ArrayList<MinecraftServer> problems = new ArrayList<>();
+    static ArrayList<MinecraftServer> online = new ArrayList<>();
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
@@ -78,28 +78,28 @@ public class CmdMinecraftservers implements UltimateCommand {
                     runcheck();
                 }
                 String os = "";
-                for (Server str : online) {
+                for (MinecraftServer str : online) {
                     if (!os.equals("")) {
                         os = os + ", " + ChatColor.GREEN + str.toString().toLowerCase() + r.positive + "";
                     } else {
                         os = os + ChatColor.GREEN + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
-                for (Server str : problems) {
+                for (MinecraftServer str : problems) {
                     if (!os.equals("")) {
                         os = os + ", " + ChatColor.GOLD + str.toString().toLowerCase() + r.positive + "";
                     } else {
                         os = os + ChatColor.GOLD + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
-                for (Server str : offline) {
+                for (MinecraftServer str : offline) {
                     if (!os.equals("")) {
                         os = os + ", " + ChatColor.DARK_RED + str.toString().toLowerCase() + r.positive + "";
                     } else {
                         os = os + ChatColor.DARK_RED + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
-                for (Server str : unknown) {
+                for (MinecraftServer str : unknown) {
                     if (!os.equals("")) {
                         os = os + ", " + ChatColor.GRAY + str.toString().toLowerCase() + r.positive + "";
                     } else {
@@ -128,7 +128,7 @@ public class CmdMinecraftservers implements UltimateCommand {
         unknown.clear();
         problems.clear();
         online.clear();
-        for (Server serv : Server.values()) {
+        for (MinecraftServer serv : MinecraftServer.values()) {
             Status status = ServerCheck.getStatus(serv);
             if (status.equals(Status.ONLINE)) {
                 online.add(serv);
@@ -152,7 +152,7 @@ class ServerCheck {
 
     private static JSONParser parser = new JSONParser();
 
-    public enum Server {
+    public enum MinecraftServer {
 
         //Minecraft
         WEBSITE("minecraft.net"),
@@ -166,7 +166,7 @@ class ServerCheck {
 
         private String url;
 
-        Server(String url) {
+        MinecraftServer(String url) {
             this.url = url;
         }
 
@@ -194,7 +194,7 @@ class ServerCheck {
 
     }
 
-    public static Status getStatus(Server service) {
+    public static Status getStatus(MinecraftServer service) {
         String status = null;
 
         try {
