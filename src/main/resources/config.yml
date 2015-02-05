@@ -38,6 +38,15 @@ Dynmap:
   - hiddenwarp1
   - hiddenwarp2
   - hiddenwarp3
+
+Explode:
+  #Disable explosions??? (True = disabled)
+  Creeper: false
+  TNT: false
+  Ghast: false
+  Enderdragon: false
+  Wither: false
+  Lightning: false
   
 Messages:
   #Are the messages shown in the chat?
