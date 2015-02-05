@@ -41,12 +41,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class ChatListener implements Listener {
 
     public static void start() {
-        Bukkit.getPluginManager().registerEvents(new ChatListener(), r.getUC());
+        ChatListener list = new ChatListener();
+        list.spamTask();
+        Bukkit.getPluginManager().registerEvents(list, r.getUC());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void ChatListener(AsyncPlayerChatEvent e) {
-        if (!e.isCancelled()) {
+        if (!e.isCancelled() && !UC.getPlayer(e.getPlayer()).isMuted()) {
             String m = e.getMessage();
             if (r.perm(e.getPlayer(), "uc.coloredchat", false, false)) {
                 m = ChatColor.translateAlternateColorCodes('&', m);
@@ -173,11 +175,11 @@ public class ChatListener implements Listener {
                 lastChatMessageTimes.put(p.getName(), lastmessageTimes + 1);
                 if (lastmessage.equalsIgnoreCase(mr)) {
                     if (lastmessageTimes + 1 == 3) {
-                        p.sendMessage(r.positive + "You may not repeat yourself! Stop repeating yourself or you will be muted");
+                        r.sendMes(p, "chatRepeat");
                         set.setCancelled(true);
                     }
                     if (lastmessageTimes + 1 == 4) {
-                        p.sendMessage(r.positive + "You may not repeat yourself! Stop repeating yourself or you will be muted");
+                        r.sendMes(p, "chatRepeat");
                         set.setCancelled(true);
                     }
                     if (lastmessageTimes + 1 == 5) {
@@ -199,7 +201,7 @@ public class ChatListener implements Listener {
                         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mute " + p.getName() + " 5m");
                         set.setCancelled(true);
                     } else if (amount >= 3) {
-                        p.sendMessage(r.positive + "You may not spam! Stop spamming or you will be muted");
+                        r.sendMes(p, "chatSpam");
                     }
                 } else {
                     spamTime.put(p.getName(), 1);
@@ -221,7 +223,7 @@ public class ChatListener implements Listener {
                             }
                             s++;
                             swearAmount.put(p.getName(), s);
-                            p.sendMessage(r.positive + "You may not swear! Stop swearing or you will be muted");
+                            r.sendMes(p, "chatSwear");
                             if (s >= 3) {
                                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mute " + p.getName() + " 5m");
                                 set.setCancelled(true);
@@ -258,7 +260,7 @@ public class ChatListener implements Listener {
                 String ipPattern = "([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})";
                 if (Pattern.compile(ipPattern).matcher(set.getMessage()).find()) {
                     set.setCancelled(true);
-                    p.sendMessage(r.positive + "You may not say IPs!");
+                    r.sendMes(p, "chatIp");
                 }
             }
         }
@@ -268,7 +270,7 @@ public class ChatListener implements Listener {
                 final Pattern domainPattern = Pattern.compile("((?:(?:https?)://)?[\\w-_\\.]{2,})\\.([a-zA-Z]{2,3}(?:/\\S+)?)");
                 if (domainPattern.matcher(set.getMessage()).find()) {
                     set.setCancelled(true);
-                    p.sendMessage(r.positive + "You may not say URLs!");
+                    r.sendMes(p, "chatUrl");
                 }
             }
         }

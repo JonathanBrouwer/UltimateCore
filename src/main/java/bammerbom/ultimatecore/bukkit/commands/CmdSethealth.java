@@ -24,14 +24,12 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
-
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdSethealth implements UltimateCommand {
 
@@ -108,7 +106,7 @@ public class CmdSethealth implements UltimateCommand {
                     t.setMaxHealth(d);
                 }
                 t.setHealth(d);
-                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Healh", d);
+                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Health", d);
                 r.sendMes(t, "sethealthOthers", "%Player", cs.getName(), "%Health", d);
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
