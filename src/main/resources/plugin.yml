@@ -274,6 +274,11 @@ commands:
     usage: /<command> [Player]
     description: Throw a lot of lighting on a player.
     permissions: uc.megasmite
+  minecraftservers:
+    usage: /<command>
+    description: View the status of the minecraft servers.
+    permissions: uc.minecraftservers
+    aliases: [mcservers]
   mobtp:
     usage: /<command>
     description: Teleport mobs using a stick.
