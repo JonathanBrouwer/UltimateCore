@@ -143,10 +143,9 @@ public class GlobalPlayerListener implements Listener {
             //Ban
             if (UC.getPlayer(e.getPlayer()).isBanned()) {
                 UCplayer pl = UC.getPlayer(e.getPlayer());
-                String msg = r.mes("banFormat").replace("%Time", DateUtil.format(pl.getBanTimeLeft() + System.currentTimeMillis())).replace("%Reason", pl.getBanReason());
+                String time = pl.getBanTime() == -1 ? r.mes("banForever") : (DateUtil.format(pl.getBanTimeLeft() + System.currentTimeMillis()));
+                String msg = r.mes("banFormat", "%Time", time, "%Reason", pl.getBanReason());
                 e.disallow(Result.KICK_BANNED, msg);
-            } else {
-                e.allow();
             }
             //
 

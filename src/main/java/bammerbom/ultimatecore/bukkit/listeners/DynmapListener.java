@@ -107,6 +107,9 @@ public class DynmapListener implements Listener {
                         }
                         List<UUID> toRemove = new ArrayList<>();
                         for (UUID id : hiddenasserts) {
+                            if (Bukkit.getPlayer(id) == null) {
+                                continue;
+                            }
                             if (!UC.getPlayer(id).isVanish()) {
                                 api.assertPlayerInvisibility(Bukkit.getPlayer(id), false, r.getUC());
                                 toRemove.add(id);
