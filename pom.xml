@@ -100,6 +100,12 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>us.dynmap</groupId>
+            <artifactId>dynmap</artifactId>
+            <version>2.2-SNAPSHOT</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
@@ -141,6 +147,10 @@
         <repository>
             <id>ess-repo</id>
             <url>http://repo.ess3.net/content/groups/public</url>
+        </repository>
+        <repository>
+            <id>dynmap-repo</id>
+            <url>http://repo.mikeprimm.com</url>
         </repository>
     </repositories>
 </project>

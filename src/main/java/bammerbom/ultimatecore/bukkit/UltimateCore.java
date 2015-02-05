@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.bukkit.listeners.AutosaveListener;
 import bammerbom.ultimatecore.bukkit.listeners.BloodListener;
 import bammerbom.ultimatecore.bukkit.listeners.ChatListener;
 import bammerbom.ultimatecore.bukkit.listeners.DeathmessagesListener;
+import bammerbom.ultimatecore.bukkit.listeners.DynmapListener;
 import bammerbom.ultimatecore.bukkit.listeners.GlobalPlayerListener;
 import bammerbom.ultimatecore.bukkit.listeners.GlobalWorldListener;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
@@ -98,6 +99,7 @@ public class UltimateCore extends JavaPlugin {
             BloodListener.start();
             ChatListener.start();
             DeathmessagesListener.start();
+            DynmapListener.start();
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
@@ -119,6 +121,7 @@ public class UltimateCore extends JavaPlugin {
             UC._DISABLE_();
             ItemDatabase.disable();
             BossbarUtil.disable();
+            DynmapListener.stop();
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Disabled Ultimate Core! (" + time + "ms)");

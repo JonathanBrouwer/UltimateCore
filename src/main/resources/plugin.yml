@@ -541,7 +541,7 @@ commands:
     description: View a list of all warps.
     usage: /<command>
     permissions: uc.warplist
-    aliases: [bans]
+    aliases: [warps]
   weather:
     usage: /<command> clear/rain/thunder [Time]
     description: Change the weather.

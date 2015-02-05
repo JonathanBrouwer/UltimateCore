@@ -28,6 +28,17 @@ Blood:
   #Enable it for players only?
   PlayersOnly: true
   
+#Dynmap support (Nothing happens without Dynmap)
+Dynmap:
+  Enable: true
+  #Show warps?
+  Warps: true
+  #Warps that are not shown, you can even use world:someworld to show no warps in that world.
+  Hiddenwarps:
+  - hiddenwarp1
+  - hiddenwarp2
+  - hiddenwarp3
+  
 Messages:
   #Are the messages shown in the chat?
   Enabledchat: false
