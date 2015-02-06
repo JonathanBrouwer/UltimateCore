@@ -99,6 +99,7 @@ public class UltimateCore extends JavaPlugin {
             RespawnListener.start();
             SignListener.start();
             TabListener.start();
+            UnknownCommandListener.start();
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");

@@ -138,6 +138,8 @@ Chat:
   
 #Command customization
 Command:
+  #Enable the custom unknown command message?
+  UnknownCommand: true
   #Broadcast when someone gets banned?
   BanBroadcast: true
   #Remove positive effects when being healed?
