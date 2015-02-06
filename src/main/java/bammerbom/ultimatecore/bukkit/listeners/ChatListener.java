@@ -121,10 +121,10 @@ public class ChatListener implements Listener {
                 prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
                 suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
             }
-            if (r.getVault().getChat() != null && (r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer()).equalsIgnoreCase("")) {
+            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer()).equalsIgnoreCase("")) {
                 prefix = r.getVault().getChat().getPlayerPrefix(e.getPlayer());
             }
-            if (r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer()).equalsIgnoreCase("")) {
+            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer()).equalsIgnoreCase("")) {
                 prefix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
             }
             if (!f.contains("\\+Name")) {

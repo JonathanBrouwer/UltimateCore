@@ -22,6 +22,9 @@ Afk:
   #How long does it take before someone is kicked for being inactive? (Including the time before the player was marked as afk)
   KickTime: 900
   
+#Enable instant respawning?
+InstantRespawn: false
+
 Blood:
   #Enable blood?
   Enabled: false

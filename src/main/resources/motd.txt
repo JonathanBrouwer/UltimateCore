@@ -1,3 +1,2 @@
-&6Welcome, {PLAYER}&6!
-&6Type &c/list&6 to see who else is online.
-&6Players online:&c {ONLINE}
+&7Welcome,&a {PLAYER}&7!
+&7Players online:&e {ONLINE}

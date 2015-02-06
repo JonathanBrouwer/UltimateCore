@@ -23,7 +23,6 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
-import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.listeners.AfkListener;
 import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
 import bammerbom.ultimatecore.bukkit.listeners.AutosaveListener;
@@ -36,6 +35,7 @@ import bammerbom.ultimatecore.bukkit.listeners.GlobalPlayerListener;
 import bammerbom.ultimatecore.bukkit.listeners.GlobalWorldListener;
 import bammerbom.ultimatecore.bukkit.listeners.JoinLeaveListener;
 import bammerbom.ultimatecore.bukkit.listeners.MotdListener;
+import bammerbom.ultimatecore.bukkit.listeners.RespawnListener;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
@@ -46,6 +46,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -106,6 +107,7 @@ public class UltimateCore extends JavaPlugin {
             ExplosionListener.start();
             JoinLeaveListener.start();
             MotdListener.start();
+            RespawnListener.start();
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
@@ -124,10 +126,15 @@ public class UltimateCore extends JavaPlugin {
             Long time = System.currentTimeMillis();
             //
             r.removeUC();
-            UC._DISABLE_();
             ItemDatabase.disable();
             BossbarUtil.disable();
             DynmapListener.stop();
+            //
+            HandlerList.unregisterAll(this);
+            Bukkit.getServicesManager().unregisterAll(this);
+            Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(this);
+            Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
+            Bukkit.getServer().getScheduler().cancelTasks(this);
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Disabled Ultimate Core! (" + time + "ms)");
