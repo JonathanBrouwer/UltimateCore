@@ -74,7 +74,16 @@ Autosave:
   #The time between each autosave.
   Time: 300
   
-
+Timber:
+  #Enable timber?
+  Enable: false
+  #Destroy leaves too? (Drops loot)
+  Leaves: true
+  #Take all durability of the logs from the axe?
+  AllDurability: true
+  #Do you need to have an axe in your hand to use Timber?
+  NeedAxe: true
+  
 #Chat customization
 Chat:
   #How is the /alert command displayed?

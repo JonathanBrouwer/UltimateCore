@@ -99,6 +99,7 @@ public class UltimateCore extends JavaPlugin {
             RespawnListener.start();
             SignListener.start();
             TabListener.start();
+            TreeListener.start();
             UnknownCommandListener.start();
             //
             time = System.currentTimeMillis() - time;
