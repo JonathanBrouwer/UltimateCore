@@ -119,7 +119,10 @@ Chat:
     Player: '&9[&6Player&9] &6+Displayname: &f+Message'
     Admin: '&6[&4Admin&6] &6+Displayname: &f+Message'
   Tab:
+    #Are tab prefixes enabled?
     Enabled: false
+    #The default tab prefix
+    TabDefault: '&e'
     #Groups tab prefixes
     #Watchout! Too long prefixes can short player names for some characters
     #GROUP NAMES ARE CASE SENSITIVE!!!
