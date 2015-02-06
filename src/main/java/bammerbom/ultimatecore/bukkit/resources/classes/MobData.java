@@ -24,14 +24,13 @@
 package bammerbom.ultimatecore.bukkit.resources.classes;
 
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import java.util.*;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Colorable;
-
-import java.util.*;
 
 public enum MobData {
 
@@ -187,7 +186,7 @@ public enum MobData {
         LinkedHashMap<String, MobData> posData = getPossibleData(spawned.getType(), false);
         for (String data : posData.keySet()) {
             if (name.contains(data)) {
-                return (MobData) posData.get(data);
+                return posData.get(data);
             }
         }
         return null;
@@ -211,7 +210,7 @@ public enum MobData {
         } else if (this.value.equals(Data.BABYZOMBIE)) {
             ((Zombie) spawned).setBaby(true);
         } else if (this.value.equals(Data.CHEST)) {
-            ((Horse) spawned).setTamed(true);
+            ((Tameable) spawned).setTamed(true);
             ((Horse) spawned).setCarryingChest(true);
         } else if (this.value.equals(Data.ELECTRIFIED)) {
             ((Creeper) spawned).setPowered(true);
@@ -268,7 +267,7 @@ public enum MobData {
             ((Villager) spawned).setProfession((Villager.Profession) this.value);
         } else if ((this.value instanceof Material)) {
             if (this.type.equals(EntityType.HORSE)) {
-                ((Horse) spawned).setTamed(true);
+                ((Tameable) spawned).setTamed(true);
                 ((Horse) spawned).getInventory().setArmor(new ItemStack((Material) this.value, 1));
             } else if ((this.type.equals(EntityType.ZOMBIE)) || (this.type.equals(EntityType.SKELETON))) {
                 EntityEquipment invent = ((LivingEntity) spawned).getEquipment();

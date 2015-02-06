@@ -333,20 +333,6 @@ public class ReflectionUtil {
     public static class ReflectionObject {
 
         /**
-         * The internal object operations are performed on
-         */
-        private Object object;
-
-        /**
-         * Default constructor
-         *
-         * @param obj The object the ReflectionObject wraps around
-         */
-        public ReflectionObject(Object obj) {
-            this.object = obj;
-        }
-
-        /**
          * Creates a new instance of the provided class, passing in the provided
          * parameters. Then returns the wrapped ReflectionObject
          *
@@ -383,6 +369,20 @@ public class ReflectionUtil {
                     return null;
                 }
             }
+        }
+
+        /**
+         * The internal object operations are performed on
+         */
+        private Object object;
+
+        /**
+         * Default constructor
+         *
+         * @param obj The object the ReflectionObject wraps around
+         */
+        public ReflectionObject(Object obj) {
+            this.object = obj;
         }
 
         /**
@@ -523,7 +523,7 @@ public class ReflectionUtil {
          * @param field The field to be set
          * @param arg The value of the field
          */
-        public void set(String field, Object arg) {
+        public  void set(String field, Object arg) {
             try {
                 Field f = object.getClass().getDeclaredField(field);
                 f.setAccessible(true);
@@ -532,6 +532,7 @@ public class ReflectionUtil {
                 throw new IllegalArgumentException("Could not set " + field + " on object of class " + this.object.getClass().getName(), e);
             }
         }
+
     }
 
     public static class ReflectionStatic {

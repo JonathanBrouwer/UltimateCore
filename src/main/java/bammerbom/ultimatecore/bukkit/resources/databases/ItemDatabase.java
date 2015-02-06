@@ -25,17 +25,7 @@ package bammerbom.ultimatecore.bukkit.resources.databases;
 
 import bammerbom.ultimatecore.bukkit.UltimateCore;
 import bammerbom.ultimatecore.bukkit.r;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.DigestInputStream;
 import java.security.DigestOutputStream;
@@ -44,13 +34,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,10 +45,10 @@ import org.bukkit.plugin.Plugin;
 
 public class ItemDatabase {
 
-    private final transient static Map<String, Integer> items = new HashMap<String, Integer>();
-    private final transient static Map<ItemData, List<String>> names = new HashMap<ItemData, List<String>>();
-    private final transient static Map<ItemData, String> primaryName = new HashMap<ItemData, String>();
-    private final transient static Map<String, Short> durabilities = new HashMap<String, Short>();
+    private final transient static Map<String, Integer> items = new HashMap<>();
+    private final transient static Map<ItemData, List<String>> names = new HashMap<>();
+    private final transient static Map<ItemData, String> primaryName = new HashMap<>();
+    private final transient static Map<String, Short> durabilities = new HashMap<>();
     static private UltimateCore plugin;
 
     public static void disable() {
@@ -147,9 +131,9 @@ public class ItemDatabase {
         }
         if (itemid < 1) {
             if (items.containsKey(itemname)) {
-                itemid = ((Integer) items.get(itemname)).intValue();
+                itemid = items.get(itemname).intValue();
                 if ((durabilities.containsKey(itemname)) && (metaData == 0)) {
-                    metaData = ((Short) durabilities.get(itemname)).shortValue();
+                    metaData = durabilities.get(itemname).shortValue();
                 }
             } else if (Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH)) != null) {
                 Material bMaterial = Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH));
@@ -230,29 +214,6 @@ public class ItemDatabase {
 }
 
 class ManagedFile {
-
-    private final transient File file;
-
-    public ManagedFile(String filename, Plugin instance) {
-        this.file = new File(instance.getDataFolder(), filename);
-
-        if (this.file.exists()) {
-            try {
-                if ((checkForVersion(this.file, instance.getDescription().getVersion())) && (!this.file.delete())) {
-                    throw new IOException("Could not delete file " + this.file.toString());
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        if (!this.file.exists()) {
-            try {
-                copyResourceAscii("/" + filename, this.file);
-            } catch (IOException ex) {
-            }
-        }
-    }
 
     public static void copyResourceAscii(String resourceName, File file) throws IOException {
         InputStreamReader reader = new InputStreamReader(ManagedFile.class.getResourceAsStream(resourceName));
@@ -354,6 +315,29 @@ class ManagedFile {
         }
     }
 
+    private final transient File file;
+
+    public ManagedFile(String filename, Plugin instance) {
+        this.file = new File(instance.getDataFolder(), filename);
+
+        if (this.file.exists()) {
+            try {
+                if ((checkForVersion(this.file, instance.getDescription().getVersion())) && (!this.file.delete())) {
+                    throw new IOException("Could not delete file " + this.file.toString());
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        if (!this.file.exists()) {
+            try {
+                copyResourceAscii("/" + filename, this.file);
+            } catch (IOException ex) {
+            }
+        }
+    }
+    
     @SuppressWarnings({"rawtypes", "unchecked"})
     public List<String> getLines() {
         try {
@@ -379,6 +363,7 @@ class ManagedFile {
         }
         return Collections.emptyList();
     }
+
 }
 
 class ItemData {
@@ -428,17 +413,8 @@ class LengthCompare
 
 class ItemNames {
 
-    private static final List<ItemInfo> items = new CopyOnWriteArrayList<ItemInfo>();
+    private static final List<ItemInfo> items = new CopyOnWriteArrayList<>();
 
-    /**
-     * Returns the list of ItemInfo's registered in Vault as an
-     * UnmodifiableList.
-     *
-     * @return list of Items
-     */
-    public static List<ItemInfo> getItemList() {
-        return Collections.unmodifiableList(items);
-    }
 
     static {
         items.add(new ItemInfo("Air", new String[][]{{"air"}}, Material.AIR));
@@ -1100,6 +1076,16 @@ class ItemNames {
         items.add(new ItemInfo("Endermite Spawn Egg", new String[][]{{"mite", "end", "spaw", "egg"}}, Material.MONSTER_EGG, (short) 67));
         items.add(new ItemInfo("Rabbit Spawn Egg", new String[][]{{"rabb", "spaw", "egg"}}, Material.MONSTER_EGG, (short) 101));
 
+    }
+
+    /**
+     * Returns the list of ItemInfo's registered in Vault as an
+     * UnmodifiableList.
+     *
+     * @return list of Items
+     */
+    public static List<ItemInfo> getItemList() {
+        return Collections.unmodifiableList(items);
     }
 
     @Deprecated

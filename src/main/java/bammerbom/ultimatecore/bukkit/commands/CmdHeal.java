@@ -24,14 +24,13 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdHeal implements UltimateCommand {
 
@@ -68,7 +67,7 @@ public class CmdHeal implements UltimateCommand {
                 return;
             }
             Player p = (Player) cs;
-            p.setHealth(((Damageable) p).getMaxHealth());
+            p.setHealth(p.getMaxHealth());
             for (PotionEffect effect : p.getActivePotionEffects()) {
                 if (!healPositiveEffects) {
                     for (NegativeEffect bad : NegativeEffect.values()) {
@@ -108,7 +107,7 @@ public class CmdHeal implements UltimateCommand {
                         t.removePotionEffect(effect.getType());
                     }
                 }
-                t.setHealth(((Damageable) t).getMaxHealth());
+                t.setHealth(t.getMaxHealth());
                 t.setFoodLevel(20);
                 t.setSaturation(10F);
                 t.setFireTicks(0);

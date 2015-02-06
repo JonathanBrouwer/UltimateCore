@@ -25,9 +25,8 @@ package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
-import org.bukkit.entity.Player;
-
 import java.lang.reflect.Method;
+import org.bukkit.entity.Player;
 
 public class TitleUtil {
 

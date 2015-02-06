@@ -23,17 +23,12 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.bukkit.ChatColor;
@@ -557,10 +552,10 @@ public class UltimateUpdater {
                 return false;
             }
 
-            UltimateUpdater.versionName = (String) ((JSONObject) array.get(array.size() - 1)).get(UltimateUpdater.TITLE_VALUE);
-            this.versionLink = (String) ((JSONObject) array.get(array.size() - 1)).get(UltimateUpdater.LINK_VALUE);
-            this.versionType = (String) ((JSONObject) array.get(array.size() - 1)).get(UltimateUpdater.TYPE_VALUE);
-            this.versionGameVersion = (String) ((JSONObject) array.get(array.size() - 1)).get(UltimateUpdater.VERSION_VALUE);
+            UltimateUpdater.versionName = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.TITLE_VALUE);
+            this.versionLink = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.LINK_VALUE);
+            this.versionType = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.TYPE_VALUE);
+            this.versionGameVersion = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.VERSION_VALUE);
 
             return true;
         } catch (final IOException e) {

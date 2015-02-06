@@ -24,14 +24,13 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
-
-import java.util.*;
 
 abstract interface UText {
 
@@ -279,6 +278,10 @@ class PluginCommandsInput
 
 class TextPager {
 
+    private static String capitalCase(String input) {
+        return input.toUpperCase(Locale.ENGLISH).charAt(0) + input.toLowerCase(Locale.ENGLISH).substring(1);
+    }
+
     private final transient UText text;
     private final transient boolean onePage;
 
@@ -291,17 +294,13 @@ class TextPager {
         this.onePage = onePage;
     }
 
-    private static String capitalCase(String input) {
-        return input.toUpperCase(Locale.ENGLISH).charAt(0) + input.toLowerCase(Locale.ENGLISH).substring(1);
-    }
-
     public void showPage(String pageStr, String chapterPageStr, String commandName, CommandSender sender) {
         List<String> lines = this.text.getLines();
         List<String> chapters = this.text.getChapters();
         Map<String, Integer> bookmarks = this.text.getBookmarks();
 
         if ((pageStr == null) || (pageStr.isEmpty()) || (pageStr.matches("[0-9]+"))) {
-            if ((!lines.isEmpty()) && (((String) lines.get(0)).startsWith("#"))) {
+            if ((!lines.isEmpty()) && (lines.get(0).startsWith("#"))) {
                 if (this.onePage) {
                     return;
                 }
@@ -332,7 +331,7 @@ class TextPager {
             int start = this.onePage ? 0 : (page - 1) * 9;
             int end;
             for (end = 0; end < lines.size(); end++) {
-                String line = (String) lines.get(end);
+                String line = lines.get(end);
                 if (line.startsWith("#")) {
                     break;
                 }
@@ -356,7 +355,7 @@ class TextPager {
                 if (i >= start + (this.onePage ? 20 : 9)) {
                     break;
                 }
-                sender.sendMessage(new StringBuilder().append(ChatColor.RESET).append((String) lines.get(i)).toString());
+                sender.sendMessage(new StringBuilder().append(ChatColor.RESET).append(lines.get(i)).toString());
             }
             if ((!this.onePage) && (page < pages) && (commandName != null)) {
                 if (commandName.startsWith("plugin")) {
@@ -386,11 +385,11 @@ class TextPager {
             return;
         }
 
-        int chapterstart = ((Integer) bookmarks.get(pageStr.toLowerCase(Locale.ENGLISH))).intValue() + 1;
+        int chapterstart = bookmarks.get(pageStr.toLowerCase(Locale.ENGLISH)).intValue() + 1;
 
         int chapterend;
         for (chapterend = chapterstart; chapterend < lines.size(); chapterend++) {
-            String line = (String) lines.get(chapterend);
+            String line = lines.get(chapterend);
             if ((line.length() > 0) && (line.charAt(0) == '#')) {
                 break;
             }
@@ -410,7 +409,7 @@ class TextPager {
             if (i >= start + (this.onePage ? 20 : 9)) {
                 break;
             }
-            sender.sendMessage(new StringBuilder().append(ChatColor.RESET).append((String) lines.get(i)).toString());
+            sender.sendMessage(new StringBuilder().append(ChatColor.RESET).append(lines.get(i)).toString());
         }
         if ((!this.onePage) && (page < pages) && (commandName != null)) {
             if (commandName.startsWith("plugin")) {
@@ -421,4 +420,5 @@ class TextPager {
             r.sendMes(sender, "helpTip", "%Page", pageStr + " " + (page + 1));
         }
     }
+
 }

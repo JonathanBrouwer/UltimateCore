@@ -25,9 +25,8 @@ package bammerbom.ultimatecore.bukkit.api;
 
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.utils.FireworkUtil;
-import org.bukkit.*;
-
 import java.io.File;
+import org.bukkit.*;
 
 public class UCworld {
 

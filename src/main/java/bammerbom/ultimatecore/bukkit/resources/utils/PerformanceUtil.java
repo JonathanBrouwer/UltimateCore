@@ -37,7 +37,7 @@ public class PerformanceUtil {
             public void run() {
                 long now = System.currentTimeMillis();
                 Float timeSpent = ((now - lastPoll) * 1.0F) / 1000.0F;
-                float tpsn = ((float) timeSpent * 20.0F);
+                float tpsn = (timeSpent * 20.0F);
                 if (tpsn > 20.0F) {
                     tpsn = 20.0F;
                 }

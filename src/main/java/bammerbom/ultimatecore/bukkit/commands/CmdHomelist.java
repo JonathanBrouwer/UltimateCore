@@ -25,13 +25,13 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CmdHomelist implements UltimateCommand {
 
@@ -86,6 +86,6 @@ public class CmdHomelist implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return new ArrayList<>();
         }
-        return UC.getPlayer((Player) cs).getHomeNames();
+        return UC.getPlayer((OfflinePlayer) cs).getHomeNames();
     }
 }

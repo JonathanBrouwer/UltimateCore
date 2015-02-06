@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -33,8 +34,6 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
-
-import java.util.*;
 
 public class CmdMobtp implements UltimateCommand {
 
@@ -130,8 +129,8 @@ public class CmdMobtp implements UltimateCommand {
         en.setCustomName(eo.getCustomName());
         en.setCustomNameVisible(eo.isCustomNameVisible());
         en.setFireTicks(eo.getFireTicks());
-        en.setMaxHealth(((Damageable) eo).getMaxHealth());
-        en.setHealth(((Damageable) eo).getHealth());
+        en.setMaxHealth(eo.getMaxHealth());
+        en.setHealth(eo.getHealth());
         en.setLastDamage(eo.getLastDamage());
         en.setLastDamageCause(eo.getLastDamageCause());
         en.setMaximumAir(eo.getMaximumAir());

@@ -38,7 +38,7 @@ class MemoryConfigurationOptions {
     }
 
     public MemoryConfiguration configuration() {
-        return (MemoryConfiguration) configuration;
+        return configuration;
     }
 
     public char pathSeparator() {

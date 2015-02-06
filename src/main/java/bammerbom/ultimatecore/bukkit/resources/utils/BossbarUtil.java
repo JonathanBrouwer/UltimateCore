@@ -48,8 +48,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 public class BossbarUtil implements Listener {
 
     static boolean enabled = false;
-    private static HashMap<UUID, FakeDragon> players = new HashMap<UUID, FakeDragon>();
-    private static HashMap<UUID, Integer> timers = new HashMap<UUID, Integer>();
+    private static HashMap<UUID, FakeDragon> players = new HashMap<>();
+    private static HashMap<UUID, Integer> timers = new HashMap<>();
 
     public static void enable() {
         if (enabled == true) {
@@ -61,7 +61,7 @@ public class BossbarUtil implements Listener {
             public void run() {
                 for (UUID uuid : players.keySet()) {
                     Player p = Bukkit.getPlayer(uuid);
-                    Util.sendPacket(p, ((FakeDragon) players.get(uuid)).getTeleportPacket(getDragonLocation(p.getLocation())));
+                    Util.sendPacket(p, players.get(uuid).getTeleportPacket(getDragonLocation(p.getLocation())));
                 }
             }
         }, 0L, 5L);
@@ -73,7 +73,7 @@ public class BossbarUtil implements Listener {
         }
         players.clear();
         for (Iterator<Integer> i = timers.values().iterator(); i.hasNext();) {
-            int timerID = ((Integer) i.next()).intValue();
+            int timerID = i.next().intValue();
             Bukkit.getScheduler().cancelTask(timerID);
         }
         timers.clear();
@@ -87,7 +87,7 @@ public class BossbarUtil implements Listener {
     }
 
     private static void cancelTimer(Player player) {
-        Integer timerID = (Integer) timers.remove(player.getUniqueId());
+        Integer timerID = timers.remove(player.getUniqueId());
         if (timerID != null) {
             Bukkit.getScheduler().cancelTask(timerID.intValue());
         }
@@ -100,7 +100,7 @@ public class BossbarUtil implements Listener {
 
     private static FakeDragon getDragon(Player player, String message) {
         if (hasBar(player)) {
-            return (FakeDragon) players.get(player.getUniqueId());
+            return players.get(player.getUniqueId());
         }
         return addDragon(player, cleanMessage(message));
     }
@@ -594,7 +594,7 @@ class FakeDragon {
             motZ.set(this.dragon, Byte.valueOf(getZvel()));
 
             Method getId = Util.getMethod(EntityEnderDragon, "getId", new Class[0]);
-            this.id = ((Integer) getId.invoke(this.dragon, new Object[0])).intValue();
+            this.id = ((Number) getId.invoke(this.dragon, new Object[0])).intValue();
 
             Class<?> PacketPlayOutSpawnEntityLiving = Util.getCraftClass("PacketPlayOutSpawnEntityLiving");
 

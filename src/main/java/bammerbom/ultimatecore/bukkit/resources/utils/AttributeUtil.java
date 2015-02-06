@@ -28,37 +28,16 @@ import bammerbom.ultimatecore.bukkit.resources.utils.NbtFactory.NbtList;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-import com.google.common.collect.MapMaker;
-import com.google.common.collect.Maps;
+import com.google.common.collect.*;
 import com.google.common.io.Closeables;
 import com.google.common.io.Files;
 import com.google.common.primitives.Primitives;
-import java.io.BufferedInputStream;
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.AbstractList;
-import java.util.AbstractMap;
-import java.util.AbstractSet;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -161,32 +140,6 @@ public class AttributeUtil {
         };
     }
 
-    public enum Operation {
-
-        ADD_NUMBER(0),
-        MULTIPLY_PERCENTAGE(1),
-        ADD_PERCENTAGE(2);
-        private int id;
-
-        private Operation(int id) {
-            this.id = id;
-        }
-
-        public static Operation fromId(int id) {
-            // Linear scan is very fast for small N
-            for (Operation op : values()) {
-                if (op.getId() == id) {
-                    return op;
-                }
-            }
-            throw new IllegalArgumentException("Corrupt operation ID " + id + " detected.");
-        }
-
-        public int getId() {
-            return id;
-        }
-    }
-
     public static class AttributeType {
 
         public static final AttributeType GENERIC_MAX_HEALTH = new AttributeType("generic.maxHealth").register();
@@ -195,18 +148,6 @@ public class AttributeUtil {
         public static final AttributeType GENERIC_MOVEMENT_SPEED = new AttributeType("generic.movementSpeed").register();
         public static final AttributeType GENERIC_KNOCKBACK_RESISTANCE = new AttributeType("generic.knockbackResistance").register();
         private static ConcurrentMap<String, AttributeType> LOOKUP = Maps.newConcurrentMap();
-        private final String minecraftId;
-
-        /**
-         * Construct a new attribute type.
-         * <p/>
-         * Remember to {@link #register()} the type.
-         *
-         * @param minecraftId - the ID of the type.
-         */
-        public AttributeType(String minecraftId) {
-            this.minecraftId = minecraftId;
-        }
 
         /**
          * Retrieve the attribute type associated with a given ID.
@@ -225,6 +166,18 @@ public class AttributeUtil {
          */
         public static Iterable<AttributeType> values() {
             return LOOKUP.values();
+        }
+        private final String minecraftId;
+
+        /**
+         * Construct a new attribute type.
+         * <p/>
+         * Remember to {@link #register()} the type.
+         *
+         * @param minecraftId - the ID of the type.
+         */
+        public AttributeType(String minecraftId) {
+            this.minecraftId = minecraftId;
         }
 
         /**
@@ -246,9 +199,20 @@ public class AttributeUtil {
             AttributeType old = LOOKUP.putIfAbsent(minecraftId, this);
             return old != null ? old : this;
         }
+
     }
 
     public static class Attribute {
+
+        /**
+         * Construct a new attribute builder with a random UUID and default
+         * operation of adding numbers.
+         *
+         * @return The attribute builder.
+         */
+        public static Builder newBuilder() {
+            return new Builder().uuid(UUID.randomUUID()).operation(Operation.ADD_NUMBER);
+        }
 
         private NbtCompound data;
 
@@ -263,16 +227,6 @@ public class AttributeUtil {
 
         private Attribute(NbtCompound data) {
             this.data = data;
-        }
-
-        /**
-         * Construct a new attribute builder with a random UUID and default
-         * operation of adding numbers.
-         *
-         * @return The attribute builder.
-         */
-        public static Builder newBuilder() {
-            return new Builder().uuid(UUID.randomUUID()).operation(Operation.ADD_NUMBER);
         }
 
         public double getAmount() {
@@ -320,6 +274,7 @@ public class AttributeUtil {
             data.put("UUIDMost", id.getMostSignificantBits());
         }
 
+
         // Makes it easier to construct an attribute
         public static class Builder {
 
@@ -353,14 +308,41 @@ public class AttributeUtil {
                 return this;
             }
 
+            public Attribute build() {
+                return new Attribute(this);
+            }
+
             public Builder uuid(UUID uuid) {
                 this.uuid = uuid;
                 return this;
             }
 
-            public Attribute build() {
-                return new Attribute(this);
+        }
+    }
+
+    public enum Operation {
+
+        ADD_NUMBER(0),
+        MULTIPLY_PERCENTAGE(1),
+        ADD_PERCENTAGE(2);
+        private final int id;
+
+        private Operation(int id) {
+            this.id = id;
+        }
+
+        public static Operation fromId(int id) {
+            // Linear scan is very fast for small N
+            for (Operation op : values()) {
+                if (op.getId() == id) {
+                    return op;
+                }
             }
+            throw new IllegalArgumentException("Corrupt operation ID " + id + " detected.");
+        }
+
+        public int getId() {
+            return id;
         }
     }
 }
@@ -372,55 +354,6 @@ class NbtFactory {
     private static final BiMap<Integer, NbtType> NBT_ENUM = HashBiMap.create();
     // Shared instance
     private static NbtFactory INSTANCE;
-    private final Field[] DATA_FIELD = new Field[12];
-    // The NBT base class
-    private Class<?> BASE_CLASS;
-    private Class<?> COMPOUND_CLASS;
-    private Method NBT_CREATE_TAG;
-    private Method NBT_GET_TYPE;
-    private Field NBT_LIST_TYPE;
-    // CraftItemStack
-    private Class<?> CRAFT_STACK;
-    private Field CRAFT_HANDLE;
-    private Field STACK_TAG;
-    // Loading/saving compounds
-    private Method LOAD_COMPOUND;
-    private Method SAVE_COMPOUND;
-
-    /**
-     * Construct an instance of the NBT factory by deducing the class of
-     * NBTBase.
-     */
-    private NbtFactory() {
-        if (BASE_CLASS == null) {
-            try {
-                // Keep in mind that I do use hard-coded field names - but it's okay as long as we're dealing
-                // with CraftBukkit or its derivatives. This does not work in MCPC+ however.
-                ClassLoader loader = NbtFactory.class.getClassLoader();
-                //String packageName = "org.bukkit.craftbukkit.v1_6_R2";
-                String packageName = Bukkit.getServer().getClass().getPackage().getName();
-                Class<?> offlinePlayer = loader.loadClass(packageName + ".CraftOfflinePlayer");
-
-                // Prepare NBT
-                COMPOUND_CLASS = getMethod(0, Modifier.STATIC, offlinePlayer, "getData").getReturnType();
-                BASE_CLASS = COMPOUND_CLASS.getSuperclass();
-                NBT_GET_TYPE = getMethod(0, Modifier.STATIC, BASE_CLASS, "getTypeId");
-                NBT_CREATE_TAG = getMethod(Modifier.STATIC, 0, BASE_CLASS, "createTag", byte.class, String.class);
-
-                // Prepare CraftItemStack
-                CRAFT_STACK = loader.loadClass(packageName + ".inventory.CraftItemStack");
-                CRAFT_HANDLE = getField(null, CRAFT_STACK, "handle");
-                STACK_TAG = getField(null, CRAFT_HANDLE.getType(), "tag");
-
-                // Loading/saving
-                LOAD_COMPOUND = getMethod(Modifier.STATIC, 0, BASE_CLASS, null, DataInput.class);
-                SAVE_COMPOUND = getMethod(Modifier.STATIC, 0, BASE_CLASS, null, BASE_CLASS, DataOutput.class);
-
-            } catch (ClassNotFoundException e) {
-                throw new IllegalStateException("Unable to find offline player.", e);
-            }
-        }
-    }
 
     /**
      * Retrieve or construct a shared NBT factory.
@@ -741,6 +674,55 @@ class NbtFactory {
         }
         throw new IllegalStateException("Unable to find field " + fieldName + " in " + instance);
     }
+    private final Field[] DATA_FIELD = new Field[12];
+    // The NBT base class
+    private Class<?> BASE_CLASS;
+    private Class<?> COMPOUND_CLASS;
+    private Method NBT_CREATE_TAG;
+    private Method NBT_GET_TYPE;
+    private Field NBT_LIST_TYPE;
+    // CraftItemStack
+    private Class<?> CRAFT_STACK;
+    private Field CRAFT_HANDLE;
+    private Field STACK_TAG;
+    // Loading/saving compounds
+    private Method LOAD_COMPOUND;
+    private Method SAVE_COMPOUND;
+
+    /**
+     * Construct an instance of the NBT factory by deducing the class of
+     * NBTBase.
+     */
+    private NbtFactory() {
+        if (BASE_CLASS == null) {
+            try {
+                // Keep in mind that I do use hard-coded field names - but it's okay as long as we're dealing
+                // with CraftBukkit or its derivatives. This does not work in MCPC+ however.
+                ClassLoader loader = NbtFactory.class.getClassLoader();
+                //String packageName = "org.bukkit.craftbukkit.v1_6_R2";
+                String packageName = Bukkit.getServer().getClass().getPackage().getName();
+                Class<?> offlinePlayer = loader.loadClass(packageName + ".CraftOfflinePlayer");
+
+                // Prepare NBT
+                COMPOUND_CLASS = getMethod(0, Modifier.STATIC, offlinePlayer, "getData").getReturnType();
+                BASE_CLASS = COMPOUND_CLASS.getSuperclass();
+                NBT_GET_TYPE = getMethod(0, Modifier.STATIC, BASE_CLASS, "getTypeId");
+                NBT_CREATE_TAG = getMethod(Modifier.STATIC, 0, BASE_CLASS, "createTag", byte.class, String.class);
+
+                // Prepare CraftItemStack
+                CRAFT_STACK = loader.loadClass(packageName + ".inventory.CraftItemStack");
+                CRAFT_HANDLE = getField(null, CRAFT_STACK, "handle");
+                STACK_TAG = getField(null, CRAFT_HANDLE.getType(), "tag");
+
+                // Loading/saving
+                LOAD_COMPOUND = getMethod(Modifier.STATIC, 0, BASE_CLASS, null, DataInput.class);
+                SAVE_COMPOUND = getMethod(Modifier.STATIC, 0, BASE_CLASS, null, BASE_CLASS, DataOutput.class);
+
+            } catch (ClassNotFoundException e) {
+                throw new IllegalStateException("Unable to find offline player.", e);
+            }
+        }
+    }
 
     @SuppressWarnings("unchecked")
     private Map<String, Object> getDataMap(Object handle) {
@@ -850,7 +832,7 @@ class NbtFactory {
      * @return The corresponding type.
      */
     private NbtType getNbtType(Object nms) {
-        int type = (Byte) invokeMethod(NBT_GET_TYPE, nms);
+        int type = (int) invokeMethod(NBT_GET_TYPE, nms);
         return NBT_ENUM.get(type);
     }
 
@@ -871,6 +853,21 @@ class NbtFactory {
                     "Illegal type: %s (%s)", primitive.getClass(), primitive));
         }
         return type;
+    }
+
+    /**
+     * Represents an object that provides a view of a native NMS class.
+     *
+     * @author Kristian
+     */
+    public static interface Wrapper {
+
+        /**
+         * Retrieve the underlying native NBT tag.
+         *
+         * @return The underlying NBT.
+         */
+        public Object getHandle();
     }
 
     /**
@@ -917,21 +914,6 @@ class NbtFactory {
                 return "data";
             }
         }
-    }
-
-    /**
-     * Represents an object that provides a view of a native NMS class.
-     *
-     * @author Kristian
-     */
-    public static interface Wrapper {
-
-        /**
-         * Retrieve the underlying native NBT tag.
-         *
-         * @return The underlying NBT.
-         */
-        public Object getHandle();
     }
 
     /**
@@ -1186,9 +1168,8 @@ class NbtFactory {
         // Modification
         @Override
         public Object put(String key, Object value) {
-            return wrapOutgoing(original.put(
-                    (String) key,
-                    unwrapIncoming((String) key, value)
+            return wrapOutgoing(original.put(key,
+                    unwrapIncoming(key, value)
             ));
         }
 
@@ -1245,7 +1226,7 @@ class NbtFactory {
                 public Entry<String, Object> next() {
                     Entry<String, Object> entry = proxy.next();
 
-                    return new SimpleEntry<String, Object>(
+                    return new SimpleEntry<>(
                             entry.getKey(), wrapOutgoing(entry.getValue())
                     );
                 }

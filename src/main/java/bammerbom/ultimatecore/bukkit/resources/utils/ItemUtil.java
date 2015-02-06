@@ -26,6 +26,11 @@ package bammerbom.ultimatecore.bukkit.resources.utils;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import net.milkbowl.vault.item.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -34,12 +39,6 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 @SuppressWarnings({"deprecation", "unchecked"})
 public class ItemUtil {
@@ -195,10 +194,6 @@ class EnchantGlow extends EnchantmentWrapper {
 
     private static Enchantment glow;
 
-    public EnchantGlow(int id) {
-        super(id);
-    }
-
     public static Enchantment getGlow() {
         if (glow != null) {
             return glow;
@@ -221,6 +216,10 @@ class EnchantGlow extends EnchantmentWrapper {
         Enchantment glow = getGlow();
 
         item.addEnchantment(glow, 1);
+    }
+
+    public EnchantGlow(int id) {
+        super(id);
     }
 
     @Override

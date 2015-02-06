@@ -25,23 +25,12 @@ package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.zip.GZIPOutputStream;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -69,72 +58,6 @@ public final class UltimateMetrics {
      * Interval of time to ping (in minutes)
      */
     private static final int PING_INTERVAL = 15;
-
-    /**
-     * The plugin this metrics submits for
-     */
-    private final Plugin plugin;
-
-    /**
-     * All of the custom graphs to submit to metrics
-     */
-    private final Set<Graph> graphs = Collections.synchronizedSet(new HashSet<Graph>());
-    /**
-     * The plugin configuration file
-     */
-    private final File configurationFile;
-    /**
-     * Unique server id
-     */
-    private final String guid;
-    /**
-     * Debug mode
-     */
-    private final boolean debug;
-    /**
-     * Lock for synchronization
-     */
-    private final Object optOutLock = new Object();
-    /**
-     * The plugin configuration file
-     */
-    private Config configuration;
-    /**
-     * The scheduled task
-     */
-    private volatile BukkitTask task = null;
-
-    public UltimateMetrics(final Plugin plugin) throws IOException {
-        if (plugin == null) {
-            throw new IllegalArgumentException("Plugin cannot be null");
-        }
-
-        this.plugin = plugin;
-
-        // load the config
-        configurationFile = getConfigFile();
-        if (!configurationFile.exists()) {
-            configurationFile.getParentFile().mkdir();
-            configurationFile.createNewFile();
-        }
-        configuration = new Config(configurationFile);
-
-        // add some defaults
-        configuration.addDefault("opt-out", false);
-        configuration.addDefault("guid", UUID.randomUUID().toString());
-        configuration.addDefault("debug", false);
-
-        // Do we need to create the file?
-        if (configuration.get("guid") == null) {
-            configuration.setHeader("http://mcstats.org");
-            configuration.copyDefaults(true);
-            configuration.save(configurationFile);
-        }
-
-        // Load the guid then
-        guid = configuration.getString("guid");
-        debug = false;
-    }
 
     /**
      * GZip compress a string of bytes
@@ -251,6 +174,72 @@ public final class UltimateMetrics {
      */
     private static String urlEncode(final String text) throws UnsupportedEncodingException {
         return URLEncoder.encode(text, "UTF-8");
+    }
+
+    /**
+     * The plugin this metrics submits for
+     */
+    private final Plugin plugin;
+
+    /**
+     * All of the custom graphs to submit to metrics
+     */
+    private final Set<Graph> graphs = Collections.synchronizedSet(new HashSet<Graph>());
+    /**
+     * The plugin configuration file
+     */
+    private final File configurationFile;
+    /**
+     * Unique server id
+     */
+    private final String guid;
+    /**
+     * Debug mode
+     */
+    private final boolean debug;
+    /**
+     * Lock for synchronization
+     */
+    private final Object optOutLock = new Object();
+    /**
+     * The plugin configuration file
+     */
+    private Config configuration;
+    /**
+     * The scheduled task
+     */
+    private volatile BukkitTask task = null;
+
+    public UltimateMetrics(final Plugin plugin) throws IOException {
+        if (plugin == null) {
+            throw new IllegalArgumentException("Plugin cannot be null");
+        }
+
+        this.plugin = plugin;
+
+        // load the config
+        configurationFile = getConfigFile();
+        if (!configurationFile.exists()) {
+            configurationFile.getParentFile().mkdir();
+            configurationFile.createNewFile();
+        }
+        configuration = new Config(configurationFile);
+
+        // add some defaults
+        configuration.addDefault("opt-out", false);
+        configuration.addDefault("guid", UUID.randomUUID().toString());
+        configuration.addDefault("debug", false);
+
+        // Do we need to create the file?
+        if (configuration.get("guid") == null) {
+            configuration.setHeader("http://mcstats.org");
+            configuration.copyDefaults(true);
+            configuration.save(configurationFile);
+        }
+
+        // Load the guid then
+        guid = configuration.getString("guid");
+        debug = false;
     }
 
     /**

@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.PerformanceUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.UuidUtil;
+import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -36,8 +37,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
 
 public class UltimateCore extends JavaPlugin {
 
@@ -96,6 +95,7 @@ public class UltimateCore extends JavaPlugin {
             ExplosionListener.start();
             JoinLeaveListener.start();
             MotdListener.start();
+            PluginStealListener.start();
             RespawnListener.start();
             SignListener.start();
             //

@@ -28,18 +28,18 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.*;
+import static org.bukkit.entity.EntityType.*;
 import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import static org.bukkit.event.entity.EntityDamageEvent.DamageCause.*;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.projectiles.ProjectileSource;
-
-import static org.bukkit.entity.EntityType.*;
-import static org.bukkit.event.entity.EntityDamageEvent.DamageCause.*;
 
 public class DeathmessagesListener implements Listener {
 
@@ -139,13 +139,13 @@ public class DeathmessagesListener implements Listener {
             switch (ev.getDamager().getType()) {
                 case ARROW:
                     Projectile pr = (Projectile) ev.getDamager();
-                    if (((ProjectileSource) pr.getShooter()) instanceof Player) {
+                    if (pr.getShooter() instanceof Player) {
                         Player k = (Player) pr.getShooter();
                         String name = "a Bow";
                         if (k.getItemInHand().hasItemMeta() && k.getItemInHand().getItemMeta().hasDisplayName()) {
                             name = k.getItemInHand().getItemMeta().getDisplayName();
                         }
-                        return r.mes("deathmessagePlayer").replaceAll("%Killed", (UC.getPlayer(p).getDisplayName())).replaceAll("%Killer", (UC.getPlayer((Player) pr.getShooter()).getDisplayName())).replaceAll("%Weapon", name);
+                        return r.mes("deathmessagePlayer").replaceAll("%Killed", (UC.getPlayer(p).getDisplayName())).replaceAll("%Killer", (UC.getPlayer((OfflinePlayer) pr.getShooter()).getDisplayName())).replaceAll("%Weapon", name);
 
                     } else if (pr.getShooter() instanceof Skeleton) {
                         Skeleton sk = (Skeleton) pr.getShooter();
@@ -285,7 +285,7 @@ public class DeathmessagesListener implements Listener {
 
                 case PLAYER:
                     Player k = (Player) ev.getDamager();
-                    String name = ItemUtil.getTypeName(((Player) ev.getDamager()).getItemInHand());
+                    String name = ItemUtil.getTypeName(((HumanEntity) ev.getDamager()).getItemInHand());
                     if (k.getItemInHand().hasItemMeta() && k.getItemInHand().getItemMeta().hasDisplayName()) {
                         name = k.getItemInHand().getItemMeta().getDisplayName();
                     } else {
@@ -296,7 +296,7 @@ public class DeathmessagesListener implements Listener {
                         }
                     }
                     name = ChatColor.stripColor(name);
-                    return (r.mes("deathmessagePlayer").replaceAll("%Killed", (UC.getPlayer(p).getDisplayName())).replaceAll("%Killer", ((Player) ev.getDamager()).getName()).replaceAll("%Weapon", name));
+                    return (r.mes("deathmessagePlayer").replaceAll("%Killed", (UC.getPlayer(p).getDisplayName())).replaceAll("%Killer", ((AnimalTamer) ev.getDamager()).getName()).replaceAll("%Weapon", name));
 
                 case PRIMED_TNT:
                     return (r.mes("deathmessageTNT").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));

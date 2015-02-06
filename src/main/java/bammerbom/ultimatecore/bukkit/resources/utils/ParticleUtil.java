@@ -447,8 +447,8 @@ public enum ParticleUtil {
      */
     MOB_APPEARANCE("mobappearance", 41, 8);
 
-    private static final Map<String, ParticleUtil> NAME_MAP = new HashMap<String, ParticleUtil>();
-    private static final Map<Integer, ParticleUtil> ID_MAP = new HashMap<Integer, ParticleUtil>();
+    private static final Map<String, ParticleUtil> NAME_MAP = new HashMap<>();
+    private static final Map<Integer, ParticleUtil> ID_MAP = new HashMap<>();
     private final String name;
     private final int id;
     private final int requiredVersion;
@@ -1309,7 +1309,7 @@ public enum ParticleUtil {
          */
         @Override
         public float getValueX() {
-            return (float) red / 255F;
+            return red / 255F;
         }
 
         /**
@@ -1319,7 +1319,7 @@ public enum ParticleUtil {
          */
         @Override
         public float getValueY() {
-            return (float) green / 255F;
+            return green / 255F;
         }
 
         /**
@@ -1329,7 +1329,7 @@ public enum ParticleUtil {
          */
         @Override
         public float getValueZ() {
-            return (float) blue / 255F;
+            return blue / 255F;
         }
     }
 
@@ -1370,7 +1370,7 @@ public enum ParticleUtil {
          */
         @Override
         public float getValueX() {
-            return (float) note / 24F;
+            return note / 24F;
         }
 
         /**
@@ -1488,6 +1488,60 @@ public enum ParticleUtil {
         private static Field playerConnection;
         private static Method sendPacket;
         private static boolean initialized;
+
+        /**
+         * Initializes
+         * {@link #packetConstructor}, {@link #getHandle}, {@link #playerConnection}
+         * and {@link #sendPacket} and sets {@link #initialized} to
+         * <code>true</code> if it succeeds
+         * <p/>
+         * <b>Note:</b> These fields only have to be initialized once, so it
+         * will return if {@link #initialized} is already set to
+         * <code>true</code>
+         *
+         * @throws VersionIncompatibleException if your bukkit version is not
+         * supported by this library
+         */
+        public static void initialize() throws VersionIncompatibleException {
+            if (initialized) {
+                return;
+            }
+            try {
+                version = Integer.parseInt(Character.toString(PackageType.getServerVersion().charAt(3)));
+                if (version > 7) {
+                    enumParticle = PackageType.MINECRAFT_SERVER.getClass("EnumParticle");
+                }
+                Class<?> packetClass = PackageType.MINECRAFT_SERVER.getClass(version < 7 ? "Packet63WorldParticles" : "PacketPlayOutWorldParticles");
+                packetConstructor = ReflectionUtils.getConstructor(packetClass);
+                getHandle = ReflectionUtils.getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
+                playerConnection = ReflectionUtils.getField("EntityPlayer", PackageType.MINECRAFT_SERVER, false, "playerConnection");
+                sendPacket = ReflectionUtils.getMethod(playerConnection.getType(), "sendPacket", PackageType.MINECRAFT_SERVER.getClass("Packet"));
+            } catch (Exception exception) {
+                throw new VersionIncompatibleException("Your current bukkit version seems to be incompatible with this library", exception);
+            }
+            initialized = true;
+        }
+
+        /**
+         * Returns the version of your server (1.x)
+         *
+         * @return The version number
+         */
+        public static int getVersion() {
+            return version;
+        }
+
+        /**
+         * Determine if
+         * {@link #packetConstructor}, {@link #getHandle}, {@link #playerConnection}
+         * and {@link #sendPacket} are initialized
+         *
+         * @return Whether these fields are initialized or not
+         * @see #initialize()
+         */
+        public static boolean isInitialized() {
+            return initialized;
+        }
         private final ParticleUtil effect;
         private final float offsetX;
         private final float offsetY;
@@ -1565,60 +1619,6 @@ public enum ParticleUtil {
          */
         public ParticlePacket(ParticleUtil effect, ParticleColor color, boolean longDistance) {
             this(effect, color.getValueX(), color.getValueY(), color.getValueZ(), 1, 0, longDistance, null);
-        }
-
-        /**
-         * Initializes
-         * {@link #packetConstructor}, {@link #getHandle}, {@link #playerConnection}
-         * and {@link #sendPacket} and sets {@link #initialized} to
-         * <code>true</code> if it succeeds
-         * <p/>
-         * <b>Note:</b> These fields only have to be initialized once, so it
-         * will return if {@link #initialized} is already set to
-         * <code>true</code>
-         *
-         * @throws VersionIncompatibleException if your bukkit version is not
-         * supported by this library
-         */
-        public static void initialize() throws VersionIncompatibleException {
-            if (initialized) {
-                return;
-            }
-            try {
-                version = Integer.parseInt(Character.toString(PackageType.getServerVersion().charAt(3)));
-                if (version > 7) {
-                    enumParticle = PackageType.MINECRAFT_SERVER.getClass("EnumParticle");
-                }
-                Class<?> packetClass = PackageType.MINECRAFT_SERVER.getClass(version < 7 ? "Packet63WorldParticles" : "PacketPlayOutWorldParticles");
-                packetConstructor = ReflectionUtils.getConstructor(packetClass);
-                getHandle = ReflectionUtils.getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
-                playerConnection = ReflectionUtils.getField("EntityPlayer", PackageType.MINECRAFT_SERVER, false, "playerConnection");
-                sendPacket = ReflectionUtils.getMethod(playerConnection.getType(), "sendPacket", PackageType.MINECRAFT_SERVER.getClass("Packet"));
-            } catch (Exception exception) {
-                throw new VersionIncompatibleException("Your current bukkit version seems to be incompatible with this library", exception);
-            }
-            initialized = true;
-        }
-
-        /**
-         * Returns the version of your server (1.x)
-         *
-         * @return The version number
-         */
-        public static int getVersion() {
-            return version;
-        }
-
-        /**
-         * Determine if
-         * {@link #packetConstructor}, {@link #getHandle}, {@link #playerConnection}
-         * and {@link #sendPacket} are initialized
-         *
-         * @return Whether these fields are initialized or not
-         * @see #initialize()
-         */
-        public static boolean isInitialized() {
-            return initialized;
         }
 
         /**
@@ -1721,6 +1721,7 @@ public enum ParticleUtil {
             }
         }
 
+
         /**
          * Represents a runtime exception that is thrown if a bukkit version is
          * not compatible with this library
@@ -1818,10 +1819,6 @@ public enum ParticleUtil {
  */
 final class ReflectionUtils {
 
-    // Prevent accidental construction
-    private ReflectionUtils() {
-    }
-
     /**
      * Returns the constructor of a given class with the given parameter types
      *
@@ -1834,17 +1831,16 @@ final class ReflectionUtils {
      * @see DataType
      * @see DataType#getPrimitive(Class[])
      * @see DataType#compare(Class[], Class[])
-     */
-    public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... parameterTypes) throws NoSuchMethodException {
-        Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
-        for (Constructor<?> constructor : clazz.getConstructors()) {
-            if (!DataType.compare(DataType.getPrimitive(constructor.getParameterTypes()), primitiveTypes)) {
-                continue;
-            }
-            return constructor;
-        }
-        throw new NoSuchMethodException("There is no such constructor in this class with the specified parameter types");
-    }
+     */    public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... parameterTypes) throws NoSuchMethodException {
+         Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
+         for (Constructor<?> constructor : clazz.getConstructors()) {
+             if (!DataType.compare(DataType.getPrimitive(constructor.getParameterTypes()), primitiveTypes)) {
+                 continue;
+             }
+             return constructor;
+         }
+         throw new NoSuchMethodException("There is no such constructor in this class with the specified parameter types");
+     }
 
     /**
      * Returns the constructor of a desired class with the given parameter types
@@ -1861,8 +1857,8 @@ final class ReflectionUtils {
      * @see #getClass(String, PackageType)
      * @see #getConstructor(Class, Class...)
      */
-    public static Constructor<?> getConstructor(String className, PackageType packageType, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
-        return getConstructor(packageType.getClass(className), parameterTypes);
+     public static Constructor<?> getConstructor(String className, PackageType packageType, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
+         return getConstructor(packageType.getClass(className), parameterTypes);
     }
 
     /**
@@ -1884,8 +1880,8 @@ final class ReflectionUtils {
      * @throws NoSuchMethodException If the desired constructor with the
      * specified arguments cannot be found
      */
-    public static Object instantiateObject(Class<?> clazz, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
-        return getConstructor(clazz, DataType.getPrimitive(arguments)).newInstance(arguments);
+     public static Object instantiateObject(Class<?> clazz, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+         return getConstructor(clazz, DataType.getPrimitive(arguments)).newInstance(arguments);
     }
 
     /**
@@ -1913,8 +1909,8 @@ final class ReflectionUtils {
      * @see #getClass(String, PackageType)
      * @see #instantiateObject(Class, Object...)
      */
-    public static Object instantiateObject(String className, PackageType packageType, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
-        return instantiateObject(packageType.getClass(className), arguments);
+     public static Object instantiateObject(String className, PackageType packageType, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+         return instantiateObject(packageType.getClass(className), arguments);
     }
 
     /**
@@ -1930,15 +1926,15 @@ final class ReflectionUtils {
      * @see DataType#getPrimitive(Class[])
      * @see DataType#compare(Class[], Class[])
      */
-    public static Method getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
-        Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
-        for (Method method : clazz.getMethods()) {
-            if (!method.getName().equals(methodName) || !DataType.compare(DataType.getPrimitive(method.getParameterTypes()), primitiveTypes)) {
-                continue;
-            }
-            return method;
-        }
-        throw new NoSuchMethodException("There is no such method in this class with the specified name and parameter types");
+     public static Method getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
+         Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
+         for (Method method : clazz.getMethods()) {
+             if (!method.getName().equals(methodName) || !DataType.compare(DataType.getPrimitive(method.getParameterTypes()), primitiveTypes)) {
+                 continue;
+             }
+             return method;
+         }
+         throw new NoSuchMethodException("There is no such method in this class with the specified name and parameter types");
     }
 
     /**
@@ -1957,8 +1953,8 @@ final class ReflectionUtils {
      * @see #getClass(String, PackageType)
      * @see #getMethod(Class, String, Class...)
      */
-    public static Method getMethod(String className, PackageType packageType, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
-        return getMethod(packageType.getClass(className), methodName, parameterTypes);
+     public static Method getMethod(String className, PackageType packageType, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
+         return getMethod(packageType.getClass(className), methodName, parameterTypes);
     }
 
     /**
@@ -1980,8 +1976,8 @@ final class ReflectionUtils {
      * @see #getMethod(Class, String, Class...)
      * @see DataType#getPrimitive(Object[])
      */
-    public static Object invokeMethod(Object instance, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
-        return getMethod(instance.getClass(), methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
+     public static Object invokeMethod(Object instance, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+         return getMethod(instance.getClass(), methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
     }
 
     /**
@@ -2005,8 +2001,8 @@ final class ReflectionUtils {
      * @see #getMethod(Class, String, Class...)
      * @see DataType#getPrimitive(Object[])
      */
-    public static Object invokeMethod(Object instance, Class<?> clazz, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
-        return getMethod(clazz, methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
+     public static Object invokeMethod(Object instance, Class<?> clazz, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+         return getMethod(clazz, methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
     }
 
     /**
@@ -2032,8 +2028,8 @@ final class ReflectionUtils {
      * @see #getClass(String, PackageType)
      * @see #invokeMethod(Object, Class, String, Object...)
      */
-    public static Object invokeMethod(Object instance, String className, PackageType packageType, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
-        return invokeMethod(instance, packageType.getClass(className), methodName, arguments);
+     public static Object invokeMethod(Object instance, String className, PackageType packageType, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+         return invokeMethod(instance, packageType.getClass(className), methodName, arguments);
     }
 
     /**
@@ -2047,9 +2043,9 @@ final class ReflectionUtils {
      * cannot be found
      * @throws SecurityException If the desired field cannot be made accessible
      */
-    public static Field getField(Class<?> clazz, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException {
-        Field field = declared ? clazz.getDeclaredField(fieldName) : clazz.getField(fieldName);
-        field.setAccessible(true);
+     public static Field getField(Class<?> clazz, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException {
+         Field field = declared ? clazz.getDeclaredField(fieldName) : clazz.getField(fieldName);
+         field.setAccessible(true);
         return field;
     }
 
@@ -2068,8 +2064,8 @@ final class ReflectionUtils {
      * specified name and package cannot be found
      * @see #getField(Class, boolean, String)
      */
-    public static Field getField(String className, PackageType packageType, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException, ClassNotFoundException {
-        return getField(packageType.getClass(className), declared, fieldName);
+     public static Field getField(String className, PackageType packageType, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException, ClassNotFoundException {
+         return getField(packageType.getClass(className), declared, fieldName);
     }
 
     /**
@@ -2088,8 +2084,8 @@ final class ReflectionUtils {
      * @throws SecurityException If the desired field cannot be made accessible
      * @see #getField(Class, boolean, String)
      */
-    public static Object getValue(Object instance, Class<?> clazz, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-        return getField(clazz, declared, fieldName).get(instance);
+     public static Object getValue(Object instance, Class<?> clazz, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+         return getField(clazz, declared, fieldName).get(instance);
     }
 
     /**
@@ -2111,8 +2107,8 @@ final class ReflectionUtils {
      * specified name and package cannot be found
      * @see #getValue(Object, Class, boolean, String)
      */
-    public static Object getValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
-        return getValue(instance, packageType.getClass(className), declared, fieldName);
+     public static Object getValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
+         return getValue(instance, packageType.getClass(className), declared, fieldName);
     }
 
     /**
@@ -2131,8 +2127,8 @@ final class ReflectionUtils {
      * @throws SecurityException If the desired field cannot be made accessible
      * @see #getValue(Object, Class, boolean, String)
      */
-    public static Object getValue(Object instance, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-        return getValue(instance, instance.getClass(), declared, fieldName);
+     public static Object getValue(Object instance, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+         return getValue(instance, instance.getClass(), declared, fieldName);
     }
 
     /**
@@ -2151,8 +2147,8 @@ final class ReflectionUtils {
      * @throws SecurityException If the desired field cannot be made accessible
      * @see #getField(Class, boolean, String)
      */
-    public static void setValue(Object instance, Class<?> clazz, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-        getField(clazz, declared, fieldName).set(instance, value);
+     public static void setValue(Object instance, Class<?> clazz, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+         getField(clazz, declared, fieldName).set(instance, value);
     }
 
     /**
@@ -2174,8 +2170,8 @@ final class ReflectionUtils {
      * specified name and package cannot be found
      * @see #setValue(Object, Class, boolean, String, Object)
      */
-    public static void setValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
-        setValue(instance, packageType.getClass(className), declared, fieldName, value);
+     public static void setValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
+         setValue(instance, packageType.getClass(className), declared, fieldName, value);
     }
 
     /**
@@ -2193,8 +2189,13 @@ final class ReflectionUtils {
      * @throws SecurityException If the desired field cannot be made accessible
      * @see #setValue(Object, Class, boolean, String, Object)
      */
-    public static void setValue(Object instance, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-        setValue(instance, instance.getClass(), declared, fieldName, value);
+     public static void setValue(Object instance, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+         setValue(instance, instance.getClass(), declared, fieldName, value);
+    }
+
+     // Prevent accidental construction
+
+    private ReflectionUtils() {
     }
 
     /**
@@ -2307,7 +2308,7 @@ final class ReflectionUtils {
         DOUBLE(double.class, Double.class),
         BOOLEAN(boolean.class, Boolean.class);
 
-        private static final Map<Class<?>, DataType> CLASS_MAP = new HashMap<Class<?>, DataType>();
+        private static final Map<Class<?>, DataType> CLASS_MAP = new HashMap<>();
         private final Class<?> primitive;
         private final Class<?> reference;
 

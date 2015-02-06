@@ -27,12 +27,6 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import com.google.common.collect.ImmutableList;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,6 +37,12 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class UuidUtil {
 
@@ -108,7 +108,7 @@ public class UuidUtil {
                         conf.set("names", names);
                         conf.set("name", p.getName());
                         if (p.isOnline()) {
-                            r.sendMes((Player) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
+                            r.sendMes((CommandSender) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
                         } else {
                             conf.set("oldname", oldname);
                         }
@@ -186,12 +186,6 @@ public class UuidUtil {
     public static class NameToUuid implements Callable<Map<String, UUID>> {
 
         private static final String PROFILE_URL = "https://api.mojang.com/profiles/minecraft";
-        private final JSONParser jsonParser = new JSONParser();
-        private final List<String> names;
-
-        public NameToUuid(List<String> names) {
-            this.names = ImmutableList.copyOf(names);
-        }
 
         private static void writeBody(HttpURLConnection connection, String body) throws Exception {
             try (OutputStream stream = connection.getOutputStream()) {
@@ -235,6 +229,12 @@ public class UuidUtil {
         public static UUID getUUIDOf(String name) throws Exception {
             return new NameToUuid(Arrays.asList(name)).call().get(name);
         }
+        private final JSONParser jsonParser = new JSONParser();
+        private final List<String> names;
+
+        public NameToUuid(List<String> names) {
+            this.names = ImmutableList.copyOf(names);
+        }
 
         @Override
         public Map<String, UUID> call() throws Exception {
@@ -255,5 +255,6 @@ public class UuidUtil {
             }
             return uuidMap;
         }
+
     }
 }

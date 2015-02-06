@@ -24,13 +24,12 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * FireworkEffectPlayer v1.0
@@ -76,7 +75,7 @@ public class FireworkUtil {
      */
     public static void play(Location loc, FireworkEffect fe) {
         // Bukkity load (CraftFirework)
-        Firework fw = (Firework) loc.getWorld().spawn(loc, Firework.class);
+        Firework fw = loc.getWorld().spawn(loc, Firework.class);
         // the net.minecraft.server.World
         Object nms_world = null;
         Object nms_firework = null;
@@ -108,7 +107,7 @@ public class FireworkUtil {
          * Now we mess with the metadata, allowing nice clean spawning of a pretty firework (look, pretty lights!)
          */
         // metadata load
-        FireworkMeta data = (FireworkMeta) fw.getFireworkMeta();
+        FireworkMeta data = fw.getFireworkMeta();
         // clear existing
         data.clearEffects();
         // power of one

@@ -130,6 +130,11 @@
             <artifactId>jsr305</artifactId>
             <version>3.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>3.6.3-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
@@ -151,6 +156,10 @@
         <repository>
             <id>dynmap-repo</id>
             <url>http://repo.mikeprimm.com</url>
+        </repository>
+        <repository>
+            <id>shadowvolt-repo</id>
+            <url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
         </repository>
     </repositories>
 </project>

@@ -27,6 +27,10 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.TitleUtil;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -34,11 +38,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class AutomessageListener implements Listener {
 

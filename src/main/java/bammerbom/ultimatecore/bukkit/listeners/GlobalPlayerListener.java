@@ -30,10 +30,7 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -195,8 +192,8 @@ public class GlobalPlayerListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent e) {
         try {
             //EnchantingTable
-            if (UC.getPlayer((Player) e.getPlayer()).isInCommandEnchantingtable()) {
-                UC.getPlayer((Player) e.getPlayer()).setInCommandEnchantingtable(false);
+            if (UC.getPlayer((OfflinePlayer) e.getPlayer()).isInCommandEnchantingtable()) {
+                UC.getPlayer((OfflinePlayer) e.getPlayer()).setInCommandEnchantingtable(false);
             }
             //Inventory
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOfflineInventory()) {
@@ -206,8 +203,8 @@ public class GlobalPlayerListener implements Listener {
                 UC.getPlayer(e.getPlayer().getUniqueId()).setInOnlineInventory(false);
             }
             //Recipe
-            if (UC.getPlayer((Player) e.getPlayer()).isInRecipeView()) {
-                UC.getPlayer((Player) e.getPlayer()).isInRecipeView();
+            if (UC.getPlayer((OfflinePlayer) e.getPlayer()).isInRecipeView()) {
+                UC.getPlayer((OfflinePlayer) e.getPlayer()).isInRecipeView();
                 e.getInventory().clear();
             }
             //Teleportmenu
@@ -228,12 +225,12 @@ public class GlobalPlayerListener implements Listener {
                 e.setCancelled(true);
             }
             if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInOnlineInventory()) {
-                if (!r.perm(((Player) e.getWhoClicked()), "uc.inventory.edit", false, true)) {
+                if (!r.perm(e.getWhoClicked(), "uc.inventory.edit", false, true)) {
                     e.setCancelled(true);
                 }
             }
             //Recipe
-            if (UC.getPlayer((Player) e.getWhoClicked()).isInRecipeView() && e.getInventory().getType() == InventoryType.WORKBENCH) {
+            if (UC.getPlayer((OfflinePlayer) e.getWhoClicked()).isInRecipeView() && e.getInventory().getType() == InventoryType.WORKBENCH) {
                 e.setCancelled(true);
                 Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
                     @Override
@@ -309,7 +306,7 @@ public class GlobalPlayerListener implements Listener {
                 Player p = (Player) e.getEntity();
                 if (UC.getPlayer(p).isGod()) {
                     p.setFireTicks(0);
-                    p.setHealth(((Damageable) p).getMaxHealth());
+                    p.setHealth(p.getMaxHealth());
                     p.setRemainingAir(p.getMaximumAir());
                     e.setCancelled(true);
                 }

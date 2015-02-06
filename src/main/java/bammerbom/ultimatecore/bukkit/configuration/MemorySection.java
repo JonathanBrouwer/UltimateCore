@@ -23,13 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.configuration;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
@@ -42,55 +36,6 @@ import static org.bukkit.util.NumberConversions.toLong;
  * A type of {@link MemorySection} that is stored in memory.
  */
 public class MemorySection {
-
-    protected final Map<String, Object> map = new LinkedHashMap<String, Object>();
-    private final MemoryConfiguration root;
-    private final MemorySection parent;
-    private final String path;
-    private final String fullPath;
-
-    /**
-     * Creates an empty MemorySection for use as a root
-     * {@link MemoryConfiguration} section.
-     * <p/>
-     * Note that calling this without being yourself a
-     * {@link MemoryConfiguration} will throw an exception!
-     *
-     * @throws IllegalStateException Thrown if this is not a {@link
-     *                               MemoryConfiguration} root.
-     */
-    protected MemorySection() {
-        if (!(this instanceof MemoryConfiguration)) {
-            throw new IllegalStateException("Cannot construct a root MemorySection when not a MemoryConfiguration");
-        }
-
-        this.path = "";
-        this.fullPath = "";
-        this.parent = null;
-        this.root = (MemoryConfiguration) this;
-    }
-
-    /**
-     * Creates an empty MemorySection with the specified parent and path.
-     *
-     * @param parent Parent section that contains this own section.
-     * @param path Path that you may access this section from via the root
-     * {@link MemoryConfiguration}.
-     * @throws IllegalArgumentException Thrown is parent or path is null, or if
-     * parent contains no root MemoryConfiguration.
-     */
-    protected MemorySection(MemorySection parent, String path) {
-        Validate.notNull(parent, "Parent cannot be null");
-        Validate.notNull(path, "Path cannot be null");
-
-        this.path = path;
-        this.parent = parent;
-        this.root = parent.getRoot();
-
-        Validate.notNull(root, "Path cannot be orphaned");
-
-        this.fullPath = createPath(parent, path);
-    }
 
     /**
      * Creates a full path to the given {@link MemorySection} from its root
@@ -149,8 +94,57 @@ public class MemorySection {
         return builder.toString();
     }
 
+    protected final Map<String, Object> map = new LinkedHashMap<>();
+    private final MemoryConfiguration root;
+    private final MemorySection parent;
+    private final String path;
+    private final String fullPath;
+
+    /**
+     * Creates an empty MemorySection for use as a root
+     * {@link MemoryConfiguration} section.
+     * <p/>
+     * Note that calling this without being yourself a
+     * {@link MemoryConfiguration} will throw an exception!
+     *
+     * @throws IllegalStateException Thrown if this is not a {@link
+     *                               MemoryConfiguration} root.
+     */
+    protected MemorySection() {
+        if (!(this instanceof MemoryConfiguration)) {
+            throw new IllegalStateException("Cannot construct a root MemorySection when not a MemoryConfiguration");
+        }
+
+        this.path = "";
+        this.fullPath = "";
+        this.parent = null;
+        this.root = (MemoryConfiguration) this;
+    }
+
+    /**
+     * Creates an empty MemorySection with the specified parent and path.
+     *
+     * @param parent Parent section that contains this own section.
+     * @param path Path that you may access this section from via the root
+     * {@link MemoryConfiguration}.
+     * @throws IllegalArgumentException Thrown is parent or path is null, or if
+     * parent contains no root MemoryConfiguration.
+     */
+    protected MemorySection(MemorySection parent, String path) {
+        Validate.notNull(parent, "Parent cannot be null");
+        Validate.notNull(path, "Path cannot be null");
+
+        this.path = path;
+        this.parent = parent;
+        this.root = parent.getRoot();
+
+        Validate.notNull(root, "Path cannot be orphaned");
+
+        this.fullPath = createPath(parent, path);
+    }
+    
     public Set<String> getKeys(boolean deep) {
-        Set<String> result = new LinkedHashSet<String>();
+        Set<String> result = new LinkedHashSet<>();
 
         MemoryConfiguration root = getRoot();
         if (root != null && root.options().copyDefaults()) {
@@ -167,7 +161,7 @@ public class MemorySection {
     }
 
     public Map<String, Object> getValues(boolean deep) {
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
+        Map<String, Object> result = new LinkedHashMap<>();
 
         MemoryConfiguration root = getRoot();
         if (root != null && root.options().copyDefaults()) {
@@ -366,7 +360,6 @@ public class MemorySection {
         Object val = get(path, def);
         return (val != null) ? val.toString() : def;
     }
-
     public boolean isString(String path) {
         Object val = get(path);
         return val instanceof String;
@@ -442,7 +435,6 @@ public class MemorySection {
         Object val = get(path, def);
         return (List<?>) ((val instanceof List) ? val : def);
     }
-
     public boolean isList(String path) {
         Object val = get(path);
         return val instanceof List;
@@ -470,10 +462,10 @@ public class MemorySection {
         List<?> list = getList(path);
 
         if (list == null) {
-            return new ArrayList<Integer>(0);
+            return new ArrayList<>(0);
         }
 
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
 
         for (Object object : list) {
             if (object instanceof Integer) {
@@ -497,10 +489,10 @@ public class MemorySection {
         List<?> list = getList(path);
 
         if (list == null) {
-            return new ArrayList<Boolean>(0);
+            return new ArrayList<>(0);
         }
 
-        List<Boolean> result = new ArrayList<Boolean>();
+        List<Boolean> result = new ArrayList<>();
 
         for (Object object : list) {
             if (object instanceof Boolean) {
@@ -521,10 +513,10 @@ public class MemorySection {
         List<?> list = getList(path);
 
         if (list == null) {
-            return new ArrayList<Double>(0);
+            return new ArrayList<>(0);
         }
 
-        List<Double> result = new ArrayList<Double>();
+        List<Double> result = new ArrayList<>();
 
         for (Object object : list) {
             if (object instanceof Double) {
@@ -548,10 +540,10 @@ public class MemorySection {
         List<?> list = getList(path);
 
         if (list == null) {
-            return new ArrayList<Float>(0);
+            return new ArrayList<>(0);
         }
 
-        List<Float> result = new ArrayList<Float>();
+        List<Float> result = new ArrayList<>();
 
         for (Object object : list) {
             if (object instanceof Float) {
@@ -575,10 +567,10 @@ public class MemorySection {
         List<?> list = getList(path);
 
         if (list == null) {
-            return new ArrayList<Long>(0);
+            return new ArrayList<>(0);
         }
 
-        List<Long> result = new ArrayList<Long>();
+        List<Long> result = new ArrayList<>();
 
         for (Object object : list) {
             if (object instanceof Long) {
@@ -602,10 +594,10 @@ public class MemorySection {
         List<?> list = getList(path);
 
         if (list == null) {
-            return new ArrayList<Byte>(0);
+            return new ArrayList<>(0);
         }
 
-        List<Byte> result = new ArrayList<Byte>();
+        List<Byte> result = new ArrayList<>();
 
         for (Object object : list) {
             if (object instanceof Byte) {
@@ -629,10 +621,10 @@ public class MemorySection {
         List<?> list = getList(path);
 
         if (list == null) {
-            return new ArrayList<Character>(0);
+            return new ArrayList<>(0);
         }
 
-        List<Character> result = new ArrayList<Character>();
+        List<Character> result = new ArrayList<>();
 
         for (Object object : list) {
             if (object instanceof Character) {
@@ -655,10 +647,10 @@ public class MemorySection {
         List<?> list = getList(path);
 
         if (list == null) {
-            return new ArrayList<Short>(0);
+            return new ArrayList<>(0);
         }
 
-        List<Short> result = new ArrayList<Short>();
+        List<Short> result = new ArrayList<>();
 
         for (Object object : list) {
             if (object instanceof Short) {
@@ -680,7 +672,7 @@ public class MemorySection {
 
     public List<Map<?, ?>> getMapList(String path) {
         List<?> list = getList(path);
-        List<Map<?, ?>> result = new ArrayList<Map<?, ?>>();
+        List<Map<?, ?>> result = new ArrayList<>();
 
         if (list == null) {
             return result;
@@ -705,7 +697,6 @@ public class MemorySection {
         Object val = get(path, def);
         return (val instanceof Vector) ? (Vector) val : def;
     }
-
     public boolean isVector(String path) {
         Object val = get(path);
         return val instanceof Vector;
@@ -788,7 +779,7 @@ public class MemorySection {
 
     protected void mapChildrenKeys(Set<String> output, MemorySection section, boolean deep) {
         if (section instanceof MemorySection) {
-            MemorySection sec = (MemorySection) section;
+            MemorySection sec = section;
 
             for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
                 output.add(createPath(section, entry.getKey(), this));
@@ -809,7 +800,7 @@ public class MemorySection {
 
     protected void mapChildrenValues(Map<String, Object> output, MemorySection section, boolean deep) {
         if (section instanceof MemorySection) {
-            MemorySection sec = (MemorySection) section;
+            MemorySection sec = section;
 
             for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
                 output.put(createPath(section, entry.getKey(), this), entry.getValue());
@@ -841,4 +832,5 @@ public class MemorySection {
                 .append("']")
                 .toString();
     }
+
 }

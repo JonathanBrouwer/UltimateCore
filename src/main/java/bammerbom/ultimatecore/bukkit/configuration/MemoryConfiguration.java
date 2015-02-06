@@ -23,9 +23,8 @@
  */
 package bammerbom.ultimatecore.bukkit.configuration;
 
-import org.apache.commons.lang.Validate;
-
 import java.util.Map;
+import org.apache.commons.lang.Validate;
 
 /**
  * This is a {@link Configuration} implementation that does not save or load

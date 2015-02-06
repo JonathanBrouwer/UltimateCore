@@ -24,13 +24,12 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdSethealth implements UltimateCommand {
 
@@ -69,7 +68,7 @@ public class CmdSethealth implements UltimateCommand {
                 Double d = Double.parseDouble(args[0]);
                 d = r.normalize(d, 0.0, 999999.0);
                 Player p = (Player) cs;
-                if (((Damageable) p).getMaxHealth() < d) {
+                if (p.getMaxHealth() < d) {
                     p.setMaxHealth(d);
                 }
                 p.setHealth(d);
@@ -89,7 +88,7 @@ public class CmdSethealth implements UltimateCommand {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
-                if (((Damageable) t).getMaxHealth() < d) {
+                if (t.getMaxHealth() < d) {
                     t.setMaxHealth(d);
                 }
                 t.setHealth(d);
@@ -103,7 +102,7 @@ public class CmdSethealth implements UltimateCommand {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
-                if (((Damageable) t).getMaxHealth() < d) {
+                if (t.getMaxHealth() < d) {
                     t.setMaxHealth(d);
                 }
                 t.setHealth(d);

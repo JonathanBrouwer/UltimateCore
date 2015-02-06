@@ -28,13 +28,13 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
-import org.bukkit.*;
-import org.bukkit.BanList.Type;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-
 import java.io.File;
 import java.util.*;
+import org.bukkit.*;
+import org.bukkit.BanList.Type;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 public class UCplayer {
 
@@ -730,7 +730,7 @@ public class UCplayer {
         if (getPlayer().isOnline()) {
             getPlayer().getPlayer().setDisplayName(nickname.replace("&y", ""));
         }
-        if (getPlayer().isOnline() && r.perm((Player) getPlayer(), "uc.chat.rainbow", false, false)) {
+        if (getPlayer().isOnline() && r.perm((CommandSender) getPlayer(), "uc.chat.rainbow", false, false)) {
             nick = nick.replaceAll("&y", r.getRandomChatColor() + "");
         }
         nickname = nick + ChatColor.RESET;

@@ -24,18 +24,8 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import java.util.*;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -47,6 +37,64 @@ public class LocationUtil {
     public static final Vector3D[] VOLUME;
     private static final Set<Material> HOLLOW_MATERIALS = new HashSet<>();
     private static final HashSet<Material> TRANSPARENT_MATERIALS = new HashSet<>();
+    static {
+        HOLLOW_MATERIALS.add(Material.AIR);
+        HOLLOW_MATERIALS.add(Material.SAPLING);
+        HOLLOW_MATERIALS.add(Material.POWERED_RAIL);
+        HOLLOW_MATERIALS.add(Material.DETECTOR_RAIL);
+        HOLLOW_MATERIALS.add(Material.LONG_GRASS);
+        HOLLOW_MATERIALS.add(Material.DEAD_BUSH);
+        HOLLOW_MATERIALS.add(Material.YELLOW_FLOWER);
+        HOLLOW_MATERIALS.add(Material.RED_ROSE);
+        HOLLOW_MATERIALS.add(Material.BROWN_MUSHROOM);
+        HOLLOW_MATERIALS.add(Material.RED_MUSHROOM);
+        HOLLOW_MATERIALS.add(Material.TORCH);
+        HOLLOW_MATERIALS.add(Material.REDSTONE_WIRE);
+        HOLLOW_MATERIALS.add(Material.SEEDS);
+        HOLLOW_MATERIALS.add(Material.SIGN_POST);
+        HOLLOW_MATERIALS.add(Material.WOODEN_DOOR);
+        HOLLOW_MATERIALS.add(Material.LADDER);
+        HOLLOW_MATERIALS.add(Material.RAILS);
+        HOLLOW_MATERIALS.add(Material.WALL_SIGN);
+        HOLLOW_MATERIALS.add(Material.LEVER);
+        HOLLOW_MATERIALS.add(Material.STONE_PLATE);
+        HOLLOW_MATERIALS.add(Material.IRON_DOOR_BLOCK);
+        HOLLOW_MATERIALS.add(Material.WOOD_PLATE);
+        HOLLOW_MATERIALS.add(Material.REDSTONE_TORCH_OFF);
+        HOLLOW_MATERIALS.add(Material.REDSTONE_TORCH_ON);
+        HOLLOW_MATERIALS.add(Material.STONE_BUTTON);
+        HOLLOW_MATERIALS.add(Material.SNOW);
+        HOLLOW_MATERIALS.add(Material.SUGAR_CANE_BLOCK);
+        HOLLOW_MATERIALS.add(Material.DIODE_BLOCK_OFF);
+        HOLLOW_MATERIALS.add(Material.DIODE_BLOCK_ON);
+        HOLLOW_MATERIALS.add(Material.PUMPKIN_STEM);
+        HOLLOW_MATERIALS.add(Material.MELON_STEM);
+        HOLLOW_MATERIALS.add(Material.VINE);
+        HOLLOW_MATERIALS.add(Material.FENCE_GATE);
+        HOLLOW_MATERIALS.add(Material.WATER_LILY);
+        HOLLOW_MATERIALS.add(Material.NETHER_WARTS);
+        HOLLOW_MATERIALS.add(Material.CARPET);
+        for (Material mat : HOLLOW_MATERIALS) {
+            TRANSPARENT_MATERIALS.add(mat);
+        }
+        TRANSPARENT_MATERIALS.add(Material.WATER);
+        TRANSPARENT_MATERIALS.add(Material.STATIONARY_WATER);
+        List<Vector3D> pos = new ArrayList<>();
+        for (int x = -3; x <= 3; x++) {
+            for (int y = -3; y <= 3; y++) {
+                for (int z = -3; z <= 3; z++) {
+                    pos.add(new Vector3D(x, y, z));
+                }
+            }
+        }
+        Collections.sort(pos, new Comparator<Vector3D>() {
+            @Override
+            public int compare(Vector3D a, Vector3D b) {
+                return a.x * a.x + a.y * a.y + a.z * a.z - (b.x * b.x + b.y * b.y + b.z * b.z);
+            }
+        });
+        VOLUME = pos.toArray(new Vector3D[0]);
+    }
 
     public static Location convertStringToLocation(String s) {
         if (s == null) {
@@ -118,7 +166,7 @@ public class LocationUtil {
 
     @SuppressWarnings("deprecation")
     public static Location getTarget(LivingEntity entity) {
-        HashSet<Byte> TMb = new HashSet<Byte>();
+        HashSet<Byte> TMb = new HashSet<>();
         for (Material mat : TRANSPARENT_MATERIALS) {
             TMb.add((byte) mat.getId());
         }
@@ -197,64 +245,6 @@ public class LocationUtil {
         return false;
     }
 
-    static {
-        HOLLOW_MATERIALS.add(Material.AIR);
-        HOLLOW_MATERIALS.add(Material.SAPLING);
-        HOLLOW_MATERIALS.add(Material.POWERED_RAIL);
-        HOLLOW_MATERIALS.add(Material.DETECTOR_RAIL);
-        HOLLOW_MATERIALS.add(Material.LONG_GRASS);
-        HOLLOW_MATERIALS.add(Material.DEAD_BUSH);
-        HOLLOW_MATERIALS.add(Material.YELLOW_FLOWER);
-        HOLLOW_MATERIALS.add(Material.RED_ROSE);
-        HOLLOW_MATERIALS.add(Material.BROWN_MUSHROOM);
-        HOLLOW_MATERIALS.add(Material.RED_MUSHROOM);
-        HOLLOW_MATERIALS.add(Material.TORCH);
-        HOLLOW_MATERIALS.add(Material.REDSTONE_WIRE);
-        HOLLOW_MATERIALS.add(Material.SEEDS);
-        HOLLOW_MATERIALS.add(Material.SIGN_POST);
-        HOLLOW_MATERIALS.add(Material.WOODEN_DOOR);
-        HOLLOW_MATERIALS.add(Material.LADDER);
-        HOLLOW_MATERIALS.add(Material.RAILS);
-        HOLLOW_MATERIALS.add(Material.WALL_SIGN);
-        HOLLOW_MATERIALS.add(Material.LEVER);
-        HOLLOW_MATERIALS.add(Material.STONE_PLATE);
-        HOLLOW_MATERIALS.add(Material.IRON_DOOR_BLOCK);
-        HOLLOW_MATERIALS.add(Material.WOOD_PLATE);
-        HOLLOW_MATERIALS.add(Material.REDSTONE_TORCH_OFF);
-        HOLLOW_MATERIALS.add(Material.REDSTONE_TORCH_ON);
-        HOLLOW_MATERIALS.add(Material.STONE_BUTTON);
-        HOLLOW_MATERIALS.add(Material.SNOW);
-        HOLLOW_MATERIALS.add(Material.SUGAR_CANE_BLOCK);
-        HOLLOW_MATERIALS.add(Material.DIODE_BLOCK_OFF);
-        HOLLOW_MATERIALS.add(Material.DIODE_BLOCK_ON);
-        HOLLOW_MATERIALS.add(Material.PUMPKIN_STEM);
-        HOLLOW_MATERIALS.add(Material.MELON_STEM);
-        HOLLOW_MATERIALS.add(Material.VINE);
-        HOLLOW_MATERIALS.add(Material.FENCE_GATE);
-        HOLLOW_MATERIALS.add(Material.WATER_LILY);
-        HOLLOW_MATERIALS.add(Material.NETHER_WARTS);
-        HOLLOW_MATERIALS.add(Material.CARPET);
-        for (Material mat : HOLLOW_MATERIALS) {
-            TRANSPARENT_MATERIALS.add(mat);
-        }
-        TRANSPARENT_MATERIALS.add(Material.WATER);
-        TRANSPARENT_MATERIALS.add(Material.STATIONARY_WATER);
-        List<Vector3D> pos = new ArrayList<>();
-        for (int x = -3; x <= 3; x++) {
-            for (int y = -3; y <= 3; y++) {
-                for (int z = -3; z <= 3; z++) {
-                    pos.add(new Vector3D(x, y, z));
-                }
-            }
-        }
-        Collections.sort(pos, new Comparator<Vector3D>() {
-            @Override
-            public int compare(Vector3D a, Vector3D b) {
-                return a.x * a.x + a.y * a.y + a.z * a.z - (b.x * b.x + b.y * b.y + b.z * b.z);
-            }
-        });
-        VOLUME = (Vector3D[]) pos.toArray(new Vector3D[0]);
-    }
 
     /**
      * Creates a teleport effect

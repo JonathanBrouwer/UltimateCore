@@ -26,19 +26,18 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.commands.ServerCheck.MinecraftServer;
 import bammerbom.ultimatecore.bukkit.commands.ServerCheck.Status;
 import bammerbom.ultimatecore.bukkit.r;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class CmdMinecraftservers implements UltimateCommand {
 

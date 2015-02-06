@@ -35,26 +35,11 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.*;
+import java.util.*;
 import java.util.logging.Level;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Achievement;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Statistic;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -144,7 +129,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
                 // Deserialize text
                 if (TextualComponent.isTextKey(entry.getKey())) {
                     // The map mimics the YAML serialization, which has a "key" field and one or more "value" fields
-                    Map<String, Object> serializedMapForm = new HashMap<String, Object>(); // Must be object due to Bukkit serializer API compliance
+                    Map<String, Object> serializedMapForm = new HashMap<>(); // Must be object due to Bukkit serializer API compliance
                     serializedMapForm.put("key", entry.getKey());
                     if (entry.getValue().isJsonPrimitive()) {
                         // Assume string
@@ -210,7 +195,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     public MessageUtil(final TextualComponent firstPartText) {
-        messageParts = new ArrayList<MessagePart>();
+        messageParts = new ArrayList<>();
         messageParts.add(new MessagePart(firstPartText));
         jsonString = null;
         dirty = false;
@@ -237,7 +222,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     @Override
     public MessageUtil clone() throws CloneNotSupportedException {
         MessageUtil instance = (MessageUtil) super.clone();
-        messageParts = new ArrayList<MessagePart>(messageParts.size());
+        messageParts = new ArrayList<>(messageParts.size());
         for (int i = 0; i < messageParts.size(); i++) {
             messageParts.add(i, messageParts.get(i).clone());
         }
@@ -1001,7 +986,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
 
     // Doc copied from interface
     public Map<String, Object> serialize() {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("messageParts", messageParts);
 //		map.put("JSON", toJSONString());
         return map;
@@ -1023,14 +1008,14 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
  */
 final class JsonString implements JsonRepresentedObject, ConfigurationSerializable {
 
+    public static JsonString deserialize(Map<String, Object> map) {
+        return new JsonString(map.get("stringValue").toString());
+    }
+
     private String _value;
 
     public JsonString(CharSequence value) {
         _value = value == null ? null : value.toString();
-    }
-
-    public static JsonString deserialize(Map<String, Object> map) {
-        return new JsonString(map.get("stringValue").toString());
     }
 
     @Override
@@ -1043,7 +1028,7 @@ final class JsonString implements JsonRepresentedObject, ConfigurationSerializab
     }
 
     public Map<String, Object> serialize() {
-        HashMap<String, Object> theSingleValue = new HashMap<String, Object>();
+        HashMap<String, Object> theSingleValue = new HashMap<>();
         theSingleValue.put("stringValue", _value);
         return theSingleValue;
     }
@@ -1052,6 +1037,7 @@ final class JsonString implements JsonRepresentedObject, ConfigurationSerializab
     public String toString() {
         return _value;
     }
+
 }
 
 /**
@@ -1086,25 +1072,11 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
         }
         stylesToNames = builder.build();
     }
-
-    ChatColor color = ChatColor.WHITE;
-    ArrayList<ChatColor> styles = new ArrayList<ChatColor>();
-    String clickActionName = null, clickActionData = null,
-            hoverActionName = null;
-    JsonRepresentedObject hoverActionData = null;
-    TextualComponent text = null;
-    String insertionData = null;
-    ArrayList<JsonRepresentedObject> translationReplacements = new ArrayList<JsonRepresentedObject>();
-
-    MessagePart(final TextualComponent text) {
-        this.text = text;
+    static {
+        ConfigurationSerialization.registerClass(MessagePart.class);
     }
 
-    MessagePart() {
-        this.text = null;
-    }
-
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(value = "unchecked")
     public static MessagePart deserialize(Map<String, Object> serialized) {
         MessagePart part = new MessagePart((TextualComponent) serialized.get("text"));
         part.styles = (ArrayList<ChatColor>) serialized.get("styles");
@@ -1118,13 +1090,27 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
         return part;
     }
 
-    static {
-        ConfigurationSerialization.registerClass(MessagePart.class);
+    ChatColor color = ChatColor.WHITE;
+    ArrayList<ChatColor> styles = new ArrayList<>();
+    String clickActionName = null, clickActionData = null,
+            hoverActionName = null;
+    JsonRepresentedObject hoverActionData = null;
+    TextualComponent text = null;
+    String insertionData = null;
+    ArrayList<JsonRepresentedObject> translationReplacements = new ArrayList<>();
+
+    MessagePart(final TextualComponent text) {
+        this.text = text;
+    }
+
+    MessagePart() {
+        this.text = null;
     }
 
     boolean hasText() {
         return text != null;
     }
+
 
     @Override
     @SuppressWarnings("unchecked")
@@ -1181,7 +1167,7 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
     }
 
     public Map<String, Object> serialize() {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("text", text);
         map.put("styles", styles);
         map.put("color", color.getChar());
@@ -1193,6 +1179,7 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
         map.put("translationReplacements", translationReplacements);
         return map;
     }
+
 
 }
 
@@ -1228,7 +1215,7 @@ abstract class TextualComponent implements Cloneable {
     }
 
     static boolean isTranslatableText(TextualComponent component) {
-        return component instanceof ComplexTextTypeComponent && ((ComplexTextTypeComponent) component).getKey().equals("translate");
+        return component instanceof ComplexTextTypeComponent && component.getKey().equals("translate");
     }
 
     /**
@@ -1375,16 +1362,16 @@ abstract class TextualComponent implements Cloneable {
      */
     private static final class ArbitraryTextTypeComponent extends TextualComponent implements ConfigurationSerializable {
 
+        public static ArbitraryTextTypeComponent deserialize(Map<String, Object> map) {
+            return new ArbitraryTextTypeComponent(map.get("key").toString(), map.get("value").toString());
+        }
+
         private String _key;
         private String _value;
 
         public ArbitraryTextTypeComponent(String key, String value) {
             setKey(key);
             setValue(value);
-        }
-
-        public static ArbitraryTextTypeComponent deserialize(Map<String, Object> map) {
-            return new ArbitraryTextTypeComponent(map.get("key").toString(), map.get("value").toString());
         }
 
         @Override
@@ -1431,6 +1418,7 @@ abstract class TextualComponent implements Cloneable {
         public String getReadableString() {
             return getValue();
         }
+
     }
 
     /**
@@ -1439,25 +1427,25 @@ abstract class TextualComponent implements Cloneable {
      */
     private static final class ComplexTextTypeComponent extends TextualComponent implements ConfigurationSerializable {
 
+        public static ComplexTextTypeComponent deserialize(Map<String, Object> map) {
+            String key = null;
+            Map<String, String> value = new HashMap<>();
+            for (Map.Entry<String, Object> valEntry : map.entrySet()) {
+                if (valEntry.getKey().equals("key")) {
+                    key = (String) valEntry.getValue();
+                } else if (valEntry.getKey().startsWith("value.")) {
+                    value.put(valEntry.getKey().substring(6) /* Strips out the value prefix */, valEntry.getValue().toString());
+                }
+            }
+            return new ComplexTextTypeComponent(key, value);
+        }
+
         private String _key;
         private Map<String, String> _value;
 
         public ComplexTextTypeComponent(String key, Map<String, String> values) {
             setKey(key);
             setValue(values);
-        }
-
-        public static ComplexTextTypeComponent deserialize(Map<String, Object> map) {
-            String key = null;
-            Map<String, String> value = new HashMap<String, String>();
-            for (Map.Entry<String, Object> valEntry : map.entrySet()) {
-                if (valEntry.getKey().equals("key")) {
-                    key = (String) valEntry.getValue();
-                } else if (valEntry.getKey().startsWith("value.")) {
-                    value.put(((String) valEntry.getKey()).substring(6) /* Strips out the value prefix */, valEntry.getValue().toString());
-                }
-            }
-            return new ComplexTextTypeComponent(key, value);
         }
 
         @Override
@@ -1511,6 +1499,7 @@ abstract class TextualComponent implements Cloneable {
         public String getReadableString() {
             return getKey();
         }
+
     }
 }
 
@@ -1527,17 +1516,6 @@ abstract class TextualComponent implements Cloneable {
  */
 final class ArrayWrapper<E> {
 
-    private E[] _array;
-
-    /**
-     * Creates an array wrapper with some elements.
-     *
-     * @param elements The elements of the array.
-     */
-    public ArrayWrapper(E... elements) {
-        setArray(elements);
-    }
-
     /**
      * Converts an iterable element collection to an array of elements. The
      * iteration order of the specified object will be used as the array element
@@ -1547,12 +1525,12 @@ final class ArrayWrapper<E> {
      * @param c The type of the elements of the array.
      * @return An array of elements in the specified iterable.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(value = "unchecked")
     public static <T> T[] toArray(Iterable<? extends T> list, Class<T> c) {
         int size = -1;
         if (list instanceof Collection<?>) {
             @SuppressWarnings("rawtypes")
-            Collection coll = (Collection) list;
+                    Collection coll = (Collection) list;
             size = coll.size();
         }
 
@@ -1572,12 +1550,23 @@ final class ArrayWrapper<E> {
         return result;
     }
 
+    private E[] _array;
+
+    /**
+     * Creates an array wrapper with some elements.
+     *
+     * @param elements The elements of the array.
+     */
+    public ArrayWrapper(E... elements) {
+        setArray(elements);
+    }
+
     /**
      * Retrieves a reference to the wrapped array instance.
      *
      * @return The array wrapped by this instance.
      */
-    public E[] getArray() {
+    public  E[] getArray() {
         return _array;
     }
 
@@ -1615,6 +1604,7 @@ final class ArrayWrapper<E> {
     public int hashCode() {
         return Arrays.hashCode(_array);
     }
+
 }
 
 /**
@@ -1627,23 +1617,19 @@ final class Reflection {
     /**
      * Stores loaded classes from the {@code net.minecraft.server} package.
      */
-    private static final Map<String, Class<?>> _loadedNMSClasses = new HashMap<String, Class<?>>();
+    private static final Map<String, Class<?>> _loadedNMSClasses = new HashMap<>();
     /**
      * Stores loaded classes from the {@code org.bukkit.craftbukkit} package
      * (and subpackages).
      */
-    private static final Map<String, Class<?>> _loadedOBCClasses = new HashMap<String, Class<?>>();
-    private static final Map<Class<?>, Map<String, Field>> _loadedFields = new HashMap<Class<?>, Map<String, Field>>();
+    private static final Map<String, Class<?>> _loadedOBCClasses = new HashMap<>();
+    private static final Map<Class<?>, Map<String, Field>> _loadedFields = new HashMap<>();
     /**
      * Contains loaded methods in a cache. The map maps [types to maps of
      * [method names to maps of [parameter types to method instances]]].
      */
-    private static final Map<Class<?>, Map<String, Map<ArrayWrapper<Class<?>>, Method>>> _loadedMethods = new HashMap<Class<?>, Map<String, Map<ArrayWrapper<Class<?>>, Method>>>();
+    private static final Map<Class<?>, Map<String, Map<ArrayWrapper<Class<?>>, Method>>> _loadedMethods = new HashMap<>();
     private static String _versionString;
-
-    private Reflection() {
-
-    }
 
     /**
      * Gets the version string from the package name of the CraftBukkit server
@@ -1653,7 +1639,7 @@ final class Reflection {
      * @return The version string of the OBC and NMS packages, <em>including the
      * trailing dot</em>.
      */
-    public synchronized static String getVersion() {
+    public static synchronized String getVersion() {
         if (_versionString == null) {
             if (Bukkit.getServer() == null) {
                 // The server hasn't started, static initializer call?
@@ -1773,7 +1759,7 @@ final class Reflection {
     public synchronized static Field getField(Class<?> clazz, String name) {
         Map<String, Field> loaded;
         if (!_loadedFields.containsKey(clazz)) {
-            loaded = new HashMap<String, Field>();
+            loaded = new HashMap<>();
             _loadedFields.put(clazz, loaded);
         } else {
             loaded = _loadedFields.get(clazz);
@@ -1824,8 +1810,7 @@ final class Reflection {
      * @return A method object with the specified name declared by the specified
      * class.
      */
-    public synchronized static Method getMethod(Class<?> clazz, String name,
-            Class<?>... args) {
+    public synchronized static Method getMethod(Class<?> clazz, String name, Class<?>... args) {
         if (!_loadedMethods.containsKey(clazz)) {
             _loadedMethods.put(clazz, new HashMap<String, Map<ArrayWrapper<Class<?>>, Method>>());
         }
@@ -1836,7 +1821,7 @@ final class Reflection {
         }
 
         Map<ArrayWrapper<Class<?>>, Method> loadedSignatures = loadedMethodNames.get(name);
-        ArrayWrapper<Class<?>> wrappedArg = new ArrayWrapper<Class<?>>(args);
+        ArrayWrapper<Class<?>> wrappedArg = new ArrayWrapper<>(args);
         if (loadedSignatures.containsKey(wrappedArg)) {
             return loadedSignatures.get(wrappedArg);
         }
@@ -1850,6 +1835,10 @@ final class Reflection {
         }
         loadedSignatures.put(wrappedArg, null);
         return null;
+    }
+
+    private Reflection() {
+
     }
 
 }

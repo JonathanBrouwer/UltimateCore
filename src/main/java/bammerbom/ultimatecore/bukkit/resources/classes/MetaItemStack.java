@@ -35,6 +35,8 @@ import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
 import com.google.common.base.Joiner;
+import java.util.*;
+import java.util.regex.Pattern;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -44,13 +46,18 @@ import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
-import java.util.regex.Pattern;
-
 public class MetaItemStack {
 
-    private static final Map<String, DyeColor> colorMap = new HashMap<String, DyeColor>();
-    private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap<String, FireworkEffect.Type>();
+    private static final Map<String, DyeColor> colorMap = new HashMap<>();
+    private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap<>();
+    static {
+        for (DyeColor color : DyeColor.values()) {
+            colorMap.put(color.name(), color);
+        }
+        for (FireworkEffect.Type type : FireworkEffect.Type.values()) {
+            fireworkShape.put(type.name(), type);
+        }
+    }
 
     private final transient Pattern splitPattern = Pattern.compile("[:+',;.]");
     private ItemStack stack;
@@ -65,14 +72,6 @@ public class MetaItemStack {
     private int power = 1;
     private int duration = 120;
 
-    static {
-        for (DyeColor color : DyeColor.values()) {
-            colorMap.put(color.name(), color);
-        }
-        for (FireworkEffect.Type type : FireworkEffect.Type.values()) {
-            fireworkShape.put(type.name(), type);
-        }
-    }
 
     public MetaItemStack(ItemStack stack) {
         this.stack = stack.clone();
@@ -239,7 +238,7 @@ public class MetaItemStack {
                 throw new UnsupportedOperationException("Unbreakable does currently only work on Spigot.");
             }
         } else if (split.length > 1 && (split[0].equalsIgnoreCase("canplaceon"))) {
-            List<ItemStack> c = new ArrayList<ItemStack>();
+            List<ItemStack> c = new ArrayList<>();
             if (split[1].contains(",")) {
                 for (String s : split[1].split(",")) {
                     ItemStack i = ItemUtil.searchItem(s);
@@ -277,7 +276,7 @@ public class MetaItemStack {
                 e.printStackTrace();
             }
         } else if (split.length > 1 && (split[0].equalsIgnoreCase("candestroy") || split[0].equalsIgnoreCase("canbreak"))) {
-            List<ItemStack> c = new ArrayList<ItemStack>();
+            List<ItemStack> c = new ArrayList<>();
             if (split[1].contains(",")) {
                 for (String s : split[1].split(",")) {
                     ItemStack i = ItemUtil.searchItem(s);
@@ -390,12 +389,12 @@ public class MetaItemStack {
                     this.builder = FireworkEffect.builder();
                 }
 
-                List<Color> primaryColors = new ArrayList<Color>();
+                List<Color> primaryColors = new ArrayList<>();
                 String[] colors = split[1].split(",");
                 for (String color : colors) {
                     if (colorMap.containsKey(color.toUpperCase())) {
                         this.validFirework = true;
-                        primaryColors.add(((DyeColor) colorMap.get(color.toUpperCase())).getFireworkColor());
+                        primaryColors.add(colorMap.get(color.toUpperCase()).getFireworkColor());
                     } else {
                         throw new Exception("Invalid format");
                     }
@@ -405,7 +404,7 @@ public class MetaItemStack {
                 FireworkEffect.Type finalEffect = null;
                 split[1] = (split[1].equalsIgnoreCase("large") ? "BALL_LARGE" : split[1]);
                 if (fireworkShape.containsKey(split[1].toUpperCase())) {
-                    finalEffect = (FireworkEffect.Type) fireworkShape.get(split[1].toUpperCase());
+                    finalEffect = fireworkShape.get(split[1].toUpperCase());
                 } else {
                     throw new Exception("");
                 }
@@ -413,11 +412,11 @@ public class MetaItemStack {
                     this.builder.with(finalEffect);
                 }
             } else if ((split[0].equalsIgnoreCase("fade")) || ((allowShortName) && (split[0].equalsIgnoreCase("f")))) {
-                List<Color> fadeColors = new ArrayList<Color>();
+                List<Color> fadeColors = new ArrayList<>();
                 String[] colors = split[1].split(",");
                 for (String color : colors) {
                     if (colorMap.containsKey(color.toUpperCase())) {
-                        fadeColors.add(((DyeColor) colorMap.get(color.toUpperCase())).getFireworkColor());
+                        fadeColors.add(colorMap.get(color.toUpperCase()).getFireworkColor());
                     } else {
                         throw new Exception("");
                     }

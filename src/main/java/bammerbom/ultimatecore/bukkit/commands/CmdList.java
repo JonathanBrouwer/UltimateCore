@@ -26,14 +26,13 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdList implements UltimateCommand {
 
@@ -97,7 +96,7 @@ public class CmdList implements UltimateCommand {
                     }
                     Boolean first = true;
                     Boolean any = false;
-                    ArrayList<Player> remove = new ArrayList<Player>();
+                    ArrayList<Player> remove = new ArrayList<>();
                     for (Player pl : plz) {
                         Player p = r.searchPlayer(cs.getName());
                         if (p == null || p.canSee(pl)) {

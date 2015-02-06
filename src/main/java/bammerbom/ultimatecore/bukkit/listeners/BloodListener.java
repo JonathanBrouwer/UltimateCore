@@ -27,9 +27,11 @@ import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.ParticleUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ParticleUtil.BlockData;
+import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,17 +39,15 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import java.util.ArrayList;
-
 public class BloodListener implements Listener {
-
-    ArrayList<Integer> iCD = new ArrayList<>();
 
     public static void start() {
         if (r.getCnfg().getBoolean("Blood.Enabled")) {
             Bukkit.getPluginManager().registerEvents(new BloodListener(), r.getUC());
         }
     }
+
+    ArrayList<Integer> iCD = new ArrayList<>();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void bleed(final EntityDamageEvent e) {
@@ -69,7 +69,7 @@ public class BloodListener implements Listener {
                 if (iCD.contains(p.getEntityId())) {
                     return;
                 }
-                if (((Player) e.getEntity()).getGameMode().equals(GameMode.CREATIVE)) {
+                if (((HumanEntity) e.getEntity()).getGameMode().equals(GameMode.CREATIVE)) {
                     return;
                 }
                 iCD.add(p.getEntityId());
@@ -98,4 +98,5 @@ public class BloodListener implements Listener {
 
         }
     }
+
 }

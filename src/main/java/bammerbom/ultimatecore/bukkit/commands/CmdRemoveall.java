@@ -25,13 +25,12 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobType;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.*;
 
 public class CmdRemoveall implements UltimateCommand {
 

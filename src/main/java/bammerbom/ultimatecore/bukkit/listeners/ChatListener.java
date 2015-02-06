@@ -26,6 +26,10 @@ package bammerbom.ultimatecore.bukkit.listeners;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -33,11 +37,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 
 public class ChatListener implements Listener {
 
@@ -281,7 +280,7 @@ public class ChatListener implements Listener {
     private void spamTask() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
             public void run() {
-                ArrayList<String> spamtime_remove = new ArrayList<String>();
+                ArrayList<String> spamtime_remove = new ArrayList<>();
                 if (!spamTime.isEmpty()) {
                     for (String key : spamTime.keySet()) {
                         Integer value = spamTime.get(key);
@@ -300,7 +299,7 @@ public class ChatListener implements Listener {
         }, 70L, 70L);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
             public void run() {
-                ArrayList<String> spamtime_remove = new ArrayList<String>();
+                ArrayList<String> spamtime_remove = new ArrayList<>();
                 if (!swearAmount.isEmpty()) {
                     for (String key : swearAmount.keySet()) {
                         Integer value = swearAmount.get(key);

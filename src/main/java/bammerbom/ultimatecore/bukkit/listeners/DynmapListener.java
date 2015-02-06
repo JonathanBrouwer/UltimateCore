@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.bukkit.listeners;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UCplayer;
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -40,8 +41,6 @@ import org.dynmap.markers.Marker;
 import org.dynmap.markers.MarkerAPI;
 import org.dynmap.markers.MarkerIcon;
 import org.dynmap.markers.MarkerSet;
-
-import java.util.*;
 
 public class DynmapListener implements Listener {
 
@@ -222,7 +221,7 @@ public class DynmapListener implements Listener {
 
             Map<String, Location> marks = getMarkers();
             for (String name : marks.keySet()) {
-                Location loc = (Location) marks.get(name);
+                Location loc = marks.get(name);
 
                 String wname = loc.getWorld().getName();
 
@@ -231,7 +230,7 @@ public class DynmapListener implements Listener {
 
                     String label = this.labelfmt.replace("%name%", name);
 
-                    Marker m = (Marker) this.markers.remove(id);
+                    Marker m = this.markers.remove(id);
                     if (m == null) {
                         m = this.set.createMarker(id, label, wname, loc.getX(), loc.getY(), loc.getZ(), this.deficon, false);
                     } else {

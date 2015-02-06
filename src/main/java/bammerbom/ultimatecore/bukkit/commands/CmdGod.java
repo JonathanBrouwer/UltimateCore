@@ -26,13 +26,12 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdGod implements UltimateCommand {
 
@@ -112,12 +111,12 @@ public class CmdGod implements UltimateCommand {
         if (time == 0L) {
             r.sendMes(cs, "godOthersSelfMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
             if (banp.isOnline()) {
-                r.sendMes((Player) banp, "godOthersOtherMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
+                r.sendMes((CommandSender) banp, "godOthersOtherMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
             }
         } else {
             r.sendMes(cs, "godOthersSelfMessageT", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time + System.currentTimeMillis()));
             if (banp.isOnline()) {
-                r.sendMes((Player) banp, "godOthersOtherMessageT", "%Player", cs.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time + System.currentTimeMillis()));
+                r.sendMes((CommandSender) banp, "godOthersOtherMessageT", "%Player", cs.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time + System.currentTimeMillis()));
             }
         }
         return;

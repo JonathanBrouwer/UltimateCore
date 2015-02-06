@@ -23,16 +23,15 @@
  */
 package bammerbom.ultimatecore.bukkit.configuration;
 
+import java.io.*;
+import java.util.Map;
+import java.util.logging.Level;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.representer.Representer;
-
-import java.io.*;
-import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * An implementation of {@link Configuration} which saves all files in Yaml.
@@ -42,9 +41,6 @@ class YamlConfiguration extends FileConfiguration {
 
     protected static final String COMMENT_PREFIX = "# ";
     protected static final String BLANK_CONFIG = "{}\n";
-    private final DumperOptions yamlOptions = new DumperOptions();
-    private final Representer yamlRepresenter = new YamlRepresenter();
-    private final Yaml yaml = new Yaml(new YamlConstructor(), yamlRepresenter, yamlOptions);
 
     /**
      * Creates a new {@link YamlConfiguration}, loading from the given file.
@@ -133,7 +129,10 @@ class YamlConfiguration extends FileConfiguration {
 
         return config;
     }
-
+    private final DumperOptions yamlOptions = new DumperOptions();
+    private final Representer yamlRepresenter = new YamlRepresenter();
+    private final Yaml yaml = new Yaml(new YamlConstructor(), yamlRepresenter, yamlOptions);
+    
     @Override
     protected String saveToString() {
         yamlOptions.setIndent(options().indent());
@@ -261,4 +260,5 @@ class YamlConfiguration extends FileConfiguration {
 
         return (YamlConfigurationOptions) options;
     }
+
 }

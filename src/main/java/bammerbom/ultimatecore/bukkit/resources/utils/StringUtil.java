@@ -23,15 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,6 +39,20 @@ public class StringUtil {
     public static final String[] EMPTY_ARRAY = new String[0];
     private static final Pattern INVALIDFILECHARS = Pattern.compile("[^a-z0-9-]");
     private static final char[] CHAT_CODES;
+    static {
+        ChatColor[] styles = ChatColor.values();
+        LinkedHashSet<Character> chars = new LinkedHashSet<>(styles.length * 2);
+        for (int i = 0; i < styles.length; i++) {
+            chars.add(Character.valueOf(Character.toLowerCase(styles[i].getChar())));
+            chars.add(Character.valueOf(Character.toUpperCase(styles[i].getChar())));
+        }
+        CHAT_CODES = new char[chars.size()];
+        int i = 0;
+        for (Character c : chars) {
+            CHAT_CODES[i] = c.charValue();
+            i++;
+        }
+    }
 
     public static String joinList(Object[] list) {
         return joinList(", ", list);
@@ -355,7 +361,7 @@ public class StringUtil {
     }
 
     public static String[] convertArgs(String[] args) {
-        ArrayList<Object> tmpargs = new ArrayList<Object>(args.length);
+        ArrayList<Object> tmpargs = new ArrayList<>(args.length);
         boolean isCommenting = false;
         for (String arg : args) {
             if ((!isCommenting) && ((arg.startsWith("\"")) || (arg.startsWith("'")))) {
@@ -367,17 +373,17 @@ public class StringUtil {
                 }
             } else if ((isCommenting) && ((arg.endsWith("\"")) || (arg.endsWith("'")))) {
                 arg = arg.substring(0, arg.length() - 1);
-                arg = (String) tmpargs.get(tmpargs.size() - 1) + " " + arg;
+                arg = tmpargs.get(tmpargs.size() - 1) + " " + arg;
                 tmpargs.set(tmpargs.size() - 1, arg);
                 isCommenting = false;
             } else if (isCommenting) {
-                arg = (String) tmpargs.get(tmpargs.size() - 1) + " " + arg;
+                arg = tmpargs.get(tmpargs.size() - 1) + " " + arg;
                 tmpargs.set(tmpargs.size() - 1, arg);
             } else {
                 tmpargs.add(arg);
             }
         }
-        return (String[]) tmpargs.toArray(new String[0]);
+        return tmpargs.toArray(new String[0]);
     }
 
     public static boolean isChatCode(char character) {
@@ -440,20 +446,6 @@ public class StringUtil {
         return builder.toString();
     }
 
-    static {
-        ChatColor[] styles = ChatColor.values();
-        LinkedHashSet<Character> chars = new LinkedHashSet<Character>(styles.length * 2);
-        for (int i = 0; i < styles.length; i++) {
-            chars.add(Character.valueOf(Character.toLowerCase(styles[i].getChar())));
-            chars.add(Character.valueOf(Character.toUpperCase(styles[i].getChar())));
-        }
-        CHAT_CODES = new char[chars.size()];
-        int i = 0;
-        for (Character c : chars) {
-            CHAT_CODES[i] = c.charValue();
-            i++;
-        }
-    }
 
     public static boolean nullOrEmpty(Map<?, ?> map) {
         return (map == null) || (map.isEmpty());

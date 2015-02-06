@@ -27,6 +27,10 @@ import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateResult;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -37,18 +41,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.*;
-
 public class r {
-
-    static {
-        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-            vault = new r().new Vault();
-        }
-    }
 
     //Colors
     public static ChatColor negative = ChatColor.RED;
@@ -70,9 +63,23 @@ public class r {
     //Config end
     //Vault
     private static Vault vault;
+    private static Object prom;
+
+    static {
+        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+            vault = new r().new Vault();
+        }
+        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
+            prom = com.comphenix.protocol.ProtocolLibrary.getProtocolManager();
+        }
+    }
 
     public static UltimateUpdater getUpdater() {
         return updater;
+    }
+
+    public static Object getProtocolManager() {
+        return prom;
     }
 
     public static void runUpdater() {
@@ -298,7 +305,7 @@ public class r {
     }
 
     public static List<OfflinePlayer> getOfflinePlayersL() {
-        return (List<OfflinePlayer>) Arrays.asList(Bukkit.getOfflinePlayers());
+        return Arrays.asList(Bukkit.getOfflinePlayers());
     }
 
     public static Player searchPlayer(String s) {

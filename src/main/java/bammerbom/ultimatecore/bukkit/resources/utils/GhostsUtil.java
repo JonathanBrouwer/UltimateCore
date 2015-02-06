@@ -53,13 +53,7 @@ public class GhostsUtil {
     private static boolean closed;
 
     // Players that are actually ghosts
-    private static Set<String> ghosts = new HashSet<String>();
-
-    public GhostsUtil(Plugin plugin) {
-        // Initialize
-        createTask(plugin);
-        createGetTeam();
-    }
+    private static Set<String> ghosts = new HashSet<>();
 
     private static void createGetTeam() {
         Scoreboard board = Bukkit.getServer().getScoreboardManager().getMainScoreboard();
@@ -191,7 +185,7 @@ public class GhostsUtil {
      */
     public static OfflinePlayer[] getGhosts() {
         validateState();
-        Set<OfflinePlayer> players = new HashSet<OfflinePlayer>(ghostTeam.getPlayers());
+        Set<OfflinePlayer> players = new HashSet<>(ghostTeam.getPlayers());
 
         // Remove all non-ghost players
         for (Iterator<OfflinePlayer> it = players.iterator(); it.hasNext();) {
@@ -236,5 +230,11 @@ public class GhostsUtil {
         if (closed) {
             throw new IllegalStateException("Ghost factory has closed. Cannot reuse instances.");
         }
+    }
+    
+    public GhostsUtil(Plugin plugin) {
+        // Initialize
+        createTask(plugin);
+        createGetTeam();
     }
 }

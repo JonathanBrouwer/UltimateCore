@@ -47,7 +47,7 @@ import org.bukkit.util.Vector;
 public class ConfigurationSerialization {
 
     public static final String SERIALIZED_TYPE_KEY = "==";
-    private static Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<String, Class<? extends ConfigurationSerializable>>();
+    private static Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<>();
 
     static {
         registerClass(Vector.class);
@@ -57,12 +57,6 @@ public class ConfigurationSerialization {
         registerClass(PotionEffect.class);
         registerClass(FireworkEffect.class);
         registerClass(Pattern.class);
-    }
-
-    private final Class<?> clazz;
-
-    protected ConfigurationSerialization(Class<?> clazz) {
-        this.clazz = clazz;
     }
 
     /**
@@ -207,6 +201,11 @@ public class ConfigurationSerialization {
         }
 
         return clazz.getName();
+    }
+    private final Class<?> clazz;
+
+    protected ConfigurationSerialization(Class<?> clazz) {
+        this.clazz = clazz;
     }
 
     protected Method getMethod(String name, boolean isStatic) {

@@ -27,16 +27,15 @@ import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdHome implements UltimateCommand {
 
@@ -175,6 +174,6 @@ public class CmdHome implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return new ArrayList<>();
         }
-        return UC.getPlayer((Player) cs).getHomeNames();
+        return UC.getPlayer((OfflinePlayer) cs).getHomeNames();
     }
 }
