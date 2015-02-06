@@ -183,7 +183,7 @@ public class ReflectionUtil {
      */
     protected static Object getObjByFunction(Object obj, String methodName) throws Exception {
         Method m = null;
-        Class<?> c = obj.getClass();
+        Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
         for (c = obj.getClass(); c != null; c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
@@ -223,7 +223,7 @@ public class ReflectionUtil {
      */
     protected static Object getObjByFunction(Object obj, String name, Object[] args) throws Exception {
         Method m = null;
-        Class<?> c = obj.getClass();
+        Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
         for (c = obj.getClass(); c != null; c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
@@ -241,7 +241,7 @@ public class ReflectionUtil {
 
     protected static Object getStaticObjByFunction(Class<?> obj, String name, Object[] args) throws Exception {
         Method m = null;
-        Class<?> c = obj;
+        Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
         for (c = obj; c != null; c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
@@ -374,7 +374,7 @@ public class ReflectionUtil {
         /**
          * The internal object operations are performed on
          */
-        private Object object;
+        private final Object object;
 
         /**
          * Default constructor
@@ -523,7 +523,7 @@ public class ReflectionUtil {
          * @param field The field to be set
          * @param arg The value of the field
          */
-        public  void set(String field, Object arg) {
+        public void set(String field, Object arg) {
             try {
                 Field f = object.getClass().getDeclaredField(field);
                 f.setAccessible(true);

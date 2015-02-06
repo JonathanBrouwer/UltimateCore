@@ -129,7 +129,7 @@ public class ItemUtil {
     }
 
     public static boolean isRepairable(ItemStack stack) {
-        if (stack.getType().equals(Material.WOOD_AXE)
+        return stack.getType().equals(Material.WOOD_AXE)
                 || stack.getType().equals(Material.WOOD_PICKAXE)
                 || stack.getType().equals(Material.WOOD_SPADE)
                 || stack.getType().equals(Material.WOOD_SWORD)
@@ -179,10 +179,7 @@ public class ItemUtil {
                 || stack.getType().equals(Material.CARROT_STICK)
                 || stack.getType().equals(Material.FLINT_AND_STEEL)
                 || stack.getType().equals(Material.SHEARS)
-                || stack.getType().equals(Material.ANVIL)) {
-            return true;
-        }
-        return false;
+                || stack.getType().equals(Material.ANVIL);
     }
 
     public static String getID(Material mat) {

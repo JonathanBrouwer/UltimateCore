@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
-import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,7 +68,6 @@ public class CmdTeleportaskall implements UltimateCommand {
                     r.sendMes(cs, "teleportDisabled");
                     return;
                 }
-                LocationUtil.playEffect(t, p.getLocation());
                 UC.getServer().addTeleportHereRequest(t.getUniqueId(), p.getUniqueId());
                 if (UC.getServer().getTeleportRequests().containsKey(t.getUniqueId())) {
                     UC.getServer().getTeleportRequests().remove(t.getUniqueId());
@@ -98,7 +96,7 @@ public class CmdTeleportaskall implements UltimateCommand {
                                 }
                             }
                         }
-                    }, r.getCnfg().getInt("Command.Tp.TpaCancel") * 20L);
+                    }, r.getCnfg().getInt("Command.Teleport.TpaCancel") * 20L);
         }
     }
 

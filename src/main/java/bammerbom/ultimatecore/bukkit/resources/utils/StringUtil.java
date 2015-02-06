@@ -111,10 +111,7 @@ public class StringUtil {
 
     public static boolean isAlphaNumeric(String s) {
         String pattern = "[a-zA-Z0-9]";
-        if (s.matches(pattern)) {
-            return true;
-        }
-        return false;
+        return s.matches(pattern);
     }
 
     public static String blockToString(Block block) {

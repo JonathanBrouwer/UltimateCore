@@ -116,8 +116,7 @@ public class CmdTeleport implements UltimateCommand {
                 y = LocationUtil.getCoordinate(args[1], p.getLocation().getY());
                 z = LocationUtil.getCoordinate(args[2], p.getLocation().getZ());
             }
-            LocationUtil.teleport(p, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND);
-            LocationUtil.playEffect(p, new Location(w, x, y, z));
+            LocationUtil.teleport(p, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND, true);
             r.sendMes(cs, "teleportMessage3", "%x", x, "%y", y, "%z", z);
             return;
             //Teleport others coords
@@ -145,7 +144,7 @@ public class CmdTeleport implements UltimateCommand {
                 y = LocationUtil.getCoordinate(args[2], p.getLocation().getY());
                 z = LocationUtil.getCoordinate(args[3], p.getLocation().getZ());
             }
-            LocationUtil.teleport(p, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND);
+            LocationUtil.teleport(p, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND, false);
             LocationUtil.playEffect(p, new Location(w, x, y, z));
             r.sendMes(cs, "teleportMessage4", "%Player", t.getName(), "%x", x, "%y", y, "%z", z);
             return;
@@ -164,8 +163,7 @@ public class CmdTeleport implements UltimateCommand {
                         r.sendMes(cs, "teleportDisabled", "%Player", tg.getName());
                         return;
                     }
-                    LocationUtil.teleport(p, tg, PlayerTeleportEvent.TeleportCause.COMMAND);
-                    LocationUtil.playEffect(p, tg.getLocation());
+                    LocationUtil.teleport(p, tg, PlayerTeleportEvent.TeleportCause.COMMAND, true);
                     r.sendMes(cs, "teleportMessage1", "%Player", tg.getName());
                 } else {
                     Player tg2 = r.searchPlayer(args[1]);
@@ -180,7 +178,7 @@ public class CmdTeleport implements UltimateCommand {
                             r.sendMes(cs, "teleportDisabled", "%Player", tg2.getName());
                             return;
                         }
-                        LocationUtil.teleport(tg, tg2, PlayerTeleportEvent.TeleportCause.COMMAND);
+                        LocationUtil.teleport(tg, tg2, PlayerTeleportEvent.TeleportCause.COMMAND, false);
                         LocationUtil.playEffect(tg, tg2.getLocation());
                         r.sendMes(cs, "teleportMessage2", "%Player", tg.getName(), "%Target", tg2.getName());
                     }

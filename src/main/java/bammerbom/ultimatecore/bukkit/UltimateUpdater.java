@@ -500,10 +500,7 @@ public class UltimateUpdater {
             if (l2 < r2 && !(l1 > r1)) {
                 return true;
             }
-            if (l3 < r3 && !(l2 > r2) && !(l1 > r1)) {
-                return true;
-            }
-            return false;
+            return l3 < r3 && !(l2 > r2) && !(l1 > r1);
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;

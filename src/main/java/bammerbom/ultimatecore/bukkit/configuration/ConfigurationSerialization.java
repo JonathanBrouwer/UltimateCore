@@ -47,7 +47,7 @@ import org.bukkit.util.Vector;
 public class ConfigurationSerialization {
 
     public static final String SERIALIZED_TYPE_KEY = "==";
-    private static Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<>();
+    private static final Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<>();
 
     static {
         registerClass(Vector.class);
@@ -273,7 +273,7 @@ public class ConfigurationSerialization {
         Validate.notNull(args, "Args must not be null");
 
         ConfigurationSerializable result = null;
-        Method method = null;
+        Method method;
 
         if (result == null) {
             method = getMethod("deserialize", true);

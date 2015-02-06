@@ -37,7 +37,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 
 public class CmdCompact implements UltimateCommand {
 
-    private static Map<ItemStack, SimpleRecipe> condenseList = new HashMap<>();
+    private static final Map<ItemStack, SimpleRecipe> condenseList = new HashMap<>();
 
     private static boolean condenseStack(Player p, ItemStack stack, boolean validateReverse) {
         SimpleRecipe condenseType = getCondenseType(stack);
@@ -188,8 +188,8 @@ public class CmdCompact implements UltimateCommand {
 
     static class SimpleRecipe implements Recipe {
 
-        private ItemStack result;
-        private ItemStack input;
+        private final ItemStack result;
+        private final ItemStack input;
 
         protected SimpleRecipe(ItemStack result, ItemStack input) {
             this.result = result;

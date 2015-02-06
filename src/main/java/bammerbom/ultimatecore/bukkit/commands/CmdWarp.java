@@ -90,7 +90,7 @@ public class CmdWarp implements UltimateCommand {
 
             //Teleport
             Location loc = UC.getServer().getWarp(args[0]);
-            LocationUtil.teleportUnsafe(p, loc, TeleportCause.COMMAND);
+            LocationUtil.teleportUnsafe(p, loc, TeleportCause.COMMAND, true);
             r.sendMes(cs, "warpMessage", "%Warp", args[0]);
         }
     }

@@ -31,9 +31,6 @@ import java.security.DigestInputStream;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
@@ -64,7 +61,7 @@ public class ItemDatabase {
         InputStream resource = plugin.getResource("Data/items.csv");
         BufferedReader r = new BufferedReader(new InputStreamReader(resource));
         ArrayList<String> lines = new ArrayList<>();
-        String lineC = "";
+        String lineC;
         try {
             while ((lineC = r.readLine()) != null) {
                 lines.add(lineC);
@@ -113,7 +110,7 @@ public class ItemDatabase {
     @SuppressWarnings("deprecation")
     private static ItemStack get(String id) {
         int itemid = 0;
-        String itemname = null;
+        String itemname;
         short metaData = 0;
         Matcher parts = Pattern.compile("((.*)[:+',;.](\\d+))").matcher(id);
         if (parts.matches()) {
@@ -177,40 +174,6 @@ public class ItemDatabase {
         return get(str);
     }
 
-    @SuppressWarnings("unused")
-    @Deprecated
-    private static void addKeys() {
-        try {
-            File file = new File(plugin.getDataFolder() + "/Data", "items.csv");
-            plugin.saveResource("Data/items.csv", true);
-            ManagedFile mfile = new ManagedFile("Data/items.csv", plugin);
-            Connection c = null;
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:Plugins/UltimateCore/Data/ItemDatabase.db");
-            Statement stmt = null;
-            stmt = c.createStatement();
-            Integer a = 0;
-            Integer b = mfile.getLines().size();
-            for (String line : mfile.getLines()) {
-                if (!line.startsWith("#")) {
-                    a++;
-                    if (a % 100 == 0) {
-                        r.log("Progress: " + a + '/' + b);
-                    }
-                    String lname = line.split(",")[0].toLowerCase();
-                    Integer lID = Integer.parseInt(line.split(",")[1].toLowerCase());
-                    Short lDURA = Short.parseShort(line.split(",")[2].toLowerCase());
-                    String sql = "INSERT INTO ITEMDATA (NAME, ID, DURA) "
-                            + "VALUES ('" + lname + "', '" + lID + "', '" + lDURA + "')";
-                    stmt.executeUpdate(sql);
-                }
-            }
-            stmt.close();
-            file.delete();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 }
 
 class ManagedFile {
@@ -337,7 +300,7 @@ class ManagedFile {
             }
         }
     }
-    
+
     @SuppressWarnings({"rawtypes", "unchecked"})
     public List<String> getLines() {
         try {
@@ -414,7 +377,6 @@ class LengthCompare
 class ItemNames {
 
     private static final List<ItemInfo> items = new CopyOnWriteArrayList<>();
-
 
     static {
         items.add(new ItemInfo("Air", new String[][]{{"air"}}, Material.AIR));

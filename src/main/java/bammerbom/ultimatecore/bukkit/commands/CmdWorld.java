@@ -184,7 +184,7 @@ public class CmdWorld implements UltimateCommand {
             worlds.add(w.getName());
         }
         StringBuilder list = new StringBuilder();
-        String result = null;
+        String result;
         try {
             Integer cur = 0;
             for (int i = 0; i < worlds.toArray().length; i++) {
@@ -216,7 +216,7 @@ public class CmdWorld implements UltimateCommand {
             for (Player pl : r.getOnlinePlayers()) {
                 if (pl.getWorld().equals(world)) {
                     World w2 = Bukkit.getWorlds().get(0);
-                    LocationUtil.teleport(pl, w2.getSpawnLocation(), TeleportCause.PLUGIN);
+                    LocationUtil.teleport(pl, w2.getSpawnLocation(), TeleportCause.PLUGIN, false);
                 }
             }
             Bukkit.getServer().unloadWorld(world, true);
@@ -314,7 +314,7 @@ public class CmdWorld implements UltimateCommand {
             }
             final Player p = (Player) cs;
             final Location loc = world.getSpawnLocation();
-            LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
+            LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true);
         }
     }
 

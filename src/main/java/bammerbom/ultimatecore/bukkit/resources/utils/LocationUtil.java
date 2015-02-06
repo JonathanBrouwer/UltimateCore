@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
+import bammerbom.ultimatecore.bukkit.r;
 import java.util.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -34,9 +35,11 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class LocationUtil {
 
-    public static final Vector3D[] VOLUME;
+    private static final Vector3D[] VOLUME;
     private static final Set<Material> HOLLOW_MATERIALS = new HashSet<>();
     private static final HashSet<Material> TRANSPARENT_MATERIALS = new HashSet<>();
+    static Integer delay2 = 0;
+
     static {
         HOLLOW_MATERIALS.add(Material.AIR);
         HOLLOW_MATERIALS.add(Material.SAPLING);
@@ -94,6 +97,12 @@ public class LocationUtil {
             }
         });
         VOLUME = pos.toArray(new Vector3D[0]);
+    }
+
+    static {
+        if (r.getCnfg().getBoolean("Command.Teleport.EnableDelay")) {
+            delay2 = r.getCnfg().getInt("Command.Teleport.Delay");
+        }
     }
 
     public static Location convertStringToLocation(String s) {
@@ -186,31 +195,74 @@ public class LocationUtil {
         return block.getLocation();
     }
 
-    public static void teleport(Player p, Entity l, TeleportCause c) {
-        teleport(p, l.getLocation(), c);
+    public static void teleport(Player p, Entity l, TeleportCause c, Boolean delay) {
+        teleport(p, l.getLocation(), c, delay);
     }
 
-    public static void teleportUnsafe(Player p, Entity l, TeleportCause c) {
-        teleportUnsafe(p, l.getLocation(), c);
+    public static void teleportUnsafe(Player p, Entity l, TeleportCause c, Boolean delay) {
+        teleportUnsafe(p, l.getLocation(), c, delay);
     }
 
-    public static void teleport(Player p, Location l, TeleportCause c) {
-        if (!p.getAllowFlight()) {
+    public static void teleport(final Player p, Location l, final TeleportCause c, Boolean delay) {
+        if (delay && delay2 > 0 && !r.perm(p, "uc.tp.bypasstimer", false, false)) {
+            final Location loc = p.getLocation().getBlock().getLocation();
             l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;
+            final Location to = l;
+            r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+
+                @Override
+                public void run() {
+                    if (p.getLocation().getBlock().getLocation().equals(loc)) {
+                        if (p.isInsideVehicle()) {
+                            p.leaveVehicle();
+                        }
+                        p.teleport(to, c);
+                        playEffect(p, to);
+                        r.sendMes(p, "teleportDelaySucces");
+                    } else {
+                        r.sendMes(p, "teleportDelayFailedMove");
+                    }
+                }
+            }, (20L * delay2));
+
         } else {
-            p.setFlying(true);
+            l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;
+            if (p.isInsideVehicle()) {
+                p.leaveVehicle();
+            }
+            p.teleport(l, c);
         }
-        if (p.isInsideVehicle()) {
-            p.leaveVehicle();
-        }
-        p.teleport(l, c);
     }
 
-    public static void teleportUnsafe(Player p, Location l, TeleportCause c) {
-        if (p.isInsideVehicle()) {
-            p.leaveVehicle();
+    public static void teleportUnsafe(final Player p, Location l, final TeleportCause c, Boolean delay) {
+        if (delay && delay2 > 0 && !r.perm(p, "uc.teleport.bypasstimer", false, false)) {
+            final Location loc = p.getLocation().getBlock().getLocation();
+            final Location to = l;
+            r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+
+                @Override
+                public void run() {
+                    if (p.getLocation().getBlock().getLocation().equals(loc)) {
+                        if (p.isInsideVehicle()) {
+                            p.leaveVehicle();
+                        }
+                        p.teleport(to, c);
+                        playEffect(p, to);
+                        r.sendMes(p, "teleportDelaySucces");
+                    } else {
+                        r.sendMes(p, "teleportDelayFailedMove");
+                    }
+                }
+            }, (20L * delay2));
+
+        } else {
+            if (p.isInsideVehicle()) {
+                p.leaveVehicle();
+            }
+            p.teleport(l, c);
         }
-        p.teleport(l, c);
     }
 
     //
@@ -239,12 +291,8 @@ public class LocationUtil {
         if (below.getType() == Material.BED_BLOCK) {
             return true;
         }
-        if ((!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y, z).getType())) || (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y + 1, z).getType()))) {
-            return true;
-        }
-        return false;
+        return (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y, z).getType())) || (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y + 1, z).getType()));
     }
-
 
     /**
      * Creates a teleport effect

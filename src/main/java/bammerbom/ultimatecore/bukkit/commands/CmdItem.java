@@ -105,12 +105,12 @@ public class CmdItem implements UltimateCommand {
                         item = Bukkit.getUnsafe().modifyItemStack(item, s);
                     } else {
                         meta.parseStringMeta(cs, r.perm(cs, "uc.give.unsafe", false, false), args, metaStart);
+                        item = meta.getItemStack();
                     }
                 } catch (Exception e) {
                     r.sendMes(cs, "giveMetadataFailed");
                 }
             }
-            item = meta.getItemStack();
         }
         InventoryUtil.addItem(p.getInventory(), item);
         r.sendMes(cs, "giveMessage", "%Item", ItemUtil.getName(item), "%Amount", amount, "%Player", p.getName());

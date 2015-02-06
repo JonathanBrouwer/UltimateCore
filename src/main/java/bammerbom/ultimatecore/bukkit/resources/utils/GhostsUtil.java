@@ -53,7 +53,7 @@ public class GhostsUtil {
     private static boolean closed;
 
     // Players that are actually ghosts
-    private static Set<String> ghosts = new HashSet<>();
+    private static final Set<String> ghosts = new HashSet<>();
 
     private static void createGetTeam() {
         Scoreboard board = Bukkit.getServer().getScoreboardManager().getMainScoreboard();

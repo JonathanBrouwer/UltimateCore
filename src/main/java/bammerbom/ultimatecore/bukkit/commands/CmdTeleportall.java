@@ -67,7 +67,7 @@ public class CmdTeleportall implements UltimateCommand {
                     r.sendMes(cs, "teleportDisabled", "%Player", pl.getName());
                     continue;
                 }
-                LocationUtil.teleport(pl, p.getLocation(), TeleportCause.COMMAND);
+                LocationUtil.teleport(pl, p.getLocation(), TeleportCause.COMMAND, false);
             }
             LocationUtil.playEffect(null, p.getLocation());
             r.sendMes(cs, "teleportallSelf");
@@ -82,7 +82,7 @@ public class CmdTeleportall implements UltimateCommand {
                     r.sendMes(cs, "teleportDisabled", "%Player", pl.getName());
                     continue;
                 }
-                LocationUtil.teleport(pl, t.getLocation(), TeleportCause.COMMAND);
+                LocationUtil.teleport(pl, t.getLocation(), TeleportCause.COMMAND, false);
             }
             LocationUtil.playEffect(null, t.getLocation());
             r.sendMes(cs, "teleportallOthers", "%Player", t.getName());

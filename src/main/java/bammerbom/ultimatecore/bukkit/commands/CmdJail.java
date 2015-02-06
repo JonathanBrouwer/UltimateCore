@@ -95,7 +95,7 @@ public class CmdJail implements UltimateCommand {
                 r.sendMes(cs, "jailNone");
                 return;
             }
-            String jail = "";
+            String jail;
             Long time = -1L;
             if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1], true) != -1) {
                 time = DateUtil.parseDateDiff(args[1], true);
@@ -114,7 +114,7 @@ public class CmdJail implements UltimateCommand {
             }
             Location loc = UC.getServer().getJail(jail);
             if (pl.isOnline()) {
-                LocationUtil.teleportUnsafe(pl.getPlayer(), loc, TeleportCause.PLUGIN);
+                LocationUtil.teleportUnsafe(pl.getPlayer(), loc, TeleportCause.PLUGIN, true);
                 r.sendMes(pl.getPlayer(), "jailTarget", "%Time", time != -1L ? DateUtil.format(time + System.currentTimeMillis()) : r.mes("jailEver"));
             }
             pu.jail(jail, time);

@@ -366,7 +366,7 @@ public class Config extends YamlConfiguration implements Cloneable {
 //headerbuilder
 class HeaderBuilder {
 
-    private StringBuilder buffer = new StringBuilder();
+    private final StringBuilder buffer = new StringBuilder();
 
     private StringBuilder add() {
         return this.buffer.append('\n');
@@ -402,7 +402,7 @@ class HeaderBuilder {
 class NodeBuilder {
 
     private final int indent;
-    private LinkedList<String> nodes = new LinkedList<>();
+    private final LinkedList<String> nodes = new LinkedList<>();
 
     public NodeBuilder(int indent) {
         this.indent = indent;

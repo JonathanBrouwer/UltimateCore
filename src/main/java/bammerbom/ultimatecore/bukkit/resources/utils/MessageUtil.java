@@ -1072,6 +1072,7 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
         }
         stylesToNames = builder.build();
     }
+
     static {
         ConfigurationSerialization.registerClass(MessagePart.class);
     }
@@ -1110,7 +1111,6 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
     boolean hasText() {
         return text != null;
     }
-
 
     @Override
     @SuppressWarnings("unchecked")
@@ -1179,7 +1179,6 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
         map.put("translationReplacements", translationReplacements);
         return map;
     }
-
 
 }
 
@@ -1530,7 +1529,7 @@ final class ArrayWrapper<E> {
         int size = -1;
         if (list instanceof Collection<?>) {
             @SuppressWarnings("rawtypes")
-                    Collection coll = (Collection) list;
+            Collection coll = (Collection) list;
             size = coll.size();
         }
 
@@ -1566,7 +1565,7 @@ final class ArrayWrapper<E> {
      *
      * @return The array wrapped by this instance.
      */
-    public  E[] getArray() {
+    public E[] getArray() {
         return _array;
     }
 
@@ -1669,7 +1668,7 @@ final class Reflection {
         }
 
         String fullName = "net.minecraft.server." + getVersion() + className;
-        Class<?> clazz = null;
+        Class<?> clazz;
         try {
             clazz = Class.forName(fullName);
         } catch (Exception e) {
@@ -1699,7 +1698,7 @@ final class Reflection {
         }
 
         String fullName = "org.bukkit.craftbukkit." + getVersion() + className;
-        Class<?> clazz = null;
+        Class<?> clazz;
         try {
             clazz = Class.forName(fullName);
         } catch (Exception e) {

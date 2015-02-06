@@ -94,7 +94,7 @@ public class CmdTeleportask implements UltimateCommand {
                             UC.getServer().removeTeleportRequest(t.getUniqueId());
                         }
                     }
-                }, r.getCnfg().getInt("Command.Tp.TpaCancel") * 20L);
+                }, r.getCnfg().getInt("Command.Teleport.TpaCancel") * 20L);
     }
 
     @Override

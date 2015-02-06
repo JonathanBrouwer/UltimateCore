@@ -127,8 +127,8 @@ class HelpInput
     public HelpInput(CommandSender user, String match) {
         boolean reported = false;
         List newLines = new ArrayList();
-        String pluginName = "";
-        String pluginNameLow = "";
+        String pluginName;
+        String pluginNameLow;
 
         for (Plugin p : Bukkit.getServer().getPluginManager().getPlugins()) {
             try {
@@ -318,7 +318,7 @@ class TextPager {
                 return;
             }
 
-            int page = 1;
+            int page;
             try {
                 page = Integer.parseInt(pageStr);
             } catch (NumberFormatException ex) {

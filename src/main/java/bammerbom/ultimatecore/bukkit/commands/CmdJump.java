@@ -64,7 +64,7 @@ public class CmdJump implements UltimateCommand {
         loc.setYaw(cloc.getYaw());
         loc.setPitch(cloc.getPitch());
         loc.setY(loc.getY() + 1);
-        LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
+        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true);
     }
 
     @Override

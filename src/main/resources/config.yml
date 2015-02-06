@@ -162,7 +162,11 @@ Command:
   Smite:
     #Is smite just an effect, or is it real? (False = Effect)
     smiteDamage: false
-  Tp:
+  Teleport:
     #The delay until the teleport ask request is cancelled in seconds
     TpaCancel: 30
+    #Enable delay?
+    EnableDelay: false
+    #The delay in seconds.
+    Delay: 5
     

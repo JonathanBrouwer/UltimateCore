@@ -897,7 +897,7 @@ public class UCplayer {
             return teleportEnabled;
         }
         if (!getPlayerConfig().contains("teleportenabled")) {
-            return false;
+            return true;
         }
         teleportEnabled = getPlayerConfig().getBoolean("teleportenabled");
         save();

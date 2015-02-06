@@ -150,10 +150,10 @@ public class CmdMinecraftservers implements UltimateCommand {
 
 class ServerCheck {
 
-    private static JSONParser parser = new JSONParser();
+    private static final JSONParser parser = new JSONParser();
 
     public static Status getStatus(MinecraftServer service) {
-        String status = null;
+        String status;
 
         try {
             URL url = new URL("http://status.mojang.com/check?service=" + service.getURL());
@@ -197,7 +197,7 @@ class ServerCheck {
         AUTHSERVER("authserver.mojang.com"),
         MOJANGSESSION("sessionserver.mojang.com");
 
-        private String url;
+        private final String url;
 
         MinecraftServer(String url) {
             this.url = url;
@@ -215,7 +215,7 @@ class ServerCheck {
         OFFLINE("Experiencing problems!"),
         UNKNOWN("Couldn't connect to Mojang!");
 
-        private String description;
+        private final String description;
 
         Status(String description) {
             this.description = description;

@@ -66,7 +66,7 @@ public class CmdBack implements UltimateCommand {
             r.sendMes(cs, "backNotFound");
             return;
         }
-        LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
+        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true);
         r.sendMes(cs, "backMessage");
     }
 
