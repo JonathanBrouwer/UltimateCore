@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.bukkit.r;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class PluginStealListener implements Listener {
@@ -36,30 +35,6 @@ public class PluginStealListener implements Listener {
         Bukkit.getPluginManager().registerEvents(new PluginStealListener(), r.getUC());
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
             TabCompleteListener.start();
-        }
-    }
-
-
-    @EventHandler
-    public void onTabComplete(PlayerChatTabCompleteEvent e) {
-        String m = e.getChatMessage().startsWith("/") ? e.getChatMessage().replaceFirst("/", "") : e.getChatMessage();
-        r.log("\"" + m + "\"");
-        if (m.contains(" ")) {
-            m = m.split(" ")[0];
-        }
-        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins")
-                || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl")
-                || m.equalsIgnoreCase("about") || m.equalsIgnoreCase("bukkit:about")
-                || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version")
-                || m.equalsIgnoreCase("ver") || m.equalsIgnoreCase("bukkit:ver")) {
-            if (!r.perm(e.getPlayer(), "uc.plugins", false, false)) {
-                e.getTabCompletions().clear();
-            }
-        }
-        if (m.equalsIgnoreCase("?") || m.equalsIgnoreCase("bukkit:?") || m.equalsIgnoreCase("help") || m.equalsIgnoreCase("bukkit:help")) {
-            if (!r.perm(e.getPlayer(), "uc.help", false, false)) {
-                e.getTabCompletions().clear();
-            }
         }
     }
 
@@ -93,9 +68,26 @@ public class PluginStealListener implements Listener {
                 public void onPacketReceiving(com.comphenix.protocol.events.PacketEvent event) {
                     if (event.getPacketType() == com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE) {
                         com.comphenix.protocol.events.PacketContainer packet = event.getPacket();
-                        String msg = packet.getStrings().read(0).toLowerCase();
-                        if (true) {
-                            event.setCancelled(true);
+                        String m = packet.getStrings().read(0).toLowerCase();
+                        if (m.contains("/")) {
+                            m = m.replaceFirst("/", "");
+                        }
+                        if (m.contains(" ")) {
+                            m = m.split(" ")[0];
+                        }
+                        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins")
+                                || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl")
+                                || m.equalsIgnoreCase("about") || m.equalsIgnoreCase("bukkit:about")
+                                || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version")
+                                || m.equalsIgnoreCase("ver") || m.equalsIgnoreCase("bukkit:ver")) {
+                            if (!r.perm(event.getPlayer(), "uc.plugins", false, false)) {
+                                event.setCancelled(true);
+                            }
+                        }
+                        if (m.equalsIgnoreCase("?") || m.equalsIgnoreCase("bukkit:?") || m.equalsIgnoreCase("help") || m.equalsIgnoreCase("bukkit:help")) {
+                            if (!r.perm(event.getPlayer(), "uc.help", false, false)) {
+                                event.setCancelled(true);
+                            }
                         }
                     }
                 }
