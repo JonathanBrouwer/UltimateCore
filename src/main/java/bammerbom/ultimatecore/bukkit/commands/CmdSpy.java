@@ -28,10 +28,10 @@ import bammerbom.ultimatecore.bukkit.api.UCplayer;
 import bammerbom.ultimatecore.bukkit.r;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.entity.Player;
 
 public class CmdSpy implements UltimateCommand {
 

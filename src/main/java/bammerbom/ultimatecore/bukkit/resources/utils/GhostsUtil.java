@@ -23,6 +23,9 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -32,10 +35,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 public class GhostsUtil {
 

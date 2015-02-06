@@ -26,10 +26,6 @@ package bammerbom.ultimatecore.bukkit.listeners;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -38,124 +34,23 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.regex.Pattern;
+
 public class ChatListener implements Listener {
+
+    static HashMap<String, String> lastChatMessage = new HashMap<>();
+    static HashMap<String, Integer> lastChatMessageTimes = new HashMap<>();
+    static HashMap<String, Integer> spamTime = new HashMap<>();
+    static HashMap<String, Integer> swearAmount = new HashMap<>();
 
     public static void start() {
         ChatListener list = new ChatListener();
         list.spamTask();
         Bukkit.getPluginManager().registerEvents(list, r.getUC());
     }
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void ChatListener(AsyncPlayerChatEvent e) {
-        if (!e.isCancelled() && !UC.getPlayer(e.getPlayer()).isMuted()) {
-            String m = e.getMessage();
-            if (r.perm(e.getPlayer(), "uc.coloredchat", false, false)) {
-                m = ChatColor.translateAlternateColorCodes('&', m);
-            }
-            ChatSet set = testMessage(m, e.getPlayer());
-            if (set.isCancelled()) {
-                e.setCancelled(true);
-                return;
-            }
-            m = set.getMessage();
-            e.setMessage(m);
-            if (r.getCnfg().getBoolean("Chat.EnableCustomChat") == false) {
-                e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
-                return;
-            }
-            if ((Bukkit.getPluginManager().getPlugin("EssentialsChat") != null && Bukkit.getPluginManager().getPlugin("EssentialsChat").isEnabled()) || (Bukkit.getPluginManager().getPlugin("Essentials") != null && Bukkit.getPluginManager().isPluginEnabled("Essentials"))) {
-                if (!ChatColor.stripColor(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")) {
-                    e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
-                    return;
-                }
-            }
-            if (r.getCnfg().getBoolean("Chat.Groups.Enabled")) {
-                if (r.getVault() != null && r.getVault().getPermission() != null) {
-                    String group = r.getVault().getPermission().getPrimaryGroup(e.getPlayer());
-                    if (!(group == null) && !group.equalsIgnoreCase("") && r.getCnfg().get("Chat.Groups." + group) != null) {
-                        String f = r.getCnfg().getString("Chat.Groups." + group);
-                        String prefix = "";
-                        String suffix = "";
-                        if (r.getVault().getChat() != null) {
-                            prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
-                            suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
-                            if ((r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer()).isEmpty()) {
-                                prefix = r.getVault().getChat().getPlayerPrefix(e.getPlayer());
-                            }
-                            if ((r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer()).isEmpty()) {
-                                suffix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
-                            }
-                        }
-                        if (!f.contains("\\+Name")) {
-                            e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
-                        } else {
-                            e.getPlayer().setDisplayName(e.getPlayer().getName());
-                        }
-                        f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? group.replaceAll("&y", r.getRandomChatColor() + "") : group);
-                        f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : prefix);
-                        f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : suffix);
-                        f = r(f, "\\+Name", "\\%1\\$s");
-                        f = r(f, "\\+Displayname", "\\%1\\$s");
-                        f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
-                        f = r(f, "\\+World", e.getPlayer().getWorld().getName());
-                        f = ChatColor.translateAlternateColorCodes('&', f);
-                        if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {
-                            f = r(f, "&y", r.getRandomChatColor() + "");
-                        }
-                        f = r(f, "\\+Message", "\\%2\\$s");
-                        synchronized (f) {
-                            e.setMessage(m);
-                            e.setFormat(f);
-                        }
-                        return;
-                    }
-                }
-            }
-            String f = r.getCnfg().getString("Chat.Format");
-            String group = "";
-            String prefix = "";
-            String suffix = "";
-            if (r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getChat() != null) {
-                group = r.getVault().getPermission().getPrimaryGroup(e.getPlayer());
-                prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
-                suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
-            }
-            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer()).equalsIgnoreCase("")) {
-                prefix = r.getVault().getChat().getPlayerPrefix(e.getPlayer());
-            }
-            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer()).equalsIgnoreCase("")) {
-                prefix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
-            }
-            if (!f.contains("\\+Name")) {
-                e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
-            } else {
-                e.getPlayer().setDisplayName(e.getPlayer().getName());
-            }
-            f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (group != null ? group.replaceAll("&y", r.getRandomChatColor() + "") : "") : (group != null ? group : ""));
-            f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (prefix != null ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (prefix != null ? prefix : ""));
-            f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (suffix != null ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (suffix != null ? suffix : ""));
-            f = r(f, "\\+Name", "\\%1\\$s");
-            f = r(f, "\\+Displayname", "\\%1\\$s");
-            f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
-            f = r(f, "\\+World", e.getPlayer().getWorld().getName());
-            f = ChatColor.translateAlternateColorCodes('&', f);
-            ChatColor value = Arrays.asList(ChatColor.values()).get(r.ra.nextInt(Arrays.asList(ChatColor.values()).size()));
-            if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {
-                f = r(f, "&y", value + "");
-            }
-            f = r(f, "\\+Message", "\\%2\\$s");
-            synchronized (f) {
-                e.setMessage(m);
-                e.setFormat(f);
-            }
-        }
-    }
-
-    static HashMap<String, String> lastChatMessage = new HashMap<>();
-    static HashMap<String, Integer> lastChatMessageTimes = new HashMap<>();
-    static HashMap<String, Integer> spamTime = new HashMap<>();
-    static HashMap<String, Integer> swearAmount = new HashMap<>();
 
     private static ChatSet testMessage(String mr, Player p) {
         ChatSet set = new ChatSet(mr);
@@ -277,6 +172,112 @@ public class ChatListener implements Listener {
         return set;
     }
 
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void ChatListener(AsyncPlayerChatEvent e) {
+        if (!e.isCancelled() && !UC.getPlayer(e.getPlayer()).isMuted()) {
+            String m = e.getMessage();
+            if (r.perm(e.getPlayer(), "uc.coloredchat", false, false)) {
+                m = ChatColor.translateAlternateColorCodes('&', m);
+            }
+            ChatSet set = testMessage(m, e.getPlayer());
+            if (set.isCancelled()) {
+                e.setCancelled(true);
+                return;
+            }
+            m = set.getMessage();
+            e.setMessage(m);
+            if (r.getCnfg().getBoolean("Chat.EnableCustomChat") == false) {
+                e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
+                return;
+            }
+            if ((Bukkit.getPluginManager().getPlugin("EssentialsChat") != null && Bukkit.getPluginManager().getPlugin("EssentialsChat").isEnabled()) || (Bukkit.getPluginManager().getPlugin("Essentials") != null && Bukkit.getPluginManager().isPluginEnabled("Essentials"))) {
+                if (!ChatColor.stripColor(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")) {
+                    e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
+                    return;
+                }
+            }
+            if (r.getCnfg().getBoolean("Chat.Groups.Enabled")) {
+                if (r.getVault() != null && r.getVault().getPermission() != null) {
+                    String group = r.getVault().getPermission().getPrimaryGroup(e.getPlayer());
+                    if (!(group == null) && !group.equalsIgnoreCase("") && r.getCnfg().get("Chat.Groups." + group) != null) {
+                        String f = r.getCnfg().getString("Chat.Groups." + group);
+                        String prefix = "";
+                        String suffix = "";
+                        if (r.getVault().getChat() != null) {
+                            prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
+                            suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
+                            if ((r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer()).isEmpty()) {
+                                prefix = r.getVault().getChat().getPlayerPrefix(e.getPlayer());
+                            }
+                            if ((r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer()).isEmpty()) {
+                                suffix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
+                            }
+                        }
+                        if (!f.contains("\\+Name")) {
+                            e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
+                        } else {
+                            e.getPlayer().setDisplayName(e.getPlayer().getName());
+                        }
+                        f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? group.replaceAll("&y", r.getRandomChatColor() + "") : group);
+                        f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : prefix);
+                        f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : suffix);
+                        f = r(f, "\\+Name", "\\%1\\$s");
+                        f = r(f, "\\+Displayname", "\\%1\\$s");
+                        f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
+                        f = r(f, "\\+World", e.getPlayer().getWorld().getName());
+                        f = ChatColor.translateAlternateColorCodes('&', f);
+                        if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {
+                            f = r(f, "&y", r.getRandomChatColor() + "");
+                        }
+                        f = r(f, "\\+Message", "\\%2\\$s");
+                        synchronized (f) {
+                            e.setMessage(m);
+                            e.setFormat(f);
+                        }
+                        return;
+                    }
+                }
+            }
+            String f = r.getCnfg().getString("Chat.Format");
+            String group = "";
+            String prefix = "";
+            String suffix = "";
+            if (r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getChat() != null) {
+                group = r.getVault().getPermission().getPrimaryGroup(e.getPlayer());
+                prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
+                suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
+            }
+            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer()).equalsIgnoreCase("")) {
+                prefix = r.getVault().getChat().getPlayerPrefix(e.getPlayer());
+            }
+            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer()).equalsIgnoreCase("")) {
+                prefix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
+            }
+            if (!f.contains("\\+Name")) {
+                e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
+            } else {
+                e.getPlayer().setDisplayName(e.getPlayer().getName());
+            }
+            f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (group != null ? group.replaceAll("&y", r.getRandomChatColor() + "") : "") : (group != null ? group : ""));
+            f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (prefix != null ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (prefix != null ? prefix : ""));
+            f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (suffix != null ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (suffix != null ? suffix : ""));
+            f = r(f, "\\+Name", "\\%1\\$s");
+            f = r(f, "\\+Displayname", "\\%1\\$s");
+            f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
+            f = r(f, "\\+World", e.getPlayer().getWorld().getName());
+            f = ChatColor.translateAlternateColorCodes('&', f);
+            ChatColor value = Arrays.asList(ChatColor.values()).get(r.ra.nextInt(Arrays.asList(ChatColor.values()).size()));
+            if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {
+                f = r(f, "&y", value + "");
+            }
+            f = r(f, "\\+Message", "\\%2\\$s");
+            synchronized (f) {
+                e.setMessage(m);
+                e.setFormat(f);
+            }
+        }
+    }
+
     private void spamTask() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
             public void run() {
@@ -334,24 +335,24 @@ class ChatSet {
     Boolean cancelled;
     String message;
 
-    public boolean isCancelled() {
-        return cancelled;
+    public ChatSet(String mes) {
+        cancelled = false;
+        message = mes;
     }
 
-    public String getMessage() {
-        return message;
+    public boolean isCancelled() {
+        return cancelled;
     }
 
     public void setCancelled(Boolean can) {
         cancelled = can;
     }
 
-    public void setMessage(String msg) {
-        message = msg;
+    public String getMessage() {
+        return message;
     }
 
-    public ChatSet(String mes) {
-        cancelled = false;
-        message = mes;
+    public void setMessage(String msg) {
+        message = msg;
     }
 }

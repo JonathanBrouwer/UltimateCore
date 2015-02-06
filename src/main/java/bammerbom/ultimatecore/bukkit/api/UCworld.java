@@ -25,12 +25,9 @@ package bammerbom.ultimatecore.bukkit.api;
 
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.utils.FireworkUtil;
+import org.bukkit.*;
+
 import java.io.File;
-import org.bukkit.Bukkit;
-import org.bukkit.FireworkEffect;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.World;
 
 public class UCworld {
 
@@ -83,12 +80,6 @@ public class UCworld {
         register();
     }
 
-    //World
-    public static enum WorldFlag {
-
-        MONSTER, ANIMAL, PVP
-    }
-
     public boolean isFlagDenied(WorldFlag f) {
         File file = getDataFile();
         Config conf = new Config(file);
@@ -134,6 +125,13 @@ public class UCworld {
         }
     }
 
+    public GameMode getDefaultGamemode() {
+        File file = getDataFile();
+        Config conf = new Config(file);
+        String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
+        return GameMode.valueOf(gm);
+    }
+
     public void setDefaultGamemode(GameMode gm) {
         File file = getDataFile();
         Config conf = new Config(file);
@@ -141,11 +139,10 @@ public class UCworld {
         conf.save(file);
     }
 
-    public GameMode getDefaultGamemode() {
-        File file = getDataFile();
-        Config conf = new Config(file);
-        String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
-        return GameMode.valueOf(gm);
+    //World
+    public static enum WorldFlag {
+
+        MONSTER, ANIMAL, PVP
     }
 
 }

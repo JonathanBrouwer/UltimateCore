@@ -23,6 +23,14 @@
  */
 package bammerbom.ultimatecore.bukkit.configuration;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -32,15 +40,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Utility class for storing and retrieving classes for {@link Configuration}.
@@ -59,6 +58,7 @@ public class ConfigurationSerialization {
         registerClass(FireworkEffect.class);
         registerClass(Pattern.class);
     }
+
     private final Class<?> clazz;
 
     protected ConfigurationSerialization(Class<?> clazz) {

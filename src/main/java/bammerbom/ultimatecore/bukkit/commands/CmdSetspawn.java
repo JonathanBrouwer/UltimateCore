@@ -23,9 +23,8 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
-import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.api.UC;
-
+import bammerbom.ultimatecore.bukkit.r;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

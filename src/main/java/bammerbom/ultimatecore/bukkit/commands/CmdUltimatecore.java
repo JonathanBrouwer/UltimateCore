@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.UltimateCore;
-import static bammerbom.ultimatecore.bukkit.UltimateCore.file;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.bukkit.api.UC;
@@ -36,13 +35,15 @@ import com.earth2me.essentials.User;
 import com.earth2me.essentials.api.IJails;
 import com.earth2me.essentials.api.IWarps;
 import com.earth2me.essentials.spawn.IEssentialsSpawn;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
+
+import static bammerbom.ultimatecore.bukkit.UltimateCore.file;
 
 public class CmdUltimatecore implements UltimateCommand {
 

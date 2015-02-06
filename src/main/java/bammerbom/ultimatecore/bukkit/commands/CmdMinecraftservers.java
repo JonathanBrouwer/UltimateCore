@@ -26,12 +26,6 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.commands.ServerCheck.MinecraftServer;
 import bammerbom.ultimatecore.bukkit.commands.ServerCheck.Status;
 import bammerbom.ultimatecore.bukkit.r;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -39,7 +33,48 @@ import org.bukkit.command.CommandSender;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class CmdMinecraftservers implements UltimateCommand {
+
+    static Boolean on = false;
+    static ArrayList<MinecraftServer> offline = new ArrayList<>();
+    static ArrayList<MinecraftServer> unknown = new ArrayList<>();
+    static ArrayList<MinecraftServer> problems = new ArrayList<>();
+    static ArrayList<MinecraftServer> online = new ArrayList<>();
+
+    private static void runcheck() {
+        //
+        on = true;
+        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+            @Override
+            public void run() {
+                on = false;
+            }
+        }, 20 * 10L);
+        //
+        offline.clear();
+        unknown.clear();
+        problems.clear();
+        online.clear();
+        for (MinecraftServer serv : MinecraftServer.values()) {
+            Status status = ServerCheck.getStatus(serv);
+            if (status.equals(Status.ONLINE)) {
+                online.add(serv);
+            } else if (status.equals(Status.EXPERIENCE)) {
+                problems.add(serv);
+            } else if (status.equals(Status.OFFLINE)) {
+                offline.add(serv);
+            } else if (status.equals(Status.UNKNOWN)) {
+                unknown.add(serv);
+            }
+        }
+    }
 
     @Override
     public String getName() {
@@ -55,12 +90,6 @@ public class CmdMinecraftservers implements UltimateCommand {
     public List<String> getAliases() {
         return Arrays.asList("mcservers");
     }
-
-    static Boolean on = false;
-    static ArrayList<MinecraftServer> offline = new ArrayList<>();
-    static ArrayList<MinecraftServer> unknown = new ArrayList<>();
-    static ArrayList<MinecraftServer> problems = new ArrayList<>();
-    static ArrayList<MinecraftServer> online = new ArrayList<>();
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
@@ -114,34 +143,6 @@ public class CmdMinecraftservers implements UltimateCommand {
         thread.start();
     }
 
-    private static void runcheck() {
-        //
-        on = true;
-        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-            @Override
-            public void run() {
-                on = false;
-            }
-        }, 20 * 10L);
-        //
-        offline.clear();
-        unknown.clear();
-        problems.clear();
-        online.clear();
-        for (MinecraftServer serv : MinecraftServer.values()) {
-            Status status = ServerCheck.getStatus(serv);
-            if (status.equals(Status.ONLINE)) {
-                online.add(serv);
-            } else if (status.equals(Status.EXPERIENCE)) {
-                problems.add(serv);
-            } else if (status.equals(Status.OFFLINE)) {
-                offline.add(serv);
-            } else if (status.equals(Status.UNKNOWN)) {
-                unknown.add(serv);
-            }
-        }
-    }
-
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
@@ -151,6 +152,39 @@ public class CmdMinecraftservers implements UltimateCommand {
 class ServerCheck {
 
     private static JSONParser parser = new JSONParser();
+
+    public static Status getStatus(MinecraftServer service) {
+        String status = null;
+
+        try {
+            URL url = new URL("http://status.mojang.com/check?service=" + service.getURL());
+            BufferedReader input = new BufferedReader(new InputStreamReader(url.openStream()));
+            Object object = parser.parse(input);
+            JSONObject jsonObject = (JSONObject) object;
+
+            status = (String) jsonObject.get(service.getURL());
+        } catch (Exception e) {
+            return Status.UNKNOWN;
+        }
+
+        return status(status);
+    }
+
+    private static Status status(String status) {
+        switch (status.toLowerCase()) {
+            case "green":
+                return Status.ONLINE;
+
+            case "yellow":
+                return Status.EXPERIENCE;
+
+            case "red":
+                return Status.OFFLINE;
+
+            default:
+                return Status.UNKNOWN;
+        }
+    }
 
     public enum MinecraftServer {
 
@@ -192,39 +226,6 @@ class ServerCheck {
             return description;
         }
 
-    }
-
-    public static Status getStatus(MinecraftServer service) {
-        String status = null;
-
-        try {
-            URL url = new URL("http://status.mojang.com/check?service=" + service.getURL());
-            BufferedReader input = new BufferedReader(new InputStreamReader(url.openStream()));
-            Object object = parser.parse(input);
-            JSONObject jsonObject = (JSONObject) object;
-
-            status = (String) jsonObject.get(service.getURL());
-        } catch (Exception e) {
-            return Status.UNKNOWN;
-        }
-
-        return status(status);
-    }
-
-    private static Status status(String status) {
-        switch (status.toLowerCase()) {
-            case "green":
-                return Status.ONLINE;
-
-            case "yellow":
-                return Status.EXPERIENCE;
-
-            case "red":
-                return Status.OFFLINE;
-
-            default:
-                return Status.UNKNOWN;
-        }
     }
 
 }

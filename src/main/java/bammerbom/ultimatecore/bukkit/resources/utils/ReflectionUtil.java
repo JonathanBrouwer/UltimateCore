@@ -23,12 +23,11 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import org.bukkit.Bukkit;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import org.bukkit.Bukkit;
 
 /**
  * Helper class that can "execute" strings and helps general NSM and OBC calls.

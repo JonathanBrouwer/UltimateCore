@@ -27,6 +27,12 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import com.google.common.collect.ImmutableList;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,19 +41,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.Callable;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 public class UuidUtil {
 
@@ -198,26 +193,6 @@ public class UuidUtil {
             this.names = ImmutableList.copyOf(names);
         }
 
-        @Override
-        public Map<String, UUID> call() throws Exception {
-            Map<String, UUID> uuidMap = new HashMap<>();
-            int requests = (int) Math.ceil(names.size() / 100);
-            for (int i = 0; i < requests; i++) {
-                HttpURLConnection connection = createConnection();
-                String body = JSONArray.toJSONString(names.subList(i * 100, Math.min((i + 1) * 100, names.size())));
-                writeBody(connection, body);
-                JSONArray array = (JSONArray) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
-                for (Object profile : array) {
-                    JSONObject jsonProfile = (JSONObject) profile;
-                    String id = (String) jsonProfile.get("id");
-                    String name = (String) jsonProfile.get("name");
-                    UUID uuid = NameToUuid.getUUID(id);
-                    uuidMap.put(name, uuid);
-                }
-            }
-            return uuidMap;
-        }
-
         private static void writeBody(HttpURLConnection connection, String body) throws Exception {
             try (OutputStream stream = connection.getOutputStream()) {
                 stream.write(body.getBytes());
@@ -259,6 +234,26 @@ public class UuidUtil {
 
         public static UUID getUUIDOf(String name) throws Exception {
             return new NameToUuid(Arrays.asList(name)).call().get(name);
+        }
+
+        @Override
+        public Map<String, UUID> call() throws Exception {
+            Map<String, UUID> uuidMap = new HashMap<>();
+            int requests = (int) Math.ceil(names.size() / 100);
+            for (int i = 0; i < requests; i++) {
+                HttpURLConnection connection = createConnection();
+                String body = JSONArray.toJSONString(names.subList(i * 100, Math.min((i + 1) * 100, names.size())));
+                writeBody(connection, body);
+                JSONArray array = (JSONArray) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
+                for (Object profile : array) {
+                    JSONObject jsonProfile = (JSONObject) profile;
+                    String id = (String) jsonProfile.get("id");
+                    String name = (String) jsonProfile.get("name");
+                    UUID uuid = NameToUuid.getUUID(id);
+                    uuidMap.put(name, uuid);
+                }
+            }
+            return uuidMap;
         }
     }
 }

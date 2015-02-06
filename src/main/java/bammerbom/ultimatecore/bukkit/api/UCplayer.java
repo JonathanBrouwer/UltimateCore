@@ -28,21 +28,13 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import org.bukkit.BanList;
+import org.bukkit.*;
 import org.bukkit.BanList.Type;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+
+import java.io.File;
+import java.util.*;
 
 public class UCplayer {
 
@@ -75,6 +67,14 @@ public class UCplayer {
     Boolean inRecipeView = false;
     Boolean vanish = null;
     Long vanishtime = null;
+    //Last connect
+    Long lastconnect = null;
+    Boolean inTeleportMenu = false;
+    Boolean inCmdEnchantingtable = false;
+    Boolean teleportEnabled = null;
+    //Afk
+    boolean afk = false;
+    long lastaction = System.currentTimeMillis();
 
     public UCplayer(OfflinePlayer p) {
         name = p.getName();
@@ -99,9 +99,6 @@ public class UCplayer {
     public Player getOnlinePlayer() {
         return Bukkit.getPlayer(uuid);
     }
-
-    //Last connect
-    Long lastconnect = null;
 
     public long getLastConnectMillis() {
         if (lastconnect != null) {
@@ -877,8 +874,6 @@ public class UCplayer {
         save();
     }
 
-    Boolean inTeleportMenu = false;
-
     public boolean isInTeleportMenu() {
         return inTeleportMenu;
     }
@@ -888,8 +883,6 @@ public class UCplayer {
         save();
     }
 
-    Boolean inCmdEnchantingtable = false;
-
     public boolean isInCommandEnchantingtable() {
         return inCmdEnchantingtable;
     }
@@ -898,8 +891,6 @@ public class UCplayer {
         inCmdEnchantingtable = b;
         save();
     }
-
-    Boolean teleportEnabled = null;
 
     public boolean hasTeleportEnabled() {
         if (teleportEnabled != null) {
@@ -983,10 +974,6 @@ public class UCplayer {
         save();
     }
 
-    //Afk
-    boolean afk = false;
-    long lastaction = System.currentTimeMillis();
-
     public boolean isAfk() {
         return afk;
     }
@@ -1000,16 +987,16 @@ public class UCplayer {
         return lastaction;
     }
 
+    public void setLastActivity(Long last) {
+        lastaction = last;
+        save();
+    }
+
     public void updateLastActivity() {
         setLastActivity(System.currentTimeMillis());
         if (isAfk()) {
             setAfk(false);
             Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getDisplayName()));
         }
-    }
-
-    public void setLastActivity(Long last) {
-        lastaction = last;
-        save();
     }
 }

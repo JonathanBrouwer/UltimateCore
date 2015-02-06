@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.ParticleUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ParticleUtil.BlockData;
-import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -37,6 +36,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+
+import java.util.ArrayList;
 
 public class BloodListener implements Listener {
 

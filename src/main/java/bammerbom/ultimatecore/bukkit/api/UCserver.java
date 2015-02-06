@@ -28,27 +28,18 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.PerformanceUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
-import java.io.File;
-import java.lang.management.ManagementFactory;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
+import bammerbom.ultimatecore.bukkit.resources.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+
+import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.text.DateFormat;
+import java.util.*;
 
 public class UCserver {
 
@@ -69,6 +60,14 @@ public class UCserver {
             ErrorLogger.log(ex, "Failed to load MOTD");
         }
     }
+
+    //Spawn
+    static Location spawn = null;
+    //Receiver, Sender
+    static Map<UUID, UUID> tp = new HashMap<>();
+    static Map<UUID, UUID> tph = new HashMap<>();
+    //Warps
+    static HashMap<String, Location> warps = null;
 
     //Ban
     public List<OfflinePlayer> getBannedOfflinePlayers() {
@@ -383,16 +382,6 @@ public class UCserver {
         mt = mt.replace("{VERSION}", Bukkit.getServer().getVersion());
         return mt;
     }
-    //Spawn
-    static Location spawn = null;
-
-    public void setSpawn(Location loc) {
-        spawn = loc;
-        String s = LocationUtil.convertLocationToString(loc);
-        Config conf = new Config(UltimateFileLoader.DFspawns);
-        conf.set("global", s);
-        conf.save();
-    }
 
     public Location getSpawn() {
         if (spawn == null) {
@@ -405,6 +394,14 @@ public class UCserver {
             return loc;
         }
         return spawn;
+    }
+
+    public void setSpawn(Location loc) {
+        spawn = loc;
+        String s = LocationUtil.convertLocationToString(loc);
+        Config conf = new Config(UltimateFileLoader.DFspawns);
+        conf.set("global", s);
+        conf.save();
     }
 
     public List<OfflinePlayer> getInTeleportMenuOffline() {
@@ -426,10 +423,6 @@ public class UCserver {
         }
         return pls;
     }
-
-    //Receiver, Sender
-    static Map<UUID, UUID> tp = new HashMap<>();
-    static Map<UUID, UUID> tph = new HashMap<>();
 
     public Map<UUID, UUID> getTeleportRequests() {
         return tp;
@@ -476,9 +469,6 @@ public class UCserver {
         }
         return pls;
     }
-
-    //Warps
-    static HashMap<String, Location> warps = null;
 
     public HashMap<String, Location> getWarps() {
         if (warps != null) {

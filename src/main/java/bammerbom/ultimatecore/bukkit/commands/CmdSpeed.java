@@ -24,15 +24,33 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
-import java.util.ArrayList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class CmdSpeed implements UltimateCommand {
+
+    public static Float getSpeed(Float f, Boolean fly) {
+        float userSpeed;
+        userSpeed = f;
+        if (userSpeed > 10.0F) {
+            userSpeed = 10.0F;
+        } else if (userSpeed < 1.0E-004F) {
+            userSpeed = 1.0E-004F;
+        }
+
+        float defaultSpeed = fly ? 0.1F : 0.2F;
+        float maxSpeed = 1.0F;
+        if (userSpeed < 1.0F) {
+            return defaultSpeed * userSpeed;
+        }
+        float ratio = (userSpeed - 1.0F) / 9.0F * (maxSpeed - defaultSpeed);
+        return ratio + defaultSpeed;
+    }
 
     @Override
     public String getName() {
@@ -101,23 +119,5 @@ public class CmdSpeed implements UltimateCommand {
             return null;
         }
         return new ArrayList<>();
-    }
-
-    public static Float getSpeed(Float f, Boolean fly) {
-        float userSpeed;
-        userSpeed = f;
-        if (userSpeed > 10.0F) {
-            userSpeed = 10.0F;
-        } else if (userSpeed < 1.0E-004F) {
-            userSpeed = 1.0E-004F;
-        }
-
-        float defaultSpeed = fly ? 0.1F : 0.2F;
-        float maxSpeed = 1.0F;
-        if (userSpeed < 1.0F) {
-            return defaultSpeed * userSpeed;
-        }
-        float ratio = (userSpeed - 1.0F) / 9.0F * (maxSpeed - defaultSpeed);
-        return ratio + defaultSpeed;
     }
 }

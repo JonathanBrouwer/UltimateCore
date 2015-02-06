@@ -41,17 +41,17 @@ import org.bukkit.util.Vector;
 
 /**
  * <b>ParticleEffect Library</b>
- * <p>
+ * <p/>
  * This library was created by @DarkBlade12 and allows you to display all
  * Minecraft particle effects on a Bukkit server
- * <p>
+ * <p/>
  * You are welcome to use it, modify it and redistribute it under the following
  * conditions:
  * <ul>
  * <li>Don't claim this class as your own
  * <li>Don't remove this disclaimer
  * </ul>
- * <p>
+ * <p/>
  * Special thanks:
  * <ul>
  * <li>@microgeek (original idea, names and packet parameters)
@@ -59,7 +59,7 @@ import org.bukkit.util.Vector;
  * <li>@RingOfStorms (particle behavior)
  * <li>@Cybermaxke (particle behavior)
  * </ul>
- * <p>
+ * <p/>
  * <i>It would be nice if you provide credit to me if you use this class in a
  * published project</i>
  *
@@ -478,55 +478,6 @@ public enum ParticleUtil {
     }
 
     /**
-     * Returns the name of this particle effect
-     *
-     * @return The name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Returns the id of this particle effect
-     *
-     * @return The id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Returns the required version for this particle effect (1.x)
-     *
-     * @return The required version
-     */
-    public int getRequiredVersion() {
-        return requiredVersion;
-    }
-
-    /**
-     * Determine if this particle effect has a specific property
-     *
-     * @return Whether it has the property or not
-     */
-    public boolean hasProperty(ParticleProperty property) {
-        return properties.contains(property);
-    }
-
-    /**
-     * Determine if this particle effect is supported by your current server
-     * version
-     *
-     * @return Whether the particle effect is supported or not
-     */
-    public boolean isSupported() {
-        if (requiredVersion == -1) {
-            return true;
-        }
-        return ParticlePacket.getVersion() >= requiredVersion;
-    }
-
-    /**
      * Returns the particle effect with the given name
      *
      * @param name Name of the particle effect
@@ -606,6 +557,55 @@ public enum ParticleUtil {
      */
     private static boolean isColorCorrect(ParticleUtil effect, ParticleColor color) {
         return ((effect == SPELL_MOB || effect == SPELL_MOB_AMBIENT || effect == REDSTONE) && color instanceof OrdinaryColor) || (effect == NOTE && color instanceof NoteColor);
+    }
+
+    /**
+     * Returns the name of this particle effect
+     *
+     * @return The name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the id of this particle effect
+     *
+     * @return The id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Returns the required version for this particle effect (1.x)
+     *
+     * @return The required version
+     */
+    public int getRequiredVersion() {
+        return requiredVersion;
+    }
+
+    /**
+     * Determine if this particle effect has a specific property
+     *
+     * @return Whether it has the property or not
+     */
+    public boolean hasProperty(ParticleProperty property) {
+        return properties.contains(property);
+    }
+
+    /**
+     * Determine if this particle effect is supported by your current server
+     * version
+     *
+     * @return Whether the particle effect is supported or not
+     */
+    public boolean isSupported() {
+        if (requiredVersion == -1) {
+            return true;
+        }
+        return ParticlePacket.getVersion() >= requiredVersion;
     }
 
     /**
@@ -711,7 +711,6 @@ public enum ParticleUtil {
      * only visible for all players within a certain range in the world of
      *
      * @param center
-     *
      * @param direction Direction of the particle
      * @param speed Display speed of the particle
      * @param center Center location of the effect
@@ -1046,7 +1045,7 @@ public enum ParticleUtil {
 
     /**
      * Represents the property of a particle effect
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1077,7 +1076,7 @@ public enum ParticleUtil {
      * Represents the particle data for effects like
      * {@link ParticleEffect#ITEM_CRACK}, {@link ParticleEffect#BLOCK_CRACK} and
      * {@link ParticleEffect#BLOCK_DUST}
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1142,7 +1141,7 @@ public enum ParticleUtil {
 
     /**
      * Represents the item data for the {@link ParticleEffect#ITEM_CRACK} effect
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1166,7 +1165,7 @@ public enum ParticleUtil {
     /**
      * Represents the block data for the {@link ParticleEffect#BLOCK_CRACK} and
      * {@link ParticleEffect#BLOCK_DUST} effects
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1195,7 +1194,7 @@ public enum ParticleUtil {
      * Represents the color for effects like
      * {@link ParticleEffect#SPELL_MOB}, {@link ParticleEffect#SPELL_MOB_AMBIENT}, {@link ParticleEffect#REDSTONE}
      * and {@link ParticleEffect#NOTE}
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1230,7 +1229,7 @@ public enum ParticleUtil {
      * Represents the color for effects like
      * {@link ParticleEffect#SPELL_MOB}, {@link ParticleEffect#SPELL_MOB_AMBIENT}
      * and {@link ParticleEffect#NOTE}
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1336,7 +1335,7 @@ public enum ParticleUtil {
 
     /**
      * Represents the color for the {@link ParticleEffect#NOTE} effect
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1400,7 +1399,7 @@ public enum ParticleUtil {
      * Represents a runtime exception that is thrown either if the displayed
      * particle effect requires data and has none or vice-versa or if the data
      * type is incorrect
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1425,7 +1424,7 @@ public enum ParticleUtil {
      * Represents a runtime exception that is thrown either if the displayed
      * particle effect is not colorable or if the particle color type is
      * incorrect
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1449,7 +1448,7 @@ public enum ParticleUtil {
     /**
      * Represents a runtime exception that is thrown if the displayed particle
      * effect requires a newer version
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1473,7 +1472,7 @@ public enum ParticleUtil {
     /**
      * Represents a particle effect packet with all attributes which is used for
      * sending packets to the players
-     * <p>
+     * <p/>
      * This class is part of the <b>ParticleEffect Library</b> and follows the
      * same usage conditions
      *
@@ -1573,7 +1572,7 @@ public enum ParticleUtil {
          * {@link #packetConstructor}, {@link #getHandle}, {@link #playerConnection}
          * and {@link #sendPacket} and sets {@link #initialized} to
          * <code>true</code> if it succeeds
-         * <p>
+         * <p/>
          * <b>Note:</b> These fields only have to be initialized once, so it
          * will return if {@link #initialized} is already set to
          * <code>true</code>
@@ -1725,7 +1724,7 @@ public enum ParticleUtil {
         /**
          * Represents a runtime exception that is thrown if a bukkit version is
          * not compatible with this library
-         * <p>
+         * <p/>
          * This class is part of the <b>ParticleEffect Library</b> and follows
          * the same usage conditions
          *
@@ -1750,7 +1749,7 @@ public enum ParticleUtil {
         /**
          * Represents a runtime exception that is thrown if packet instantiation
          * fails
-         * <p>
+         * <p/>
          * This class is part of the <b>ParticleEffect Library</b> and follows
          * the same usage conditions
          *
@@ -1774,7 +1773,7 @@ public enum ParticleUtil {
 
         /**
          * Represents a runtime exception that is thrown if packet sending fails
-         * <p>
+         * <p/>
          * This class is part of the <b>ParticleEffect Library</b> and follows
          * the same usage conditions
          *
@@ -1800,17 +1799,17 @@ public enum ParticleUtil {
 
 /**
  * <b>ReflectionUtils</b>
- * <p>
+ * <p/>
  * This class provides useful methods which makes dealing with reflection much
  * easier, especially when working with Bukkit
- * <p>
+ * <p/>
  * You are welcome to use it, modify it and redistribute it under the following
  * conditions:
  * <ul>
  * <li>Don't claim this class as your own
  * <li>Don't remove this disclaimer
  * </ul>
- * <p>
+ * <p/>
  * <i>It would be nice if you provide credit to me if you use this class in a
  * published project</i>
  *
@@ -2200,7 +2199,7 @@ final class ReflectionUtils {
 
     /**
      * Represents an enumeration of dynamic packages of NMS and CraftBukkit
-     * <p>
+     * <p/>
      * This class is part of the <b>ReflectionUtils</b> and follows the same
      * usage conditions
      *
@@ -2252,6 +2251,15 @@ final class ReflectionUtils {
         }
 
         /**
+         * Returns the version of your server
+         *
+         * @return The server version
+         */
+        public static String getServerVersion() {
+            return Bukkit.getServer().getClass().getPackage().getName().substring(23);
+        }
+
+        /**
          * Returns the path of this package type
          *
          * @return The path
@@ -2277,20 +2285,11 @@ final class ReflectionUtils {
         public String toString() {
             return path;
         }
-
-        /**
-         * Returns the version of your server
-         *
-         * @return The server version
-         */
-        public static String getServerVersion() {
-            return Bukkit.getServer().getClass().getPackage().getName().substring(23);
-        }
     }
 
     /**
      * Represents an enumeration of Java data types with corresponding classes
-     * <p>
+     * <p/>
      * This class is part of the <b>ReflectionUtils</b> and follows the same
      * usage conditions
      *
@@ -2329,24 +2328,6 @@ final class ReflectionUtils {
         private DataType(Class<?> primitive, Class<?> reference) {
             this.primitive = primitive;
             this.reference = reference;
-        }
-
-        /**
-         * Returns the primitive class of this data type
-         *
-         * @return The primitive class
-         */
-        public Class<?> getPrimitive() {
-            return primitive;
-        }
-
-        /**
-         * Returns the reference class of this data type
-         *
-         * @return The reference class
-         */
-        public Class<?> getReference() {
-            return reference;
         }
 
         /**
@@ -2463,6 +2444,24 @@ final class ReflectionUtils {
                 return false;
             }
             return true;
+        }
+
+        /**
+         * Returns the primitive class of this data type
+         *
+         * @return The primitive class
+         */
+        public Class<?> getPrimitive() {
+            return primitive;
+        }
+
+        /**
+         * Returns the reference class of this data type
+         *
+         * @return The reference class
+         */
+        public Class<?> getReference() {
+            return reference;
         }
     }
 }

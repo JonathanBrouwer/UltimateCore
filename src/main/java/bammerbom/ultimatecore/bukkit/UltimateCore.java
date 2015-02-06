@@ -23,26 +23,12 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
-import bammerbom.ultimatecore.bukkit.listeners.AfkListener;
-import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
-import bammerbom.ultimatecore.bukkit.listeners.AutosaveListener;
-import bammerbom.ultimatecore.bukkit.listeners.BloodListener;
-import bammerbom.ultimatecore.bukkit.listeners.ChatListener;
-import bammerbom.ultimatecore.bukkit.listeners.DeathmessagesListener;
-import bammerbom.ultimatecore.bukkit.listeners.DynmapListener;
-import bammerbom.ultimatecore.bukkit.listeners.ExplosionListener;
-import bammerbom.ultimatecore.bukkit.listeners.GlobalPlayerListener;
-import bammerbom.ultimatecore.bukkit.listeners.GlobalWorldListener;
-import bammerbom.ultimatecore.bukkit.listeners.JoinLeaveListener;
-import bammerbom.ultimatecore.bukkit.listeners.MotdListener;
-import bammerbom.ultimatecore.bukkit.listeners.RespawnListener;
-import bammerbom.ultimatecore.bukkit.listeners.SignListener;
+import bammerbom.ultimatecore.bukkit.listeners.*;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.PerformanceUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.UuidUtil;
-import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -50,6 +36,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 public class UltimateCore extends JavaPlugin {
 

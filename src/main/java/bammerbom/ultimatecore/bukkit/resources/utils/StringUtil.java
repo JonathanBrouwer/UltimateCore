@@ -23,15 +23,22 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.map.MapFont;
 import org.bukkit.map.MinecraftFont;
-
-import java.util.*;
-import java.util.regex.Pattern;
 
 public class StringUtil {
 
