@@ -127,69 +127,69 @@ public class DeathmessagesListener implements Listener {
         if (damageEvent.getCause() != null) {
             switch (damageEvent.getCause()) {
                 case BLOCK_EXPLOSION:
-                    e.setDeathMessage(r.mes("deathmessageTNT").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageTNT").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case CONTACT:
-                    e.setDeathMessage(r.mes("deathmessageCactus").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageCactus").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case CUSTOM:
-                    e.setDeathMessage(r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case DROWNING:
-                    e.setDeathMessage(r.mes("deathmessageDrowning").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageDrowning").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case ENTITY_ATTACK:
                     break;
                 case ENTITY_EXPLOSION:
-                    e.setDeathMessage(r.mes("deathmessageCreeper").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageCreeper").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case FALL:
-                    e.setDeathMessage(r.mes("deathmessageFall").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageFall").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case FALLING_BLOCK:
-                    e.setDeathMessage(r.mes("deathmessageFallingBlock").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageFallingBlock").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case FIRE:
-                    e.setDeathMessage(r.mes("deathmessageFire").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageFire").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case FIRE_TICK:
-                    e.setDeathMessage(r.mes("deathmessageFire").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageFire").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case LAVA:
-                    e.setDeathMessage(r.mes("deathmessageLava").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageLava").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case LIGHTNING:
-                    e.setDeathMessage(r.mes("deathmessageLightning").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageLightning").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case MAGIC:
-                    e.setDeathMessage(r.mes("deathmessagePotion").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessagePotion").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case MELTING:
-                    e.setDeathMessage(r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case POISON:
-                    e.setDeathMessage(r.mes("deathmessagePotion").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessagePotion").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case PROJECTILE:
-                    e.setDeathMessage(r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case STARVATION:
-                    e.setDeathMessage(r.mes("deathmessageHunger").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageHunger").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case SUFFOCATION:
-                    e.setDeathMessage(r.mes("deathmessageSuffocated").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageSuffocated").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case SUICIDE:
-                    e.setDeathMessage(r.mes("deathmessageSuicide").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageSuicide").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case THORNS:
-                    e.setDeathMessage(r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case VOID:
-                    e.setDeathMessage(r.mes("deathmessageOutOfWorld").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageOutOfWorld").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 case WITHER:
-                    e.setDeathMessage(r.mes("deathmessageWither").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    e.setDeathMessage(r.mes("deathmessageWither").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     break;
                 default:
                     break;
@@ -215,143 +215,143 @@ public class DeathmessagesListener implements Listener {
                         if (k.getItemInHand().hasItemMeta() && k.getItemInHand().getItemMeta().hasDisplayName()) {
                             name = k.getItemInHand().getItemMeta().getDisplayName();
                         }
-                        return r.mes("deathmessagePlayer").replaceAll("%Killed", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())).replaceAll("%Killer", (UC.getPlayer((Player) pr.getShooter()).getNick())).replaceAll("%Weapon", name);
+                        return r.mes("deathmessagePlayer").replaceAll("%Killed", (UC.getPlayer(p).getDisplayName())).replaceAll("%Killer", (UC.getPlayer((Player) pr.getShooter()).getDisplayName())).replaceAll("%Weapon", name);
 
                     } else if (pr.getShooter() instanceof Skeleton) {
                         Skeleton sk = (Skeleton) pr.getShooter();
                         if (sk.getSkeletonType().equals(SkeletonType.NORMAL)) {
-                            return (r.mes("deathmessageSkeleton").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                            return (r.mes("deathmessageSkeleton").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                         } else {
-                            return (r.mes("deathmessageWitherSkeleton").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                            return (r.mes("deathmessageWitherSkeleton").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                         }
 
                     } else if (pr.getShooter() instanceof Ghast) {
-                        return (r.mes("deathmessageGhast").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                        return (r.mes("deathmessageGhast").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     } else if (pr.getShooter() instanceof Blaze) {
-                        return (r.mes("deathmessageBlaze").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                        return (r.mes("deathmessageBlaze").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     } else {
-                        return (r.mes("deathmessageProjectile").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                        return (r.mes("deathmessageProjectile").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     }
 
                 case BAT:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case BLAZE:
-                    return (r.mes("deathmessageBlaze").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageBlaze").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case BOAT:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case CAVE_SPIDER:
-                    return (r.mes("deathmessageCaveSpider").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageCaveSpider").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case CHICKEN:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case COMPLEX_PART:
-                    return (r.mes("deathmessageEnderDragon").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageEnderDragon").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case COW:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case CREEPER:
-                    return (r.mes("deathmessageCreeper").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageCreeper").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case DROPPED_ITEM:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case EGG:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case ENDERMAN:
-                    return (r.mes("deathmessageEnderman").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageEnderman").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case ENDER_CRYSTAL:
-                    return (r.mes("deathmessageEnderCrystal").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageEnderCrystal").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case ENDER_DRAGON:
-                    return (r.mes("deathmessageEnderDragon").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageEnderDragon").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case ENDER_PEARL:
-                    return (r.mes("deathmessageEnderpearl").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageEnderpearl").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case ENDER_SIGNAL:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case EXPERIENCE_ORB:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case FALLING_BLOCK:
-                    return (r.mes("deathmessageSuffocated").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageSuffocated").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case FIREBALL:
-                    return (r.mes("deathmessageGhast").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageGhast").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case FIREWORK:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case FISHING_HOOK:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case GHAST:
-                    return (r.mes("deathmessageGhast").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageGhast").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case GIANT:
-                    return (r.mes("deathmessageGiant").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageGiant").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case HORSE:
-                    return (r.mes("deathmessageHorse").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageHorse").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case IRON_GOLEM:
-                    return (r.mes("deathmessageIronGolem").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageIronGolem").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case ITEM_FRAME:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case LEASH_HITCH:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case LIGHTNING:
-                    return (r.mes("deathmessageLightning").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageLightning").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case MAGMA_CUBE:
-                    return (r.mes("deathmessageMagmaCube").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageMagmaCube").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case MINECART:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case MINECART_CHEST:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case MINECART_COMMAND:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case MINECART_FURNACE:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case MINECART_HOPPER:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case MINECART_MOB_SPAWNER:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case MINECART_TNT:
-                    return (r.mes("deathmessageTNT").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageTNT").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case MUSHROOM_COW:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case OCELOT:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case PAINTING:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case PIG:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case PIG_ZOMBIE:
-                    return (r.mes("deathmessageZombiePigMan").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageZombiePigMan").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case PLAYER:
                     Player k = (Player) ev.getDamager();
@@ -366,80 +366,80 @@ public class DeathmessagesListener implements Listener {
                         }
                     }
                     name = ChatColor.stripColor(name);
-                    return (r.mes("deathmessagePlayer").replaceAll("%Killed", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())).replaceAll("%Killer", ((Player) ev.getDamager()).getName()).replaceAll("%Weapon", name));
+                    return (r.mes("deathmessagePlayer").replaceAll("%Killed", (UC.getPlayer(p).getDisplayName())).replaceAll("%Killer", ((Player) ev.getDamager()).getName()).replaceAll("%Weapon", name));
 
                 case PRIMED_TNT:
-                    return (r.mes("deathmessageTNT").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageTNT").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case SHEEP:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case SILVERFISH:
-                    return (r.mes("deathmessageSilverfish").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageSilverfish").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case SKELETON:
                     Skeleton skel = (Skeleton) ev.getDamager();
                     if (skel.getSkeletonType().equals(SkeletonType.NORMAL)) {
-                        return (r.mes("deathmessageSkeleton").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                        return (r.mes("deathmessageSkeleton").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     } else {
-                        return (r.mes("deathmessageWitherSkeleton").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                        return (r.mes("deathmessageWitherSkeleton").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                     }
 
                 case SLIME:
-                    return (r.mes("deathmessageSlime").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageSlime").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case SMALL_FIREBALL:
-                    return (r.mes("deathmessageBlaze").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageBlaze").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case SNOWBALL:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case SNOWMAN:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case SPIDER:
-                    return (r.mes("deathmessageSpider").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageSpider").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case SPLASH_POTION:
-                    return (r.mes("deathmessagePotion").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessagePotion").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case SQUID:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case THROWN_EXP_BOTTLE:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case UNKNOWN:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case VILLAGER:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case WEATHER:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case WITCH:
-                    return (r.mes("deathmessageWitch").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageWitch").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case WITHER:
-                    return (r.mes("deathmessageWither").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageWither").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case WITHER_SKULL:
-                    return (r.mes("deathmessageWither").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageWither").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case WOLF:
-                    return (r.mes("deathmessageWolf").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageWolf").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
 
                 case ZOMBIE:
-                    return (r.mes("deathmessageZombie").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageZombie").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                 case ARMOR_STAND:
-                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageUnknown").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                 case ENDERMITE:
-                    return (r.mes("deathmessageEndermite").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageEndermite").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                 case GUARDIAN:
-                    return (r.mes("deathmessageGuardian").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageGuardian").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                 case RABBIT:
-                    return (r.mes("deathmessageRabbit").replaceAll("%Player", (UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick())));
+                    return (r.mes("deathmessageRabbit").replaceAll("%Player", (UC.getPlayer(p).getDisplayName())));
                 default:
                     break;
             }

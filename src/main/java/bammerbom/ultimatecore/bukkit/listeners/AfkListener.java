@@ -63,7 +63,7 @@ public class AfkListener implements Listener {
                         if (dif > r.getCnfg().getInt("Afk.AfkTime")) {
                             if (!UC.getPlayer(pl).isAfk()) {
                                 UC.getPlayer(pl).setAfk(true);
-                                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getNick() == null ? pl.getDisplayName() : UC.getPlayer(pl).getNick()));
+                                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
                             }
                         }
                         if (dif > r.getCnfg().getInt("Afk.KickTime")) {

@@ -302,14 +302,14 @@ public class UCserver {
     //Motd
     public String getMotd() {
         String mt = motd;
-        StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder("");
         Integer i = 0;
         for (Player pl : r.getOnlinePlayers()) {
             i++;
             if (!StringUtil.nullOrEmpty(b.toString())) {
                 b.append(", ");
             }
-            b.append(UC.getPlayer(pl).getNick());
+            b.append(UC.getPlayer(pl).getDisplayName());
         }
         mt = mt.replace("{ONLINE}", b.toString());
         mt = mt.replace("{PLAYERS}", b.toString());
@@ -334,13 +334,13 @@ public class UCserver {
         mt = mt.replace("{PLAYER}", ChatColor.stripColor(r.mes("notAvailable")));
         mt = mt.replace("{NAME}", ChatColor.stripColor(r.mes("notAvailable")));
         mt = mt.replace("{RAWNAME}", ChatColor.stripColor(r.mes("notAvailable")));
-        return motd;
+        return mt;
     }
 
     public String getMotd(Player p) {
         String mt = motd;
-        mt = mt.replace("{PLAYER}", UC.getPlayer(p).getNick());
-        mt = mt.replace("{NAME}", UC.getPlayer(p).getNick());
+        mt = mt.replace("{PLAYER}", UC.getPlayer(p).getDisplayName());
+        mt = mt.replace("{NAME}", UC.getPlayer(p).getDisplayName());
         mt = mt.replace("{RAWNAME}", p.getName());
         if (p instanceof Player) {
             Player pl = (Player) p;
@@ -362,7 +362,7 @@ public class UCserver {
             if (!StringUtil.nullOrEmpty(b.toString())) {
                 b.append(", ");
             }
-            b.append(UC.getPlayer(pl).getNick());
+            b.append(UC.getPlayer(pl).getDisplayName());
         }
         mt = mt.replace("{ONLINE}", b.toString());
         mt = mt.replace("{PLAYERCOUNT}", i + "");

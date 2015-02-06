@@ -61,12 +61,12 @@ public class ChatListener implements Listener {
             m = set.getMessage();
             e.setMessage(m);
             if (r.getCnfg().getBoolean("Chat.EnableCustomChat") == false) {
-                e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getNick());
+                e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
                 return;
             }
             if ((Bukkit.getPluginManager().getPlugin("EssentialsChat") != null && Bukkit.getPluginManager().getPlugin("EssentialsChat").isEnabled()) || (Bukkit.getPluginManager().getPlugin("Essentials") != null && Bukkit.getPluginManager().isPluginEnabled("Essentials"))) {
                 if (!ChatColor.stripColor(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")) {
-                    e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getNick());
+                    e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
                     return;
                 }
             }
@@ -88,7 +88,7 @@ public class ChatListener implements Listener {
                             }
                         }
                         if (!f.contains("\\+Name")) {
-                            e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getNick());
+                            e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
                         } else {
                             e.getPlayer().setDisplayName(e.getPlayer().getName());
                         }
@@ -128,7 +128,7 @@ public class ChatListener implements Listener {
                 prefix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
             }
             if (!f.contains("\\+Name")) {
-                e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getNick());
+                e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
             } else {
                 e.getPlayer().setDisplayName(e.getPlayer().getName());
             }

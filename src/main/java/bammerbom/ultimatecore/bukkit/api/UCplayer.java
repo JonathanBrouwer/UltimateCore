@@ -706,6 +706,21 @@ public class UCplayer {
         save();
     }
 
+    public String getDisplayName() {
+        if (getNick() != null) {
+            return getNick();
+        }
+        if (getPlayer().isOnline()) {
+            if (getOnlinePlayer().getCustomName() != null) {
+                return getOnlinePlayer().getCustomName();
+            }
+            if (getOnlinePlayer().getDisplayName() != null) {
+                return getOnlinePlayer().getDisplayName();
+            }
+        }
+        return getPlayer().getName();
+    }
+
     public String getNick() {
         if (nickname != null) {
             return nickname;
@@ -989,7 +1004,7 @@ public class UCplayer {
         setLastActivity(System.currentTimeMillis());
         if (isAfk()) {
             setAfk(false);
-            Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getNick() == null ? (getPlayer().isOnline() ? getOnlinePlayer().getDisplayName() : getPlayer().getName()) : UC.getPlayer(getPlayer()).getNick()));
+            Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getDisplayName()));
         }
     }
 

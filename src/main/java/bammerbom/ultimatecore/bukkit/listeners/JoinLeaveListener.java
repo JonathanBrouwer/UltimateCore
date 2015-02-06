@@ -52,7 +52,7 @@ public class JoinLeaveListener implements Listener {
             e.setJoinMessage(null);
             return;
         }
-        e.setJoinMessage(r.mes("joinMessage", "%Player", UC.getPlayer(e.getPlayer()).getNick() == null ? e.getPlayer().getDisplayName() : UC.getPlayer(e.getPlayer()).getNick()));
+        e.setJoinMessage(r.mes("joinMessage", "%Player", UC.getPlayer(e.getPlayer()).getDisplayName()));
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -61,12 +61,12 @@ public class JoinLeaveListener implements Listener {
             e.setQuitMessage(null);
             return;
         }
-        e.setQuitMessage(r.mes("quitMessage", "%Player", UC.getPlayer(e.getPlayer()).getNick() == null ? e.getPlayer().getDisplayName() : UC.getPlayer(e.getPlayer()).getNick()));
+        e.setQuitMessage(r.mes("quitMessage", "%Player", UC.getPlayer(e.getPlayer()).getDisplayName()));
     }
 
     @EventHandler(priority = EventPriority.LOW)
     public void KickMessage(PlayerKickEvent e) {
-        e.setLeaveMessage(r.mes("quitMessage", "%Player", UC.getPlayer(e.getPlayer()).getNick() == null ? e.getPlayer().getDisplayName() : UC.getPlayer(e.getPlayer()).getNick()));
+        e.setLeaveMessage(r.mes("quitMessage", "%Player", UC.getPlayer(e.getPlayer()).getDisplayName()));
     }
 
     @EventHandler(priority = EventPriority.LOW)

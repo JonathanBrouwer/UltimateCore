@@ -60,10 +60,10 @@ public class CmdAfk implements UltimateCommand {
                 return;
             }
             if (!UC.getPlayer(p).isAfk()) {
-                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick()));
+                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(p).getDisplayName()));
                 UC.getPlayer(p).setAfk(true);
             } else {
-                Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getNick() == null ? p.getDisplayName() : UC.getPlayer(p).getNick()));
+                Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getDisplayName()));
                 UC.getPlayer(p).setAfk(false);
             }
         } else {
@@ -73,10 +73,10 @@ public class CmdAfk implements UltimateCommand {
             if (r.searchPlayer(args[0]) != null) {
                 Player t = r.searchPlayer(args[0]);
                 if (!UC.getPlayer(t).isAfk()) {
-                    Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(t).getNick() == null ? t.getDisplayName() : UC.getPlayer(t).getNick()));
+                    Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(t).getDisplayName()));
                     UC.getPlayer(t).setAfk(true);
                 } else {
-                    Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getNick() == null ? t.getDisplayName() : UC.getPlayer(t).getNick()));
+                    Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getDisplayName()));
                     UC.getPlayer(t).setAfk(false);
                 }
             } else {
