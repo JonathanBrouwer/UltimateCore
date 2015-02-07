@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.*;
 import org.bukkit.Bukkit;
@@ -131,7 +131,7 @@ public class DynmapListener implements Listener {
         if (name != null) {
             Player p = r.searchPlayer(name);
             if (p != null) {
-                UCplayer pl = UC.getPlayer(p);
+                UPlayer pl = UC.getPlayer(p);
                 if (pl != null && (pl.isBanned() || pl.isMuted())) {
                     e.setCancelled(true);
                 }

@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import java.util.Arrays;
@@ -64,7 +64,7 @@ public class CmdSeen implements UltimateCommand {
             r.sendMes(cs, "seenNotFound");
             return;
         }
-        UCplayer pl = UC.getPlayer(p);
+        UPlayer pl = UC.getPlayer(p);
         r.sendMes(cs, "seenMessage", "%Player", p.getName(), "%Status", (p.isOnline() ? r.mes("seenOnline") : r.mes("seenOffline")), "%Time", DateUtil.formatDateDiff(pl.getLastConnectMillis()));
         //Last location
         if (p.getPlayer() != null && p.getPlayer().getLocation() != null) {

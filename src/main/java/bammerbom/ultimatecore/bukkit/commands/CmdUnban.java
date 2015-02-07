@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,7 +66,7 @@ public class CmdUnban implements UltimateCommand {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
-        UCplayer pl = UC.getPlayer(banp);
+        UPlayer pl = UC.getPlayer(banp);
         if (!pl.isBanned()) {
             r.sendMes(cs, "unbanNotBanned", "%Player", banp.getName());
             return;

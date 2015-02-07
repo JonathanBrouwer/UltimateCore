@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import java.util.Arrays;
@@ -95,7 +95,7 @@ public class CmdBan implements UltimateCommand {
         if (banp.isOnline()) {
             banp.getPlayer().kickPlayer(msg);
         }
-        UCplayer pl = UC.getPlayer(banp);
+        UPlayer pl = UC.getPlayer(banp);
         pl.ban(time, reason);
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
             Bukkit.broadcastMessage(r.mes("banBroadcast").replace("%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase())).replace("%Banned", banp.getName()).replace("%Time", timen).replace("%Reason", reason));

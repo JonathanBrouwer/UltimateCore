@@ -36,7 +36,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-public class UCplayer {
+public class UPlayer {
 
     static Random ra = new Random();
     String name = null;
@@ -76,12 +76,12 @@ public class UCplayer {
     boolean afk = false;
     long lastaction = System.currentTimeMillis();
 
-    public UCplayer(OfflinePlayer p) {
+    public UPlayer(OfflinePlayer p) {
         name = p.getName();
         uuid = p.getUniqueId();
     }
 
-    public UCplayer(UUID uuid) {
+    public UPlayer(UUID uuid) {
         OfflinePlayer p = r.searchOfflinePlayer(uuid);
         name = p.getName();
         this.uuid = p.getUniqueId();

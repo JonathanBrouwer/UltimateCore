@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +77,7 @@ public class CmdReply implements UltimateCommand {
         UC.getPlayer(pl).setReply((Player) cs);
         //Spy
         for (Player ps : r.getOnlinePlayers()) {
-            UCplayer up = UC.getPlayer(ps);
+            UPlayer up = UC.getPlayer(ps);
             if (up.isSpy()) {
                 ps.sendMessage(formatSpy
                         .replace("@1", r.positive + "")

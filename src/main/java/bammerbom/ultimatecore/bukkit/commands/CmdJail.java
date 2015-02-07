@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
@@ -85,7 +85,7 @@ public class CmdJail implements UltimateCommand {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
-            UCplayer pu = UC.getPlayer(pl);
+            UPlayer pu = UC.getPlayer(pl);
             if (pu.isJailed()) {
                 r.sendMes(cs, "jailAlreadyJailed", "%Player", pl.getName());
                 return;

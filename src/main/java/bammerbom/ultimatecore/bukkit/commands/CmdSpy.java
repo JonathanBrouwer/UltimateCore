@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +58,7 @@ public class CmdSpy implements UltimateCommand {
             return;
         }
         Player p = (Player) cs;
-        UCplayer up = UC.getPlayer(p);
+        UPlayer up = UC.getPlayer(p);
         up.setSpy(!up.isSpy());
         r.sendMes(cs, "spyMessage", "%Spy", up.isSpy() ? r.mes("on") : r.mes("off"));
     }

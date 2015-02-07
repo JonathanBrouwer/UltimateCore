@@ -28,7 +28,7 @@ import static bammerbom.ultimatecore.bukkit.UltimateCore.file;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import com.earth2me.essentials.IEssentials;
@@ -177,7 +177,7 @@ public class CmdUltimatecore implements UltimateCommand {
                         r.log("Failed to import player data of " + pl.getName());
                         continue;
                     }
-                    UCplayer up = UC.getPlayer(pl);
+                    UPlayer up = UC.getPlayer(pl);
                     for (String s : u2.getHomes()) {
                         up.addHome(s, u2.getHome(s));
                     }

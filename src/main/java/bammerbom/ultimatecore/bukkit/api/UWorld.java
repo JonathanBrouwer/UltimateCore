@@ -28,15 +28,15 @@ import bammerbom.ultimatecore.bukkit.resources.utils.FireworkUtil;
 import java.io.File;
 import org.bukkit.*;
 
-public class UCworld {
+public class UWorld {
 
     World base;
 
-    public UCworld(World w) {
+    public UWorld(World w) {
         base = w;
     }
 
-    public UCworld(String world) {
+    public UWorld(String world) {
         try {
             if (world == null || Bukkit.getWorld(world) == null) {
                 throw new NullPointerException("World not found");

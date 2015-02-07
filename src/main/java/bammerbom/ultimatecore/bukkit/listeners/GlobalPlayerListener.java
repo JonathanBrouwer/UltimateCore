@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.commands.CmdMobtp;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
@@ -130,7 +130,7 @@ public class GlobalPlayerListener implements Listener {
         try {
             //Ban
             if (UC.getPlayer(e.getPlayer()).isBanned()) {
-                UCplayer pl = UC.getPlayer(e.getPlayer());
+                UPlayer pl = UC.getPlayer(e.getPlayer());
                 String time = pl.getBanTime() == -1 ? r.mes("banForever") : (DateUtil.format(pl.getBanTimeLeft() + System.currentTimeMillis()));
                 String msg = r.mes("banFormat", "%Time", time, "%Reason", pl.getBanReason());
                 e.disallow(Result.KICK_BANNED, msg);

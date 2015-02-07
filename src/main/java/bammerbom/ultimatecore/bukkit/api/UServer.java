@@ -40,7 +40,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class UCserver {
+public class UServer {
 
     static HashMap<String, Location> jails = null;
     static String motd = "";

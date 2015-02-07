@@ -32,62 +32,62 @@ import org.bukkit.World;
 
 public class UC {
 
-    public static ArrayList<UCplayer> uplayers = new ArrayList<>();
-    public static UCserver userver = new UCserver();
-    public static ArrayList<UCworld> uworlds = new ArrayList<>();
+    public static ArrayList<UPlayer> uplayers = new ArrayList<>();
+    public static UServer userver = new UServer();
+    public static ArrayList<UWorld> uworlds = new ArrayList<>();
 
-    public static UCplayer getPlayer(UUID u) {
-        for (UCplayer p : uplayers) {
+    public static UPlayer getPlayer(UUID u) {
+        for (UPlayer p : uplayers) {
             if (p.uuid.equals(u)) {
                 return p;
             }
         }
-        UCplayer pl = new UCplayer(u);
+        UPlayer pl = new UPlayer(u);
         uplayers.add(pl);
         return pl;
     }
 
-    public static UCplayer getPlayer(OfflinePlayer p) {
-        for (UCplayer pl : uplayers) {
+    public static UPlayer getPlayer(OfflinePlayer p) {
+        for (UPlayer pl : uplayers) {
             if (pl.uuid.equals(p.getUniqueId())) {
                 return pl;
             }
         }
-        UCplayer pl = new UCplayer(p);
+        UPlayer pl = new UPlayer(p);
         uplayers.add(pl);
         return pl;
     }
 
-    public static UCplayer getPlayer(String n) {
-        for (UCplayer pl : uplayers) {
+    public static UPlayer getPlayer(String n) {
+        for (UPlayer pl : uplayers) {
             if (pl.name.equals(n)) {
                 return pl;
             }
         }
-        UCplayer pl = new UCplayer(r.searchOfflinePlayer(n));
+        UPlayer pl = new UPlayer(r.searchOfflinePlayer(n));
         uplayers.add(pl);
         return pl;
     }
 
-    public static UCworld getWorld(World world) {
-        for (UCworld w : uworlds) {
+    public static UWorld getWorld(World world) {
+        for (UWorld w : uworlds) {
             if (w.base.equals(world)) {
                 return w;
             }
         }
-        UCworld w = new UCworld(world);
+        UWorld w = new UWorld(world);
         uworlds.add(w);
         return w;
     }
 
-    public static UCworld getWorld(String world) {
+    public static UWorld getWorld(String world) {
         if (Bukkit.getWorld(world) == null) {
             return null;
         }
         return getWorld(Bukkit.getWorld(world));
     }
 
-    public static UCserver getServer() {
+    public static UServer getServer() {
         return userver;
     }
 }

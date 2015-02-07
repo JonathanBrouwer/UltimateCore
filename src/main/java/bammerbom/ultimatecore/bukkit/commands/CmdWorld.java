@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCworld;
-import bammerbom.ultimatecore.bukkit.api.UCworld.WorldFlag;
+import bammerbom.ultimatecore.bukkit.api.UWorld;
+import bammerbom.ultimatecore.bukkit.api.UWorld.WorldFlag;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobType;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
@@ -332,7 +332,7 @@ public class CmdWorld implements UltimateCommand {
         //monster, animal, pvp
 
         if (r.checkArgs(args, 3) == true) {
-            UCworld world = new UCworld(Bukkit.getWorld(args[1]));
+            UWorld world = new UWorld(Bukkit.getWorld(args[1]));
             String flag = args[2];
             String value = args[3];
             if (flag.equalsIgnoreCase("monster") || flag.equalsIgnoreCase("monsterspawn")) {
