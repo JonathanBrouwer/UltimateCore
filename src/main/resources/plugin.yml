@@ -6,7 +6,7 @@ authors: [Bammerbom, blockbreaker21]
 website: dev.bukkit.org/bukkit-plugins/ultimate_core
 main: bammerbom.ultimatecore.bukkit.UltimateCore
 prefix: UltimateCore
-softdepend: [Vault, WorldEdit, PermissionsEx, GroupManager, bPermissions, dynmap, BKCommonLib, ProtocolLib, PacketAPI]
+softdepend: [Vault, ProtocolLib]
 commands:
   accountstatus:
     description: Checks if an account is premium or not.
