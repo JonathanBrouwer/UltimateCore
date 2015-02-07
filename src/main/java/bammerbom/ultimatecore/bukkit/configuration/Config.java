@@ -34,7 +34,7 @@ public class Config extends YamlConfiguration implements Cloneable {
 
     static boolean a = false;
     private final File file;
-    private final Map<String, String> headers;
+    private final HashMap<String, String> headers;
     private final Set<String> readkeys;
 
     public Config(File file2) {
@@ -271,6 +271,10 @@ public class Config extends YamlConfiguration implements Cloneable {
         } else {
             this.headers.put(getPath(path), header);
         }
+    }
+
+    public HashMap<String, String> getHeaders() {
+        return headers;
     }
 
     //path

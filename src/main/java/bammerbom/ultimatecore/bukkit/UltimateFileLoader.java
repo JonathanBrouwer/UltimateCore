@@ -166,6 +166,9 @@ public class UltimateFileLoader {
                     confS.set(s, confL.get(s));
                 }
             }
+            for (String str : confL.getHeaders().keySet()) {
+                confS.setHeader(str, confL.getHeaders().get(str));
+            }
             confS.save();
             if (tempFile != null) {
                 tempFile.delete();
