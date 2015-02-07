@@ -34,6 +34,10 @@ import org.bukkit.event.player.*;
 
 public class AfkListener implements Listener {
 
+    static Integer afktime = r.getCnfg().getInt("Afk.AfkTime");
+    static Integer kicktime = r.getCnfg().getInt("Afk.KickTime");
+    static Boolean kickenabled = r.getCnfg().getBoolean("Afk.KickEnabled");
+
     public static void start() {
         if (r.getCnfg().getBoolean("Afk.Enabled")) {
             Bukkit.getPluginManager().registerEvents(new AfkListener(), r.getUC());
@@ -45,14 +49,14 @@ public class AfkListener implements Listener {
                         Long seconds1 = time / 1000;
                         Long seconds2 = System.currentTimeMillis() / 1000;
                         Long dif = seconds2 - seconds1;
-                        if (dif > r.getCnfg().getInt("Afk.AfkTime")) {
+                        if (dif > afktime) {
                             if (!UC.getPlayer(pl).isAfk()) {
                                 UC.getPlayer(pl).setAfk(true);
                                 Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
                             }
                         }
-                        if (dif > r.getCnfg().getInt("Afk.KickTime")) {
-                            if (r.getCnfg().getBoolean("Afk.KickEnabled")) {
+                        if (dif > kicktime) {
+                            if (kickenabled) {
                                 if (!r.perm(pl, "uc.afk.excempt", false, false)) {
                                     pl.kickPlayer(r.mes("afkKick"));
                                 }
