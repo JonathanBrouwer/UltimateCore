@@ -209,7 +209,7 @@ public class LocationUtil {
     }
 
     public static void teleport(final Player p, Location l, final TeleportCause c, Boolean delay) {
-        if (delay && delay2 > 0 && !r.perm(p, "uc.tp.bypasstimer", false, false)) {
+        if (delay && delay2 > 0 && !r.perm(p, "uc.teleport.bypasstimer", false, false)) {
             final Location loc = p.getLocation().getBlock().getLocation();
             l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;
             final Location to = l;

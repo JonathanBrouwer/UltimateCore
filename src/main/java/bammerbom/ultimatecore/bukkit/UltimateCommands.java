@@ -148,7 +148,6 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdTeleportaskall());
         cmds.add(new CmdTeleportdeny());
         cmds.add(new CmdTeleporthere());
-        cmds.add(new CmdTeleporthere());
         cmds.add(new CmdTeleporttoggle());
         cmds.add(new CmdTime());
         cmds.add(new CmdTop());

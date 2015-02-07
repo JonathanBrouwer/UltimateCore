@@ -60,6 +60,9 @@ public class CmdHelp implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.help", false, true)) {
+            return;
+        }
         String command = label;
         String pageStr = args.length > 0 ? args[0] : null;
         String chapterPageStr = args.length > 1 ? args[1] : null;

@@ -77,7 +77,7 @@ public class CmdModify implements UltimateCommand {
                 stack = Bukkit.getUnsafe().modifyItemStack(stack, s);
             } else {
                 MetaItemStack meta = new MetaItemStack(stack);
-                meta.parseStringMeta(cs, r.perm(cs, "uc.give.unsafe", false, false), args, 0);
+                meta.parseStringMeta(cs, r.perm(cs, "uc.modify.unsafe", false, false), args, 0);
                 stack = meta.getItemStack();
             }
         } catch (Exception e) {

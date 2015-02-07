@@ -166,6 +166,9 @@ public class CmdTeleport implements UltimateCommand {
                     LocationUtil.teleport(p, tg, PlayerTeleportEvent.TeleportCause.COMMAND, true);
                     r.sendMes(cs, "teleportMessage1", "%Player", tg.getName());
                 } else {
+                    if (!r.perm(cs, "uc.teleport.others", false, true)) {
+                        return;
+                    }
                     Player tg2 = r.searchPlayer(args[1]);
                     if (tg2 == null) {
                         r.sendMes(cs, "playerNotFound", "%Player", args[1]);

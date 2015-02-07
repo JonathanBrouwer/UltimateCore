@@ -61,6 +61,9 @@ public class CmdFeed implements UltimateCommand {
             p.setSaturation(10F);
             r.sendMes(cs, "feedSelf");
         } else {
+            if (!r.perm(cs, "uc.feed.others", false, true)) {
+                return;
+            }
             Player p = r.searchPlayer(args[0]);
             if (p == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);

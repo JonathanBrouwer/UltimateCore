@@ -104,7 +104,7 @@ public class CmdItem implements UltimateCommand {
                     if (s.startsWith("\\{")) {
                         item = Bukkit.getUnsafe().modifyItemStack(item, s);
                     } else {
-                        meta.parseStringMeta(cs, r.perm(cs, "uc.give.unsafe", false, false), args, metaStart);
+                        meta.parseStringMeta(cs, r.perm(cs, "uc.item.unsafe", false, false), args, metaStart);
                         item = meta.getItemStack();
                     }
                 } catch (Exception e) {

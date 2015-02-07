@@ -42,7 +42,7 @@ public class CmdSethome implements UltimateCommand {
 
     @Override
     public String getPermission() {
-        return "uc.delhome";
+        return "uc.selhome";
     }
 
     @Override

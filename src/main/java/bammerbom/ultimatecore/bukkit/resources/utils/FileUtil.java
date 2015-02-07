@@ -27,9 +27,11 @@ import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class FileUtil {
@@ -51,6 +53,15 @@ public class FileUtil {
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to get lines of file " + file.getName());
             return null;
+        }
+    }
+
+    public static void writeLargerTextFile(File file, List<String> aLines) throws IOException {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(file.getPath()), StandardCharsets.UTF_8)) {
+            for (String line : aLines) {
+                writer.write(line);
+                writer.newLine();
+            }
         }
     }
 

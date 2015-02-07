@@ -91,9 +91,6 @@ public class CmdUltimatecore implements UltimateCommand {
             Bukkit.getServer().getPluginManager().disablePlugin(r.getUC());
             r.sendMes(cs, "ultimatecoreDisable");
         } else if (args[0].equalsIgnoreCase("credits")) {
-            if (!r.perm(cs, "uc.ultimatecore", false, true)) {
-                return;
-            }
             r.sendMes(cs, "ultimatecoreCredits1");
             r.sendMes(cs, "ultimatecoreCredits2");
         } else if (args[0].equalsIgnoreCase("noreturn")) {
@@ -145,7 +142,7 @@ public class CmdUltimatecore implements UltimateCommand {
                 r.sendMes(cs, "ultimatecoreUpdateDisabled");
             }
         } else if (args[0].equalsIgnoreCase("convert")) {
-            if (!r.perm(cs, "uc.updater.convert", false, true)) {
+            if (!r.perm(cs, "uc.ultimatecore.convert", false, true)) {
                 return;
             }
             r.sendMes(cs, "ultimatecoreConvertStart");
