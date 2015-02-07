@@ -46,7 +46,7 @@ public class CmdAfk implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("away");
     }
 
     @Override

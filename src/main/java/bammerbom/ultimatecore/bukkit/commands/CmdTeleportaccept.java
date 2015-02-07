@@ -48,7 +48,7 @@ public class CmdTeleportaccept implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("tpaccept");
+        return Arrays.asList("tpaccept", "tpyes");
     }
 
     @Override

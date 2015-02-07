@@ -130,7 +130,7 @@ public class CmdRecipe implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("formula", "method", "recipes");
     }
 
     @Override

@@ -48,7 +48,7 @@ public class CmdTeleportask implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("tpa");
+        return Arrays.asList("tpa", "call", "tpask");
     }
 
     @Override

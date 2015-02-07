@@ -46,7 +46,7 @@ public class CmdNear implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("nearby");
     }
 
     @Override

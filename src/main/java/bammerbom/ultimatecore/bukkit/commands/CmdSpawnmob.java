@@ -200,7 +200,7 @@ public class CmdSpawnmob implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("mob");
+        return Arrays.asList("mob", "spawnentity");
     }
 
     @Override

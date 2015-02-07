@@ -48,7 +48,7 @@ public class CmdList implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("players");
+        return Arrays.asList("players", "online", "who");
     }
 
     @Override

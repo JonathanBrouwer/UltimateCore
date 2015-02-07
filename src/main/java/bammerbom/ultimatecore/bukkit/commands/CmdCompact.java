@@ -150,7 +150,7 @@ public class CmdCompact implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("stack");
+        return Arrays.asList("stack", "condense", "blocks");
     }
 
     @Override
@@ -196,6 +196,7 @@ public class CmdCompact implements UltimateCommand {
             this.input = input;
         }
 
+        @Override
         public ItemStack getResult() {
             return result.clone();
         }

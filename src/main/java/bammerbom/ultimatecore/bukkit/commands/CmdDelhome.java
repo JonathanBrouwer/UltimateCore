@@ -46,7 +46,7 @@ public class CmdDelhome implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("remhome", "removehome");
     }
 
     @Override

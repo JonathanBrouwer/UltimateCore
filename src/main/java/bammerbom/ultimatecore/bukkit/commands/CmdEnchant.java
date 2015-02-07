@@ -51,7 +51,7 @@ public class CmdEnchant implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("enchantment");
     }
 
     @Override

@@ -45,7 +45,7 @@ public class CmdDelwarp implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("remwarp", "removewarp");
     }
 
     @Override

@@ -48,7 +48,7 @@ public class CmdMe implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("action", "describe");
     }
 
     @Override

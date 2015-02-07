@@ -49,7 +49,7 @@ public class CmdBroadcast implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("bc");
+        return Arrays.asList("bc", "bcast", "shout");
     }
 
     @Override

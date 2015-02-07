@@ -47,7 +47,7 @@ public class CmdNick implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("nickname");
     }
 
     @Override

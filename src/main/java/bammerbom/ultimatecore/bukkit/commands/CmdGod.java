@@ -47,7 +47,7 @@ public class CmdGod implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("godmode");
     }
 
     @Override

@@ -44,7 +44,7 @@ public class CmdFeed implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("eat");
+        return Arrays.asList("eat", "food");
     }
 
     @Override

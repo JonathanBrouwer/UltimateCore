@@ -14,9 +14,10 @@ commands:
     permisssions: uc.accountstatus
     aliases: [acstatus]
   afk:
-    description: Toggle your or someone elses afk status.
+    description: Marks you as away-from-keyboard.
     usage: /afk [Player]
     permissions: uc.afk
+    aliases: [away]
   alert:
     description: Sends everyone on the server an alert message.
     usage: /<command> <Message>
@@ -39,7 +40,7 @@ commands:
     description: Broadcasts a message.
     usage: /<command> <Message>
     permissions: uc.broadcast
-    aliases: [bc]
+    aliases: [bc, bcast, shout]
   burn:
     description: Set someone on fire.
     usage: /<command> <Player> [Time]
@@ -68,12 +69,12 @@ commands:
     usage: /<command> [Hand]
     description: Compact the items in your inventory.
     permissions: uc.compact
-    aliases: [compact]
+    aliases: [condense, blocks, stack]
   compass:
     usage: /<command> [Player]
     description: Set the compass location of someone to your current location.
     permissions: uc.compass
-    aliases: [setcompass]
+    aliases: [setcompass, direction]
   coordinates:
     usage: /<command> [Player]
     description: Get the location of a certain player.
@@ -97,15 +98,17 @@ commands:
     usage: /<command> [Player:][Name]
     description: Remove a home.
     permissions: uc.delhome
+    aliases: [removehome, remhome]
   deljail:
     usage: /<command> <Name>
     description: Remove a jail.
     permissions: uc.deljail
-    aliases: [removejail]
+    aliases: [removejail, remjail]
   delwarp:
     usage: /<command> <Warp>
     description: Remove a warp.
     permissions: uc.delwarp
+    aliases: [remwarp, removewarp]
   editsign:
     usage: /<command> <1-4> [Text]
     description: Edit a sign.
@@ -119,11 +122,12 @@ commands:
     usage: /<command> <Enchantment> [Level]
     description: Enchant the item in your hand.
     permissions: uc.enchant
-  enchantingtable:
-    usage: /<command>
-    description: Open an enchanting inventory.
-    permissions: uc.enchantingtable
-    aliases: [ectable]
+    aliases: [enchantment]
+#  enchantingtable:
+#    usage: /<command>
+#    description: Open an enchanting inventory.
+#    permissions: uc.enchantingtable
+#    aliases: [ectable]
   enderchest:
     usage: /<command> [Player]
     description: Open an enderchest.
@@ -143,11 +147,12 @@ commands:
     usage: /<command> [Player]
     description: Feed someone.
     permissions: uc.feed
-    aliases: [feed]
+    aliases: [food, eat]
   fireball:
     usage: /<command> [Type]
     description: Shoot a fireball.
     permissions: uc.fireball
+    aliases: [fireskull]
   firework:
     usage: /<command> [clear] [power:<amount>] [color:<COLOR[,COLOR]]>] [fade:<COLOR[,COLOR]]>] [shape:<star/ball/large/creeper/burst>] [effect:<trail/twinkle>[,trail/twinkle]]
     description: Spawn in or modify firework.
@@ -183,10 +188,12 @@ commands:
     usage: /<command> [Player] [Time]
     description: Enable/Disable god mode for a certain time.
     permissions: uc.god
+    aliases: [godmode]
   hat:
     usage: /<command>
     description: Puts the item in your hand on your head.
     permissions: uc.hat
+    aliases: [head]
   heal:
     usage: /<command> [Player]
     description: Heals the target.
@@ -235,6 +242,7 @@ commands:
     usage: /<command>
     description: Jump to the place where you are looking at.
     permissions: uc.jump
+    aliases: [jumpto]
   kick:
     usage: /<command> <Player> [Reason]
     description: Kick someone.
@@ -265,15 +273,17 @@ commands:
     usage: /<command>
     description: A list of online players.
     permissions: uc.list
-    aliases: [players]
+    aliases: [players online, who]
   me:
     usage: /<command> <Message>
     description: Message in me format.
     permissions: uc.me
+    aliases: [action, describe]
   megasmite:
     usage: /<command> [Player]
     description: Throw a lot of lighting on a player.
     permissions: uc.megasmite
+    aliases: [megalightning]
   minecraftservers:
     usage: /<command>
     description: View the status of the minecraft servers.
@@ -299,11 +309,12 @@ commands:
     usage: /<command> <Player> <Message>
     description: Send a private message.
     permissions: uc.msg
-    aliases: [w, m, t, pm, tell, whisper]
+    aliases: [w, m, t, pm, tell, whisper, message]
   mute:
     usage: /<command> <Player> [Time]
     description: Make someone not able to chat.
     permissions: uc.mute
+    aliases: [silence]
   mutelist:
     description: View a list of all current muted players.
     usage: /<command>
@@ -317,14 +328,17 @@ commands:
     usage: /<command> [Range]
     description: View all nearby players.
     permissions: uc.near
+    aliases: [nearby]
   nick:
     usage: /<command> <Name>/off [Player]
     description: Set a players nickname.
     permissions: uc.nick
+    aliases: [nickname]
   ping:
     usage: /<command> [Player]
     description: View a players ping.
     permissions: uc.ping
+    aliases: [pong]
   plugin:
     usage: /<command> help
     description: Plugin manager.
@@ -346,6 +360,7 @@ commands:
     usage: <command> <Item> [Recipe]
     description: View the recipe of an item.
     permissions: uc.recipe
+    aliases: [formula, method, recipes]
   removeall:
     usage: /<command> [Type] [Range]
     description: Remove all entities of a certain type.
@@ -438,7 +453,7 @@ commands:
     usage: /<command> <Type> [Amount] [Data...]
     description: Spawn a mob.
     permissions: uc.spawnmob
-    aliases: [mob]
+    aliases: [mob, spawnentity]
   speed:
     usage: /<command> <0-10> [Player]
     description: Set your fly and walkspeed.
@@ -447,16 +462,17 @@ commands:
     usage: /<command>
     description: Toggle spymode for yourself.
     permissions: uc.spy
+    aliases: [socialspy]
   teleport:
     usage: /<command> [Player] <Player> OR [Player] <X> [Y] <Z>
     description: Teleport yourself or someone else.
     permissions: uc.teleport
-    aliases: [tp]
+    aliases: [tp, tele, tppos]
   teleportaccept:
     usage: /<command>
     description: Accept a teleport request.
     permissions: uc.teleportaccept
-    aliases: [tpaccept]
+    aliases: [tpaccept, tpyes]
   teleportall:
     usage: /<command> [Player]
     description: Teleport everyone to a certain player or yourself.
@@ -466,7 +482,7 @@ commands:
     usage: /<command> <Player>
     description: Ask to teleport to someone.
     permissions: uc.teleport
-    aliases: [tpa]
+    aliases: [tpa, call, tpask]
   teleportaskall:
     usage: /<command>
     description: Ask everyone to teleport to you.
@@ -556,7 +572,7 @@ commands:
     usage: /<command>
     description: Open a crafting table.
     permissions: uc.workbench
-    aliases: [wb, craftingtable, ct]
+    aliases: [wb, craftingtable, ct, wbench]
   world:
     usage: /<command> create/import/remove/list/tp/flag/reset
     description: World management command.

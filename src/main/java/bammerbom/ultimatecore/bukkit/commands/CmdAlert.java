@@ -48,7 +48,7 @@ public class CmdAlert implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("");
     }
 
     @Override

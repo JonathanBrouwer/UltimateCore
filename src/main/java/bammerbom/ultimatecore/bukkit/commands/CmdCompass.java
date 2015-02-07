@@ -44,7 +44,7 @@ public class CmdCompass implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("setcompass");
+        return Arrays.asList("setcompass", "direction");
     }
 
     @Override

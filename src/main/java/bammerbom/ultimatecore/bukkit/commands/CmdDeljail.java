@@ -44,7 +44,7 @@ public class CmdDeljail implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("removejail");
+        return Arrays.asList("removejail", "remjail");
     }
 
     @Override
