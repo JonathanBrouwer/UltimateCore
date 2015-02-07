@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import java.util.regex.Pattern;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 public class FormatUtil {
 

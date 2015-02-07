@@ -142,17 +142,23 @@
             <artifactId>ProtocolLib</artifactId>
             <version>3.6.3-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.massivecraft</groupId>
-            <artifactId>Factions</artifactId>
-            <version>2.7.5</version>
-        </dependency>
-        <!-- Not hosted on maven, custom dependency -->
+        <!-- Local hosted -->
         <dependency>
             <groupId>com.palmergames</groupId>
             <artifactId>Towny</artifactId>
             <version>custom</version>
         </dependency>
+        <dependency>
+            <groupId>com.massivecraft</groupId>
+            <artifactId>Factions</artifactId>
+            <version>2.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.massivecraft</groupId>
+            <artifactId>MassiveCore</artifactId>
+            <version>2.7.5</version>
+        </dependency>
+        <!-- End of local hosted -->
     </dependencies>
     <repositories>
         <repository>
@@ -178,6 +184,11 @@
         <repository>
             <id>shadowvolt-repo</id>
             <url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
+        </repository>
+        <repository>
+            <id>project.local</id>
+            <name>project</name>
+            <url>file:${project.basedir}\repo</url>
         </repository>
     </repositories>
 </project>

@@ -66,7 +66,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdEditsign());
         cmds.add(new CmdEffect());
         cmds.add(new CmdEnchant());
-        cmds.add(new CmdEnchantingtable());
+        //cmds.add(new CmdEnchantingtable());
         cmds.add(new CmdEnderchest());
         cmds.add(new CmdExperience());
         cmds.add(new CmdExtinguish());

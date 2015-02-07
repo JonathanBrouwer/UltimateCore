@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
