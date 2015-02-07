@@ -15,7 +15,7 @@ commands:
     aliases: [acstatus]
   afk:
     description: Marks you as away-from-keyboard.
-    usage: /afk [Player]
+    usage: /<command> [Player]
     permissions: uc.afk
     aliases: [away]
   alert:
