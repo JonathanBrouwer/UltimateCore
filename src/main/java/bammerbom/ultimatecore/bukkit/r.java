@@ -27,6 +27,10 @@ import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateResult;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import com.massivecraft.factions.entity.MPlayer;
+import com.palmergames.bukkit.towny.Towny;
+import com.palmergames.bukkit.towny.object.Resident;
+import com.palmergames.bukkit.towny.object.TownyUniverse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -408,6 +412,38 @@ public class r {
             }
         }
         return values.get(ra.nextInt(values.size()));
+    }
+
+    public static String getTown(Player p) {
+        if (!Bukkit.getPluginManager().isPluginEnabled("Towny")) {
+            return null;
+        }
+        Towny t = (Towny) Bukkit.getServer().getPluginManager().getPlugin("Towny");
+        if (t == null) {
+            return null;
+        }
+        Resident r;
+        try {
+            r = TownyUniverse.getDataSource().getResident(p.getName());
+        } catch (Exception ex) {
+            return null;
+        }
+        try {
+            return r.getTown().getName();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static String getFaction(Player p) {
+        if (!Bukkit.getPluginManager().isPluginEnabled("Factions")) {
+            return null;
+        }
+        try {
+            return MPlayer.get(p).getFaction().getName();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public class Vault {

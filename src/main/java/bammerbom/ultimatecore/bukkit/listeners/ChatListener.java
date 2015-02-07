@@ -224,6 +224,8 @@ public class ChatListener implements Listener {
                         f = r(f, "\\+Displayname", "\\%1\\$s");
                         f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
                         f = r(f, "\\+World", e.getPlayer().getWorld().getName());
+                        f = r(f, "\\+Faction", r.getFaction(e.getPlayer()));
+                        f = r(f, "\\+Town", r.getTown(e.getPlayer()));
                         f = ChatColor.translateAlternateColorCodes('&', f);
                         if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {
                             f = r(f, "&y", r.getRandomChatColor() + "");
@@ -264,6 +266,8 @@ public class ChatListener implements Listener {
             f = r(f, "\\+Displayname", "\\%1\\$s");
             f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
             f = r(f, "\\+World", e.getPlayer().getWorld().getName());
+            f = r(f, "\\+Faction", r.getFaction(e.getPlayer()));
+            f = r(f, "\\+Town", r.getTown(e.getPlayer()));
             f = ChatColor.translateAlternateColorCodes('&', f);
             ChatColor value = Arrays.asList(ChatColor.values()).get(r.ra.nextInt(Arrays.asList(ChatColor.values()).size()));
             if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {

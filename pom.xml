@@ -104,6 +104,13 @@
             <artifactId>dynmap</artifactId>
             <version>2.2-SNAPSHOT</version>
             <optional>true</optional>
+            <!-- Exclude spout -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.getspout</groupId>
+                    <artifactId>spoutpluginapi</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -134,6 +141,17 @@
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
             <version>3.6.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.massivecraft</groupId>
+            <artifactId>Factions</artifactId>
+            <version>2.7.5</version>
+        </dependency>
+        <!-- Not hosted on maven, custom dependency -->
+        <dependency>
+            <groupId>com.palmergames</groupId>
+            <artifactId>Towny</artifactId>
+            <version>custom</version>
         </dependency>
     </dependencies>
     <repositories>

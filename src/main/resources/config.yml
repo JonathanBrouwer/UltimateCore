@@ -115,6 +115,8 @@ Chat:
   #+World = Current World name
   #+WorldAlias = First letter of the worlds name
   #+Message = Message the player is trying to send
+  #+Town = The town the player is in (Towny)
+  #+Faction = The faction the player is in (Factions)
   #Color codes supported!
   Format: '&6+Prefix&6+Displayname: &r+Suffix+Message'
   
