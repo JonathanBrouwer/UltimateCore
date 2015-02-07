@@ -79,6 +79,8 @@ public class UltimateCore extends JavaPlugin {
                 Bukkit.getConsoleSender().sendMessage(" ");
             }
             //
+            UltimateConverter.convert();
+            //
             r.runUpdater();
             r.runMetrics();
             //
