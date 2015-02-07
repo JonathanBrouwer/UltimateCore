@@ -186,3 +186,9 @@ Command:
     EnableDelay: false
     #The delay in seconds.
     Delay: 5
+  Spawn:
+    # Set this to 'lowest', if you want the world (or multiverse) to handle the respawning.
+    # Set this to 'high', if you want UltimateCore to handle the respawning.
+    # Set this to 'highest', if you want to force UltimateCore to handle the respawning.
+    Priority: high
+    

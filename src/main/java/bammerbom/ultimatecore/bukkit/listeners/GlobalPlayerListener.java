@@ -31,12 +31,9 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import org.bukkit.*;
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+import org.bukkit.event.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -48,6 +45,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.plugin.EventExecutor;
 
 public class GlobalPlayerListener implements Listener {
 
@@ -386,7 +384,29 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    public static void start() {
+        final GlobalPlayerListener gpl = new GlobalPlayerListener();
+        Bukkit.getPluginManager().registerEvents(gpl, r.getUC());
+        EventPriority p;
+        String s = r.getCnfg().getString("Command.Spawn.Priority");
+        if (s.equalsIgnoreCase("lowest")) {
+            p = EventPriority.LOWEST;
+        } else if (s.equalsIgnoreCase("high")) {
+            p = EventPriority.HIGH;
+        } else if (s.equalsIgnoreCase("highest")) {
+            p = EventPriority.HIGHEST;
+        } else {
+            r.log("Spawn priority is invalid.");
+            return;
+        }
+        Bukkit.getPluginManager().registerEvent(PlayerRespawnEvent.class, gpl, p, new EventExecutor() {
+            @Override
+            public void execute(Listener l, Event e) throws EventException {
+                gpl.onRespawn((PlayerRespawnEvent) e);
+            }
+        }, r.getUC());
+    }
+
     public void onRespawn(PlayerRespawnEvent e) {
         try {
             if (UC.getServer().getSpawn() != null) {

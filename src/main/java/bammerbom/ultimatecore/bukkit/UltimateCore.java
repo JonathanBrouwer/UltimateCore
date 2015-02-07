@@ -85,7 +85,7 @@ public class UltimateCore extends JavaPlugin {
             r.runMetrics();
             //
             PluginManager pm = Bukkit.getPluginManager();
-            pm.registerEvents(new GlobalPlayerListener(), this);
+            GlobalPlayerListener.start();
             pm.registerEvents(new GlobalWorldListener(), this);
             AfkListener.start();
             AutomessageListener.start();
