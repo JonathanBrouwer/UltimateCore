@@ -29,7 +29,7 @@ Blood:
   #Enable blood?
   Enabled: false
   #Enable it for players only?
-  PlayersOnly: true
+  PlayersOnly: false
   
 #Dynmap support (Nothing happens without Dynmap)
 Dynmap:
