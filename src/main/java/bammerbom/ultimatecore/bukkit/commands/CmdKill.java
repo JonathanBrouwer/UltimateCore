@@ -46,7 +46,7 @@ public class CmdKill implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("suicide");
     }
 
     @SuppressWarnings("deprecation")

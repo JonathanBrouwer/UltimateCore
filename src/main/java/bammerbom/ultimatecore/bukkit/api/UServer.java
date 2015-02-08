@@ -547,4 +547,20 @@ public class UServer {
         return AutomessageListener.currentmessage;
     }
 
+    public UKit getKit(String s) {
+        return new UKit(s);
+    }
+
+    public List<UKit> getKits() {
+        ArrayList<String> kitnames = new ArrayList<>(new Config(UltimateFileLoader.DFkits).getKeys(false));
+        ArrayList<UKit> kits = new ArrayList<>();
+        for (String s : kitnames) {
+            kits.add(getKit(s));
+        }
+        return kits;
+    }
+
+    public List<String> getKitNames() {
+        return new ArrayList<>(new Config(UltimateFileLoader.DFkits).getKeys(false));
+    }
 }

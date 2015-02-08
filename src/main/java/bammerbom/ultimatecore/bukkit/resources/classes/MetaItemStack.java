@@ -29,7 +29,6 @@ import bammerbom.ultimatecore.bukkit.resources.databases.EnchantmentDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.AttributeUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.AttributeUtil.Attribute;
 import bammerbom.ultimatecore.bukkit.resources.utils.AttributeUtil.AttributeType;
-import bammerbom.ultimatecore.bukkit.resources.utils.FormatUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
@@ -50,6 +49,7 @@ public class MetaItemStack {
 
     private static final Map<String, DyeColor> colorMap = new HashMap<>();
     private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap<>();
+
     static {
         for (DyeColor color : DyeColor.values()) {
             colorMap.put(color.name(), color);
@@ -71,7 +71,6 @@ public class MetaItemStack {
     private boolean completePotion = false;
     private int power = 1;
     private int duration = 120;
-
 
     public MetaItemStack(ItemStack stack) {
         this.stack = stack.clone();
@@ -176,7 +175,7 @@ public class MetaItemStack {
         } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("lore")) || (split[0].equalsIgnoreCase("desc")))) {
             List<String> lore = new ArrayList<>();
             for (String line : split[1].split("\\|")) {
-                lore.add(FormatUtil.replaceFormat(line.replace('_', ' ')));
+                lore.add(ChatColor.translateAlternateColorCodes('&', line.replace('_', ' ')));
             }
             ItemMeta meta = this.stack.getItemMeta();
             meta.setLore(lore);
@@ -190,12 +189,12 @@ public class MetaItemStack {
             } else {
             }
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("author")) && (this.stack.getType() == Material.WRITTEN_BOOK)) {
-            String author = FormatUtil.replaceFormat(split[1]);
+            String author = ChatColor.translateAlternateColorCodes('&', split[1]);
             BookMeta meta = (BookMeta) this.stack.getItemMeta();
             meta.setAuthor(author);
             this.stack.setItemMeta(meta);
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("title")) && (this.stack.getType() == Material.WRITTEN_BOOK)) {
-            String title = FormatUtil.replaceFormat(split[1].replace('_', ' '));
+            String title = ChatColor.translateAlternateColorCodes('&', split[1].replace('_', ' '));
             BookMeta meta = (BookMeta) this.stack.getItemMeta();
             meta.setTitle(title);
             this.stack.setItemMeta(meta);
@@ -206,13 +205,13 @@ public class MetaItemStack {
             this.stack.setItemMeta(meta);
         } else if (this.stack.getType() == Material.FIREWORK) {
             try {
-                addFireworkMeta(cs, false, string);
+                addFireworkMeta(false, string);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (this.stack.getType() == Material.POTION) {
             try {
-                addPotionMeta(cs, false, string);
+                addPotionMeta(false, string);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -243,7 +242,9 @@ public class MetaItemStack {
                 for (String s : split[1].split(",")) {
                     ItemStack i = ItemUtil.searchItem(s);
                     if (i == null || i.getType().equals(Material.AIR)) {
-                        r.sendMes(cs, "giveItemNotFound", "%Item", s);
+                        if (cs != null) {
+                            r.sendMes(cs, "giveItemNotFound", "%Item", s);
+                        }
                         return;
                     }
                     c.add(i);
@@ -251,7 +252,9 @@ public class MetaItemStack {
             } else {
                 ItemStack i = ItemUtil.searchItem(split[1]);
                 if (i == null || i.getType().equals(Material.AIR)) {
-                    r.sendMes(cs, "giveItemNotFound", "%Item", split[1]);
+                    if (cs != null) {
+                        r.sendMes(cs, "giveItemNotFound", "%Item", split[1]);
+                    }
                     return;
                 }
                 c.add(i);
@@ -281,7 +284,9 @@ public class MetaItemStack {
                 for (String s : split[1].split(",")) {
                     ItemStack i = ItemUtil.searchItem(s);
                     if (i == null || i.getType().equals(Material.AIR)) {
-                        r.sendMes(cs, "giveItemNotFound", "%Item", s);
+                        if (cs != null) {
+                            r.sendMes(cs, "giveItemNotFound", "%Item", s);
+                        }
                         return;
                     }
                     c.add(i);
@@ -289,7 +294,9 @@ public class MetaItemStack {
             } else {
                 ItemStack i = ItemUtil.searchItem(split[1]);
                 if (i == null || i.getType().equals(Material.AIR)) {
-                    r.sendMes(cs, "giveItemNotFound", "%Item", split[1]);
+                    if (cs != null) {
+                        r.sendMes(cs, "giveItemNotFound", "%Item", split[1]);
+                    }
                     return;
                 }
                 c.add(i);
@@ -364,7 +371,7 @@ public class MetaItemStack {
             stack.setAmount(Integer.parseInt(split[1]));
         } else {
             try {
-                parseEnchantmentStrings(cs, allowUnsafe, split);
+                parseEnchantmentStrings(allowUnsafe, split);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -372,7 +379,7 @@ public class MetaItemStack {
 
     }
 
-    public void addFireworkMeta(CommandSender sender, boolean allowShortName, String string) throws Exception {
+    public void addFireworkMeta(boolean allowShortName, String string) throws Exception {
         if (this.stack.getType() == Material.FIREWORK) {
             String[] split = this.splitPattern.split(string, 2);
 
@@ -444,7 +451,7 @@ public class MetaItemStack {
         }
     }
 
-    public void addPotionMeta(CommandSender sender, boolean allowShortName, String string) throws Exception {
+    public void addPotionMeta(boolean allowShortName, String string) throws Exception {
         if (this.stack.getType() == Material.POTION) {
             String[] split = this.splitPattern.split(string, 2);
 
@@ -488,7 +495,7 @@ public class MetaItemStack {
         }
     }
 
-    private void parseEnchantmentStrings(CommandSender sender, boolean allowUnsafe, String[] split) throws Exception {
+    private void parseEnchantmentStrings(boolean allowUnsafe, String[] split) throws Exception {
         Enchantment enchantment = EnchantmentDatabase.getByName(split[0]);
         if ((enchantment == null)) {
             return;
@@ -506,10 +513,10 @@ public class MetaItemStack {
         if ((level < 0) || ((!allowUnsafe) && (level > enchantment.getMaxLevel()))) {
             level = enchantment.getMaxLevel();
         }
-        addEnchantment(sender, allowUnsafe, enchantment, level);
+        addEnchantment(allowUnsafe, enchantment, level);
     }
 
-    public void addEnchantment(CommandSender sender, boolean allowUnsafe, Enchantment enchantment, int level) {
+    public void addEnchantment(boolean allowUnsafe, Enchantment enchantment, int level) {
         if (enchantment == null) {
             return;
         }

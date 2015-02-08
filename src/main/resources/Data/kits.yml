@@ -1,0 +1,72 @@
+#3 example kits
+## Kit name. This kit will be called "default"
+#default:
+#  # Description shown to the player on /kits.
+#  description: An example kit.
+#  # List of items for this kit
+#  items:
+#    - type: WOOD
+#      amount: 1
+#      # You can use colors in lore and names
+#      name: "&rWood of Champions"
+#    - type: WOOD_SWORD
+#      amount: 1
+#      name: "Skyforge Wood Sword"
+#      lore: "&bWooden sword forged in the Skyforge"
+#      # Enchantments that can't naturally be applied can be used here
+#      sharpness: 2
+#      durability: 1
+#  # Cooldown of one day
+#  cooldown: "1d"
+#wool:
+#  description: A kit containing wool.
+#  cooldown: "10m"
+#  items:
+#    - type: WOOL
+#      damage: 14
+#      amount: 64
+#      canplaceon: diamondblock,goldblock
+#    - type: WOOL
+#      damage: 15
+#      amount: 35
+#    - type: SHEAR
+#      amount: 1
+#      name: "&kAA&r&5Wool breaker&r&kAA"
+#      canbreak: wool
+#      unbreakable: 1
+## This kit can only be used once (cooldown of -1)
+#onetime:
+#  description: A kit that can only be used one time.
+#  cooldown: -1
+#  items:
+#    - type: IRON_SWORD
+#      amount: 1
+#      maxhealth: 1
+#      damage: 9999
+#      speed: 1.5
+#      knockbackres: 100
+#      #Use | to split lines
+#      lore: "&4This sword is so strong!|&eYes it is!"
+#    - type: playerhead
+#      player: Bammerbom
+#      name: "&eThis is the head of Bammerbom."
+tools:
+  description: A kit with stone tools.
+  cooldown: "20s"
+  items:
+    - type: STONE_SWORD 
+      unbreakable: 1
+      name: "&bStone sword"
+      lore: "&eStarters kit."
+    - type: STONE_PICKAXE
+      unbreakable: 1
+      name: "&bStone pickaxe"
+      lore: "&eStarters kit."
+    - type: STONE_SHOVEL
+      unbreakable: 1
+      name: "&bStone shovel"
+      lore: "&eStarters kit."
+    - type: STONE_AXE
+      unbreakable: 1
+      name: "&bStone axe"
+      lore: "&eStarters kit."

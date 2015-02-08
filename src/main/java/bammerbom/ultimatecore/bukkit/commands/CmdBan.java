@@ -69,10 +69,10 @@ public class CmdBan implements UltimateCommand {
         Long time = 0L;
         String reason = r.mes("banDefaultReason");
         if (r.checkArgs(args, 1) == false) {
-        } else if (DateUtil.parseDateDiff(args[1], true) == -1) {
+        } else if (DateUtil.parseDateDiff(args[1]) == -1) {
             reason = r.getFinalArg(args, 1);
         } else {
-            time = DateUtil.parseDateDiff(args[1], true);
+            time = DateUtil.parseDateDiff(args[1]);
             if (r.checkArgs(args, 2) == true) {
                 reason = r.getFinalArg(args, 2);
             }

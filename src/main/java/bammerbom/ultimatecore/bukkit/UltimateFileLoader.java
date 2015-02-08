@@ -48,13 +48,14 @@ public class UltimateFileLoader {
     public static File DFworlds;
     public static File DFreports;
     public static File DFjails;
+    public static File DFkits;
 
     public static void Enable() {
         Plugin plugin = r.getUC();
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
         }
-        conf = new File(plugin.getDataFolder() + "\\config.yml");
+        conf = new File(plugin.getDataFolder() + File.separator + "config.yml");
         if (!conf.exists()) {
             plugin.saveResource("config.yml", true);
         }
@@ -73,6 +74,7 @@ public class UltimateFileLoader {
         DFworlds = new File(plugin.getDataFolder() + File.separator + "Data", "worlds.yml");
         DFreports = new File(plugin.getDataFolder() + File.separator + "Data", "reports.yml");
         DFjails = new File(plugin.getDataFolder() + File.separator + "Data", "jails.yml");
+        DFkits = new File(plugin.getDataFolder() + File.separator + "Data", "kits.yml");
         //
         try {
             if (!DFspawns.exists()) {
@@ -84,9 +86,11 @@ public class UltimateFileLoader {
             if (!DFworlds.exists()) {
                 DFworlds.createNewFile();
             }
-            //if(!DFreports.exists()) DFspawns.createNewFile();
             if (!DFjails.exists()) {
                 DFjails.createNewFile();
+            }
+            if (!DFkits.exists()) {
+                plugin.saveResource("Data" + File.separator + "kits.yml", true);
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to create Data files.");
@@ -161,15 +165,19 @@ public class UltimateFileLoader {
             }
             Config confL = new Config(tempFile);
             Config confS = r.getCnfg();
+            Boolean changed = false;
             for (String s : confL.getKeys(true)) {
                 if (!confS.contains(s) && !(confL.get(s) instanceof MemorySection)) {
                     confS.set(s, confL.get(s));
+                    changed = true;
                 }
             }
-            for (String str : confL.getHeaders().keySet()) {
-                confS.setHeader(str, confL.getHeaders().get(str));
+            if (changed) {
+                for (String str : confL.getHeaders().keySet()) {
+                    confS.setHeader(str, confL.getHeaders().get(str));
+                }
+                confS.save();
             }
-            confS.save();
             if (tempFile != null) {
                 tempFile.delete();
             }

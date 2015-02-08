@@ -97,8 +97,8 @@ public class CmdJail implements UltimateCommand {
             }
             String jail;
             Long time = -1L;
-            if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1], true) != -1) {
-                time = DateUtil.parseDateDiff(args[1], true);
+            if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1]) != -1) {
+                time = DateUtil.parseDateDiff(args[1]);
             }
             if (r.checkArgs(args, 2)) {
                 jail = args[2];

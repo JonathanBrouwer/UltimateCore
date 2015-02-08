@@ -68,8 +68,8 @@ public class CmdMute implements UltimateCommand {
         Long time = 0L;
         //Info
         if (r.checkArgs(args, 1) == false) {
-        } else if (DateUtil.parseDateDiff(args[1], true) != -1) {
-            time = DateUtil.parseDateDiff(args[1], true);
+        } else if (DateUtil.parseDateDiff(args[1]) != -1) {
+            time = DateUtil.parseDateDiff(args[1]);
         }
         //Permcheck
         if (!r.perm(cs, "uc.mute.time", false, false) && !r.perm(cs, "uc.mute", false, false) && time == 0L) {

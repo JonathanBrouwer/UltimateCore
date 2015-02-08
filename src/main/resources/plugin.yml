@@ -255,10 +255,16 @@ commands:
     usage: /<command> [Player]
     description: Kill someone or yourself.
     permissions: uc.kill
+    aliases: [suicide]
   killall:
     usage: /<command> [Type] [Radius]
     description: Kill all mobs.
     permissions: uc.killall
+  kit:
+    usage: /<command> [Kit]
+    description: Give yourself a kit, or view the list of kits.
+    permissions: uc.kit
+    aliases: [kits]
   kittycannon:
     usage: /<command>
     description: Summon an exploding ocelot.

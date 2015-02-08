@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 
 public class DateUtil {
 
-    public static long parseDateDiff(String time, boolean future) {
+    public static long parseDateDiff(String time) {
         try {
             Long mil = 999L;
             Matcher matcher = Pattern.compile("\\d+\\D+").matcher(time);
@@ -70,6 +70,76 @@ public class DateUtil {
         } catch (Exception ex) {
             return -1L;
         }
+    }
+
+    /**
+     * Returns the amount of seconds from a string like "6y5d4h3m2s"
+     *
+     * @param format String like "5y4d3h2m1s"
+     * @return -1 if no numbers or incorrect format, the number provided if no
+     * letters, and the seconds if correct format
+     */
+    public static int timeFormatToSeconds(String format) {
+        format = format.toLowerCase();
+        if (!format.contains("y") && !format.contains("d") && !format.contains("h") && !format.contains("m") && !format.contains("s") && !format.contains("w") && !format.contains("M")) {
+            if (r.isInt(format)) {
+                return Integer.valueOf(format);
+            }
+            return -1;
+        }
+        String nums = "";
+        int num;
+        int seconds = 0;
+        for (int i = 0; i < format.length(); i++) {
+            char c = format.charAt(i);
+            if (r.isInt(c + "")) {
+                nums += c;
+                continue;
+            }
+            if (nums.isEmpty()) {
+                return -1; // this will happen if someone enters 5dd3h, etc. (invalid format)
+            }
+            switch (c) {
+                case 'y':
+                    num = Integer.valueOf(nums);
+                    seconds += num * 31556926;
+                    nums = "";
+                    break;
+                case 'M':
+                    num = Integer.valueOf(nums);
+                    seconds += num * 604800;
+                    nums = "";
+                    break;
+                case 'w':
+                    num = Integer.valueOf(nums);
+                    seconds += num * 86400;
+                    nums = "";
+                    break;
+                case 'd':
+                    num = Integer.valueOf(nums);
+                    seconds += num * 86400;
+                    nums = "";
+                    break;
+                case 'h':
+                    num = Integer.valueOf(nums);
+                    seconds += num * 3600;
+                    nums = "";
+                    break;
+                case 'm':
+                    num = Integer.valueOf(nums);
+                    seconds += num * 60;
+                    nums = "";
+                    break;
+                case 's':
+                    num = Integer.valueOf(nums);
+                    seconds += num;
+                    nums = "";
+                    break;
+                default:
+                    return -1;
+            }
+        }
+        return seconds;
     }
 
     static int dateDiff(int type, Calendar fromDate, Calendar toDate, boolean future) {

@@ -28,7 +28,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 
 public class CmdSethealth implements UltimateCommand {

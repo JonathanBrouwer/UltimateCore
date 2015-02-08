@@ -100,7 +100,7 @@ public class AutomessageListener implements Listener {
 
                 }
             }
-        }, time * 20, time * 20);
+        }, 0, time * 20);
     }
 
     @EventHandler(priority = EventPriority.LOW)

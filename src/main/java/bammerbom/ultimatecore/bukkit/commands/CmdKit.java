@@ -23,87 +23,83 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
+import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
+import bammerbom.ultimatecore.bukkit.api.UC;
+import bammerbom.ultimatecore.bukkit.api.UKit;
+import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.configuration.ConfigSection;
 import bammerbom.ultimatecore.bukkit.r;
-import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
-import bammerbom.ultimatecore.bukkit.resources.databases.EnchantmentDatabase;
-import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
-import java.util.ArrayList;
+import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.Material;
+import java.util.Map;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class CmdEnchant implements UltimateCommand {
+public class CmdKit implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "enchant";
+        return "kit";
     }
 
     @Override
     public String getPermission() {
-        return "uc.enchant";
+        return "uc.kit";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("enchantment");
+        return Arrays.asList("kits");
     }
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.enchant", false, true)) {
+        if (!r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.kit", true, true)) {
+                return;
+            }
+            r.sendMes(cs, "kitList", "%Kits", StringUtil.joinList(UC.getServer().getKitNames()));
+            return;
+        }
+        if (!r.perm(cs, "uc.kit", true, false) && !r.perm(cs, "uc.kit." + args[0], true, false)) {
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (!r.isPlayer(cs)) {
             return;
         }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "enchantUsage");
+        final Player p = (Player) cs;
+        final Config config = new Config(UltimateFileLoader.DFkits);
+        final ConfigSection kitNode = config.getConfigurationSection(args[0]);
+        if (kitNode == null) {
+            r.sendMes(cs, "kitNotFound", "%Kit", args[0]);
             return;
         }
-        Player p = (Player) cs;
-        Enchantment ench = EnchantmentDatabase.getByName(args[0]);
-        if (ench == null) {
-            r.sendMes(cs, "enchantNotFound", "%Enchant", args[0]);
+        final UKit kit = UC.getServer().getKit(args[0]);
+        if (!kit.hasCooldownPassedFor(p)) {
+            if (kit.getCooldown() == -1L) {
+                r.sendMes(cs, "kitOnlyOnce");
+            } else {
+                r.sendMes(cs, "kitTime", "%Time", DateUtil.formatDateDiff(kit.getCooldownFor(p)));
+            }
             return;
         }
-        ItemStack stack = p.getItemInHand();
-        if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
-            r.sendMes(cs, "enchantNoItemInHand");
-            return;
+        final List<ItemStack> items = kit.getItems();
+        final Map<Integer, ItemStack> leftOver = p.getInventory().addItem(items.toArray(new ItemStack[items.size()]));
+        for (final ItemStack is : leftOver.values()) {
+            p.getWorld().dropItemNaturally(p.getLocation(), is);
         }
-        String name = ench.getName().replace("_", "").toLowerCase();
-        Integer level = 1;
-        if (r.checkArgs(args, 1) == true && r.isInt(args[1])) {
-            level = Integer.parseInt(args[1]);
-        }
-        if (level < 0) {
-            level = 0;
-        }
-        if (level == 0) {
-            stack.removeEnchantment(ench);
-        } else {
-            MetaItemStack stack2 = new MetaItemStack(stack);
-            stack2.addEnchantment(true, ench, level);
-            p.setItemInHand(stack2.getItemStack());
-        }
-        r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
+        kit.setLastUsed(p, System.currentTimeMillis());
+        r.sendMes(cs, "kitGive", "%Kit", args[0]);
+        return;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (curn == 0) {
-            List<String> sts = new ArrayList<>();
-            for (Enchantment enc : Enchantment.values()) {
-                sts.add(enc.getName().toLowerCase().replaceAll("_", ""));
-            }
-            return sts;
-        }
-        return new ArrayList<>();
+        return UC.getServer().getKitNames();
     }
 }

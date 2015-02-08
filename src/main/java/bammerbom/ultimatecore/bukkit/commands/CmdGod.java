@@ -69,8 +69,8 @@ public class CmdGod implements UltimateCommand {
             }
             return;
         }
-        if (DateUtil.parseDateDiff(args[0], true) >= 1) {
-            Long t = DateUtil.parseDateDiff(args[0], true);
+        if (DateUtil.parseDateDiff(args[0]) >= 1) {
+            Long t = DateUtil.parseDateDiff(args[0]);
             if (!r.isPlayer(cs)) {
                 return;
             }
@@ -95,8 +95,8 @@ public class CmdGod implements UltimateCommand {
          return;
          }*/
         Long time = 0L;
-        if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1], true) >= 1) {
-            time = DateUtil.parseDateDiff(args[1], true);
+        if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1]) >= 1) {
+            time = DateUtil.parseDateDiff(args[1]);
         }
         //Permcheck
         if (!r.perm(cs, "uc.god.time", false, false) && !r.perm(cs, "uc.god", false, false) && time == 0L) {

@@ -32,7 +32,7 @@ import org.yaml.snakeyaml.representer.Representer;
 class YamlRepresenter extends Representer {
 
     public YamlRepresenter() {
-        this.multiRepresenters.put(MemorySection.class, new RepresentConfigurationSection());
+        this.multiRepresenters.put(ConfigSection.class, new RepresentConfigurationSection());
         this.multiRepresenters.put(ConfigurationSerializable.class, new RepresentConfigurationSerializable());
     }
 
@@ -40,7 +40,7 @@ class YamlRepresenter extends Representer {
 
         @Override
         public Node representData(Object data) {
-            return super.representData(((MemorySection) data).getValues(false));
+            return super.representData(((ConfigSection) data).getValues(false));
         }
     }
 

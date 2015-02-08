@@ -49,6 +49,29 @@ import org.bukkit.plugin.EventExecutor;
 
 public class GlobalPlayerListener implements Listener {
 
+    public static void start() {
+        final GlobalPlayerListener gpl = new GlobalPlayerListener();
+        Bukkit.getPluginManager().registerEvents(gpl, r.getUC());
+        EventPriority p;
+        String s = r.getCnfg().getString("Command.Spawn.Priority");
+        if (s.equalsIgnoreCase("lowest")) {
+            p = EventPriority.LOWEST;
+        } else if (s.equalsIgnoreCase("high")) {
+            p = EventPriority.HIGH;
+        } else if (s.equalsIgnoreCase("highest")) {
+            p = EventPriority.HIGHEST;
+        } else {
+            r.log("Spawn priority is invalid.");
+            return;
+        }
+        Bukkit.getPluginManager().registerEvent(PlayerRespawnEvent.class, gpl, p, new EventExecutor() {
+            @Override
+            public void execute(Listener l, Event e) throws EventException {
+                gpl.onRespawn((PlayerRespawnEvent) e);
+            }
+        }, r.getUC());
+    }
+
     Boolean jailChat = r.getCnfg().getBoolean("Command.Jail.talk");
     Boolean jailedmove = r.getCnfg().getBoolean("Command.Jail.move");
 
@@ -384,29 +407,6 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    public static void start() {
-        final GlobalPlayerListener gpl = new GlobalPlayerListener();
-        Bukkit.getPluginManager().registerEvents(gpl, r.getUC());
-        EventPriority p;
-        String s = r.getCnfg().getString("Command.Spawn.Priority");
-        if (s.equalsIgnoreCase("lowest")) {
-            p = EventPriority.LOWEST;
-        } else if (s.equalsIgnoreCase("high")) {
-            p = EventPriority.HIGH;
-        } else if (s.equalsIgnoreCase("highest")) {
-            p = EventPriority.HIGHEST;
-        } else {
-            r.log("Spawn priority is invalid.");
-            return;
-        }
-        Bukkit.getPluginManager().registerEvent(PlayerRespawnEvent.class, gpl, p, new EventExecutor() {
-            @Override
-            public void execute(Listener l, Event e) throws EventException {
-                gpl.onRespawn((PlayerRespawnEvent) e);
-            }
-        }, r.getUC());
-    }
-
     public void onRespawn(PlayerRespawnEvent e) {
         try {
             if (UC.getServer().getSpawn() != null) {
@@ -416,4 +416,5 @@ public class GlobalPlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: PlayerRespawnEvent");
         }
     }
+
 }

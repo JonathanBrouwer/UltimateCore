@@ -39,7 +39,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import static org.bukkit.event.entity.EntityDamageEvent.DamageCause.*;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.projectiles.ProjectileSource;
 
 public class DeathmessagesListener implements Listener {
 
@@ -51,7 +50,7 @@ public class DeathmessagesListener implements Listener {
     public void death(PlayerDeathEvent e) {
         Player p = e.getEntity().getPlayer();
         EntityDamageEvent damageEvent = p.getLastDamageCause();
-        if (e.getDeathMessage() == null || e.getDeathMessage().equalsIgnoreCase("")) {
+        if (damageEvent == null || e.getDeathMessage() == null || e.getDeathMessage().equalsIgnoreCase("")) {
             return;
         }
         if (damageEvent.getCause() != null) {

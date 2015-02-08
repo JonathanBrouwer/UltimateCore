@@ -34,7 +34,6 @@ import java.util.zip.ZipFile;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 /**

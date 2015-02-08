@@ -95,7 +95,7 @@ public class CmdSpawnmob implements UltimateCommand {
 
     static void utilize(String args, MobType mob, LivingEntity en, Player p) {
         for (String str : args.split("[: ]")) {
-            if (str.isEmpty()) {
+            if (str.isEmpty() || r.isInt(str)) {
                 continue;
             }
             MobData d = MobData.fromData(en, str);
@@ -319,7 +319,7 @@ public class CmdSpawnmob implements UltimateCommand {
         //Unstacked
         for (int i = 0; i < amount; i++) {
             try {
-                LivingEntity en = (LivingEntity) loc.getWorld().spawnEntity(loc, mob.getType());
+                Entity en = (Entity) loc.getWorld().spawnEntity(loc, mob.getType());
                 if (args[0].equals("witherskeleton")) {
                     Skeleton skel = (Skeleton) en;
                     skel.setSkeletonType(SkeletonType.WITHER);
@@ -328,7 +328,9 @@ public class CmdSpawnmob implements UltimateCommand {
                     invent.setItemInHandDropChance(0.09F);
                 }
                 defaultMobData(mob.getType(), en);
-                utilize(args, mob, en, p);
+                if (en instanceof LivingEntity) {
+                    utilize(args, mob, (LivingEntity) en, p);
+                }
             } catch (ClassCastException ex) {
                 ex.printStackTrace();
             }

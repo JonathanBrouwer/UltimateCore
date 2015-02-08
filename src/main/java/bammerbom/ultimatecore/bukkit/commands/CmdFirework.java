@@ -81,7 +81,7 @@ public class CmdFirework implements UltimateCommand {
                 try {
                     int power = Integer.parseInt(arg.split(":")[1]);
                     try {
-                        mStack.addFireworkMeta(cs, true, "power:" + power);
+                        mStack.addFireworkMeta(true, "power:" + power);
                     } catch (Exception e) {
                         r.sendMes(cs, "fireworkFailed");
                     }
@@ -94,7 +94,7 @@ public class CmdFirework implements UltimateCommand {
                 stack.setAmount(Integer.parseInt(arg));
             } else {
                 try {
-                    mStack.addFireworkMeta(p, true, arg);
+                    mStack.addFireworkMeta(true, arg);
                 } catch (Exception e) {
                     r.sendMes(cs, "fireworkFailed");
                     return;

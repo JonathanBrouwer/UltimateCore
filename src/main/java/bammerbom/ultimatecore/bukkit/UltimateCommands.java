@@ -96,6 +96,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdKickall());
         cmds.add(new CmdKill());
         cmds.add(new CmdKillall());
+        cmds.add(new CmdKit());
         cmds.add(new CmdKittycannon());
         cmds.add(new CmdLag());
         cmds.add(new CmdList());

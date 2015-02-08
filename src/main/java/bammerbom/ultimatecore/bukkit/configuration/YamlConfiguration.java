@@ -173,7 +173,7 @@ class YamlConfiguration extends FileConfiguration {
         }
     }
 
-    protected void convertMapsToSections(Map<?, ?> input, MemorySection section) {
+    protected void convertMapsToSections(Map<?, ?> input, ConfigSection section) {
         for (Map.Entry<?, ?> entry : input.entrySet()) {
             String key = entry.getKey().toString();
             Object value = entry.getValue();

@@ -31,7 +31,7 @@ import org.apache.commons.lang.Validate;
  * from any source, and stores all values in memory only. This is useful for
  * temporary Configurations for providing defaults.
  */
-class MemoryConfiguration extends MemorySection {
+class MemoryConfiguration extends ConfigSection {
 
     protected MemoryConfiguration defaults;
     protected MemoryConfigurationOptions options;
@@ -89,7 +89,7 @@ class MemoryConfiguration extends MemorySection {
     }
 
     @Override
-    public MemorySection getParent() {
+    public ConfigSection getParent() {
         return null;
     }
 
