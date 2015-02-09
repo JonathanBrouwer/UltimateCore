@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
 import java.lang.reflect.Field;
@@ -107,13 +108,10 @@ public class ItemUtil {
 
     public static String getName(ItemStack stack) {
         try {
-            if (r.getVault() != null) {
-                return StringUtil.firstUpperCase(Items.itemByStack(stack).getName().toLowerCase());
-            }
-            return StringUtil.firstUpperCase(ItemDatabase.getName(stack).toLowerCase());
+            return ReflectionUtil.execute("getName()", ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionStatic.fromOBC("inventory.CraftItemStack"), stack).fetch()).fetch().toString();
         } catch (Exception ex) {
-            r.debug("Failed to get " + stack.getType().name() + ":" + stack.getDurability() + " name.");
-            return StringUtil.firstUpperCase(stack.getType().name().toLowerCase().replaceAll("_", ""));
+            ErrorLogger.log(ex, "Failed to get item name.");
+            return "NAME";
         }
     }
 
