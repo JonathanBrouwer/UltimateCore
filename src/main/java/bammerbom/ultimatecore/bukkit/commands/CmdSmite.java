@@ -64,7 +64,7 @@ public class CmdSmite implements UltimateCommand {
                 return;
             }
             Location tPlayerLocation = target.getLocation();
-            if (r.getCnfg().getBoolean("command.Smite.smiteDamage") == false) {
+            if (r.getCnfg().getBoolean("Command.Smite.smiteDamage") == false) {
                 target.getWorld().strikeLightningEffect(tPlayerLocation);
             } else {
                 target.getWorld().strikeLightning(tPlayerLocation);
@@ -76,7 +76,7 @@ public class CmdSmite implements UltimateCommand {
             Player p = (Player) cs;
             Block strike = p.getTargetBlock(null, 150);
             Location strikel = strike.getLocation();
-            if (r.getCnfg().getBoolean("command.Smite.smiteDamage") == false) {
+            if (r.getCnfg().getBoolean("Command.Smite.smiteDamage") == false) {
                 p.getWorld().strikeLightningEffect(strikel);
             } else {
                 p.getWorld().strikeLightning(strikel);
