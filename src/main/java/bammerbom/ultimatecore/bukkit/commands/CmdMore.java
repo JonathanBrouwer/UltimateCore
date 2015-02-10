@@ -60,6 +60,7 @@ public class CmdMore implements UltimateCommand {
         Player p = (Player) cs;
         if (p.getItemInHand() == null || p.getItemInHand().getType() == null || p.getItemInHand().getType().equals(Material.AIR)) {
             r.sendMes(cs, "moreNothingInHand");
+            return;
         }
         p.getItemInHand().setAmount(64);
         r.sendMes(cs, "moreMessage");
