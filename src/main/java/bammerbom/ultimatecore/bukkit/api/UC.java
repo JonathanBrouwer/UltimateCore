@@ -56,7 +56,9 @@ public class UC {
             }
         }
         UPlayer pl = new UPlayer(p);
-        uplayers.add(pl);
+        if (pl.getPlayer().isOnline()) {
+            uplayers.add(pl);
+        }
         return pl;
     }
 
