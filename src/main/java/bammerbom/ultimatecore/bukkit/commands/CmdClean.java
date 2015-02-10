@@ -79,7 +79,7 @@ public class CmdClean implements UltimateCommand {
             Integer d = 0;
             for (Entity en : w.getEntities()) {
                 if (en instanceof Monster) {
-                    if (en.getTicksLived() > 200) {
+                    if (en.getTicksLived() > 200 && en.getCustomName() == null) {
                         en.playEffect(EntityEffect.DEATH);
                         en.remove();
                         e++;
