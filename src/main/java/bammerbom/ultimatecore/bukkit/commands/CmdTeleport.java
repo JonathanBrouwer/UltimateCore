@@ -121,10 +121,6 @@ public class CmdTeleport implements UltimateCommand {
             return;
             //Teleport others coords
         } else if (r.checkArgs(args, 1) == true && r.isDouble(args[1].replace("~", "")) && !(r.isDouble(args[0].replace("~", "")))) {
-            if (!r.isPlayer(cs)) {
-                return;
-            }
-            Player p = (Player) cs;
             if (!r.perm(cs, "uc.teleport.coords.others", false, true)) {
                 return;
             }
@@ -133,19 +129,19 @@ public class CmdTeleport implements UltimateCommand {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
-            World w = p.getWorld();
+            World w = t.getWorld();
             Double x = LocationUtil.getCoordinate(args[1], t.getLocation().getX());
             Double y;
             Double z;
             if (r.checkArgs(args, 3) == false) {
-                z = LocationUtil.getCoordinate(args[2], p.getLocation().getZ());
+                z = LocationUtil.getCoordinate(args[2], t.getLocation().getZ());
                 y = (double) w.getHighestBlockYAt(x.intValue(), z.intValue());
             } else {
-                y = LocationUtil.getCoordinate(args[2], p.getLocation().getY());
-                z = LocationUtil.getCoordinate(args[3], p.getLocation().getZ());
+                y = LocationUtil.getCoordinate(args[2], t.getLocation().getY());
+                z = LocationUtil.getCoordinate(args[3], t.getLocation().getZ());
             }
-            LocationUtil.teleport(p, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND, false);
-            LocationUtil.playEffect(p, new Location(w, x, y, z));
+            LocationUtil.teleport(t, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND, false);
+            LocationUtil.playEffect(t, new Location(w, x, y, z));
             r.sendMes(cs, "teleportMessage4", "%Player", t.getName(), "%x", x, "%y", y, "%z", z);
             return;
         } else {
