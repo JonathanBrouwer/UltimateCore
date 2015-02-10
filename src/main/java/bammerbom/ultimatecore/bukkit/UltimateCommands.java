@@ -219,7 +219,7 @@ public class UltimateCommands implements TabCompleter {
             }
         }
         if (!StringUtil.nullOrEmpty(args[args.length - 1])) {
-            Iterator<String> i = rtrn.iterator();
+            Iterator<String> i = (new ArrayList<>(rtrn)).iterator();
             while (i.hasNext()) {
                 String s = i.next();
                 if (!s.startsWith(args[args.length - 1])) {
