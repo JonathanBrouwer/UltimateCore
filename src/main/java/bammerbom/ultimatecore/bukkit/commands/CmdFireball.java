@@ -80,7 +80,6 @@ public class CmdFireball implements UltimateCommand {
         Projectile projectile = (Projectile) p.getWorld().spawn(p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), type);
         projectile.setShooter(p);
         projectile.setVelocity(direction);
-        projectile.setBounce(true);
     }
 
     @Override
