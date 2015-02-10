@@ -62,6 +62,9 @@ public class BloodListener implements Listener {
         if (r.getCnfg().getBoolean("Blood.Enabled") == false) {
             return;
         }
+        if (r.getOnlinePlayersL().isEmpty()) {
+            return;
+        }
         if (e.getEntity() instanceof Player || r.getCnfg().getBoolean("Blood.PlayersOnly") == false) {
             if (e.getEntity() instanceof Player) {
                 final Player p = (Player) e.getEntity();

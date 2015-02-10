@@ -529,6 +529,9 @@ public enum ParticleUtil {
      */
     private static boolean isLongDistance(Location location, List<Player> players) {
         for (Player player : players) {
+            if (!player.getWorld().equals(location.getWorld())) {
+                return true;
+            }
             if (player.getLocation().distanceSquared(location) < 65536) {
                 continue;
             }
@@ -710,7 +713,6 @@ public enum ParticleUtil {
      * Displays a single particle which flies into a determined direction and is
      * only visible for all players within a certain range in the world of
      *
-     * @param center
      * @param direction Direction of the particle
      * @param speed Display speed of the particle
      * @param center Center location of the effect
@@ -1721,7 +1723,6 @@ public enum ParticleUtil {
             }
         }
 
-
         /**
          * Represents a runtime exception that is thrown if a bukkit version is
          * not compatible with this library
@@ -1831,16 +1832,17 @@ final class ReflectionUtils {
      * @see DataType
      * @see DataType#getPrimitive(Class[])
      * @see DataType#compare(Class[], Class[])
-     */    public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... parameterTypes) throws NoSuchMethodException {
-         Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
-         for (Constructor<?> constructor : clazz.getConstructors()) {
-             if (!DataType.compare(DataType.getPrimitive(constructor.getParameterTypes()), primitiveTypes)) {
-                 continue;
-             }
-             return constructor;
-         }
-         throw new NoSuchMethodException("There is no such constructor in this class with the specified parameter types");
-     }
+     */
+    public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... parameterTypes) throws NoSuchMethodException {
+        Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
+        for (Constructor<?> constructor : clazz.getConstructors()) {
+            if (!DataType.compare(DataType.getPrimitive(constructor.getParameterTypes()), primitiveTypes)) {
+                continue;
+            }
+            return constructor;
+        }
+        throw new NoSuchMethodException("There is no such constructor in this class with the specified parameter types");
+    }
 
     /**
      * Returns the constructor of a desired class with the given parameter types
@@ -1857,8 +1859,8 @@ final class ReflectionUtils {
      * @see #getClass(String, PackageType)
      * @see #getConstructor(Class, Class...)
      */
-     public static Constructor<?> getConstructor(String className, PackageType packageType, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
-         return getConstructor(packageType.getClass(className), parameterTypes);
+    public static Constructor<?> getConstructor(String className, PackageType packageType, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
+        return getConstructor(packageType.getClass(className), parameterTypes);
     }
 
     /**
@@ -1880,8 +1882,8 @@ final class ReflectionUtils {
      * @throws NoSuchMethodException If the desired constructor with the
      * specified arguments cannot be found
      */
-     public static Object instantiateObject(Class<?> clazz, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
-         return getConstructor(clazz, DataType.getPrimitive(arguments)).newInstance(arguments);
+    public static Object instantiateObject(Class<?> clazz, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+        return getConstructor(clazz, DataType.getPrimitive(arguments)).newInstance(arguments);
     }
 
     /**
@@ -1909,8 +1911,8 @@ final class ReflectionUtils {
      * @see #getClass(String, PackageType)
      * @see #instantiateObject(Class, Object...)
      */
-     public static Object instantiateObject(String className, PackageType packageType, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
-         return instantiateObject(packageType.getClass(className), arguments);
+    public static Object instantiateObject(String className, PackageType packageType, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+        return instantiateObject(packageType.getClass(className), arguments);
     }
 
     /**
@@ -1926,15 +1928,15 @@ final class ReflectionUtils {
      * @see DataType#getPrimitive(Class[])
      * @see DataType#compare(Class[], Class[])
      */
-     public static Method getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
-         Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
-         for (Method method : clazz.getMethods()) {
-             if (!method.getName().equals(methodName) || !DataType.compare(DataType.getPrimitive(method.getParameterTypes()), primitiveTypes)) {
-                 continue;
-             }
-             return method;
-         }
-         throw new NoSuchMethodException("There is no such method in this class with the specified name and parameter types");
+    public static Method getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
+        Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
+        for (Method method : clazz.getMethods()) {
+            if (!method.getName().equals(methodName) || !DataType.compare(DataType.getPrimitive(method.getParameterTypes()), primitiveTypes)) {
+                continue;
+            }
+            return method;
+        }
+        throw new NoSuchMethodException("There is no such method in this class with the specified name and parameter types");
     }
 
     /**
@@ -1953,8 +1955,8 @@ final class ReflectionUtils {
      * @see #getClass(String, PackageType)
      * @see #getMethod(Class, String, Class...)
      */
-     public static Method getMethod(String className, PackageType packageType, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
-         return getMethod(packageType.getClass(className), methodName, parameterTypes);
+    public static Method getMethod(String className, PackageType packageType, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
+        return getMethod(packageType.getClass(className), methodName, parameterTypes);
     }
 
     /**
@@ -1976,8 +1978,8 @@ final class ReflectionUtils {
      * @see #getMethod(Class, String, Class...)
      * @see DataType#getPrimitive(Object[])
      */
-     public static Object invokeMethod(Object instance, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
-         return getMethod(instance.getClass(), methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
+    public static Object invokeMethod(Object instance, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+        return getMethod(instance.getClass(), methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
     }
 
     /**
@@ -2001,8 +2003,8 @@ final class ReflectionUtils {
      * @see #getMethod(Class, String, Class...)
      * @see DataType#getPrimitive(Object[])
      */
-     public static Object invokeMethod(Object instance, Class<?> clazz, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
-         return getMethod(clazz, methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
+    public static Object invokeMethod(Object instance, Class<?> clazz, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+        return getMethod(clazz, methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
     }
 
     /**
@@ -2028,8 +2030,8 @@ final class ReflectionUtils {
      * @see #getClass(String, PackageType)
      * @see #invokeMethod(Object, Class, String, Object...)
      */
-     public static Object invokeMethod(Object instance, String className, PackageType packageType, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
-         return invokeMethod(instance, packageType.getClass(className), methodName, arguments);
+    public static Object invokeMethod(Object instance, String className, PackageType packageType, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+        return invokeMethod(instance, packageType.getClass(className), methodName, arguments);
     }
 
     /**
@@ -2043,9 +2045,9 @@ final class ReflectionUtils {
      * cannot be found
      * @throws SecurityException If the desired field cannot be made accessible
      */
-     public static Field getField(Class<?> clazz, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException {
-         Field field = declared ? clazz.getDeclaredField(fieldName) : clazz.getField(fieldName);
-         field.setAccessible(true);
+    public static Field getField(Class<?> clazz, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException {
+        Field field = declared ? clazz.getDeclaredField(fieldName) : clazz.getField(fieldName);
+        field.setAccessible(true);
         return field;
     }
 
@@ -2064,8 +2066,8 @@ final class ReflectionUtils {
      * specified name and package cannot be found
      * @see #getField(Class, boolean, String)
      */
-     public static Field getField(String className, PackageType packageType, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException, ClassNotFoundException {
-         return getField(packageType.getClass(className), declared, fieldName);
+    public static Field getField(String className, PackageType packageType, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException, ClassNotFoundException {
+        return getField(packageType.getClass(className), declared, fieldName);
     }
 
     /**
@@ -2084,8 +2086,8 @@ final class ReflectionUtils {
      * @throws SecurityException If the desired field cannot be made accessible
      * @see #getField(Class, boolean, String)
      */
-     public static Object getValue(Object instance, Class<?> clazz, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-         return getField(clazz, declared, fieldName).get(instance);
+    public static Object getValue(Object instance, Class<?> clazz, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+        return getField(clazz, declared, fieldName).get(instance);
     }
 
     /**
@@ -2107,8 +2109,8 @@ final class ReflectionUtils {
      * specified name and package cannot be found
      * @see #getValue(Object, Class, boolean, String)
      */
-     public static Object getValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
-         return getValue(instance, packageType.getClass(className), declared, fieldName);
+    public static Object getValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
+        return getValue(instance, packageType.getClass(className), declared, fieldName);
     }
 
     /**
@@ -2127,8 +2129,8 @@ final class ReflectionUtils {
      * @throws SecurityException If the desired field cannot be made accessible
      * @see #getValue(Object, Class, boolean, String)
      */
-     public static Object getValue(Object instance, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-         return getValue(instance, instance.getClass(), declared, fieldName);
+    public static Object getValue(Object instance, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+        return getValue(instance, instance.getClass(), declared, fieldName);
     }
 
     /**
@@ -2147,8 +2149,8 @@ final class ReflectionUtils {
      * @throws SecurityException If the desired field cannot be made accessible
      * @see #getField(Class, boolean, String)
      */
-     public static void setValue(Object instance, Class<?> clazz, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-         getField(clazz, declared, fieldName).set(instance, value);
+    public static void setValue(Object instance, Class<?> clazz, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+        getField(clazz, declared, fieldName).set(instance, value);
     }
 
     /**
@@ -2170,8 +2172,8 @@ final class ReflectionUtils {
      * specified name and package cannot be found
      * @see #setValue(Object, Class, boolean, String, Object)
      */
-     public static void setValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
-         setValue(instance, packageType.getClass(className), declared, fieldName, value);
+    public static void setValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
+        setValue(instance, packageType.getClass(className), declared, fieldName, value);
     }
 
     /**
@@ -2189,12 +2191,11 @@ final class ReflectionUtils {
      * @throws SecurityException If the desired field cannot be made accessible
      * @see #setValue(Object, Class, boolean, String, Object)
      */
-     public static void setValue(Object instance, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-         setValue(instance, instance.getClass(), declared, fieldName, value);
+    public static void setValue(Object instance, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+        setValue(instance, instance.getClass(), declared, fieldName, value);
     }
 
-     // Prevent accidental construction
-
+    // Prevent accidental construction
     private ReflectionUtils() {
     }
 

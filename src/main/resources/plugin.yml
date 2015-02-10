@@ -487,7 +487,7 @@ commands:
   teleportask:
     usage: /<command> <Player>
     description: Ask to teleport to someone.
-    permissions: uc.teleport
+    permissions: uc.teleportask
     aliases: [tpa, call, tpask]
   teleportaskall:
     usage: /<command>
