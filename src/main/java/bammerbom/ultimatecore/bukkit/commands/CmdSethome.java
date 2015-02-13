@@ -85,7 +85,7 @@ public class CmdSethome implements UltimateCommand {
         if (multihomes != null) {
             for (String s : multihomes) {
                 if (r.perm(cs, "uc.sethome." + s.toLowerCase(), false, false)) {
-                    if (limit > r.getCnfg().getInt("Command.HomeLimits." + s)) {
+                    if (limit < r.getCnfg().getInt("Command.HomeLimits." + s)) {
                         limit = r.getCnfg().getInt("Command.HomeLimits." + s);
                     }
                 }
