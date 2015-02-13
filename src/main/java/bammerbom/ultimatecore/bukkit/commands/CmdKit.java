@@ -70,7 +70,6 @@ public class CmdKit implements UltimateCommand {
             }
             r.sendMes(cs, "kitList1");
             for (UKit kit : UC.getServer().getKits()) {
-                r.log(kit.getCooldown());
                 r.sendMes(cs, "kitList2", "%Kit", kit.getName(), "%Description", kit.getDescription());
                 if (kit.getCooldown() == 0) {
                     r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
