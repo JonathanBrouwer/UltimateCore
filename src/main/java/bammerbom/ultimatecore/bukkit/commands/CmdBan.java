@@ -77,7 +77,7 @@ public class CmdBan implements UltimateCommand {
                 reason = r.getFinalArg(args, 2);
             }
         }
-        String timen = DateUtil.format(time + System.currentTimeMillis());
+        String timen = DateUtil.format(time);
         if (time == 0) {
             timen = r.mes("banForever");
         } else {

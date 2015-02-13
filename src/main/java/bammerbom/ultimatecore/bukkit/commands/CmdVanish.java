@@ -76,7 +76,7 @@ public class CmdVanish implements UltimateCommand {
             }
             Player p = (Player) cs;
             UC.getPlayer(p).setVanish(true, t);
-            r.sendMes(cs, "vanishSelfT", "%Status", r.mes("on"), "%Time", DateUtil.format(t + System.currentTimeMillis()));
+            r.sendMes(cs, "vanishSelfT", "%Status", r.mes("on"), "%Time", DateUtil.format(t));
             return;
         }
         if (!r.perm(cs, "uc.vanish.others", false, true)) {
@@ -107,9 +107,9 @@ public class CmdVanish implements UltimateCommand {
                 r.sendMes((CommandSender) banp, "vanishOthersOtherMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")));
             }
         } else {
-            r.sendMes(cs, "vanishOthersSelfMessageT", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time + System.currentTimeMillis()));
+            r.sendMes(cs, "vanishOthersSelfMessageT", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
             if (banp.isOnline()) {
-                r.sendMes((CommandSender) banp, "vanishOthersOtherMessageT", "%Player", cs.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time + System.currentTimeMillis()));
+                r.sendMes((CommandSender) banp, "vanishOthersOtherMessageT", "%Player", cs.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
             }
         }
         return;

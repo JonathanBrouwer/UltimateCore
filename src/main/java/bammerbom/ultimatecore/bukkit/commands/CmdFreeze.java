@@ -80,7 +80,7 @@ public class CmdFreeze implements UltimateCommand {
         if (time == 0L) {
             r.sendMes(cs, "freezeMessage", "%Player", t.getName());
         } else {
-            r.sendMes(cs, "freezeMessageTime", "%Player", t.getName(), "%Time", DateUtil.format(time + System.currentTimeMillis()));
+            r.sendMes(cs, "freezeMessageTime", "%Player", t.getName(), "%Time", DateUtil.format(time));
         }
         if (t.isOnline()) {
             Player banp2 = (Player) t;

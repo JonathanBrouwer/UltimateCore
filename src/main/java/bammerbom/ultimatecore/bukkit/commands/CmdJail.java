@@ -115,10 +115,10 @@ public class CmdJail implements UltimateCommand {
             Location loc = UC.getServer().getJail(jail);
             if (pl.isOnline()) {
                 LocationUtil.teleportUnsafe(pl.getPlayer(), loc, TeleportCause.PLUGIN, true);
-                r.sendMes(pl.getPlayer(), "jailTarget", "%Time", time != -1L ? DateUtil.format(time + System.currentTimeMillis()) : r.mes("jailEver"));
+                r.sendMes(pl.getPlayer(), "jailTarget", "%Time", time != -1L ? DateUtil.format(time) : r.mes("jailEver"));
             }
             pu.jail(jail, time);
-            r.sendMes(cs, "jailSender", "%Jail", jail, "%Player", pl.getName(), "%Time", time != -1L ? DateUtil.format(time + System.currentTimeMillis()) : r.mes("jailEver"));
+            r.sendMes(cs, "jailSender", "%Jail", jail, "%Player", pl.getName(), "%Time", time != -1L ? DateUtil.format(time) : r.mes("jailEver"));
         }
 
     }

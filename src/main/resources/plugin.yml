@@ -264,7 +264,7 @@ commands:
     usage: /<command> [Kit]
     description: Give yourself a kit, or view the list of kits.
     permissions: uc.kit
-    aliases: [kits]
+    aliases: [kits, kitlist]
   kittycannon:
     usage: /<command>
     description: Summon an exploding ocelot.

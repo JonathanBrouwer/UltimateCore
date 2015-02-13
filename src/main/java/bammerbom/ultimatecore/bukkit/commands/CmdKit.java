@@ -30,7 +30,9 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.configuration.ConfigSection;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +55,7 @@ public class CmdKit implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("kits");
+        return Arrays.asList("kits", "kitlist");
     }
 
     @Override
@@ -62,7 +64,27 @@ public class CmdKit implements UltimateCommand {
             if (!r.perm(cs, "uc.kit", true, true)) {
                 return;
             }
-            r.sendMes(cs, "kitList", "%Kits", StringUtil.joinList(UC.getServer().getKitNames()));
+            if (UC.getServer().getKits().isEmpty()) {
+                r.sendMes(cs, "kitNoFound");
+                return;
+            }
+            r.sendMes(cs, "kitList1");
+            for (UKit kit : UC.getServer().getKits()) {
+                r.log(kit.getCooldown());
+                r.sendMes(cs, "kitList2", "%Kit", kit.getName(), "%Description", kit.getDescription());
+                if (kit.getCooldown() == 0) {
+                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
+                } else if (kit.getCooldown() == -1) {
+                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitOnlyOnce"));
+                } else {
+                    r.sendMes(cs, "kitList3", "%Cooldown", DateUtil.format(kit.getCooldown()));
+                }
+                List<String> items = new ArrayList<>();
+                for (ItemStack item : kit.getItems()) {
+                    items.add(ItemUtil.getName(item));
+                }
+                r.sendMes(cs, "kitList4", "%Items", StringUtil.joinList(items));
+            }
             return;
         }
         if (!r.perm(cs, "uc.kit", true, false) && !r.perm(cs, "uc.kit." + args[0], true, false)) {

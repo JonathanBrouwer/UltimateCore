@@ -54,7 +54,7 @@ public class UKit {
         this.name = name;
         this.kit = kits.getConfigurationSection(name);
         this.items = getItemStacks(kit.getMapList("items"));
-        this.cooldown = DateUtil.timeFormatToSeconds(kit.getString("cooldown", "0"));
+        this.cooldown = DateUtil.parseDateDiff(kit.getString("cooldown", "0"));
         this.description = ChatColor.translateAlternateColorCodes('&', kit.getString("description", ""));
     }
 
