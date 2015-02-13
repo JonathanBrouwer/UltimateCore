@@ -319,7 +319,7 @@ public class CmdSpawnmob implements UltimateCommand {
         //Unstacked
         for (int i = 0; i < amount; i++) {
             try {
-                Entity en = (Entity) loc.getWorld().spawnEntity(loc, mob.getType());
+                Entity en = loc.getWorld().spawnEntity(loc, mob.getType());
                 if (args[0].equals("witherskeleton")) {
                     Skeleton skel = (Skeleton) en;
                     skel.setSkeletonType(SkeletonType.WITHER);

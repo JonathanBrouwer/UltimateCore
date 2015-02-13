@@ -101,7 +101,7 @@ public class UKit {
             is.setAmount((int) item.get("amount"));
         }
         if (item.containsKey("damage")) {
-            is.setDurability(((Integer) item.get("damage")).shortValue());
+            is.setDurability(((Number) item.get("damage")).shortValue());
         }
         MetaItemStack ism = new MetaItemStack(is);
         for (String s : item.keySet()) {

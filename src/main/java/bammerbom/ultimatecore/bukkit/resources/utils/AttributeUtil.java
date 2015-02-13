@@ -1021,7 +1021,7 @@ class NbtFactory {
      * @return The corresponding type.
      */
     private NbtType getNbtType(Object nms) {
-        int type = (Byte) invokeMethod(NBT_GET_TYPE, nms);
+        int type = (int) invokeMethod(NBT_GET_TYPE, nms);
         return NBT_ENUM.get(type);
     }
 
@@ -1194,8 +1194,7 @@ class NbtFactory {
         // Modification
         @Override
         public Object put(String key, Object value) {
-            return wrapOutgoing(original.put(
-                    (String) key,
+            return wrapOutgoing(original.put(key,
                     unwrapIncoming(value)
             ));
         }
