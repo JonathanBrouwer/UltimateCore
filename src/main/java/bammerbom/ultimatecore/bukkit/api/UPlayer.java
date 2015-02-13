@@ -745,6 +745,10 @@ public class UPlayer {
             if (getPlayer().isOnline()) {
                 getPlayer().getPlayer().setDisplayName(nickname.replace("&y", ""));
             }
+        } else {
+            if (getPlayer().isOnline()) {
+                getPlayer().getPlayer().setDisplayName(getPlayer().getPlayer().getName());
+            }
         }
         Config data = getPlayerConfig();
         data.set("nick", str);
