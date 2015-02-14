@@ -728,7 +728,7 @@ public class UPlayer {
         }
         String nick = ChatColor.translateAlternateColorCodes('&', data.getString("nick"));
         if (getPlayer().isOnline()) {
-            getPlayer().getPlayer().setDisplayName(nickname.replace("&y", ""));
+            getPlayer().getPlayer().setDisplayName(nick.replace("&y", ""));
         }
         if (getPlayer().isOnline() && r.perm((CommandSender) getPlayer(), "uc.chat.rainbow", false, false)) {
             nick = nick.replaceAll("&y", r.getRandomChatColor() + "");
