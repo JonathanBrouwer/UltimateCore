@@ -97,7 +97,7 @@ public class CmdTeleport implements UltimateCommand {
             p.openInventory(inv);
             return;
             //Teleport self coords
-        } else if (r.isDouble(args[0].replace("~", ""))) {
+        } else if (r.isDouble(args[0].replace("~", "")) || args[0].replace("~", "").isEmpty()) {
             if (!r.isPlayer(cs)) {
                 return;
             }
@@ -120,7 +120,7 @@ public class CmdTeleport implements UltimateCommand {
             r.sendMes(cs, "teleportMessage3", "%x", x, "%y", y, "%z", z);
             return;
             //Teleport others coords
-        } else if (r.checkArgs(args, 1) == true && r.isDouble(args[1].replace("~", "")) && !(r.isDouble(args[0].replace("~", "")))) {
+        } else if (r.checkArgs(args, 1) == true && (r.isDouble(args[1].replace("~", "")) || args[1].replace("~", "").isEmpty()) && (!r.isDouble(args[0].replace("~", "")) && !args[0].replace("~", "").isEmpty())) {
             if (!r.perm(cs, "uc.teleport.coords.others", false, true)) {
                 return;
             }
