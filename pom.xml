@@ -4,11 +4,11 @@
     <description>All you need to setup a server and more!</description>
     <groupId>bammerbom</groupId>
     <artifactId>UltimateCore</artifactId>
-    <version>2.0.2</version>
+    <version>2.0.3</version>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <build>
-        <finalName>UltimateCore-without-dependencies</finalName>
+        <finalName>UltimateCore</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>
@@ -30,6 +30,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.5</version>
                 <configuration>
+                    <finalName>UltimateCore</finalName>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
