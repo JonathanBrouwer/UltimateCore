@@ -469,6 +469,10 @@ commands:
     description: Toggle spymode for yourself.
     permissions: uc.spy
     aliases: [socialspy]
+  sudo:
+    usage: /<command> <Player> <Command>
+    description: Force a player to run a command.
+    permissions: uc.sudo
   teleport:
     usage: /<command> [Player] <Player> OR [Player] <X> [Y] <Z>
     description: Teleport yourself or someone else.
