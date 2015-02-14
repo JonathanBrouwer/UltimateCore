@@ -258,7 +258,7 @@ public class InventoryUtil implements Listener {
                 } else if (itemAttribute[0].equals("a") && createdItemStack) {
                     is.setAmount(Integer.valueOf(itemAttribute[1]));
                 } else if (itemAttribute[0].equals("e") && createdItemStack) {
-                    is.addEnchantment(Enchantment.getById(Integer.valueOf(itemAttribute[1])), Integer.valueOf(itemAttribute[2]));
+                    is.addUnsafeEnchantment(Enchantment.getById(Integer.valueOf(itemAttribute[1])), Integer.valueOf(itemAttribute[2]));
                 }
             }
             deserializedInventory.setItem(stackPosition, is);
