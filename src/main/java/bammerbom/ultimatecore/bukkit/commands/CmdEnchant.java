@@ -89,7 +89,7 @@ public class CmdEnchant implements UltimateCommand {
             stack.removeEnchantment(ench);
         } else {
             MetaItemStack stack2 = new MetaItemStack(stack);
-            stack2.addEnchantment(r.perm(cs, "uc.enchant.unsafe", false, false), ench, level);
+            stack2.addEnchantment(cs, r.perm(cs, "uc.enchant.unsafe", false, false), ench, level);
             p.setItemInHand(stack2.getItemStack());
         }
         r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());

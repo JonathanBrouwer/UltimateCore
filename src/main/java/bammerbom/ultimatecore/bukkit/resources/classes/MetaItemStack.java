@@ -39,7 +39,6 @@ import java.util.regex.Pattern;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionEffect;
@@ -371,7 +370,7 @@ public class MetaItemStack {
             stack.setAmount(Integer.parseInt(split[1]));
         } else {
             try {
-                parseEnchantmentStrings(allowUnsafe, split);
+                parseEnchantmentStrings(cs, allowUnsafe, split);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -495,7 +494,7 @@ public class MetaItemStack {
         }
     }
 
-    private void parseEnchantmentStrings(boolean allowUnsafe, String[] split) throws Exception {
+    private void parseEnchantmentStrings(CommandSender cs, boolean allowUnsafe, String[] split) throws Exception {
         Enchantment enchantment = EnchantmentDatabase.getByName(split[0]);
         if ((enchantment == null)) {
             return;
@@ -513,36 +512,38 @@ public class MetaItemStack {
         if ((level < 0) || ((!allowUnsafe) && (level > enchantment.getMaxLevel()))) {
             level = enchantment.getMaxLevel();
         }
-        addEnchantment(allowUnsafe, enchantment, level);
+        addEnchantment(cs, allowUnsafe, enchantment, level);
     }
 
-    public void addEnchantment(boolean allowUnsafe, Enchantment enchantment, int level) {
+    public void addEnchantment(CommandSender cs, boolean allowUnsafe, Enchantment enchantment, int level) {
         if (enchantment == null) {
             return;
         }
-        try {
-            if (this.stack.getType().equals(Material.ENCHANTED_BOOK)) {
-                EnchantmentStorageMeta meta = (EnchantmentStorageMeta) this.stack.getItemMeta();
-                if (level == 0) {
-                    meta.removeStoredEnchant(enchantment);
-                } else {
-                    meta.addStoredEnchant(enchantment, level, allowUnsafe);
-                }
-                this.stack.setItemMeta(meta);
-            } else if (level == 0) {
-                this.stack.removeEnchantment(enchantment);
-            } else if (allowUnsafe) {
-                this.stack.addUnsafeEnchantment(enchantment, level);
-            } else {
-                this.stack.addEnchantment(enchantment, level);
-            }
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (this.stack.getType().equals(Material.ENCHANTED_BOOK)) {
+            EnchantmentStorageMeta meta = (EnchantmentStorageMeta) this.stack.getItemMeta();
+            if (level == 0) {
+                meta.removeStoredEnchant(enchantment);
+            } else {
+                meta.addStoredEnchant(enchantment, level, allowUnsafe);
+            }
+            this.stack.setItemMeta(meta);
+        } else if (level == 0) {
+            this.stack.removeEnchantment(enchantment);
+        } else if (allowUnsafe) {
+            this.stack.addUnsafeEnchantment(enchantment, level);
+        } else {
+            try {
+                this.stack.addEnchantment(enchantment, level);
+            } catch (IllegalArgumentException e) {
+                if (cs != null) {
+                    r.sendMes(cs, "enchantUnsafe");
+                }
+            }
         }
     }
 
-    public Enchantment getEnchantment(Player user, String name) throws Exception {
+    public Enchantment getEnchantment(String name) throws Exception {
         Enchantment enchantment = EnchantmentDatabase.getByName(name);
         return enchantment;
     }
