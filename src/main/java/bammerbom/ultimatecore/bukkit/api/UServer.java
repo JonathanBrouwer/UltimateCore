@@ -563,4 +563,12 @@ public class UServer {
     public List<String> getKitNames() {
         return new ArrayList<>(new Config(UltimateFileLoader.DFkits).getKeys(false));
     }
+
+    public boolean isDebug() {
+        return r.isDebug();
+    }
+
+    public static void setDebug(Boolean value) {
+        r.setDebug(value);
+    }
 }

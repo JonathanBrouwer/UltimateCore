@@ -191,14 +191,18 @@ public class r {
 
     private static boolean perm(Player p, String perm, Boolean def) {
         if (p.isOp()) {
+            r.debug("Checked " + p.getName() + " for " + perm + ", returned true. (1)");
             return true;
         }
         if (r.getVault() != null && r.getVault().getPermission() != null && !r.getVault().getPermission().getName().equals("SuperPerms")) {
+            r.debug("Checked " + p.getName() + " for " + perm + ", returned " + r.getVault().getPermission().has(p, perm) + ". (2)");
             return r.getVault().getPermission().has(p, perm);
         } else {
             if (def == true) {
+                r.debug("Checked " + p.getName() + " for " + perm + ", returned true. (3)");
                 return true;
             }
+            r.debug("Checked " + p.getName() + " for " + perm + ", returned " + p.hasPermission(perm) + ". (4)");
             return p.hasPermission(perm);
         }
     }
@@ -291,6 +295,14 @@ public class r {
         }
         log(ChatColor.WHITE + message.toString());
         //
+    }
+
+    public static boolean isDebug() {
+        return debug;
+    }
+
+    public static void setDebug(Boolean value) {
+        debug = value;
     }
 
     @SuppressWarnings("deprecation")
