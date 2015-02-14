@@ -87,12 +87,22 @@ public class CmdEnchant implements UltimateCommand {
         }
         if (level == 0) {
             stack.removeEnchantment(ench);
+            r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
         } else {
-            MetaItemStack stack2 = new MetaItemStack(stack);
-            stack2.addEnchantment(cs, r.perm(cs, "uc.enchant.unsafe", false, false), ench, level);
-            p.setItemInHand(stack2.getItemStack());
+            try {
+                MetaItemStack stack2 = new MetaItemStack(stack);
+                stack2.addEnchantment(cs, r.perm(cs, "uc.enchant.unsafe", false, false), ench, level);
+                p.setItemInHand(stack2.getItemStack());
+                r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
+            } catch (IllegalArgumentException ex) {
+                if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or too high")) {
+                    r.sendMes(cs, "enchantUnsafe");
+                    return;
+                }
+                return;
+            }
         }
-        r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
+
     }
 
     @Override

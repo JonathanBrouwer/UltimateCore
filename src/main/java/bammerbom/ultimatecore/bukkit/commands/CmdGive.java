@@ -105,11 +105,19 @@ public class CmdGive implements UltimateCommand {
                     if (s.startsWith("\\{")) {
                         item = Bukkit.getUnsafe().modifyItemStack(item, s);
                     } else {
-                        meta.parseStringMeta(cs, r.perm(cs, "uc.give.unsafe", false, false), args, metaStart);
+                        try {
+                            meta.parseStringMeta(cs, r.perm(cs, "uc.give.unsafe", false, false), args, metaStart);
+                        } catch (IllegalArgumentException ex) {
+                            if (ex.getMessage() != null && (ex.getMessage().contains("Enchantment level is either too low or too high") || ex.getMessage().contains("Specified enchantment cannot be applied"))) {
+                                r.sendMes(cs, "enchantUnsafe");
+                            }
+                            return;
+                        }
                         item = meta.getItemStack();
                     }
                 } catch (Exception e) {
                     r.sendMes(cs, "giveMetadataFailed");
+                    return;
                 }
             }
         }

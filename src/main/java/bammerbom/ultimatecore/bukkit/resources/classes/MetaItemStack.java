@@ -109,7 +109,7 @@ public class MetaItemStack {
     }
 
     @SuppressWarnings("deprecation")
-    public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] string, int fromArg) {
+    public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception {
         if (string[fromArg].startsWith("{")) {
             this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
         } else {
@@ -126,7 +126,7 @@ public class MetaItemStack {
     }
 
     @SuppressWarnings({"unchecked"})
-    public void addStringMeta(CommandSender cs, boolean allowUnsafe, String string) {
+    public void addStringMeta(CommandSender cs, boolean allowUnsafe, String string) throws Exception {
         String[] split = this.splitPattern.split(string, 2);
         if (split.length < 1) {
             return;
@@ -203,17 +203,9 @@ public class MetaItemStack {
             meta.setPower(power > 3 ? 4 : power);
             this.stack.setItemMeta(meta);
         } else if (this.stack.getType() == Material.FIREWORK) {
-            try {
-                addFireworkMeta(false, string);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            addFireworkMeta(false, string);
         } else if (this.stack.getType() == Material.POTION) {
-            try {
-                addPotionMeta(false, string);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            addPotionMeta(false, string);
         } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour"))) && ((this.stack.getType() == Material.LEATHER_BOOTS) || (this.stack.getType() == Material.LEATHER_CHESTPLATE) || (this.stack.getType() == Material.LEATHER_HELMET) || (this.stack.getType() == Material.LEATHER_LEGGINGS))) {
             String[] color = split[1].split("(\\||,)");
             if (color.length == 3) {
@@ -265,18 +257,13 @@ public class MetaItemStack {
                 }
                 s.append("\"" + ItemUtil.getID(i.getType()) + "\"");
             }
-            //test
-            try {
-                ItemMeta meta = stack.getItemMeta();
-                Map<String, Object> m = (Map<String, Object>) ReflectionUtil.execute("unhandledTags", meta).fetch();
-                ReflectionObject nc = ReflectionUtil.executeStatic("parse({1})", ReflectionStatic.fromNMS("MojangsonParser"), "{CanPlaceOn:[" + s.toString() + "]}");
-                m.put("CanPlaceOn", ReflectionUtil.execute("get({1})", nc.fetch(), "CanPlaceOn").fetch());
-                ReflectionObject ro = new ReflectionObject(meta);
-                ro.set("unhandledTags", m);
-                stack.setItemMeta(ro.fetchAs(ItemMeta.class));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            ItemMeta meta = stack.getItemMeta();
+            Map<String, Object> m = (Map<String, Object>) ReflectionUtil.execute("unhandledTags", meta).fetch();
+            ReflectionObject nc = ReflectionUtil.executeStatic("parse({1})", ReflectionStatic.fromNMS("MojangsonParser"), "{CanPlaceOn:[" + s.toString() + "]}");
+            m.put("CanPlaceOn", ReflectionUtil.execute("get({1})", nc.fetch(), "CanPlaceOn").fetch());
+            ReflectionObject ro = new ReflectionObject(meta);
+            ro.set("unhandledTags", m);
+            stack.setItemMeta(ro.fetchAs(ItemMeta.class));
         } else if (split.length > 1 && (split[0].equalsIgnoreCase("candestroy") || split[0].equalsIgnoreCase("canbreak"))) {
             List<ItemStack> c = new ArrayList<>();
             if (split[1].contains(",")) {
@@ -307,17 +294,13 @@ public class MetaItemStack {
                 }
                 s.append("\"" + ItemUtil.getID(i.getType()) + "\"");
             }
-            try {
-                ItemMeta meta = stack.getItemMeta();
-                Map<String, Object> m = (Map<String, Object>) ReflectionUtil.execute("unhandledTags", meta).fetch();
-                ReflectionObject nc = ReflectionUtil.executeStatic("parse({1})", ReflectionStatic.fromNMS("MojangsonParser"), "{CanDestroy:[" + s.toString() + "]}");
-                m.put("CanDestroy", ReflectionUtil.execute("get({1})", nc.fetch(), "CanDestroy").fetch());
-                ReflectionObject ro = new ReflectionObject(meta);
-                ro.set("unhandledTags", m);
-                stack.setItemMeta(ro.fetchAs(ItemMeta.class));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            ItemMeta meta = stack.getItemMeta();
+            Map<String, Object> m = (Map<String, Object>) ReflectionUtil.execute("unhandledTags", meta).fetch();
+            ReflectionObject nc = ReflectionUtil.executeStatic("parse({1})", ReflectionStatic.fromNMS("MojangsonParser"), "{CanDestroy:[" + s.toString() + "]}");
+            m.put("CanDestroy", ReflectionUtil.execute("get({1})", nc.fetch(), "CanDestroy").fetch());
+            ReflectionObject ro = new ReflectionObject(meta);
+            ro.set("unhandledTags", m);
+            stack.setItemMeta(ro.fetchAs(ItemMeta.class));
         } else if (split.length > 1 && (split[0].equalsIgnoreCase("hidetags")) || split[0].equalsIgnoreCase("hideflags")) {
             Integer i = 0;
             if (split[1].contains(",")) {
@@ -355,25 +338,17 @@ public class MetaItemStack {
                     i += Integer.parseInt(split[1]);
                 }
             }
-            try {
-                ItemMeta meta = stack.getItemMeta();
-                Map<String, Object> m = (Map<String, Object>) ReflectionUtil.execute("unhandledTags", meta).fetch();
-                ReflectionObject nc = ReflectionUtil.executeStatic("parse({1})", ReflectionStatic.fromNMS("MojangsonParser"), "{HideFlags:" + i + "}");
-                m.put("HideFlags", ReflectionUtil.execute("get({1})", nc.fetch(), "HideFlags").fetch());
-                ReflectionObject ro = new ReflectionObject(meta);
-                ro.set("unhandledTags", m);
-                stack.setItemMeta(ro.fetchAs(ItemMeta.class));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            ItemMeta meta = stack.getItemMeta();
+            Map<String, Object> m = (Map<String, Object>) ReflectionUtil.execute("unhandledTags", meta).fetch();
+            ReflectionObject nc = ReflectionUtil.executeStatic("parse({1})", ReflectionStatic.fromNMS("MojangsonParser"), "{HideFlags:" + i + "}");
+            m.put("HideFlags", ReflectionUtil.execute("get({1})", nc.fetch(), "HideFlags").fetch());
+            ReflectionObject ro = new ReflectionObject(meta);
+            ro.set("unhandledTags", m);
+            stack.setItemMeta(ro.fetchAs(ItemMeta.class));
         } else if (split[0].equalsIgnoreCase("size") && split.length > 1 && r.isInt(split[1])) {
             stack.setAmount(Integer.parseInt(split[1]));
         } else {
-            try {
-                parseEnchantmentStrings(cs, allowUnsafe, split);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            parseEnchantmentStrings(cs, allowUnsafe, split);
         }
 
     }
@@ -533,13 +508,7 @@ public class MetaItemStack {
         } else if (allowUnsafe) {
             this.stack.addUnsafeEnchantment(enchantment, level);
         } else {
-            try {
-                this.stack.addEnchantment(enchantment, level);
-            } catch (IllegalArgumentException e) {
-                if (cs != null) {
-                    r.sendMes(cs, "enchantUnsafe");
-                }
-            }
+            this.stack.addEnchantment(enchantment, level);
         }
     }
 
@@ -547,4 +516,5 @@ public class MetaItemStack {
         Enchantment enchantment = EnchantmentDatabase.getByName(name);
         return enchantment;
     }
+
 }

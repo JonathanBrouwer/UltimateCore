@@ -77,11 +77,20 @@ public class CmdModify implements UltimateCommand {
                 stack = Bukkit.getUnsafe().modifyItemStack(stack, s);
             } else {
                 MetaItemStack meta = new MetaItemStack(stack);
-                meta.parseStringMeta(cs, r.perm(cs, "uc.modify.unsafe", false, false), args, 0);
+                try {
+                    meta.parseStringMeta(cs, r.perm(cs, "uc.modify.unsafe", false, false), args, 0);
+                } catch (IllegalArgumentException ex) {
+                    if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or too high")) {
+                        r.sendMes(cs, "enchantUnsafe");
+                        return;
+                    }
+                    return;
+                }
                 stack = meta.getItemStack();
             }
         } catch (Exception e) {
             r.sendMes(cs, "giveMetadataFailed");
+            return;
         }
         p.setItemInHand(stack);
         r.sendMes(cs, "modifyMessage");
