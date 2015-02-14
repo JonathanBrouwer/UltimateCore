@@ -280,13 +280,12 @@ public class r {
     }
 
     public static void log(Object message) {
+        String logo = ChatColor.translateAlternateColorCodes('&', "&9[&bUC&9]&r");
         if (message == null) {
             r.log("null");
             return;
         }
-        String logo = ChatColor.translateAlternateColorCodes('&', "&9[&bUC&9]&r");
         Bukkit.getConsoleSender().sendMessage(logo + " " + ChatColor.YELLOW + message.toString());
-        //
     }
 
     public static void debug(Object message) {
