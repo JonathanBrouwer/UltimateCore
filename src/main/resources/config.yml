@@ -1,4 +1,4 @@
-#Enable Automatic Updater???
+﻿#Enable Automatic Updater???
 Updater:
   #Check for updates? (Set to false to totaly disable the Updater (And /uc update))
   check: true

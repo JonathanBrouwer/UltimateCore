@@ -1,4 +1,4 @@
-&4Server rules:
+﻿&4Server rules:
 &6- Be awesome
 &6- Do not grief
 &6- Have fun!
