@@ -155,12 +155,14 @@ class HelpInput
                             } else if (value.containsKey("permissions")) {
                                 permissions = value.get("permissions");
                             }
+                            if (k == null || k.getKey() == null || value == null || value.get("description") == null) {
+                                continue;
+                            }
                             if (permissions == null || r.perm(user, permissions.toString(), false, false)) {
                                 pluginLines.add(r.mes("helpCommand", "%Command", "/" + k.getKey(), "%Description", value.get("description")));
                             }
                         }
                     } catch (NullPointerException ex) {
-                        ex.printStackTrace();
                     }
                 }
 
