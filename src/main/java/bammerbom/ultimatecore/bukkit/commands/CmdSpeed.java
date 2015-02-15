@@ -79,7 +79,7 @@ public class CmdSpeed implements UltimateCommand {
             return;
         }
         if (!r.isFloat(args[0])) {
-            if (r.isFloat(args[1])) {
+            if (r.checkArgs(args, 1) && r.isFloat(args[1])) {
                 run(cs, label, new String[]{args[1], args[0]});
                 return;
             }
