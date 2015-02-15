@@ -134,6 +134,9 @@ public class LocationUtil {
         int origX = x;
         int origY = y;
         int origZ = z;
+        if (y > 256) {
+            y = 256;
+        }
         while (isBlockAboveAir(world, x, y, z)) {
             y--;
             if (y < 0) {
@@ -158,13 +161,18 @@ public class LocationUtil {
             y = origY + VOLUME[i].y;
             z = origZ + VOLUME[i].z;
         }
+        if (y > 0) {
+            y = 0;
+        }
         while (isBlockUnsafe(world, x, y, z)) {
             y++;
             if (y >= world.getMaxHeight()) {
                 x++;
             }
         }
-
+        if (y > 256) {
+            y = 256;
+        }
         while (isBlockUnsafe(world, x, y, z)) {
             y--;
             if (y <= 1) {
