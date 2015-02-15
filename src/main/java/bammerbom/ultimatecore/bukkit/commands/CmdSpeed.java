@@ -68,9 +68,6 @@ public class CmdSpeed implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
-            return;
-        }
         if (!r.perm(cs, "uc.speed", false, true)) {
             return;
         }
@@ -86,13 +83,16 @@ public class CmdSpeed implements UltimateCommand {
             r.sendMes(cs, "speedUsage");
             return;
         }
-        Player p = (Player) cs;
         Float d = Float.parseFloat(args[0]);
         if (d > 10 || d < 0) {
             r.sendMes(cs, "speedUsage");
             return;
         }
         if (r.checkArgs(args, 1) == false) {
+            if (!r.isPlayer(cs)) {
+                return;
+            }
+            Player p = (Player) cs;
             p.setFlySpeed(getSpeed(d, true));
             p.setWalkSpeed(getSpeed(d, false));
             r.sendMes(cs, "speedSelf", "%Speed", args[0]);
