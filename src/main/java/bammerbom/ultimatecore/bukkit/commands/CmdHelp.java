@@ -146,23 +146,20 @@ class HelpInput
                 }
 
                 for (Map.Entry k : cmds.entrySet()) {
-                    try {
-                        if ((pluginNameLow.contains(match)) || (((String) k.getKey()).toLowerCase(Locale.ENGLISH).contains(match))) {
-                            Map value = (Map) k.getValue();
-                            Object permissions = null;
-                            if (value.containsKey("permission")) {
-                                permissions = value.get("permission");
-                            } else if (value.containsKey("permissions")) {
-                                permissions = value.get("permissions");
-                            }
-                            if (k == null || k.getKey() == null || value == null || value.get("description") == null) {
-                                continue;
-                            }
-                            if (permissions == null || r.perm(user, permissions.toString(), false, false)) {
-                                pluginLines.add(r.mes("helpCommand", "%Command", "/" + k.getKey(), "%Description", value.get("description")));
-                            }
+                    if ((pluginNameLow.contains(match)) || (((String) k.getKey()).toLowerCase(Locale.ENGLISH).contains(match))) {
+                        Map value = (Map) k.getValue();
+                        Object permissions = null;
+                        if (value.containsKey("permission")) {
+                            permissions = value.get("permission");
+                        } else if (value.containsKey("permissions")) {
+                            permissions = value.get("permissions");
                         }
-                    } catch (NullPointerException ex) {
+                        if (k.getKey() == null || value.get("description") == null) {
+                            continue;
+                        }
+                        if (permissions == null || r.perm(user, permissions.toString(), false, false)) {
+                            pluginLines.add(r.mes("helpCommand", "%Command", "/" + k.getKey(), "%Description", value.get("description")));
+                        }
                     }
                 }
 
