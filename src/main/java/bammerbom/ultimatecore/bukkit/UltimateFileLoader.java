@@ -25,10 +25,8 @@ package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.bukkit.resources.utils.StreamUtil;
 import java.io.*;
 import java.util.*;
-import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.MemorySection;
@@ -181,76 +179,6 @@ public class UltimateFileLoader {
             if (tempFile != null) {
                 tempFile.delete();
             }
-        }
-        //LANG
-        try {
-            File tempFile;
-            try {
-                tempFile = File.createTempFile("temp_EN", ".properties");
-            } catch (IOException ex) {
-                ErrorLogger.log(ex, "Failed to create temp language file.");
-                return;
-            }
-            try (FileOutputStream out = new FileOutputStream(tempFile);
-                    InputStream in = r.getUC().getResource("Messages/EN.properties")) {
-                tempFile.deleteOnExit();
-                copy(in, out);
-                in.close();
-                out.close();
-            } catch (IOException ex) {
-                ErrorLogger.log(ex, "Failed to complete language file.");
-            }
-            ResourceBundle tempR;
-            try {
-                tempR = new PropertyResourceBundle(new FileInputStream(tempFile));
-            } catch (IOException ex) {
-                ErrorLogger.log(ex, "Failed to create ResourceBundle.");
-                return;
-            }
-            Enumeration<String> keys = tempR.getKeys();
-            //EN
-            Properties propsEN = new Properties();
-            Properties propsCU = new Properties();
-            FileInputStream strEN = new FileInputStream(ENf);
-            FileInputStream strCU = new FileInputStream(LANGf);
-            propsEN.load(strEN);
-            propsCU.load(strCU);
-            strEN.close();
-            strCU.close();
-            Boolean rl = false;
-            while (keys.hasMoreElements()) {
-                String key = keys.nextElement();
-                //
-                if (!r.en.containsKey(key)) {
-                    rl = true;
-                    propsEN.put(key, tempR.getString(key));
-                }
-                if (!r.cu.containsKey(key)) {
-                    rl = true;
-                    propsCU.put(key, tempR.getString(key));
-                }
-            }
-            if (rl) {
-                FileOutputStream ENo = StreamUtil.createOutputStream(ENf);
-                FileOutputStream CUo = StreamUtil.createOutputStream(LANGf);
-                propsEN.store(ENo, "UltimateCore messages - EN");
-                propsCU.store(CUo, "UltimateCore messages - " + (FilenameUtils.removeExtension(LANGf.getName())));
-                ENo.close();
-                CUo.close();
-            }
-            if (tempFile != null) {
-                tempFile.delete();
-            }
-            if (rl) {
-                InputStream inA = new FileInputStream(UltimateFileLoader.ENf);
-                InputStream inB = new FileInputStream(UltimateFileLoader.LANGf);
-                r.en = new PropertyResourceBundle(inA);
-                r.cu = new PropertyResourceBundle(inB);
-                inA.close();
-                inB.close();
-            }
-        } catch (IOException | SecurityException ex) {
-            ErrorLogger.log(ex, "Failed to complete message files.");
         }
     }
 

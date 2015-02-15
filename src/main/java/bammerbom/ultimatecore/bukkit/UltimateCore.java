@@ -60,7 +60,7 @@ public class UltimateCore extends JavaPlugin {
             instance = this;
             file = getFile();
             UltimateFileLoader.Enable();
-            r.EnableMES();
+            r.enableMES();
             UltimateFileLoader.addConfig();
             UuidUtil.loadPlayers();
             UltimateCommands.load();

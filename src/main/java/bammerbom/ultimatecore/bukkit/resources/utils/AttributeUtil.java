@@ -1252,7 +1252,7 @@ class NbtFactory {
                 public Entry<String, Object> next() {
                     Entry<String, Object> entry = proxy.next();
 
-                    return new SimpleEntry<String, Object>(
+                    return new SimpleEntry<>(
                             entry.getKey(), wrapOutgoing(entry.getValue())
                     );
                 }

@@ -1,2 +1,2 @@
-﻿&7Welcome,&a {PLAYER}&7!
+&7Welcome,&a {PLAYER}&7!
 &7Players online:&e {ONLINE}
