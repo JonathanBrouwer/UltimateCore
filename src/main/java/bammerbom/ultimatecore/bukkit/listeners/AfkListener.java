@@ -30,27 +30,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerBedEnterEvent;
-import org.bukkit.event.player.PlayerBedLeaveEvent;
-import org.bukkit.event.player.PlayerChatTabCompleteEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerEditBookEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.event.player.PlayerVelocityEvent;
+import org.bukkit.event.player.*;
 
 public class AfkListener implements Listener {
 
-    static {
+    static Integer afktime = r.getCnfg().getInt("Afk.AfkTime");
+    static Integer kicktime = r.getCnfg().getInt("Afk.KickTime");
+    static Boolean kickenabled = r.getCnfg().getBoolean("Afk.KickEnabled");
+
+    public static void start() {
         if (r.getCnfg().getBoolean("Afk.Enabled")) {
+            Bukkit.getPluginManager().registerEvents(new AfkListener(), r.getUC());
             Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
                 @Override
                 public void run() {
@@ -59,14 +49,14 @@ public class AfkListener implements Listener {
                         Long seconds1 = time / 1000;
                         Long seconds2 = System.currentTimeMillis() / 1000;
                         Long dif = seconds2 - seconds1;
-                        if (dif > r.getCnfg().getInt("Afk.AfkTime")) {
+                        if (dif > afktime) {
                             if (!UC.getPlayer(pl).isAfk()) {
                                 UC.getPlayer(pl).setAfk(true);
-                                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getNick() == null ? pl.getDisplayName() : UC.getPlayer(pl).getNick()));
+                                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
                             }
                         }
-                        if (dif > r.getCnfg().getInt("Afk.KickTime")) {
-                            if (r.getCnfg().getBoolean("Afk.KickEnabled")) {
+                        if (dif > kicktime) {
+                            if (kickenabled) {
                                 if (!r.perm(pl, "uc.afk.excempt", false, false)) {
                                     pl.kickPlayer(r.mes("afkKick"));
                                 }

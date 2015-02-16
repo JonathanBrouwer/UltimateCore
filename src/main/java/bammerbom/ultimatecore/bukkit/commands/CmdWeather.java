@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
+import bammerbom.ultimatecore.bukkit.listeners.WeatherListener;
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class CmdWeather implements UltimateCommand {
@@ -52,6 +54,7 @@ public class CmdWeather implements UltimateCommand {
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
         if (label.equalsIgnoreCase("sun")) {
+            WeatherListener.setEnabled(false);
             if (!(cs instanceof Player)) {
                 for (World world : Bukkit.getWorlds()) {
                     world.setStorm(false);
@@ -70,10 +73,11 @@ public class CmdWeather implements UltimateCommand {
                 }
                 r.sendMes(cs, "weatherSet", "%Weather", r.mes("weatherSun"));
             }
-
+            WeatherListener.setEnabled(true);
             return;
         }
         if (label.equalsIgnoreCase("rain")) {
+            WeatherListener.setEnabled(false);
             if (!(cs instanceof Player)) {
                 for (World world : Bukkit.getWorlds()) {
                     world.setStorm(true);
@@ -92,9 +96,11 @@ public class CmdWeather implements UltimateCommand {
                 }
                 r.sendMes(cs, "weatherSet", "%Weather", r.mes("weatherRain"));
             }
+            WeatherListener.setEnabled(true);
             return;
         }
         if (label.equalsIgnoreCase("thunder") || label.equalsIgnoreCase("storm")) {
+            WeatherListener.setEnabled(false);
             if (!(cs instanceof Player)) {
                 for (World world : Bukkit.getWorlds()) {
                     world.setStorm(true);
@@ -107,6 +113,7 @@ public class CmdWeather implements UltimateCommand {
                 p.getWorld().setThundering(true);
                 r.sendMes(cs, "weatherSet", "%Weather", r.mes("weatherThunder"));
             }
+            WeatherListener.setEnabled(true);
             return;
         }
         if (r.checkArgs(args, 0) == false) {
@@ -115,6 +122,7 @@ public class CmdWeather implements UltimateCommand {
         } else {
             Integer weather = 0;
             if (!(cs instanceof Player)) {
+                WeatherListener.setEnabled(false);
                 for (World world : Bukkit.getWorlds()) {
                     if ("sun".equalsIgnoreCase(args[0]) || "clear".equalsIgnoreCase(args[0])) {
                         if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.sun", false, false) == false) {
@@ -145,8 +153,10 @@ public class CmdWeather implements UltimateCommand {
                         world.setWeatherDuration(20 * Integer.parseInt(args[1]));
                     }
                 }
+                WeatherListener.setEnabled(true);
             } else {
-                World world = ((Player) cs).getWorld();
+                WeatherListener.setEnabled(false);
+                World world = ((Entity) cs).getWorld();
                 if ("sun".equalsIgnoreCase(args[0]) || "clear".equalsIgnoreCase(args[0])) {
                     if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.sun", false, false) == false) {
                         r.sendMes(cs, "noPermissions");
@@ -175,6 +185,7 @@ public class CmdWeather implements UltimateCommand {
                 if (r.checkArgs(args, 1) && r.isInt(args[1])) {
                     world.setWeatherDuration(20 * Integer.parseInt(args[1]));
                 }
+                WeatherListener.setEnabled(true);
             }
             if (weather == 1) {
                 r.sendMes(cs, "weatherSet", "%Weather", r.mes("weatherSun"));

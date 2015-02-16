@@ -26,12 +26,11 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CmdVanish implements UltimateCommand {
@@ -70,14 +69,14 @@ public class CmdVanish implements UltimateCommand {
             }
             return;
         }
-        if (DateUtil.parseDateDiff(args[0], true) >= 1) {
-            Long t = DateUtil.parseDateDiff(args[0], true);
+        if (DateUtil.parseDateDiff(args[0]) >= 1) {
+            Long t = DateUtil.parseDateDiff(args[0]);
             if (!r.isPlayer(cs)) {
                 return;
             }
             Player p = (Player) cs;
             UC.getPlayer(p).setVanish(true, t);
-            r.sendMes(cs, "vanishSelfT", "%Status", r.mes("on"), "%Time", DateUtil.format(t + System.currentTimeMillis()));
+            r.sendMes(cs, "vanishSelfT", "%Status", r.mes("on"), "%Time", DateUtil.format(t));
             return;
         }
         if (!r.perm(cs, "uc.vanish.others", false, true)) {
@@ -89,8 +88,8 @@ public class CmdVanish implements UltimateCommand {
             return;
         }
         Long time = 0L;
-        if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1], true) >= 1) {
-            time = DateUtil.parseDateDiff(args[1], true);
+        if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1]) >= 1) {
+            time = DateUtil.parseDateDiff(args[1]);
         }
         //Permcheck
         if (!r.perm(cs, "uc.vanish.time", false, false) && !r.perm(cs, "uc.vanish", false, false) && time == 0L) {
@@ -105,12 +104,12 @@ public class CmdVanish implements UltimateCommand {
         if (time == 0L) {
             r.sendMes(cs, "vanishOthersSelfMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")));
             if (banp.isOnline()) {
-                r.sendMes((Player) banp, "vanishOthersOtherMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")));
+                r.sendMes((CommandSender) banp, "vanishOthersOtherMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")));
             }
         } else {
-            r.sendMes(cs, "vanishOthersSelfMessageT", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time + System.currentTimeMillis()));
+            r.sendMes(cs, "vanishOthersSelfMessageT", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
             if (banp.isOnline()) {
-                r.sendMes((Player) banp, "vanishOthersOtherMessageT", "%Player", cs.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time + System.currentTimeMillis()));
+                r.sendMes((CommandSender) banp, "vanishOthersOtherMessageT", "%Player", cs.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
             }
         }
         return;

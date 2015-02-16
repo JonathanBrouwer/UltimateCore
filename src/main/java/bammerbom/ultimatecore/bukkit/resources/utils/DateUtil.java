@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.r;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
@@ -32,7 +31,7 @@ import java.util.regex.Pattern;
 
 public class DateUtil {
 
-    public static long parseDateDiff(String time, boolean future) {
+    public static long parseDateDiff(String time) {
         try {
             Long mil = 999L;
             Matcher matcher = Pattern.compile("\\d+\\D+").matcher(time);
@@ -125,7 +124,7 @@ public class DateUtil {
 
     public static String format(long date) {
         Calendar c = new GregorianCalendar();
-        c.setTimeInMillis(date);
+        c.setTimeInMillis(date + System.currentTimeMillis());
         Calendar now = new GregorianCalendar();
         return formatDateDiff(now, c);
     }

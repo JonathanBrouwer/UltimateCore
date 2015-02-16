@@ -25,14 +25,13 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdJump implements UltimateCommand {
 
@@ -48,7 +47,7 @@ public class CmdJump implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("jumpto");
     }
 
     @Override
@@ -65,7 +64,7 @@ public class CmdJump implements UltimateCommand {
         loc.setYaw(cloc.getYaw());
         loc.setPitch(cloc.getPitch());
         loc.setY(loc.getY() + 1);
-        LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
+        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true);
     }
 
     @Override

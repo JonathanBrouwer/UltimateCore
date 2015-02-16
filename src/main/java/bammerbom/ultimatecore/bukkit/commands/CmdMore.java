@@ -24,14 +24,13 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdMore implements UltimateCommand {
 
@@ -61,6 +60,7 @@ public class CmdMore implements UltimateCommand {
         Player p = (Player) cs;
         if (p.getItemInHand() == null || p.getItemInHand().getType() == null || p.getItemInHand().getType().equals(Material.AIR)) {
             r.sendMes(cs, "moreNothingInHand");
+            return;
         }
         p.getItemInHand().setAmount(64);
         r.sendMes(cs, "moreMessage");

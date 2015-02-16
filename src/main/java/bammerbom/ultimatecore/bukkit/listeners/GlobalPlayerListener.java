@@ -24,21 +24,16 @@
 package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.commands.CmdMobtp;
+import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Damageable;
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+import org.bukkit.event.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -50,8 +45,32 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.plugin.EventExecutor;
 
 public class GlobalPlayerListener implements Listener {
+
+    public static void start() {
+        final GlobalPlayerListener gpl = new GlobalPlayerListener();
+        Bukkit.getPluginManager().registerEvents(gpl, r.getUC());
+        EventPriority p;
+        String s = r.getCnfg().getString("Command.Spawn.Priority");
+        if (s.equalsIgnoreCase("lowest")) {
+            p = EventPriority.LOWEST;
+        } else if (s.equalsIgnoreCase("high")) {
+            p = EventPriority.HIGH;
+        } else if (s.equalsIgnoreCase("highest")) {
+            p = EventPriority.HIGHEST;
+        } else {
+            r.log("Spawn priority is invalid.");
+            return;
+        }
+        Bukkit.getPluginManager().registerEvent(PlayerRespawnEvent.class, gpl, p, new EventExecutor() {
+            @Override
+            public void execute(Listener l, Event e) throws EventException {
+                gpl.onRespawn((PlayerRespawnEvent) e);
+            }
+        }, r.getUC());
+    }
 
     Boolean jailChat = r.getCnfg().getBoolean("Command.Jail.talk");
     Boolean jailedmove = r.getCnfg().getBoolean("Command.Jail.move");
@@ -94,6 +113,13 @@ public class GlobalPlayerListener implements Listener {
             for (Player p : UC.getServer().getVanishOnlinePlayers()) {
                 e.getPlayer().hidePlayer(p);
             }
+            //Name changes
+            if (UC.getPlayer(e.getPlayer()).getPlayerConfig().contains("oldname")) {
+                Config conf = UC.getPlayer(e.getPlayer()).getPlayerConfig();
+                r.sendMes(e.getPlayer(), "nameChanged", "%Oldname", conf.getString("oldname"), "%Newname", e.getPlayer().getName());
+                conf.set("oldname", null);
+                conf.save();
+            }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerJoinEvent");
         }
@@ -125,11 +151,10 @@ public class GlobalPlayerListener implements Listener {
         try {
             //Ban
             if (UC.getPlayer(e.getPlayer()).isBanned()) {
-                UCplayer pl = UC.getPlayer(e.getPlayer());
-                String msg = r.mes("banFormat").replace("%Time", DateUtil.format(pl.getBanTimeLeft() + System.currentTimeMillis())).replace("%Reason", pl.getBanReason());
+                UPlayer pl = UC.getPlayer(e.getPlayer());
+                String time = pl.getBanTime() == -1 ? r.mes("banForever") : (DateUtil.format(pl.getBanTimeLeft()));
+                String msg = r.mes("banFormat", "%Time", time, "%Reason", pl.getBanReason());
                 e.disallow(Result.KICK_BANNED, msg);
-            } else {
-                e.allow();
             }
             //
 
@@ -158,7 +183,7 @@ public class GlobalPlayerListener implements Listener {
                 if (UC.getPlayer(e.getPlayer()).getMuteTime() == 0 || UC.getPlayer(e.getPlayer()).getMuteTime() == -1) {
                     r.sendMes(e.getPlayer(), "muteChat");
                 } else {
-                    r.sendMes(e.getPlayer(), "muteChatTime", "%Time", DateUtil.format(UC.getPlayer(e.getPlayer()).getMuteTime()));
+                    r.sendMes(e.getPlayer(), "muteChatTime", "%Time", DateUtil.format(UC.getPlayer(e.getPlayer()).getMuteTimeLeft()));
                 }
             }
             //
@@ -188,8 +213,8 @@ public class GlobalPlayerListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent e) {
         try {
             //EnchantingTable
-            if (UC.getPlayer((Player) e.getPlayer()).isInCommandEnchantingtable()) {
-                UC.getPlayer((Player) e.getPlayer()).setInCommandEnchantingtable(false);
+            if (UC.getPlayer((OfflinePlayer) e.getPlayer()).isInCommandEnchantingtable()) {
+                UC.getPlayer((OfflinePlayer) e.getPlayer()).setInCommandEnchantingtable(false);
             }
             //Inventory
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOfflineInventory()) {
@@ -199,8 +224,8 @@ public class GlobalPlayerListener implements Listener {
                 UC.getPlayer(e.getPlayer().getUniqueId()).setInOnlineInventory(false);
             }
             //Recipe
-            if (UC.getPlayer((Player) e.getPlayer()).isInRecipeView()) {
-                UC.getPlayer((Player) e.getPlayer()).isInRecipeView();
+            if (UC.getPlayer((OfflinePlayer) e.getPlayer()).isInRecipeView()) {
+                UC.getPlayer((OfflinePlayer) e.getPlayer()).isInRecipeView();
                 e.getInventory().clear();
             }
             //Teleportmenu
@@ -221,12 +246,12 @@ public class GlobalPlayerListener implements Listener {
                 e.setCancelled(true);
             }
             if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInOnlineInventory()) {
-                if (!r.perm(((Player) e.getWhoClicked()), "uc.inventory.edit", false, true)) {
+                if (!r.perm(e.getWhoClicked(), "uc.inventory.edit", false, true)) {
                     e.setCancelled(true);
                 }
             }
             //Recipe
-            if (UC.getPlayer((Player) e.getWhoClicked()).isInRecipeView() && e.getInventory().getType() == InventoryType.WORKBENCH) {
+            if (UC.getPlayer((OfflinePlayer) e.getWhoClicked()).isInRecipeView() && e.getInventory().getType() == InventoryType.WORKBENCH) {
                 e.setCancelled(true);
                 Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
                     @Override
@@ -302,7 +327,7 @@ public class GlobalPlayerListener implements Listener {
                 Player p = (Player) e.getEntity();
                 if (UC.getPlayer(p).isGod()) {
                     p.setFireTicks(0);
-                    p.setHealth(((Damageable) p).getMaxHealth());
+                    p.setHealth(p.getMaxHealth());
                     p.setRemainingAir(p.getMaximumAir());
                     e.setCancelled(true);
                 }
@@ -382,7 +407,6 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
     public void onRespawn(PlayerRespawnEvent e) {
         try {
             if (UC.getServer().getSpawn() != null) {
@@ -392,4 +416,5 @@ public class GlobalPlayerListener implements Listener {
             ErrorLogger.log(ex, "Failed to handle event: PlayerRespawnEvent");
         }
     }
+
 }

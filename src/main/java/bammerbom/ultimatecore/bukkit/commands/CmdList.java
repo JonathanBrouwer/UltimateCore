@@ -26,14 +26,13 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdList implements UltimateCommand {
 
@@ -49,7 +48,7 @@ public class CmdList implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("players");
+        return Arrays.asList("players", "online", "who");
     }
 
     @Override
@@ -68,13 +67,14 @@ public class CmdList implements UltimateCommand {
                         online.append(", ");
                     }
                     i++;
-                    online.append(UC.getPlayer(player).getNick());
+                    online.append(UC.getPlayer(player).getDisplayName());
                 }
             }
             r.sendMes(cs, "listList", "%Online", i, "%Max", Bukkit.getMaxPlayers(), "%List", online.toString());
         } else {
             StringBuilder online = new StringBuilder();
-            List<Player> plz = r.getOnlinePlayersL();
+            List<Player> plz = new ArrayList<>();
+            plz.addAll(r.getOnlinePlayersL());
             Boolean first2 = true;
             Integer i = 0;
             for (String g : r.getVault().getPermission().getGroups()) {
@@ -97,7 +97,7 @@ public class CmdList implements UltimateCommand {
                     }
                     Boolean first = true;
                     Boolean any = false;
-                    ArrayList<Player> remove = new ArrayList<Player>();
+                    ArrayList<Player> remove = new ArrayList<>();
                     for (Player pl : plz) {
                         Player p = r.searchPlayer(cs.getName());
                         if (p == null || p.canSee(pl)) {
@@ -105,7 +105,7 @@ public class CmdList implements UltimateCommand {
                                 if (!first) {
                                     online.append(", ");
                                 }
-                                online.append(r.neutral + UC.getPlayer(pl).getNick());
+                                online.append(r.neutral + UC.getPlayer(pl).getDisplayName());
                                 i++;
                                 any = true;
                                 first = false;
@@ -126,7 +126,6 @@ public class CmdList implements UltimateCommand {
                     online.append(r.neutral + pl.getName());
                 }
             }
-            plz.clear();
             r.sendMes(cs, "listList", "%Online", i, "%Max", Bukkit.getMaxPlayers(), "%List", online.toString());
         }
     }

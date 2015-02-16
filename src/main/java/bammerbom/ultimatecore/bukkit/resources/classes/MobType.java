@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.classes;
 
+import java.util.*;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -31,8 +32,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Skeleton.SkeletonType;
-
-import java.util.*;
 
 public enum MobType {
 
@@ -105,19 +104,19 @@ public enum MobType {
     }
 
     public static MobType fromName(String name) {
-        return (MobType) hashMap.get(name.toLowerCase(Locale.ENGLISH));
+        return hashMap.get(name.toLowerCase(Locale.ENGLISH));
     }
 
     public static MobType fromBukkitType(EntityType type) {
         if (!bukkitMap.containsKey(type)) {
             return null;
         }
-        return (MobType) bukkitMap.get(type);
+        return bukkitMap.get(type);
     }
 
     static {
-        hashMap = new HashMap<String, MobType>();
-        bukkitMap = new HashMap<EntityType, MobType>();
+        hashMap = new HashMap<>();
+        bukkitMap = new HashMap<>();
 
         for (MobType mob : values()) {
             hashMap.put(mob.name.toLowerCase(Locale.ENGLISH), mob);

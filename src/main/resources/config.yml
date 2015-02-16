@@ -22,6 +22,35 @@ Afk:
   #How long does it take before someone is kicked for being inactive? (Including the time before the player was marked as afk)
   KickTime: 900
   
+#Enable instant respawning?
+InstantRespawn: false
+
+Blood:
+  #Enable blood?
+  Enabled: false
+  #Enable it for players only?
+  PlayersOnly: false
+  
+#Dynmap support (Nothing happens without Dynmap)
+Dynmap:
+  Enable: true
+  #Show warps?
+  Warps: true
+  #Warps that are not shown, you can even use world:someworld to show no warps in that world.
+  Hiddenwarps:
+  - hiddenwarp1
+  - hiddenwarp2
+  - hiddenwarp3
+
+Explode:
+  #Disable explosions??? (True = disabled)
+  Creeper: false
+  TNT: false
+  Ghast: false
+  Enderdragon: false
+  Wither: false
+  Lightning: false
+  
 Messages:
   #Are the messages shown in the chat?
   Enabledchat: false
@@ -37,7 +66,28 @@ Messages:
   Decrease: true
   #Use messages.txt to change the messages.
   
-
+Autosave:
+  #Enable autosaving?
+  Enabled: true
+  #Show a message each autosave?
+  Message: false
+  #The time between each autosave.
+  Time: 300
+  
+Timber:
+  #Enable timber?
+  Enable: false
+  #Destroy leaves too? (Drops loot)
+  Leaves: true
+  #Take all durability of the logs from the axe?
+  AllDurability: true
+  #Do you need to have an axe in your hand to use Timber?
+  NeedAxe: true
+  
+Weather:
+  #Disable rain and thunder? (True = Disabled)
+  Rain: false
+  
 #Chat customization
 Chat:
   #How is the /alert command displayed?
@@ -53,8 +103,63 @@ Chat:
   #How is the /say command displayed??
   SayFormat: "&5[&d%Player&5] %Message"
   
+  #Enable the custom chat of Ultimate Core? If false Filters are still enabled!
+  EnableCustomChat: true
+  
+  #What is the format?
+  #+Group = Group name (If vault installed, else empty)
+  #+Prefix = Group prefix (If vault installed, else empty)
+  #+Suffix = Group suffix (If vault installed, else empty)
+  #+Name = Raw name
+  #+Displayname = Displayname [WARNING: Some plugins automaticly set the rank/faction/etc before the players displayname]
+  #+World = Current World name
+  #+WorldAlias = First letter of the worlds name
+  #+Message = Message the player is trying to send
+  #+Town = The town the player is in (Towny)
+  #+Faction = The faction the player is in (Factions)
+  #Color codes supported!
+  Format: '&6+Prefix&6+Displayname: &r+Suffix+Message'
+  
+  #Group formats: [REQUIRES VAULT + PERMISSION PLUGIN] 	
+  #Every group that is not registered here uses the Global format
+  Groups:
+    Enabled: false
+    #+Group = Group name (If vault installed, else empty)
+    #+Prefix = Group prefix (If vault installed, else empty)
+    #+Suffix = Group suffix (If vault installed, else empty)
+    #+Name = Raw name
+    #+Displayname = Displayname [WARNING: Some plugins automaticly set the rank/faction/etc before the players displayname]
+    #+World = Current World name
+    #+WorldAlias = First letter of the worlds name
+    #+Message = Message the player is trying to send
+    #+Town = The town the player is in (Towny)
+    #+Faction = The faction the player is in (Factions)
+    #Color codes supported!
+    #GROUP NAMES ARE CASE SENSITIVE!!!
+    Player: '&9[&6Player&9] &6+Displayname: &f+Message'
+    Admin: '&6[&4Admin&6] &6+Displayname: &f+Message'
+  Tab:
+    #Are tab prefixes enabled?
+    Enabled: false
+    #The default tab prefix
+    TabDefault: '&e'
+    #Groups tab prefixes
+    #Watchout! Too long prefixes can short player names for some characters
+    #GROUP NAMES ARE CASE SENSITIVE!!!
+    Player: '&6'
+    Admin: '&4'
+  #Enable spam/swear/etc filter?
+  SpamFilter: true
+  SwearFilter: false
+  RepeatFilter: true
+  CapsFilter: true
+  UrlFilter: true
+  IpFilter: true
+  
 #Command customization
 Command:
+  #Enable the custom unknown command message?
+  UnknownCommand: true
   #Broadcast when someone gets banned?
   BanBroadcast: true
   #Remove positive effects when being healed?
@@ -79,7 +184,16 @@ Command:
   Smite:
     #Is smite just an effect, or is it real? (False = Effect)
     smiteDamage: false
-  Tp:
+  Teleport:
     #The delay until the teleport ask request is cancelled in seconds
     TpaCancel: 30
+    #Enable delay?
+    EnableDelay: false
+    #The delay in seconds.
+    Delay: 5
+  Spawn:
+    # Set this to 'lowest', if you want the world (or multiverse) to handle the respawning.
+    # Set this to 'high', if you want UltimateCore to handle the respawning.
+    # Set this to 'highest', if you want to force UltimateCore to handle the respawning.
+    Priority: high
     

@@ -67,7 +67,7 @@ public class CmdExperience implements UltimateCommand {
             if (!r.isInt(xp.replace("l", "").replace("L", ""))) {
                 if (r.searchPlayer(args[0]) != null) {
                     Player p = r.searchPlayer(args[0]);
-                    if (!r.perm(cs, "uc.xp", false, false) && !r.perm(cs, "uc.xp.show.others", false, false)) {
+                    if (!r.perm(cs, "uc.experience", false, false) && !r.perm(cs, "uc.experience.show.others", false, false)) {
                         r.sendMes(cs, "noPermissions");
                         return;
                     }
@@ -113,7 +113,7 @@ public class CmdExperience implements UltimateCommand {
                 }
             }
         } else if (r.checkArgs(args, 1)) {
-            if (!r.perm(cs, "uc.xp", false, false) && !r.perm(cs, "uc.xp.set.others", false, false)) {
+            if (!r.perm(cs, "uc.experience", false, false) && !r.perm(cs, "uc.experience.set.others", false, false)) {
                 r.sendMes(cs, "noPermissions");
                 return;
             }

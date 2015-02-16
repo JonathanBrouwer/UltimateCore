@@ -23,19 +23,18 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
-import org.bukkit.ChatColor;
-import org.bukkit.plugin.Plugin;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import org.bukkit.ChatColor;
+import org.bukkit.plugin.Plugin;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONValue;
 
 /**
  * Check for updates on BukkitDev for a given plugin, and download the updates
@@ -500,10 +499,7 @@ public class UltimateUpdater {
             if (l2 < r2 && !(l1 > r1)) {
                 return true;
             }
-            if (l3 < r3 && !(l2 > r2) && !(l1 > r1)) {
-                return true;
-            }
-            return false;
+            return l3 < r3 && !(l2 > r2) && !(l1 > r1);
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -552,10 +548,10 @@ public class UltimateUpdater {
                 return false;
             }
 
-            UltimateUpdater.versionName = (String) ((JSONObject) array.get(array.size() - 1)).get(UltimateUpdater.TITLE_VALUE);
-            this.versionLink = (String) ((JSONObject) array.get(array.size() - 1)).get(UltimateUpdater.LINK_VALUE);
-            this.versionType = (String) ((JSONObject) array.get(array.size() - 1)).get(UltimateUpdater.TYPE_VALUE);
-            this.versionGameVersion = (String) ((JSONObject) array.get(array.size() - 1)).get(UltimateUpdater.VERSION_VALUE);
+            UltimateUpdater.versionName = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.TITLE_VALUE);
+            this.versionLink = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.LINK_VALUE);
+            this.versionType = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.TYPE_VALUE);
+            this.versionGameVersion = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.VERSION_VALUE);
 
             return true;
         } catch (final IOException e) {

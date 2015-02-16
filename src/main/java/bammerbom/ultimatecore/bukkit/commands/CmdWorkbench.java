@@ -45,7 +45,7 @@ public class CmdWorkbench implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("wb", "craftingtable", "ct");
+        return Arrays.asList("wb", "craftingtable", "ct", "wbench");
     }
 
     @Override

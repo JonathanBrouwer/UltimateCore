@@ -23,12 +23,11 @@
  */
 package bammerbom.ultimatecore.bukkit.configuration;
 
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 /**
  * Applies to a {@link ConfigurationSerializable} that will delegate all

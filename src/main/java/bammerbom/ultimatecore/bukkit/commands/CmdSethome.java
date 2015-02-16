@@ -25,14 +25,13 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 
 public class CmdSethome implements UltimateCommand {
 
@@ -43,7 +42,7 @@ public class CmdSethome implements UltimateCommand {
 
     @Override
     public String getPermission() {
-        return "uc.delhome";
+        return "uc.selhome";
     }
 
     @Override
@@ -86,7 +85,7 @@ public class CmdSethome implements UltimateCommand {
         if (multihomes != null) {
             for (String s : multihomes) {
                 if (r.perm(cs, "uc.sethome." + s.toLowerCase(), false, false)) {
-                    if (limit > r.getCnfg().getInt("Command.HomeLimits." + s)) {
+                    if (limit < r.getCnfg().getInt("Command.HomeLimits." + s)) {
                         limit = r.getCnfg().getInt("Command.HomeLimits." + s);
                     }
                 }
@@ -97,7 +96,7 @@ public class CmdSethome implements UltimateCommand {
         }
         List<String> homes = UC.getPlayer(p).getHomeNames();
         if (homes.size() >= limit) {
-            r.sendMes(cs, "sethomeMax", "%Limit", "%Limit", limit);
+            r.sendMes(cs, "sethomeMax", "%Limit", limit);
             return;
         }
         String name = r.checkArgs(args, 0) ? args[0] : "home";

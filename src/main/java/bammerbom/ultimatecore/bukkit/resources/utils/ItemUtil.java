@@ -24,8 +24,14 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import net.milkbowl.vault.item.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -34,12 +40,6 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 @SuppressWarnings({"deprecation", "unchecked"})
 public class ItemUtil {
@@ -108,13 +108,10 @@ public class ItemUtil {
 
     public static String getName(ItemStack stack) {
         try {
-            if (r.getVault() != null) {
-                return StringUtil.firstUpperCase(Items.itemByStack(stack).getName().toLowerCase());
-            }
-            return StringUtil.firstUpperCase(ItemDatabase.getName(stack).toLowerCase());
+            return ReflectionUtil.execute("getName()", ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionStatic.fromOBC("inventory.CraftItemStack"), stack).fetch()).fetch().toString();
         } catch (Exception ex) {
-            r.debug("Failed to get " + stack.getType().name() + ":" + stack.getDurability() + " name.");
-            return StringUtil.firstUpperCase(stack.getType().name().toLowerCase().replaceAll("_", ""));
+            ErrorLogger.log(ex, "Failed to get item name.");
+            return "NAME";
         }
     }
 
@@ -130,7 +127,7 @@ public class ItemUtil {
     }
 
     public static boolean isRepairable(ItemStack stack) {
-        if (stack.getType().equals(Material.WOOD_AXE)
+        return stack.getType().equals(Material.WOOD_AXE)
                 || stack.getType().equals(Material.WOOD_PICKAXE)
                 || stack.getType().equals(Material.WOOD_SPADE)
                 || stack.getType().equals(Material.WOOD_SWORD)
@@ -180,10 +177,7 @@ public class ItemUtil {
                 || stack.getType().equals(Material.CARROT_STICK)
                 || stack.getType().equals(Material.FLINT_AND_STEEL)
                 || stack.getType().equals(Material.SHEARS)
-                || stack.getType().equals(Material.ANVIL)) {
-            return true;
-        }
-        return false;
+                || stack.getType().equals(Material.ANVIL);
     }
 
     public static String getID(Material mat) {
@@ -194,10 +188,6 @@ public class ItemUtil {
 class EnchantGlow extends EnchantmentWrapper {
 
     private static Enchantment glow;
-
-    public EnchantGlow(int id) {
-        super(id);
-    }
 
     public static Enchantment getGlow() {
         if (glow != null) {
@@ -221,6 +211,10 @@ class EnchantGlow extends EnchantmentWrapper {
         Enchantment glow = getGlow();
 
         item.addEnchantment(glow, 1);
+    }
+
+    public EnchantGlow(int id) {
+        super(id);
     }
 
     @Override

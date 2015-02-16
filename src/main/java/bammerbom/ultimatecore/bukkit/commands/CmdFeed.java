@@ -24,12 +24,11 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdFeed implements UltimateCommand {
 
@@ -45,7 +44,7 @@ public class CmdFeed implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("eat");
+        return Arrays.asList("eat", "food");
     }
 
     @Override
@@ -62,6 +61,9 @@ public class CmdFeed implements UltimateCommand {
             p.setSaturation(10F);
             r.sendMes(cs, "feedSelf");
         } else {
+            if (!r.perm(cs, "uc.feed.others", false, true)) {
+                return;
+            }
             Player p = r.searchPlayer(args[0]);
             if (p == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);

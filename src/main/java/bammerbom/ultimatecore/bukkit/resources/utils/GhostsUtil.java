@@ -23,6 +23,9 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -32,10 +35,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 public class GhostsUtil {
 
@@ -54,13 +53,7 @@ public class GhostsUtil {
     private static boolean closed;
 
     // Players that are actually ghosts
-    private static Set<String> ghosts = new HashSet<String>();
-
-    public GhostsUtil(Plugin plugin) {
-        // Initialize
-        createTask(plugin);
-        createGetTeam();
-    }
+    private static final Set<String> ghosts = new HashSet<>();
 
     private static void createGetTeam() {
         Scoreboard board = Bukkit.getServer().getScoreboardManager().getMainScoreboard();
@@ -192,7 +185,7 @@ public class GhostsUtil {
      */
     public static OfflinePlayer[] getGhosts() {
         validateState();
-        Set<OfflinePlayer> players = new HashSet<OfflinePlayer>(ghostTeam.getPlayers());
+        Set<OfflinePlayer> players = new HashSet<>(ghostTeam.getPlayers());
 
         // Remove all non-ghost players
         for (Iterator<OfflinePlayer> it = players.iterator(); it.hasNext();) {
@@ -237,5 +230,11 @@ public class GhostsUtil {
         if (closed) {
             throw new IllegalStateException("Ghost factory has closed. Cannot reuse instances.");
         }
+    }
+    
+    public GhostsUtil(Plugin plugin) {
+        // Initialize
+        createTask(plugin);
+        createGetTeam();
     }
 }

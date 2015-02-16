@@ -27,12 +27,11 @@ import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
 import java.util.ArrayList;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
@@ -68,7 +67,7 @@ public class CmdTeleportall implements UltimateCommand {
                     r.sendMes(cs, "teleportDisabled", "%Player", pl.getName());
                     continue;
                 }
-                LocationUtil.teleport(pl, p.getLocation(), TeleportCause.COMMAND);
+                LocationUtil.teleport(pl, p.getLocation(), TeleportCause.COMMAND, false);
             }
             LocationUtil.playEffect(null, p.getLocation());
             r.sendMes(cs, "teleportallSelf");
@@ -83,7 +82,7 @@ public class CmdTeleportall implements UltimateCommand {
                     r.sendMes(cs, "teleportDisabled", "%Player", pl.getName());
                     continue;
                 }
-                LocationUtil.teleport(pl, t.getLocation(), TeleportCause.COMMAND);
+                LocationUtil.teleport(pl, t.getLocation(), TeleportCause.COMMAND, false);
             }
             LocationUtil.playEffect(null, t.getLocation());
             r.sendMes(cs, "teleportallOthers", "%Player", t.getName());

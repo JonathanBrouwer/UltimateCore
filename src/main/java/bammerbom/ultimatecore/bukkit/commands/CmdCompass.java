@@ -24,12 +24,11 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdCompass implements UltimateCommand {
 
@@ -45,7 +44,7 @@ public class CmdCompass implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("setcompass");
+        return Arrays.asList("setcompass", "direction");
     }
 
     @Override

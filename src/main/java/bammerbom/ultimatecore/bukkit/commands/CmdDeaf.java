@@ -64,8 +64,8 @@ public class CmdDeaf implements UltimateCommand {
         Long time = 0L;
         //Info
         if (r.checkArgs(args, 1) == false) {
-        } else if (DateUtil.parseDateDiff(args[1], true) != -1) {
-            time = DateUtil.parseDateDiff(args[1], true);
+        } else if (DateUtil.parseDateDiff(args[1]) != -1) {
+            time = DateUtil.parseDateDiff(args[1]);
         }
         //Permcheck
         if (!r.perm(cs, "uc.deaf.time", false, false) && !r.perm(cs, "uc.deaf", false, false) && time == 0L) {
@@ -80,7 +80,7 @@ public class CmdDeaf implements UltimateCommand {
         if (time == 0L) {
             r.sendMes(cs, "deafMessage", "%Player", banp.getName());
         } else {
-            r.sendMes(cs, "deafMessageTime", "%Player", banp.getName(), "%Time", DateUtil.format(time + System.currentTimeMillis()));
+            r.sendMes(cs, "deafMessageTime", "%Player", banp.getName(), "%Time", DateUtil.format(time));
         }
         if (banp.isOnline()) {
             Player banp2 = (Player) banp;

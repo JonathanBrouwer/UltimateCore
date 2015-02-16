@@ -23,11 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
-import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.listeners.AfkListener;
-import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
-import bammerbom.ultimatecore.bukkit.listeners.GlobalPlayerListener;
-import bammerbom.ultimatecore.bukkit.listeners.GlobalWorldListener;
+import bammerbom.ultimatecore.bukkit.listeners.*;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
@@ -38,6 +34,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -62,10 +59,10 @@ public class UltimateCore extends JavaPlugin {
             //
             instance = this;
             file = getFile();
-            UuidUtil.loadPlayers();
             UltimateFileLoader.Enable();
-            r.EnableMES();
+            r.enableMES();
             UltimateFileLoader.addConfig();
+            UuidUtil.loadPlayers();
             UltimateCommands.load();
             PerformanceUtil.getTps();
             BossbarUtil.enable();
@@ -82,16 +79,31 @@ public class UltimateCore extends JavaPlugin {
                 Bukkit.getConsoleSender().sendMessage(" ");
             }
             //
+            UltimateConverter.convert();
+            //
             r.runUpdater();
             r.runMetrics();
             //
             PluginManager pm = Bukkit.getPluginManager();
-            pm.registerEvents(new GlobalPlayerListener(), this);
+            GlobalPlayerListener.start();
             pm.registerEvents(new GlobalWorldListener(), this);
-            if (r.getCnfg().getBoolean("Afk.Enabled")) {
-                pm.registerEvents(new AfkListener(), this);
-            }
+            AfkListener.start();
             AutomessageListener.start();
+            AutosaveListener.start();
+            BloodListener.start();
+            ChatListener.start();
+            DeathmessagesListener.start();
+            DynmapListener.start();
+            ExplosionListener.start();
+            JoinLeaveListener.start();
+            MotdListener.start();
+            PluginStealListener.start();
+            RespawnListener.start();
+            SignListener.start();
+            TabListener.start();
+            TreeListener.start();
+            UnknownCommandListener.start();
+            WeatherListener.start();
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
@@ -110,9 +122,15 @@ public class UltimateCore extends JavaPlugin {
             Long time = System.currentTimeMillis();
             //
             r.removeUC();
-            UC._DISABLE_();
             ItemDatabase.disable();
             BossbarUtil.disable();
+            DynmapListener.stop();
+            //
+            HandlerList.unregisterAll(this);
+            Bukkit.getServicesManager().unregisterAll(this);
+            Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(this);
+            Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
+            Bukkit.getServer().getScheduler().cancelTasks(this);
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Disabled Ultimate Core! (" + time + "ms)");

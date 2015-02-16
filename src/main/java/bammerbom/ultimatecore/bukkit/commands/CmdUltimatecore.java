@@ -28,7 +28,7 @@ import static bammerbom.ultimatecore.bukkit.UltimateCore.file;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import com.earth2me.essentials.IEssentials;
@@ -36,12 +36,11 @@ import com.earth2me.essentials.User;
 import com.earth2me.essentials.api.IJails;
 import com.earth2me.essentials.api.IWarps;
 import com.earth2me.essentials.spawn.IEssentialsSpawn;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
 public class CmdUltimatecore implements UltimateCommand {
@@ -92,9 +91,6 @@ public class CmdUltimatecore implements UltimateCommand {
             Bukkit.getServer().getPluginManager().disablePlugin(r.getUC());
             r.sendMes(cs, "ultimatecoreDisable");
         } else if (args[0].equalsIgnoreCase("credits")) {
-            if (!r.perm(cs, "uc.ultimatecore", false, true)) {
-                return;
-            }
             r.sendMes(cs, "ultimatecoreCredits1");
             r.sendMes(cs, "ultimatecoreCredits2");
         } else if (args[0].equalsIgnoreCase("noreturn")) {
@@ -146,7 +142,7 @@ public class CmdUltimatecore implements UltimateCommand {
                 r.sendMes(cs, "ultimatecoreUpdateDisabled");
             }
         } else if (args[0].equalsIgnoreCase("convert")) {
-            if (!r.perm(cs, "uc.updater.convert", false, true)) {
+            if (!r.perm(cs, "uc.ultimatecore.convert", false, true)) {
                 return;
             }
             r.sendMes(cs, "ultimatecoreConvertStart");
@@ -178,7 +174,7 @@ public class CmdUltimatecore implements UltimateCommand {
                         r.log("Failed to import player data of " + pl.getName());
                         continue;
                     }
-                    UCplayer up = UC.getPlayer(pl);
+                    UPlayer up = UC.getPlayer(pl);
                     for (String s : u2.getHomes()) {
                         up.addHome(s, u2.getHome(s));
                     }

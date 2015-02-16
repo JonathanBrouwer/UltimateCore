@@ -64,8 +64,8 @@ public class CmdFreeze implements UltimateCommand {
         Long time = 0L;
         //Info
         if (r.checkArgs(args, 1) == false) {
-        } else if (DateUtil.parseDateDiff(args[1], true) != -1) {
-            time = DateUtil.parseDateDiff(args[1], true);
+        } else if (DateUtil.parseDateDiff(args[1]) != -1) {
+            time = DateUtil.parseDateDiff(args[1]);
         }
         //Permcheck
         if (!r.perm(cs, "uc.freeze.time", false, false) && !r.perm(cs, "uc.freeze", false, false) && time == 0L) {
@@ -80,7 +80,7 @@ public class CmdFreeze implements UltimateCommand {
         if (time == 0L) {
             r.sendMes(cs, "freezeMessage", "%Player", t.getName());
         } else {
-            r.sendMes(cs, "freezeMessageTime", "%Player", t.getName(), "%Time", DateUtil.format(time + System.currentTimeMillis()));
+            r.sendMes(cs, "freezeMessageTime", "%Player", t.getName(), "%Time", DateUtil.format(time));
         }
         if (t.isOnline()) {
             Player banp2 = (Player) t;

@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCworld.WorldFlag;
+import bammerbom.ultimatecore.bukkit.api.UWorld.WorldFlag;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobType;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobType.Enemies;

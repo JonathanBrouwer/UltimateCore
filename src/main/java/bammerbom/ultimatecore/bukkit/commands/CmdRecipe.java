@@ -26,14 +26,13 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
+import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
-
-import java.util.*;
 
 public class CmdRecipe implements UltimateCommand {
 
@@ -49,7 +48,7 @@ public class CmdRecipe implements UltimateCommand {
             Map<Character, ItemStack> ingredientMap = recipe.getIngredientMap();
             for (int j = 0; j < recipeShape.length; j++) {
                 for (int k = 0; k < recipeShape[j].length(); k++) {
-                    ItemStack item = (ItemStack) ingredientMap.get(Character.valueOf(recipeShape[j].toCharArray()[k]));
+                    ItemStack item = ingredientMap.get(Character.valueOf(recipeShape[j].toCharArray()[k]));
                     if (item != null) {
                         item.setAmount(1);
                         if (item.getDurability() == (short) 32767) {
@@ -66,7 +65,7 @@ public class CmdRecipe implements UltimateCommand {
             for (int i = 0; i < len; i++) {
                 Character c = arr[i];
 
-                ItemStack item = (ItemStack) recipeMap.get(c);
+                ItemStack item = recipeMap.get(c);
                 if (!colorMap.containsKey(item == null ? null : item.getType())) {
                     colorMap.put(item == null ? null : item.getType(), String.valueOf(i++));
                 }
@@ -74,7 +73,7 @@ public class CmdRecipe implements UltimateCommand {
             Material[][] materials = new Material[3][3];
             for (int j = 0; j < recipe.getShape().length; j++) {
                 for (int k = 0; k < recipe.getShape()[j].length(); k++) {
-                    ItemStack item = (ItemStack) recipe.getIngredientMap().get(Character.valueOf(recipe.getShape()[j].toCharArray()[k]));
+                    ItemStack item = recipe.getIngredientMap().get(Character.valueOf(recipe.getShape()[j].toCharArray()[k]));
                     materials[j][k] = (item == null ? null : item.getType());
                 }
             }
@@ -103,13 +102,13 @@ public class CmdRecipe implements UltimateCommand {
             InventoryView view = p.openWorkbench(null, true);
             UC.getPlayer(p).setInRecipeView(true);
             for (int i = 0; i < ingredients.size(); i++) {
-                view.setItem(i + 1, (ItemStack) ingredients.get(i));
+                view.setItem(i + 1, ingredients.get(i));
             }
 
         } else {
             StringBuilder s = new StringBuilder();
             for (int i = 0; i < ingredients.size(); i++) {
-                s.append(((ItemStack) ingredients.get(i)).getType().name().toLowerCase().replaceAll("_", ""));
+                s.append(ingredients.get(i).getType().name().toLowerCase().replaceAll("_", ""));
                 if (i != ingredients.size() - 1) {
                     s.append(",");
                 }
@@ -131,7 +130,7 @@ public class CmdRecipe implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("formula", "method", "recipes");
     }
 
     @Override

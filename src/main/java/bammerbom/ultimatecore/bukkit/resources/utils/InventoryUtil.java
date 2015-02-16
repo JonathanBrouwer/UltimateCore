@@ -24,6 +24,8 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -34,9 +36,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class InventoryUtil implements Listener {
 
@@ -132,7 +131,7 @@ public class InventoryUtil implements Listener {
             player.getInventory().clear(type, data);
         } else if (amount == -1) {
             ItemStack stack = new ItemStack(type, 100000, data);
-            ItemStack removedStack = (ItemStack) player.getInventory().removeItem(new ItemStack[]{stack}).get(Integer.valueOf(0));
+            ItemStack removedStack = player.getInventory().removeItem(new ItemStack[]{stack}).get(Integer.valueOf(0));
             int removedAmount = 100000 - removedStack.getAmount();
             if (removedAmount == 0) {
                 r.sendMes(cs, "clearNoItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack));
@@ -235,7 +234,7 @@ public class InventoryUtil implements Listener {
     public static Inventory convertStringToInventory(String invString, String name) {
         String[] serializedBlocks = invString.split(";");
         String invInfo = serializedBlocks[0];
-        Inventory deserializedInventory = Bukkit.getServer().createInventory(null, Integer.valueOf(invInfo), name);
+        Inventory deserializedInventory = Bukkit.getServer().createInventory(null, Integer.valueOf(invInfo), name.substring(0, 31));
 
         for (int i = 1; i < serializedBlocks.length; i++) {
             String[] serializedBlock = serializedBlocks[i].split("#");
@@ -259,7 +258,7 @@ public class InventoryUtil implements Listener {
                 } else if (itemAttribute[0].equals("a") && createdItemStack) {
                     is.setAmount(Integer.valueOf(itemAttribute[1]));
                 } else if (itemAttribute[0].equals("e") && createdItemStack) {
-                    is.addEnchantment(Enchantment.getById(Integer.valueOf(itemAttribute[1])), Integer.valueOf(itemAttribute[2]));
+                    is.addUnsafeEnchantment(Enchantment.getById(Integer.valueOf(itemAttribute[1])), Integer.valueOf(itemAttribute[2]));
                 }
             }
             deserializedInventory.setItem(stackPosition, is);

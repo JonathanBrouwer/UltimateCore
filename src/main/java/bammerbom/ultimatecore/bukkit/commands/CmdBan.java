@@ -24,17 +24,16 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdBan implements UltimateCommand {
 
@@ -70,15 +69,15 @@ public class CmdBan implements UltimateCommand {
         Long time = 0L;
         String reason = r.mes("banDefaultReason");
         if (r.checkArgs(args, 1) == false) {
-        } else if (DateUtil.parseDateDiff(args[1], true) == -1) {
+        } else if (DateUtil.parseDateDiff(args[1]) == -1) {
             reason = r.getFinalArg(args, 1);
         } else {
-            time = DateUtil.parseDateDiff(args[1], true);
+            time = DateUtil.parseDateDiff(args[1]);
             if (r.checkArgs(args, 2) == true) {
                 reason = r.getFinalArg(args, 2);
             }
         }
-        String timen = DateUtil.format(time + System.currentTimeMillis());
+        String timen = DateUtil.format(time);
         if (time == 0) {
             timen = r.mes("banForever");
         } else {
@@ -94,9 +93,9 @@ public class CmdBan implements UltimateCommand {
         }
         String msg = r.mes("banFormat").replace("%Time", timen).replace("%Reason", reason);
         if (banp.isOnline()) {
-            r.searchPlayer(banp.getName()).kickPlayer(msg);
+            banp.getPlayer().kickPlayer(msg);
         }
-        UCplayer pl = UC.getPlayer(banp);
+        UPlayer pl = UC.getPlayer(banp);
         pl.ban(time, reason);
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
             Bukkit.broadcastMessage(r.mes("banBroadcast").replace("%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase())).replace("%Banned", banp.getName()).replace("%Time", timen).replace("%Reason", reason));

@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCworld;
-import bammerbom.ultimatecore.bukkit.api.UCworld.WorldFlag;
+import bammerbom.ultimatecore.bukkit.api.UWorld;
+import bammerbom.ultimatecore.bukkit.api.UWorld.WorldFlag;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobType;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
@@ -34,12 +34,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.World.Environment;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Animals;
@@ -50,61 +46,6 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.FileUtil;
 
 public class CmdWorld implements UltimateCommand {
-
-    @Override
-    public String getName() {
-        return "world";
-    }
-
-    @Override
-    public String getPermission() {
-        return "uc.world";
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return Arrays.asList();
-    }
-
-    @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (r.checkArgs(args, 0) == false) {
-            usage(cs);
-        } else if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("add")) {
-            create(cs, args);
-        } else if (args[0].equalsIgnoreCase("import") || args[0].equalsIgnoreCase("imp")) {
-            importw(cs, args);
-        } else if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("list")) {
-            list(cs, args);
-        } else if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("delete")) {
-            remove(cs, args);
-        } else if (args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("teleport")) {
-            tp(cs, args);
-        } else if (args[0].equalsIgnoreCase("reset")) {
-            reset(cs, args);
-        } else if (args[0].equalsIgnoreCase("flag")) {
-            flag(cs, args);
-        } else {
-            usage(cs);
-        }
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (curn == 0) {
-            return Arrays.asList("create", "import", "list", "remove", "tp", "reset", "flag");
-        }
-        if (curn == 1) {
-            if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("import") || args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("flag")) {
-                ArrayList<String> rtrn = new ArrayList<>();
-                for (World w : Bukkit.getWorlds()) {
-                    rtrn.add(w.getName());
-                }
-                return rtrn;
-            }
-        }
-        return new ArrayList<>();
-    }
 
     public static void usage(CommandSender cs) {
         r.sendMes(cs, "worldUsage1");
@@ -243,7 +184,7 @@ public class CmdWorld implements UltimateCommand {
             worlds.add(w.getName());
         }
         StringBuilder list = new StringBuilder();
-        String result = null;
+        String result;
         try {
             Integer cur = 0;
             for (int i = 0; i < worlds.toArray().length; i++) {
@@ -275,7 +216,7 @@ public class CmdWorld implements UltimateCommand {
             for (Player pl : r.getOnlinePlayers()) {
                 if (pl.getWorld().equals(world)) {
                     World w2 = Bukkit.getWorlds().get(0);
-                    LocationUtil.teleport(pl, w2.getSpawnLocation(), TeleportCause.PLUGIN);
+                    LocationUtil.teleport(pl, w2.getSpawnLocation(), TeleportCause.PLUGIN, false);
                 }
             }
             Bukkit.getServer().unloadWorld(world, true);
@@ -373,7 +314,7 @@ public class CmdWorld implements UltimateCommand {
             }
             final Player p = (Player) cs;
             final Location loc = world.getSpawnLocation();
-            LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
+            LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true);
         }
     }
 
@@ -391,7 +332,7 @@ public class CmdWorld implements UltimateCommand {
         //monster, animal, pvp
 
         if (r.checkArgs(args, 3) == true) {
-            UCworld world = new UCworld(Bukkit.getWorld(args[1]));
+            UWorld world = new UWorld(Bukkit.getWorld(args[1]));
             String flag = args[2];
             String value = args[3];
             if (flag.equalsIgnoreCase("monster") || flag.equalsIgnoreCase("monsterspawn")) {
@@ -445,5 +386,60 @@ public class CmdWorld implements UltimateCommand {
             r.sendMes(cs, "worldUsage8");
             r.sendMes(cs, "worldUsage9", "%Flags", StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
         }
+    }
+
+    @Override
+    public String getName() {
+        return "world";
+    }
+
+    @Override
+    public String getPermission() {
+        return "uc.world";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList();
+    }
+
+    @Override
+    public void run(final CommandSender cs, String label, String[] args) {
+        if (r.checkArgs(args, 0) == false) {
+            usage(cs);
+        } else if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("add")) {
+            create(cs, args);
+        } else if (args[0].equalsIgnoreCase("import") || args[0].equalsIgnoreCase("imp")) {
+            importw(cs, args);
+        } else if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("list")) {
+            list(cs, args);
+        } else if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("delete")) {
+            remove(cs, args);
+        } else if (args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("teleport")) {
+            tp(cs, args);
+        } else if (args[0].equalsIgnoreCase("reset")) {
+            reset(cs, args);
+        } else if (args[0].equalsIgnoreCase("flag")) {
+            flag(cs, args);
+        } else {
+            usage(cs);
+        }
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+        if (curn == 0) {
+            return Arrays.asList("create", "import", "list", "remove", "tp", "reset", "flag");
+        }
+        if (curn == 1) {
+            if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("import") || args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("flag")) {
+                ArrayList<String> rtrn = new ArrayList<>();
+                for (World w : Bukkit.getWorlds()) {
+                    rtrn.add(w.getName());
+                }
+                return rtrn;
+            }
+        }
+        return new ArrayList<>();
     }
 }

@@ -23,6 +23,14 @@
  */
 package bammerbom.ultimatecore.bukkit.configuration;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -33,22 +41,13 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * Utility class for storing and retrieving classes for {@link Configuration}.
  */
 public class ConfigurationSerialization {
 
     public static final String SERIALIZED_TYPE_KEY = "==";
-    private static Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<String, Class<? extends ConfigurationSerializable>>();
+    private static final Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<>();
 
     static {
         registerClass(Vector.class);
@@ -58,11 +57,6 @@ public class ConfigurationSerialization {
         registerClass(PotionEffect.class);
         registerClass(FireworkEffect.class);
         registerClass(Pattern.class);
-    }
-    private final Class<?> clazz;
-
-    protected ConfigurationSerialization(Class<?> clazz) {
-        this.clazz = clazz;
     }
 
     /**
@@ -208,6 +202,11 @@ public class ConfigurationSerialization {
 
         return clazz.getName();
     }
+    private final Class<?> clazz;
+
+    protected ConfigurationSerialization(Class<?> clazz) {
+        this.clazz = clazz;
+    }
 
     protected Method getMethod(String name, boolean isStatic) {
         try {
@@ -274,7 +273,7 @@ public class ConfigurationSerialization {
         Validate.notNull(args, "Args must not be null");
 
         ConfigurationSerializable result = null;
-        Method method = null;
+        Method method;
 
         if (result == null) {
             method = getMethod("deserialize", true);

@@ -24,13 +24,12 @@
 package bammerbom.ultimatecore.bukkit.resources.databases;
 
 import bammerbom.ultimatecore.bukkit.r;
-import org.bukkit.potion.PotionEffectType;
-
 import java.util.HashMap;
+import org.bukkit.potion.PotionEffectType;
 
 public class EffectDatabase {
 
-    static HashMap<String, PotionEffectType> pf = new HashMap<String, PotionEffectType>();
+    static HashMap<String, PotionEffectType> pf = new HashMap<>();
 
     @SuppressWarnings("deprecation")
     public static PotionEffectType getByName(String str) {

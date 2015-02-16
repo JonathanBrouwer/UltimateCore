@@ -26,17 +26,33 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
 import java.util.ArrayList;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class CmdTop implements UltimateCommand {
+
+    public static Location getHighestY(Location loc) {
+        Integer highest = 0;
+        Integer current = 0;
+        while (current < loc.getWorld().getMaxHeight()) {
+            Integer cur = current;
+            current++;
+            Location loc2 = new Location(loc.getWorld(), loc.getX(), cur, loc.getZ());
+            if (loc2.getBlock() != null && loc2.getBlock().getType() != null && !loc2.getBlock().getType().equals(Material.AIR)) {
+                highest = cur;
+            }
+        }
+        Location loc3 = new Location(loc.getWorld(), loc.getX(), highest, loc.getZ());
+        loc3.setPitch(loc.getPitch());
+        loc3.setYaw(loc.getYaw());
+        return loc3;
+    }
 
     @Override
     public String getName() {
@@ -68,29 +84,12 @@ public class CmdTop implements UltimateCommand {
             return;
         }
         loc.add(0, 1.01, 0);
-        LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
+        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true);
         r.sendMes(cs, "topMessage");
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
-    }
-
-    public static Location getHighestY(Location loc) {
-        Integer highest = 0;
-        Integer current = 0;
-        while (current < loc.getWorld().getMaxHeight()) {
-            Integer cur = current;
-            current++;
-            Location loc2 = new Location(loc.getWorld(), loc.getX(), cur, loc.getZ());
-            if (loc2.getBlock() != null && loc2.getBlock().getType() != null && !loc2.getBlock().getType().equals(Material.AIR)) {
-                highest = cur;
-            }
-        }
-        Location loc3 = new Location(loc.getWorld(), loc.getX(), highest, loc.getZ());
-        loc3.setPitch(loc.getPitch());
-        loc3.setYaw(loc.getYaw());
-        return loc3;
     }
 }

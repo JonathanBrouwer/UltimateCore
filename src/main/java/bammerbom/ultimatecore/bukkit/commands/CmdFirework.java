@@ -25,6 +25,8 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -32,9 +34,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdFirework implements UltimateCommand {
 
@@ -82,7 +81,7 @@ public class CmdFirework implements UltimateCommand {
                 try {
                     int power = Integer.parseInt(arg.split(":")[1]);
                     try {
-                        mStack.addFireworkMeta(cs, true, "power:" + power);
+                        mStack.addFireworkMeta(true, "power:" + power);
                     } catch (Exception e) {
                         r.sendMes(cs, "fireworkFailed");
                     }
@@ -95,7 +94,7 @@ public class CmdFirework implements UltimateCommand {
                 stack.setAmount(Integer.parseInt(arg));
             } else {
                 try {
-                    mStack.addFireworkMeta(p, true, arg);
+                    mStack.addFireworkMeta(true, arg);
                 } catch (Exception e) {
                     r.sendMes(cs, "fireworkFailed");
                     return;

@@ -25,11 +25,10 @@ package bammerbom.ultimatecore.bukkit.configuration;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import org.apache.commons.lang.Validate;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
-
 import java.io.*;
 import java.nio.charset.Charset;
+import org.apache.commons.lang.Validate;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 /**
  * This is a base class for all File based implementations of {@link

@@ -27,28 +27,166 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobData;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobType;
 import java.util.ArrayList;
-import org.bukkit.command.Command;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.DyeColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.*;
 import org.bukkit.entity.Horse.Color;
 import org.bukkit.entity.Horse.Style;
 import org.bukkit.entity.Horse.Variant;
-import java.util.Arrays;
-import java.util.List;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Guardian;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
 public class CmdSpawnmob implements UltimateCommand {
+
+    static void horse(EntityType type, Entity spawned, String str) {
+        if (!type.equals(EntityType.HORSE)) {
+            return;
+        }
+        Horse horse = (Horse) spawned;
+        if (str.equalsIgnoreCase("donkey")) {
+            horse.setVariant(Variant.DONKEY);
+        } else if (str.equalsIgnoreCase("mule")) {
+            horse.setVariant(Variant.MULE);
+        } else if (str.equalsIgnoreCase("skeleton")) {
+            horse.setVariant(Variant.SKELETON_HORSE);
+        } else if (str.equalsIgnoreCase("undead") || str.equalsIgnoreCase("zombie")) {
+            horse.setVariant(Variant.UNDEAD_HORSE);
+        } else if (isHorseColor(str)) {
+            horse.setColor(getHorseColor(str));
+        } else if (isHorseStyle(str)) {
+            horse.setStyle(getHorseStyle(str));
+        } else if (str.equalsIgnoreCase("saddled")) {
+            horse.setTamed(true);
+            horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
+        } else if (str.equalsIgnoreCase("diamond") || str.equalsIgnoreCase("diamondarmor")) {
+            horse.getInventory().setArmor(new ItemStack(Material.DIAMOND_BARDING));
+        } else if (str.equalsIgnoreCase("iron") || str.equalsIgnoreCase("ironarmor")) {
+            horse.getInventory().setArmor(new ItemStack(Material.IRON_BARDING));
+        } else if (str.equalsIgnoreCase("gold") || str.equalsIgnoreCase("goldarmor")) {
+            horse.getInventory().setArmor(new ItemStack(Material.GOLD_BARDING));
+        }
+        /*Color
+         * BLACK
+         * BROWN
+         * CHESTNUT
+         * CREAMY
+         * DARKBROWN
+         * GRAY
+         * WHITE
+         */
+        /*Style
+         * BLACKDOTS
+         * NONE
+         * WHITE_LEGS
+         * WHITE_DOTS
+         * WHITEFIELD
+         */
+    }
+
+    static void utilize(String[] args, MobType mob, LivingEntity en, Player p) {
+        utilize((r.getFinalArg(args, 1)), mob, en, p);
+    }
+
+    static void utilize(String args, MobType mob, LivingEntity en, Player p) {
+        for (String str : args.split("[: ]")) {
+            if (str.isEmpty() || r.isInt(str)) {
+                continue;
+            }
+            MobData d = MobData.fromData(en, str);
+            if (d != null) {
+                try {
+                    d.setData(en, p, str);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                r.sendMes(p, "spawnmobDataNotFound", "%Data", str);
+            }
+        }
+    }
+
+    static boolean isHorseColor(String str) {
+        for (Color color : Color.values()) {
+            String colors = color.name().toLowerCase().replaceAll("_", "");
+            String inputs = str.toLowerCase().replaceAll("_", "");
+            if (colors.equals(inputs)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static Color getHorseColor(String str) {
+        for (Color color : Color.values()) {
+            String colors = color.name().toLowerCase().replaceAll("_", "");
+            String inputs = str.toLowerCase().replaceAll("_", "");
+            if (colors.equals(inputs)) {
+                return color;
+            }
+        }
+        return null;
+    }
+
+    static boolean isHorseStyle(String str) {
+        if (str.equalsIgnoreCase("whitelegs")) {
+            return true;
+        }
+        for (Style style : Style.values()) {
+            String styles = style.name().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
+            String inputs = str.toLowerCase().replaceAll("white_", "").replaceAll("_", "").replaceAll("whitelegs", "white");
+            if (styles.equals(inputs)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static Style getHorseStyle(String str) {
+        if (str.equalsIgnoreCase("whitelegs")) {
+            return Style.WHITE;
+        }
+        for (Style style : Style.values()) {
+            String styles = style.name().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
+            String inputs = str.toLowerCase().replaceAll("white_", "").replaceAll("_", "").replaceAll("whitelegs", "white");
+            if (styles.equals(inputs)) {
+                return style;
+            }
+        }
+        return null;
+    }
+
+    static void defaultMobData(EntityType type, Entity spawned) {
+        if (type == EntityType.SKELETON) {
+            if (!((Skeleton) spawned).getSkeletonType().equals(SkeletonType.WITHER)) {
+                Skeleton skel = (Skeleton) spawned;
+                skel.setSkeletonType(SkeletonType.NORMAL);
+                skel.getEquipment().setItemInHand(new ItemStack(Material.BOW));
+                skel.getEquipment().setItemInHandDropChance(0.09F);
+                return;
+            }
+
+            if (type == EntityType.PIG_ZOMBIE) {
+                EntityEquipment invent = ((LivingEntity) spawned).getEquipment();
+                invent.setItemInHand(new ItemStack(Material.GOLD_SWORD, 1));
+                invent.setItemInHandDropChance(0.05F);
+            }
+        }
+    }
+
+    static DyeColor getDyeColor(String str) {
+        for (DyeColor dye : DyeColor.values()) {
+            if (dye.name().toLowerCase().replaceAll("_", "").equalsIgnoreCase(str)) {
+                return dye;
+            }
+        }
+        return null;
+    }
 
     @Override
     public String getName() {
@@ -62,7 +200,7 @@ public class CmdSpawnmob implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("mob");
+        return Arrays.asList("mob", "spawnentity");
     }
 
     @Override
@@ -154,7 +292,7 @@ public class CmdSpawnmob implements UltimateCommand {
                     if (kit.a().name().equals("witherskeleton")) {
                         Skeleton skel = (Skeleton) en;
                         skel.setSkeletonType(SkeletonType.WITHER);
-                        EntityEquipment invent = ((LivingEntity) skel).getEquipment();
+                        EntityEquipment invent = skel.getEquipment();
                         invent.setItemInHand(new ItemStack(Material.STONE_SWORD, 1));
                         invent.setItemInHandDropChance(0.09F);
                     } else if (kit.a().name().equalsIgnoreCase("skeleton")) {
@@ -181,16 +319,18 @@ public class CmdSpawnmob implements UltimateCommand {
         //Unstacked
         for (int i = 0; i < amount; i++) {
             try {
-                LivingEntity en = (LivingEntity) loc.getWorld().spawnEntity(loc, mob.getType());
+                Entity en = loc.getWorld().spawnEntity(loc, mob.getType());
                 if (args[0].equals("witherskeleton")) {
                     Skeleton skel = (Skeleton) en;
                     skel.setSkeletonType(SkeletonType.WITHER);
-                    EntityEquipment invent = ((LivingEntity) skel).getEquipment();
+                    EntityEquipment invent = skel.getEquipment();
                     invent.setItemInHand(new ItemStack(Material.STONE_SWORD, 1));
                     invent.setItemInHandDropChance(0.09F);
                 }
                 defaultMobData(mob.getType(), en);
-                utilize(args, mob, en, p);
+                if (en instanceof LivingEntity) {
+                    utilize(args, mob, (LivingEntity) en, p);
+                }
             } catch (ClassCastException ex) {
                 ex.printStackTrace();
             }
@@ -216,51 +356,6 @@ public class CmdSpawnmob implements UltimateCommand {
             rtrn.add(s);
         }
         return rtrn;
-    }
-
-    static void horse(EntityType type, Entity spawned, String str) {
-        if (!type.equals(EntityType.HORSE)) {
-            return;
-        }
-        Horse horse = (Horse) spawned;
-        if (str.equalsIgnoreCase("donkey")) {
-            horse.setVariant(Variant.DONKEY);
-        } else if (str.equalsIgnoreCase("mule")) {
-            horse.setVariant(Variant.MULE);
-        } else if (str.equalsIgnoreCase("skeleton")) {
-            horse.setVariant(Variant.SKELETON_HORSE);
-        } else if (str.equalsIgnoreCase("undead") || str.equalsIgnoreCase("zombie")) {
-            horse.setVariant(Variant.UNDEAD_HORSE);
-        } else if (isHorseColor(str)) {
-            horse.setColor(getHorseColor(str));
-        } else if (isHorseStyle(str)) {
-            horse.setStyle(getHorseStyle(str));
-        } else if (str.equalsIgnoreCase("saddled")) {
-            horse.setTamed(true);
-            horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
-        } else if (str.equalsIgnoreCase("diamond") || str.equalsIgnoreCase("diamondarmor")) {
-            horse.getInventory().setArmor(new ItemStack(Material.DIAMOND_BARDING));
-        } else if (str.equalsIgnoreCase("iron") || str.equalsIgnoreCase("ironarmor")) {
-            horse.getInventory().setArmor(new ItemStack(Material.IRON_BARDING));
-        } else if (str.equalsIgnoreCase("gold") || str.equalsIgnoreCase("goldarmor")) {
-            horse.getInventory().setArmor(new ItemStack(Material.GOLD_BARDING));
-        }
-        /*Color
-         * BLACK
-         * BROWN
-         * CHESTNUT
-         * CREAMY
-         * DARKBROWN
-         * GRAY
-         * WHITE
-         */
-        /*Style
-         * BLACKDOTS
-         * NONE
-         * WHITE_LEGS
-         * WHITE_DOTS
-         * WHITEFIELD
-         */
     }
 
     @SuppressWarnings("unused")
@@ -289,104 +384,5 @@ public class CmdSpawnmob implements UltimateCommand {
         public void b(String b2) {
             b = b2;
         }
-    }
-
-    static void utilize(String[] args, MobType mob, LivingEntity en, Player p) {
-        utilize((r.getFinalArg(args, 1)), mob, en, p);
-    }
-
-    static void utilize(String args, MobType mob, LivingEntity en, Player p) {
-        for (String str : args.split("[: ]")) {
-            if (str.isEmpty()) {
-                continue;
-            }
-            MobData d = MobData.fromData(en, str);
-            if (d != null) {
-                try {
-                    d.setData(en, p, str);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                r.sendMes(p, "spawnmobDataNotFound", "%Data", str);
-            }
-        }
-    }
-
-    static boolean isHorseColor(String str) {
-        for (Color color : Color.values()) {
-            String colors = color.name().toLowerCase().replaceAll("_", "");
-            String inputs = str.toLowerCase().replaceAll("_", "");
-            if (colors.equals(inputs)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    static Color getHorseColor(String str) {
-        for (Color color : Color.values()) {
-            String colors = color.name().toLowerCase().replaceAll("_", "");
-            String inputs = str.toLowerCase().replaceAll("_", "");
-            if (colors.equals(inputs)) {
-                return color;
-            }
-        }
-        return null;
-    }
-
-    static boolean isHorseStyle(String str) {
-        if (str.equalsIgnoreCase("whitelegs")) {
-            return true;
-        }
-        for (Style style : Style.values()) {
-            String styles = style.name().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
-            String inputs = str.toLowerCase().replaceAll("white_", "").replaceAll("_", "").replaceAll("whitelegs", "white");
-            if (styles.equals(inputs)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    static Style getHorseStyle(String str) {
-        if (str.equalsIgnoreCase("whitelegs")) {
-            return Style.WHITE;
-        }
-        for (Style style : Style.values()) {
-            String styles = style.name().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
-            String inputs = str.toLowerCase().replaceAll("white_", "").replaceAll("_", "").replaceAll("whitelegs", "white");
-            if (styles.equals(inputs)) {
-                return style;
-            }
-        }
-        return null;
-    }
-
-    static void defaultMobData(EntityType type, Entity spawned) {
-        if (type == EntityType.SKELETON) {
-            if (!((Skeleton) spawned).getSkeletonType().equals(SkeletonType.WITHER)) {
-                Skeleton skel = (Skeleton) spawned;
-                skel.setSkeletonType(SkeletonType.NORMAL);
-                skel.getEquipment().setItemInHand(new ItemStack(Material.BOW));
-                skel.getEquipment().setItemInHandDropChance(0.09F);
-                return;
-            }
-
-            if (type == EntityType.PIG_ZOMBIE) {
-                EntityEquipment invent = ((LivingEntity) spawned).getEquipment();
-                invent.setItemInHand(new ItemStack(Material.GOLD_SWORD, 1));
-                invent.setItemInHandDropChance(0.05F);
-            }
-        }
-    }
-
-    static DyeColor getDyeColor(String str) {
-        for (DyeColor dye : DyeColor.values()) {
-            if (dye.name().toLowerCase().replaceAll("_", "").equalsIgnoreCase(str)) {
-                return dye;
-            }
-        }
-        return null;
     }
 }

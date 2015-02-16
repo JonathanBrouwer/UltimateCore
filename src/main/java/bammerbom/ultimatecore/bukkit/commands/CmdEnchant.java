@@ -27,16 +27,15 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.bukkit.resources.databases.EnchantmentDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdEnchant implements UltimateCommand {
 
@@ -52,7 +51,7 @@ public class CmdEnchant implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("enchantment");
     }
 
     @Override
@@ -88,12 +87,22 @@ public class CmdEnchant implements UltimateCommand {
         }
         if (level == 0) {
             stack.removeEnchantment(ench);
+            r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
         } else {
-            MetaItemStack stack2 = new MetaItemStack(stack);
-            stack2.addEnchantment(cs, true, ench, level);
-            p.setItemInHand(stack2.getItemStack());
+            try {
+                MetaItemStack stack2 = new MetaItemStack(stack);
+                stack2.addEnchantment(cs, r.perm(cs, "uc.enchant.unsafe", false, false), ench, level);
+                p.setItemInHand(stack2.getItemStack());
+                r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
+            } catch (IllegalArgumentException ex) {
+                if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or too high")) {
+                    r.sendMes(cs, "enchantUnsafe");
+                    return;
+                }
+                return;
+            }
         }
-        r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
+
     }
 
     @Override

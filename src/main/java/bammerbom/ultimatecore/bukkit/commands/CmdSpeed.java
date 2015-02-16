@@ -25,14 +25,31 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.ArrayList;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CmdSpeed implements UltimateCommand {
+
+    public static Float getSpeed(Float f, Boolean fly) {
+        float userSpeed;
+        userSpeed = f;
+        if (userSpeed > 10.0F) {
+            userSpeed = 10.0F;
+        } else if (userSpeed < 1.0E-004F) {
+            userSpeed = 1.0E-004F;
+        }
+
+        float defaultSpeed = fly ? 0.1F : 0.2F;
+        float maxSpeed = 1.0F;
+        if (userSpeed < 1.0F) {
+            return defaultSpeed * userSpeed;
+        }
+        float ratio = (userSpeed - 1.0F) / 9.0F * (maxSpeed - defaultSpeed);
+        return ratio + defaultSpeed;
+    }
 
     @Override
     public String getName() {
@@ -51,9 +68,6 @@ public class CmdSpeed implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
-            return;
-        }
         if (!r.perm(cs, "uc.speed", false, true)) {
             return;
         }
@@ -62,20 +76,23 @@ public class CmdSpeed implements UltimateCommand {
             return;
         }
         if (!r.isFloat(args[0])) {
-            if (r.isFloat(args[1])) {
+            if (r.checkArgs(args, 1) && r.isFloat(args[1])) {
                 run(cs, label, new String[]{args[1], args[0]});
                 return;
             }
             r.sendMes(cs, "speedUsage");
             return;
         }
-        Player p = (Player) cs;
         Float d = Float.parseFloat(args[0]);
         if (d > 10 || d < 0) {
             r.sendMes(cs, "speedUsage");
             return;
         }
         if (r.checkArgs(args, 1) == false) {
+            if (!r.isPlayer(cs)) {
+                return;
+            }
+            Player p = (Player) cs;
             p.setFlySpeed(getSpeed(d, true));
             p.setWalkSpeed(getSpeed(d, false));
             r.sendMes(cs, "speedSelf", "%Speed", args[0]);
@@ -101,23 +118,5 @@ public class CmdSpeed implements UltimateCommand {
             return null;
         }
         return new ArrayList<>();
-    }
-
-    public static Float getSpeed(Float f, Boolean fly) {
-        float userSpeed;
-        userSpeed = f;
-        if (userSpeed > 10.0F) {
-            userSpeed = 10.0F;
-        } else if (userSpeed < 1.0E-004F) {
-            userSpeed = 1.0E-004F;
-        }
-
-        float defaultSpeed = fly ? 0.1F : 0.2F;
-        float maxSpeed = 1.0F;
-        if (userSpeed < 1.0F) {
-            return defaultSpeed * userSpeed;
-        }
-        float ratio = (userSpeed - 1.0F) / 9.0F * (maxSpeed - defaultSpeed);
-        return ratio + defaultSpeed;
     }
 }

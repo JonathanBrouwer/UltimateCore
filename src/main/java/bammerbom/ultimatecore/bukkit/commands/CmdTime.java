@@ -24,13 +24,12 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CmdTime implements UltimateCommand {
@@ -59,10 +58,6 @@ public class CmdTime implements UltimateCommand {
                     r.sendMes(cs, "timeUsage");
                     return;
                 } else {
-                    if (!r.checkArgs(args, 1)) {
-                        r.sendMes(cs, "timeUsage");
-                        return;
-                    }
                     if ("day".equalsIgnoreCase(args[0])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.day", false, false)) {
                             r.sendMes(cs, "noPermissions");
@@ -97,6 +92,10 @@ public class CmdTime implements UltimateCommand {
                         Integer time = Integer.parseInt(args[0]);
                         w.setFullTime(time);
                     } else if (args[0].equalsIgnoreCase("add")) {
+                        if (!r.checkArgs(args, 1)) {
+                            r.sendMes(cs, "timeUsage");
+                            return;
+                        }
                         if (r.isInt(args[1])) {
                             if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.add", false, false)) {
                                 r.sendMes(cs, "noPermissions");
@@ -108,6 +107,10 @@ public class CmdTime implements UltimateCommand {
                     } else if (args[0].equalsIgnoreCase("query")) {
 
                     } else if (args[0].equalsIgnoreCase("set")) {
+                        if (!r.checkArgs(args, 1)) {
+                            r.sendMes(cs, "timeUsage");
+                            return;
+                        }
                         if ("day".equalsIgnoreCase(args[1])) {
                             if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.day", false, false)) {
                                 r.sendMes(cs, "noPermissions");
@@ -279,6 +282,10 @@ public class CmdTime implements UltimateCommand {
                         r.sendMes(cs, "timeUsage");
                     }
                 } else if (args[0].equalsIgnoreCase("add")) {
+                    if (!r.checkArgs(args, 1)) {
+                        r.sendMes(cs, "timeUsage");
+                        return;
+                    }
                     if (r.isInt(args[1])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.add", false, false)) {
                             r.sendMes(cs, "noPermissions");

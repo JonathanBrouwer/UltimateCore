@@ -24,14 +24,12 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
-import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdFireball implements UltimateCommand {
 
@@ -47,7 +45,7 @@ public class CmdFireball implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("fireskull");
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -80,9 +78,8 @@ public class CmdFireball implements UltimateCommand {
         }
         Vector direction = p.getEyeLocation().getDirection().multiply(2);
         Projectile projectile = (Projectile) p.getWorld().spawn(p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), type);
-        projectile.setShooter((ProjectileSource) p);
+        projectile.setShooter(p);
         projectile.setVelocity(direction);
-        projectile.setBounce(true);
     }
 
     @Override

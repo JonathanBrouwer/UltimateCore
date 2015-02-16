@@ -23,12 +23,11 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import org.bukkit.Bukkit;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import org.bukkit.Bukkit;
 
 /**
  * Helper class that can "execute" strings and helps general NSM and OBC calls.
@@ -184,7 +183,7 @@ public class ReflectionUtil {
      */
     protected static Object getObjByFunction(Object obj, String methodName) throws Exception {
         Method m = null;
-        Class<?> c = obj.getClass();
+        Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
         for (c = obj.getClass(); c != null; c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
@@ -224,7 +223,7 @@ public class ReflectionUtil {
      */
     protected static Object getObjByFunction(Object obj, String name, Object[] args) throws Exception {
         Method m = null;
-        Class<?> c = obj.getClass();
+        Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
         for (c = obj.getClass(); c != null; c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
@@ -242,7 +241,7 @@ public class ReflectionUtil {
 
     protected static Object getStaticObjByFunction(Class<?> obj, String name, Object[] args) throws Exception {
         Method m = null;
-        Class<?> c = obj;
+        Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
         for (c = obj; c != null; c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
@@ -334,20 +333,6 @@ public class ReflectionUtil {
     public static class ReflectionObject {
 
         /**
-         * The internal object operations are performed on
-         */
-        private Object object;
-
-        /**
-         * Default constructor
-         *
-         * @param obj The object the ReflectionObject wraps around
-         */
-        public ReflectionObject(Object obj) {
-            this.object = obj;
-        }
-
-        /**
          * Creates a new instance of the provided class, passing in the provided
          * parameters. Then returns the wrapped ReflectionObject
          *
@@ -384,6 +369,20 @@ public class ReflectionUtil {
                     return null;
                 }
             }
+        }
+
+        /**
+         * The internal object operations are performed on
+         */
+        private final Object object;
+
+        /**
+         * Default constructor
+         *
+         * @param obj The object the ReflectionObject wraps around
+         */
+        public ReflectionObject(Object obj) {
+            this.object = obj;
         }
 
         /**
@@ -533,6 +532,7 @@ public class ReflectionUtil {
                 throw new IllegalArgumentException("Could not set " + field + " on object of class " + this.object.getClass().getName(), e);
             }
         }
+
     }
 
     public static class ReflectionStatic {

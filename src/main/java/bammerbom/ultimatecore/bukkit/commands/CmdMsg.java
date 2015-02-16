@@ -24,16 +24,16 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CmdMsg implements UltimateCommand {
 
@@ -54,7 +54,7 @@ public class CmdMsg implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("w", "m", "t", "pm", "tell", "whisper");
+        return Arrays.asList("w", "m", "t", "pm", "tell", "whisper", "message");
     }
 
     @Override
@@ -73,11 +73,11 @@ public class CmdMsg implements UltimateCommand {
         }
         if (cs instanceof Player) {
             UC.getPlayer(pl).setReply((Player) cs);
-            UC.getPlayer((Player) cs).setReply(pl);
+            UC.getPlayer((OfflinePlayer) cs).setReply(pl);
         }
         //Spy
         for (Player p : r.getOnlinePlayers()) {
-            UCplayer up = UC.getPlayer(p);
+            UPlayer up = UC.getPlayer(p);
             if (up.isSpy()) {
                 p.sendMessage(formatSpy
                         .replace("@1", r.positive + "")

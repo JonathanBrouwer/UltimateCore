@@ -26,16 +26,15 @@ package bammerbom.ultimatecore.bukkit.configuration;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.StreamUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
-import org.bukkit.Bukkit;
-
 import java.io.*;
 import java.util.*;
+import org.bukkit.Bukkit;
 
 public class Config extends YamlConfiguration implements Cloneable {
 
     static boolean a = false;
     private final File file;
-    private final Map<String, String> headers;
+    private final HashMap<String, String> headers;
     private final Set<String> readkeys;
 
     public Config(File file2) {
@@ -173,7 +172,7 @@ public class Config extends YamlConfiguration implements Cloneable {
                         if ((refStart > 0) && (refEnd > refStart)) {
                             int refId = Integer.parseInt(line.substring(refStart + 3, refEnd), -1);
                             if (refId >= 0) {
-                                String data = (String) anchorData.get(refId);
+                                String data = anchorData.get(refId);
                                 if (data != null) {
                                     line = StringUtil.trimEnd(line.substring(0, refStart)) + " " + data;
                                 }
@@ -247,7 +246,7 @@ public class Config extends YamlConfiguration implements Cloneable {
 
     //headers
     public String getHeader() {
-        return (String) this.headers.get(getPath());
+        return this.headers.get(getPath());
     }
 
     public void setHeader(String header) {
@@ -255,7 +254,7 @@ public class Config extends YamlConfiguration implements Cloneable {
     }
 
     public String getHeader(String path) {
-        return (String) this.headers.get(getPath(path));
+        return this.headers.get(getPath(path));
     }
 
     public void removeHeader() {
@@ -272,6 +271,10 @@ public class Config extends YamlConfiguration implements Cloneable {
         } else {
             this.headers.put(getPath(path), header);
         }
+    }
+
+    public HashMap<String, String> getHeaders() {
+        return headers;
     }
 
     //path
@@ -351,7 +354,7 @@ public class Config extends YamlConfiguration implements Cloneable {
                 }
             }
             if (value instanceof UUID) {
-                value = ((UUID) value).toString();
+                value = value.toString();
             }
         }
         super.set(path, value);
@@ -367,7 +370,7 @@ public class Config extends YamlConfiguration implements Cloneable {
 //headerbuilder
 class HeaderBuilder {
 
-    private StringBuilder buffer = new StringBuilder();
+    private final StringBuilder buffer = new StringBuilder();
 
     private StringBuilder add() {
         return this.buffer.append('\n');
@@ -403,7 +406,7 @@ class HeaderBuilder {
 class NodeBuilder {
 
     private final int indent;
-    private LinkedList<String> nodes = new LinkedList<String>();
+    private final LinkedList<String> nodes = new LinkedList<>();
 
     public NodeBuilder(int indent) {
         this.indent = indent;
@@ -426,7 +429,7 @@ class NodeBuilder {
     }
 
     public String getName() {
-        return (String) this.nodes.peekLast();
+        return this.nodes.peekLast();
     }
 
     public int getDepth() {

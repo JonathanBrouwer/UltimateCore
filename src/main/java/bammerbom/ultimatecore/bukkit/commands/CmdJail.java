@@ -24,17 +24,16 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UCplayer;
+import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import java.util.*;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-
-import java.util.*;
 
 public class CmdJail implements UltimateCommand {
 
@@ -86,7 +85,7 @@ public class CmdJail implements UltimateCommand {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
-            UCplayer pu = UC.getPlayer(pl);
+            UPlayer pu = UC.getPlayer(pl);
             if (pu.isJailed()) {
                 r.sendMes(cs, "jailAlreadyJailed", "%Player", pl.getName());
                 return;
@@ -96,10 +95,10 @@ public class CmdJail implements UltimateCommand {
                 r.sendMes(cs, "jailNone");
                 return;
             }
-            String jail = "";
+            String jail;
             Long time = -1L;
-            if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1], true) != -1) {
-                time = DateUtil.parseDateDiff(args[1], true);
+            if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1]) != -1) {
+                time = DateUtil.parseDateDiff(args[1]);
             }
             if (r.checkArgs(args, 2)) {
                 jail = args[2];
@@ -115,15 +114,11 @@ public class CmdJail implements UltimateCommand {
             }
             Location loc = UC.getServer().getJail(jail);
             if (pl.isOnline()) {
-                LocationUtil.teleportUnsafe(pl.getPlayer(), loc, TeleportCause.PLUGIN);
-                if (time != -1L) {
-                    r.sendMes(pl.getPlayer(), "jailTarget", "%Time", DateUtil.format(time + System.currentTimeMillis()));    
-                } else {
-                    r.sendMes(pl.getPlayer(), "jailTargetEver");   
-                }                
+                LocationUtil.teleportUnsafe(pl.getPlayer(), loc, TeleportCause.PLUGIN, true);
+                r.sendMes(pl.getPlayer(), "jailTarget", "%Time", time != -1L ? DateUtil.format(time) : r.mes("jailEver"));
             }
             pu.jail(jail, time);
-            r.sendMes(cs, "jailSender", "%Jail", jail, "%Player", pl.getName(), "%Time", time != -1L ? DateUtil.format(time + System.currentTimeMillis()) : r.mes("jailEver"));
+            r.sendMes(cs, "jailSender", "%Jail", jail, "%Player", pl.getName(), "%Time", time != -1L ? DateUtil.format(time) : r.mes("jailEver"));
         }
 
     }

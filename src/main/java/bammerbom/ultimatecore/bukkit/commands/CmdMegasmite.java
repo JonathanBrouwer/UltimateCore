@@ -24,18 +24,13 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 
 public class CmdMegasmite implements UltimateCommand {
 
@@ -51,7 +46,7 @@ public class CmdMegasmite implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("megalignting");
     }
 
     @Override
@@ -66,7 +61,7 @@ public class CmdMegasmite implements UltimateCommand {
                 return;
             }
             Location tPlayerLocation = target.getLocation();
-            if (r.getCnfg().getBoolean("command.Smite.smiteDamage") == false) {
+            if (r.getCnfg().getBoolean("Command.Smite.smiteDamage") == false) {
                 for (int i = 0; i < 20; i++) {
                     target.getWorld().strikeLightningEffect(tPlayerLocation);
                 }
@@ -85,7 +80,7 @@ public class CmdMegasmite implements UltimateCommand {
             Player p = (Player) cs;
             Block strike = p.getTargetBlock(null, 150);
             Location strikel = strike.getLocation();
-            if (r.getCnfg().getBoolean("command.Smite.smiteDamage") == false) {
+            if (r.getCnfg().getBoolean("Command.Smite.smiteDamage") == false) {
                 for (int i = 0; i < 20; i++) {
                     p.getWorld().strikeLightningEffect(strikel);
                 }

@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.InventoryUtil;
+import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -34,11 +35,9 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
-import java.util.*;
-
 public class CmdCompact implements UltimateCommand {
 
-    private static Map<ItemStack, SimpleRecipe> condenseList = new HashMap<ItemStack, SimpleRecipe>();
+    private static final Map<ItemStack, SimpleRecipe> condenseList = new HashMap<>();
 
     private static boolean condenseStack(Player p, ItemStack stack, boolean validateReverse) {
         SimpleRecipe condenseType = getCondenseType(stack);
@@ -85,12 +84,12 @@ public class CmdCompact implements UltimateCommand {
 
     private static SimpleRecipe getCondenseType(ItemStack stack) {
         if (condenseList.containsKey(stack)) {
-            return (SimpleRecipe) condenseList.get(stack);
+            return condenseList.get(stack);
         }
 
         Iterator<Recipe> intr = Bukkit.getServer().recipeIterator();
         while (intr.hasNext()) {
-            Recipe recipe = (Recipe) intr.next();
+            Recipe recipe = intr.next();
             Collection<ItemStack> recipeItems = getStackOnRecipeMatch(recipe, stack);
 
             if ((recipeItems != null) && ((recipeItems.size() == 4) || (recipeItems.size() == 9)) && (recipeItems.size() > recipe.getResult().getAmount())) {
@@ -121,7 +120,7 @@ public class CmdCompact implements UltimateCommand {
         boolean match = true;
         Iterator<ItemStack> iter = inputList.iterator();
         while (iter.hasNext()) {
-            ItemStack inputSlot = (ItemStack) iter.next();
+            ItemStack inputSlot = iter.next();
             if (inputSlot == null) {
                 iter.remove();
             } else {
@@ -151,7 +150,7 @@ public class CmdCompact implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("stack");
+        return Arrays.asList("stack", "condense", "blocks");
     }
 
     @Override
@@ -189,14 +188,15 @@ public class CmdCompact implements UltimateCommand {
 
     static class SimpleRecipe implements Recipe {
 
-        private ItemStack result;
-        private ItemStack input;
+        private final ItemStack result;
+        private final ItemStack input;
 
         protected SimpleRecipe(ItemStack result, ItemStack input) {
             this.result = result;
             this.input = input;
         }
 
+        @Override
         public ItemStack getResult() {
             return result.clone();
         }

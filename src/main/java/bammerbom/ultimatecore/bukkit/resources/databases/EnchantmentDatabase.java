@@ -23,13 +23,12 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.databases;
 
-import org.bukkit.enchantments.Enchantment;
-
 import java.util.HashMap;
+import org.bukkit.enchantments.Enchantment;
 
 public class EnchantmentDatabase {
 
-    static HashMap<String, Enchantment> ench = new HashMap<String, Enchantment>();
+    static HashMap<String, Enchantment> ench = new HashMap<>();
 
     public static Enchantment getByName(String str) {
         if (ench.isEmpty()) {

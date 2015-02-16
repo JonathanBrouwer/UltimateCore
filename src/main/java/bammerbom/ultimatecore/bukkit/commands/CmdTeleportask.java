@@ -26,13 +26,12 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.ArrayList;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CmdTeleportask implements UltimateCommand {
@@ -49,7 +48,7 @@ public class CmdTeleportask implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("tpa");
+        return Arrays.asList("tpa", "call", "tpask");
     }
 
     @Override
@@ -95,7 +94,7 @@ public class CmdTeleportask implements UltimateCommand {
                             UC.getServer().removeTeleportRequest(t.getUniqueId());
                         }
                     }
-                }, r.getCnfg().getInt("Command.Tp.TpaCancel") * 20L);
+                }, r.getCnfg().getInt("Command.Teleport.TpaCancel") * 20L);
     }
 
     @Override

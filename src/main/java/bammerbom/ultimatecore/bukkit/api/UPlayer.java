@@ -29,22 +29,14 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import org.bukkit.BanList;
+import java.util.*;
+import org.bukkit.*;
 import org.bukkit.BanList.Type;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-public class UCplayer {
+public class UPlayer {
 
     static Random ra = new Random();
     String name = null;
@@ -75,13 +67,21 @@ public class UCplayer {
     Boolean inRecipeView = false;
     Boolean vanish = null;
     Long vanishtime = null;
+    //Last connect
+    Long lastconnect = null;
+    Boolean inTeleportMenu = false;
+    Boolean inCmdEnchantingtable = false;
+    Boolean teleportEnabled = null;
+    //Afk
+    boolean afk = false;
+    long lastaction = System.currentTimeMillis();
 
-    public UCplayer(OfflinePlayer p) {
+    public UPlayer(OfflinePlayer p) {
         name = p.getName();
         uuid = p.getUniqueId();
     }
 
-    public UCplayer(UUID uuid) {
+    public UPlayer(UUID uuid) {
         OfflinePlayer p = r.searchOfflinePlayer(uuid);
         name = p.getName();
         this.uuid = p.getUniqueId();
@@ -99,9 +99,6 @@ public class UCplayer {
     public Player getOnlinePlayer() {
         return Bukkit.getPlayer(uuid);
     }
-
-    //Last connect
-    Long lastconnect = null;
 
     public long getLastConnectMillis() {
         if (lastconnect != null) {
@@ -706,6 +703,21 @@ public class UCplayer {
         save();
     }
 
+    public String getDisplayName() {
+        if (getNick() != null) {
+            return getNick();
+        }
+        if (getPlayer().isOnline()) {
+            if (getOnlinePlayer().getCustomName() != null) {
+                return getOnlinePlayer().getCustomName();
+            }
+            if (getOnlinePlayer().getDisplayName() != null) {
+                return getOnlinePlayer().getDisplayName();
+            }
+        }
+        return getPlayer().getName();
+    }
+
     public String getNick() {
         if (nickname != null) {
             return nickname;
@@ -716,9 +728,9 @@ public class UCplayer {
         }
         String nick = ChatColor.translateAlternateColorCodes('&', data.getString("nick"));
         if (getPlayer().isOnline()) {
-            getPlayer().getPlayer().setDisplayName(nickname.replace("&y", ""));
+            getPlayer().getPlayer().setDisplayName(nick.replace("&y", ""));
         }
-        if (getPlayer().isOnline() && r.perm((Player) getPlayer(), "uc.chat.rainbow", false, false)) {
+        if (getPlayer().isOnline() && r.perm((CommandSender) getPlayer(), "uc.chat.rainbow", false, false)) {
             nick = nick.replaceAll("&y", r.getRandomChatColor() + "");
         }
         nickname = nick + ChatColor.RESET;
@@ -733,9 +745,10 @@ public class UCplayer {
             if (getPlayer().isOnline()) {
                 getPlayer().getPlayer().setDisplayName(nickname.replace("&y", ""));
             }
-        }
-        if (getPlayer().isOnline()) {
-            getPlayer().getPlayer().setDisplayName(nickname.replace("&y", ""));
+        } else {
+            if (getPlayer().isOnline()) {
+                getPlayer().getPlayer().setDisplayName(getPlayer().getPlayer().getName());
+            }
         }
         Config data = getPlayerConfig();
         data.set("nick", str);
@@ -862,8 +875,6 @@ public class UCplayer {
         save();
     }
 
-    Boolean inTeleportMenu = false;
-
     public boolean isInTeleportMenu() {
         return inTeleportMenu;
     }
@@ -872,8 +883,6 @@ public class UCplayer {
         inTeleportMenu = b;
         save();
     }
-
-    Boolean inCmdEnchantingtable = false;
 
     public boolean isInCommandEnchantingtable() {
         return inCmdEnchantingtable;
@@ -884,14 +893,12 @@ public class UCplayer {
         save();
     }
 
-    Boolean teleportEnabled = null;
-
     public boolean hasTeleportEnabled() {
         if (teleportEnabled != null) {
             return teleportEnabled;
         }
         if (!getPlayerConfig().contains("teleportenabled")) {
-            return false;
+            return true;
         }
         teleportEnabled = getPlayerConfig().getBoolean("teleportenabled");
         save();
@@ -968,10 +975,6 @@ public class UCplayer {
         save();
     }
 
-    //Afk
-    boolean afk = false;
-    long lastaction = System.currentTimeMillis();
-
     public boolean isAfk() {
         return afk;
     }
@@ -985,16 +988,16 @@ public class UCplayer {
         return lastaction;
     }
 
+    public void setLastActivity(Long last) {
+        lastaction = last;
+        save();
+    }
+
     public void updateLastActivity() {
         setLastActivity(System.currentTimeMillis());
         if (isAfk()) {
             setAfk(false);
-            Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getNick() == null ? (getPlayer().isOnline() ? getOnlinePlayer().getDisplayName() : getPlayer().getName()) : UC.getPlayer(getPlayer()).getNick()));
+            Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getDisplayName()));
         }
-    }
-
-    public void setLastActivity(Long last) {
-        lastaction = last;
-        save();
     }
 }

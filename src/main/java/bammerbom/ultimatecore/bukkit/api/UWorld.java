@@ -26,21 +26,17 @@ package bammerbom.ultimatecore.bukkit.api;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.utils.FireworkUtil;
 import java.io.File;
-import org.bukkit.Bukkit;
-import org.bukkit.FireworkEffect;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 
-public class UCworld {
+public class UWorld {
 
     World base;
 
-    public UCworld(World w) {
+    public UWorld(World w) {
         base = w;
     }
 
-    public UCworld(String world) {
+    public UWorld(String world) {
         try {
             if (world == null || Bukkit.getWorld(world) == null) {
                 throw new NullPointerException("World not found");
@@ -81,12 +77,6 @@ public class UCworld {
     public void resetData() {
         unregister();
         register();
-    }
-
-    //World
-    public static enum WorldFlag {
-
-        MONSTER, ANIMAL, PVP
     }
 
     public boolean isFlagDenied(WorldFlag f) {
@@ -134,6 +124,13 @@ public class UCworld {
         }
     }
 
+    public GameMode getDefaultGamemode() {
+        File file = getDataFile();
+        Config conf = new Config(file);
+        String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
+        return GameMode.valueOf(gm);
+    }
+
     public void setDefaultGamemode(GameMode gm) {
         File file = getDataFile();
         Config conf = new Config(file);
@@ -141,11 +138,10 @@ public class UCworld {
         conf.save(file);
     }
 
-    public GameMode getDefaultGamemode() {
-        File file = getDataFile();
-        Config conf = new Config(file);
-        String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
-        return GameMode.valueOf(gm);
+    //World
+    public static enum WorldFlag {
+
+        MONSTER, ANIMAL, PVP
     }
 
 }

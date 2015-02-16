@@ -26,15 +26,14 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CmdBack implements UltimateCommand {
 
@@ -67,7 +66,7 @@ public class CmdBack implements UltimateCommand {
             r.sendMes(cs, "backNotFound");
             return;
         }
-        LocationUtil.teleport(p, loc, TeleportCause.COMMAND);
+        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true);
         r.sendMes(cs, "backMessage");
     }
 

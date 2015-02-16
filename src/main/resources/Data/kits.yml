@@ -1,0 +1,20 @@
+tools:
+  description: A kit with stone tools.
+  cooldown: "20s"
+  items:
+    - type: STONE_SWORD 
+      unbreakable: 1
+      name: "&bStone sword"
+      lore: "&eStarters kit."
+    - type: STONE_PICKAXE
+      unbreakable: 1
+      name: "&bStone pickaxe"
+      lore: "&eStarters kit."
+    - type: STONE_SHOVEL
+      unbreakable: 1
+      name: "&bStone shovel"
+      lore: "&eStarters kit."
+    - type: STONE_AXE
+      unbreakable: 1
+      name: "&bStone axe"
+      lore: "&eStarters kit."

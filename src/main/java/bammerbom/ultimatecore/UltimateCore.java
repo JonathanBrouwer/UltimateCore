@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 public class UltimateCore {
 

@@ -25,15 +25,12 @@ package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.bukkit.resources.utils.StreamUtil;
-import org.apache.commons.io.FilenameUtils;
+import java.io.*;
+import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.plugin.Plugin;
-
-import java.io.*;
-import java.util.*;
 
 public class UltimateFileLoader {
 
@@ -49,13 +46,14 @@ public class UltimateFileLoader {
     public static File DFworlds;
     public static File DFreports;
     public static File DFjails;
+    public static File DFkits;
 
     public static void Enable() {
         Plugin plugin = r.getUC();
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
         }
-        conf = new File(plugin.getDataFolder() + "\\config.yml");
+        conf = new File(plugin.getDataFolder() + File.separator + "config.yml");
         if (!conf.exists()) {
             plugin.saveResource("config.yml", true);
         }
@@ -74,6 +72,7 @@ public class UltimateFileLoader {
         DFworlds = new File(plugin.getDataFolder() + File.separator + "Data", "worlds.yml");
         DFreports = new File(plugin.getDataFolder() + File.separator + "Data", "reports.yml");
         DFjails = new File(plugin.getDataFolder() + File.separator + "Data", "jails.yml");
+        DFkits = new File(plugin.getDataFolder() + File.separator + "Data", "kits.yml");
         //
         try {
             if (!DFspawns.exists()) {
@@ -85,9 +84,11 @@ public class UltimateFileLoader {
             if (!DFworlds.exists()) {
                 DFworlds.createNewFile();
             }
-            //if(!DFreports.exists()) DFspawns.createNewFile();
             if (!DFjails.exists()) {
                 DFjails.createNewFile();
+            }
+            if (!DFkits.exists()) {
+                plugin.saveResource("Data" + File.separator + "kits.yml", true);
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to create Data files.");
@@ -162,85 +163,22 @@ public class UltimateFileLoader {
             }
             Config confL = new Config(tempFile);
             Config confS = r.getCnfg();
+            Boolean changed = false;
             for (String s : confL.getKeys(true)) {
                 if (!confS.contains(s) && !(confL.get(s) instanceof MemorySection)) {
                     confS.set(s, confL.get(s));
+                    changed = true;
                 }
             }
-            confS.save();
-            if (tempFile != null) {
-                tempFile.delete();
-            }
-        }
-        //LANG
-        try {
-            File tempFile;
-            try {
-                tempFile = File.createTempFile("temp_EN", ".properties");
-            } catch (IOException ex) {
-                ErrorLogger.log(ex, "Failed to create temp language file.");
-                return;
-            }
-            try (FileOutputStream out = new FileOutputStream(tempFile);
-                    InputStream in = r.getUC().getResource("Messages/EN.properties")) {
-                tempFile.deleteOnExit();
-                copy(in, out);
-                in.close();
-                out.close();
-            } catch (IOException ex) {
-                ErrorLogger.log(ex, "Failed to complete language file.");
-            }
-            ResourceBundle tempR;
-            try {
-                tempR = new PropertyResourceBundle(new FileInputStream(tempFile));
-            } catch (IOException ex) {
-                ErrorLogger.log(ex, "Failed to create ResourceBundle.");
-                return;
-            }
-            Enumeration<String> keys = tempR.getKeys();
-            //EN
-            Properties propsEN = new Properties();
-            Properties propsCU = new Properties();
-            FileInputStream strEN = new FileInputStream(ENf);
-            FileInputStream strCU = new FileInputStream(LANGf);
-            propsEN.load(strEN);
-            propsCU.load(strCU);
-            strEN.close();
-            strCU.close();
-            Boolean rl = false;
-            while (keys.hasMoreElements()) {
-                String key = keys.nextElement();
-                //
-                if (!r.en.containsKey(key)) {
-                    rl = true;
-                    propsEN.put(key, tempR.getString(key));
+            if (changed) {
+                for (String str : confL.getHeaders().keySet()) {
+                    confS.setHeader(str, confL.getHeaders().get(str));
                 }
-                if (!r.cu.containsKey(key)) {
-                    rl = true;
-                    propsCU.put(key, tempR.getString(key));
-                }
-            }
-            if (rl) {
-                FileOutputStream ENo = StreamUtil.createOutputStream(ENf);
-                FileOutputStream CUo = StreamUtil.createOutputStream(LANGf);
-                propsEN.store(ENo, "UltimateCore messages - EN");
-                propsCU.store(CUo, "UltimateCore messages - " + (FilenameUtils.removeExtension(LANGf.getName())));
-                ENo.close();
-                CUo.close();
+                confS.save();
             }
             if (tempFile != null) {
                 tempFile.delete();
             }
-            if (rl) {
-                InputStream inA = new FileInputStream(UltimateFileLoader.ENf);
-                InputStream inB = new FileInputStream(UltimateFileLoader.LANGf);
-                r.en = new PropertyResourceBundle(inA);
-                r.cu = new PropertyResourceBundle(inB);
-                inA.close();
-                inB.close();
-            }
-        } catch (IOException | SecurityException ex) {
-            ErrorLogger.log(ex, "Failed to complete message files.");
         }
     }
 

@@ -24,10 +24,6 @@
 package bammerbom.ultimatecore.bukkit.resources.classes;
 
 import bammerbom.ultimatecore.bukkit.r;
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,6 +31,9 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 public class ErrorLogger {
 
@@ -98,7 +97,7 @@ public class ErrorLogger {
         r.log(ChatColor.DARK_RED + "=========================================================");
         if (t instanceof Exception) {
             r.log(ChatColor.RED + "Stacktrace: ");
-            ((Exception) t).printStackTrace();
+            t.printStackTrace();
             r.log(ChatColor.DARK_RED + "=========================================================");
         }
         Bukkit.getConsoleSender().sendMessage(" ");
