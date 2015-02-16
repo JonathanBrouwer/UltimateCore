@@ -67,7 +67,7 @@ public class CmdTeleporthere implements UltimateCommand {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
-        LocationUtil.teleport(p, t, TeleportCause.COMMAND, false);
+        LocationUtil.teleport(t, p, TeleportCause.COMMAND, false);
         LocationUtil.playEffect(p, t.getLocation());
         r.sendMes(cs, "teleporthereMessage");
     }
