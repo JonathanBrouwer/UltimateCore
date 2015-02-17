@@ -201,7 +201,7 @@ public class LocationUtil {
 
     @SuppressWarnings("deprecation")
     public static Location getAbsoluteTarget(LivingEntity entity) {
-        Block block = entity.getTargetBlock(null, 300);
+        Block block = entity.getTargetBlock((HashSet) null, 300);
         if (block == null) {
             return null;
         }

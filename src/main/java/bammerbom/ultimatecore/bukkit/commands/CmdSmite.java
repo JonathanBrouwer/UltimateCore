@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -74,7 +75,7 @@ public class CmdSmite implements UltimateCommand {
                 return;
             }
             Player p = (Player) cs;
-            Block strike = p.getTargetBlock(null, 150);
+            Block strike = p.getTargetBlock((HashSet) null, 150);
             Location strikel = strike.getLocation();
             if (r.getCnfg().getBoolean("Command.Smite.smiteDamage") == false) {
                 p.getWorld().strikeLightningEffect(strikel);
