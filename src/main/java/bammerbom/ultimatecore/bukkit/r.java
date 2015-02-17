@@ -245,21 +245,25 @@ public class r {
                 en.save(new FileOutputStream(UltimateFileLoader.ENf), "UltimateCore messages file.");
             }
             //
-            cu = new ExtendedProperties("UTF-8");
-            FileInputStream incu = new FileInputStream(UltimateFileLoader.LANGf);
-            cu.load(incu);
-            incu.close();
-            ExtendedProperties cuC = new ExtendedProperties("UTF-8");
-            cuC.load(r.getUC().getResource("Messages/" + FilenameUtils.getBaseName(UltimateFileLoader.LANGf.getName()) + ".properties"));
-            Boolean b = false;
-            for (String s : cuC.map.keySet()) {
-                if (!cu.map.containsKey(s)) {
-                    cu.setProperty(s, cuC.getProperty(s));
-                    b = true;
+            try {
+                cu = new ExtendedProperties("UTF-8");
+                FileInputStream incu = new FileInputStream(UltimateFileLoader.LANGf);
+                cu.load(incu);
+                incu.close();
+                ExtendedProperties cuC = new ExtendedProperties("UTF-8");
+                cuC.load(r.getUC().getResource("Messages/" + FilenameUtils.getBaseName(UltimateFileLoader.LANGf.getName()) + ".properties"));
+                Boolean b = false;
+                for (String s : cuC.map.keySet()) {
+                    if (!cu.map.containsKey(s)) {
+                        cu.setProperty(s, cuC.getProperty(s));
+                        b = true;
+                    }
                 }
-            }
-            if (b) {
-                en.save(new FileOutputStream(UltimateFileLoader.ENf), "UltimateCore messages file.");
+                if (b) {
+                    en.save(new FileOutputStream(UltimateFileLoader.ENf), "UltimateCore messages file.");
+                }
+            } catch (NullPointerException | FileNotFoundException ex) {
+                //IGNORE: CUSTOM MESSAGES FILE
             }
         } catch (IOException ex) {
             ErrorLogger.log(ex, "Failed to load language files.");
@@ -553,6 +557,7 @@ public class r {
             try {
                 in = new BufferedReader(new InputStreamReader(inStream, enc));
             } catch (Exception ex) {
+                //SYSTEM DOESNT SUPPORT ANSI AS UTF-8
                 in = new BufferedReader(new InputStreamReader(inStream));
             }
             while (true) {
