@@ -234,7 +234,7 @@ public class InventoryUtil implements Listener {
     public static Inventory convertStringToInventory(String invString, String name) {
         String[] serializedBlocks = invString.split(";");
         String invInfo = serializedBlocks[0];
-        Inventory deserializedInventory = Bukkit.getServer().createInventory(null, Integer.valueOf(invInfo), name.substring(0, 31));
+        Inventory deserializedInventory = Bukkit.getServer().createInventory(null, Integer.valueOf(invInfo), (name.length() >= 32) ? name.substring(0, 31) : name);
 
         for (int i = 1; i < serializedBlocks.length; i++) {
             String[] serializedBlock = serializedBlocks[i].split("#");
