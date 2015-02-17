@@ -549,8 +549,12 @@ public class r {
         }
 
         public synchronized void load(InputStream inStream) throws IOException {
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(inStream, enc));
+            BufferedReader in;
+            try {
+                in = new BufferedReader(new InputStreamReader(inStream, enc));
+            } catch (Exception ex) {
+                in = new BufferedReader(new InputStreamReader(inStream));
+            }
             while (true) {
                 // Get next line
                 String line = in.readLine();
