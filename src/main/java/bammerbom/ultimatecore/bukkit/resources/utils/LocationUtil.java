@@ -37,7 +37,7 @@ public class LocationUtil {
 
     private static final Vector3D[] VOLUME;
     private static final Set<Material> HOLLOW_MATERIALS = new HashSet<>();
-    private static final HashSet<Material> TRANSPARENT_MATERIALS = new HashSet<>();
+    private static final Set<Material> TRANSPARENT_MATERIALS = new HashSet<>();
     static Integer delay2 = 0;
 
     static {
@@ -201,7 +201,7 @@ public class LocationUtil {
 
     @SuppressWarnings("deprecation")
     public static Location getAbsoluteTarget(LivingEntity entity) {
-        Block block = entity.getTargetBlock((HashSet) null, 300);
+        Block block = entity.getTargetBlock((Set<Material>) null, 300);
         if (block == null) {
             return null;
         }

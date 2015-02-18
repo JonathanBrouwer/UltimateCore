@@ -25,10 +25,8 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.command.Command;
@@ -66,7 +64,7 @@ public class CmdSpawner implements UltimateCommand {
             r.sendMes(cs, "spawnerUsage");
             return;
         }
-        Block b = p.getTargetBlock((HashSet) null, 10);
+        Block b = p.getTargetBlock((Set<Material>) null, 10);
         if (!(b.getState() instanceof CreatureSpawner)) {
             r.sendMes(cs, "spawnerNotLooking");
             return;
