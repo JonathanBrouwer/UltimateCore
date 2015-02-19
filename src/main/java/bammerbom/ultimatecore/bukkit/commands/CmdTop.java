@@ -84,7 +84,7 @@ public class CmdTop implements UltimateCommand {
             return;
         }
         loc.add(0, 1.01, 0);
-        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true);
+        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, false, true);
         r.sendMes(cs, "topMessage");
     }
 

@@ -138,7 +138,7 @@ public class CmdHome implements UltimateCommand {
                     //Teleport
                     Location location = UC.getPlayer(t).getHome(args[0].toLowerCase().split(":")[1]);
                     if (r.isPlayer(cs)) {
-                        LocationUtil.teleport(p, location, TeleportCause.COMMAND, true);
+                        LocationUtil.teleport(p, location, TeleportCause.COMMAND, true, true);
                     }
                     r.sendMes(cs, "homeTeleport", "%Home", args[0]);
                 } catch (Exception ex) {
@@ -160,7 +160,7 @@ public class CmdHome implements UltimateCommand {
             try {
                 //Teleport
                 Location location = UC.getPlayer(p).getHome(args[0].toLowerCase());
-                LocationUtil.teleport(p, location, TeleportCause.COMMAND, true);
+                LocationUtil.teleport(p, location, TeleportCause.COMMAND, true, true);
                 r.sendMes(cs, "homeTeleport", "%Home", args[0]);
             } catch (Exception ex) {
                 r.sendMes(cs, "homeInvalid", "%Home", args[0]);

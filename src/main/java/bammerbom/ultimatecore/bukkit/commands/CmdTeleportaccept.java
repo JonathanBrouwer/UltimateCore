@@ -65,7 +65,7 @@ public class CmdTeleportaccept implements UltimateCommand {
             if (t == null) {
                 r.sendMes(p, "teleportaskNoRequests");
             } else {
-                LocationUtil.teleport(p, t, TeleportCause.COMMAND, true);
+                LocationUtil.teleport(p, t, TeleportCause.COMMAND, true, true);
                 r.sendMes(cs, "teleportaskhereAcceptSender", "%Player", t.getName());
                 r.sendMes(t, "teleportaskhereAcceptTarget", "%Player", p.getName());
                 UC.getServer().removeTeleportHereRequest(t.getUniqueId());
@@ -77,7 +77,7 @@ public class CmdTeleportaccept implements UltimateCommand {
             if (t == null) {
                 r.sendMes(p, "teleportaskNoRequests");
             } else {
-                LocationUtil.teleport(t, p, TeleportCause.COMMAND, true);
+                LocationUtil.teleport(t, p, TeleportCause.COMMAND, true, true);
                 r.sendMes(cs, "teleportaskAcceptSender", "%Player", t.getName());
                 r.sendMes(t, "teleportaskAcceptTarget", "%Player", p.getName());
                 UC.getServer().removeTeleportRequest(p.getUniqueId());
