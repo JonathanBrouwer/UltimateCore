@@ -56,6 +56,11 @@ public class CmdTeleportask implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return;
         }
+        if (!r.checkArgs(args, 0)) {
+            //TODO menu
+            r.sendMes(cs, "teleportaskUsage");
+            return;
+        }
         if (!r.perm(cs, "uc.teleportask", true, true)) {
             return;
         }

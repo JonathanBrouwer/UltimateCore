@@ -59,6 +59,11 @@ public class CmdTeleportaskhere implements UltimateCommand {
         if (!r.perm(cs, "uc.teleportaskhere", true, true)) {
             return;
         }
+        if (!r.checkArgs(args, 0)) {
+            //TODO menu
+            r.sendMes(cs, "teleportaskhereUsage");
+            return;
+        }
         final Player p = (Player) cs;
         final Player t = r.searchPlayer(args[0]);
         if (t == null) {
