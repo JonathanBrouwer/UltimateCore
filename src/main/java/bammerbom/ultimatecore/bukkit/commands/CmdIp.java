@@ -23,13 +23,14 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
+import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class CmdIp implements UltimateCommand {
 
@@ -61,13 +62,13 @@ public class CmdIp implements UltimateCommand {
                 r.sendMes(cs, "noPermissions");
                 return;
             }
-            Player p = r.searchPlayer(args[0]);
-            if (p == null) {
+            OfflinePlayer p = r.searchOfflinePlayer(args[0]);
+            if (p == null || UC.getPlayer(p).getLastIp() == null || UC.getPlayer(p).getLastHostname() == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
-            r.sendMes(cs, "ipPlayer1", "%Player", p.getName(), "%Hostname", p.getAddress().getHostName());
-            r.sendMes(cs, "ipPlayer2", "%Player", p.getName(), "%IP", (p.getAddress().toString().split("/")[1].split(":")[0]));
+            r.sendMes(cs, "ipPlayer1", "%Player", p.getName(), "%Hostname", UC.getPlayer(p).getLastHostname());
+            r.sendMes(cs, "ipPlayer2", "%Player", p.getName(), "%IP", UC.getPlayer(p).getLastIp());
         }
     }
 

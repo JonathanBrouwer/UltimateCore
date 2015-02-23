@@ -145,7 +145,7 @@ public class UPlayer {
             return lastip;
         } else {
             if (getPlayer().isOnline()) {
-                setLastIp((getOnlinePlayer().getAddress().toString().split("/")[1].split(":")[0]));
+                setLastIp(getOnlinePlayer().getAddress().toString().split("/")[1].split(":")[0]);
                 return lastip;
             }
             return null;
@@ -156,6 +156,34 @@ public class UPlayer {
         lastip = ip;
         final Config conf = getPlayerConfig();
         conf.set("ip", ip);
+        conf.save();
+        save();
+    }
+
+    String lasthostname = null;
+
+    public String getLastHostname() {
+        if (lasthostname != null) {
+            return lasthostname;
+        }
+        final Config conf = getPlayerConfig();
+        if (conf.get("hostname") != null) {
+            lastip = conf.getString("hostname");
+            save();
+            return lastip;
+        } else {
+            if (getPlayer().isOnline()) {
+                setLastHostname(getOnlinePlayer().getAddress().getHostName());
+                return lastip;
+            }
+            return null;
+        }
+    }
+
+    public void setLastHostname(String ip) {
+        lasthostname = ip;
+        final Config conf = getPlayerConfig();
+        conf.set("hostname", ip);
         conf.save();
         save();
     }
