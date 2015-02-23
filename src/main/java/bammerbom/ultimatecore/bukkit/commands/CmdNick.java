@@ -106,7 +106,7 @@ public class CmdNick implements UltimateCommand {
         if (r.perm(cs, "uc.nick.colors", false, false)) {
             name = ChatColor.translateAlternateColorCodes('&', name);
         }
-        if (!ChatColor.stripColor(name.replaceAll(" ", "").replaceAll("�", "").replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "")).equalsIgnoreCase("")) {
+        if (!ChatColor.stripColor(name).replaceAll("�", "").replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "").equalsIgnoreCase("")) {
             r.sendMes(cs, "nickNonAlpha");
             return;
         }
