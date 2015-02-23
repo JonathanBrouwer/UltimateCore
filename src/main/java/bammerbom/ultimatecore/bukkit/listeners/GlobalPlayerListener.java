@@ -109,6 +109,8 @@ public class GlobalPlayerListener implements Listener {
             }
             //Lastconnect
             UC.getPlayer(e.getPlayer()).updateLastConnectMillis();
+            //Lastip
+            UC.getPlayer(e.getPlayer()).setLastIp(e.getPlayer().getAddress().toString().split("/")[1].split(":")[0]);
             //Vanish
             for (Player p : UC.getServer().getVanishOnlinePlayers()) {
                 e.getPlayer().hidePlayer(p);
@@ -151,10 +153,25 @@ public class GlobalPlayerListener implements Listener {
         try {
             //Ban
             if (UC.getPlayer(e.getPlayer()).isBanned()) {
-                UPlayer pl = UC.getPlayer(e.getPlayer());
-                String time = pl.getBanTime() == -1 ? r.mes("banForever") : (DateUtil.format(pl.getBanTimeLeft()));
-                String msg = r.mes("banFormat", "%Time", time, "%Reason", pl.getBanReason());
-                e.disallow(Result.KICK_BANNED, msg);
+                if (UC.getPlayer(e.getPlayer()).getBanType().equals(BanList.Type.NAME)) {
+                    UPlayer pl = UC.getPlayer(e.getPlayer());
+                    String time = pl.getBanTime() <= 0 ? r.mes("banForever") : (DateUtil.format(pl.getBanTimeLeft()));
+                    String reason = pl.getBanReason();
+                    if (reason == null || reason.isEmpty()) {
+                        reason = r.mes("banDefaultReason");
+                    }
+                    String msg = r.mes("banFormat", "%Time", time, "%Reason", reason);
+                    e.disallow(Result.KICK_BANNED, msg);
+                } else {
+                    UPlayer pl = UC.getPlayer(e.getPlayer());
+                    String time = pl.getBanTime() == null ? r.mes("banipForever") : (pl.getBanTime() <= 0 ? r.mes("banipForever") : (DateUtil.format(pl.getBanTimeLeft())));
+                    String reason = pl.getBanReason();
+                    if (reason == null || reason.isEmpty()) {
+                        reason = r.mes("banipDefaultReason");
+                    }
+                    String msg = r.mes("banipFormat", "%Time", time, "%Reason", reason);
+                    e.disallow(Result.KICK_BANNED, msg);
+                }
             }
             //
 

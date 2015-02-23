@@ -26,9 +26,11 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.FormatUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -61,6 +63,21 @@ public class CmdUnban implements UltimateCommand {
             r.sendMes(cs, "unbanUsage");
             return;
         }
+        if (FormatUtil.validIP(args[0])) {
+            BanList list = Bukkit.getBanList(BanList.Type.IP);
+            if (list.isBanned(args[0])) {
+                list.pardon(args[0]);
+                for (OfflinePlayer p : UC.getServer().getBannedOfflinePlayers()) {
+                    if (UC.getPlayer(p).getLastIp() != null && UC.getPlayer(p).getLastIp().equalsIgnoreCase(args[0])) {
+                        UC.getPlayer(p).unban();
+                    }
+                }
+                if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
+                    Bukkit.broadcastMessage(r.mes("unbanBroadcast").replace("%Unbanner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase())).replace("%Unbanned", args[0]));
+                }
+            }
+            return;
+        }
         OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
         if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
@@ -72,8 +89,16 @@ public class CmdUnban implements UltimateCommand {
             return;
         }
         pl.unban();
+        //Check ip
+        BanList list = Bukkit.getBanList(BanList.Type.IP);
+        if (pl.getLastIp() != null && list.isBanned(pl.getLastIp())) {
+            list.pardon(pl.getLastIp());
+        }
+        //
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-            Bukkit.broadcastMessage(r.mes("unbanBroadcast").replace("%Unbanner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase())).replace("%Unbanned", banp.getName()));
+            Bukkit.broadcastMessage(r.mes("unbanBroadcast", "%Unbanner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Unbanned", banp.getName()));
+        } else {
+            r.sendMes(cs, "unbanBroadcast", "%Unbanner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Unbanned", banp.getName());
         }
     }
 

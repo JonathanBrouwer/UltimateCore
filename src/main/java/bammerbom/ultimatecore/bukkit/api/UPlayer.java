@@ -75,6 +75,8 @@ public class UPlayer {
     //Afk
     boolean afk = false;
     long lastaction = System.currentTimeMillis();
+    String lastip;
+    BanList.Type bantype;
 
     public UPlayer(OfflinePlayer p) {
         name = p.getName();
@@ -108,7 +110,7 @@ public class UPlayer {
         if (conf.get("lastconnect") != null) {
             lastconnect = conf.getLong("lastconnect");
             save();
-            return conf.getLong("lastconnect");
+            return lastconnect;
         } else {
             lastconnect = getPlayer().getLastPlayed();
             save();
@@ -128,6 +130,32 @@ public class UPlayer {
         lastconnect = millis;
         final Config conf = getPlayerConfig();
         conf.set("lastconnect", millis);
+        conf.save();
+        save();
+    }
+
+    public String getLastIp() {
+        if (lastip != null) {
+            return lastip;
+        }
+        final Config conf = getPlayerConfig();
+        if (conf.get("ip") != null) {
+            lastip = conf.getString("ip");
+            save();
+            return lastip;
+        } else {
+            if (getPlayer().isOnline()) {
+                setLastIp((getOnlinePlayer().getAddress().toString().split("/")[1].split(":")[0]));
+                return lastip;
+            }
+            return null;
+        }
+    }
+
+    public void setLastIp(String ip) {
+        lastip = ip;
+        final Config conf = getPlayerConfig();
+        conf.set("ip", ip);
         conf.save();
         save();
     }
@@ -167,23 +195,60 @@ public class UPlayer {
     }
 
     public boolean isBanned() {
-        if (!getPlayerConfig().contains("banned")) {
-            banned = false;
-            return false;
-        }
-        if (getBanTime() >= 1 && getBanTimeLeft() <= 1 && getPlayerConfig().getBoolean("banned")) {
+        if (getBanTime() != null && getBanTime() >= 1 && getBanTimeLeft() <= 1 && getPlayerConfig().getBoolean("banned")) {
             unban();
             return false;
         }
-        if (banned != null) {
-            return banned;
-        }
-        BanList list = Bukkit.getBanList(Type.NAME);
+        //REMOVED BECAUSE OF ISSUES
+        /*if (banned != null) {
+         r.log("4");
+         return banned;
+         }*/
         if (getPlayer() == null || getPlayer().getName() == null) {
             return false;
         }
-        banned = getPlayerConfig().getBoolean("banned") || list.isBanned(getPlayer().getName());
-        return getPlayerConfig().getBoolean("banned") || list.isBanned(getPlayer().getName());
+        BanList list = Bukkit.getBanList(Type.NAME);
+        BanList list2 = Bukkit.getBanList(Type.IP);
+        if (getPlayerConfig().getBoolean("banned")) {
+            banned = true;
+            return true;
+        }
+        if (list.isBanned(getPlayer().getName())) {
+            banned = true;
+            return true;
+        }
+        if (getLastIp() != null && list2.isBanned(getLastIp())) {
+            banned = true;
+            return true;
+        }
+        return false;
+    }
+
+    public BanList.Type getBanType() {
+        if (bantype != null) {
+            return bantype;
+        }
+        if (!isBanned()) {
+            return null;
+        }
+        if (getPlayer() == null || getPlayer().getName() == null) {
+            return null;
+        }
+        BanList list = Bukkit.getBanList(Type.NAME);
+        BanList list2 = Bukkit.getBanList(Type.IP);
+        if (getPlayerConfig().getBoolean("banned")) {
+            bantype = BanList.Type.NAME;
+            return BanList.Type.NAME;
+        }
+        if (list.isBanned(getPlayer().getName())) {
+            bantype = BanList.Type.NAME;
+            return BanList.Type.NAME;
+        }
+        if (getLastIp() != null && list2.isBanned(getLastIp())) {
+            bantype = BanList.Type.IP;
+            return BanList.Type.IP;
+        }
+        return null;
     }
 
     public Long getBanTime() {
@@ -191,6 +256,10 @@ public class UPlayer {
             return bantime;
         }
         if (!getPlayerConfig().contains("bantime")) {
+            BanList list = Bukkit.getBanList(Type.IP);
+            if (getLastIp() != null && list.isBanned(getLastIp()) && list.getBanEntry(getLastIp()).getExpiration() != null) {
+                return list.getBanEntry(getLastIp()).getExpiration().getTime();
+            }
             return 0L;
         }
         bantime = getPlayerConfig().getLong("bantime");
@@ -208,6 +277,10 @@ public class UPlayer {
             return banreason;
         }
         if (!getPlayerConfig().contains("banreason")) {
+            BanList list = Bukkit.getBanList(Type.IP);
+            if (getLastIp() != null && list.isBanned(getLastIp()) && list.getBanEntry(getLastIp()).getReason() != null) {
+                return list.getBanEntry(getLastIp()).getReason();
+            }
             return "";
         }
         banreason = getPlayerConfig().getString("banreason");
@@ -229,9 +302,13 @@ public class UPlayer {
         if (list.isBanned(getPlayer().getName())) {
             list.pardon(getPlayer().getName());
         }
+        BanList list2 = Bukkit.getBanList(Type.IP);
+        if (getLastIp() != null && list2.isBanned(getLastIp())) {
+            list2.pardon(getLastIp());
+        }
     }
 
-    public void ban(Long time, String reason) {
+    public void ban(Long time, String reason, CommandSender source) {
         Config conf = getPlayerConfig();
         if (time == null || time == 0L) {
             time = -1L;
@@ -247,7 +324,8 @@ public class UPlayer {
         conf.set("banreason", reason);
         conf.save();
         BanList list = Bukkit.getBanList(Type.NAME);
-        list.addBan(getPlayer().getName(), reason, null, "");
+        Date date = time == -1 ? null : new Date(time + System.currentTimeMillis());
+        list.addBan(getPlayer().getName(), reason, date, source.getName());
         banned = true;
         bantime = time;
         banreason = reason;
@@ -255,15 +333,31 @@ public class UPlayer {
     }
 
     public void ban(Long time) {
-        ban(time, null);
+        ban(time, null, null);
     }
 
     public void ban(String reason) {
-        ban(null, reason);
+        ban(null, reason, null);
     }
 
     public void ban() {
-        ban(null, null);
+        ban(null, null, null);
+    }
+
+    public void ban(Long time, CommandSender source) {
+        ban(time, null, source);
+    }
+
+    public void ban(String reason, CommandSender source) {
+        ban(null, reason, source);
+    }
+
+    public void ban(CommandSender source) {
+        ban(null, null, source);
+    }
+
+    public void ban(Long time, String reason) {
+        ban(time, reason, null);
     }
 
     public boolean isDeaf() {

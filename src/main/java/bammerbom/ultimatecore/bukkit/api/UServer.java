@@ -67,6 +67,9 @@ public class UServer {
             ErrorLogger.log(ex, "Failed to load MOTD");
         }
     }
+    public static void setDebug(Boolean value) {
+        r.setDebug(value);
+    }
 
     //Ban
     public List<OfflinePlayer> getBannedOfflinePlayers() {
@@ -78,7 +81,6 @@ public class UServer {
         }
         return pls;
     }
-
     public List<Player> getBannedOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
@@ -99,7 +101,6 @@ public class UServer {
         }
         return pls;
     }
-
     public List<Player> getDeafOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
@@ -120,7 +121,6 @@ public class UServer {
         }
         return pls;
     }
-
     public List<Player> getMutedOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
@@ -141,7 +141,6 @@ public class UServer {
         }
         return pls;
     }
-
     public List<Player> getJailedOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
@@ -162,7 +161,6 @@ public class UServer {
         }
         return pls;
     }
-
     public List<Player> getInCommandEnchantingtableOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
@@ -183,7 +181,6 @@ public class UServer {
         }
         return pls;
     }
-
     public List<Player> getFrozenOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
@@ -204,7 +201,6 @@ public class UServer {
         }
         return pls;
     }
-
     public List<Player> getGodOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
@@ -225,7 +221,6 @@ public class UServer {
         }
         return pls;
     }
-
     public List<Player> getInOfflineInventoryOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
@@ -286,7 +281,6 @@ public class UServer {
         }
         return pls;
     }
-
     public ArrayList<OfflinePlayer> getOfflineJailed() {
         ArrayList<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
@@ -442,7 +436,6 @@ public class UServer {
     public void removeTeleportRequest(UUID u) {
         tp.remove(u);
     }
-
     public void removeTeleportHereRequest(UUID u) {
         tph.remove(u);
     }
@@ -566,9 +559,5 @@ public class UServer {
 
     public boolean isDebug() {
         return r.isDebug();
-    }
-
-    public static void setDebug(Boolean value) {
-        r.setDebug(value);
     }
 }

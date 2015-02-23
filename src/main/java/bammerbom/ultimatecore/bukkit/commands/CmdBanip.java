@@ -24,50 +24,57 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.FormatUtil;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdBan implements UltimateCommand {
+public class CmdBanip implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "ban";
+        return "banip";
     }
 
     @Override
     public String getPermission() {
-        return "uc.ban";
+        return "uc.banip";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("ipban");
     }
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.ban", false, true)) {
-            return;
-        }
         if (r.checkArgs(args, 0) == false) {
-            r.sendMes(cs, "banUsage");
+            r.sendMes(cs, "banipUsage");
             return;
         }
-        OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
-        if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
-            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+        String ip;
+        OfflinePlayer t = null;
+        if (FormatUtil.validIP(args[0])) {
+            ip = args[0];
+        } else {
+            t = r.searchOfflinePlayer(args[0]);
+            if (UC.getPlayer(t).getLastIp() != null) {
+                ip = UC.getPlayer(t).getLastIp();
+            } else {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                return;
+            }
         }
         Long time = 0L;
-        String reason = r.mes("banDefaultReason");
+        String reason = r.mes("banipDefaultReason");
         if (r.checkArgs(args, 1) == false) {
         } else if (DateUtil.parseDateDiff(args[1]) == -1) {
             reason = r.getFinalArg(args, 1);
@@ -79,26 +86,28 @@ public class CmdBan implements UltimateCommand {
         }
         String timen = DateUtil.format(time);
         if (time == 0) {
-            timen = r.mes("banForever");
+            timen = r.mes("banipForever");
         } else {
             timen = "" + timen;
         }
-        if (!r.perm(cs, "uc.ban.time", false, false) && !r.perm(cs, "uc.ban", false, false) && time <= 0L) {
+        if (!r.perm(cs, "uc.banip.time", false, false) && !r.perm(cs, "uc.banip", false, false) && time <= 0L) {
             r.sendMes(cs, "noPermissions");
             return;
         }
-        if (!r.perm(cs, "uc.ban.perm", false, false) && !r.perm(cs, "uc.ban", false, false) && !(time <= 0L)) {
+        if (!r.perm(cs, "uc.banip.perm", false, false) && !r.perm(cs, "uc.banip", false, false) && !(time <= 0L)) {
             r.sendMes(cs, "noPermissions");
             return;
         }
-        String msg = r.mes("banFormat").replace("%Time", timen).replace("%Reason", reason);
-        if (banp.isOnline()) {
-            banp.getPlayer().kickPlayer(msg);
+        String msg = r.mes("banipFormat").replace("%Time", timen).replace("%Reason", reason);
+        if (t != null && t.isOnline()) {
+            t.getPlayer().kickPlayer(msg);
         }
-        UPlayer pl = UC.getPlayer(banp);
-        pl.ban(time, reason);
+        Date date = time == 0 ? null : new Date(time + System.currentTimeMillis());
+        Bukkit.getBanList(BanList.Type.IP).addBan(ip, reason, date, cs.getName());
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-            Bukkit.broadcastMessage(r.mes("banBroadcast").replace("%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase())).replace("%Banned", banp.getName()).replace("%Time", timen).replace("%Reason", reason));
+            Bukkit.broadcastMessage(r.mes("banBroadcast", "%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason", reason));
+        } else {
+            r.sendMes(cs, "banBroadcast", "%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason", reason);
         }
 
     }

@@ -47,6 +47,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdAlert());
         cmds.add(new CmdBack());
         cmds.add(new CmdBan());
+        cmds.add(new CmdBanip());
         cmds.add(new CmdBanlist());
         cmds.add(new CmdBroadcast());
         cmds.add(new CmdBurn());

@@ -31,6 +31,10 @@ commands:
     description: Bans the target player.
     usage: /<command> <Player> [Time] [Reason]
     permissions: uc.ban
+  banip:
+    description: Bans the target ip.
+    usage: /<command> <IP/Player> [Time] [Reason]
+    permissions: uc.banip
   banlist:
     description: View a list of all current bans.
     usage: /<command>
