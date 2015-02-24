@@ -39,7 +39,6 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -164,22 +163,27 @@ public class UuidUtil {
 
         @Override
         public HashMap<UUID, String> call() throws Exception {
-            HashMap<UUID, String> uuidStringMap = new HashMap<>();
-            for (UUID uuid : uuids) {
-                HttpURLConnection connection = (HttpURLConnection) new URL(PROFILE_URL + uuid.toString().replace("-", "")).openConnection();
-                JSONObject response = (JSONObject) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
-                String name = (String) response.get("name");
-                if (name == null) {
-                    continue;
+            try {
+                HashMap<UUID, String> uuidStringMap = new HashMap<>();
+                for (UUID uuid : uuids) {
+                    HttpURLConnection connection = (HttpURLConnection) new URL(PROFILE_URL + uuid.toString().replace("-", "")).openConnection();
+                    JSONObject response = (JSONObject) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
+                    String name = (String) response.get("name");
+                    if (name == null) {
+                        continue;
+                    }
+                    String cause = (String) response.get("cause");
+                    String errorMessage = (String) response.get("errorMessage");
+                    if (cause != null && cause.length() > 0) {
+                        throw new IllegalStateException(errorMessage);
+                    }
+                    uuidStringMap.put(uuid, name);
                 }
-                String cause = (String) response.get("cause");
-                String errorMessage = (String) response.get("errorMessage");
-                if (cause != null && cause.length() > 0) {
-                    throw new IllegalStateException(errorMessage);
-                }
-                uuidStringMap.put(uuid, name);
+                return uuidStringMap;
+            } catch (Exception ex) {
+                //Failed because of offline mode
+                return new HashMap<>();
             }
-            return uuidStringMap;
         }
     }
 
