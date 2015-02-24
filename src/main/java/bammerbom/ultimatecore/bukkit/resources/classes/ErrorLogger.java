@@ -67,6 +67,7 @@ public class ErrorLogger {
         out.println("Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()));
         out.println("Java version: " + System.getProperty("java.version"));
         out.println("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version"));
+        out.println("Online mode: " + Bukkit.getServer().getOnlineMode());
         out.println("Time: " + time);
         out.println("Error message: " + t.getMessage());
         out.println("UltimateCore message: " + s);
