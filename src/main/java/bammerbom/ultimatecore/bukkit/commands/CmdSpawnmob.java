@@ -327,6 +327,10 @@ public class CmdSpawnmob implements UltimateCommand {
                     invent.setItemInHand(new ItemStack(Material.STONE_SWORD, 1));
                     invent.setItemInHandDropChance(0.09F);
                 }
+                if (args[0].equalsIgnoreCase("elderguardian")) {
+                    Guardian g = (Guardian) en;
+                    g.setElder(true);
+                }
                 defaultMobData(mob.getType(), en);
                 if (en instanceof LivingEntity) {
                     utilize(args, mob, (LivingEntity) en, p);
