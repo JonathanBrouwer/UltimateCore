@@ -69,7 +69,7 @@ public class CmdTeleporthere implements UltimateCommand {
         }
         LocationUtil.teleport(t, p, TeleportCause.COMMAND, true, false);
         LocationUtil.playEffect(p, t.getLocation());
-        r.sendMes(cs, "teleporthereMessage");
+        r.sendMes(cs, "teleporthereMessage", "%Player", t.getName());
     }
 
     @Override
