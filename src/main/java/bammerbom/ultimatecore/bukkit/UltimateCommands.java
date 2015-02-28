@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.bukkit.commands.*;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import java.util.*;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
@@ -221,13 +222,13 @@ public class UltimateCommands implements TabCompleter {
             }
         }
         if (!StringUtil.nullOrEmpty(args[args.length - 1])) {
-            Iterator<String> i = (new ArrayList<>(rtrn)).iterator();
-            while (i.hasNext()) {
-                String s = i.next();
-                if (!s.startsWith(args[args.length - 1])) {
-                    i.remove();
+            List<String> remv = new ArrayList<>();
+            for (String s : rtrn) {
+                if (!StringUtils.startsWithIgnoreCase(s, args[args.length - 1])) {
+                    remv.add(s);
                 }
             }
+            rtrn.removeAll(remv);
         }
         return rtrn;
     }
