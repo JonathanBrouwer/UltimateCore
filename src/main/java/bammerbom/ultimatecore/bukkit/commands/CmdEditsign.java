@@ -64,7 +64,7 @@ public class CmdEditsign implements UltimateCommand {
             return;
         }
         Player p = (Player) cs;
-        if (args.length < 1) {
+        if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "editsignUsage");
             return;
         }
