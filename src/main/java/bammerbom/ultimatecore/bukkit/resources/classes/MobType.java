@@ -35,6 +35,7 @@ import org.bukkit.entity.Skeleton.SkeletonType;
 
 public enum MobType {
 
+    ARMORSTAND("ArmorStand", Enemies.NEUTRAL, EntityType.ARMOR_STAND),
     CHICKEN("Chicken", Enemies.FRIENDLY, EntityType.CHICKEN),
     COW("Cow", Enemies.FRIENDLY, EntityType.COW),
     CREEPER("Creeper", Enemies.ENEMY, EntityType.CREEPER),

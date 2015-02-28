@@ -338,7 +338,7 @@ public class CmdWorld implements UltimateCommand {
             if (flag.equalsIgnoreCase("monster") || flag.equalsIgnoreCase("monsterspawn")) {
                 if (value.equalsIgnoreCase("deny")) {
                     for (Entity en : world.getWorld().getEntities()) {
-                        if (en instanceof Monster || MobType.fromBukkitType(en.getType()).type.equals(MobType.Enemies.ENEMY)) {
+                        if (en instanceof Monster || (MobType.fromBukkitType(en.getType()) != null && MobType.fromBukkitType(en.getType()).type.equals(MobType.Enemies.ENEMY))) {
                             en.remove();
                         }
                     }
@@ -354,7 +354,7 @@ public class CmdWorld implements UltimateCommand {
             } else if (flag.equalsIgnoreCase("animal") || flag.equalsIgnoreCase("animalspawn")) {
                 if (value.equalsIgnoreCase("deny")) {
                     for (Entity en : world.getWorld().getEntities()) {
-                        if (en instanceof Animals || !MobType.fromBukkitType(en.getType()).type.equals(MobType.Enemies.ENEMY)) {
+                        if (en instanceof Animals || (MobType.fromBukkitType(en.getType()) != null && !MobType.fromBukkitType(en.getType()).type.equals(MobType.Enemies.ENEMY))) {
                             en.remove();
                         }
                     }

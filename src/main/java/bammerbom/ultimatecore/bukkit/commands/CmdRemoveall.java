@@ -111,7 +111,7 @@ public class CmdRemoveall implements UltimateCommand {
                     s.add(t.getName().toLowerCase());
                 }
             }
-
+            return s;
         }
         return new ArrayList<>();
     }

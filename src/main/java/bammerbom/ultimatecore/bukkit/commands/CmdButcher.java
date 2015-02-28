@@ -98,7 +98,7 @@ public class CmdButcher implements UltimateCommand {
                 }
                 if (en instanceof LivingEntity && !(en instanceof Player)) {
                     MobType mob = MobType.fromBukkitType(en.getType());
-                    if (mob.type.equals(MobType.Enemies.ENEMY) || en instanceof Monster) {
+                    if ((mob != null && mob.type.equals(MobType.Enemies.ENEMY)) || en instanceof Monster) {
                         en.remove();
                         amount++;
                         en.playEffect(EntityEffect.DEATH);
@@ -107,6 +107,9 @@ public class CmdButcher implements UltimateCommand {
             }
         } else {
             for (Entity en : p.getWorld().getEntities()) {
+                if (MobType.fromBukkitType(en.getType()) == null) {
+                    continue;
+                }
                 if (filter != null && !filter.equals(MobType.fromBukkitType(en.getType()))) {
                     continue;
                 }
