@@ -36,8 +36,10 @@ public class UltimateWorldLoader {
         for (String str : conf.getKeys(false)) {
             try {
                 WorldCreator w = new WorldCreator(str);
-                w.environment(Environment.valueOf(conf.getString(str + ".env")));
-                Bukkit.createWorld(w);
+                if (conf.contains(str + ".env")) {
+                    w.environment(Environment.valueOf(conf.getString(str + ".env")));
+                    Bukkit.createWorld(w);
+                }
             } catch (Exception ex) {
                 r.log("Failed to load world " + str);
                 ErrorLogger.log(ex, "Failed to load world " + str);
