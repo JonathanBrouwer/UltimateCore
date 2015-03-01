@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import java.util.*;
 import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.map.MapFont;
@@ -41,7 +41,7 @@ public class StringUtil {
     private static final char[] CHAT_CODES;
 
     static {
-        ChatColor[] styles = ChatColor.values();
+        TextColors[] styles = TextColors.values();
         LinkedHashSet<Character> chars = new LinkedHashSet<>(styles.length * 2);
         for (int i = 0; i < styles.length; i++) {
             chars.add(Character.valueOf(Character.toLowerCase(styles[i].getChar())));
@@ -416,8 +416,8 @@ public class StringUtil {
         }
     }
 
-    public static ChatColor getColor(char code, ChatColor def) {
-        for (ChatColor color : ChatColor.values()) {
+    public static TextColors getColor(char code, TextColors def) {
+        for (TextColors color : TextColors.values()) {
             if (code == color.toString().charAt(1)) {
                 return color;
             }

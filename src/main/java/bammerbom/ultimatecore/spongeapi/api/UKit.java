@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -55,7 +55,7 @@ public class UKit {
         this.kit = kits.getConfigurationSection(name);
         this.items = getItemStacks(kit.getMapList("items"));
         this.cooldown = DateUtil.parseDateDiff(kit.getString("cooldown", "0"));
-        this.description = ChatColor.translateAlternateColorCodes('&', kit.getString("description", ""));
+        this.description = TextColors.translateAlternateColorCodes('&', kit.getString("description", ""));
     }
 
     /**
@@ -149,7 +149,7 @@ public class UKit {
             return lore;
         }
         for (final String loreItem : item.getStringList("lore")) {
-            lore.add(ChatColor.translateAlternateColorCodes('&', loreItem));
+            lore.add(TextColors.translateAlternateColorCodes('&', loreItem));
         }
         return lore;
     }

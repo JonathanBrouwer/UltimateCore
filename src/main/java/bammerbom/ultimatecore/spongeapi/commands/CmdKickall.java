@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -65,7 +65,7 @@ public class CmdKickall implements UltimateCommand {
         } else {
             for (Player p : r.getOnlinePlayers()) {
                 if (!r.perm(p, "uc.kickall.exempt", false, false) && !p.equals(cs)) {
-                    p.kickPlayer(r.positive + ChatColor.translateAlternateColorCodes('&', r.getFinalArg(args, 0)));
+                    p.kickPlayer(r.positive + TextColors.translateAlternateColorCodes('&', r.getFinalArg(args, 0)));
                     a++;
                 }
             }

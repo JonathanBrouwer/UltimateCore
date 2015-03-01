@@ -133,7 +133,7 @@ public class MetaItemStack {
         }
 
         if ((split.length > 1) && (split[0].equalsIgnoreCase("name"))) {
-            String displayName = ChatColor.translateAlternateColorCodes('&', split[1].replace('_', ' '));
+            String displayName = TextColors.translateAlternateColorCodes('&', split[1].replace('_', ' '));
             ItemMeta meta = this.stack.getItemMeta();
             meta.setDisplayName(displayName);
             this.stack.setItemMeta(meta);
@@ -174,7 +174,7 @@ public class MetaItemStack {
         } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("lore")) || (split[0].equalsIgnoreCase("desc")))) {
             List<String> lore = new ArrayList<>();
             for (String line : split[1].split("\\|")) {
-                lore.add(ChatColor.translateAlternateColorCodes('&', line.replace('_', ' ')));
+                lore.add(TextColors.translateAlternateColorCodes('&', line.replace('_', ' ')));
             }
             ItemMeta meta = this.stack.getItemMeta();
             meta.setLore(lore);
@@ -188,12 +188,12 @@ public class MetaItemStack {
             } else {
             }
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("author")) && (this.stack.getType() == Material.WRITTEN_BOOK)) {
-            String author = ChatColor.translateAlternateColorCodes('&', split[1]);
+            String author = TextColors.translateAlternateColorCodes('&', split[1]);
             BookMeta meta = (BookMeta) this.stack.getItemMeta();
             meta.setAuthor(author);
             this.stack.setItemMeta(meta);
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("title")) && (this.stack.getType() == Material.WRITTEN_BOOK)) {
-            String title = ChatColor.translateAlternateColorCodes('&', split[1].replace('_', ' '));
+            String title = TextColors.translateAlternateColorCodes('&', split[1].replace('_', ' '));
             BookMeta meta = (BookMeta) this.stack.getItemMeta();
             meta.setTitle(title);
             this.stack.setItemMeta(meta);

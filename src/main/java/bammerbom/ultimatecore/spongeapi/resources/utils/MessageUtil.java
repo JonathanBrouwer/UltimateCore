@@ -146,7 +146,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
                         component.styles.add(MessagePart.stylesToNames.inverse().get(entry.getKey()));
                     }
                 } else if (entry.getKey().equals("color")) {
-                    component.color = ChatColor.valueOf(entry.getValue().getAsString().toUpperCase());
+                    component.color = TextColors.valueOf(entry.getValue().getAsString().toUpperCase());
                 } else if (entry.getKey().equals("clickEvent")) {
                     JsonObject object = entry.getValue().getAsJsonObject();
                     component.clickActionName = object.get("action").getAsString();
@@ -262,10 +262,10 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      *
      * @param color The new color of the current editing component.
      * @return This builder instance.
-     * @throws IllegalArgumentException If the specified {@code ChatColor}
+     * @throws IllegalArgumentException If the specified {@code TextColors}
      * enumeration value is not a color (but a format value).
      */
-    public MessageUtil color(final ChatColor color) {
+    public MessageUtil color(final TextColors color) {
         if (!color.isColor()) {
             throw new IllegalArgumentException(color.name() + " is not a color");
         }
@@ -282,8 +282,8 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      * @throws IllegalArgumentException If any of the enumeration values in the
      * array do not represent formatters.
      */
-    public MessageUtil style(ChatColor... styles) {
-        for (final ChatColor style : styles) {
+    public MessageUtil style(TextColors... styles) {
+        for (final TextColors style : styles) {
             if (!style.isFormat()) {
                 throw new IllegalArgumentException(style.name() + " is not a style");
             }
@@ -949,7 +949,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      * </p>
      * <p>
      * Color and formatting can be removed from the returned string by using
-     * {@link ChatColor#stripColor(String)}.</p>
+     * {@link TextColors#stripColor(String)}.</p>
      *
      * @return A human-readable string representing limited formatting in
      * addition to the core text of this message.
@@ -958,7 +958,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
         StringBuilder result = new StringBuilder();
         for (MessagePart part : this) {
             result.append(part.color == null ? "" : part.color);
-            for (ChatColor formatSpecifier : part.styles) {
+            for (TextColors formatSpecifier : part.styles) {
                 result.append(formatSpecifier);
             }
             result.append(part.text);
@@ -1046,11 +1046,11 @@ final class JsonString implements JsonRepresentedObject, ConfigurationSerializab
  */
 final class MessagePart implements JsonRepresentedObject, ConfigurationSerializable, Cloneable {
 
-    static final BiMap<ChatColor, String> stylesToNames;
+    static final BiMap<TextColors, String> stylesToNames;
 
     static {
-        ImmutableBiMap.Builder<ChatColor, String> builder = ImmutableBiMap.builder();
-        for (final ChatColor style : ChatColor.values()) {
+        ImmutableBiMap.Builder<TextColors, String> builder = ImmutableBiMap.builder();
+        for (final TextColors style : TextColors.values()) {
             if (!style.isFormat()) {
                 continue;
             }
@@ -1080,8 +1080,8 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
     @SuppressWarnings(value = "unchecked")
     public static MessagePart deserialize(Map<String, Object> serialized) {
         MessagePart part = new MessagePart((TextualComponent) serialized.get("text"));
-        part.styles = (ArrayList<ChatColor>) serialized.get("styles");
-        part.color = ChatColor.getByChar(serialized.get("color").toString());
+        part.styles = (ArrayList<TextColors>) serialized.get("styles");
+        part.color = TextColors.getByChar(serialized.get("color").toString());
         part.hoverActionName = (String) serialized.get("hoverActionName");
         part.hoverActionData = (JsonRepresentedObject) serialized.get("hoverActionData");
         part.clickActionName = (String) serialized.get("clickActionName");
@@ -1091,8 +1091,8 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
         return part;
     }
 
-    ChatColor color = ChatColor.WHITE;
-    ArrayList<ChatColor> styles = new ArrayList<>();
+    TextColors color = TextColors.WHITE;
+    ArrayList<TextColors> styles = new ArrayList<>();
     String clickActionName = null, clickActionData = null,
             hoverActionName = null;
     JsonRepresentedObject hoverActionData = null;
@@ -1116,7 +1116,7 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
     @SuppressWarnings("unchecked")
     public MessagePart clone() throws CloneNotSupportedException {
         MessagePart obj = (MessagePart) super.clone();
-        obj.styles = (ArrayList<ChatColor>) styles.clone();
+        obj.styles = (ArrayList<TextColors>) styles.clone();
         if (hoverActionData instanceof JsonString) {
             obj.hoverActionData = new JsonString(((JsonString) hoverActionData).getValue());
         } else if (hoverActionData instanceof MessageUtil) {
@@ -1132,7 +1132,7 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
             json.beginObject();
             text.writeJson(json);
             json.name("color").value(color.name().toLowerCase());
-            for (final ChatColor style : styles) {
+            for (final TextColors style : styles) {
                 json.name(stylesToNames.get(style)).value(true);
             }
             if (clickActionName != null && clickActionData != null) {

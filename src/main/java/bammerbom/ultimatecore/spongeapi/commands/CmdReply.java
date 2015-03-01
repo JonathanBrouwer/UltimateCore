@@ -29,16 +29,16 @@ import bammerbom.ultimatecore.spongeapi.r;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CmdReply implements UltimateCommand {
 
-    static String format = ChatColor.translateAlternateColorCodes('&',
+    static String format = TextColors.translateAlternateColorCodes('&',
             r.getCnfg().getString("Chat.MsgFormat"));
-    static String formatSpy = ChatColor.translateAlternateColorCodes('&',
+    static String formatSpy = TextColors.translateAlternateColorCodes('&',
             r.getCnfg().getString("Chat.MsgFormatSpy"));
 
     @Override

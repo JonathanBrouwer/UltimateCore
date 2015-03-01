@@ -23,35 +23,69 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
+import bammerbom.ultimatecore.spongeapi.UltimateCommands;
+import com.google.common.base.Optional;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.spongepowered.api.util.command.CommandCallable;
+import org.spongepowered.api.util.command.CommandException;
+import org.spongepowered.api.util.command.CommandSource;
 
-public class Cmd implements UltimateCommand {
+public class Cmd implements CommandCallable {
 
-    @Override
     public String getName() {
         return "";
     }
 
-    @Override
     public String getPermission() {
         return "uc.";
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Optional<String> getShortDescription() {
+        return Optional.of("");
+    }
+
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
-    @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
 
     }
 
-    @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+
+    //Ignore
+    @Override
+    public boolean call(CommandSource cs, String arg, List<String> parents) throws CommandException {
+        run(cs, parents.get(0), UltimateCommands.convertsArgs(arg));
+        return true;
+    }
+
+    @Override
+    public List<String> getSuggestions(CommandSource cs, String arg) throws CommandException {
+        String[] args = UltimateCommands.convertsArgs(arg);
+        List<String> tabs = onTabComplete(cs, "x", args, args[args.length - 1], args.length - 1); //TODO
+        return tabs == null ? new ArrayList<String>() : tabs;
+    }
+
+    @Override
+    public boolean testPermission(CommandSource source) {
+        return source.hasPermission(getPermission());
+    }
+
+    @Override
+    public Optional<String> getHelp() {
+        return getShortDescription();
+    }
+
 }

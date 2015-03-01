@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.json.simple.JSONObject;
@@ -108,33 +108,33 @@ public class CmdMinecraftservers implements UltimateCommand {
                 String os = "";
                 for (MinecraftServer str : online) {
                     if (!os.equals("")) {
-                        os = os + ", " + ChatColor.GREEN + str.toString().toLowerCase() + r.positive + "";
+                        os = os + ", " + TextColors.GREEN + str.toString().toLowerCase() + r.positive + "";
                     } else {
-                        os = os + ChatColor.GREEN + str.toString().toLowerCase() + r.positive + "";
+                        os = os + TextColors.GREEN + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
                 for (MinecraftServer str : problems) {
                     if (!os.equals("")) {
-                        os = os + ", " + ChatColor.GOLD + str.toString().toLowerCase() + r.positive + "";
+                        os = os + ", " + TextColors.GOLD + str.toString().toLowerCase() + r.positive + "";
                     } else {
-                        os = os + ChatColor.GOLD + str.toString().toLowerCase() + r.positive + "";
+                        os = os + TextColors.GOLD + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
                 for (MinecraftServer str : offline) {
                     if (!os.equals("")) {
-                        os = os + ", " + ChatColor.DARK_RED + str.toString().toLowerCase() + r.positive + "";
+                        os = os + ", " + TextColors.DARK_RED + str.toString().toLowerCase() + r.positive + "";
                     } else {
-                        os = os + ChatColor.DARK_RED + str.toString().toLowerCase() + r.positive + "";
+                        os = os + TextColors.DARK_RED + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
                 for (MinecraftServer str : unknown) {
                     if (!os.equals("")) {
-                        os = os + ", " + ChatColor.GRAY + str.toString().toLowerCase() + r.positive + "";
+                        os = os + ", " + TextColors.GRAY + str.toString().toLowerCase() + r.positive + "";
                     } else {
-                        os = os + ChatColor.GRAY + str.toString().toLowerCase() + r.positive + "";
+                        os = os + TextColors.GRAY + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
-                r.sendMes(cs, "minecraftserversMessage", "%Servers", ChatColor.RESET + os);
+                r.sendMes(cs, "minecraftserversMessage", "%Servers", TextColors.RESET + os);
 
             }
         });

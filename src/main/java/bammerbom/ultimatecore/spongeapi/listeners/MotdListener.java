@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -41,7 +41,7 @@ public class MotdListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void ColoredMotdMaker(ServerListPingEvent e) {
-        e.setMotd(ChatColor.translateAlternateColorCodes('&', (e.getMotd())));
+        e.setMotd(TextColors.translateAlternateColorCodes('&', (e.getMotd())));
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

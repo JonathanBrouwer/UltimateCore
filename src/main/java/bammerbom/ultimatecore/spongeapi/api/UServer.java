@@ -34,7 +34,7 @@ import java.lang.management.ManagementFactory;
 import java.text.DateFormat;
 import java.util.*;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -61,7 +61,7 @@ public class UServer {
             }
             ArrayList<String> lines = FileUtil.getLines(file);
             for (String str : lines) {
-                motd = motd + ChatColor.translateAlternateColorCodes('&', str) + "\n";
+                motd = motd + TextColors.translateAlternateColorCodes('&', str) + "\n";
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to load MOTD");
@@ -319,7 +319,7 @@ public class UServer {
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
-        mt = mt.replace("{UPTIME}", ChatColor.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        mt = mt.replace("{UPTIME}", TextColors.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {
@@ -330,12 +330,12 @@ public class UServer {
         mt = mt.replace("{PLAYERCOUNT}", i + "");
         mt = mt.replace("{PLUGINS}", pb.toString());
         mt = mt.replace("{VERSION}", Bukkit.getServer().getVersion());
-        mt = mt.replace("{WORLD}", ChatColor.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{WORLDNAME}", ChatColor.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{COORDS}", ChatColor.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{PLAYER}", ChatColor.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{NAME}", ChatColor.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{RAWNAME}", ChatColor.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{WORLD}", TextColors.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{WORLDNAME}", TextColors.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{COORDS}", TextColors.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{PLAYER}", TextColors.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{NAME}", TextColors.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{RAWNAME}", TextColors.stripColor(r.mes("notAvailable")));
         return mt;
     }
 
@@ -350,9 +350,9 @@ public class UServer {
             mt = mt.replace("{WORLDNAME}", pl.getWorld().getName());
             mt = mt.replace("{COORDS}", pl.getLocation().getBlockX() + ", " + pl.getLocation().getBlockY() + ", " + pl.getLocation().getBlockZ());
         } else {
-            mt = mt.replace("{WORLD}", ChatColor.stripColor(r.mes("notAvailable")));
-            mt = mt.replace("{WORLDNAME}", ChatColor.stripColor(r.mes("notAvailable")));
-            mt = mt.replace("{COORDS}", ChatColor.stripColor(r.mes("notAvailable")));
+            mt = mt.replace("{WORLD}", TextColors.stripColor(r.mes("notAvailable")));
+            mt = mt.replace("{WORLDNAME}", TextColors.stripColor(r.mes("notAvailable")));
+            mt = mt.replace("{COORDS}", TextColors.stripColor(r.mes("notAvailable")));
         }
         StringBuilder b = new StringBuilder();
         Integer i = 0;
@@ -373,7 +373,7 @@ public class UServer {
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()).replace("-", " "));
         mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
-        mt = mt.replace("{UPTIME}", ChatColor.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        mt = mt.replace("{UPTIME}", TextColors.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {

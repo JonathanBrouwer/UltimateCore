@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -42,7 +42,7 @@ public class CmdRules implements UltimateCommand {
             r.getUC().saveResource("rules.txt", true);
         }
         for (String r : FileUtil.getLines(file)) {
-            message = message + ChatColor.translateAlternateColorCodes('&', r) + ChatColor.RESET + "\n";
+            message = message + TextColors.translateAlternateColorCodes('&', r) + TextColors.RESET + "\n";
         }
     }
 

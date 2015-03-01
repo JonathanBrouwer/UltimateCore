@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.r;
 import java.util.*;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -169,7 +169,7 @@ class HelpInput
                         break;
                     }
                     if (match.equalsIgnoreCase("")) {
-                        lines.add(r.mes("helpPlugin", "%Enabled", (p.isEnabled() ? ChatColor.DARK_GREEN : ChatColor.RED), "%Name", pluginName, "%Lowname", pluginNameLow));
+                        lines.add(r.mes("helpPlugin", "%Enabled", (p.isEnabled() ? TextColors.DARK_GREEN : TextColors.RED), "%Name", pluginName, "%Lowname", pluginNameLow));
                     }
                 }
             } catch (NullPointerException ex) {
@@ -249,7 +249,7 @@ class PluginCommandsInput
                         break;
                     }
                     if (match.equalsIgnoreCase("")) {
-                        lines.add(r.mes("helpPlugin", "%Enabled", (p.isEnabled() ? ChatColor.DARK_GREEN : ChatColor.RED), "%Name", pluginName, "%Lowname", pluginNameLow));
+                        lines.add(r.mes("helpPlugin", "%Enabled", (p.isEnabled() ? TextColors.DARK_GREEN : TextColors.RED), "%Name", pluginName, "%Lowname", pluginNameLow));
                     }
                 }
             } catch (NullPointerException ex) {
@@ -357,7 +357,7 @@ class TextPager {
                 if (i >= start + (this.onePage ? 20 : 9)) {
                     break;
                 }
-                sender.sendMessage(new StringBuilder().append(ChatColor.RESET).append(lines.get(i)).toString());
+                sender.sendMessage(new StringBuilder().append(TextColors.RESET).append(lines.get(i)).toString());
             }
             if ((!this.onePage) && (page < pages) && (commandName != null)) {
                 if (commandName.startsWith("plugin")) {
@@ -411,7 +411,7 @@ class TextPager {
             if (i >= start + (this.onePage ? 20 : 9)) {
                 break;
             }
-            sender.sendMessage(new StringBuilder().append(ChatColor.RESET).append(lines.get(i)).toString());
+            sender.sendMessage(new StringBuilder().append(TextColors.RESET).append(lines.get(i)).toString());
         }
         if ((!this.onePage) && (page < pages) && (commandName != null)) {
             if (commandName.startsWith("plugin")) {

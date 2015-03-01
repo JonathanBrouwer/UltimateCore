@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
@@ -75,7 +75,7 @@ public class CmdPlugin implements UltimateCommand {
                 r.sendMes(cs, "noPermissions");
                 return;
             }
-            cs.sendMessage(ChatColor.GOLD + "================================");
+            cs.sendMessage(TextColors.GOLD + "================================");
             r.sendMes(cs, "pluginHelpLoad");
             r.sendMes(cs, "pluginHelpUnload");
             r.sendMes(cs, "pluginHelpEnable");
@@ -90,7 +90,7 @@ public class CmdPlugin implements UltimateCommand {
             r.sendMes(cs, "pluginHelpUpdatecheckall");
             r.sendMes(cs, "pluginHelpDownload");
             r.sendMes(cs, "pluginHelpSearch");
-            cs.sendMessage(ChatColor.GOLD + "================================");
+            cs.sendMessage(TextColors.GOLD + "================================");
             return;
         } //load
         else if (args[0].equalsIgnoreCase("load")) {
@@ -159,7 +159,7 @@ public class CmdPlugin implements UltimateCommand {
                 for (String dep : deps) {
                     sb.append(r.neutral);
                     sb.append(dep);
-                    sb.append(ChatColor.RESET);
+                    sb.append(TextColors.RESET);
                     sb.append(", ");
                 }
                 r.sendMes(cs, "pluginUnloadDependend", "%Plugins", sb.substring(0, sb.length() - 4));
@@ -227,7 +227,7 @@ public class CmdPlugin implements UltimateCommand {
                 for (String dep : deps) {
                     sb.append(r.neutral);
                     sb.append(dep);
-                    sb.append(ChatColor.RESET);
+                    sb.append(TextColors.RESET);
                     sb.append(", ");
                 }
                 r.sendMes(cs, "pluginUnloadDependend", "%Plugins", sb.substring(0, sb.length() - 4));
@@ -440,13 +440,13 @@ public class CmdPlugin implements UltimateCommand {
                 r.sendMes(cs, "pluginInfoDescription", "%Description", desc.replaceAll("\r?\n", ""));
             }
             if (authors != null && !authors.isEmpty()) {
-                r.sendMes(cs, "pluginInfoAuthor", "%S", ((authors.size() > 1) ? "s" : ""), "%Author", StringUtil.join(ChatColor.RESET + ", " + r.neutral, authors));
+                r.sendMes(cs, "pluginInfoAuthor", "%S", ((authors.size() > 1) ? "s" : ""), "%Author", StringUtil.join(TextColors.RESET + ", " + r.neutral, authors));
             }
             if (softDep != null && !softDep.isEmpty()) {
-                r.sendMes(cs, "pluginInfoSoftdeps", "%Softdeps", StringUtil.join(ChatColor.RESET + ", " + r.neutral, softDep));
+                r.sendMes(cs, "pluginInfoSoftdeps", "%Softdeps", StringUtil.join(TextColors.RESET + ", " + r.neutral, softDep));
             }
             if (dep != null && !dep.isEmpty()) {
-                r.sendMes(cs, "pluginInfoDeps", "%Deps", StringUtil.join(ChatColor.RESET + ", " + r.neutral, dep));
+                r.sendMes(cs, "pluginInfoDeps", "%Deps", StringUtil.join(TextColors.RESET + ", " + r.neutral, dep));
             }
             r.sendMes(cs, "pluginInfoEnabled", "%Enabled", ((p.isEnabled()) ? r.mes("yes") : r.mes("no")));
             return;
@@ -757,7 +757,7 @@ public class CmdPlugin implements UltimateCommand {
             };
             Bukkit.getServer().getScheduler().runTaskAsynchronously(r.getUC(), ru);
         } else {
-            cs.sendMessage(ChatColor.GOLD + "================================");
+            cs.sendMessage(TextColors.GOLD + "================================");
             r.sendMes(cs, "pluginHelpLoad");
             r.sendMes(cs, "pluginHelpUnload");
             r.sendMes(cs, "pluginHelpEnable");
@@ -772,7 +772,7 @@ public class CmdPlugin implements UltimateCommand {
             r.sendMes(cs, "pluginHelpUpdatecheckall");
             r.sendMes(cs, "pluginHelpDownload");
             r.sendMes(cs, "pluginHelpSearch");
-            cs.sendMessage(ChatColor.GOLD + "================================");
+            cs.sendMessage(TextColors.GOLD + "================================");
             return;
         }
 

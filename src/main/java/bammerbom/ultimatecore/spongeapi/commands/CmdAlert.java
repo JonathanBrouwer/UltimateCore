@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -62,7 +62,7 @@ public class CmdAlert implements UltimateCommand {
         }
         String message = r.getFinalArg(args, 0);
         message = format.replace("%Message", message);
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
+        Bukkit.broadcastMessage(TextColors.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
     }
 
     @Override

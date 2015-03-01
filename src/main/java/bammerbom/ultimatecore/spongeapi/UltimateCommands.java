@@ -28,18 +28,11 @@ import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.*;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.plugin.Plugin;
+import org.spongepowered.api.util.command.CommandCallable;
 
-public class UltimateCommands implements TabCompleter {
+public class UltimateCommands {
 
-    public static List<UltimateCommand> cmds = new ArrayList<>();
+    public static List<CommandCallable> cmds = new ArrayList<>();
     public static UltimateCommands ucmds;
 
     public static void load() {
@@ -233,97 +226,11 @@ public class UltimateCommands implements TabCompleter {
         return rtrn;
     }
 
-    static class Overrider {
-
-        private static final transient Map<PluginCommand, PluginCommand> overriddenList = new HashMap<>();
-
-        public static void fixCommands() {
-            for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
-                if (pl.isEnabled() && !pl.equals(r.getUC())) {
-                    addPlugin(pl);
-                }
-            }
+    public static String[] convertsArgs(String arg) {
+        if (!arg.contains(" ")) {
+            String[] args = {arg};
+            return args;
         }
-
-        public static void addPlugin(Plugin pl) {
-            if (pl.getName().contains("Essentials")) {
-                return;
-            }
-            List<Command> commands = PluginCommandYamlParser.parse(pl);
-            for (Command command : commands) {
-                PluginCommand pc = (PluginCommand) command;
-                List<String> labels = new ArrayList<>(pc.getAliases());
-                labels.add(pc.getName());
-                for (String lab : labels) {
-                    PluginCommand uc;
-                    uc = Bukkit.getServer().getPluginCommand("ultimatecore:" + lab);
-                    /*if(uc == null){
-                     uc = plugin.getServer().getPluginCommand(pc.getName().toLowerCase(Locale.ENGLISH));
-                     }*/
-                    if ((uc != null) && uc.getPlugin().equals(r.getUC())) {
-                        if (lab.equalsIgnoreCase(uc.getLabel())) {
-                            overriddenList.put(uc, pc);
-                            r.debug(ChatColor.WHITE + "Command overridden: " + lab + " (" + pc.getPlugin() + ")");
-                        }
-                    }
-                }
-            }
-        }
-
-        public static void removePlugin(Plugin pl) {
-            List<Command> commands = PluginCommandYamlParser.parse(pl);
-            for (Command command : commands) {
-                PluginCommand pc = (PluginCommand) command;
-                List<String> labels = new ArrayList<>(pc.getAliases());
-                labels.add(pc.getName());
-                PluginCommand uc;
-                uc = Bukkit.getServer().getPluginCommand("ultimatecore:" + pc.getName());
-                if (uc == null) {
-                    uc = Bukkit.getServer().getPluginCommand(pc.getName().toLowerCase(Locale.ENGLISH));
-                }
-                if ((uc != null) && uc.getPlugin().equals(r.getUC())) {
-                    for (String label : labels) {
-                        if (label.equalsIgnoreCase(uc.getLabel())) {
-                            if (overriddenList.containsKey(uc)) {
-                                r.debug(ChatColor.WHITE + "Command un-overridden: " + label + " (" + pc.getPlugin() + ")");
-                                overriddenList.remove(uc);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        public static boolean checkOverridden(final CommandSender cs, Command cmd, final String label, final String[] args) {
-            PluginCommand uc = (PluginCommand) cmd;
-            if (overriddenList.containsKey(uc) || r.getCnfg().getList("disabledcommands").contains(label)) {
-                r.debug(uc + " " + overriddenList.get(uc));
-                PluginCommand pc = overriddenList.get(uc);
-                if (pc == null || pc.getExecutor() == null) {
-                    r.sendMes(cs, "unknownCommand");
-                    return true;
-                }
-                r.debug("Executing " + cs + " " + pc + " " + label);
-
-                pc.execute(cs, label, args);
-                return true;
-            }
-            return false;
-        }
-
-        @EventHandler
-        public void plEnable(PluginEnableEvent e) {
-            if (!e.getPlugin().equals(r.getUC())) {
-                addPlugin(e.getPlugin());
-            }
-        }
-
-        @EventHandler
-        public void plDisable(PluginDisableEvent e) {
-            if (!e.getPlugin().equals(r.getUC())) {
-                removePlugin(e.getPlugin());
-            }
-        }
+        return arg.split(" ");
     }
-
 }

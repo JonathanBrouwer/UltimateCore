@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
@@ -98,11 +98,11 @@ public class CmdEditsign implements UltimateCommand {
         }
         String text = r.getFinalArg(args, 1);
         if (r.perm(p, "uc.sign.colored", false, false)) {
-            s.setLine(0, ChatColor.translateAlternateColorCodes('&', s.getLine(0)));
-            s.setLine(1, ChatColor.translateAlternateColorCodes('&', s.getLine(1)));
-            s.setLine(2, ChatColor.translateAlternateColorCodes('&', s.getLine(2)));
-            s.setLine(3, ChatColor.translateAlternateColorCodes('&', s.getLine(3)));
-            text = ChatColor.translateAlternateColorCodes('&', text);
+            s.setLine(0, TextColors.translateAlternateColorCodes('&', s.getLine(0)));
+            s.setLine(1, TextColors.translateAlternateColorCodes('&', s.getLine(1)));
+            s.setLine(2, TextColors.translateAlternateColorCodes('&', s.getLine(2)));
+            s.setLine(3, TextColors.translateAlternateColorCodes('&', s.getLine(3)));
+            text = TextColors.translateAlternateColorCodes('&', text);
         }
         s.setLine(lineNumber, text);
         s.update();

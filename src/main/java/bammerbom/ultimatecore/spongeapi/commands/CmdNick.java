@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -104,13 +104,13 @@ public class CmdNick implements UltimateCommand {
         }
         String name = args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", "");
         if (r.perm(cs, "uc.nick.colors", false, false)) {
-            name = ChatColor.translateAlternateColorCodes('&', name);
+            name = TextColors.translateAlternateColorCodes('&', name);
         }
-        if (!ChatColor.stripColor(name).replaceAll("�", "").replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "").equalsIgnoreCase("")) {
+        if (!TextColors.stripColor(name).replaceAll("�", "").replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "").equalsIgnoreCase("")) {
             r.sendMes(cs, "nickNonAlpha");
             return;
         }
-        name = ChatColor.translateAlternateColorCodes('&', args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", ""));
+        name = TextColors.translateAlternateColorCodes('&', args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", ""));
         UC.getPlayer(t).setNick(name);
         r.sendMes(cs, "nickMessage", "%Name", name, "%Player", t.getName());
         if (o) {

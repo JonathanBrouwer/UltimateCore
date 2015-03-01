@@ -29,36 +29,42 @@ import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.PerformanceUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
+import com.google.inject.Inject;
 import java.io.File;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.slf4j.Logger;
+import org.spongepowered.api.Game;
+import org.spongepowered.api.event.state.InitializationEvent;
+import org.spongepowered.api.event.state.ServerStartingEvent;
+import org.spongepowered.api.event.state.ServerStoppingEvent;
+import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.service.config.ConfigDir;
+import org.spongepowered.api.service.event.EventManager;
+import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.event.Subscribe;
 
-public class UltimateCore extends JavaPlugin {
+@Plugin(id = "UltimateCore", name = "UltimateCore", version = "2.0.8")
+public class UltimateCore {
 
     public static UltimateCore instance;
+    @Inject
+    @ConfigDir(sharedRoot = false)
     public static File file;
+    @Inject
+    public static Logger logger;
+    public static Game game;
 
     public static UltimateCore getInstance() {
         return instance;
     }
 
-    public static File getPluginFile() {
-        return file;
-    }
-
-    @Override
-    public void onEnable() {
+    @Subscribe
+    public void onEnable(InitializationEvent ev) {
         try {
             //
             Long time = System.currentTimeMillis();
             //
             instance = this;
-            file = getFile();
+            game = ev.getGame();
             UltimateFileLoader.Enable();
             r.enableMES();
             UltimateFileLoader.addConfig();
@@ -68,25 +74,21 @@ public class UltimateCore extends JavaPlugin {
             BossbarUtil.enable();
             ItemDatabase.enable();
             //
-            String c = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
-            Integer v = Integer.parseInt(c.replace(".", ""));
-            if (v < 18) {
-                Bukkit.getConsoleSender().sendMessage(" ");
-                r.log(ChatColor.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                r.log(ChatColor.YELLOW + "Warning! Version " + c + " of craftbukkit is not supported!");
-                r.log(ChatColor.YELLOW + "Use UltimateCore at your own risk!");
-                r.log(ChatColor.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                Bukkit.getConsoleSender().sendMessage(" ");
+            if (!ev.getGame().getMinecraftVersion().getName().startsWith("1.8")) {
+                logger.info(" ");
+                r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                r.log(TextColors.YELLOW + "Warning! Version " + ev.getGame().getMinecraftVersion().getName() + " of spongeapi is not supported!");
+                r.log(TextColors.YELLOW + "Use UltimateCore at your own risk!");
+                r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                logger.info(" ");
             }
-            //
-            UltimateConverter.convert();
             //
             r.runUpdater();
             r.runMetrics();
             //
-            PluginManager pm = Bukkit.getPluginManager();
+            EventManager em = ev.getGame().getEventManager();
             GlobalPlayerListener.start();
-            pm.registerEvents(new GlobalWorldListener(), this);
+            em.register(this, new GlobalWorldListener());
             AfkListener.start();
             AutomessageListener.start();
             AutosaveListener.start();
@@ -106,17 +108,21 @@ public class UltimateCore extends JavaPlugin {
             WeatherListener.start();
             //
             time = System.currentTimeMillis() - time;
-            r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
+            r.log(TextColors.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
 
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to enable UltimateCore");
         }
-        UltimateWorldLoader.startWorldLoading();
         test();
     }
 
-    @Override
-    public void onDisable() {
+    @Subscribe
+    public void loadWorlds(ServerStartingEvent ev) {
+        UltimateWorldLoader.startWorldLoading();
+    }
+
+    @Subscribe
+    public void onDisable(ServerStoppingEvent ev) {
         try {
             //
             Long time = System.currentTimeMillis();
@@ -126,14 +132,8 @@ public class UltimateCore extends JavaPlugin {
             BossbarUtil.disable();
             DynmapListener.stop();
             //
-            HandlerList.unregisterAll(this);
-            Bukkit.getServicesManager().unregisterAll(this);
-            Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(this);
-            Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
-            Bukkit.getServer().getScheduler().cancelTasks(this);
-            //
             time = System.currentTimeMillis() - time;
-            r.log(ChatColor.GREEN + "Disabled Ultimate Core! (" + time + "ms)");
+            r.log(TextColors.GREEN + "Disabled Ultimate Core! (" + time + "ms)");
             //
 
         } catch (Exception ex) {
@@ -141,15 +141,8 @@ public class UltimateCore extends JavaPlugin {
         }
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        try {
-            UltimateCommands.onCmd(sender, cmd, label, args);
-
-        } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to execute command: /" + label + " " + r.getFinalArg(args, 0));
-        }
-        return true;
+    public File getDataFolder() {
+        return file;
     }
 
     public void test() {

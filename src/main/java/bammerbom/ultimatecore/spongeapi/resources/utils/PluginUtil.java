@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.SimpleCommandMap;
@@ -148,7 +148,7 @@ public class PluginUtil {
                 pluginList.append(", ");
             }
 
-            pluginList.append(plugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED);
+            pluginList.append(plugin.isEnabled() ? TextColors.GREEN : TextColors.RED);
             pluginList.append(plugin.getDescription().getName());
         }
 

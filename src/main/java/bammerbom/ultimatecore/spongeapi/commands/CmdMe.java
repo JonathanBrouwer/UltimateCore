@@ -28,13 +28,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 public class CmdMe implements UltimateCommand {
 
-    String f = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.MeFormat"));
+    String f = TextColors.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.MeFormat"));
 
     @Override
     public String getName() {
@@ -62,7 +62,7 @@ public class CmdMe implements UltimateCommand {
         }
         String mes = r.getFinalArg(args, 0);
         if (r.perm(cs, "uc.coloredchat", false, false)) {
-            mes = ChatColor.translateAlternateColorCodes('&', mes);
+            mes = TextColors.translateAlternateColorCodes('&', mes);
         }
         Bukkit.broadcastMessage(f.replace("%Player", cs.getName()).replace("%Message", mes));
 

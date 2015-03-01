@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -42,10 +42,10 @@ public class SignListener implements Listener {
         if (!r.perm(e.getPlayer(), "uc.sign.colored", false, false)) {
             return;
         }
-        e.setLine(0, ChatColor.translateAlternateColorCodes('&', e.getLine(0)));
-        e.setLine(1, ChatColor.translateAlternateColorCodes('&', e.getLine(1)));
-        e.setLine(2, ChatColor.translateAlternateColorCodes('&', e.getLine(2)));
-        e.setLine(3, ChatColor.translateAlternateColorCodes('&', e.getLine(3)));
+        e.setLine(0, TextColors.translateAlternateColorCodes('&', e.getLine(0)));
+        e.setLine(1, TextColors.translateAlternateColorCodes('&', e.getLine(1)));
+        e.setLine(2, TextColors.translateAlternateColorCodes('&', e.getLine(2)));
+        e.setLine(3, TextColors.translateAlternateColorCodes('&', e.getLine(3)));
     }
 
 }

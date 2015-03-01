@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.*;
 import static org.bukkit.entity.EntityType.*;
@@ -294,7 +294,7 @@ public class DeathmessagesListener implements Listener {
                             name = "a " + name;
                         }
                     }
-                    name = ChatColor.stripColor(name);
+                    name = TextColors.stripColor(name);
                     return (r.mes("deathmessagePlayer").replaceAll("%Killed", (UC.getPlayer(p).getDisplayName())).replaceAll("%Killer", ((AnimalTamer) ev.getDamager()).getName()).replaceAll("%Weapon", name));
 
                 case PRIMED_TNT:

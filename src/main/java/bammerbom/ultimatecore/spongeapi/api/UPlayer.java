@@ -848,20 +848,20 @@ public class UPlayer {
         if (data.get("nick") == null) {
             return null;
         }
-        String nick = ChatColor.translateAlternateColorCodes('&', data.getString("nick"));
+        String nick = TextColors.translateAlternateColorCodes('&', data.getString("nick"));
         if (getPlayer().isOnline()) {
             getPlayer().getPlayer().setDisplayName(nick.replace("&y", ""));
         }
         if (getPlayer().isOnline() && r.perm((CommandSender) getPlayer(), "uc.chat.rainbow", false, false)) {
-            nick = nick.replaceAll("&y", r.getRandomChatColor() + "");
+            nick = nick.replaceAll("&y", r.getRandomTextColors() + "");
         }
-        nickname = nick + ChatColor.RESET;
+        nickname = nick + TextColors.RESET;
         save();
-        return nick + ChatColor.RESET;
+        return nick + TextColors.RESET;
     }
 
     public void setNick(String str) {
-        nickname = str == null ? null : str + ChatColor.RESET;
+        nickname = str == null ? null : str + TextColors.RESET;
         save();
         if (str != null) {
             if (getPlayer().isOnline()) {

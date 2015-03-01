@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -67,7 +67,7 @@ public class CmdRealname implements UltimateCommand {
             if (UC.getPlayer(player).getNick() == null) {
                 continue;
             }
-            String s = ChatColor.stripColor(UC.getPlayer(player).getNick()).toLowerCase();
+            String s = TextColors.stripColor(UC.getPlayer(player).getNick()).toLowerCase();
             if (s.startsWith(lowerName)) {
                 int curDelta = s.length() - lowerName.length();
                 if (curDelta < delta) {
@@ -84,7 +84,7 @@ public class CmdRealname implements UltimateCommand {
                 if (UC.getPlayer(player).getNick() == null) {
                     continue;
                 }
-                String s = ChatColor.stripColor(UC.getPlayer(player).getNick()).toLowerCase();
+                String s = TextColors.stripColor(UC.getPlayer(player).getNick()).toLowerCase();
                 if (s.toLowerCase().startsWith(lowerName)) {
                     int curDelta = s.length() - lowerName.length();
                     if (curDelta < delta) {

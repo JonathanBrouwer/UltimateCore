@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 
 public class ErrorLogger {
 
@@ -82,24 +82,24 @@ public class ErrorLogger {
         }
         //
         Bukkit.getConsoleSender().sendMessage(" ");
-        r.log(ChatColor.DARK_RED + "=========================================================");
-        r.log(ChatColor.RED + "UltimateCore has run into an error ");
-        r.log(ChatColor.RED + "Please report your error on ");
-        r.log(ChatColor.YELLOW + "http://dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
-        r.log(ChatColor.RED + "Include the file: ");
-        r.log(ChatColor.YELLOW + "plugins/UltimateCore/Errors/" + time + ".txt ");
-        /*r.log(ChatColor.RED + "Bukkit version: " + Bukkit.getServer().getVersion());
-         r.log(ChatColor.RED + "UltimateCore version: " + Bukkit.getPluginManager().getPlugin("UltimateCore").getDescription().getVersion());
-         r.log(ChatColor.RED + "Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()));
-         r.log(ChatColor.RED + "Java version: " + System.getProperty("java.version"));
-         r.log(ChatColor.RED + "OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version"));
-         r.log(ChatColor.RED + "Error message: " + t.getMessage());
-         r.log(ChatColor.RED + "UltimateCore message: " + s);*/
-        r.log(ChatColor.DARK_RED + "=========================================================");
+        r.log(TextColors.DARK_RED + "=========================================================");
+        r.log(TextColors.RED + "UltimateCore has run into an error ");
+        r.log(TextColors.RED + "Please report your error on ");
+        r.log(TextColors.YELLOW + "http://dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
+        r.log(TextColors.RED + "Include the file: ");
+        r.log(TextColors.YELLOW + "plugins/UltimateCore/Errors/" + time + ".txt ");
+        /*r.log(TextColors.RED + "Bukkit version: " + Bukkit.getServer().getVersion());
+         r.log(TextColors.RED + "UltimateCore version: " + Bukkit.getPluginManager().getPlugin("UltimateCore").getDescription().getVersion());
+         r.log(TextColors.RED + "Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()));
+         r.log(TextColors.RED + "Java version: " + System.getProperty("java.version"));
+         r.log(TextColors.RED + "OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version"));
+         r.log(TextColors.RED + "Error message: " + t.getMessage());
+         r.log(TextColors.RED + "UltimateCore message: " + s);*/
+        r.log(TextColors.DARK_RED + "=========================================================");
         if (t instanceof Exception) {
-            r.log(ChatColor.RED + "Stacktrace: ");
+            r.log(TextColors.RED + "Stacktrace: ");
             t.printStackTrace();
-            r.log(ChatColor.DARK_RED + "=========================================================");
+            r.log(TextColors.DARK_RED + "=========================================================");
         }
         Bukkit.getConsoleSender().sendMessage(" ");
     }

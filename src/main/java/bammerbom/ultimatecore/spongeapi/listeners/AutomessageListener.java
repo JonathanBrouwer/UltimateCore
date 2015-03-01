@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -82,20 +82,20 @@ public class AutomessageListener implements Listener {
                     }
                 }
                 mess = mess.replace("\\n", "\n");
-                currentmessage = ChatColor.translateAlternateColorCodes('&', mess);
+                currentmessage = TextColors.translateAlternateColorCodes('&', mess);
                 for (Player p : r.getOnlinePlayers()) {
                     if (r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
                         if (decrease) {
-                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "), time);
+                            BossbarUtil.setMessage(p, TextColors.translateAlternateColorCodes('&', mess).replace("\n", " "), time);
                         } else {
-                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                            BossbarUtil.setMessage(p, TextColors.translateAlternateColorCodes('&', mess).replace("\n", " "));
                         }
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
-                        TitleUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                        TitleUtil.sendActionBar(p, TextColors.translateAlternateColorCodes('&', mess).replace("\n", " "));
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledchat") == true) {
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', mess));
+                        p.sendMessage(TextColors.translateAlternateColorCodes('&', mess));
                     }
 
                 }
@@ -114,10 +114,10 @@ public class AutomessageListener implements Listener {
                     return;
                 }
                 if (r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
-                    BossbarUtil.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage));
+                    BossbarUtil.setMessage(e.getPlayer(), TextColors.translateAlternateColorCodes('&', currentmessage));
                 }
                 if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
-                    TitleUtil.sendActionBar(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage));
+                    TitleUtil.sendActionBar(e.getPlayer(), TextColors.translateAlternateColorCodes('&', currentmessage));
                 }
             }
         }, 100L);

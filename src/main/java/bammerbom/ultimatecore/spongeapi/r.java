@@ -37,19 +37,16 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.apache.commons.io.FilenameUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.RegisteredServiceProvider;
+import org.spongepowered.api.Game;
+import org.spongepowered.api.text.format.TextColor;
+import org.spongepowered.api.text.format.TextColors;
 
 public class r {
 
     //Colors
-    public static ChatColor negative = ChatColor.RED;
-    public static ChatColor neutral = ChatColor.AQUA;
-    public static ChatColor positive = ChatColor.DARK_AQUA;
+    public static TextColor negative = TextColors.RED;
+    public static TextColor neutral = TextColors.AQUA;
+    public static TextColor positive = TextColors.DARK_AQUA;
 
     //Updater
     public static UltimateUpdater updater;
@@ -60,29 +57,18 @@ public class r {
     public static ExtendedProperties cu = null;
     public static Random ra = new Random();
     //Vault end
-    //Methods
-    static UltimateCore uc = UltimateCore.getInstance();
     static boolean debug = false;
     //Config end
-    //Vault
-    private static Vault vault;
-    private static Object prom;
 
     static {
-        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-            vault = new r().new Vault();
-        }
-        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
-            prom = com.comphenix.protocol.ProtocolLibrary.getProtocolManager();
-        }
     }
 
     public static UltimateUpdater getUpdater() {
         return updater;
     }
 
-    public static Object getProtocolManager() {
-        return prom;
+    public static Game getGame() {
+        return UltimateCore.game;
     }
 
     public static void runUpdater() {
@@ -114,7 +100,7 @@ public class r {
             return;
         }
         try {
-            metrics = new UltimateMetrics(getUC());
+            metrics = new UltimateMetrics(getUC()); //TODO
             metrics.start();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -136,14 +122,14 @@ public class r {
                 if (!(i == 0)) {
                     filename = "config_CORRUPT" + i + ".yml";
                 }
-                r.log(ChatColor.GOLD + "---------------------------------------------------");
-                r.log(ChatColor.AQUA + "Config file failed to load, creating a new file...");
-                r.log(ChatColor.AQUA + "Corrupt file saved as " + ChatColor.YELLOW + filename);
-                r.log(ChatColor.GOLD + "----------------------------------------------------");
+                r.log(TextColors.GOLD + "---------------------------------------------------");
+                r.log(TextColors.AQUA + "Config file failed to load, creating a new file...");
+                r.log(TextColors.AQUA + "Corrupt file saved as " + TextColors.YELLOW + filename);
+                r.log(TextColors.GOLD + "----------------------------------------------------");
             } else {
-                r.log(ChatColor.GOLD + "-------------------------------------------------");
-                r.log(ChatColor.AQUA + "Config file doesn't exist, creating a new file...");
-                r.log(ChatColor.GOLD + "-------------------------------------------------");
+                r.log(TextColors.GOLD + "-------------------------------------------------");
+                r.log(TextColors.AQUA + "Config file doesn't exist, creating a new file...");
+                r.log(TextColors.GOLD + "-------------------------------------------------");
             }
             UltimateFileLoader.Enable();
         }
@@ -155,10 +141,7 @@ public class r {
     }
 
     public static UltimateCore getUC() {
-        if (uc == null) {
-            uc = UltimateCore.getInstance();
-        }
-        return uc;
+        return UltimateCore.getInstance();
     }
 
     protected static void removeUC() {
@@ -272,7 +255,7 @@ public class r {
 
     public static String mes(String padMessage, Object... repl) {
         if (cu.map.containsKey(padMessage)) {
-            String a = r.positive + ChatColor.translateAlternateColorCodes('&', cu.getProperty(padMessage)
+            String a = r.positive + TextColors.translateAlternateColorCodes('&', cu.getProperty(padMessage)
                     .replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
             String repA = null;
             for (Object s : repl) {
@@ -286,7 +269,7 @@ public class r {
             return a;
         }
         if (en.map.containsKey(padMessage)) {
-            String b = r.positive + ChatColor.translateAlternateColorCodes('&', en.getProperty(padMessage)
+            String b = r.positive + TextColors.translateAlternateColorCodes('&', en.getProperty(padMessage)
                     .replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
             String repB = null;
             for (Object s : repl) {
@@ -309,19 +292,19 @@ public class r {
     }
 
     public static void log(Object message) {
-        String logo = ChatColor.translateAlternateColorCodes('&', "&9[&bUC&9]&r");
+        String logo = TextColors.translateAlternateColorCodes('&', "&9[&bUC&9]&r");
         if (message == null) {
             r.log("null");
             return;
         }
-        Bukkit.getConsoleSender().sendMessage(logo + " " + ChatColor.YELLOW + message.toString());
+        Bukkit.getConsoleSender().sendMessage(logo + " " + TextColors.YELLOW + message.toString());
     }
 
     public static void debug(Object message) {
         if (!debug) {
             return;
         }
-        log(ChatColor.WHITE + message.toString());
+        log(TextColors.WHITE + message.toString());
         //
     }
 
@@ -444,9 +427,9 @@ public class r {
         return a;
     }
 
-    public static ChatColor getRandomChatColor() {
-        ArrayList<ChatColor> values = new ArrayList<>();
-        for (ChatColor c : ChatColor.values()) {
+    public static TextColors getRandomTextColors() {
+        ArrayList<TextColors> values = new ArrayList<>();
+        for (TextColors c : TextColors.values()) {
             if (!c.isFormat()) {
                 values.add(c);
             }

@@ -34,7 +34,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -125,12 +124,6 @@ public class UltimateCore extends JavaPlugin {
             ItemDatabase.disable();
             BossbarUtil.disable();
             DynmapListener.stop();
-            //
-            HandlerList.unregisterAll(this);
-            Bukkit.getServicesManager().unregisterAll(this);
-            Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(this);
-            Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
-            Bukkit.getServer().getScheduler().cancelTasks(this);
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Disabled Ultimate Core! (" + time + "ms)");

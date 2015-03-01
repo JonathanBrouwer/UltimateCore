@@ -31,8 +31,6 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.bukkit.ChatColor;
-import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 
@@ -86,7 +84,7 @@ public class UltimateUpdater {
 
     /* User-provided variables */
     // Plugin running Updater
-    private static Plugin plugin;
+    private static UltimateCore plugin;
     private static String versionName;
     // Updater thread
     private static Thread thread;
@@ -122,12 +120,12 @@ public class UltimateUpdater {
      * @param announce True if the program should announce the progress of new
      * updates in console.
      */
-    public UltimateUpdater(Plugin plugin, int id, File file, UpdateType type, boolean announce) {
+    public UltimateUpdater(UltimateCore plugin, int id, File file, UpdateType type, boolean announce) {
         UltimateUpdater.plugin = plugin;
         this.type = type;
         this.announce = announce;
         this.file = file;
-        this.updateFolder = new File(plugin.getDataFolder().getParent(), plugin.getServer().getUpdateFolder());
+        this.updateFolder = new File(UltimateCore.getPluginFile().getParent(), plugin.getServer().getUpdateFolder());
 
         try {
             this.url = new URL(UltimateUpdater.HOST + UltimateUpdater.QUERY + id);
@@ -247,7 +245,7 @@ public class UltimateUpdater {
         }
         if (this.announce) {
             r.log("Update completed.");
-            r.log(ChatColor.GREEN + "Reload/Restart the server to activate the update.");
+            r.log(TextColors.GREEN + "Reload/Restart the server to activate the update.");
         }
     }
 

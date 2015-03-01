@@ -33,21 +33,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 import org.apache.commons.io.FileUtils;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.spongepowered.api.text.format.TextColors;
 
 public class UltimateConverter {
 
     public static void convert() {
         if (r.getCnfg().contains("Tp.TpaCancelDelay")) {
             try {
-                r.log(ChatColor.DARK_RED + "-----------------------------------------------");
+                r.log(TextColors.DARK_RED + "-----------------------------------------------");
                 r.log("WARNING!!!");
                 r.log("UltimateCore is converting to 2.x ...");
                 r.log("Everything except HOMES and WARPS is lost!");
                 r.log("UltimateCore will make a backup for you: ");
-                r.log(ChatColor.DARK_RED + "-----------------------------------------------");
+                r.log(TextColors.DARK_RED + "-----------------------------------------------");
                 Thread.sleep(10000L);
                 r.log("Creating backup...");
                 FileUtil.copy(r.getUC().getDataFolder(), new File(r.getUC().getDataFolder().getParentFile(), "UltimateCore (Backup from 1.x)"));
@@ -77,7 +75,7 @@ public class UltimateConverter {
                     UC.getPlayer(u).setHomes(homes.get(u));
                 }
                 r.log("Converting complete!");
-                r.log(ChatColor.DARK_RED + "-----------------------------------------------");
+                r.log(TextColors.DARK_RED + "-----------------------------------------------");
             } catch (InterruptedException | IOException ex) {
                 ErrorLogger.log(ex, "Failed to convert from 1.x");
             }

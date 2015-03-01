@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.TextColors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -64,8 +64,8 @@ public class CmdBroadcast implements UltimateCommand {
         String message = r.getFinalArg(args, 0);
         message = format.replace("%Message", message);
         for (Player pl : r.getOnlinePlayers()) {
-            pl.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n")));
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
+            pl.sendMessage(TextColors.translateAlternateColorCodes('&', message.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n")));
+            Bukkit.getConsoleSender().sendMessage(TextColors.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
         }
     }
 
