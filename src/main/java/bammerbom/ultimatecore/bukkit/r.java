@@ -207,12 +207,7 @@ public class r {
     }
 
     public static boolean checkArgs(Object[] args, Integer numb) {
-        try {
-            args[numb].equals("Ritja");
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return args.length >= numb + 1;
     }
 
     public static String getFinalArg(String[] args, int start) {

@@ -23,23 +23,23 @@
  */
 package bammerbom.ultimatecore.spongeapi;
 
+import static bammerbom.ultimatecore.spongeapi.UltimateCore.logger;
 import bammerbom.ultimatecore.spongeapi.UltimateUpdater.UpdateResult;
 import bammerbom.ultimatecore.spongeapi.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import com.massivecraft.factions.entity.MPlayer;
-import com.palmergames.bukkit.towny.Towny;
-import com.palmergames.bukkit.towny.object.Resident;
-import com.palmergames.bukkit.towny.object.TownyUniverse;
+import com.google.common.base.Optional;
 import java.io.*;
 import java.util.*;
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.service.permission.PermissionService;
+import org.spongepowered.api.service.permission.context.Context;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.Tristate;
+import org.spongepowered.api.util.command.CommandSource;
 
 public class r {
 
@@ -76,7 +76,7 @@ public class r {
             return;
         }
         Boolean dl = r.getCnfg().getBoolean("Updater.download");
-        updater = new UltimateUpdater(r.getUC(), 66979, UltimateCore.getPluginFile(), dl ? UpdateType.DEFAULT : UpdateType.NO_DOWNLOAD, true);
+        updater = new UltimateUpdater(r.getUC(), 66979, r.getUC().getDataFolder(), dl ? UpdateType.DEFAULT : UpdateType.NO_DOWNLOAD, true);
         Thread thr = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -100,8 +100,8 @@ public class r {
             return;
         }
         try {
-            metrics = new UltimateMetrics(getUC()); //TODO
-            metrics.start();
+            //metrics = new UltimateMetrics(getUC()); //TODO
+            //metrics.start();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -136,22 +136,16 @@ public class r {
         return new Config(new File(r.getUC().getDataFolder(), "config.yml"));
     }
 
-    public static Vault getVault() {
-        return vault;
-    }
-
     public static UltimateCore getUC() {
         return UltimateCore.getInstance();
     }
 
     protected static void removeUC() {
-        uc = null;
         updater = null;
         metrics = null;
-        vault = null;
     }
 
-    public static boolean isPlayer(CommandSender cs) {
+    public static boolean isPlayer(CommandSource cs) {
         if (cs instanceof Player) {
             return true;
         }
@@ -159,7 +153,7 @@ public class r {
         return false;
     }
 
-    public static boolean perm(CommandSender cs, String perm, Boolean def, Boolean message) {
+    public static boolean perm(CommandSource cs, String perm, Boolean def, Boolean message) {
         if (!(cs instanceof Player)) {
             return true;
         }
@@ -172,30 +166,20 @@ public class r {
     }
 
     private static boolean perm(Player p, String perm, Boolean def) {
-        if (p.isOp()) {
+        if (false) { //TODO is op
             r.debug("Checked " + p.getName() + " for " + perm + ", returned true. (1)");
             return true;
         }
-        if (r.getVault() != null && r.getVault().getPermission() != null && !r.getVault().getPermission().getName().equals("SuperPerms")) {
-            r.debug("Checked " + p.getName() + " for " + perm + ", returned " + r.getVault().getPermission().has(p, perm) + ". (2)");
-            return r.getVault().getPermission().has(p, perm);
-        } else {
-            if (def == true) {
-                r.debug("Checked " + p.getName() + " for " + perm + ", returned true. (3)");
-                return true;
-            }
-            r.debug("Checked " + p.getName() + " for " + perm + ", returned " + p.hasPermission(perm) + ". (4)");
-            return p.hasPermission(perm);
+        Optional<PermissionService> op = r.getGame().getServiceManager().provide(PermissionService.class);
+        if (op.isPresent() && def) {
+            op.get().getDefaultData().setPermission(new HashSet<Context>(), perm, Tristate.TRUE); //TODO Contexts?
         }
+        r.debug("Checked " + p.getName() + " for " + perm + ", returned " + p.hasPermission(perm) + ". (4)");
+        return p.hasPermission(perm);
     }
 
     public static boolean checkArgs(Object[] args, Integer numb) {
-        try {
-            args[numb].equals("Ritja");
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return args.length >= numb + 1;
     }
 
     public static String getFinalArg(String[] args, int start) {
@@ -216,7 +200,7 @@ public class r {
             en.load(inen);
             inen.close();
             ExtendedProperties enC = new ExtendedProperties("UTF-8");
-            enC.load(r.getUC().getResource("Messages/EN.properties"));
+            enC.load(r.getUC().getClass().getClassLoader().getResourceAsStream("Messages/EN.properties"));
             Boolean a = false;
             for (String s : enC.map.keySet()) {
                 if (!en.map.containsKey(s)) {
@@ -234,7 +218,7 @@ public class r {
                 cu.load(incu);
                 incu.close();
                 ExtendedProperties cuC = new ExtendedProperties("UTF-8");
-                cuC.load(r.getUC().getResource("Messages/" + FilenameUtils.getBaseName(UltimateFileLoader.LANGf.getName()) + ".properties"));
+                cuC.load(r.getUC().getClass().getClassLoader().getResourceAsStream("Messages/" + FilenameUtils.getBaseName(UltimateFileLoader.LANGf.getName()) + ".properties"));
                 Boolean b = false;
                 for (String s : cuC.map.keySet()) {
                     if (!cu.map.containsKey(s)) {
@@ -253,9 +237,20 @@ public class r {
         }
     }
 
+    public static String translateAlternateColorCodes(String textToTranslate) {
+        char[] b = textToTranslate.toCharArray();
+        for (int i = 0; i < b.length - 1; i++) {
+            if ((b[i] == '&') && ("0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[(i + 1)]) > -1)) {
+                b[i] = '§';
+                b[(i + 1)] = Character.toLowerCase(b[(i + 1)]);
+            }
+        }
+        return new String(b);
+    }
+
     public static String mes(String padMessage, Object... repl) {
         if (cu.map.containsKey(padMessage)) {
-            String a = r.positive + TextColors.translateAlternateColorCodes('&', cu.getProperty(padMessage)
+            String a = r.positive + r.translateAlternateColorCodes(cu.getProperty(padMessage)
                     .replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
             String repA = null;
             for (Object s : repl) {
@@ -269,7 +264,7 @@ public class r {
             return a;
         }
         if (en.map.containsKey(padMessage)) {
-            String b = r.positive + TextColors.translateAlternateColorCodes('&', en.getProperty(padMessage)
+            String b = r.positive + r.translateAlternateColorCodes(en.getProperty(padMessage)
                     .replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
             String repB = null;
             for (Object s : repl) {
@@ -286,18 +281,18 @@ public class r {
         return "";
     }
 
-    public static void sendMes(CommandSender cs, String padMessage, Object... repl) {
+    public static void sendMes(CommandSource cs, String padMessage, Object... repl) {
         String mes = mes(padMessage, repl);
         cs.sendMessage(mes);
     }
 
     public static void log(Object message) {
-        String logo = TextColors.translateAlternateColorCodes('&', "&9[&bUC&9]&r");
+        String logo = r.translateAlternateColorCodes("&9[&bUC&9]&r");
         if (message == null) {
             r.log("null");
             return;
         }
-        Bukkit.getConsoleSender().sendMessage(logo + " " + TextColors.YELLOW + message.toString());
+        logger.info(logo + " " + TextColors.YELLOW + message.toString());
     }
 
     public static void debug(Object message) {
@@ -316,59 +311,62 @@ public class r {
         debug = value;
     }
 
-    @SuppressWarnings("deprecation")
-    public static Player[] getOnlinePlayers() {
-        List<Player> plz = (List<Player>) Bukkit.getOnlinePlayers();
-        return plz.toArray(new Player[plz.size()]);
+    public static Collection<Player> getOnlinePlayers() {
+        if (!r.getGame().getServer().isPresent()) {
+            return new ArrayList<>();
+        }
+        return r.getGame().getServer().get().getOnlinePlayers();
+
     }
 
-    public static List<Player> getOnlinePlayersL() {
-        return (List<Player>) Bukkit.getOnlinePlayers();
-    }
+    /*public static Collection<OfflinePlayer> getOfflinePlayers() {
+     if (!r.getGame().getServer().isPresent()) {
+     return new ArrayList<>();
+     }
+     return r.getGame().getServer().get().
 
-    public static OfflinePlayer[] getOfflinePlayers() {
-        List<OfflinePlayer> plz = Arrays.asList(Bukkit.getOfflinePlayers());
-        return plz.toArray(new OfflinePlayer[plz.size()]);
-    }
-
-    public static List<OfflinePlayer> getOfflinePlayersL() {
-        return Arrays.asList(Bukkit.getOfflinePlayers());
-    }
-
+     }*/ //TODO OFFLINE PLAYERS
     public static Player searchPlayer(String s) {
         Player found = null;
         String lowerName = s.toLowerCase();
-        {
-            int delta = 2147483647;
-            for (Player player : getOnlinePlayers()) {
-                if (player.getName().toLowerCase().startsWith(lowerName)) {
-                    int curDelta = player.getName().length() - lowerName.length();
-                    if (curDelta < delta) {
-                        found = player;
-                        delta = curDelta;
-                    }
-                    if (curDelta == 0) {
-                        break;
-                    }
+        int delta = 2147483647;
+        for (Player player : getOnlinePlayers()) {
+            if (player.getName().toLowerCase().startsWith(lowerName)) {
+                int curDelta = player.getName().length() - lowerName.length();
+                if (curDelta < delta) {
+                    found = player;
+                    delta = curDelta;
+                }
+                if (curDelta == 0) {
+                    break;
                 }
             }
         }
         return found;
     }
 
-    @SuppressWarnings("deprecation")
-    public static OfflinePlayer searchOfflinePlayer(String s) {
-        return Bukkit.getOfflinePlayer(s);
-    }
-
+    /*public static OfflinePlayer searchOfflinePlayer(String s) {
+     return Bukkit.getOfflinePlayer(s);
+     }*/ //TODO OFFLINE PLAYERS
     public static Player searchPlayer(UUID u) {
-        return Bukkit.getPlayer(u);
+        if (!r.getGame().getServer().isPresent()) {
+            return null;
+        }
+        if (!r.getGame().getServer().get().getPlayer(u).isPresent()) {
+            return null;
+        }
+        return r.getGame().getServer().get().getPlayer(u).get();
     }
 
-    public static OfflinePlayer searchOfflinePlayer(UUID u) {
-        return Bukkit.getOfflinePlayer(u);
-    }
-
+    /*public static Player searchOfflinePlayer(UUID u) {
+     if (!r.getGame().getServer().isPresent()) {
+     return null;
+     }
+     if (!r.getGame().getServer().get().getPlayer(u).isPresent()) {
+     return null;
+     }
+     return r.getGame().getServer().get().getPlayer(u).get();
+     }*/ //TODO OFFLINE PLAYERS
     //
     public static boolean isInt(String check) {
         try {
@@ -427,48 +425,47 @@ public class r {
         return a;
     }
 
-    public static TextColors getRandomTextColors() {
-        ArrayList<TextColors> values = new ArrayList<>();
-        for (TextColors c : TextColors.values()) {
-            if (!c.isFormat()) {
+    public static TextColor getRandomTextColor() {
+        ArrayList<TextColor> values = new ArrayList<>();
+        for (TextColor c : TextColors.getValues()) {
+            if (!c.isReset()) {
                 values.add(c);
             }
         }
         return values.get(ra.nextInt(values.size()));
     }
 
-    public static String getTown(Player p) {
-        if (!Bukkit.getPluginManager().isPluginEnabled("Towny")) {
-            return null;
-        }
-        Towny t = (Towny) Bukkit.getServer().getPluginManager().getPlugin("Towny");
-        if (t == null) {
-            return null;
-        }
-        Resident r;
-        try {
-            r = TownyUniverse.getDataSource().getResident(p.getName());
-        } catch (Exception ex) {
-            return null;
-        }
-        try {
-            return r.getTown().getName();
-        } catch (Exception ex) {
-            return null;
-        }
-    }
+    /*public static String getTown(Player p) {
+     if (!Bukkit.getPluginManager().isPluginEnabled("Towny")) {
+     return null;
+     }
+     Towny t = (Towny) Bukkit.getServer().getPluginManager().getPlugin("Towny");
+     if (t == null) {
+     return null;
+     }
+     Resident r;
+     try {
+     r = TownyUniverse.getDataSource().getResident(p.getName());
+     } catch (Exception ex) {
+     return null;
+     }
+     try {
+     return r.getTown().getName();
+     } catch (Exception ex) {
+     return null;
+     }
+     }
 
-    public static String getFaction(Player p) {
-        if (!Bukkit.getPluginManager().isPluginEnabled("Factions")) {
-            return null;
-        }
-        try {
-            return MPlayer.get(p).getFaction().getName();
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
+     public static String getFaction(Player p) {
+     if (!Bukkit.getPluginManager().isPluginEnabled("Factions")) {
+     return null;
+     }
+     try {
+     return MPlayer.get(p).getFaction().getName();
+     } catch (Exception ex) {
+     return null;
+     }
+     }*/
     public static class ExtendedProperties {
 
         private static final String keyValueSeparators = "=: \t\r\n\f";
@@ -780,42 +777,4 @@ public class r {
         }
     }
 
-    public class Vault {
-
-        private Permission permission = null;
-        private Chat chat = null;
-        private Economy economy = null;
-
-        public Vault() {
-            if (Bukkit.getPluginManager().getPlugin("Vault") != null && Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-                //Permissions
-                RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-                if (permissionProvider != null) {
-                    permission = permissionProvider.getProvider();
-                }
-                //Chat
-                RegisteredServiceProvider<Chat> chatProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
-                if (chatProvider != null) {
-                    chat = chatProvider.getProvider();
-                }
-                RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-                if (economyProvider != null) {
-                    economy = economyProvider.getProvider();
-                }
-            }
-        }
-
-        public Permission getPermission() {
-            return permission;
-        }
-
-        public Chat getChat() {
-            return chat;
-        }
-
-        public Economy getEconomy() {
-            return economy;
-        }
-
-    }
 }
