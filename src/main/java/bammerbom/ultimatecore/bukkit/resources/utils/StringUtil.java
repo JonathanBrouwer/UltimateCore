@@ -39,6 +39,7 @@ public class StringUtil {
     public static final String[] EMPTY_ARRAY = new String[0];
     private static final Pattern INVALIDFILECHARS = Pattern.compile("[^a-z0-9-]");
     private static final char[] CHAT_CODES;
+
     static {
         ChatColor[] styles = ChatColor.values();
         LinkedHashSet<Character> chars = new LinkedHashSet<>(styles.length * 2);
@@ -442,7 +443,6 @@ public class StringUtil {
         }
         return builder.toString();
     }
-
 
     public static boolean nullOrEmpty(Map<?, ?> map) {
         return (map == null) || (map.isEmpty());

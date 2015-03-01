@@ -231,7 +231,7 @@ public class GhostsUtil {
             throw new IllegalStateException("Ghost factory has closed. Cannot reuse instances.");
         }
     }
-    
+
     public GhostsUtil(Plugin plugin) {
         // Initialize
         createTask(plugin);

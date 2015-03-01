@@ -487,10 +487,12 @@ public class r {
     }
 
     public static class ExtendedProperties {
+
         private static final String keyValueSeparators = "=: \t\r\n\f";
         private static final String strictKeyValueSeparators = "=:";
         private static final String specialSaveChars = "=: \t\r\n\f#!";
         private static final String whiteSpaceChars = " \t\r\n\f";
+
         private static void writeln(BufferedWriter bw, String s) throws IOException {
             bw.write(s);
             bw.newLine();
@@ -508,6 +510,7 @@ public class r {
             map = new HashMap<>();
             order = new ArrayList<>();
         }
+
         public synchronized void load(InputStream inStream) throws IOException {
             BufferedReader in;
             try {
@@ -611,8 +614,8 @@ public class r {
         }
 
         /*
-        * Returns true if the given line is a line that must be appended to the next line
-        */
+         * Returns true if the given line is a line that must be appended to the next line
+         */
         private boolean continueLine(String line) {
             int slashCount = 0;
             int index = line.length() - 1;
@@ -623,9 +626,9 @@ public class r {
         }
 
         /*
-        * Converts encoded &#92;uxxxx to unicode chars
-        * and changes special saved chars to their original forms
-        */
+         * Converts encoded &#92;uxxxx to unicode chars
+         * and changes special saved chars to their original forms
+         */
         private String loadConvert(String theString) {
             char aChar;
             int len = theString.length();
@@ -694,8 +697,8 @@ public class r {
         }
 
         /*
-        * writes out any of the characters in specialSaveChars with a preceding slash
-        */
+         * writes out any of the characters in specialSaveChars with a preceding slash
+         */
         private String saveConvert(String theString, boolean escapeSpace) {
             int len = theString.length();
             StringBuilder outBuffer = new StringBuilder(len * 2);
@@ -793,13 +796,13 @@ public class r {
             return h.keySet().iterator();
         }
     }
-    
+
     public class Vault {
+
         private Permission permission = null;
         private Chat chat = null;
         private Economy economy = null;
-        
-        
+
         public Vault() {
             if (Bukkit.getPluginManager().getPlugin("Vault") != null && Bukkit.getPluginManager().isPluginEnabled("Vault")) {
                 //Permissions
@@ -818,12 +821,15 @@ public class r {
                 }
             }
         }
+
         public Permission getPermission() {
             return permission;
         }
+
         public Chat getChat() {
             return chat;
         }
+
         public Economy getEconomy() {
             return economy;
         }

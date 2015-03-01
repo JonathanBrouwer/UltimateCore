@@ -132,7 +132,7 @@ class YamlConfiguration extends FileConfiguration {
     private final DumperOptions yamlOptions = new DumperOptions();
     private final Representer yamlRepresenter = new YamlRepresenter();
     private final Yaml yaml = new Yaml(new YamlConstructor(), yamlRepresenter, yamlOptions);
-    
+
     @Override
     protected String saveToString() {
         yamlOptions.setIndent(options().indent());

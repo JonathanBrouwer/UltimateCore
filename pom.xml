@@ -45,6 +45,9 @@
                             <mainClass>bammerbom.ultimatecore.UltimateCore</mainClass>
                         </manifest>
                     </archive>
+                    <excludes>
+                        <exclude>bammerbom/ultimatecore/spongeapi/</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <!-- Include libraries -->

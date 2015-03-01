@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <groupId>com.palmergames</groupId>
-  <artifactId>Towny</artifactId>
-  <versioning>
-    <release>custom</release>
-    <versions>
-      <version>custom</version>
-    </versions>
-    <lastUpdated>20150207111120</lastUpdated>
-  </versioning>
+    <groupId>com.palmergames</groupId>
+    <artifactId>Towny</artifactId>
+    <versioning>
+        <release>custom</release>
+        <versions>
+            <version>custom</version>
+        </versions>
+        <lastUpdated>20150207111120</lastUpdated>
+    </versioning>
 </metadata>

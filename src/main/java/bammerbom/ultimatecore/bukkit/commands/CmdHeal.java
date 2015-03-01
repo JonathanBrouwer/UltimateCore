@@ -122,6 +122,14 @@ public class CmdHeal implements UltimateCommand {
 
     public enum NegativeEffect {
 
-        CONFUSION, HARM, HUNGER, POISON, SLOW_DIGGING, SLOW, WEAKNESS, WITHER, BLINDNESS;
+        CONFUSION,
+        HARM,
+        HUNGER,
+        POISON,
+        SLOW_DIGGING,
+        SLOW,
+        WEAKNESS,
+        WITHER,
+        BLINDNESS;
     }
 }
