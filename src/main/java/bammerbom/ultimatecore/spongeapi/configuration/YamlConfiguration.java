@@ -253,6 +253,7 @@ class YamlConfiguration extends FileConfiguration {
         return builder.toString();
     }
 
+    @Override
     public YamlConfigurationOptions options() {
         if (options == null) {
             options = new YamlConfigurationOptions(this);

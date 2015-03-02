@@ -58,6 +58,7 @@ public class BossbarUtil implements Listener {
         enabled = true;
         Bukkit.getServer().getPluginManager().registerEvents(new BossbarUtil(), r.getUC());
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+            @Override
             public void run() {
                 for (UUID uuid : players.keySet()) {
                     Player p = Bukkit.getPlayer(uuid);
@@ -187,6 +188,7 @@ public class BossbarUtil implements Listener {
         cancelTimer(player);
 
         timers.put(player.getUniqueId(), Integer.valueOf(Bukkit.getScheduler().runTaskTimer(r.getUC(), new Runnable() {
+            @Override
             public void run() {
                 FakeDragon drag = getDragon(player, "");
                 drag.health -= dragonHealthMinus;
@@ -275,6 +277,7 @@ public class BossbarUtil implements Listener {
             return;
         }
         Bukkit.getScheduler().runTaskLater(r.getUC(), new Runnable() {
+            @Override
             public void run() {
                 if (!hasBar(player)) {
                     return;

@@ -985,6 +985,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     // Doc copied from interface
+    @Override
     public Map<String, Object> serialize() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("messageParts", messageParts);
@@ -995,6 +996,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     /**
      * <b>Internally called method. Not for API consumption.</b>
      */
+    @Override
     public Iterator<MessagePart> iterator() {
         return messageParts.iterator();
     }
@@ -1027,6 +1029,7 @@ final class JsonString implements JsonRepresentedObject, ConfigurationSerializab
         return _value;
     }
 
+    @Override
     public Map<String, Object> serialize() {
         HashMap<String, Object> theSingleValue = new HashMap<>();
         theSingleValue.put("stringValue", _value);
@@ -1127,6 +1130,7 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
 
     }
 
+    @Override
     public void writeJson(JsonWriter json) {
         try {
             json.beginObject();
@@ -1166,6 +1170,7 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
         }
     }
 
+    @Override
     public Map<String, Object> serialize() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("text", text);
@@ -1404,6 +1409,7 @@ abstract class TextualComponent implements Cloneable {
         }
 
         @SuppressWarnings("serial")
+        @Override
         public Map<String, Object> serialize() {
             return new HashMap<String, Object>() {
                 {
@@ -1483,6 +1489,7 @@ abstract class TextualComponent implements Cloneable {
         }
 
         @SuppressWarnings("serial")
+        @Override
         public Map<String, Object> serialize() {
             return new java.util.HashMap<String, Object>() {
                 {

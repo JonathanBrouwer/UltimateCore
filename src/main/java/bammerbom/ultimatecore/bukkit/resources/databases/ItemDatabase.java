@@ -342,10 +342,12 @@ class ItemData {
         return this.itemData;
     }
 
+    @Override
     public int hashCode() {
         return 31 * this.itemNo ^ this.itemData;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o == null) {
             return false;
@@ -364,6 +366,7 @@ class LengthCompare
     public LengthCompare() {
     }
 
+    @Override
     public int compare(String s1, String s2) {
         return s1.length() - s2.length();
     }

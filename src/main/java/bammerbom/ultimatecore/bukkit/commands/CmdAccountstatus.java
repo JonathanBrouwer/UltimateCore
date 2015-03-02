@@ -70,6 +70,7 @@ public class CmdAccountstatus implements UltimateCommand {
         }
         final OfflinePlayer pl = r.searchOfflinePlayer(args[0]);
         Thread t = new Thread(new Runnable() {
+            @Override
             public void run() {
                 URL u;
                 try {

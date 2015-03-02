@@ -33,12 +33,9 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.text.DateFormat;
 import java.util.*;
-import org.bukkit.Bukkit;
-import org.bukkit.TextColors;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.world.Location;
 
 public class UServer {
 
@@ -57,11 +54,11 @@ public class UServer {
         try {
             File file = new File(r.getUC().getDataFolder(), "motd.txt");
             if (!file.exists()) {
-                r.getUC().saveResource("motd.txt", true);
+                FileUtil.saveResource("motd.txt", true);
             }
             ArrayList<String> lines = FileUtil.getLines(file);
             for (String str : lines) {
-                motd = motd + TextColors.translateAlternateColorCodes('&', str) + "\n";
+                motd = motd + r.translateAlternateColorCodes(str) + "\n";
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to load MOTD");
@@ -73,9 +70,9 @@ public class UServer {
     }
 
     //Ban
-    public List<OfflinePlayer> getBannedOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getBannedOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (UC.getPlayer(pl).isBanned()) {
                 pls.add(pl);
             }
@@ -94,9 +91,9 @@ public class UServer {
     }
 
     //Deaf
-    public List<OfflinePlayer> getDeafOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getDeafOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (UC.getPlayer(pl).isDeaf()) {
                 pls.add(pl);
             }
@@ -115,9 +112,9 @@ public class UServer {
     }
 
     //Mutes
-    public List<OfflinePlayer> getMutedOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getMutedOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (UC.getPlayer(pl).isMuted()) {
                 pls.add(pl);
             }
@@ -136,9 +133,9 @@ public class UServer {
     }
 
     //Jails
-    public List<OfflinePlayer> getJailedOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getJailedOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
@@ -157,9 +154,9 @@ public class UServer {
     }
 
     //Enchantingtable
-    public List<OfflinePlayer> getInCommandEnchantingtablePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getInCommandEnchantingtablePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (UC.getPlayer(pl).isInCommandEnchantingtable()) {
                 pls.add(pl);
             }
@@ -178,9 +175,9 @@ public class UServer {
     }
 
     //Freeze
-    public List<OfflinePlayer> getFrozenOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getFrozenOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (UC.getPlayer(pl).isFrozen()) {
                 pls.add(pl);
             }
@@ -199,9 +196,9 @@ public class UServer {
     }
 
     //God
-    public List<OfflinePlayer> getGodOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getGodOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (UC.getPlayer(pl).isGod()) {
                 pls.add(pl);
             }
@@ -291,9 +288,9 @@ public class UServer {
         return pls;
     }
 
-    public ArrayList<OfflinePlayer> getOfflineJailed() {
-        ArrayList<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public ArrayList<User> getOfflineJailed() {
+        ArrayList<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
@@ -407,9 +404,9 @@ public class UServer {
         conf.save();
     }
 
-    public List<OfflinePlayer> getInTeleportMenuOffline() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getInTeleportMenuOffline() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (UC.getPlayer(pl).isInTeleportMenu()) {
                 pls.add(pl);
             }
@@ -453,9 +450,9 @@ public class UServer {
 
     //Vanish
     //Deaf
-    public List<OfflinePlayer> getVanishOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getVanishOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (UC.getPlayer(pl).isVanish()) {
                 pls.add(pl);
             }

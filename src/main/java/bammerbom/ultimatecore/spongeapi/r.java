@@ -34,6 +34,7 @@ import java.util.*;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.player.User;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.permission.context.Context;
 import org.spongepowered.api.text.format.TextColor;
@@ -319,13 +320,16 @@ public class r {
 
     }
 
-    /*public static Collection<OfflinePlayer> getOfflinePlayers() {
-     if (!r.getGame().getServer().isPresent()) {
-     return new ArrayList<>();
-     }
-     return r.getGame().getServer().get().
+    public static Collection<User> getOfflinePlayers() {
+        return null;
+        /*
+         if (!r.getGame().getServer().isPresent()) {
+         return new ArrayList<>();
+         }
+         return r.getGame().getServer().get().
+         */
+    } //TODO OFFLINE PLAYERS
 
-     }*/ //TODO OFFLINE PLAYERS
     public static Player searchPlayer(String s) {
         Player found = null;
         String lowerName = s.toLowerCase();
@@ -345,9 +349,11 @@ public class r {
         return found;
     }
 
-    /*public static OfflinePlayer searchOfflinePlayer(String s) {
-     return Bukkit.getOfflinePlayer(s);
-     }*/ //TODO OFFLINE PLAYERS
+    public static User searchOfflinePlayer(String s) {
+        return null;
+        //return Bukkit.getOfflinePlayer(s);
+    } //TODO OFFLINE PLAYERS
+
     public static Player searchPlayer(UUID u) {
         if (!r.getGame().getServer().isPresent()) {
             return null;
@@ -358,7 +364,10 @@ public class r {
         return r.getGame().getServer().get().getPlayer(u).get();
     }
 
-    /*public static Player searchOfflinePlayer(UUID u) {
+    public static User searchOfflinePlayer(UUID u) {
+        return null;
+    }
+    /*
      if (!r.getGame().getServer().isPresent()) {
      return null;
      }
@@ -368,6 +377,7 @@ public class r {
      return r.getGame().getServer().get().getPlayer(u).get();
      }*/ //TODO OFFLINE PLAYERS
     //
+
     public static boolean isInt(String check) {
         try {
             Integer.parseInt(check);

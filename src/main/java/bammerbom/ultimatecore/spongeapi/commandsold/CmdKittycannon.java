@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.bukkit.commands;
+package bammerbom.ultimatecore.spongeapi.commands;
 
-import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.spongeapi.r;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

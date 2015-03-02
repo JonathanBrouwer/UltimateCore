@@ -23,7 +23,9 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
+import bammerbom.ultimatecore.spongeapi.UltimateCommands;
 import bammerbom.ultimatecore.spongeapi.r;
+import com.google.common.base.Optional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,29 +36,35 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.spongepowered.api.util.command.CommandCallable;
+import org.spongepowered.api.util.command.CommandException;
+import org.spongepowered.api.util.command.CommandSource;
 
-public class CmdAccountstatus implements UltimateCommand {
+public class CmdAccountstatus implements CommandCallable {
 
-    @Override
     public String getName() {
         return "accountstatus";
     }
 
-    @Override
     public String getPermission() {
         return "uc.accountstatus";
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <User>";
+    }
+
+    @Override
+    public Optional<String> getShortDescription() {
+        return Optional.of("Check if an user is premium.");
+    }
+
     public List<String> getAliases() {
         return Arrays.asList("acstatus");
     }
 
-    @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, final String[] args) {
         if (!r.perm(cs, "uc.accountstatus", false, true)) {
             return;
         }
@@ -68,12 +76,12 @@ public class CmdAccountstatus implements UltimateCommand {
             r.sendMes(cs, "accountstatusUsage");
             return;
         }
-        final OfflinePlayer pl = r.searchOfflinePlayer(args[0]);
         Thread t = new Thread(new Runnable() {
+            @Override
             public void run() {
                 URL u;
                 try {
-                    u = new URL("https://minecraft.net/haspaid.jsp?user=" + URLEncoder.encode(pl.getName(), "UTF-8"));
+                    u = new URL("https://minecraft.net/haspaid.jsp?user=" + URLEncoder.encode(args[0], "UTF-8"));
                 } catch (MalformedURLException | UnsupportedEncodingException ex) {
                     r.sendMes(cs, "accountstatusFailedSupport");
                     return;
@@ -87,18 +95,39 @@ public class CmdAccountstatus implements UltimateCommand {
                     return;
                 }
                 String status = premium ? r.mes("accountstatusPremium") : r.mes("accountstatusNotPremium");
-                r.sendMes(cs, "accountstatusMessage", "%Player", pl.getName(), "%Status", status);
+                r.sendMes(cs, "accountstatusMessage", "%Player", args[0], "%Status", status);
             }
         });
         t.setName("UltimateCore: AccountStatus thread");
         t.start();
     }
 
-    @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (curn == 0) {
-            return null;
-        }
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+
+    //Ignore
+    @Override
+    public boolean call(CommandSource cs, String arg, List<String> parents) throws CommandException {
+        run(cs, parents.get(0), UltimateCommands.convertsArgs(arg));
+        return true;
+    }
+
+    @Override
+    public List<String> getSuggestions(CommandSource cs, String arg) throws CommandException {
+        String[] args = UltimateCommands.convertsArgs(arg);
+        List<String> tabs = onTabComplete(cs, "x", args, args[args.length - 1], args.length - 1); //TODO
+        return tabs == null ? new ArrayList<String>() : tabs;
+    }
+
+    @Override
+    public boolean testPermission(CommandSource source) {
+        return source.hasPermission(getPermission());
+    }
+
+    @Override
+    public Optional<String> getHelp() {
+        return getShortDescription();
+    }
+
 }

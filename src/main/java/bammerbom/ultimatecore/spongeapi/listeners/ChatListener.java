@@ -283,6 +283,7 @@ public class ChatListener implements Listener {
 
     private void spamTask() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+            @Override
             public void run() {
                 ArrayList<String> spamtime_remove = new ArrayList<>();
                 if (!spamTime.isEmpty()) {
@@ -302,6 +303,7 @@ public class ChatListener implements Listener {
             }
         }, 70L, 70L);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+            @Override
             public void run() {
                 ArrayList<String> spamtime_remove = new ArrayList<>();
                 if (!swearAmount.isEmpty()) {

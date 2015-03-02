@@ -24,9 +24,11 @@
 package bammerbom.ultimatecore.spongeapi.api;
 
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
-import bammerbom.ultimatecore.spongeapi.resources.utils.FireworkUtil;
+import bammerbom.ultimatecore.spongeapi.r;
 import java.io.File;
-import org.bukkit.*;
+import org.spongepowered.api.entity.player.gamemode.GameMode;
+import org.spongepowered.api.entity.player.gamemode.GameModes;
+import org.spongepowered.api.world.World;
 
 public class UWorld {
 
@@ -38,23 +40,28 @@ public class UWorld {
 
     public UWorld(String world) {
         try {
-            if (world == null || Bukkit.getWorld(world) == null) {
+            if (!r.getGame().getServer().isPresent()) {
                 throw new NullPointerException("World not found");
             }
-            base = Bukkit.getWorld(world);
+            if (!r.getGame().getServer().isPresent()) {
+                throw new NullPointerException("World not found");
+            }
+            if (!r.getGame().getServer().get().getWorld(world).isPresent()) {
+                throw new NullPointerException("World not found");
+            }
+            base = r.getGame().getServer().get().getWorld(world).get();
         } catch (NullPointerException ex) {
             throw new NullPointerException("World not found");
         }
     }
 
     //Firework
-    public void playFirework(Location l, FireworkEffect ef) {
-        FireworkUtil.play(l, ef);
-    }
-
+    /*public void playFirework(Location l, FireworkEffect ef) {
+     FireworkUtil.play(l, ef);
+     }*/  //TODO
     //Datafile
     public File getDataFile() {
-        return new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + File.separator + "Data", "worlds.yml");
+        return new File(r.getUC().getDataFolder() + File.separator + "Data", "worlds.yml");
     }
 
     public World getWorld() {
@@ -64,7 +71,7 @@ public class UWorld {
     //Register
     public void register() {
         Config conf = new Config(getDataFile());
-        conf.set(base.getName() + ".env", base.getEnvironment().name());
+        conf.set(base.getName() + ".env", base.getDimension().getType().getName());
         conf.save();
     }
 
@@ -97,15 +104,6 @@ public class UWorld {
         Config conf = new Config(file);
         conf.set(getWorld().getName() + ".flags." + f.toString(), true);
         conf.save(file);
-        if (f.equals(WorldFlag.ANIMAL)) {
-            getWorld().setAnimalSpawnLimit(15);
-        }
-        if (f.equals(WorldFlag.MONSTER)) {
-            getWorld().setMonsterSpawnLimit(70);
-        }
-        if (f.equals(WorldFlag.PVP)) {
-            getWorld().setPVP(true);
-        }
     }
 
     public void setFlagDenied(WorldFlag f) {
@@ -113,28 +111,44 @@ public class UWorld {
         Config conf = new Config(file);
         conf.set(getWorld().getName() + ".flags." + f.toString(), false);
         conf.save(file);
-        if (f.equals(WorldFlag.ANIMAL)) {
-            getWorld().setAnimalSpawnLimit(0);
-        }
-        if (f.equals(WorldFlag.MONSTER)) {
-            getWorld().setMonsterSpawnLimit(0);
-        }
-        if (f.equals(WorldFlag.PVP)) {
-            getWorld().setPVP(false);
-        }
     }
 
     public GameMode getDefaultGamemode() {
         File file = getDataFile();
         Config conf = new Config(file);
         String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
-        return GameMode.valueOf(gm);
+        if (gm.equalsIgnoreCase("survival")) {
+            return GameModes.SURVIVAL;
+        }
+        if (gm.equalsIgnoreCase("creative")) {
+            return GameModes.CREATIVE;
+        }
+        if (gm.equalsIgnoreCase("adventure")) {
+            return GameModes.ADVENTURE;
+        }
+        if (gm.equalsIgnoreCase("spectator")) {
+            return GameModes.SPECTATOR;
+        }
+        return null;
     }
 
     public void setDefaultGamemode(GameMode gm) {
         File file = getDataFile();
         Config conf = new Config(file);
-        conf.set(getWorld().getName() + ".flags.gamemode", gm.name());
+        String gms = "";
+        if (gm.equals(GameModes.SURVIVAL)) {
+            gms = "survival";
+        }
+        if (gm.equals(GameModes.CREATIVE)) {
+            gms = "creative";
+        }
+        if (gm.equals(GameModes.ADVENTURE)) {
+            gms = "adventure";
+        }
+        if (gm.equals(GameModes.SPECTATOR)) {
+            gms = "spectator";
+        }
+        conf.set(getWorld().getName() + ".flags.gamemode", gms);
         conf.save(file);
     }
 

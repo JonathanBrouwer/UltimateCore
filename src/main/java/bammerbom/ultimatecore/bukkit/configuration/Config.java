@@ -118,6 +118,7 @@ public class Config extends YamlConfiguration implements Cloneable {
         save(file);
     }
 
+    @Override
     public void save(File fi) {
         try {
             for (String key : getKeys(true)) {
@@ -329,17 +330,20 @@ public class Config extends YamlConfiguration implements Cloneable {
         }
     }
 
+    @Override
     public List<?> getList(String path) {
         List<?> list = super.getList(path);
         return list == null ? new ArrayList<>() : list;
     }
 
+    @Override
     public List<String> getStringList(String path) {
         List<String> list = super.getStringList(path);
         return list == null ? new ArrayList<String>() : list;
     }
 
     //set
+    @Override
     public void set(String path, Object value) {
         if (value != null) {
             setRead(path);
@@ -360,6 +364,7 @@ public class Config extends YamlConfiguration implements Cloneable {
         super.set(path, value);
     }
 
+    @Override
     public void addDefault(String path, Object value) {
         if (!contains(path)) {
             set(path, value);

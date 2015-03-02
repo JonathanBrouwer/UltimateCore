@@ -24,71 +24,82 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-import org.bukkit.Bukkit;
-import org.bukkit.EntityEffect;
-import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Ocelot;
-import org.bukkit.entity.Player;
 
-public class CmdKittycannon implements UltimateCommand {
-
-    Random ra = new Random();
+public class CmdAccountstatus implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "kittycannon";
+        return "accountstatus";
     }
 
     @Override
     public String getPermission() {
-        return "uc.kittycannon";
+        return "uc.accountstatus";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("kittyboom");
+        return Arrays.asList("acstatus");
     }
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
+        if (!r.perm(cs, "uc.accountstatus", false, true)) {
             return;
         }
-        if (!r.perm(cs, "uc.kittycannon", false, true)) {
+        if (!r.getCnfg().getBoolean("Mojang")) {
+            r.sendMes(cs, "accountstatusDisabled");
             return;
         }
-        Player p = (Player) cs;
-        final Ocelot ocelot = (Ocelot) p.getWorld().spawnEntity(p.getLocation(), EntityType.OCELOT);
-        if (ocelot == null) {
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "accountstatusUsage");
             return;
         }
-        int i = ra.nextInt(Ocelot.Type.values().length);
-        ocelot.setCatType(Ocelot.Type.values()[i]);
-        ocelot.setTamed(true);
-        i = ra.nextInt(2);
-        if (i == 1) {
-            ocelot.setBaby();
-        }
-        ocelot.setVelocity(p.getEyeLocation().getDirection().multiply(2));
-        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+        final OfflinePlayer pl = r.searchOfflinePlayer(args[0]);
+        Thread t = new Thread(new Runnable() {
+            @Override
             public void run() {
-                Location loc = ocelot.getLocation();
-                ocelot.playEffect(EntityEffect.HURT);
-                ocelot.remove();
-                loc.getWorld().createExplosion(loc, 0.0F, false);
+                URL u;
+                try {
+                    u = new URL("https://minecraft.net/haspaid.jsp?user=" + URLEncoder.encode(pl.getName(), "UTF-8"));
+                } catch (MalformedURLException | UnsupportedEncodingException ex) {
+                    r.sendMes(cs, "accountstatusFailedSupport");
+                    return;
+                }
+                boolean premium;
+                try {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream()));
+                    premium = br.readLine().equalsIgnoreCase("true");
+                } catch (IOException ex) {
+                    r.sendMes(cs, "accountstatusFailedConnect");
+                    return;
+                }
+                String status = premium ? r.mes("accountstatusPremium") : r.mes("accountstatusNotPremium");
+                r.sendMes(cs, "accountstatusMessage", "%Player", pl.getName(), "%Status", status);
             }
-        }, 18L);
+        });
+        t.setName("UltimateCore: AccountStatus thread");
+        t.start();
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+        if (curn == 0) {
+            return null;
+        }
         return new ArrayList<>();
     }
 }
