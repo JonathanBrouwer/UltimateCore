@@ -26,20 +26,12 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import net.milkbowl.vault.item.Items;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.enchantments.EnchantmentWrapper;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 @SuppressWarnings({"deprecation", "unchecked"})
 public class ItemUtil {

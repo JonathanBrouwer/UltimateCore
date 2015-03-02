@@ -25,7 +25,9 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
 import com.flowpowered.math.vector.Vector3d;
+import com.flowpowered.math.vector.Vector3f;
 import java.util.*;
 import org.spongepowered.api.block.BlockLoc;
 import org.spongepowered.api.block.BlockType;
@@ -244,10 +246,10 @@ public class LocationUtil {
 
     public static boolean shouldFly(Location loc) {
         final int x = loc.getPosition().getFloorX();
-        int y = (int) Math.round(loc.getY());
-        final int z = loc.getBlockZ();
+        int y = loc.getPosition().getFloorY();
+        final int z = loc.getPosition().getFloorZ();
         int count = 0;
-        while (LocationUtil.isBlockUnsafe(world, x, y, z) && y > -1) {
+        while (LocationUtil.isBlockUnsafe(loc.getExtent(), x, y, z) && y > -1) {
             y--;
             count++;
             if (count > 2) {
@@ -319,31 +321,36 @@ public class LocationUtil {
             return;
         }
         for (Player pl : r.getOnlinePlayers()) {
-            if (p != null && !pl.isInvisibleTo(p)) {
+            if (p != null && p.isInvisibleTo(pl)) {
                 continue;
             }
-            World w = (World) loc.getExtent();
-            w.spawnParticles(r.getGame().getRegistry().getParticleEffectBuilder(ParticleTypes.MOB_APPEARANCE).build(), loc.getPosition());
-            w.playSound(SoundTypes.ENDERMAN_TELEPORT, loc.getPosition(), 1, 1);
+            pl.spawnParticles(r.getGame().getRegistry().getParticleEffectBuilder(ParticleTypes.MOB_APPEARANCE).build(), loc.getPosition());
+            pl.playSound(SoundTypes.ENDERMAN_TELEPORT, loc.getPosition(), 1, 1);
         }
     }
 
-    public static Location convertStringToLocation(String s) {
+    public static RLocation convertStringToLocation(String s) {
         if (s == null) {
+            return null;
+        }
+        if (!r.getGame().getServer().isPresent()) {
             return null;
         }
         if (s.contains(",")) {
             String[] split = s.split(",");
-            return new Location(
-                    Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[4]), Float.parseFloat(split[5]));
+            return new RLocation(r.getGame().getServer().get().getWorld(split[0]).get(),
+                    new Vector3d(Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3])),
+                    new Vector3f(Float.parseFloat(split[4]), Float.parseFloat(split[5]), Float.parseFloat(split[6])));
         }
         String[] split = s.split("\\|");
-        return new Location(
-                Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[4]), Float.parseFloat(split[5]));
+        return new RLocation(r.getGame().getServer().get().getWorld(split[0]).get(),
+                new Vector3d(Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3])),
+                new Vector3f(Float.parseFloat(split[4]), Float.parseFloat(split[5]), Float.parseFloat(split[6])));
     }
 
-    public static String convertLocationToString(Location loc) {
-        return loc.getWorld().getName() + "|" + loc.getX() + "|" + loc.getY() + "|" + loc.getZ() + "|" + loc.getPitch() + "|" + loc.getYaw();
+    public static String convertLocationToString(RLocation loc) {
+        return ((World) loc.getExtent()).getName() + "|" + loc.getPosition().getX() + "|" + loc.getPosition().getY() + "|"
+                + loc.getRotation().getX() + "|" + loc.getRotation().getY() + "|" + loc.getRotation().getZ();
     }
 
     public static double getCoordinate(String input, double current) {
@@ -372,7 +379,8 @@ public class LocationUtil {
         return result;
     }
 
-    public static Location getAbsoluteTarget(LivingEntity entity) {
+    public static Location getAbsoluteTarget(Living entity) {
+        //TODO target block
         Block block = entity.getTargetBlock((Set<BlockTypes>) null, 300);
         if (block == null) {
             return null;

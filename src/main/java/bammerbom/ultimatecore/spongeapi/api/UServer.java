@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.listeners.AutomessageListener;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
+import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
 import bammerbom.ultimatecore.spongeapi.resources.utils.*;
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -35,20 +36,20 @@ import java.text.DateFormat;
 import java.util.*;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.entity.player.User;
-import org.spongepowered.api.world.Location;
+import org.spongepowered.api.plugin.PluginContainer;
 
 public class UServer {
 
-    static HashMap<String, Location> jails = null;
+    static HashMap<String, RLocation> jails = null;
     static String motd = "";
 
     //Spawn
-    static Location spawn = null;
+    static RLocation spawn = null;
     //Receiver, Sender
     static Map<UUID, UUID> tp = new HashMap<>();
     static Map<UUID, UUID> tph = new HashMap<>();
     //Warps
-    static HashMap<String, Location> warps = null;
+    static HashMap<String, RLocation> warps = null;
 
     static {
         try {
@@ -238,11 +239,11 @@ public class UServer {
     }
 
     //Jails
-    public HashMap<String, Location> getJails() {
+    public HashMap<String, RLocation> getJails() {
         if (jails == null) {
             jails = new HashMap<>();
             for (String s : new Config(UltimateFileLoader.DFjails).getKeys(true)) {
-                Location loc = LocationUtil.convertStringToLocation(new Config(UltimateFileLoader.DFjails).getString(s));
+                RLocation loc = LocationUtil.convertStringToLocation(new Config(UltimateFileLoader.DFjails).getString(s));
                 jails.put(s, loc);
             }
         }
@@ -253,7 +254,7 @@ public class UServer {
         return new ArrayList<>(getJails().keySet());
     }
 
-    public void addJail(String n, Location l) {
+    public void addJail(String n, RLocation l) {
         if (getJails().containsKey(n)) {
             jails.remove(n);
         }
@@ -263,7 +264,7 @@ public class UServer {
         c.save();
     }
 
-    public Location getJail(String n) {
+    public RLocation getJail(String n) {
         if (!getJails().containsKey(n)) {
             return null;
         }
@@ -316,23 +317,23 @@ public class UServer {
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
-        mt = mt.replace("{UPTIME}", TextColors.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        mt = mt.replace("{UPTIME}", r.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (PluginContainer pl : r.getGame().getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {
                 pb.append(", ");
             }
-            pb.append(pl.getDescription().getName());
+            pb.append(pl.getName());
         }
         mt = mt.replace("{PLAYERCOUNT}", i + "");
         mt = mt.replace("{PLUGINS}", pb.toString());
-        mt = mt.replace("{VERSION}", Bukkit.getServer().getVersion());
-        mt = mt.replace("{WORLD}", TextColors.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{WORLDNAME}", TextColors.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{COORDS}", TextColors.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{PLAYER}", TextColors.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{NAME}", TextColors.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{RAWNAME}", TextColors.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{VERSION}", r.getGame().getMinecraftVersion().getName());
+        mt = mt.replace("{WORLD}", r.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{WORLDNAME}", r.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{COORDS}", r.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{PLAYER}", r.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{NAME}", r.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{RAWNAME}", r.stripColor(r.mes("notAvailable")));
         return mt;
     }
 
@@ -345,16 +346,16 @@ public class UServer {
             Player pl = p;
             mt = mt.replace("{WORLD}", pl.getWorld().getName());
             mt = mt.replace("{WORLDNAME}", pl.getWorld().getName());
-            mt = mt.replace("{COORDS}", pl.getLocation().getBlockX() + ", " + pl.getLocation().getBlockY() + ", " + pl.getLocation().getBlockZ());
+            mt = mt.replace("{COORDS}", pl.getLocation().getPosition().getFloorX() + ", " + pl.getLocation().getPosition().getFloorY() + ", " + pl.getLocation().getPosition().getFloorZ());
         } else {
-            mt = mt.replace("{WORLD}", TextColors.stripColor(r.mes("notAvailable")));
-            mt = mt.replace("{WORLDNAME}", TextColors.stripColor(r.mes("notAvailable")));
-            mt = mt.replace("{COORDS}", TextColors.stripColor(r.mes("notAvailable")));
+            mt = mt.replace("{WORLD}", r.stripColor(r.mes("notAvailable")));
+            mt = mt.replace("{WORLDNAME}", r.stripColor(r.mes("notAvailable")));
+            mt = mt.replace("{COORDS}", r.stripColor(r.mes("notAvailable")));
         }
         StringBuilder b = new StringBuilder();
         Integer i = 0;
         for (Player pl : r.getOnlinePlayers()) {
-            if (p instanceof Player && !p.canSee(pl)) {
+            if (p instanceof Player && pl.isInvisibleTo(p)) {
                 continue;
             }
             i++;
@@ -370,33 +371,33 @@ public class UServer {
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()).replace("-", " "));
         mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
-        mt = mt.replace("{UPTIME}", TextColors.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        mt = mt.replace("{UPTIME}", r.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (PluginContainer pl : r.getGame().getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {
                 pb.append(", ");
             }
-            pb.append(pl.getDescription().getName());
+            pb.append(pl.getName());
         }
         mt = mt.replace("{PLUGINS}", pb.toString());
-        mt = mt.replace("{VERSION}", Bukkit.getServer().getVersion());
+        mt = mt.replace("{VERSION}", r.getGame().getMinecraftVersion().getName());
         return mt;
     }
 
-    public Location getSpawn() {
+    public RLocation getSpawn() {
         if (spawn == null) {
             if (!new Config(UltimateFileLoader.DFspawns).contains("global")) {
                 return null;
             }
             String s = new Config(UltimateFileLoader.DFspawns).getString("global");
-            Location loc = LocationUtil.convertStringToLocation(s);
+            RLocation loc = LocationUtil.convertStringToLocation(s);
             spawn = loc;
             return loc;
         }
         return spawn;
     }
 
-    public void setSpawn(Location loc) {
+    public void setSpawn(RLocation loc) {
         spawn = loc;
         String s = LocationUtil.convertLocationToString(loc);
         Config conf = new Config(UltimateFileLoader.DFspawns);
@@ -470,7 +471,7 @@ public class UServer {
         return pls;
     }
 
-    public HashMap<String, Location> getWarps() {
+    public HashMap<String, RLocation> getWarps() {
         if (warps != null) {
             return warps;
         }
@@ -485,7 +486,7 @@ public class UServer {
         return warps;
     }
 
-    public void setWarps(HashMap<String, Location> nh) {
+    public void setWarps(HashMap<String, RLocation> nh) {
         warps = nh;
         Config conf = new Config(UltimateFileLoader.DFwarps);
         conf.set("warps", null);
@@ -501,14 +502,14 @@ public class UServer {
         return h;
     }
 
-    public void addWarp(String s, Location l) {
-        HashMap<String, Location> h = getWarps();
+    public void addWarp(String s, RLocation l) {
+        HashMap<String, RLocation> h = getWarps();
         h.put(s.toLowerCase(), l);
         setWarps(h);
     }
 
     public void removeWarp(String s) {
-        HashMap<String, Location> h = getWarps();
+        HashMap<String, RLocation> h = getWarps();
         for (String w : h.keySet()) {
             if (w.equalsIgnoreCase(s)) {
                 h.remove(w);
@@ -517,7 +518,7 @@ public class UServer {
         setWarps(h);
     }
 
-    public Location getWarp(String s) {
+    public RLocation getWarp(String s) {
         for (String w : getWarps().keySet()) {
             if (w.equalsIgnoreCase(s)) {
                 return getWarps().get(w);
@@ -527,7 +528,7 @@ public class UServer {
     }
 
     public void clearWarps() {
-        setWarps(new HashMap<String, Location>());
+        setWarps(new HashMap<String, RLocation>());
     }
 
     public List<Player> getAfkPlayers() {

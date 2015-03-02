@@ -37,11 +37,11 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.util.command.CommandSource;
 
 public class UuidUtil {
 
@@ -51,7 +51,7 @@ public class UuidUtil {
             directory.mkdirs();
         }
         ArrayList<UUID> request = null;
-        for (OfflinePlayer p : r.getOfflinePlayers()) {
+        for (User p : r.getOfflinePlayers()) {
             if (p.getUniqueId() == null) {
                 continue;
             }
@@ -107,7 +107,7 @@ public class UuidUtil {
                         conf.set("names", names);
                         conf.set("name", p.getName());
                         if (p.isOnline()) {
-                            r.sendMes((CommandSender) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
+                            r.sendMes((CommandSource) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
                         } else {
                             conf.set("oldname", oldname);
                         }

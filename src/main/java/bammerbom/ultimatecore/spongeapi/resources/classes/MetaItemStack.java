@@ -26,23 +26,15 @@ package bammerbom.ultimatecore.spongeapi.resources.classes;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.databases.EffectDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.databases.EnchantmentDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.AttributeUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.AttributeUtil.Attribute;
-import bammerbom.ultimatecore.spongeapi.resources.utils.AttributeUtil.AttributeType;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionObject;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic;
 import com.google.common.base.Joiner;
 import java.util.*;
 import java.util.regex.Pattern;
-import org.bukkit.*;
-import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.*;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.spongepowered.api.entity.living.animal.DyeColor;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.potion.PotionEffectType;
+import org.spongepowered.api.util.command.CommandSource;
 
 public class MetaItemStack {
 
@@ -50,8 +42,8 @@ public class MetaItemStack {
     private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap<>();
 
     static {
-        for (DyeColor color : DyeColor.values()) {
-            colorMap.put(color.name(), color);
+        for (DyeColor color : r.getGame().getRegistry().getDyes()) {
+            colorMap.put(color.getName(), color);
         }
         for (FireworkEffect.Type type : FireworkEffect.Type.values()) {
             fireworkShape.put(type.name(), type);
@@ -109,7 +101,7 @@ public class MetaItemStack {
     }
 
     @SuppressWarnings("deprecation")
-    public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception {
+    public void parseStringMeta(CommandSource sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception {
         if (string[fromArg].startsWith("{")) {
             this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
         } else {
@@ -126,14 +118,14 @@ public class MetaItemStack {
     }
 
     @SuppressWarnings({"unchecked"})
-    public void addStringMeta(CommandSender cs, boolean allowUnsafe, String string) throws Exception {
+    public void addStringMeta(CommandSource cs, boolean allowUnsafe, String string) throws Exception {
         String[] split = this.splitPattern.split(string, 2);
         if (split.length < 1) {
             return;
         }
 
         if ((split.length > 1) && (split[0].equalsIgnoreCase("name"))) {
-            String displayName = TextColors.translateAlternateColorCodes('&', split[1].replace('_', ' '));
+            String displayName = r.translateAlternateColorCodes(split[1].replace('_', ' '));
             ItemMeta meta = this.stack.getItemMeta();
             meta.setDisplayName(displayName);
             this.stack.setItemMeta(meta);

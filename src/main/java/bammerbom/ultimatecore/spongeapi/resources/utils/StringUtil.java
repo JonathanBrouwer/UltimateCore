@@ -23,14 +23,14 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
+import bammerbom.ultimatecore.spongeapi.r;
+import com.google.common.base.Optional;
 import java.util.*;
 import java.util.regex.Pattern;
-import org.bukkit.Bukkit;
-import org.bukkit.TextColors;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.map.MapFont;
-import org.bukkit.map.MinecraftFont;
+import org.spongepowered.api.block.BlockLoc;
+import org.spongepowered.api.text.format.TextColor;
+import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.World;
 
 public class StringUtil {
 
@@ -41,11 +41,11 @@ public class StringUtil {
     private static final char[] CHAT_CODES;
 
     static {
-        TextColors[] styles = TextColors.values();
-        LinkedHashSet<Character> chars = new LinkedHashSet<>(styles.length * 2);
-        for (int i = 0; i < styles.length; i++) {
-            chars.add(Character.valueOf(Character.toLowerCase(styles[i].getChar())));
-            chars.add(Character.valueOf(Character.toUpperCase(styles[i].getChar())));
+        List<TextColor> styles = TextColors.getValues();
+        LinkedHashSet<Character> chars = new LinkedHashSet<>(styles.size() * 2);
+        for (int i = 0; i < styles.size(); i++) {
+            chars.add(Character.valueOf(Character.toLowerCase(styles.get(i).getChar()))); //TODO getChar
+            chars.add(Character.valueOf(Character.toUpperCase(styles.get(i).getChar())));
         }
         CHAT_CODES = new char[chars.size()];
         int i = 0;
@@ -115,11 +115,11 @@ public class StringUtil {
         return s.matches(pattern);
     }
 
-    public static String blockToString(Block block) {
-        return block.getWorld().getName() + "_" + block.getX() + "_" + block.getY() + "_" + block.getZ();
+    public static String blockToString(BlockLoc block) {
+        return ((World) block.getExtent()).getName() + "_" + block.getX() + "_" + block.getY() + "_" + block.getZ();
     }
 
-    public static Block stringToBlock(String str) {
+    public static BlockLoc stringToBlock(String str) {
         try {
             String[] s = str.split("_");
 
@@ -138,41 +138,17 @@ public class StringUtil {
                 }
                 worldName.append(s[i]);
             }
-
-            World world = Bukkit.getServer().getWorld(worldName.toString());
-            if (world == null) {
+            if (r.getGame().getServer() == null) {
                 return null;
             }
-            return world.getBlockAt(x, y, z);
+            Optional<World> world = r.getGame().getServer().get().getWorld(worldName.toString());
+            if (!world.isPresent()) {
+                return null;
+            }
+            return world.get().getBlock(x, y, z);
         } catch (Exception e) {
         }
         return null;
-    }
-
-    public static int getWidth(String[] text) {
-        int width = 0;
-        for (String part : text) {
-            for (int i = 0; i < part.length(); i++) {
-                char character = part.charAt(i);
-                if (character != '\n') {
-                    if (character == '�') {
-                        i++;
-                    } else if (character == ' ') {
-                        width += SPACE_WIDTH;
-                    } else {
-                        MapFont.CharacterSprite charsprite = MinecraftFont.Font.getChar(character);
-                        if (charsprite != null) {
-                            width += charsprite.getWidth();
-                        }
-                    }
-                }
-            }
-        }
-        return width;
-    }
-
-    public static int getWidth(char character) {
-        return MinecraftFont.Font.getChar(character).getWidth();
     }
 
     public static int firstIndexOf(String text, char[] values) {

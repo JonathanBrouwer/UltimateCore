@@ -26,65 +26,44 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import bammerbom.ultimatecore.spongeapi.r;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.util.command.CommandSource;
 
-public class InventoryUtil implements Listener {
+public class InventoryUtil {
 
     public static void addItem(Inventory inv, ItemStack item) {
-        Integer amount = item.getAmount();
-        while (item.getAmount() >= 64 && !isFullInventory(inv)) {
-            ItemStack item2 = item.clone();
-            item2.setAmount(64);
-            inv.addItem(item2);
-            item.setAmount(item.getAmount() - 64);
+        Integer amount = item.getQuantity();
+        while (item.getQuantity() >= 64 && !isFullInventory(inv)) {
+            ItemStack item2 = item.clone(); //TODO
+            item2.setQuantity(64);
+            inv.offer(item2);
+            item.setQuantity(item.getQuantity() - 64);
             amount = amount - 64;
         }
         if (!isFullInventory(inv)) {
             if (amount == 0) {
                 return;
             }
-            inv.addItem(item);
+            inv.offer(item);
         }
 
     }
 
     public static void clearInventory(final Player p) {
-        p.setItemInHand(new ItemStack(Material.AIR));
-        PlayerInventory inv = p.getInventory();
-        inv.clear();
-        inv.setHelmet(null);
-        inv.setChestplate(null);
-        inv.setLeggings(null);
-        inv.setBoots(null);
-        InventoryView view = p.getOpenInventory();
-        if (view != null) {
-            view.setCursor(null);
-            Inventory i = view.getTopInventory();
-            if (i != null) {
-                i.clear();
-            }
-        }
-        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-            @Override
-            public void run() {
-                p.updateInventory();
-
-            }
-        }, 1L);
+        p.setItemInHand(null);
+        p.getInventory().clear();
+        p.setHelmet(null);
+        p.setChestplate(null);
+        p.setLeggings(null);
+        p.setBoots(null);
+        //TODO cursor
     }
 
-    public static void clearHandler(CommandSender cs, Player player, String[] args, int offset, boolean showExtended) {
+    public static void clearHandler(CommandSource cs, Player player, String[] args, int offset, boolean showExtended) {
         short data = -1;
-        int type = -1;
+        String type = "-1";
         int amount = -1;
 
         if ((args.length > offset + 1) && (r.isInt(args[(offset + 1)]))) {
@@ -92,7 +71,7 @@ public class InventoryUtil implements Listener {
         }
         if (args.length > offset) {
             if (args[offset].equalsIgnoreCase("**")) {
-                type = -2;
+                type = "-2";
             } else if (!args[offset].equalsIgnoreCase("*")) {
                 String[] split = args[offset].split(":");
                 ItemStack item = ItemUtil.searchItem(split[0]);
@@ -100,15 +79,15 @@ public class InventoryUtil implements Listener {
                     r.sendMes(cs, "clearItemNotFound", "%Item", split[0]);
                     return;
                 }
-                type = item.getTypeId();
+                type = item.getItem().getId();
                 if ((split.length > 1) && (r.isInt(split[1]))) {
                     data = Short.parseShort(split[1]);
                 } else {
-                    data = item.getDurability();
+                    data = item.getDamage();
                 }
             }
         }
-        if (type == -1 || type == -2) {
+        if (type.equals("-1") || type.equals("-2")) {
             if (showExtended) {
                 if (cs.equals(player)) {
                     r.sendMes(cs, "clearSelfAll");
@@ -119,7 +98,7 @@ public class InventoryUtil implements Listener {
             }
             player.getInventory().clear();
         } else if (data == -1) {
-            ItemStack stack = new ItemStack(type);
+            ItemStack stack = ItemUtil.searchItem(type);
             if (showExtended) {
                 if (cs.equals(player)) {
                     r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
@@ -128,11 +107,11 @@ public class InventoryUtil implements Listener {
                     r.sendMes(player, "clearOtherItemPlayer", "%Player", cs.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
                 }
             }
-            player.getInventory().clear(type, data);
+            player.getInventory().clear(type, data); //TODO
         } else if (amount == -1) {
-            ItemStack stack = new ItemStack(type, 100000, data);
-            ItemStack removedStack = player.getInventory().removeItem(new ItemStack[]{stack}).get(Integer.valueOf(0));
-            int removedAmount = 100000 - removedStack.getAmount();
+            ItemStack stack = r.getGame().getRegistry().getItemBuilder().fromItemStack(ItemUtil.searchItem(type)).maxQuantity(999999).quantity(999999).damage(data).build();
+            ItemStack removedStack = player.getInventory().removeItem(new ItemStack[]{stack}).get(Integer.valueOf(0)); //TODO remove item
+            int removedAmount = 100000 - removedStack.getQuantity();
             if (removedAmount == 0) {
                 r.sendMes(cs, "clearNoItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack));
             } else if ((removedAmount > 0) || (showExtended)) {
@@ -147,7 +126,7 @@ public class InventoryUtil implements Listener {
             if (amount < 0) {
                 amount = 1;
             }
-            ItemStack stack = new ItemStack(type, amount, data);
+            ItemStack stack = r.getGame().getRegistry().getItemBuilder().fromItemStack(ItemUtil.searchItem(type)).maxQuantity(amount).quantity(amount).damage(data).build();
             if (player.getInventory().containsAtLeast(stack, amount)) {
                 if (cs.equals(player)) {
                     r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
@@ -166,7 +145,7 @@ public class InventoryUtil implements Listener {
         ItemStack[] inventory = inv.getContents();
 
         for (ItemStack stack : inventory) {
-            if (stack == null || stack.getType().equals(Material.AIR)) {
+            if (stack != null) {
                 return false;
             }
         }

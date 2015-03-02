@@ -32,18 +32,17 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.TextColors;
+import org.spongepowered.api.text.format.TextColors;
 
 public class ErrorLogger {
 
     public static void log(Throwable t, String s) {
         String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(Calendar.getInstance().getTime());
-        File dir = new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + "/Errors");
+        File dir = new File(r.getUC().getDataFolder() + "/Errors");
         if (!dir.exists()) {
             dir.mkdir();
         }
-        File file = new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + "/Errors", time + ".txt");
+        File file = new File(r.getUC().getDataFolder() + "/Errors", time + ".txt");
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -62,12 +61,14 @@ public class ErrorLogger {
         out.println("=======================================");
         out.println("UltimateCore has run into an error ");
         out.println("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
-        out.println("Bukkit version: " + Bukkit.getServer().getVersion());
-        out.println("UltimateCore version: " + r.getUC().getDescription().getVersion());
-        out.println("Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()));
+        out.println("Spongeapi version: " + r.getGame().getMinecraftVersion() + " - " + r.getGame().getImplementationVersion());
+        out.println("UltimateCore version: " + r.getGame().getPluginManager().getPlugin("UltimateCore").get().getVersion());
+        out.println("Plugins loaded (" + r.getGame().getPluginManager().getPlugins().size() + "): " + Arrays.asList(r.getGame().getPluginManager().getPlugins()));
         out.println("Java version: " + System.getProperty("java.version"));
         out.println("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version"));
-        out.println("Online mode: " + Bukkit.getServer().getOnlineMode());
+        if (r.getGame().getServer().isPresent()) {
+            out.println("Online mode: " + r.getGame().getServer().get().getOnlineMode());
+        }
         out.println("Time: " + time);
         out.println("Error message: " + t.getMessage());
         out.println("UltimateCore message: " + s);
@@ -81,14 +82,14 @@ public class ErrorLogger {
             e.printStackTrace();
         }
         //
-        Bukkit.getConsoleSender().sendMessage(" ");
+        r.log(" ");
         r.log(TextColors.DARK_RED + "=========================================================");
         r.log(TextColors.RED + "UltimateCore has run into an error ");
         r.log(TextColors.RED + "Please report your error on ");
         r.log(TextColors.YELLOW + "http://dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
         r.log(TextColors.RED + "Include the file: ");
         r.log(TextColors.YELLOW + "plugins/UltimateCore/Errors/" + time + ".txt ");
-        /*r.log(TextColors.RED + "Bukkit version: " + Bukkit.getServer().getVersion());
+        /*r.log(TextColors.RED + "Sponge version: " + Bukkit.getServer().getVersion());
          r.log(TextColors.RED + "UltimateCore version: " + Bukkit.getPluginManager().getPlugin("UltimateCore").getDescription().getVersion());
          r.log(TextColors.RED + "Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()));
          r.log(TextColors.RED + "Java version: " + System.getProperty("java.version"));
@@ -101,6 +102,6 @@ public class ErrorLogger {
             t.printStackTrace();
             r.log(TextColors.DARK_RED + "=========================================================");
         }
-        Bukkit.getConsoleSender().sendMessage(" ");
+        r.log(" ");
     }
 }

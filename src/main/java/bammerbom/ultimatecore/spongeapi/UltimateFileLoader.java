@@ -24,13 +24,12 @@
 package bammerbom.ultimatecore.spongeapi;
 
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
+import bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
+import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
 import java.io.*;
 import java.util.*;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.MemorySection;
-import org.bukkit.plugin.Plugin;
+import org.spongepowered.api.entity.player.User;
 
 public class UltimateFileLoader {
 
@@ -49,13 +48,13 @@ public class UltimateFileLoader {
     public static File DFkits;
 
     public static void Enable() {
-        Plugin plugin = r.getUC();
+        UltimateCore plugin = r.getUC();
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
         }
         conf = new File(plugin.getDataFolder() + File.separator + "config.yml");
         if (!conf.exists()) {
-            plugin.saveResource("config.yml", true);
+            FileUtil.saveResource("config.yml", true);
         }
 
         messages = new File(plugin.getDataFolder(), "Messages");
@@ -88,14 +87,14 @@ public class UltimateFileLoader {
                 DFjails.createNewFile();
             }
             if (!DFkits.exists()) {
-                plugin.saveResource("Data" + File.separator + "kits.yml", true);
+                FileUtil.saveResource("Data" + File.separator + "kits.yml", true);
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to create Data files.");
         }
         //
         if (!new File(plugin.getDataFolder() + File.separator + "Messages" + File.separator + "EN.properties").exists()) {
-            plugin.saveResource("Messages" + File.separator + "EN.properties", true);
+            FileUtil.saveResource("Messages" + File.separator + "EN.properties", true);
         }
         //
         File file = new File(plugin.getDataFolder() + File.separator + "Messages", r.getCnfg().getString("Language") + ".properties");
@@ -106,7 +105,7 @@ public class UltimateFileLoader {
         }
         ENf = new File(plugin.getDataFolder() + File.separator + "Messages", "EN.properties");
         //
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+        for (User pl : r.getOfflinePlayers()) {
             try {
                 getPlayerFile(pl);
             } catch (Exception ex) {
@@ -117,7 +116,7 @@ public class UltimateFileLoader {
 
     }
 
-    public static File getPlayerFile(final OfflinePlayer p) {
+    public static File getPlayerFile(final User p) {
         UUID id = p.getUniqueId();
         final File file = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + id.toString() + ".yml");
         File directory = new File(r.getUC().getDataFolder() + File.separator + "Players");
@@ -135,7 +134,7 @@ public class UltimateFileLoader {
 
     }
 
-    public static Config getPlayerConfig(OfflinePlayer p) {
+    public static Config getPlayerConfig(User p) {
         File file = getPlayerFile(p);
         Config config = new Config(file);
         return config;
@@ -153,7 +152,7 @@ public class UltimateFileLoader {
             }
             try (FileOutputStream out = new FileOutputStream(tempFile)) {
                 tempFile.deleteOnExit();
-                copy(Bukkit.getPluginManager().getPlugin("UltimateCore").getResource("config.yml"), out);
+                copy(FileUtil.getResource("config.yml"), out);
                 out.close();
             } catch (IOException ex) {
                 ErrorLogger.log(ex, "Failed to complete config.yml");
@@ -165,7 +164,7 @@ public class UltimateFileLoader {
             Config confS = r.getCnfg();
             Boolean changed = false;
             for (String s : confL.getKeys(true)) {
-                if (!confS.contains(s) && !(confL.get(s) instanceof MemorySection)) {
+                if (!confS.contains(s) && !(confL.get(s) instanceof ConfigSection)) {
                     confS.set(s, confL.get(s));
                     changed = true;
                 }

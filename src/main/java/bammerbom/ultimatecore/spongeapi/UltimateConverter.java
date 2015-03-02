@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.spongeapi;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
+import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
 import java.io.File;
@@ -33,6 +34,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 import org.apache.commons.io.FileUtils;
+import org.spongepowered.api.entity.player.User;
 import org.spongepowered.api.text.format.TextColors;
 
 public class UltimateConverter {
@@ -50,10 +52,10 @@ public class UltimateConverter {
                 r.log("Creating backup...");
                 FileUtil.copy(r.getUC().getDataFolder(), new File(r.getUC().getDataFolder().getParentFile(), "UltimateCore (Backup from 1.x)"));
                 r.log("Converting...");
-                HashMap<UUID, HashMap<String, Location>> homes = new HashMap<>();
-                for (OfflinePlayer pl : r.getOfflinePlayers()) {
+                HashMap<UUID, HashMap<String, RLocation>> homes = new HashMap<>();
+                for (User pl : r.getOfflinePlayers()) {
                     Config conf = UC.getPlayer(pl).getPlayerConfig();
-                    HashMap<String, Location> hom = new HashMap<>();
+                    HashMap<String, RLocation> hom = new HashMap<>();
                     if (conf.contains("homes")) {
                         for (String str : conf.getConfigurationSection("homes").getKeys(false)) {
                             hom.put(str, LocationUtil.convertStringToLocation(conf.getString("homes." + str)));
@@ -62,7 +64,7 @@ public class UltimateConverter {
                     }
                 }
                 Config conf = new Config(UltimateFileLoader.DFwarps);
-                HashMap<String, Location> warps = new HashMap<>();
+                HashMap<String, RLocation> warps = new HashMap<>();
                 if (conf.contains("warps")) {
                     for (String str : conf.getConfigurationSection("warps").getKeys(false)) {
                         warps.put(str, LocationUtil.convertStringToLocation(conf.getString("warps." + str)));

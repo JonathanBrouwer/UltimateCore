@@ -24,12 +24,12 @@
 package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.configuration.ConfigSection;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import java.io.*;
 import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.MemorySection;
 import org.bukkit.plugin.Plugin;
 
 public class UltimateFileLoader {
@@ -165,7 +165,7 @@ public class UltimateFileLoader {
             Config confS = r.getCnfg();
             Boolean changed = false;
             for (String s : confL.getKeys(true)) {
-                if (!confS.contains(s) && !(confL.get(s) instanceof MemorySection)) {
+                if (!confS.contains(s) && !(confL.get(s) instanceof ConfigSection)) {
                     confS.set(s, confL.get(s));
                     changed = true;
                 }

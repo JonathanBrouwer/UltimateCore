@@ -34,10 +34,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 public class ItemDatabase {
 

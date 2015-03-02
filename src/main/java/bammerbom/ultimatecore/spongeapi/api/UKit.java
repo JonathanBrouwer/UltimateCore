@@ -26,17 +26,18 @@ package bammerbom.ultimatecore.spongeapi.api;
 import bammerbom.ultimatecore.spongeapi.UltimateFileLoader;
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
+import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
+import bammerbom.ultimatecore.spongeapi.resources.databases.EnchantmentDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.bukkit.TextColors;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.item.Enchantment;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 /**
  * A class representing a kit.
@@ -55,7 +56,7 @@ public class UKit {
         this.kit = kits.getConfigurationSection(name);
         this.items = getItemStacks(kit.getMapList("items"));
         this.cooldown = DateUtil.parseDateDiff(kit.getString("cooldown", "0"));
-        this.description = TextColors.translateAlternateColorCodes('&', kit.getString("description", ""));
+        this.description = r.translateAlternateColorCodes(kit.getString("description", ""));
     }
 
     /**
@@ -71,7 +72,7 @@ public class UKit {
             if (realEnchantment == null) {
                 continue;
             }
-            is.addUnsafeEnchantment(realEnchantment, enchantment.getInt("level", 1));
+            is.setEnchantment(realEnchantment, enchantment.getInt("level", 1));
         }
         return is;
     }
@@ -83,7 +84,7 @@ public class UKit {
      * @return Enchantment (may be null)
      */
     private Enchantment getEnchantment(final ConfigSection enchantment) {
-        return Enchantment.getByName(enchantment.getString("type", "").toUpperCase());
+        return EnchantmentDatabase.getByName(enchantment.getString("type", "").toUpperCase());
     }
 
     /**
@@ -98,10 +99,10 @@ public class UKit {
             return null;
         }
         if (item.containsKey("amount")) {
-            is.setAmount((int) item.get("amount"));
+            is.setQuantity((int) item.get("amount"));
         }
         if (item.containsKey("damage")) {
-            is.setDurability(((Number) item.get("damage")).shortValue());
+            is.setDamage(((Number) item.get("damage")).shortValue());
         }
         MetaItemStack ism = new MetaItemStack(is);
         for (String s : item.keySet()) {
@@ -149,7 +150,7 @@ public class UKit {
             return lore;
         }
         for (final String loreItem : item.getStringList("lore")) {
-            lore.add(TextColors.translateAlternateColorCodes('&', loreItem));
+            lore.add(r.translateAlternateColorCodes(loreItem));
         }
         return lore;
     }

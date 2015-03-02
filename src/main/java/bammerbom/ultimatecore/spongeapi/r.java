@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import com.google.common.base.Optional;
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.entity.player.Player;
@@ -443,6 +444,13 @@ public class r {
             }
         }
         return values.get(ra.nextInt(values.size()));
+    }
+
+    public static String stripColor(String input) {
+        if (input == null) {
+            return null;
+        }
+        return Pattern.compile("(?i)" + String.valueOf('§') + "[0-9A-FK-OR]").matcher(input).replaceAll("");
     }
 
     /*public static String getTown(Player p) {
