@@ -43,6 +43,10 @@ public class RLocation extends Location {
         rot = rota;
     }
 
+    public RLocation(Location loc, Float yaw, Float pitch) {
+        this(loc, new Vector3f(yaw, pitch, 0));
+    }
+
     public Vector3f getRotation() {
         return rot;
     }
