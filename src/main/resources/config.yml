@@ -102,6 +102,10 @@ Chat:
   MsgFormatSpy: "&7[&f%Player1 &7-> &f%Player2&7] &f%Message"
   #How is the /say command displayed?
   SayFormat: "&5[&d%Player&5] %Message"
+  #How is the /ask command displayed?
+  AskFormat: "@1%Player asked: &e%Message"
+  #How is the /answer command displayed?
+  AnswerFormat: "@1%Player answered: &e%Message"
   
   #The UltimateCore message colors
   #A link of all chatcolors, enter them without the '&':

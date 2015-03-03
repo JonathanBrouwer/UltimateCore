@@ -22,6 +22,16 @@ commands:
     description: Sends everyone on the server an alert message.
     usage: /<command> <Message>
     permisssions: uc.alert
+  answer:
+    description: Answer a question send with /ask
+    usage: /<command> <Player> <Message>
+    permissions: uc.answer
+    aliases: [ans, askr, askreply]
+  ask:
+    description: Ask a question to players with the uc.support permission.
+    usage: /<command> <Message>
+    permissions: uc.ask
+    aliases: [helpop]
   back:
     description: Teleports you to your location prior to tp/spawn/warp.
     usage: /<command>
