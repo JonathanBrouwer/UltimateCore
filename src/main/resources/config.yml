@@ -103,7 +103,17 @@ Chat:
   #How is the /say command displayed??
   SayFormat: "&5[&d%Player&5] %Message"
   
-  #Enable the custom chat of Ultimate Core? If false Filters are still enabled!
+  #The UltimateCore message colors
+  #A link of all chatcolors, enter them without the '&':
+  #http://ess.khhq.net/mc/
+  #[@1] The default UltimateCore message color (Default = Dark aqua)
+  Default: 3
+  #[@2] The message color for values, like player names (Default = aqua)
+  Value: b
+  #[@3] The message color when there is a problem, like too less arguments (Default = red)
+  Error: c
+  
+  #Enable the custom chat of UltimateCore? If false Filters are still enabled!
   EnableCustomChat: true
   
   #What is the format?

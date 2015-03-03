@@ -61,6 +61,7 @@ public class UltimateCore extends JavaPlugin {
             UltimateFileLoader.Enable();
             r.enableMES();
             UltimateFileLoader.addConfig();
+            r.setColors();
             UuidUtil.loadPlayers();
             UltimateCommands.load();
             PerformanceUtil.getTps();

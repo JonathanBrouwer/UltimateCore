@@ -265,6 +265,27 @@ public class r {
         }
     }
 
+    public static void setColors() {
+        String c1 = r.getCnfg().getString("Chat.Default");
+        String c2 = r.getCnfg().getString("Chat.Value");
+        String c3 = r.getCnfg().getString("Chat.Error");
+        positive = ChatColor.getByChar(c1);
+        neutral = ChatColor.getByChar(c2);
+        negative = ChatColor.getByChar(c3);
+        if (positive == null) {
+            r.log("Failed to find color: " + c1);
+            positive = ChatColor.DARK_AQUA;
+        }
+        if (neutral == null) {
+            r.log("Failed to find color: " + c1);
+            positive = ChatColor.AQUA;
+        }
+        if (negative == null) {
+            r.log("Failed to find color: " + c1);
+            positive = ChatColor.RED;
+        }
+    }
+
     public static String mes(String padMessage, Object... repl) {
         if (cu.map.containsKey(padMessage)) {
             String a = r.positive + ChatColor.translateAlternateColorCodes('&', cu.getProperty(padMessage)
