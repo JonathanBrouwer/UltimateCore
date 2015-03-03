@@ -221,6 +221,9 @@ public class UltimateCommands implements TabCompleter {
                 rtrn.add(p.getName());
             }
         }
+        ArrayList<String> rtrn2 = new ArrayList<>();
+        rtrn2.addAll(rtrn);
+        rtrn = rtrn2;
         if (!StringUtil.nullOrEmpty(args[args.length - 1])) {
             List<String> remv = new ArrayList<>();
             for (String s : rtrn) {
