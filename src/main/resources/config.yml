@@ -15,11 +15,11 @@ Language: EN
 Afk:
   #Is the afk system enabled?
   Enabled: true
-  #How long does it take before someone is marked as afk?
+  #How long does it take before someone is marked as afk? (In seconds)
   AfkTime: 180
-  #Kick players when they are afk for too long?
+  #Kick players when they are afk for too long? (In seconds)
   KickEnabled: true
-  #How long does it take before someone is kicked for being inactive? (Including the time before the player was marked as afk)
+  #How long does it take before someone is kicked for being inactive? (In seconds) (Including the time before the player was marked as afk)
   KickTime: 900
   
 #Enable instant respawning?
@@ -60,7 +60,7 @@ Messages:
   Enabledactionbar: false
   #Show the messages in a random order?
   Randomise: false
-  #The time until the next message is shown
+  #The time until the next message is shown (In seconds)
   Time: 120
   #(Only for the bossbar) Let the bossbar decrease until the next message?
   Decrease: true
@@ -71,7 +71,7 @@ Autosave:
   Enabled: true
   #Show a message each autosave?
   Message: false
-  #The time between each autosave.
+  #The time between each autosave. (In seconds)
   Time: 300
   
 Timber:
@@ -189,7 +189,7 @@ Command:
     TpaCancel: 30
     #Enable delay?
     EnableDelay: false
-    #The delay in seconds.
+    #The delay. (In seconds)
     Delay: 5
   Spawn:
     # Set this to 'lowest', if you want the world (or multiverse) to handle the respawning.
