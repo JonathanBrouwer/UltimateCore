@@ -267,6 +267,7 @@ public class LocationUtil {
         if (loc == null || loc.getWorld() == null) {
             return null;
         }
+        Location org = loc;
         final World world = loc.getWorld();
         int x = loc.getBlockX();
         int y = (int) Math.round(loc.getY());
@@ -311,7 +312,7 @@ public class LocationUtil {
                 x += 1;
                 y = world.getHighestBlockYAt(x, z);
                 if (x - 48 > loc.getBlockX()) {
-                    return null;
+                    return org;
                 }
             }
         }
