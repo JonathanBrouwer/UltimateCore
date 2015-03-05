@@ -21,7 +21,7 @@ Afk:
   KickEnabled: true
   #How long does it take before someone is kicked for being inactive? (In seconds) (Including the time before the player was marked as afk)
   KickTime: 900
-  
+
 #Enable instant respawning?
 InstantRespawn: false
 
@@ -30,7 +30,7 @@ Blood:
   Enabled: false
   #Enable it for players only?
   PlayersOnly: false
-  
+
 #Dynmap support (Nothing happens without Dynmap)
 Dynmap:
   Enable: true
@@ -50,7 +50,7 @@ Explode:
   Enderdragon: false
   Wither: false
   Lightning: false
-  
+
 Messages:
   #Are the messages shown in the chat?
   Enabledchat: false
@@ -65,7 +65,7 @@ Messages:
   #(Only for the bossbar) Let the bossbar decrease until the next message?
   Decrease: true
   #Use messages.txt to change the messages.
-  
+
 Autosave:
   #Enable autosaving?
   Enabled: true
@@ -73,7 +73,7 @@ Autosave:
   Message: false
   #The time between each autosave. (In seconds)
   Time: 300
-  
+
 Timber:
   #Enable timber?
   Enable: false
@@ -83,11 +83,11 @@ Timber:
   AllDurability: true
   #Do you need to have an axe in your hand to use Timber?
   NeedAxe: true
-  
+
 Weather:
   #Disable rain and thunder? (True = Disabled)
   Rain: false
-  
+
 #Chat customization
 Chat:
   #How is the /alert command displayed?
@@ -106,7 +106,7 @@ Chat:
   AskFormat: "@1%Player asked: &e%Message"
   #How is the /answer command displayed?
   AnswerFormat: "@1%Player answered: &e%Message"
-  
+
   #The UltimateCore message colors
   #A link of all chatcolors, enter them without the '&':
   #http://ess.khhq.net/mc/
@@ -116,10 +116,10 @@ Chat:
   Value: b
   #[@3] The message color when there is a problem, like too less arguments (Default = red)
   Error: c
-  
+
   #Enable the custom chat of UltimateCore? If false Filters are still enabled!
   EnableCustomChat: true
-  
+
   #What is the format?
   #+Group = Group name (If vault installed, else empty)
   #+Prefix = Group prefix (If vault installed, else empty)
@@ -133,8 +133,8 @@ Chat:
   #+Faction = The faction the player is in (Factions)
   #Color codes supported!
   Format: '&6+Prefix&6+Displayname: &r+Suffix+Message'
-  
-  #Group formats: [REQUIRES VAULT + PERMISSION PLUGIN] 	
+
+  #Group formats: [REQUIRES VAULT + PERMISSION PLUGIN]
   #Every group that is not registered here uses the Global format
   Groups:
     Enabled: false
@@ -169,7 +169,7 @@ Chat:
   CapsFilter: true
   UrlFilter: true
   IpFilter: true
-  
+
 #Command customization
 Command:
   #Enable the custom unknown command message?
@@ -210,4 +210,3 @@ Command:
     # Set this to 'high', if you want UltimateCore to handle the respawning.
     # Set this to 'highest', if you want to force UltimateCore to handle the respawning.
     Priority: high
-    
