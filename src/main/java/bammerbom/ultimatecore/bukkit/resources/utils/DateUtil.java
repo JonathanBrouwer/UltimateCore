@@ -41,24 +41,29 @@ public class DateUtil {
                 String type = s.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")[1];
                 switch (type) {
                     case "s":
+                    case "S":
                         mil = mil + (numb * 1000);
                         break;
                     case "m":
                         mil = mil + (numb * 1000 * 60);
                         break;
                     case "h":
+                    case "H":
                         mil = mil + (numb * 1000 * 60 * 60);
                         break;
                     case "d":
+                    case "D":
                         mil = mil + (numb * 1000 * 60 * 60 * 24);
                         break;
                     case "w":
+                    case "W":
                         mil = mil + (numb * 1000 * 60 * 60 * 24 * 7);
                         break;
                     case "M":
                         mil = mil + (numb * 1000 * 60 * 60 * 24 * 30);
                         break;
                     case "y":
+                    case "Y":
                         mil = mil + (numb * 1000 * 60 * 60 * 24 * 365);
                         break;
                 }
