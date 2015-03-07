@@ -162,7 +162,7 @@ public class CmdPlugin implements UltimateCommand {
                     sb.append(ChatColor.RESET);
                     sb.append(", ");
                 }
-                r.sendMes(cs, "pluginUnloadDependend", "%Plugins", sb.substring(0, sb.length() - 4));
+                r.sendMes(cs, "pluginUnloadDependent", "%Plugins", sb.substring(0, sb.length() - 4));
                 return;
             }
             r.sendMes(cs, "pluginUnloadUnloading");
@@ -230,7 +230,7 @@ public class CmdPlugin implements UltimateCommand {
                     sb.append(ChatColor.RESET);
                     sb.append(", ");
                 }
-                r.sendMes(cs, "pluginUnloadDependend", "%Plugins", sb.substring(0, sb.length() - 4));
+                r.sendMes(cs, "pluginUnloadDependent", "%Plugins", sb.substring(0, sb.length() - 4));
                 return;
             }
             pm.disablePlugin(p);
