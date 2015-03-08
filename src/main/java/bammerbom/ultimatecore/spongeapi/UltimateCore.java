@@ -42,7 +42,7 @@ import org.spongepowered.api.service.event.EventManager;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.event.Subscribe;
 
-@Plugin(id = "UltimateCore", name = "UltimateCore", version = "2.0.10")
+@Plugin(id = "UltimateCore", name = "UltimateCore", version = "2.0.11")
 public class UltimateCore {
 
     public static UltimateCore instance;

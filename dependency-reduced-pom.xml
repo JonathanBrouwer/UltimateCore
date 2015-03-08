@@ -4,7 +4,7 @@
   <groupId>bammerbom</groupId>
   <artifactId>UltimateCore</artifactId>
   <name>UltimateCore</name>
-  <version>2.0.10</version>
+  <version>2.0.11</version>
   <description>All you need to setup a server and more!</description>
   <build>
     <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
