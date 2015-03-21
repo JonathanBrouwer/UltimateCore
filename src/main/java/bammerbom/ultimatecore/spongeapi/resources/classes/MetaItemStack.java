@@ -133,6 +133,7 @@ public class MetaItemStack {
             if (r.isDouble(split[1])) {
                 Double max = Double.parseDouble(split[1]);
                 max = r.normalize(max, 0.0, 2147483647.0);
+
                 AttributeUtil attributes = new AttributeUtil(stack);
                 attributes.add(Attribute.newBuilder().name("Health").type(AttributeType.GENERIC_MAX_HEALTH).amount(max).build());
                 stack = attributes.getStack();

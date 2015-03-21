@@ -34,6 +34,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.GameRegistry;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.entity.player.User;
 import org.spongepowered.api.service.permission.PermissionService;
@@ -71,6 +72,10 @@ public class r {
 
     public static Game getGame() {
         return UltimateCore.game;
+    }
+
+    public static GameRegistry getRegistry() {
+        return getGame().getRegistry();
     }
 
     public static void runUpdater() {
