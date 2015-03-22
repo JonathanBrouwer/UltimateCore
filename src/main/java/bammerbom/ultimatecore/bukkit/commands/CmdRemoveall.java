@@ -58,16 +58,16 @@ public class CmdRemoveall implements UltimateCommand {
         if (!r.perm(cs, "uc.removeall", false, true)) {
             return;
         }
-        Integer range = 500;
+        Integer range = 100;
         if (r.checkArgs(args, 0) == true && r.isInt(args[0])) {
             range = Integer.parseInt(args[0]);
-            if (range > 10000) {
-                range = 10000;
+            if (range > 1000) {
+                range = 1000;
             }
         } else if (r.checkArgs(args, 1) && r.isInt(args[1])) {
             range = Integer.parseInt(args[1]);
-            if (range > 10000) {
-                range = 10000;
+            if (range > 1000) {
+                range = 1000;
             }
         }
         EntityType et = null;
@@ -86,7 +86,7 @@ public class CmdRemoveall implements UltimateCommand {
         }
         Player p = (Player) cs;
         Integer amount = 0;
-        for (Entity en : p.getNearbyEntities(range, 256, range)) {
+        for (Entity en : r.getNearbyEntities(p, range)) {
             if ((en instanceof Painting) || (en instanceof ItemFrame) || (en instanceof Player)) {
                 continue;
             }

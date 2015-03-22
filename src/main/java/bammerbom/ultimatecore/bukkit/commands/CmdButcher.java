@@ -63,15 +63,15 @@ public class CmdButcher implements UltimateCommand {
             return;
         }
         Player p = (Player) cs;
-        Integer range = 500;
+        Integer range = 100;
         MobType filter = null;
         Boolean all = false;
         Integer amount = 0;
         if (r.checkArgs(args, 0) == true) {
             if (r.isInt(args[0])) {
                 range = Integer.parseInt(args[0]);
-                if (range > 10000) {
-                    range = 10000;
+                if (range > 1000) {
+                    range = 1000;
                 }
             } else if (args[0].equalsIgnoreCase("global")) {
                 all = true;
@@ -84,15 +84,15 @@ public class CmdButcher implements UltimateCommand {
                 if (r.checkArgs(args, 1)) {
                     if (r.isInt(args[1])) {
                         range = Integer.parseInt(args[1]);
-                        if (range > 10000) {
-                            range = 10000;
+                        if (range > 1000) {
+                            range = 1000;
                         }
                     }
                 }
             }
         }
         if (!all) {
-            for (Entity en : p.getNearbyEntities(range, 256, range)) {
+            for (Entity en : r.getNearbyEntities(p, range)) {
                 if (filter != null && !filter.getType().equals(en.getType())) {
                     continue;
                 }

@@ -39,8 +39,10 @@ import net.milkbowl.vault.permission.Permission;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -439,7 +441,24 @@ public class r {
         }
     }
 
+    public static List<Entity> getNearbyEntities(Location loc, double range) {
+        List<Entity> entities = loc.getWorld().getEntities();
+        List<Entity> rtrn = new ArrayList<>();
+        for (Entity en : entities) {
+            if (en.getLocation().distance(loc) > range) {
+                continue;
+            }
+            rtrn.add(en);
+        }
+        return rtrn;
+    }
+
+    public static List<Entity> getNearbyEntities(Entity en, double range) {
+        return getNearbyEntities(en.getLocation(), range);
+    }
+
     //
+
     public static Integer normalize(Integer a, Integer b, Integer c) {
         if (a < b) {
             a = b;
