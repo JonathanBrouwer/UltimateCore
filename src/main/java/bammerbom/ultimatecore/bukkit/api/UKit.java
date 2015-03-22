@@ -172,7 +172,7 @@ public class UKit {
      */
     public long getCooldownFor(final Player p) {
         final long lastUsed = this.getLastUsed(p);
-        return (this.getCooldown() * 1000L) + lastUsed;
+        return (this.getCooldown()) + lastUsed;
     }
 
     /**
@@ -221,7 +221,7 @@ public class UKit {
      */
     public boolean hasCooldownPassedFor(final Player p) {
         final long lastUsed = this.getLastUsed(p);
-        return !(this.getCooldown() == -1L && lastUsed != 0L) && lastUsed + (this.getCooldown() * 1000L) < System.currentTimeMillis();
+        return !(this.getCooldown() == -1L && lastUsed != 0L) && lastUsed + (this.getCooldown()) < System.currentTimeMillis();
     }
 
     /**
