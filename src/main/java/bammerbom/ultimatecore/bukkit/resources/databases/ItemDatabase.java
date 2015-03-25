@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.resources.databases;
 
 import bammerbom.ultimatecore.bukkit.UltimateCore;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.DigestInputStream;
@@ -41,7 +42,7 @@ import org.bukkit.plugin.Plugin;
 
 public class ItemDatabase {
 
-    private final transient static Map<String, Integer> items = new HashMap<>();
+    private final transient static Map<String, String> items = new HashMap<>();
     private final transient static Map<ItemData, List<String>> names = new HashMap<>();
     private final transient static Map<ItemData, String> primaryName = new HashMap<>();
     private final transient static Map<String, Short> durabilities = new HashMap<>();
@@ -58,15 +59,20 @@ public class ItemDatabase {
     public static void enable() {
         plugin = r.getUC();
         InputStream resource = plugin.getResource("Data/items.csv");
-        BufferedReader r = new BufferedReader(new InputStreamReader(resource));
+        BufferedReader re = new BufferedReader(new InputStreamReader(resource));
         ArrayList<String> lines = new ArrayList<>();
         String lineC;
         try {
-            while ((lineC = r.readLine()) != null) {
+            while ((lineC = re.readLine()) != null) {
                 lines.add(lineC);
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        try {
+            re.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         durabilities.clear();
         items.clear();
@@ -77,17 +83,17 @@ public class ItemDatabase {
             if ((line.length() <= 0) || (line.charAt(0) != '#')) {
                 String[] parts = line.split(",");
                 if (parts.length >= 2) {
-                    int numeric = Integer.parseInt(parts[1]);
+                    String id = parts[1];
                     short data = (parts.length > 2) && (!parts[2].equals("0")) ? Short.parseShort(parts[2]) : 0;
                     String itemName = parts[0].toLowerCase(Locale.ENGLISH);
 
                     durabilities.put(itemName, data);
-                    items.put(itemName, numeric);
+                    items.put(itemName, id);
                     if (itemName.contains("_")) {
-                        items.put(itemName.replace("_", ""), Integer.valueOf(numeric));
+                        items.put(itemName.replace("_", ""), id);
                     }
 
-                    ItemData itemData = new ItemData(numeric, data);
+                    ItemData itemData = new ItemData(id, data);
                     if (names.containsKey(itemData)) {
                         List<String> nameList = names.get(itemData);
                         nameList.add(itemName);
@@ -108,7 +114,7 @@ public class ItemDatabase {
 
     @SuppressWarnings("deprecation")
     private static ItemStack get(String id) {
-        int itemid = 0;
+        String itemid;
         String itemname;
         short metaData = 0;
         Matcher parts = Pattern.compile("((.*)[:+',;.](\\d+))").matcher(id);
@@ -118,35 +124,27 @@ public class ItemDatabase {
         } else {
             itemname = id;
         }
-        if (r.isInt(itemname)) {
-            itemid = Integer.parseInt(itemname);
-        } else if (r.isInt(id)) {
-            itemid = Integer.parseInt(id);
+        itemname = itemname.toLowerCase(Locale.ENGLISH);
+        if (items.containsKey(itemname)) {
+            itemid = items.get(itemname);
+            if ((durabilities.containsKey(itemname)) && (metaData == 0)) {
+                metaData = durabilities.get(itemname).shortValue();
+            }
+        } else if (Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH)) != null) {
+            Material bMaterial = Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH));
+            itemid = ItemUtil.getID(bMaterial);
         } else {
-            itemname = itemname.toLowerCase(Locale.ENGLISH);
-        }
-        if (itemid < 1) {
-            if (items.containsKey(itemname)) {
-                itemid = items.get(itemname).intValue();
-                if ((durabilities.containsKey(itemname)) && (metaData == 0)) {
-                    metaData = durabilities.get(itemname).shortValue();
-                }
-            } else if (Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH)) != null) {
-                Material bMaterial = Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH));
-                itemid = bMaterial.getId();
-            } else {
-                try {
-                    Material bMaterial = Bukkit.getUnsafe().getMaterialFromInternalName(itemname.toLowerCase(Locale.ENGLISH));
-                    itemid = bMaterial.getId();
-                } catch (Throwable throwable) {
-                    return null;
-                }
+            try {
+                Material bMaterial = Bukkit.getUnsafe().getMaterialFromInternalName(itemname.toLowerCase(Locale.ENGLISH));
+                itemid = ItemUtil.getID(bMaterial);
+            } catch (Throwable throwable) {
+                return null;
             }
         }
-        if (itemid < 1) {
+        if (itemid.equals("minecraft:air")) {
             return null;
         }
-        Material mat = Material.getMaterial(itemid);
+        Material mat = ItemUtil.getMaterialFromId(itemid);
         if (mat == null) {
             return null;
         }
@@ -326,16 +324,16 @@ class ManagedFile {
 
 class ItemData {
 
-    private final int itemNo;
+    private final String itemId;
     private final short itemData;
 
-    ItemData(int itemNo, short itemData) {
-        this.itemNo = itemNo;
+    ItemData(String itemId, short itemData) {
+        this.itemId = itemId;
         this.itemData = itemData;
     }
 
-    public int getItemNo() {
-        return this.itemNo;
+    public String getItemId() {
+        return this.itemId;
     }
 
     public short getItemData() {
@@ -344,7 +342,7 @@ class ItemData {
 
     @Override
     public int hashCode() {
-        return 31 * this.itemNo ^ this.itemData;
+        return 31 * this.itemId.hashCode() ^ this.itemData;
     }
 
     @Override
@@ -356,7 +354,7 @@ class ItemData {
             return false;
         }
         ItemData pairo = (ItemData) o;
-        return (this.itemNo == pairo.getItemNo()) && (this.itemData == pairo.getItemData());
+        return (this.itemId.equals(pairo.getItemId())) && (this.itemData == pairo.getItemData());
     }
 }
 

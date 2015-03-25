@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.item.Enchantment;
+import org.spongepowered.api.item.data.EnchantmentData;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 /**
@@ -72,7 +73,9 @@ public class UKit {
             if (realEnchantment == null) {
                 continue;
             }
-            is.setEnchantment(realEnchantment, enchantment.getInt("level", 1));
+            EnchantmentData dnd = is.getOrCreateItemData(EnchantmentData.class).get();
+            dnd.setUnsafe(realEnchantment, enchantment.getInt("level", 1));
+            is.setItemData(dnd);
         }
         return is;
     }

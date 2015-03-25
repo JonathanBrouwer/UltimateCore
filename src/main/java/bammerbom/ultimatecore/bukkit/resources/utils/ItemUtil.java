@@ -31,6 +31,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import net.milkbowl.vault.item.Items;
 import org.bukkit.Bukkit;
@@ -182,6 +183,15 @@ public class ItemUtil {
 
     public static String getID(Material mat) {
         return ids.get(mat);
+    }
+
+    public static Material getMaterialFromId(String id) {
+        for (Entry<Material, String> en : ids.entrySet()) {
+            if (en.getValue().equalsIgnoreCase(id)) {
+                return en.getKey();
+            }
+        }
+        return null;
     }
 }
 

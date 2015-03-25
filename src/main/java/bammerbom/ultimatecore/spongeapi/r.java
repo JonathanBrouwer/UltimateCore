@@ -39,6 +39,7 @@ import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.entity.player.User;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.permission.context.Context;
+import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.Tristate;
@@ -290,7 +291,7 @@ public class r {
 
     public static void sendMes(CommandSource cs, String padMessage, Object... repl) {
         String mes = mes(padMessage, repl);
-        cs.sendMessage(mes);
+        cs.sendMessage(Texts.of(mes));
     }
 
     public static void log(Object message) {
@@ -443,8 +444,8 @@ public class r {
 
     public static TextColor getRandomTextColor() {
         ArrayList<TextColor> values = new ArrayList<>();
-        for (TextColor c : TextColors.getValues()) {
-            if (!c.isReset()) {
+        for (TextColor c : r.getRegistry().getTextColors()) {
+            if (!c.equals(TextColors.RESET)) {
                 values.add(c);
             }
         }

@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.spongeapi.resources.databases;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCore;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.DigestInputStream;
@@ -34,6 +35,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 public class ItemDatabase {
@@ -54,7 +56,7 @@ public class ItemDatabase {
 
     public static void enable() {
         plugin = r.getUC();
-        InputStream resource = plugin.getResource("Data/items.csv");
+        InputStream resource = FileUtil.getResource("Data/items.csv");
         BufferedReader r = new BufferedReader(new InputStreamReader(resource));
         ArrayList<String> lines = new ArrayList<>();
         String lineC;
@@ -105,7 +107,7 @@ public class ItemDatabase {
 
     @SuppressWarnings("deprecation")
     private static ItemStack get(String id) {
-        int itemid = 0;
+        String itemid = "minecraft:air";
         String itemname;
         short metaData = 0;
         Matcher parts = Pattern.compile("((.*)[:+',;.](\\d+))").matcher(id);
@@ -115,29 +117,20 @@ public class ItemDatabase {
         } else {
             itemname = id;
         }
-        if (r.isInt(itemname)) {
-            itemid = Integer.parseInt(itemname);
-        } else if (r.isInt(id)) {
-            itemid = Integer.parseInt(id);
+        if (items.containsKey(itemname)) {
+            itemid = items.get(itemname).intValue();
+            if ((durabilities.containsKey(itemname)) && (metaData == 0)) {
+                metaData = durabilities.get(itemname).shortValue();
+            }
+        } else if (r.getRegistry().getItem(itemname.toUpperCase(Locale.ENGLISH)) != null) {
+            ItemType bMaterial = r.getRegistry().getItem((itemname.toUpperCase(Locale.ENGLISH));
+            itemid = bMaterial.getId();
         } else {
-            itemname = itemname.toLowerCase(Locale.ENGLISH);
-        }
-        if (itemid < 1) {
-            if (items.containsKey(itemname)) {
-                itemid = items.get(itemname).intValue();
-                if ((durabilities.containsKey(itemname)) && (metaData == 0)) {
-                    metaData = durabilities.get(itemname).shortValue();
-                }
-            } else if (Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH)) != null) {
-                Material bMaterial = Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH));
+            try {
+                Material bMaterial = Bukkit.getUnsafe().getMaterialFromInternalName(itemname.toLowerCase(Locale.ENGLISH));
                 itemid = bMaterial.getId();
-            } else {
-                try {
-                    Material bMaterial = Bukkit.getUnsafe().getMaterialFromInternalName(itemname.toLowerCase(Locale.ENGLISH));
-                    itemid = bMaterial.getId();
-                } catch (Throwable throwable) {
-                    return null;
-                }
+            } catch (Throwable throwable) {
+                return null;
             }
         }
         if (itemid < 1) {
