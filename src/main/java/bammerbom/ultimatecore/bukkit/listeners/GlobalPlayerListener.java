@@ -186,10 +186,11 @@ public class GlobalPlayerListener implements Listener {
         try {
             //Deaf
             e.getRecipients().removeAll(UC.getServer().getDeafOnlinePlayers());
-            if (UC.getPlayer(e.getPlayer()).isDeaf()) {
-                r.sendMes(e.getPlayer(), "deafTalk");
-                e.setCancelled(true);
-            }
+            e.getRecipients().add(e.getPlayer());
+//            if (UC.getPlayer(e.getPlayer()).isDeaf()) {
+//                r.sendMes(e.getPlayer(), "deafTalk");
+//                e.setCancelled(true);
+//            }
             //Jail
             if (!jailChat && UC.getPlayer(e.getPlayer()).isJailed()) {
                 r.sendMes(e.getPlayer(), "jailNotAllowedTalk");
