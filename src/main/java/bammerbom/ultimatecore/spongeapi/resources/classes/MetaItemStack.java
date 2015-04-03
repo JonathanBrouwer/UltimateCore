@@ -30,7 +30,11 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import com.google.common.base.Joiner;
 import java.util.*;
 import java.util.regex.Pattern;
-import org.spongepowered.api.entity.living.animal.DyeColor;
+import org.spongepowered.api.item.DyeColor;
+import org.spongepowered.api.item.FireworkEffect;
+import org.spongepowered.api.item.FireworkEffectBuilder;
+import org.spongepowered.api.item.FireworkShape;
+import org.spongepowered.api.item.data.FireworkData;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.potion.PotionEffect;
 import org.spongepowered.api.potion.PotionEffectType;
@@ -39,20 +43,20 @@ import org.spongepowered.api.util.command.CommandSource;
 public class MetaItemStack {
 
     private static final Map<String, DyeColor> colorMap = new HashMap<>();
-    private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap<>();
+    private static final Map<String, FireworkShape> fireworkShape = new HashMap<>();
 
     static {
         for (DyeColor color : r.getGame().getRegistry().getDyes()) {
             colorMap.put(color.getName(), color);
         }
-        for (FireworkEffect.Type type : FireworkEffect.Type.values()) {
-            fireworkShape.put(type.name(), type);
+        for (FireworkShape type : r.getRegistry() /*Get firework shapes*/) {
+            fireworkShape.put(type.getId(), type);
         }
     }
 
     private final transient Pattern splitPattern = Pattern.compile("[:+',;.]");
     private ItemStack stack;
-    private FireworkEffect.Builder builder = FireworkEffect.builder();
+    private FireworkEffectBuilder builder = r.getRegistry().getFireworkEffectBuilder();
     private PotionEffectType pEffectType;
     private PotionEffect pEffect;
     private boolean validFirework = false;
@@ -64,7 +68,7 @@ public class MetaItemStack {
     private int duration = 120;
 
     public MetaItemStack(ItemStack stack) {
-        this.stack = stack.clone();
+        this.stack = stack;
     }
 
     public ItemStack getItemStack() {
@@ -79,7 +83,7 @@ public class MetaItemStack {
         return (this.validPotionEffect) && (this.validPotionDuration) && (this.validPotionPower);
     }
 
-    public FireworkEffect.Builder getFireworkBuilder() {
+    public FireworkEffectBuilder getFireworkBuilder() {
         return this.builder;
     }
 
@@ -110,9 +114,9 @@ public class MetaItemStack {
             }
             if (this.validFirework) {
                 FireworkEffect effect = this.builder.build();
-                FireworkMeta fmeta = (FireworkMeta) this.stack.getItemMeta();
-                fmeta.addEffect(effect);
-                this.stack.setItemMeta(fmeta);
+                FireworkData fd = stack.getOrCreateItemData(FireworkData.class).get();
+                fd.set(effect);
+                stack.setItemData(fd);
             }
         }
     }
