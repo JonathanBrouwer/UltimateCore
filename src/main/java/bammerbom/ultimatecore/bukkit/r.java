@@ -457,8 +457,21 @@ public class r {
         return getNearbyEntities(en.getLocation(), range);
     }
 
-    //
+    public static List<Player> getNearbyPlayers(Location loc, double range) {
+        List<Player> entities = r.getOnlinePlayersL();
+        List<Player> rtrn = new ArrayList<>();
+        for (Player en : entities) {
+            if (en.getLocation().distance(loc) > range) {
+                continue;
+            }
+            rtrn.add(en);
+        }
+        return rtrn;
+    }
 
+    public static List<Player> getNearbyPlayers(Entity en, double range) {
+        return getNearbyPlayers(en.getLocation(), range);
+    }
     public static Integer normalize(Integer a, Integer b, Integer c) {
         if (a < b) {
             a = b;
