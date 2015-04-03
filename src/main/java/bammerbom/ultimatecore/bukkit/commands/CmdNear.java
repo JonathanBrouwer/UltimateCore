@@ -68,16 +68,14 @@ public class CmdNear implements UltimateCommand {
             }
             range = r.normalize(Integer.parseInt(args[0]), 1, 5000);
         }
-        for (Entity e : r.getNearbyEntities(p, range.doubleValue())) {
-            if (e instanceof Player) {
-                Player t = (Player) e;
-                if (!a) {
-                    builder.append(", ");
-                }
-                builder.append(t.getName());
-                builder.append("(" + Double.valueOf(t.getLocation().distance(p.getLocation())).intValue() + "), ");
-                a = false;
+        for (Entity e : r.getNearbyPlayers(p, range.doubleValue())) {
+            Player t = (Player) e;
+            if (!a) {
+                builder.append(", ");
             }
+            builder.append(t.getName());
+            builder.append("(" + Double.valueOf(t.getLocation().distance(p.getLocation())).intValue() + "), ");
+            a = false;
         }
         if (a) {
             builder.append(r.mes("nearNone"));
