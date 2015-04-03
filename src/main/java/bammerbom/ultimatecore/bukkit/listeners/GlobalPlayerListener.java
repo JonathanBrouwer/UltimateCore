@@ -244,7 +244,7 @@ public class GlobalPlayerListener implements Listener {
             }
             //Recipe
             if (UC.getPlayer((OfflinePlayer) e.getPlayer()).isInRecipeView()) {
-                UC.getPlayer((OfflinePlayer) e.getPlayer()).isInRecipeView();
+                UC.getPlayer((OfflinePlayer) e.getPlayer()).setInRecipeView(false);
                 e.getInventory().clear();
             }
             //Teleportmenu
