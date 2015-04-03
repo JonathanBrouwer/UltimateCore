@@ -73,7 +73,6 @@ public class CmdDamage implements UltimateCommand {
                 r.sendMes(cs, "damageMessage", "%Player", p.getName(), "%Health", d);
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
-                return;
             }
         } else if (r.checkArgs(args, 1)) {
             if (!r.perm(cs, "uc.damage.others", false, true)) {
@@ -99,7 +98,6 @@ public class CmdDamage implements UltimateCommand {
                 r.sendMes(cs, "damageMessage", "%Player", t.getName(), "%Health", args[1]);
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
-                return;
             }
         }
     }

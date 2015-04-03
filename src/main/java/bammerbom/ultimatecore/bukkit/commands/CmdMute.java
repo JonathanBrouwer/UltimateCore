@@ -86,7 +86,6 @@ public class CmdMute implements UltimateCommand {
             Player banp2 = (Player) banp;
             r.sendMes(banp2, "muteTarget");
         }
-        return;
     }
 
     @Override

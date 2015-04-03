@@ -83,7 +83,6 @@ public class CmdHeal implements UltimateCommand {
             p.setFireTicks(0);
             p.setRemainingAir(p.getMaximumAir());
             r.sendMes(cs, "healSelf");
-            return;
         } else {
             if (!r.perm(cs, "uc.heal.others", false, true)) {
                 return;
@@ -91,7 +90,6 @@ public class CmdHeal implements UltimateCommand {
             Player t = r.searchPlayer(args[0]);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
             } else {
                 r.sendMes(cs, "healOthersSelf", "%Player", t.getName());
                 r.sendMes(t, "healOthersOther", "%Player", cs.getName());

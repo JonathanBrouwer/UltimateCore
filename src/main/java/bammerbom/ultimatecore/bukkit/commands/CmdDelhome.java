@@ -56,7 +56,6 @@ public class CmdDelhome implements UltimateCommand {
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "delhomeUsage");
-            return;
         } else {
             Player p = (Player) cs;
             if (r.perm(p, "uc.delhome", true, true) == false) {

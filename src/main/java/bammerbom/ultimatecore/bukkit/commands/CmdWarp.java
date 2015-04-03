@@ -72,7 +72,6 @@ public class CmdWarp implements UltimateCommand {
             }
             result = warplist.substring(0, warplist.length() - 2);
             r.sendMes(cs, "warpWarps", "%Warps", result);
-            return;
         } else {
             if (!(r.isPlayer(cs))) {
                 return;

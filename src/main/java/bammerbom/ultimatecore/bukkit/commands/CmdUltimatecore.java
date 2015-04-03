@@ -94,7 +94,6 @@ public class CmdUltimatecore implements UltimateCommand {
             r.sendMes(cs, "ultimatecoreCredits1");
             r.sendMes(cs, "ultimatecoreCredits2");
         } else if (args[0].equalsIgnoreCase("noreturn")) {
-            return;
         } else if (args[0].equalsIgnoreCase("version")) {
             if (!r.perm(cs, "uc.ultimatecore.version", false, true)) {
                 return;

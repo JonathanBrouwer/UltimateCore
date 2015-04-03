@@ -118,7 +118,6 @@ public class CmdWeather implements UltimateCommand {
         }
         if (r.checkArgs(args, 0) == false) {
             r.sendMes(cs, "weatherUsage");
-            return;
         } else {
             Integer weather = 0;
             if (!(cs instanceof Player)) {

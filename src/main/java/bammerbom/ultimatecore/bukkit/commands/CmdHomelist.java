@@ -74,10 +74,8 @@ public class CmdHomelist implements UltimateCommand {
         }
         if (a.equalsIgnoreCase("") || a.equalsIgnoreCase(null)) {
             r.sendMes(cs, "homeNoHomesFound");
-            return;
         } else {
             r.sendMes(cs, "homeList", "%Homes", a);
-            return;
         }
     }
 

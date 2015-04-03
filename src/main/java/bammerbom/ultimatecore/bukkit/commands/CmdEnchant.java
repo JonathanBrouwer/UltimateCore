@@ -99,7 +99,6 @@ public class CmdEnchant implements UltimateCommand {
                     r.sendMes(cs, "enchantUnsafe");
                     return;
                 }
-                return;
             }
         }
 

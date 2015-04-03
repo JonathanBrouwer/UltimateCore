@@ -72,11 +72,9 @@ public class CmdPowertool implements UltimateCommand {
             }
             UC.getPlayer(p).clearPowertool(p.getItemInHand().getType());
             r.sendMes(cs, "powertoolClear");
-            return;
         } else if (args[0].equalsIgnoreCase("clearall")) {
             UC.getPlayer(p).clearAllPowertools();
             r.sendMes(cs, "powertoolClearall");
-            return;
         } else if (args[0].equalsIgnoreCase("add")) {
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "powertoolAddUsage");
@@ -88,7 +86,6 @@ public class CmdPowertool implements UltimateCommand {
             }
             UC.getPlayer(p).addPowertool(p.getItemInHand().getType(), r.getFinalArg(args, 1));
             r.sendMes(cs, "powertoolAdd", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
-            return;
         } else if (args[0].equalsIgnoreCase("remove")) {
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "powertoolUsageRemove");

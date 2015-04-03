@@ -112,7 +112,6 @@ public class CmdVanish implements UltimateCommand {
                 r.sendMes((CommandSender) banp, "vanishOthersOtherMessageT", "%Player", cs.getName(), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
             }
         }
-        return;
     }
 
     @Override

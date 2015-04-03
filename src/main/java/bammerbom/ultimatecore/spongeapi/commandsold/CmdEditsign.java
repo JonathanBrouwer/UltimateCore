@@ -107,7 +107,6 @@ public class CmdEditsign implements UltimateCommand {
         s.setLine(lineNumber, text);
         s.update();
         r.sendMes(cs, "editsignSet", "%Line", lineNumber + 1, "%Text", r.getFinalArg(args, 1));
-        return;
     }
 
     @Override

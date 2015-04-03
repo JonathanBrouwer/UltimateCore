@@ -91,7 +91,6 @@ public class CmdPlugin implements UltimateCommand {
             r.sendMes(cs, "pluginHelpDownload");
             r.sendMes(cs, "pluginHelpSearch");
             cs.sendMessage(ChatColor.GOLD + "================================");
-            return;
         } //load
         else if (args[0].equalsIgnoreCase("load")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.load", false, false)) {
@@ -137,7 +136,6 @@ public class CmdPlugin implements UltimateCommand {
             } else {
                 r.sendMes(cs, "pluginLoadFailed");
             }
-            return;
         } //unload
         else if (args[0].equalsIgnoreCase("unload")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.unload", false, false)) {
@@ -175,7 +173,6 @@ public class CmdPlugin implements UltimateCommand {
             pm.disablePlugin(p);
             PluginUtil.removePluginFromList(p);
             r.sendMes(cs, "pluginUnloadUnloaded");
-            return;
         } //enable
         else if (args[0].equalsIgnoreCase("enable")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.enable", false, false)) {
@@ -201,7 +198,6 @@ public class CmdPlugin implements UltimateCommand {
             } else {
                 r.sendMes(cs, "pluginEnableFail");
             }
-            return;
         } //disable
         else if (args[0].equalsIgnoreCase("disable")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.disable", false, false)) {
@@ -239,7 +235,6 @@ public class CmdPlugin implements UltimateCommand {
             } else {
                 r.sendMes(cs, "pluginDisableFailed");
             }
-            return;
         } //reload
         else if (args[0].equalsIgnoreCase("reload")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.reload", false, false)) {
@@ -262,7 +257,6 @@ public class CmdPlugin implements UltimateCommand {
             pm.disablePlugin(p);
             pm.enablePlugin(p);
             r.sendMes(cs, "pluginReloadMessage");
-            return;
         } //reloadall
         else if (args[0].equalsIgnoreCase("reloadall")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.reloadall", false, false)) {
@@ -274,7 +268,6 @@ public class CmdPlugin implements UltimateCommand {
                 pm.enablePlugin(p);
             }
             r.sendMes(cs, "pluginReloadallMessage");
-            return;
         } //delete
         else if (args[0].equalsIgnoreCase("delete")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.delete", false, false)) {
@@ -303,7 +296,6 @@ public class CmdPlugin implements UltimateCommand {
             } else {
                 r.sendMes(cs, "pluginDeleteFailed");
             }
-            return;
         } //commands
         else if (args[0].equalsIgnoreCase("commands")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.commands", false, false)) {
@@ -340,7 +332,6 @@ public class CmdPlugin implements UltimateCommand {
             }
             TextPager pager = new TextPager(output);
             pager.showPage(pageStr, null, command, cs);
-            return;
         } //update
         else if (args[0].equalsIgnoreCase("update")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.update", false, false)) {
@@ -391,7 +382,6 @@ public class CmdPlugin implements UltimateCommand {
                 ex.printStackTrace();
                 return;
             }
-            return;
         } //list
         else if (args[0].equalsIgnoreCase("list")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.list", false, false)) {
@@ -399,7 +389,6 @@ public class CmdPlugin implements UltimateCommand {
                 return;
             }
             r.sendMes(cs, "pluginsList", "%Plugins", PluginUtil.getPluginList());
-            return;
         } //info
         else if (args[0].equalsIgnoreCase("info")) {
             if (!r.perm(cs, "uc.plugin.info", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
@@ -449,7 +438,6 @@ public class CmdPlugin implements UltimateCommand {
                 r.sendMes(cs, "pluginInfoDeps", "%Deps", StringUtil.join(ChatColor.RESET + ", " + r.neutral, dep));
             }
             r.sendMes(cs, "pluginInfoEnabled", "%Enabled", ((p.isEnabled()) ? r.mes("yes") : r.mes("no")));
-            return;
         } //updatecheck
         else if (args[0].equalsIgnoreCase("updatecheck")) {
             if (!r.perm(cs, "uc.plugin.updatecheck", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
@@ -505,7 +493,6 @@ public class CmdPlugin implements UltimateCommand {
                 }
             };
             Bukkit.getServer().getScheduler().runTaskAsynchronously(r.getUC(), ru);
-            return;
         } //updatecheckall
         else if (args[0].equalsIgnoreCase("updatecheckall")) {
             if (!r.perm(cs, "uc.plugin.updatecheckall", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
@@ -549,11 +536,9 @@ public class CmdPlugin implements UltimateCommand {
                         r.sendMes(cs, "pluginUpdatecheckallAvailable", "%Old", version, "%New", n, "%Plugin", p.getName());
                     }
                     r.sendMes(cs, "pluginUpdatecheckallFinish", "%Amount", a);
-                    return;
                 }
             };
             Bukkit.getServer().getScheduler().runTaskAsynchronously(r.getUC(), ru);
-            return;
         } //download
         else if (args[0].equalsIgnoreCase("download")) {
             if (!r.perm(cs, "uc.plugin.download", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
@@ -773,7 +758,6 @@ public class CmdPlugin implements UltimateCommand {
             r.sendMes(cs, "pluginHelpDownload");
             r.sendMes(cs, "pluginHelpSearch");
             cs.sendMessage(ChatColor.GOLD + "================================");
-            return;
         }
 
     }

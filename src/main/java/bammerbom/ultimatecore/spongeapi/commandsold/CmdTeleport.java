@@ -95,8 +95,6 @@ public class CmdTeleport implements UltimateCommand {
                 return;
             }
             p.openInventory(inv);
-            return;
-            //Teleport self coords
         } else if (r.isDouble(args[0].replace("~", "")) || args[0].replace("~", "").isEmpty()) {
             if (!r.isPlayer(cs)) {
                 return;
@@ -118,8 +116,6 @@ public class CmdTeleport implements UltimateCommand {
             }
             LocationUtil.teleport(p, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND, true, true);
             r.sendMes(cs, "teleportMessage3", "%x", x, "%y", y, "%z", z);
-            return;
-            //Teleport others coords
         } else if (r.checkArgs(args, 1) == true && (r.isDouble(args[1].replace("~", "")) || args[1].replace("~", "").isEmpty()) && (!r.isDouble(args[0].replace("~", "")) && !args[0].replace("~", "").isEmpty())) {
             if (!r.perm(cs, "uc.teleport.coords.others", false, true)) {
                 return;
@@ -143,12 +139,10 @@ public class CmdTeleport implements UltimateCommand {
             LocationUtil.teleport(t, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND, true, false);
             LocationUtil.playEffect(t, new Location(w, x, y, z));
             r.sendMes(cs, "teleportMessage4", "%Player", t.getName(), "%x", x, "%y", y, "%z", z);
-            return;
         } else {
             Player tg = r.searchPlayer(args[0]);
             if (tg == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
             } else {
                 if (r.checkArgs(args, 1) == false) {
                     if (!r.isPlayer(cs)) {

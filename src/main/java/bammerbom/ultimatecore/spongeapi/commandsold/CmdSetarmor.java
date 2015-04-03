@@ -114,7 +114,6 @@ public class CmdSetarmor implements UltimateCommand {
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "setarmorUsage");
-            return;
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
                 return;

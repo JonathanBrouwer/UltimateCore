@@ -86,7 +86,6 @@ public class CmdFreeze implements UltimateCommand {
             Player banp2 = (Player) t;
             r.sendMes(banp2, "freezeTarget");
         }
-        return;
     }
 
     @Override

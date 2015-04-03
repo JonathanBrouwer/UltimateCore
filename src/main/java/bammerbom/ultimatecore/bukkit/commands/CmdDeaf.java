@@ -86,7 +86,6 @@ public class CmdDeaf implements UltimateCommand {
             Player banp2 = (Player) banp;
             r.sendMes(banp2, "deafTarget");
         }
-        return;
     }
 
     @Override

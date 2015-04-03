@@ -116,7 +116,6 @@ public class CmdKit implements UltimateCommand {
         }
         kit.setLastUsed(p, System.currentTimeMillis());
         r.sendMes(cs, "kitGive", "%Kit", args[0]);
-        return;
     }
 
     @Override

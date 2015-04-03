@@ -74,7 +74,6 @@ public class CmdJail implements UltimateCommand {
                 }
             }
             r.sendMes(cs, "jailList", "%Jails", b.toString());
-            return;
         } else {
             if (!r.checkArgs(args, 0)) {
                 r.sendMes(cs, "jailUsage");
