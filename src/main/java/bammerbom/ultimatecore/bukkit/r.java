@@ -461,6 +461,9 @@ public class r {
         List<Player> entities = r.getOnlinePlayersL();
         List<Player> rtrn = new ArrayList<>();
         for (Player en : entities) {
+            if (!en.getLocation().getWorld().equals(loc.getWorld())) {
+                continue;
+            }
             if (en.getLocation().distance(loc) > range) {
                 continue;
             }
