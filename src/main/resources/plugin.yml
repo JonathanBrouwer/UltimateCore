@@ -1,5 +1,5 @@
 name: UltimateCore
-version: 2.0.12
+version: 2.0.13
 description: Ultimate Core is all you need to setup a server and more!
 author: Bammerbom
 authors: [Bammerbom, blockbreaker21]
@@ -317,11 +317,6 @@ commands:
     usage: /<command> <Meta...>
     description: Modify the meta of the item in your hand.
     permissions: uc.modify
-  money:
-    usage: /<commmand>
-    description: Money management
-    permissions: uc.money
-    aliases: [balance]
   more:
     usage: /<command>
     description: Gives you 64 of the item in your hand.
