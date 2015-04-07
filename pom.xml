@@ -184,7 +184,7 @@
             <version>3.6.3-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Local hosted -->
+        <!-- Hosted on GitHub -->
         <dependency>
             <groupId>com.palmergames</groupId>
             <artifactId>Towny</artifactId>
@@ -203,7 +203,7 @@
             <version>2.7.5</version>
             <scope>compile</scope>
         </dependency>
-        <!-- End of local hosted -->
+        <!-- End of hosted on GitHub -->
     </dependencies>
     <repositories>
         <repository>
