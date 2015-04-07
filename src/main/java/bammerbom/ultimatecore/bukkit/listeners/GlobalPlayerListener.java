@@ -328,6 +328,7 @@ public class GlobalPlayerListener implements Listener {
             //Back
             if (r.perm(e.getEntity(), "uc.back.death", true, false)) {
                 UC.getPlayer(e.getEntity()).setLastLocation();
+                r.sendMes(e.getEntity(), "backDeathMessage");
             } else {
                 UC.getPlayer(e.getEntity()).setLastLocation(null);
             }
