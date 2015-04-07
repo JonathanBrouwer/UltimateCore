@@ -50,19 +50,34 @@ public class CmdSpawn implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
-            return;
-        }
         if (!r.perm(cs, "uc.spawn", true, true)) {
             return;
         }
-        Player p = (Player) cs;
-        if (UC.getServer().getSpawn() == null) {
-            p.teleport(p.getWorld().getSpawnLocation());
+        if (!r.checkArgs(args, 0)) {
+            if (!r.isPlayer(cs)) {
+                return;
+            }
+            Player p = (Player) cs;
+            if (UC.getServer().getSpawn() == null) {
+                p.teleport(p.getWorld().getSpawnLocation());
+            } else {
+                p.teleport(UC.getServer().getSpawn());
+            }
+            r.sendMes(cs, "spawnMessage");
         } else {
-            p.teleport(UC.getServer().getSpawn());
+            Player t = r.searchPlayer(args[0]);
+            if (t == null) {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                return;
+            }
+            if (UC.getServer().getSpawn() == null) {
+                t.teleport(t.getWorld().getSpawnLocation());
+            } else {
+                t.teleport(UC.getServer().getSpawn());
+            }
+            r.sendMes(cs, "spawnMessageOtherSelf", "%Player", UC.getPlayer(t).getDisplayName());
+            r.sendMes(t, "spawnMessageOtherOthers", "%Player", cs.getName());
         }
-        r.sendMes(cs, "spawnMessage");
     }
 
     @Override
