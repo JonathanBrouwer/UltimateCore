@@ -44,6 +44,4 @@ bin
 .settings/
 *.classpath
 *.project
-/nbactions.xml
-/nb-configuration.xml
 /target
