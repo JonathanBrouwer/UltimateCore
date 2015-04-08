@@ -47,7 +47,7 @@ public class CmdMute implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("silence");
+        return Arrays.asList();
     }
 
     @Override
