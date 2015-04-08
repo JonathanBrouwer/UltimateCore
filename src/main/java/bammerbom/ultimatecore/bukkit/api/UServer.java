@@ -28,21 +28,11 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.PerformanceUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.*;
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -583,15 +573,16 @@ public class UServer {
     public boolean isDebug() {
         return r.isDebug();
     }
-    
+
     public boolean isSilenced() {
         if (silence == null) {
             silence = r.getCnfg().getBoolean("silence", false);
         }
         return silence;
     }
-    
+
     public void setSilenced(boolean s) {
+        silence = s;
         Config c = r.getCnfg();
         c.set("silence", s);
         c.save();
