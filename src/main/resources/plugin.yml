@@ -318,7 +318,7 @@ commands:
     description: Modify the meta of the item in your hand.
     permissions: uc.modify
   money:
-    usage: /<command> /money [Player] or /<command> set/add/take <Amount> [Player]
+    usage: /<command> /money [Player] or /<command> set/add/take [Player] <Amount>
     description: Economy-related commands
     permissions: uc.money
     aliases: [balance]

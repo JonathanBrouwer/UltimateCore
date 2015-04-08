@@ -144,10 +144,7 @@ public class UEconomy implements Economy {
      */
     @Override
     public boolean hasAccount(OfflinePlayer player) {
-        if (player.getUniqueId() == null) {
-            return hasAccount(player.getName());
-        }
-        return getData().contains(player.getUniqueId().toString());
+        return getData().contains((player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) ? player.getUniqueId().toString() : player.getName());
     }
 
     /**
@@ -193,10 +190,7 @@ public class UEconomy implements Economy {
      */
     @Override
     public double getBalance(OfflinePlayer player) {
-        if (player.getUniqueId() == null) {
-            return getBalance(player.getName());
-        }
-        return getData().getDouble(player.getUniqueId().toString());
+        return getData().getDouble((player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) ? player.getUniqueId().toString() : player.getName());
     }
 
     /**
@@ -301,7 +295,7 @@ public class UEconomy implements Economy {
      */
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        return withdrawPlayer(player.getUniqueId().toString(), amount);
+        return withdrawPlayer((player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) ? player.getUniqueId().toString() : player.getName(), amount);
     }
 
     /**
@@ -326,7 +320,7 @@ public class UEconomy implements Economy {
      */
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
-        return withdrawPlayer(player.getUniqueId().toString(), amount);
+        return withdrawPlayer((player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) ? player.getUniqueId().toString() : player.getName(), amount);
     }
 
     /**
@@ -357,7 +351,7 @@ public class UEconomy implements Economy {
      */
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        return depositPlayer(player.getUniqueId().toString(), amount);
+        return depositPlayer((player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) ? player.getUniqueId().toString() : player.getName(), amount);
     }
 
     /**
@@ -382,7 +376,7 @@ public class UEconomy implements Economy {
      */
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
-        return depositPlayer(player.getUniqueId().toString(), amount);
+        return depositPlayer((player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) ? player.getUniqueId().toString() : player.getName(), amount);
     }
 
     /**
@@ -531,7 +525,7 @@ public class UEconomy implements Economy {
         if (getData().contains(playerName)) {
             return false;
         }
-        getData().set(playerName, r.getCnfg().getDouble("Economy.Startingbalance"));
+        getData().set(playerName, r.getCnfg().getDouble("Economy.startingBalance"));
         getData().save();
         return true;
     }
@@ -544,7 +538,7 @@ public class UEconomy implements Economy {
      */
     @Override
     public boolean createPlayerAccount(OfflinePlayer player) {
-        return createPlayerAccount(player.getUniqueId().toString());
+        return createPlayerAccount((player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) ? player.getUniqueId().toString() : player.getName());
     }
 
     /**
@@ -568,7 +562,7 @@ public class UEconomy implements Economy {
      */
     @Override
     public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
-        return createPlayerAccount(player.getUniqueId().toString());
+        return createPlayerAccount((player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) ? player.getUniqueId().toString() : player.getName());
     }
 
 }

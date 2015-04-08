@@ -9,8 +9,8 @@
     <modelVersion>4.0.0</modelVersion>
     <distributionManagement>
         <repository>
-            <id>internal.repo</id>
-            <name>Temporary Staging Repository</name>
+            <id>ultimatecore-repo</id>
+            <name>UltimateCore repo (GitHub)</name>
             <url>file://${basedir}/mvn-repo</url>
         </repository>
     </distributionManagement>

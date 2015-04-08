@@ -49,7 +49,7 @@ public class CmdSilence implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if(!r.perm(cs, "uc.silence", false, true)){
+        if (!r.perm(cs, "uc.silence", false, true)) {
             return;
         }
         UC.getServer().setSilenced(true);

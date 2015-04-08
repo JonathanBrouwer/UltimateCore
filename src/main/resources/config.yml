@@ -50,6 +50,8 @@ Economy:
   currencyName: "dollar"
   #What is the currency name in plural? (Also used for Vault compatibility)
   currencyNamePlural: "dollars"
+  #How much money does a player start with after joining the server?
+  startingBalance: 10.0
 Explode:
   #Disable explosions? (True = disabled)
   Creeper: false
