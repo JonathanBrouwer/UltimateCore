@@ -317,6 +317,11 @@ commands:
     usage: /<command> <Meta...>
     description: Modify the meta of the item in your hand.
     permissions: uc.modify
+  money:
+    usage: /<command> /money [Player] or /<command> set/add/take <Amount> [Player]
+    description: Economy-related commands
+    permissions: uc.money
+    aliases: [balance]
   more:
     usage: /<command>
     description: Gives you 64 of the item in your hand.

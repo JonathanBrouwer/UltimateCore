@@ -127,9 +127,6 @@
       <url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
     </repository>
     <repository>
-      <snapshots>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
       <id>ultimatecore-repo</id>
       <url>https://raw.github.com/Bammerbom/UltimateCore/master/mvn-repo/</url>
     </repository>

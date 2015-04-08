@@ -42,6 +42,14 @@ Dynmap:
   - hiddenwarp2
   - hiddenwarp3
 
+Economy:
+  #How is the money amount displayed?
+  #Use %Amount for the value
+  format: "$%Amount"
+  #What is the currency name? (Used for Vault compatibility)
+  currencyName: "dollar"
+  #What is the currency name in plural? (Also used for Vault compatibility)
+  currencyNamePlural: "dollars"
 Explode:
   #Disable explosions? (True = disabled)
   Creeper: false

@@ -25,6 +25,8 @@ package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateResult;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateType;
+import bammerbom.ultimatecore.bukkit.api.UC;
+import bammerbom.ultimatecore.bukkit.api.UEconomy;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import com.massivecraft.factions.entity.MPlayer;
@@ -45,6 +47,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicePriority;
 
 public class r {
 
@@ -73,6 +76,8 @@ public class r {
     static {
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             vault = new r().new Vault();
+            UC.ueconomy = new UEconomy();
+            Bukkit.getServicesManager().register(Economy.class, new UEconomy(), getUC(), ServicePriority.Low);
         }
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
             prom = com.comphenix.protocol.ProtocolLibrary.getProtocolManager();
@@ -475,6 +480,8 @@ public class r {
     public static List<Player> getNearbyPlayers(Entity en, double range) {
         return getNearbyPlayers(en.getLocation(), range);
     }
+
+    //
     public static Integer normalize(Integer a, Integer b, Integer c) {
         if (a < b) {
             a = b;
@@ -850,39 +857,23 @@ public class r {
 
     public class Vault {
 
-        private Permission permission = null;
-        private Chat chat = null;
-        private Economy economy = null;
-
         public Vault() {
-            if (Bukkit.getPluginManager().getPlugin("Vault") != null && Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-                //Permissions
-                RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-                if (permissionProvider != null) {
-                    permission = permissionProvider.getProvider();
-                }
-                //Chat
-                RegisteredServiceProvider<Chat> chatProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
-                if (chatProvider != null) {
-                    chat = chatProvider.getProvider();
-                }
-                RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-                if (economyProvider != null) {
-                    economy = economyProvider.getProvider();
-                }
-            }
         }
 
         public Permission getPermission() {
-            return permission;
+            RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+            return permissionProvider.getProvider();
+
         }
 
         public Chat getChat() {
-            return chat;
+            RegisteredServiceProvider<Chat> chatProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
+            return chatProvider.getProvider();
         }
 
         public Economy getEconomy() {
-            return economy;
+            RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+            return economyProvider.getProvider();
         }
 
     }

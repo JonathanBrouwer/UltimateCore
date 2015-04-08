@@ -67,16 +67,15 @@ public class UPlayer {
     Boolean inRecipeView = false;
     Boolean vanish = null;
     Long vanishtime = null;
-    //Last connect
     Long lastconnect = null;
     Boolean inTeleportMenu = false;
     Boolean inCmdEnchantingtable = false;
     Boolean teleportEnabled = null;
-    //Afk
     boolean afk = false;
     long lastaction = System.currentTimeMillis();
     String lastip;
     BanList.Type bantype;
+    double money;
 
     public UPlayer(OfflinePlayer p) {
         name = p.getName();

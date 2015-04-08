@@ -372,15 +372,12 @@ public class CmdPlugin implements UltimateCommand {
             } catch (UnknownDependencyException ex) {
                 r.sendMes(cs, "pluginLoadMissingDependendy", "%Message", ex.getMessage());
                 ex.printStackTrace();
-                return;
             } catch (InvalidDescriptionException ex) {
                 r.sendMes(cs, "pluginLoadFailed");
                 ex.printStackTrace();
-                return;
             } catch (InvalidPluginException ex) {
                 r.sendMes(cs, "pluginLoadFailed");
                 ex.printStackTrace();
-                return;
             }
         } //list
         else if (args[0].equalsIgnoreCase("list")) {

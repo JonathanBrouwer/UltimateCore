@@ -255,10 +255,6 @@
         <repository>
             <id>ultimatecore-repo</id>
             <url>https://raw.github.com/Bammerbom/UltimateCore/master/mvn-repo/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
         </repository>
     </repositories>
 </project>

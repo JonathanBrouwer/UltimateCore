@@ -97,7 +97,6 @@ public class CmdEnchant implements UltimateCommand {
             } catch (IllegalArgumentException ex) {
                 if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or too high")) {
                     r.sendMes(cs, "enchantUnsafe");
-                    return;
                 }
             }
         }

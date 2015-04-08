@@ -47,9 +47,10 @@ public class UltimateFileLoader {
     public static File DFreports;
     public static File DFjails;
     public static File DFkits;
+    public static File DFeconomy;
 
     public static void Enable() {
-        Plugin plugin = r.getUC();
+        Plugin plugin = UltimateCore.getInstance();
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
         }
@@ -73,6 +74,7 @@ public class UltimateFileLoader {
         DFreports = new File(plugin.getDataFolder() + File.separator + "Data", "reports.yml");
         DFjails = new File(plugin.getDataFolder() + File.separator + "Data", "jails.yml");
         DFkits = new File(plugin.getDataFolder() + File.separator + "Data", "kits.yml");
+        DFeconomy = new File(plugin.getDataFolder() + File.separator + "Data", "economy.yml");
         //
         try {
             if (!DFspawns.exists()) {
@@ -89,6 +91,9 @@ public class UltimateFileLoader {
             }
             if (!DFkits.exists()) {
                 plugin.saveResource("Data" + File.separator + "kits.yml", true);
+            }
+            if (!DFeconomy.exists()) {
+                DFeconomy.createNewFile();
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to create Data files.");

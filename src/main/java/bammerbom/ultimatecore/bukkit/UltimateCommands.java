@@ -109,6 +109,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdMinecraftservers());
         cmds.add(new CmdMobtp());
         cmds.add(new CmdModify());
+        cmds.add(new CmdMoney());
         cmds.add(new CmdMore());
         cmds.add(new CmdMotd());
         cmds.add(new CmdMsg());

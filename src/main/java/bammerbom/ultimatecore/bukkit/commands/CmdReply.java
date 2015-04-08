@@ -99,7 +99,7 @@ public class CmdReply implements UltimateCommand {
                 .replace("@1", r.positive + "")
                 .replace("@2", r.neutral + "")
                 .replace("@3", r.negative + "")
-                .replace("%Player1", pl.getName())
+                .replace("%Player1", cs.getName())
                 .replace("%Player2", r.mes("me"))
                 .replace("%Message", r.getFinalArg(args, 0)));
     }

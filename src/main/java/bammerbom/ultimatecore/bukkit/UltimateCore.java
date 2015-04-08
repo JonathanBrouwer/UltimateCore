@@ -147,6 +147,7 @@ public class UltimateCore extends JavaPlugin {
     }
 
     public void test() {
+
     }
 
 }

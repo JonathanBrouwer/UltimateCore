@@ -34,6 +34,7 @@ public class UC {
 
     public static ArrayList<UPlayer> uplayers = new ArrayList<>();
     public static UServer userver = new UServer();
+    public static UEconomy ueconomy = null;
     public static ArrayList<UWorld> uworlds = new ArrayList<>();
 
     public static UPlayer getPlayer(UUID u) {
@@ -94,4 +95,5 @@ public class UC {
     public static UServer getServer() {
         return userver;
     }
+
 }
