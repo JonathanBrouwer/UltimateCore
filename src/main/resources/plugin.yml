@@ -462,6 +462,11 @@ commands:
     description: Get the head of a player.
     permissions: uc.skull
     aliases: [head]
+  silence:
+    usage: /<command>
+    description: Disable the chat for the entire server.
+    permissions: uc.silence
+    aliases: [disablechat]
   smite:
     usage: /<command> [Player]
     description: Throw lightning at a player.
@@ -571,6 +576,11 @@ commands:
     usage: /<command> <Player>
     description: Unmute someone.
     permissions: uc.unmute
+  unsilence:
+    usage: /<command>
+    description: Re-enable the chat for the entire server.
+    permissions: uc.unsilence
+    aliases: [enablechat]
   uptime:
     usage: /<command>
     description: View how long the server is running.
