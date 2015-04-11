@@ -82,7 +82,7 @@ public class CmdPay implements UltimateCommand {
         Double d = Double.parseDouble(args[1]);
         d = r.normalize(d, 0.1, r.getVault().getEconomy().getBalance(p));
         r.getVault().getEconomy().withdrawPlayer(p, d);
-        r.getVault().getEconomy().depositPlayer(p, d);
+        r.getVault().getEconomy().depositPlayer(t, d);
         r.sendMes(cs, "payMessage", "%Player", UC.getPlayer(t).getDisplayName(), "%Amount", r.getVault().getEconomy().format(d));
         r.sendMes(t, "payTarget", "%Player", UC.getPlayer(p).getDisplayName(), "%Amount", r.getVault().getEconomy().format(d));
     }
