@@ -348,7 +348,6 @@ public class LocationUtil {
                 public void run() {
                     if (p.getLocation().getBlock().getLocation().equals(loc)) {
                         teleport(p, to, c, safe, false);
-                        playEffect(p, to);
                         r.sendMes(p, "teleportDelaySucces");
                     } else {
                         r.sendMes(p, "teleportDelayFailedMove");
@@ -362,6 +361,7 @@ public class LocationUtil {
                 p.leaveVehicle();
             }
             p.teleport(LocationUtil.getRoundedDestination(l), c);
+            playEffect(p, l);
             return;
         }
         if (LocationUtil.isBlockUnsafeForUser(p, l.getWorld(), l.getBlockX(), l.getBlockY(), l.getBlockZ())) {
@@ -369,11 +369,13 @@ public class LocationUtil {
                 p.leaveVehicle();
             }
             p.teleport(LocationUtil.searchSafeLocation(p, l), c);
+            playEffect(p, l);
         } else {
             if (p.isInsideVehicle()) {
                 p.leaveVehicle();
             }
             p.teleport(LocationUtil.getRoundedDestination(l), c);
+            playEffect(p, l);
         }
     }
 
