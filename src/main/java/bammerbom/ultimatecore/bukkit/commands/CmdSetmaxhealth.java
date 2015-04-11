@@ -90,12 +90,21 @@ public class CmdSetmaxhealth implements UltimateCommand {
                     }
                     t.setMaxHealth(d);
                     t.setHealth(d);
-                    r.sendMes(cs, "setmaxhealthMessage", "%Player", UC.getPlayer(t).getDisplayName());
-                    r.sendMes(t, "setmaxhealthOthers", "%Player", cs.getName());
-
-                }else if (r.isDouble(args[1])) {
-                    
-                }else {
+                    r.sendMes(cs, "setmaxhealthMessage", "%Player", UC.getPlayer(t).getDisplayName(), "%Health", d);
+                    r.sendMes(t, "setmaxhealthOthers", "%Player", cs.getName(), "%Health", d);
+                } else if (r.isDouble(args[1])) {
+                    Double d = Double.parseDouble(args[1]);
+                    d = r.normalize(d, 1.0, 999999.0);
+                    Player t = r.searchPlayer(args[0]);
+                    if (t == null) {
+                        r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                        return;
+                    }
+                    t.setMaxHealth(d);
+                    t.setHealth(d);
+                    r.sendMes(cs, "setmaxhealthMessage", "%Player", UC.getPlayer(t).getDisplayName(), "%Health", d);
+                    r.sendMes(t, "setmaxhealthOthers", "%Player", cs.getName(), "%Health", d);
+                } else {
                     r.sendMes(cs, "numberFormat", "%Number", args[0]);
                 }
             }
