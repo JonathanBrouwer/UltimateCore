@@ -134,7 +134,7 @@ public class CmdMoney implements UltimateCommand {
                     r.getVault().getEconomy().createPlayerAccount(t);
                 }
                 r.getVault().getEconomy().depositPlayer(t, Double.parseDouble(args[2]));
-                r.sendMes(cs, "moneyAddOthers", "%Balance", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
+                r.sendMes(cs, "moneyAddOthers", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
             } else {
                 r.sendMes(cs, "moneyUsage");
             }
@@ -199,7 +199,7 @@ public class CmdMoney implements UltimateCommand {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
-            r.sendMes(cs, "moneyStatusOthers", "%Player", t.getName(), "%Balance", r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance((Player) cs)));
+            r.sendMes(cs, "moneyStatusOthers", "%Player", t.getName(), "%Balance", r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance(t)));
         }
 
     }
