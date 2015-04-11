@@ -354,7 +354,7 @@ public class LocationUtil {
                     }
                 }
             }, (20L * delay2));
-
+            return;
         }
         if (!safe) {
             if (p.isInsideVehicle()) {
