@@ -48,7 +48,7 @@ public class CmdMegasmite implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("megalighting");
+        return Arrays.asList("megalightning");
     }
 
     @Override
