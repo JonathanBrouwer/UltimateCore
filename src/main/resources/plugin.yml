@@ -425,7 +425,7 @@ commands:
     permissions: uc.setexperience
     aliases: [setxp, setexp]
   sethealth:
-    usage: /<command> <Food> [Player]
+    usage: /<command> <Health> [Player]
     description: Set the amount of health of a player.
     permissions: uc.sethealth
     aliases: [setlives]
@@ -448,6 +448,11 @@ commands:
     description: Set the experience level of someone or yourself.
     permissions: uc.setlevel
     aliases: [setlvl]
+  setmaxhealth:
+    usage: /<command> <Maxhealth> [Player]
+    description: Set the max health of yourself or someone else.
+    permissions: uc.setmaxhealth
+    aliases: [maxhealth]
   setspawn:
     usage: /<command>
     description: Set the global spawn.

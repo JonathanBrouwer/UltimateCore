@@ -83,6 +83,7 @@ import bammerbom.ultimatecore.bukkit.commands.CmdKit;
 import bammerbom.ultimatecore.bukkit.commands.CmdKittycannon;
 import bammerbom.ultimatecore.bukkit.commands.CmdLag;
 import bammerbom.ultimatecore.bukkit.commands.CmdList;
+import bammerbom.ultimatecore.bukkit.commands.CmdSetmaxhealth;
 import bammerbom.ultimatecore.bukkit.commands.CmdMe;
 import bammerbom.ultimatecore.bukkit.commands.CmdMegasmite;
 import bammerbom.ultimatecore.bukkit.commands.CmdMinecraftservers;
@@ -242,6 +243,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdKittycannon());
         cmds.add(new CmdLag());
         cmds.add(new CmdList());
+        cmds.add(new CmdSetmaxhealth());
         cmds.add(new CmdMe());
         cmds.add(new CmdMegasmite());
         cmds.add(new CmdMinecraftservers());
