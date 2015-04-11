@@ -25,11 +25,13 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class CmdSpawn implements UltimateCommand {
 
@@ -59,9 +61,9 @@ public class CmdSpawn implements UltimateCommand {
             }
             Player p = (Player) cs;
             if (UC.getServer().getSpawn() == null) {
-                p.teleport(p.getWorld().getSpawnLocation());
+                LocationUtil.teleport(p, p.getWorld().getSpawnLocation(), TeleportCause.COMMAND, false, true);
             } else {
-                p.teleport(UC.getServer().getSpawn());
+                LocationUtil.teleport(p, UC.getServer().getSpawn(), TeleportCause.COMMAND, false, true);
             }
             r.sendMes(cs, "spawnMessage");
         } else {
@@ -71,9 +73,9 @@ public class CmdSpawn implements UltimateCommand {
                 return;
             }
             if (UC.getServer().getSpawn() == null) {
-                t.teleport(t.getWorld().getSpawnLocation());
+                LocationUtil.teleport(t, t.getWorld().getSpawnLocation(), TeleportCause.COMMAND, false, false);
             } else {
-                t.teleport(UC.getServer().getSpawn());
+                LocationUtil.teleport(t, UC.getServer().getSpawn(), TeleportCause.COMMAND, false, false);
             }
             r.sendMes(cs, "spawnMessageOtherSelf", "%Player", UC.getPlayer(t).getDisplayName());
             r.sendMes(t, "spawnMessageOtherOthers", "%Player", cs.getName());

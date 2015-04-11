@@ -341,19 +341,26 @@ public class LocationUtil {
             final Location loc = p.getLocation().getBlock().getLocation();
             l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;
             final Location to = l;
-            r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
             Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-
                 @Override
                 public void run() {
-                    if (p.getLocation().getBlock().getLocation().equals(loc)) {
-                        teleport(p, to, c, safe, false);
-                        r.sendMes(p, "teleportDelaySucces");
-                    } else {
-                        r.sendMes(p, "teleportDelayFailedMove");
-                    }
+                    r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
                 }
-            }, (20L * delay2));
+            }, 2L);
+            Bukkit.getScheduler()
+                    .scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (p.getLocation().getBlock().getLocation().equals(loc)) {
+                                teleport(p, to, c, safe, false);
+                                r.sendMes(p, "teleportDelaySucces");
+                            } else {
+                                r.sendMes(p, "teleportDelayFailedMove");
+                            }
+                        }
+                    }, (20L * delay2));
+
             return;
         }
         if (!safe) {
@@ -364,6 +371,7 @@ public class LocationUtil {
             playEffect(p, l);
             return;
         }
+
         if (LocationUtil.isBlockUnsafeForUser(p, l.getWorld(), l.getBlockX(), l.getBlockY(), l.getBlockZ())) {
             if (p.isInsideVehicle()) {
                 p.leaveVehicle();
@@ -456,6 +464,7 @@ public class LocationUtil {
             return null;
         }
         return block.getLocation();
+
     }
 
     public static class Vector3D {
