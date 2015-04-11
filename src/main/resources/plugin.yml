@@ -358,6 +358,10 @@ commands:
     description: Set a players nickname.
     permissions: uc.nick
     aliases: [nickname]
+  pay:
+    usage: /<command> <Player> <Amount>
+    description: Give someone a certain amount of money
+    permissions: uc.pay
   ping:
     usage: /<command> [Player]
     description: View a players ping.
