@@ -135,7 +135,7 @@ public class CmdSetarmor implements UltimateCommand {
                 }
                 setArmor(t, getArmor(args[0]));
                 r.sendMes(cs, "setarmorSet", "%Player", t.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
-                r.sendMes(cs, "setarmorOthers", "%Player", cs.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
+                r.sendMes(t, "setarmorOthers", "%Player", cs.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
             } else if (isArmor(args[1])) {
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
@@ -144,7 +144,7 @@ public class CmdSetarmor implements UltimateCommand {
                 }
                 setArmor(t, getArmor(args[1]));
                 r.sendMes(cs, "setarmorSet", "%Player", t.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[1]).name().toLowerCase()));
-                r.sendMes(cs, "setarmorOthers", "%Player", cs.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[1]).name().toLowerCase()));
+                r.sendMes(t, "setarmorOthers", "%Player", cs.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[1]).name().toLowerCase()));
             } else {
                 r.sendMes(cs, "setarmorNotFound", "%Armor", args[0]);
             }
