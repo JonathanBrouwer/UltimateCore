@@ -41,6 +41,7 @@ public class UltimateFileLoader {
     public static File LANGf;
     public static File ENf;
 
+    public static File DFglobal;
     public static File DFspawns;
     public static File DFwarps;
     public static File DFworlds;
@@ -68,6 +69,7 @@ public class UltimateFileLoader {
             messages.mkdir();
         }
         //
+        DFglobal = new File(plugin.getDataFolder() + File.separator + "Data", "global.yml");
         DFspawns = new File(plugin.getDataFolder() + File.separator + "Data", "spawns.yml");
         DFwarps = new File(plugin.getDataFolder() + File.separator + "Data", "warps.yml");
         DFworlds = new File(plugin.getDataFolder() + File.separator + "Data", "worlds.yml");
@@ -77,6 +79,9 @@ public class UltimateFileLoader {
         DFeconomy = new File(plugin.getDataFolder() + File.separator + "Data", "economy.yml");
         //
         try {
+            if (!DFglobal.exists()) {
+                DFglobal.createNewFile();
+            }
             if (!DFspawns.exists()) {
                 DFspawns.createNewFile();
             }

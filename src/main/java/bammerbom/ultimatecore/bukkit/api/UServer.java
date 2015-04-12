@@ -54,6 +54,7 @@ public class UServer {
     static HashMap<String, Location> warps = null;
     //Silence
     static Boolean silence = null;
+    static Long silencetime = null;
 
     static {
         try {
@@ -574,17 +575,59 @@ public class UServer {
         return r.isDebug();
     }
 
+    public Config getGlobalConfig() {
+        return new Config(UltimateFileLoader.DFglobal);
+    }
+
     public boolean isSilenced() {
         if (silence == null) {
-            silence = r.getCnfg().getBoolean("silence", false);
+            silence = getGlobalConfig().getBoolean("silence", false);
+        }
+        if (getSilenceTime() >= 1 && getSilenceTimeLeft() <= 1 && getGlobalConfig().getBoolean("silence")) {
+            setSilenced(false);
+            //TODO broadcast unsilence message r.sendMes(getOnlinePlayer(), "unsilenceTarget");
+            return false;
         }
         return silence;
     }
 
     public void setSilenced(boolean s) {
         silence = s;
-        Config c = r.getCnfg();
+        Config c = getGlobalConfig();
         c.set("silence", s);
+        c.set("silencetime", null);
         c.save();
     }
+
+    public Long getSilenceTime() {
+        if (silencetime != null) {
+            return silencetime;
+        }
+        if (!getGlobalConfig().contains("silencetime")) {
+            return 0L;
+        }
+        silencetime = getGlobalConfig().getLong("silencetime");
+        return getGlobalConfig().getLong("silencetime");
+
+    }
+
+    public Long getSilenceTimeLeft() {
+        return getSilenceTime() - System.currentTimeMillis();
+    }
+
+    public void setSilenced(Boolean fr, Long time) {
+        Config conf = getGlobalConfig();
+        if (silencetime == null || silencetime == 0L) {
+            silencetime = -1L;
+        }
+        if (time >= 1) {
+            time = time + System.currentTimeMillis();
+        }
+        conf.set("silence", fr);
+        conf.set("silencetime", time);
+        conf.save();
+        silence = fr;
+        silencetime = fr ? time : -1L;
+    }
+
 }

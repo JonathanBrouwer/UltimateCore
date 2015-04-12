@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.command.Command;
@@ -52,8 +53,17 @@ public class CmdSilence implements UltimateCommand {
         if (!r.perm(cs, "uc.silence", false, true)) {
             return;
         }
-        UC.getServer().setSilenced(true);
-        r.sendMes(cs, "silenceMessage");
+        if (!r.checkArgs(args, 0)) {
+            UC.getServer().setSilenced(true);
+            r.sendMes(cs, "silenceMessage");
+        } else {
+            Long time = null;
+            if (DateUtil.parseDateDiff(args[0]) != -1) {
+                time = DateUtil.parseDateDiff(args[0]);
+            }
+            UC.getServer().setSilenced(true, time);
+            r.sendMes(cs, "silenceMessageTime", "%Time", DateUtil.format(time));
+        }
     }
 
     @Override
