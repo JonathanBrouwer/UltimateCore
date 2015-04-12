@@ -266,8 +266,8 @@ public class AttributeUtil {
         }
 
         /**
-         * Construct a new attribute builder with a random UUID and default
-         * operation of adding numbers.
+         * Construct a new attribute builder with a random UUID and default operation of adding
+         * numbers.
          *
          * @return The attribute builder.
          */
@@ -424,8 +424,8 @@ class NbtFactory {
     /**
      * Represents a root NBT compound.
      * <p>
-     * All changes to this map will be reflected in the underlying NBT compound.
-     * Values may only be one of the following:
+     * All changes to this map will be reflected in the underlying NBT compound. Values may only be
+     * one of the following:
      * <ul>
      * <li>Primitive types</li>
      * <li>{@link java.lang.String String}</li>
@@ -488,8 +488,7 @@ class NbtFactory {
          * Retrieve the list by the given name.
          *
          * @param key - the name of the list.
-         * @param createNew - whether or not to create a new list if its
-         * missing.
+         * @param createNew - whether or not to create a new list if its missing.
          * @return An existing list, a new list or NULL.
          */
         public NbtList getList(String key, boolean createNew) {
@@ -516,8 +515,8 @@ class NbtFactory {
         /**
          * Set the value of an entry at a given location.
          * <p>
-         * Every element of the path (except the end) are assumed to be
-         * compounds, and will be created if they are missing.
+         * Every element of the path (except the end) are assumed to be compounds, and will be
+         * created if they are missing.
          *
          * @param path - the path to the entry.
          * @param value - the new value of this entry.
@@ -534,9 +533,8 @@ class NbtFactory {
         /**
          * Retrieve the value of a given entry in the tree.
          * <p>
-         * Every element of the path (except the end) are assumed to be
-         * compounds. The retrieval operation will be cancelled if any of them
-         * are missing.
+         * Every element of the path (except the end) are assumed to be compounds. The retrieval
+         * operation will be cancelled if any of them are missing.
          *
          * @param path - path to the entry.
          * @return The value, or NULL if not found.
@@ -555,8 +553,8 @@ class NbtFactory {
         /**
          * Save the content of a NBT compound to a stream.
          * <p>
-         * Use {@link Files#newOutputStreamSupplier(java.io.File)} to provide a
-         * stream supplier to a file.
+         * Use {@link Files#newOutputStreamSupplier(java.io.File)} to provide a stream supplier to
+         * a file.
          *
          * @param stream - the output stream.
          * @param option - whether or not to compress the output.
@@ -645,8 +643,7 @@ class NbtFactory {
     }
 
     /**
-     * Construct an instance of the NBT factory by deducing the class of
-     * NBTBase.
+     * Construct an instance of the NBT factory by deducing the class of NBTBase.
      */
     private NbtFactory() {
         if (BASE_CLASS == null) {
@@ -769,8 +766,7 @@ class NbtFactory {
     /**
      * Load the content of a file from a stream.
      * <p>
-     * Use {@link Files#newInputStreamSupplier(java.io.File)} to provide a
-     * stream from a file.
+     * Use {@link Files#newInputStreamSupplier(java.io.File)} to provide a stream from a file.
      *
      * @param stream - the stream supplier.
      * @param option - whether or not to decompress the input stream.
@@ -804,8 +800,8 @@ class NbtFactory {
     /**
      * Save the content of a NBT compound to a stream.
      * <p>
-     * Use {@link Files#newOutputStreamSupplier(java.io.File)} to provide a
-     * stream supplier to a file.
+     * Use {@link Files#newOutputStreamSupplier(java.io.File)} to provide a stream supplier to a
+     * file.
      *
      * @param source - the NBT compound to save.
      * @param stream - the stream.
@@ -853,8 +849,7 @@ class NbtFactory {
      *
      * @param stack - the item stack, cannot be air.
      * @param compound - the new NBT compound, or NULL to remove it.
-     * @throws IllegalArgumentException If the stack is not a CraftItemStack, or
-     * it represents air.
+     * @throws IllegalArgumentException If the stack is not a CraftItemStack, or it represents air.
      */
     public static void setItemTag(ItemStack stack, NbtCompound compound) {
         checkItemStack(stack);
@@ -865,9 +860,9 @@ class NbtFactory {
     }
 
     /**
-     * Construct a wrapper for an NBT tag stored (in memory) in an item stack.
-     * This is where auxillary data such as enchanting, name and lore is stored.
-     * It does not include items material, damage value or count.
+     * Construct a wrapper for an NBT tag stored (in memory) in an item stack. This is where
+     * auxillary data such as enchanting, name and lore is stored. It does not include items
+     * material, damage value or count.
      * <p>
      * The item stack must be a wrapper for a CraftItemStack.
      *
@@ -927,12 +922,10 @@ class NbtFactory {
     }
 
     /**
-     * Convert wrapped List and Map objects into their respective NBT
-     * counterparts.
+     * Convert wrapped List and Map objects into their respective NBT counterparts.
      *
      * @param name - the name of the NBT element to create.
-     * @param value - the value of the element to create. Can be a List or a
-     * Map.
+     * @param value - the value of the element to create. Can be a List or a Map.
      * @return The NBT element.
      */
     private Object unwrapValue(Object value) {
@@ -954,11 +947,9 @@ class NbtFactory {
     }
 
     /**
-     * Convert a given NBT element to a primitive wrapper or List/Map
-     * equivalent.
+     * Convert a given NBT element to a primitive wrapper or List/Map equivalent.
      * <p>
-     * All changes to any mutable objects will be reflected in the underlying
-     * NBT element(s).
+     * All changes to any mutable objects will be reflected in the underlying NBT element(s).
      *
      * @param nms - the NBT element.
      * @return The wrapper equivalent.
@@ -1045,8 +1036,7 @@ class NbtFactory {
     }
 
     /**
-     * Invoke a method on the given target instance using the provided
-     * parameters.
+     * Invoke a method on the given target instance using the provided parameters.
      *
      * @param method - the method to invoke.
      * @param target - the target.
@@ -1078,8 +1068,8 @@ class NbtFactory {
     }
 
     /**
-     * Search for the first publically and privately defined method of the given
-     * name and parameter count.
+     * Search for the first publically and privately defined method of the given name and parameter
+     * count.
      *
      * @param requireMod - modifiers that are required.
      * @param bannedMod - modifiers that are banned.
@@ -1110,12 +1100,10 @@ class NbtFactory {
     }
 
     /**
-     * Search for the first publically and privately defined field of the given
-     * name.
+     * Search for the first publically and privately defined field of the given name.
      *
      * @param instance - an instance of the class with the field.
-     * @param clazz - an optional class to start with, or NULL to deduce it from
-     * instance.
+     * @param clazz - an optional class to start with, or NULL to deduce it from instance.
      * @param fieldName - the field name.
      * @return The first field by this name.
      * @throws IllegalStateException If we cannot find this field.
@@ -1165,8 +1153,8 @@ class NbtFactory {
     }
 
     /**
-     * Represents a map that wraps another map and automatically converts
-     * entries of its type and another exposed type.
+     * Represents a map that wraps another map and automatically converts entries of its type and
+     * another exposed type.
      *
      * @author Kristian
      */
@@ -1271,8 +1259,8 @@ class NbtFactory {
     }
 
     /**
-     * Represents a list that wraps another list and converts elements of its
-     * type and another exposed type.
+     * Represents a list that wraps another list and converts elements of its type and another
+     * exposed type.
      *
      * @author Kristian
      */
@@ -1367,8 +1355,7 @@ class NbtFactory {
     }
 
     /**
-     * Load an NBT compound from the NBTCompressedStreamTools static method in
-     * 1.7.2 - 1.7.5
+     * Load an NBT compound from the NBTCompressedStreamTools static method in 1.7.2 - 1.7.5
      */
     private static class LoadMethodWorldUpdate extends LoadCompoundMethod {
 
@@ -1383,8 +1370,7 @@ class NbtFactory {
     }
 
     /**
-     * Load an NBT compound from the NBTCompressedStreamTools static method in
-     * 1.7.8
+     * Load an NBT compound from the NBTCompressedStreamTools static method in 1.7.8
      */
     private static class LoadMethodSkinUpdate extends LoadCompoundMethod {
 

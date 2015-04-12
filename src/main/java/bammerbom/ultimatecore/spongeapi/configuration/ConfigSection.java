@@ -42,8 +42,7 @@ public class ConfigSection {
      * Creates a full path to the given {@link ConfigSection} from its root
      * {@link MemoryConfiguration}.
      * <p/>
-     * You may use this method for any given {@link ConfigSection}, not only
-     * {@link ConfigSection}.
+     * You may use this method for any given {@link ConfigSection}, not only {@link ConfigSection}.
      *
      * @param section Section to create a path for.
      * @param key Name of the specified section.
@@ -54,11 +53,9 @@ public class ConfigSection {
     }
 
     /**
-     * Creates a relative path to the given {@link ConfigSection} from the given
-     * relative section.
+     * Creates a relative path to the given {@link ConfigSection} from the given relative section.
      * <p/>
-     * You may use this method for any given {@link ConfigSection}, not only
-     * {@link ConfigSection}.
+     * You may use this method for any given {@link ConfigSection}, not only {@link ConfigSection}.
      *
      * @param section Section to create a path for.
      * @param key Name of the specified section.
@@ -102,11 +99,10 @@ public class ConfigSection {
     private final String fullPath;
 
     /**
-     * Creates an empty MemorySection for use as a root
-     * {@link MemoryConfiguration} section.
+     * Creates an empty MemorySection for use as a root {@link MemoryConfiguration} section.
      * <p/>
-     * Note that calling this without being yourself a
-     * {@link MemoryConfiguration} will throw an exception!
+     * Note that calling this without being yourself a {@link MemoryConfiguration} will throw an
+     * exception!
      *
      * @throws IllegalStateException Thrown if this is not a {@link
      *                               MemoryConfiguration} root.
@@ -128,8 +124,8 @@ public class ConfigSection {
      * @param parent Parent section that contains this own section.
      * @param path Path that you may access this section from via the root
      * {@link MemoryConfiguration}.
-     * @throws IllegalArgumentException Thrown is parent or path is null, or if
-     * parent contains no root MemoryConfiguration.
+     * @throws IllegalArgumentException Thrown is parent or path is null, or if parent contains no
+     * root MemoryConfiguration.
      */
     protected ConfigSection(ConfigSection parent, String path) {
         Validate.notNull(parent, "Parent cannot be null");

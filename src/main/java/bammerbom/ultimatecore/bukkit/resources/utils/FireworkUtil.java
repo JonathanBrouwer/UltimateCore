@@ -34,14 +34,12 @@ import org.bukkit.inventory.meta.FireworkMeta;
 /**
  * FireworkEffectPlayer v1.0
  * <p/>
- * FireworkEffectPlayer provides a thread-safe and (reasonably) version
- * independant way to instantly explode a FireworkEffect at a given location.
- * You are welcome to use, redistribute, modify and destroy your own copies of
- * this source with the following conditions:
+ * FireworkEffectPlayer provides a thread-safe and (reasonably) version independant way to
+ * instantly explode a FireworkEffect at a given location. You are welcome to use, redistribute,
+ * modify and destroy your own copies of this source with the following conditions:
  * <p/>
- * 1. No warranty is given or implied. 2. All damage is your own responsibility.
- * 3. You provide credit publicly to the original source should you release the
- * plugin.
+ * 1. No warranty is given or implied. 2. All damage is your own responsibility. 3. You provide
+ * credit publicly to the original source should you release the plugin.
  *
  * @author codename_B
  */
@@ -67,8 +65,7 @@ public class FireworkUtil {
     private static Method firework_getHandle = null;
 
     /**
-     * Play a pretty firework at the location with the FireworkEffect when
-     * called
+     * Play a pretty firework at the location with the FireworkEffect when called
      *
      * @param loc
      * @param fe
@@ -130,8 +127,7 @@ public class FireworkUtil {
     }
 
     /**
-     * Internal method, used as shorthand to grab our method in a nice friendly
-     * manner
+     * Internal method, used as shorthand to grab our method in a nice friendly manner
      *
      * @param cl
      * @param method

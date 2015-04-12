@@ -37,8 +37,7 @@ import org.bukkit.Bukkit;
 public class ReflectionUtil {
 
     /**
-     * The NMS Path of the current Bukkit version. EG:
-     * net.minecraft.server.1_6_2R
+     * The NMS Path of the current Bukkit version. EG: net.minecraft.server.1_6_2R
      */
     public static String NMS_PATH = "net.minecraft.server." + (Bukkit.getServer() != null ? Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] : "UNKNOWN");
     public static String OBC_PATH = "org.bukkit.craftbukkit." + (Bukkit.getServer() != null ? Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] : "UNKNOWN");
@@ -49,8 +48,7 @@ public class ReflectionUtil {
      * @param command The command to execute
      * @param toCallOn The object to call the command on
      * @param args The arguments
-     * @return The Object derived from the execution, or null if nothing is
-     * returned
+     * @return The Object derived from the execution, or null if nothing is returned
      * @throws Exception When something goes wrong during execution
      */
     public static ReflectionObject execute(String command, Object toCallOn, Object... args) throws Exception {
@@ -212,8 +210,7 @@ public class ReflectionUtil {
     }
 
     /**
-     * Tries to invoke a method on the provided object with the provided
-     * arguments
+     * Tries to invoke a method on the provided object with the provided arguments
      *
      * @param obj The object to call on
      * @param name The name of the method
@@ -258,8 +255,7 @@ public class ReflectionUtil {
     }
 
     /**
-     * Compares a Class[] array and a Object[] array, checking if they have
-     * equal classes
+     * Compares a Class[] array and a Object[] array, checking if they have equal classes
      *
      * @param classes The Class array
      * @param args The Object array
@@ -333,13 +329,13 @@ public class ReflectionUtil {
     public static class ReflectionObject {
 
         /**
-         * Creates a new instance of the provided class, passing in the provided
-         * parameters. Then returns the wrapped ReflectionObject
+         * Creates a new instance of the provided class, passing in the provided parameters. Then
+         * returns the wrapped ReflectionObject
          *
          * @param className The name of the class
          * @param args The constructor arguments
-         * @return The wrapped ReflectionObject. The real object can be received
-         * with ReflectionObject.fromNMS(class, args).fetch();
+         * @return The wrapped ReflectionObject. The real object can be received with
+         * ReflectionObject.fromNMS(class, args).fetch();
          */
         public static ReflectionObject fromNMS(String className, Object... args) {
             try {
@@ -395,8 +391,8 @@ public class ReflectionUtil {
         }
 
         /**
-         * Invokes a specified method, returning a new ReflectionObject if the
-         * method returns an object
+         * Invokes a specified method, returning a new ReflectionObject if the method returns an
+         * object
          *
          * @param methodName The method name
          * @param args The arguments
@@ -438,23 +434,22 @@ public class ReflectionUtil {
         }
 
         /**
-         * Does the same as {@link ReflectionObject#get(String)} but wraps the
-         * returned object in a {@link ReflectionObject }
+         * Does the same as {@link ReflectionObject#get(String)} but wraps the returned object in a {@link ReflectionObject
+         * }
          *
          * @param field The field name
-         * @return The return of {@link ReflectionObject#get(String)}, wrapped
-         * in a {@link ReflectionObject }
+         * @return The return of {@link ReflectionObject#get(String)}, wrapped in a {@link ReflectionObject
+         * }
          */
         public ReflectionObject getAsRO(String field) {
             return new ReflectionObject(get(field));
         }
 
         /**
-         * Gets the wrapped object, but casts it to the specified class if it is
-         * an instance, or tries to find a matching constructor if possible.<br>
-         * For example: get("operators", ReflectionObject.class); will get the
-         * operators object. As the operators object is not a instance of
-         * ReflectionObject, it tries to invoke <i>new
+         * Gets the wrapped object, but casts it to the specified class if it is an instance, or
+         * tries to find a matching constructor if possible.<br>
+         * For example: get("operators", ReflectionObject.class); will get the operators object. As
+         * the operators object is not a instance of ReflectionObject, it tries to invoke <i>new
          * ReflectionObject(operators);</i>
          *
          * @param as The class to cast the returning value as.
@@ -469,12 +464,10 @@ public class ReflectionUtil {
         }
 
         /**
-         * Gets the specified object, but casts it to the specified class if it
-         * is an instance, or tries to find a matching constructor if
-         * possible.<br>
-         * For example: get("operators", ReflectionObject.class); will get the
-         * operators object. As the operators object is not a instance of
-         * ReflectionObject, it tries to invoke <i>new
+         * Gets the specified object, but casts it to the specified class if it is an instance, or
+         * tries to find a matching constructor if possible.<br>
+         * For example: get("operators", ReflectionObject.class); will get the operators object. As
+         * the operators object is not a instance of ReflectionObject, it tries to invoke <i>new
          * ReflectionObject(operators);</i>
          *
          * @param field The field to get

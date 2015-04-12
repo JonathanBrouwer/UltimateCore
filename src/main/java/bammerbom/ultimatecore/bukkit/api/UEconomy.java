@@ -71,9 +71,8 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Some economy plugins round off after a certain number of digits. This
-     * function returns the number of digits the plugin keeps or -1 if no
-     * rounding occurs.
+     * Some economy plugins round off after a certain number of digits. This function returns the
+     * number of digits the plugin keeps or -1 if no rounding occurs.
      *
      * @return number of digits after the decimal point kept
      */
@@ -87,8 +86,8 @@ public class UEconomy implements Economy {
     String currencyNamePlural = r.getCnfg().getString("Economy.currencyNamePlural");
 
     /**
-     * Format amount into a human readable String This provides translation into
-     * economy specific formatting to improve consistency between plugins.
+     * Format amount into a human readable String This provides translation into economy specific
+     * formatting to improve consistency between plugins.
      *
      * @param amount to format
      * @return Human readable string describing amount
@@ -99,9 +98,8 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Returns the name of the currency in plural form. If the economy being
-     * used does not support currency names then an empty string will be
-     * returned.
+     * Returns the name of the currency in plural form. If the economy being used does not support
+     * currency names then an empty string will be returned.
      *
      * @return name of the currency (plural)
      */
@@ -111,9 +109,8 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Returns the name of the currency in singular form. If the economy being
-     * used does not support currency names then an empty string will be
-     * returned.
+     * Returns the name of the currency in singular form. If the economy being used does not
+     * support currency names then an empty string will be returned.
      *
      * @return name of the currency (singular)
      */
@@ -124,8 +121,7 @@ public class UEconomy implements Economy {
 
     /**
      *
-     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer)}
-     * instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer)} instead.
      */
     @Deprecated
     @Override
@@ -134,10 +130,9 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Checks if this player has an account on the server yet This will always
-     * return true if the player has joined the server at least once as all
-     * major economy plugins auto-generate a player account when the player
-     * joins the server
+     * Checks if this player has an account on the server yet This will always return true if the
+     * player has joined the server at least once as all major economy plugins auto-generate a
+     * player account when the player joins the server
      *
      * @param player to check
      * @return if the player has an account
@@ -148,8 +143,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {@link #hasAccount(OfflinePlayer, String)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer, String)} instead.
      */
     @Deprecated
     @Override
@@ -158,10 +152,9 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Checks if this player has an account on the server yet on the given world
-     * This will always return true if the player has joined the server at least
-     * once as all major economy plugins auto-generate a player account when the
-     * player joins the server
+     * Checks if this player has an account on the server yet on the given world This will always
+     * return true if the player has joined the server at least once as all major economy plugins
+     * auto-generate a player account when the player joins the server
      *
      * @param player to check in the world
      * @param worldName world-specific account
@@ -173,8 +166,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer)}
-     * instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer)} instead.
      */
     @Deprecated
     @Override
@@ -194,8 +186,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {@link #getBalance(OfflinePlayer, String)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer, String)} instead.
      */
     @Deprecated
     @Override
@@ -204,9 +195,8 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Gets balance of a player on the specified world. IMPLEMENTATION SPECIFIC
-     * - if an economy plugin does not support this the global balance will be
-     * returned.
+     * Gets balance of a player on the specified world. IMPLEMENTATION SPECIFIC - if an economy
+     * plugin does not support this the global balance will be returned.
      *
      * @param player to check
      * @param world name of the world
@@ -218,8 +208,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #has(OfflinePlayer, double)}
-     * instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #has(OfflinePlayer, double)} instead.
      */
     @Deprecated
     @Override
@@ -240,8 +229,8 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use @{link
-     * {@link #has(OfflinePlayer, String, double)} instead.
+     * @deprecated As of VaultAPI 1.4 use @{link {@link #has(OfflinePlayer, String, double)}
+     * instead.
      */
     @Deprecated
     @Override
@@ -250,9 +239,9 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Checks if the player account has the amount in a given world - DO NOT USE
-     * NEGATIVE AMOUNTS IMPLEMENTATION SPECIFIC - if an economy plugin does not
-     * support this the global balance will be returned.
+     * Checks if the player account has the amount in a given world - DO NOT USE NEGATIVE AMOUNTS
+     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will
+     * be returned.
      *
      * @param player to check
      * @param worldName to check with
@@ -265,8 +254,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {@link #withdrawPlayer(OfflinePlayer, double)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(OfflinePlayer, double)} instead.
      */
     @Deprecated
     @Override
@@ -299,8 +287,8 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {@link #withdrawPlayer(OfflinePlayer, String, double)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(OfflinePlayer, String, double)}
+     * instead.
      */
     @Deprecated
     @Override
@@ -309,9 +297,9 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Withdraw an amount from a player on a given world - DO NOT USE NEGATIVE
-     * AMOUNTS IMPLEMENTATION SPECIFIC - if an economy plugin does not support
-     * this the global balance will be returned.
+     * Withdraw an amount from a player on a given world - DO NOT USE NEGATIVE AMOUNTS
+     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will
+     * be returned.
      *
      * @param player to withdraw from
      * @param worldName - name of the world
@@ -324,8 +312,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {@link #depositPlayer(OfflinePlayer, double)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #depositPlayer(OfflinePlayer, double)} instead.
      */
     @Deprecated
     @Override
@@ -355,8 +342,8 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {@link #depositPlayer(OfflinePlayer, String, double)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #depositPlayer(OfflinePlayer, String, double)}
+     * instead.
      */
     @Deprecated
     @Override
@@ -365,9 +352,8 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Deposit an amount to a player - DO NOT USE NEGATIVE AMOUNTS
-     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the
-     * global balance will be returned.
+     * Deposit an amount to a player - DO NOT USE NEGATIVE AMOUNTS IMPLEMENTATION SPECIFIC - if an
+     * economy plugin does not support this the global balance will be returned.
      *
      * @param player to deposit to
      * @param worldName name of the world
@@ -380,8 +366,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {{@link #createBank(String, OfflinePlayer)} instead.
+     * @deprecated As of VaultAPI 1.4 use {{@link #createBank(String, OfflinePlayer)} instead.
      */
     @Deprecated
     @Override
@@ -390,8 +375,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Creates a bank account with the specified name and the player as the
-     * owner
+     * Creates a bank account with the specified name and the player as the owner
      *
      * @param name of account
      * @param player the account should be linked to
@@ -425,8 +409,8 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Returns true or false whether the bank has the amount specified - DO NOT
-     * USE NEGATIVE AMOUNTS
+     * Returns true or false whether the bank has the amount specified - DO NOT USE NEGATIVE
+     * AMOUNTS
      *
      * @param name of the account
      * @param amount to check for
@@ -462,8 +446,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {{@link #isBankOwner(String, OfflinePlayer)} instead.
+     * @deprecated As of VaultAPI 1.4 use {{@link #isBankOwner(String, OfflinePlayer)} instead.
      */
     @Deprecated
     @Override
@@ -484,8 +467,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {{@link #isBankMember(String, OfflinePlayer)} instead.
+     * @deprecated As of VaultAPI 1.4 use {{@link #isBankMember(String, OfflinePlayer)} instead.
      */
     @Deprecated
     @Override
@@ -516,8 +498,7 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {{@link #createPlayerAccount(OfflinePlayer)} instead.
+     * @deprecated As of VaultAPI 1.4 use {{@link #createPlayerAccount(OfflinePlayer)} instead.
      */
     @Deprecated
     @Override
@@ -542,8 +523,8 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use
-     * {{@link #createPlayerAccount(OfflinePlayer, String)} instead.
+     * @deprecated As of VaultAPI 1.4 use {{@link #createPlayerAccount(OfflinePlayer, String)}
+     * instead.
      */
     @Deprecated
     @Override
@@ -552,9 +533,9 @@ public class UEconomy implements Economy {
     }
 
     /**
-     * Attempts to create a player account for the given player on the specified
-     * world IMPLEMENTATION SPECIFIC - if an economy plugin does not support
-     * this the global balance will be returned.
+     * Attempts to create a player account for the given player on the specified world
+     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will
+     * be returned.
      *
      * @param player OfflinePlayer
      * @param worldName String name of the world

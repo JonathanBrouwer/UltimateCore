@@ -34,8 +34,8 @@ import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.representer.Representer;
 
 /**
- * An implementation of {@link Configuration} which saves all files in Yaml.
- * Note that this implementation is not synchronized.
+ * An implementation of {@link Configuration} which saves all files in Yaml. Note that this
+ * implementation is not synchronized.
  */
 class YamlConfiguration extends FileConfiguration {
 
@@ -45,9 +45,8 @@ class YamlConfiguration extends FileConfiguration {
     /**
      * Creates a new {@link YamlConfiguration}, loading from the given file.
      * <p/>
-     * Any errors loading the Configuration will be logged and then ignored. If
-     * the specified input is not a valid config, a blank config will be
-     * returned.
+     * Any errors loading the Configuration will be logged and then ignored. If the specified input
+     * is not a valid config, a blank config will be returned.
      * <p/>
      * The encoding used may follow the system dependent default.
      *
@@ -75,9 +74,8 @@ class YamlConfiguration extends FileConfiguration {
     /**
      * Creates a new {@link YamlConfiguration}, loading from the given stream.
      * <p/>
-     * Any errors loading the Configuration will be logged and then ignored. If
-     * the specified input is not a valid config, a blank config will be
-     * returned.
+     * Any errors loading the Configuration will be logged and then ignored. If the specified input
+     * is not a valid config, a blank config will be returned.
      *
      * @param stream Input stream
      * @return Resulting configuration
@@ -106,9 +104,8 @@ class YamlConfiguration extends FileConfiguration {
     /**
      * Creates a new {@link YamlConfiguration}, loading from the given reader.
      * <p/>
-     * Any errors loading the Configuration will be logged and then ignored. If
-     * the specified input is not a valid config, a blank config will be
-     * returned.
+     * Any errors loading the Configuration will be logged and then ignored. If the specified input
+     * is not a valid config, a blank config will be returned.
      *
      * @param reader input
      * @return resulting configuration

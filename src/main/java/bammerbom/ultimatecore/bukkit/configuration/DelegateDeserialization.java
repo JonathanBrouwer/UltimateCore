@@ -30,8 +30,8 @@ import java.lang.annotation.Target;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 /**
- * Applies to a {@link ConfigurationSerializable} that will delegate all
- * deserialization to another {@link ConfigurationSerializable}.
+ * Applies to a {@link ConfigurationSerializable} that will delegate all deserialization to another
+ * {@link ConfigurationSerializable}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

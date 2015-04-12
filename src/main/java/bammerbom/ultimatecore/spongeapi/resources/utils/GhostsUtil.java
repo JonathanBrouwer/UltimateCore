@@ -99,8 +99,8 @@ public class GhostsUtil {
     }
 
     /**
-     * Add the given player to this ghost manager. This ensures that it can see
-     * ghosts, and later become one.
+     * Add the given player to this ghost manager. This ensures that it can see ghosts, and later
+     * become one.
      *
      * @param player - the player to add to the ghost manager.
      */
@@ -113,8 +113,7 @@ public class GhostsUtil {
     }
 
     /**
-     * Determine if the given player is tracked by this ghost manager and is a
-     * ghost.
+     * Determine if the given player is tracked by this ghost manager and is a ghost.
      *
      * @param player - the player to test.
      * @return TRUE if it is, FALSE otherwise.
@@ -124,8 +123,7 @@ public class GhostsUtil {
     }
 
     /**
-     * Determine if the current player is tracked by this ghost manager, or is a
-     * ghost.
+     * Determine if the current player is tracked by this ghost manager, or is a ghost.
      *
      * @param player - the player to check.
      * @return TRUE if it is, FALSE otherwise.
@@ -139,8 +137,7 @@ public class GhostsUtil {
      * Set wheter or not a given player is a ghost.
      *
      * @param player - the player to set as a ghost.
-     * @param isGhost - TRUE to make the given player into a ghost, FALSE
-     * otherwise.
+     * @param isGhost - TRUE to make the given player into a ghost, FALSE otherwise.
      */
     public static void setGhost(Player player, boolean isGhost) {
         // Make sure the player is tracked by this manager
@@ -166,8 +163,8 @@ public class GhostsUtil {
     }
 
     /**
-     * Remove the given player from the manager, turning it back into the living
-     * and making it unable to see ghosts.
+     * Remove the given player from the manager, turning it back into the living and making it
+     * unable to see ghosts.
      *
      * @param player - the player to remove from the ghost manager.
      */

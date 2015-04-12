@@ -164,8 +164,7 @@ public class UKit {
     }
 
     /**
-     * Gets the timestamp in milliseconds for when the cooldown for the given
-     * player will expire.
+     * Gets the timestamp in milliseconds for when the cooldown for the given player will expire.
      *
      * @param p Player
      * @return Cooldown expiration timestamp in milliseconds
@@ -213,8 +212,8 @@ public class UKit {
     }
 
     /**
-     * Checks to see if the cooldown time has passed for the player using this
-     * kit. If this returns true, the player can use the kit, if not, he can't.
+     * Checks to see if the cooldown time has passed for the player using this kit. If this returns
+     * true, the player can use the kit, if not, he can't.
      *
      * @param p RPlayer using kit
      * @return If the player can use the kit

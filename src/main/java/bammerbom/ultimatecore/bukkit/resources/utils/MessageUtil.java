@@ -63,21 +63,17 @@ interface JsonRepresentedObject {
 }
 
 /**
- * Represents a formattable message. Such messages can use elements such as
- * colors, formatting codes, hover and click data, and other features provided
- * by the vanilla Minecraft
- * <a href="http://minecraft.gamepedia.com/Tellraw#Raw_JSON_Text">JSON message
- * formatter</a>. This class allows plugins to emulate the functionality of the
- * vanilla Minecraft
- * <a href="http://minecraft.gamepedia.com/Commands#tellraw">tellraw
- * command</a>.
+ * Represents a formattable message. Such messages can use elements such as colors, formatting
+ * codes, hover and click data, and other features provided by the vanilla Minecraft
+ * <a href="http://minecraft.gamepedia.com/Tellraw#Raw_JSON_Text">JSON message formatter</a>. This
+ * class allows plugins to emulate the functionality of the vanilla Minecraft
+ * <a href="http://minecraft.gamepedia.com/Commands#tellraw">tellraw command</a>.
  * <p>
- * This class follows the builder pattern, allowing for method chaining. It is
- * set up such that invocations of property-setting methods will affect the
- * current editing component, and a call to {@link #then()} or
- * {@link #then(Object)} will append a new editing component to the end of the
- * message, optionally initializing it with text. Further property-setting
- * method calls will affect that editing component.
+ * This class follows the builder pattern, allowing for method chaining. It is set up such that
+ * invocations of property-setting methods will affect the current editing component, and a call to
+ * {@link #then()} or {@link #then(Object)} will append a new editing component to the end of the
+ * message, optionally initializing it with text. Further property-setting method calls will affect
+ * that editing component.
  * </p>
  */
 public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<MessagePart>, ConfigurationSerializable {
@@ -93,9 +89,8 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Deserializes a JSON-represented message from a mapping of key-value
-     * pairs. This is called by the Bukkit serialization API. It is not intended
-     * for direct public API consumption.
+     * Deserializes a JSON-represented message from a mapping of key-value pairs. This is called by
+     * the Bukkit serialization API. It is not intended for direct public API consumption.
      *
      * @param serialized The key-value mapping which represents a fancy message.
      */
@@ -109,13 +104,12 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Deserializes a fancy message from its JSON representation. This JSON
-     * representation is of the format of that returned by
-     * {@link #toJSONString()}, and is compatible with vanilla inputs.
+     * Deserializes a fancy message from its JSON representation. This JSON representation is of
+     * the format of that returned by {@link #toJSONString()}, and is compatible with vanilla
+     * inputs.
      *
      * @param json The JSON string which represents a fancy message.
-     * @return A {@code MessageUtil} representing the parameterized JSON
-     * message.
+     * @return A {@code MessageUtil} representing the parameterized JSON message.
      */
     public static MessageUtil deserialize(String json) {
         JsonObject serialized = _stringParser.parse(json).getAsJsonObject();
@@ -262,8 +256,8 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      *
      * @param color The new color of the current editing component.
      * @return This builder instance.
-     * @throws IllegalArgumentException If the specified {@code ChatColor}
-     * enumeration value is not a color (but a format value).
+     * @throws IllegalArgumentException If the specified {@code ChatColor} enumeration value is not
+     * a color (but a format value).
      */
     public MessageUtil color(final ChatColor color) {
         if (!color.isColor()) {
@@ -279,8 +273,8 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      *
      * @param styles The array of styles to apply to the editing component.
      * @return This builder instance.
-     * @throws IllegalArgumentException If any of the enumeration values in the
-     * array do not represent formatters.
+     * @throws IllegalArgumentException If any of the enumeration values in the array do not
+     * represent formatters.
      */
     public MessageUtil style(ChatColor... styles) {
         for (final ChatColor style : styles) {
@@ -294,9 +288,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to instruct the client
-     * to open a file on the client side filesystem when the currently edited
-     * part of the {@code MessageUtil} is clicked.
+     * Set the behavior of the current editing component to instruct the client to open a file on
+     * the client side filesystem when the currently edited part of the {@code MessageUtil} is
+     * clicked.
      *
      * @param path The path of the file on the client filesystem.
      * @return This builder instance.
@@ -307,9 +301,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to instruct the client
-     * to open a webpage in the client's web browser when the currently edited
-     * part of the {@code MessageUtil} is clicked.
+     * Set the behavior of the current editing component to instruct the client to open a webpage
+     * in the client's web browser when the currently edited part of the {@code MessageUtil} is
+     * clicked.
      *
      * @param url The URL of the page to open when the link is clicked.
      * @return This builder instance.
@@ -320,12 +314,11 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to instruct the client
-     * to replace the chat input box content with the specified string when the
-     * currently edited part of the {@code MessageUtil} is clicked. The client
-     * will not immediately send the command to the server to be executed unless
-     * the client player submits the command/chat message, usually with the
-     * enter key.
+     * Set the behavior of the current editing component to instruct the client to replace the chat
+     * input box content with the specified string when the currently edited part of the
+     * {@code MessageUtil} is clicked. The client will not immediately send the command to the
+     * server to be executed unless the client player submits the command/chat message, usually
+     * with the enter key.
      *
      * @param command The text to display in the chat bar of the client.
      * @return This builder instance.
@@ -336,12 +329,11 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to instruct the client
-     * to append the chat input box content with the specified string when the
-     * currently edited part of the {@code MessageUtil} is SHIFT-CLICKED. The
-     * client will not immediately send the command to the server to be executed
-     * unless the client player submits the command/chat message, usually with
-     * the enter key.
+     * Set the behavior of the current editing component to instruct the client to append the chat
+     * input box content with the specified string when the currently edited part of the
+     * {@code MessageUtil} is SHIFT-CLICKED. The client will not immediately send the command to
+     * the server to be executed unless the client player submits the command/chat message, usually
+     * with the enter key.
      *
      * @param command The text to append to the chat bar of the client.
      * @return This builder instance.
@@ -353,11 +345,11 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to instruct the client
-     * to send the specified string to the server as a chat message when the
-     * currently edited part of the {@code MessageUtil} is clicked. The client
-     * <b>will</b> immediately send the command to the server to be executed
-     * when the editing component is clicked.
+     * Set the behavior of the current editing component to instruct the client to send the
+     * specified string to the server as a chat message when the currently edited part of the
+     * {@code MessageUtil} is clicked. The client
+     * <b>will</b> immediately send the command to the server to be executed when the editing
+     * component is clicked.
      *
      * @param command The text to display in the chat bar of the client.
      * @return This builder instance.
@@ -368,14 +360,13 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display information
-     * about an achievement when the client hovers over the text.
+     * Set the behavior of the current editing component to display information about an
+     * achievement when the client hovers over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
-     * @param name The name of the achievement to display, excluding the
-     * "achievement." prefix.
+     * @param name The name of the achievement to display, excluding the "achievement." prefix.
      * @return This builder instance.
      */
     public MessageUtil achievementTooltip(final String name) {
@@ -384,11 +375,11 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display information
-     * about an achievement when the client hovers over the text.
+     * Set the behavior of the current editing component to display information about an
+     * achievement when the client hovers over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
      * @param which The achievement to display.
      * @return This builder instance.
@@ -413,16 +404,16 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display information
-     * about a parameterless statistic when the client hovers over the text.
+     * Set the behavior of the current editing component to display information about a
+     * parameterless statistic when the client hovers over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
      * @param which The statistic to display.
      * @return This builder instance.
-     * @throws IllegalArgumentException If the statistic requires a parameter
-     * which was not supplied.
+     * @throws IllegalArgumentException If the statistic requires a parameter which was not
+     * supplied.
      */
     public MessageUtil statisticTooltip(final Statistic which) {
         Statistic.Type type = which.getType();
@@ -448,19 +439,17 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display information
-     * about a statistic parameter with a material when the client hovers over
-     * the text.
+     * Set the behavior of the current editing component to display information about a statistic
+     * parameter with a material when the client hovers over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
      * @param which The statistic to display.
      * @param item The sole material parameter to the statistic.
      * @return This builder instance.
-     * @throws IllegalArgumentException If the statistic requires a parameter
-     * which was not supplied, or was supplied a parameter that was not
-     * required.
+     * @throws IllegalArgumentException If the statistic requires a parameter which was not
+     * supplied, or was supplied a parameter that was not required.
      */
     public MessageUtil statisticTooltip(final Statistic which, Material item) {
         Statistic.Type type = which.getType();
@@ -489,19 +478,17 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display information
-     * about a statistic parameter with an entity type when the client hovers
-     * over the text.
+     * Set the behavior of the current editing component to display information about a statistic
+     * parameter with an entity type when the client hovers over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
      * @param which The statistic to display.
      * @param entity The sole entity type parameter to the statistic.
      * @return This builder instance.
-     * @throws IllegalArgumentException If the statistic requires a parameter
-     * which was not supplied, or was supplied a parameter that was not
-     * required.
+     * @throws IllegalArgumentException If the statistic requires a parameter which was not
+     * supplied, or was supplied a parameter that was not required.
      */
     public MessageUtil statisticTooltip(final Statistic which, EntityType entity) {
         Statistic.Type type = which.getType();
@@ -530,14 +517,14 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display information
-     * about an item when the client hovers over the text.
+     * Set the behavior of the current editing component to display information about an item when
+     * the client hovers over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
-     * @param itemJSON A string representing the JSON-serialized NBT data tag of
-     * an {@link ItemStack}.
+     * @param itemJSON A string representing the JSON-serialized NBT data tag of an
+     * {@link ItemStack}.
      * @return This builder instance.
      */
     public MessageUtil itemTooltip(final String itemJSON) {
@@ -546,11 +533,11 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display information
-     * about an item when the client hovers over the text.
+     * Set the behavior of the current editing component to display information about an item when
+     * the client hovers over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
      * @param itemStack The stack for which to display information.
      * @return This builder instance.
@@ -566,14 +553,14 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display raw text
-     * when the client hovers over the text.
+     * Set the behavior of the current editing component to display raw text when the client hovers
+     * over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
-     * @param text The text, which supports newlines, which will be displayed to
-     * the client upon hovering.
+     * @param text The text, which supports newlines, which will be displayed to the client upon
+     * hovering.
      * @return This builder instance.
      */
     public MessageUtil tooltip(final String text) {
@@ -582,15 +569,15 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display raw text
-     * when the client hovers over the text.
+     * Set the behavior of the current editing component to display raw text when the client hovers
+     * over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
-     * @param lines The lines of text which will be displayed to the client upon
-     * hovering. The iteration order of this object will be the order in which
-     * the lines of the tooltip are created.
+     * @param lines The lines of text which will be displayed to the client upon hovering. The
+     * iteration order of this object will be the order in which the lines of the tooltip are
+     * created.
      * @return This builder instance.
      */
     public MessageUtil tooltip(final Iterable<String> lines) {
@@ -613,14 +600,13 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      */
 
     /**
-     * Set the behavior of the current editing component to display raw text
-     * when the client hovers over the text.
+     * Set the behavior of the current editing component to display raw text when the client hovers
+     * over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
-     * @param lines The lines of text which will be displayed to the client upon
-     * hovering.
+     * @param lines The lines of text which will be displayed to the client upon hovering.
      * @return This builder instance.
      */
     public MessageUtil tooltip(final String... lines) {
@@ -636,14 +622,13 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display formatted
-     * text when the client hovers over the text.
+     * Set the behavior of the current editing component to display formatted text when the client
+     * hovers over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
-     * @param text The formatted text which will be displayed to the client upon
-     * hovering.
+     * @param text The formatted text which will be displayed to the client upon hovering.
      * @return This builder instance.
      */
     public MessageUtil formattedTooltip(MessageUtil text) {
@@ -659,14 +644,14 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display the
-     * specified lines of formatted text when the client hovers over the text.
+     * Set the behavior of the current editing component to display the specified lines of
+     * formatted text when the client hovers over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
-     * @param lines The lines of formatted text which will be displayed to the
-     * client upon hovering.
+     * @param lines The lines of formatted text which will be displayed to the client upon
+     * hovering.
      * @return This builder instance.
      */
     public MessageUtil formattedTooltip(MessageUtil... lines) {
@@ -702,15 +687,15 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Set the behavior of the current editing component to display the
-     * specified lines of formatted text when the client hovers over the text.
+     * Set the behavior of the current editing component to display the specified lines of
+     * formatted text when the client hovers over the text.
      * <p>
-     * Tooltips do not inherit display characteristics, such as color and
-     * styles, from the message component on which they are applied.</p>
+     * Tooltips do not inherit display characteristics, such as color and styles, from the message
+     * component on which they are applied.</p>
      *
-     * @param lines The lines of text which will be displayed to the client upon
-     * hovering. The iteration order of this object will be the order in which
-     * the lines of the tooltip are created.
+     * @param lines The lines of text which will be displayed to the client upon hovering. The
+     * iteration order of this object will be the order in which the lines of the tooltip are
+     * created.
      * @return This builder instance.
      */
     public MessageUtil formattedTooltip(final Iterable<MessageUtil> lines) {
@@ -718,12 +703,11 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * If the text is a translatable key, and it has replaceable values, this
-     * function can be used to set the replacements that will be used in the
-     * message.
+     * If the text is a translatable key, and it has replaceable values, this function can be used
+     * to set the replacements that will be used in the message.
      *
-     * @param replacements The replacements, in order, that will be used in the
-     * language-specific message.
+     * @param replacements The replacements, in order, that will be used in the language-specific
+     * message.
      * @return This builder instance.
      */
     public MessageUtil translationReplacements(final String... replacements) {
@@ -736,12 +720,11 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * If the text is a translatable key, and it has replaceable values, this
-     * function can be used to set the replacements that will be used in the
-     * message.
+     * If the text is a translatable key, and it has replaceable values, this function can be used
+     * to set the replacements that will be used in the message.
      *
-     * @param replacements The replacements, in order, that will be used in the
-     * language-specific message.
+     * @param replacements The replacements, in order, that will be used in the language-specific
+     * message.
      * @return This builder instance.
      */
     public MessageUtil translationReplacements(final MessageUtil... replacements) {
@@ -755,12 +738,11 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * If the text is a translatable key, and it has replaceable values, this
-     * function can be used to set the replacements that will be used in the
-     * message.
+     * If the text is a translatable key, and it has replaceable values, this function can be used
+     * to set the replacements that will be used in the message.
      *
-     * @param replacements The replacements, in order, that will be used in the
-     * language-specific message.
+     * @param replacements The replacements, in order, that will be used in the language-specific
+     * message.
      * @return This builder instance.
      */
     public MessageUtil translationReplacements(final Iterable<MessageUtil> replacements) {
@@ -768,10 +750,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Terminate construction of the current editing component, and begin
-     * construction of a new message component. After a successful call to this
-     * method, all setter methods will refer to a new message component, created
-     * as a result of the call to this method.
+     * Terminate construction of the current editing component, and begin construction of a new
+     * message component. After a successful call to this method, all setter methods will refer to
+     * a new message component, created as a result of the call to this method.
      *
      * @param text The text which will populate the new message component.
      * @return This builder instance.
@@ -781,10 +762,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Terminate construction of the current editing component, and begin
-     * construction of a new message component. After a successful call to this
-     * method, all setter methods will refer to a new message component, created
-     * as a result of the call to this method.
+     * Terminate construction of the current editing component, and begin construction of a new
+     * message component. After a successful call to this method, all setter methods will refer to
+     * a new message component, created as a result of the call to this method.
      *
      * @param text The text which will populate the new message component.
      * @return This builder instance.
@@ -799,10 +779,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Terminate construction of the current editing component, and begin
-     * construction of a new message component. After a successful call to this
-     * method, all setter methods will refer to a new message component, created
-     * as a result of the call to this method.
+     * Terminate construction of the current editing component, and begin construction of a new
+     * message component. After a successful call to this method, all setter methods will refer to
+     * a new message component, created as a result of the call to this method.
      *
      * @return This builder instance.
      */
@@ -829,9 +808,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Serialize this fancy message, converting it into syntactically-valid JSON
-     * using a {@link JsonWriter}. This JSON should be compatible with vanilla
-     * formatter commands such as {@code /tellraw}.
+     * Serialize this fancy message, converting it into syntactically-valid JSON using a
+     * {@link JsonWriter}. This JSON should be compatible with vanilla formatter commands such as
+     * {@code /tellraw}.
      *
      * @return The JSON string representing this object.
      */
@@ -853,8 +832,8 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Sends this message to a player. The player will receive the fully-fledged
-     * formatted display of this message.
+     * Sends this message to a player. The player will receive the fully-fledged formatted display
+     * of this message.
      *
      * @param player The player who will receive the message.
      */
@@ -907,10 +886,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Sends this message to a command sender. If the sender is a player, they
-     * will receive the fully-fledged formatted display of this message.
-     * Otherwise, they will receive a version of this message with less
-     * formatting.
+     * Sends this message to a command sender. If the sender is a player, they will receive the
+     * fully-fledged formatted display of this message. Otherwise, they will receive a version of
+     * this message with less formatting.
      *
      * @param sender The command sender who will receive the message.
      * @see #toOldMessageFormat()
@@ -933,26 +911,25 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     }
 
     /**
-     * Convert this message to a human-readable string with limited formatting.
-     * This method is used to send this message to clients without JSON
-     * formatting support.
+     * Convert this message to a human-readable string with limited formatting. This method is used
+     * to send this message to clients without JSON formatting support.
      * <p>
-     * Serialization of this message by using this message will include (in this
-     * order for each message part):
+     * Serialization of this message by using this message will include (in this order for each
+     * message part):
      * <ol>
      * <li>The color of each message part.</li>
      * <li>The applicable stylizations for each message part.</li>
      * <li>The core text of the message part.</li>
      * </ol>
-     * The primary omissions are tooltips and clickable actions. Consequently,
-     * this method should be used only as a last resort.
+     * The primary omissions are tooltips and clickable actions. Consequently, this method should
+     * be used only as a last resort.
      * </p>
      * <p>
      * Color and formatting can be removed from the returned string by using
      * {@link ChatColor#stripColor(String)}.</p>
      *
-     * @return A human-readable string representing limited formatting in
-     * addition to the core text of this message.
+     * @return A human-readable string representing limited formatting in addition to the core text
+     * of this message.
      */
     public String toOldMessageFormat() {
         StringBuilder result = new StringBuilder();
@@ -1004,9 +981,8 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
 }
 
 /**
- * Represents a JSON string value. Writes by this object will not write name
- * values nor begin/end objects in the JSON stream. All writes merely write the
- * represented string value.
+ * Represents a JSON string value. Writes by this object will not write name values nor begin/end
+ * objects in the JSON stream. All writes merely write the represented string value.
  */
 final class JsonString implements JsonRepresentedObject, ConfigurationSerializable {
 
@@ -1044,8 +1020,7 @@ final class JsonString implements JsonRepresentedObject, ConfigurationSerializab
 }
 
 /**
- * Internal class: Represents a component of a JSON-serializable
- * {@link MessageUtil}.
+ * Internal class: Represents a component of a JSON-serializable {@link MessageUtil}.
  */
 final class MessagePart implements JsonRepresentedObject, ConfigurationSerializable, Cloneable {
 
@@ -1188,12 +1163,10 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
 }
 
 /**
- * Represents a textual component of a message part. This can be used to not
- * only represent string literals in a JSON message, but also to represent
- * localized strings and other text values.
+ * Represents a textual component of a message part. This can be used to not only represent string
+ * literals in a JSON message, but also to represent localized strings and other text values.
  * <p>
- * Different instances of this class can be created with static constructor
- * methods.</p>
+ * Different instances of this class can be created with static constructor methods.</p>
  */
 abstract class TextualComponent implements Cloneable {
 
@@ -1223,9 +1196,8 @@ abstract class TextualComponent implements Cloneable {
     }
 
     /**
-     * Create a textual component representing a string literal. This is the
-     * default type of textual component when a single string literal is given
-     * to a method.
+     * Create a textual component representing a string literal. This is the default type of
+     * textual component when a single string literal is given to a method.
      *
      * @param textValue The text which will be represented.
      * @return The text component representing the specified literal text.
@@ -1235,13 +1207,12 @@ abstract class TextualComponent implements Cloneable {
     }
 
     /**
-     * Create a textual component representing a localized string. The client
-     * will see this text component as their localized version of the specified
-     * string <em>key</em>, which can be overridden by a resource pack.
+     * Create a textual component representing a localized string. The client will see this text
+     * component as their localized version of the specified string <em>key</em>, which can be
+     * overridden by a resource pack.
      * <p>
-     * If the specified translation key is not present on the client resource
-     * pack, the translation key will be displayed as a string literal to the
-     * client.
+     * If the specified translation key is not present on the client resource pack, the translation
+     * key will be displayed as a string literal to the client.
      * </p>
      *
      * @param translateKey The string key which maps to localized text.
@@ -1256,44 +1227,35 @@ abstract class TextualComponent implements Cloneable {
     }
 
     /**
-     * Create a textual component representing a scoreboard value. The client
-     * will see their own score for the specified objective as the text
-     * represented by this component.
+     * Create a textual component representing a scoreboard value. The client will see their own
+     * score for the specified objective as the text represented by this component.
      * <p>
-     * <b>This method is currently guaranteed to throw an
-     * {@code UnsupportedOperationException} as it is only supported on snapshot
-     * clients.</b>
+     * <b>This method is currently guaranteed to throw an {@code UnsupportedOperationException} as
+     * it is only supported on snapshot clients.</b>
      * </p>
      *
-     * @param scoreboardObjective The name of the objective for which to display
-     * the score.
-     * @return The text component representing the specified scoreboard score
-     * (for the viewing player), or {@code null} if an error occurs during JSON
-     * serialization.
+     * @param scoreboardObjective The name of the objective for which to display the score.
+     * @return The text component representing the specified scoreboard score (for the viewing
+     * player), or {@code null} if an error occurs during JSON serialization.
      */
     public static TextualComponent objectiveScore(String scoreboardObjective) {
         return objectiveScore("*", scoreboardObjective);
     }
 
     /**
-     * Create a textual component representing a scoreboard value. The client
-     * will see the score of the specified player for the specified objective as
-     * the text represented by this component.
+     * Create a textual component representing a scoreboard value. The client will see the score of
+     * the specified player for the specified objective as the text represented by this component.
      * <p>
-     * <b>This method is currently guaranteed to throw an
-     * {@code UnsupportedOperationException} as it is only supported on snapshot
-     * clients.</b>
+     * <b>This method is currently guaranteed to throw an {@code UnsupportedOperationException} as
+     * it is only supported on snapshot clients.</b>
      * </p>
      *
-     * @param playerName The name of the player whos score will be shown. If
-     * this string represents the single-character sequence "*", the viewing
-     * player's score will be displayed. Standard minecraft selectors (@a, @p,
-     * etc) are <em>not</em> supported.
-     * @param scoreboardObjective The name of the objective for which to display
-     * the score.
-     * @return The text component representing the specified scoreboard score
-     * for the specified player, or {@code null} if an error occurs during JSON
-     * serialization.
+     * @param playerName The name of the player whos score will be shown. If this string represents
+     * the single-character sequence "*", the viewing player's score will be displayed. Standard
+     * minecraft selectors (@a, @p, etc) are <em>not</em> supported.
+     * @param scoreboardObjective The name of the objective for which to display the score.
+     * @return The text component representing the specified scoreboard score for the specified
+     * player, or {@code null} if an error occurs during JSON serialization.
      */
     public static TextualComponent objectiveScore(String playerName, String scoreboardObjective) {
         throwUnsupportedSnapshot(); // Remove this line when the feature is released to non-snapshot versions, in addition to updating ALL THE OVERLOADS documentation accordingly
@@ -1305,21 +1267,17 @@ abstract class TextualComponent implements Cloneable {
     }
 
     /**
-     * Create a textual component representing a player name, retrievable by
-     * using a standard minecraft selector. The client will see the players or
-     * entities captured by the specified selector as the text represented by
-     * this component.
+     * Create a textual component representing a player name, retrievable by using a standard
+     * minecraft selector. The client will see the players or entities captured by the specified
+     * selector as the text represented by this component.
      * <p>
-     * <b>This method is currently guaranteed to throw an
-     * {@code UnsupportedOperationException} as it is only supported on snapshot
-     * clients.</b>
+     * <b>This method is currently guaranteed to throw an {@code UnsupportedOperationException} as
+     * it is only supported on snapshot clients.</b>
      * </p>
      *
-     * @param selector The minecraft player or entity selector which will
-     * capture the entities whose string representations will be displayed in
-     * the place of this text component.
-     * @return The text component representing the name of the entities captured
-     * by the selector.
+     * @param selector The minecraft player or entity selector which will capture the entities
+     * whose string representations will be displayed in the place of this text component.
+     * @return The text component representing the name of the entities captured by the selector.
      */
     public static TextualComponent selector(String selector) {
         throwUnsupportedSnapshot(); // Remove this line when the feature is released to non-snapshot versions, in addition to updating ALL THE OVERLOADS documentation accordingly
@@ -1343,17 +1301,15 @@ abstract class TextualComponent implements Cloneable {
     public abstract String getReadableString();
 
     /**
-     * Clones a textual component instance. The returned object should not
-     * reference this textual component instance, but should maintain the same
-     * key and value.
+     * Clones a textual component instance. The returned object should not reference this textual
+     * component instance, but should maintain the same key and value.
      */
     @Override
     public abstract TextualComponent clone() throws CloneNotSupportedException;
 
     /**
-     * Writes the text data represented by this textual component to the
-     * specified JSON writer object. A new object within the writer is not
-     * started.
+     * Writes the text data represented by this textual component to the specified JSON writer
+     * object. A new object within the writer is not started.
      *
      * @param writer The object to which to write the JSON data.
      * @throws IOException If an error occurs while writing to the stream.
@@ -1361,8 +1317,8 @@ abstract class TextualComponent implements Cloneable {
     public abstract void writeJson(JsonWriter writer) throws IOException;
 
     /**
-     * Internal class used to represent all types of text components. Exception
-     * validating done is on keys and values.
+     * Internal class used to represent all types of text components. Exception validating done is
+     * on keys and values.
      */
     private static final class ArbitraryTextTypeComponent extends TextualComponent implements ConfigurationSerializable {
 
@@ -1427,8 +1383,8 @@ abstract class TextualComponent implements Cloneable {
     }
 
     /**
-     * Internal class used to represent a text component with a nested JSON
-     * value. Exception validating done is on keys and values.
+     * Internal class used to represent a text component with a nested JSON value. Exception
+     * validating done is on keys and values.
      */
     private static final class ComplexTextTypeComponent extends TextualComponent implements ConfigurationSerializable {
 
@@ -1510,8 +1466,8 @@ abstract class TextualComponent implements Cloneable {
 }
 
 /**
- * Represents a wrapper around an array class of an arbitrary reference type,
- * which properly implements "value" hash code and equality functions.
+ * Represents a wrapper around an array class of an arbitrary reference type, which properly
+ * implements "value" hash code and equality functions.
  * <p>
  * This class is intended for use as a key to a map.
  * </p>
@@ -1523,9 +1479,8 @@ abstract class TextualComponent implements Cloneable {
 final class ArrayWrapper<E> {
 
     /**
-     * Converts an iterable element collection to an array of elements. The
-     * iteration order of the specified object will be used as the array element
-     * order.
+     * Converts an iterable element collection to an array of elements. The iteration order of the
+     * specified object will be used as the array element order.
      *
      * @param list The iterable of objects which will be converted to an array.
      * @param c The type of the elements of the array.
@@ -1614,9 +1569,8 @@ final class ArrayWrapper<E> {
 }
 
 /**
- * A class containing static utility methods and caches which are intended as
- * reflective conveniences. Unless otherwise noted, upon failure methods will
- * return {@code null}.
+ * A class containing static utility methods and caches which are intended as reflective
+ * conveniences. Unless otherwise noted, upon failure methods will return {@code null}.
  */
 final class Reflection {
 
@@ -1625,25 +1579,22 @@ final class Reflection {
      */
     private static final Map<String, Class<?>> _loadedNMSClasses = new HashMap<>();
     /**
-     * Stores loaded classes from the {@code org.bukkit.craftbukkit} package
-     * (and subpackages).
+     * Stores loaded classes from the {@code org.bukkit.craftbukkit} package (and subpackages).
      */
     private static final Map<String, Class<?>> _loadedOBCClasses = new HashMap<>();
     private static final Map<Class<?>, Map<String, Field>> _loadedFields = new HashMap<>();
     /**
-     * Contains loaded methods in a cache. The map maps [types to maps of
-     * [method names to maps of [parameter types to method instances]]].
+     * Contains loaded methods in a cache. The map maps [types to maps of [method names to maps of
+     * [parameter types to method instances]]].
      */
     private static final Map<Class<?>, Map<String, Map<ArrayWrapper<Class<?>>, Method>>> _loadedMethods = new HashMap<>();
     private static String _versionString;
 
     /**
-     * Gets the version string from the package name of the CraftBukkit server
-     * implementation. This is needed to bypass the JAR package name changing on
-     * each update.
+     * Gets the version string from the package name of the CraftBukkit server implementation. This
+     * is needed to bypass the JAR package name changing on each update.
      *
-     * @return The version string of the OBC and NMS packages, <em>including the
-     * trailing dot</em>.
+     * @return The version string of the OBC and NMS packages, <em>including the trailing dot</em>.
      */
     public static synchronized String getVersion() {
         if (_versionString == null) {
@@ -1660,14 +1611,13 @@ final class Reflection {
 
     /**
      * Gets a {@link Class} object representing a type contained within the
-     * {@code net.minecraft.server} versioned package. The class instances
-     * returned by this method are cached, such that no lookup will be done
-     * twice (unless multiple threads are accessing this method simultaneously).
+     * {@code net.minecraft.server} versioned package. The class instances returned by this method
+     * are cached, such that no lookup will be done twice (unless multiple threads are accessing
+     * this method simultaneously).
      *
-     * @param className The name of the class, excluding the package, within
-     * NMS.
-     * @return The class instance representing the specified NMS class, or
-     * {@code null} if it could not be loaded.
+     * @param className The name of the class, excluding the package, within NMS.
+     * @return The class instance representing the specified NMS class, or {@code null} if it could
+     * not be loaded.
      */
     public synchronized static Class<?> getNMSClass(String className) {
         if (_loadedNMSClasses.containsKey(className)) {
@@ -1689,15 +1639,14 @@ final class Reflection {
 
     /**
      * Gets a {@link Class} object representing a type contained within the
-     * {@code org.bukkit.craftbukkit} versioned package. The class instances
-     * returned by this method are cached, such that no lookup will be done
-     * twice (unless multiple threads are accessing this method simultaneously).
+     * {@code org.bukkit.craftbukkit} versioned package. The class instances returned by this
+     * method are cached, such that no lookup will be done twice (unless multiple threads are
+     * accessing this method simultaneously).
      *
-     * @param className The name of the class, excluding the package, within
-     * OBC. This name may contain a subpackage name, such as
-     * {@code inventory.CraftItemStack}.
-     * @return The class instance representing the specified OBC class, or
-     * {@code null} if it could not be loaded.
+     * @param className The name of the class, excluding the package, within OBC. This name may
+     * contain a subpackage name, such as {@code inventory.CraftItemStack}.
+     * @return The class instance representing the specified OBC class, or {@code null} if it could
+     * not be loaded.
      */
     public synchronized static Class<?> getOBCClass(String className) {
         if (_loadedOBCClasses.containsKey(className)) {
@@ -1720,14 +1669,13 @@ final class Reflection {
     /**
      * Attempts to get the NMS handle of a CraftBukkit object.
      * <p>
-     * The only match currently attempted by this method is a retrieval by using
-     * a parameterless {@code getHandle()} method implemented by the runtime
-     * type of the specified object.
+     * The only match currently attempted by this method is a retrieval by using a parameterless
+     * {@code getHandle()} method implemented by the runtime type of the specified object.
      * </p>
      *
      * @param obj The object for which to retrieve an NMS handle.
-     * @return The NMS handle of the specified object, or {@code null} if it
-     * could not be retrieved using {@code getHandle()}.
+     * @return The NMS handle of the specified object, or {@code null} if it could not be retrieved
+     * using {@code getHandle()}.
      */
     public synchronized static Object getHandle(Object obj) {
         try {
@@ -1739,27 +1687,23 @@ final class Reflection {
     }
 
     /**
-     * Retrieves a {@link Field} instance declared by the specified class with
-     * the specified name. Java access modifiers are ignored during this
-     * retrieval. No guarantee is made as to whether the field returned will be
-     * an instance or static field.
+     * Retrieves a {@link Field} instance declared by the specified class with the specified name.
+     * Java access modifiers are ignored during this retrieval. No guarantee is made as to whether
+     * the field returned will be an instance or static field.
      * <p>
-     * A global caching mechanism within this class is used to store fields.
-     * Combined with synchronization, this guarantees that no field will be
-     * reflectively looked up twice.
+     * A global caching mechanism within this class is used to store fields. Combined with
+     * synchronization, this guarantees that no field will be reflectively looked up twice.
      * </p>
      * <p>
-     * If a field is deemed suitable for return,
-     * {@link Field#setAccessible(boolean) setAccessible} will be invoked with
-     * an argument of {@code true} before it is returned. This ensures that
-     * callers do not have to check or worry about Java access modifiers when
-     * dealing with the returned instance.
+     * If a field is deemed suitable for return, {@link Field#setAccessible(boolean) setAccessible}
+     * will be invoked with an argument of {@code true} before it is returned. This ensures that
+     * callers do not have to check or worry about Java access modifiers when dealing with the
+     * returned instance.
      * </p>
      *
      * @param clazz The class which contains the field to retrieve.
      * @param name The declared name of the field in the class.
-     * @return A field object with the specified name declared by the specified
-     * class.
+     * @return A field object with the specified name declared by the specified class.
      * @see Class#getDeclaredField(String)
      */
     public synchronized static Field getField(Class<?> clazz, String name) {
@@ -1789,32 +1733,28 @@ final class Reflection {
     }
 
     /**
-     * Retrieves a {@link Method} instance declared by the specified class with
-     * the specified name and argument types. Java access modifiers are ignored
-     * during this retrieval. No guarantee is made as to whether the field
-     * returned will be an instance or static field.
+     * Retrieves a {@link Method} instance declared by the specified class with the specified name
+     * and argument types. Java access modifiers are ignored during this retrieval. No guarantee is
+     * made as to whether the field returned will be an instance or static field.
      * <p>
-     * A global caching mechanism within this class is used to store method.
-     * Combined with synchronization, this guarantees that no method will be
-     * reflectively looked up twice.
+     * A global caching mechanism within this class is used to store method. Combined with
+     * synchronization, this guarantees that no method will be reflectively looked up twice.
      * </p>
      * <p>
      * If a method is deemed suitable for return,
-     * {@link Method#setAccessible(boolean) setAccessible} will be invoked with
-     * an argument of {@code true} before it is returned. This ensures that
-     * callers do not have to check or worry about Java access modifiers when
-     * dealing with the returned instance.
+     * {@link Method#setAccessible(boolean) setAccessible} will be invoked with an argument of
+     * {@code true} before it is returned. This ensures that callers do not have to check or worry
+     * about Java access modifiers when dealing with the returned instance.
      * </p>
      * <p/>
-     * This method does <em>not</em> search superclasses of the specified type
-     * for methods with the specified signature. Callers wishing this behavior
-     * should use {@link Class#getDeclaredMethod(String, Class...)}.
+     * This method does <em>not</em> search superclasses of the specified type for methods with the
+     * specified signature. Callers wishing this behavior should use
+     * {@link Class#getDeclaredMethod(String, Class...)}.
      *
      * @param clazz The class which contains the method to retrieve.
      * @param name The declared name of the method in the class.
      * @param args The formal argument types of the method.
-     * @return A method object with the specified name declared by the specified
-     * class.
+     * @return A method object with the specified name declared by the specified class.
      */
     public synchronized static Method getMethod(Class<?> clazz, String name, Class<?>... args) {
         if (!_loadedMethods.containsKey(clazz)) {
