@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.command.Command;
@@ -59,6 +60,6 @@ public class CmdUnsilence implements UltimateCommand {
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
 }
