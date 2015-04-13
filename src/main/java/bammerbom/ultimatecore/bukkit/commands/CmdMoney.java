@@ -76,7 +76,7 @@ public class CmdMoney implements UltimateCommand {
             }
             r.sendMes(cs, "moneyStatusSelf", "%Balance", r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance((Player) cs)));
         } else if (args[0].equalsIgnoreCase("set")) {
-            if (!r.perm(cs, "uc.money.set", true, true)) {
+            if (!r.perm(cs, "uc.money.set", false, true)) {
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -94,7 +94,7 @@ public class CmdMoney implements UltimateCommand {
             } else if (!r.checkArgs(args, 2)) {
                 r.sendMes(cs, "moneyUsage");
             } else if (!r.isDouble(args[1]) && r.isDouble(args[2])) {
-                if (!r.perm(cs, "uc.money.set.others", true, true)) {
+                if (!r.perm(cs, "uc.money.set.others", false, true)) {
                     return;
                 }
                 OfflinePlayer t = r.searchOfflinePlayer(args[1]);
@@ -108,7 +108,7 @@ public class CmdMoney implements UltimateCommand {
                 r.sendMes(cs, "moneyUsage");
             }
         } else if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("give")) {
-            if (!r.perm(cs, "uc.money.add", true, true)) {
+            if (!r.perm(cs, "uc.money.add", false, true)) {
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -126,7 +126,7 @@ public class CmdMoney implements UltimateCommand {
             } else if (!r.checkArgs(args, 2)) {
                 r.sendMes(cs, "moneyUsage");
             } else if (!r.isDouble(args[1]) && r.isDouble(args[2])) {
-                if (!r.perm(cs, "uc.money.add.others", true, true)) {
+                if (!r.perm(cs, "uc.money.add.others", false, true)) {
                     return;
                 }
                 OfflinePlayer t = r.searchOfflinePlayer(args[1]);
@@ -139,7 +139,7 @@ public class CmdMoney implements UltimateCommand {
                 r.sendMes(cs, "moneyUsage");
             }
         } else if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("take")) {
-            if (!r.perm(cs, "uc.money.remove", true, true)) {
+            if (!r.perm(cs, "uc.money.remove", false, true)) {
                 return;
             }
             if (!r.checkArgs(args, 1)) {
@@ -156,7 +156,7 @@ public class CmdMoney implements UltimateCommand {
             } else if (!r.checkArgs(args, 2)) {
                 r.sendMes(cs, "moneyUsage");
             } else if (!r.isDouble(args[1]) && r.isDouble(args[2])) {
-                if (!r.perm(cs, "uc.money.remove.others", true, true)) {
+                if (!r.perm(cs, "uc.money.remove.others", false, true)) {
                     return;
                 }
                 OfflinePlayer t = r.searchOfflinePlayer(args[1]);
@@ -169,6 +169,9 @@ public class CmdMoney implements UltimateCommand {
                 r.sendMes(cs, "moneyUsage");
             }
         } else if (args[0].equalsIgnoreCase("top")) {
+            if (!r.perm(cs, "uc.money.top", true, true)) {
+                return;
+            }
             HashMap<String, Double> mapO = new HashMap<>();
             Config c = new Config(UltimateFileLoader.DFeconomy);
             for (String s : c.getKeys(false)) {
