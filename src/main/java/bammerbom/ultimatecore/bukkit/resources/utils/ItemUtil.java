@@ -47,7 +47,7 @@ public class ItemUtil {
 
     static HashMap<Material, String> ids = new HashMap<>();
 
-    static {
+    public static void start() {
         //ids
         try {
             Object ma = ReflectionUtil.executeStatic("REGISTRY", ReflectionStatic.fromNMS("Item")).fetch();

@@ -36,7 +36,7 @@ public class CmdRules implements UltimateCommand {
 
     static String message = "";
 
-    static {
+    public static void start() {
         File file = new File(r.getUC().getDataFolder(), "rules.txt");
         if (!file.exists()) {
             r.getUC().saveResource("rules.txt", true);

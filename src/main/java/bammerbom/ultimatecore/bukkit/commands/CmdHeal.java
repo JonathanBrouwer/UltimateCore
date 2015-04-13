@@ -35,7 +35,7 @@ public class CmdHeal implements UltimateCommand {
 
     static Boolean healPositiveEffects = false;
 
-    static {
+    public static void start() {
         if (r.getCnfg().getBoolean("HealPositive")) {
             healPositiveEffects = true;
         }

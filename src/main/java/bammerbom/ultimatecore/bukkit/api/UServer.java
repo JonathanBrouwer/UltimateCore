@@ -56,7 +56,7 @@ public class UServer {
     static Boolean silence = null;
     static Long silencetime = null;
 
-    static {
+    public static void start() {
         try {
             File file = new File(r.getUC().getDataFolder(), "motd.txt");
             if (!file.exists()) {

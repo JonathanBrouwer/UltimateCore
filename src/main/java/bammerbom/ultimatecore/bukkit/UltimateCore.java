@@ -23,10 +23,15 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
+import bammerbom.ultimatecore.bukkit.api.UServer;
+import bammerbom.ultimatecore.bukkit.commands.CmdHeal;
+import bammerbom.ultimatecore.bukkit.commands.CmdRules;
 import bammerbom.ultimatecore.bukkit.listeners.*;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.PerformanceUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.UuidUtil;
 import java.io.File;
@@ -67,6 +72,13 @@ public class UltimateCore extends JavaPlugin {
             PerformanceUtil.getTps();
             BossbarUtil.enable();
             ItemDatabase.enable();
+            //
+            r.start();
+            UServer.start();
+            CmdHeal.start();
+            CmdRules.start();
+            MetaItemStack.start();
+            ItemUtil.start();
             //
             String c = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
             Integer v = Integer.parseInt(c.replace(".", ""));

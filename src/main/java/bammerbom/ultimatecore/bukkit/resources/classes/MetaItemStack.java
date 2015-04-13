@@ -49,7 +49,7 @@ public class MetaItemStack {
     private static final Map<String, DyeColor> colorMap = new HashMap<>();
     private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap<>();
 
-    static {
+    public static void start() {
         for (DyeColor color : DyeColor.values()) {
             colorMap.put(color.name(), color);
         }

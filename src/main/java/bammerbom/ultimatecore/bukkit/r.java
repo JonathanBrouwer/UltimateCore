@@ -73,7 +73,7 @@ public class r {
     private static Vault vault;
     private static Object prom;
 
-    static {
+    public static void start() {
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             vault = new r().new Vault();
             UC.ueconomy = new UEconomy();
