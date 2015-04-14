@@ -1,4 +1,4 @@
-UltimateCore is all you need to setup a server and more! 
+UltimateCore is all you need to setup a server and more! ![Travis-ci](https://travis-ci.org/Bammerbom/UltimateCore.svg?branch=master)
 
 In maven, to add UltimateCore as dependency add this to your pom:
 ```
