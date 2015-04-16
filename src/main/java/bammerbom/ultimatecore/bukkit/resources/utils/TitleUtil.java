@@ -25,7 +25,9 @@ package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class TitleUtil {
@@ -72,14 +74,40 @@ public class TitleUtil {
         }
     }
 
-    public static void sendActionBar(Player player, String message) {
+    private static Class<?> getNmsClass(String nmsClassName)
+            throws ClassNotFoundException {
+        return Class.forName("net.minecraft.server." + Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + "." + nmsClassName);
+    }
+
+    private static String getServerVersion() {
+        return Bukkit.getServer().getClass().getPackage().getName().substring(23);
+    }
+
+    public static void sendActionBar(Player p, String msg) {
         try {
-            Class<?> a = ReflectionStatic.fromNMS("ChatSerializer");
-            ReflectionObject b = ReflectionUtil.executeStatic("a({1})", a, "{\"text\": \"" + message + "\"}");
-            ReflectionObject c = ReflectionObject.fromNMS("PacketPlayOutChat", b.fetch(), (byte) 2);
-            ReflectionUtil.execute("getHandle().playerConnection.sendPacket({1})", player, c.fetch());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            if (getServerVersion().equalsIgnoreCase("v1_8_R2")) {
+                Object icbc = getNmsClass("IChatBaseComponent$ChatSerializer").getMethod("a", new Class[]{String.class}).invoke(null, new Object[]{"{'text': '" + msg + "'}"});
+
+                Object ppoc = getNmsClass("PacketPlayOutChat").getConstructor(new Class[]{getNmsClass("IChatBaseComponent"), Byte.TYPE}).newInstance(new Object[]{icbc, Byte.parseByte("2")});
+
+                Object nmsp = p.getClass().getMethod("getHandle", new Class[0]).invoke(p, new Object[0]);
+
+                Object pcon = nmsp.getClass().getField("playerConnection").get(nmsp);
+
+                pcon.getClass().getMethod("sendPacket", new Class[]{getNmsClass("Packet")}).invoke(pcon, new Object[]{ppoc});
+            } else {
+                Object icbc = getNmsClass("ChatSerializer").getMethod("a", new Class[]{String.class}).invoke(null, new Object[]{"{'text': '" + msg + "'}"});
+
+                Object ppoc = getNmsClass("PacketPlayOutChat").getConstructor(new Class[]{getNmsClass("IChatBaseComponent"), Byte.TYPE}).newInstance(new Object[]{icbc, Byte.parseByte("2")});
+
+                Object nmsp = p.getClass().getMethod("getHandle", new Class[0]).invoke(p, new Object[0]);
+
+                Object pcon = nmsp.getClass().getField("playerConnection").get(nmsp);
+
+                pcon.getClass().getMethod("sendPacket", new Class[]{getNmsClass("Packet")}).invoke(pcon, new Object[]{ppoc});
+            }
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException | InstantiationException | NoSuchFieldException e) {
+            e.printStackTrace();
         }
     }
 }
