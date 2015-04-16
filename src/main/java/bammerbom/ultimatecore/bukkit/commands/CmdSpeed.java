@@ -108,7 +108,7 @@ public class CmdSpeed implements UltimateCommand {
             t.setFlySpeed(getSpeed(d, true));
             t.setWalkSpeed(getSpeed(d, false));
             r.sendMes(cs, "speedOtherSelf", "%Player", t.getName(), "%Speed", args[0]);
-            r.sendMes(cs, "speedOtherSelf", "%Speed", args[0]);
+            r.sendMes(t, "speedOtherOthers", "%Speed", args[0]);
         }
     }
 
