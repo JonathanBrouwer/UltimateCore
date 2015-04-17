@@ -73,14 +73,25 @@ public class r {
     private static Vault vault;
     private static Object prom;
 
-    public static void start() {
-        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+    public static void prestart() {
+        r.debug("Trying to start economy...");
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+            r.debug("Vault found.");
             vault = new r().new Vault();
             UC.ueconomy = new UEconomy();
-            Bukkit.getServicesManager().register(Economy.class, new UEconomy(), getUC(), ServicePriority.Low);
+            Bukkit.getPluginManager().getPlugin("Vault").getLogger().info("[Economy] UltimateCore found: Loaded");
+            Bukkit.getServicesManager().register(Economy.class, UC.ueconomy, Bukkit.getPluginManager().getPlugin("Vault"), ServicePriority.Low);
+        } else {
+            r.debug("Vault not found. " + Bukkit.getPluginManager().getPlugins());
         }
+    }
+
+    public static void start() {
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
             prom = com.comphenix.protocol.ProtocolLibrary.getProtocolManager();
+        }
+        if (r.getCnfg().contains("Debug")) {
+            setDebug(r.getCnfg().getBoolean("Debug"));
         }
     }
 
@@ -344,7 +355,12 @@ public class r {
         if (!debug) {
             return;
         }
-        log(ChatColor.WHITE + message.toString());
+        String logo = ChatColor.translateAlternateColorCodes('&', "&9[&bUC DEBUG&9]&r");
+        if (message == null) {
+            r.debug("null");
+            return;
+        }
+        Bukkit.getConsoleSender().sendMessage(logo + " " + ChatColor.WHITE + message.toString());
         //
     }
 
@@ -413,6 +429,15 @@ public class r {
     public static boolean isInt(String check) {
         try {
             Integer.parseInt(check);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean isUUID(String check) {
+        try {
+            UUID.fromString(check);
             return true;
         } catch (Exception e) {
             return false;

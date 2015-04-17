@@ -45,10 +45,10 @@ public class UltimateFileLoader {
     public static File DFspawns;
     public static File DFwarps;
     public static File DFworlds;
-    public static File DFreports;
     public static File DFjails;
     public static File DFkits;
     public static File DFeconomy;
+    //DIS public static File DFuuid;
 
     public static void Enable() {
         Plugin plugin = UltimateCore.getInstance();
@@ -73,10 +73,10 @@ public class UltimateFileLoader {
         DFspawns = new File(plugin.getDataFolder() + File.separator + "Data", "spawns.yml");
         DFwarps = new File(plugin.getDataFolder() + File.separator + "Data", "warps.yml");
         DFworlds = new File(plugin.getDataFolder() + File.separator + "Data", "worlds.yml");
-        DFreports = new File(plugin.getDataFolder() + File.separator + "Data", "reports.yml");
         DFjails = new File(plugin.getDataFolder() + File.separator + "Data", "jails.yml");
         DFkits = new File(plugin.getDataFolder() + File.separator + "Data", "kits.yml");
         DFeconomy = new File(plugin.getDataFolder() + File.separator + "Data", "economy.yml");
+        //DIS DFuuid = new File(plugin.getDataFolder() + File.separator + "Data", "uuids.json");
         //
         try {
             if (!DFglobal.exists()) {
@@ -100,6 +100,9 @@ public class UltimateFileLoader {
             if (!DFeconomy.exists()) {
                 DFeconomy.createNewFile();
             }
+            /*DIS if (!DFuuid.exists()) {
+             DFuuid.createNewFile();
+             }*/
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to create Data files.");
         }

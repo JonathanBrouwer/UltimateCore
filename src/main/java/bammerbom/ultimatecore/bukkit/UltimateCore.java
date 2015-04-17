@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
+import bammerbom.ultimatecore.bukkit.api.UEconomy;
 import bammerbom.ultimatecore.bukkit.api.UServer;
 import bammerbom.ultimatecore.bukkit.commands.CmdHeal;
 import bammerbom.ultimatecore.bukkit.commands.CmdRules;
@@ -55,6 +56,15 @@ public class UltimateCore extends JavaPlugin {
         return file;
     }
 
+    static {
+        r.prestart();
+        try {
+            r.log("Prestarted Succesfully.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     @Override
     public void onEnable() {
         try {
@@ -73,6 +83,7 @@ public class UltimateCore extends JavaPlugin {
             BossbarUtil.enable();
             ItemDatabase.enable();
             //
+            UEconomy.start();
             r.start();
             UServer.start();
             CmdHeal.start();
