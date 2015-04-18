@@ -1090,7 +1090,11 @@ public class UPlayer {
         vanishtime = fr ? time : 0L;
         if (getOnlinePlayer() != null) {
             for (Player pl : r.getOnlinePlayers()) {
-                pl.hidePlayer(getOnlinePlayer());
+                if (fr) {
+                    pl.hidePlayer(getOnlinePlayer());
+                } else {
+                    pl.showPlayer(getOnlinePlayer());
+                }
             }
         }
         save();

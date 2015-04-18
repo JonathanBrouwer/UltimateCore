@@ -83,7 +83,7 @@ public class CmdVanish implements UltimateCommand {
             return;
         }
         OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
-        if (banp != null && (banp.isOnline() || banp.hasPlayedBefore())) {
+        if (banp == null || !(banp.isOnline() || banp.hasPlayedBefore())) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
