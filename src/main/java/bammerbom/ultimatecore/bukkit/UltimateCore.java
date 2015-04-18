@@ -128,6 +128,8 @@ public class UltimateCore extends JavaPlugin {
             UnknownCommandListener.start();
             WeatherListener.start();
             //
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new UltimateTick(), 20L, 20L);
+            //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
 

@@ -388,10 +388,6 @@ public class UPlayer {
     }
 
     public boolean isDeaf() {
-        if (!getPlayerConfig().contains("deaf")) {
-            deaf = false;
-            return false;
-        }
         if (getDeafTime() >= 1 && getDeafTimeLeft() <= 1 && getPlayerConfig().getBoolean("deaf")) {
             setDeaf(false);
             if (getPlayer().isOnline()) {
@@ -401,6 +397,10 @@ public class UPlayer {
         }
         if (deaf != null) {
             return deaf;
+        }
+        if (!getPlayerConfig().contains("deaf")) {
+            deaf = false;
+            return false;
         }
         deaf = getPlayerConfig().getBoolean("deaf");
         save();
@@ -768,10 +768,6 @@ public class UPlayer {
     }
 
     public boolean isMuted() {
-        if (!getPlayerConfig().contains("mute")) {
-            mute = false;
-            return false;
-        }
         if (getMuteTime() >= 1 && getMuteTimeLeft() <= 1 && getPlayerConfig().getBoolean("mute")) {
             setMuted(false);
             if (getPlayer().isOnline()) {
@@ -781,6 +777,11 @@ public class UPlayer {
         }
         if (mute != null) {
             return mute;
+        }
+        if (!getPlayerConfig().contains("mute")) {
+            mute = false;
+            save();
+            return false;
         }
         mute = getPlayerConfig().getBoolean("mute");
         save();
@@ -1035,10 +1036,6 @@ public class UPlayer {
     }
 
     public boolean isVanish() {
-        if (!getPlayerConfig().contains("vanish")) {
-            vanish = false;
-            return false;
-        }
         if (getVanishTime() >= 1 && getVanishTimeLeft() <= 1 && getPlayerConfig().getBoolean("vanish")) {
             setVanish(false);
             if (getPlayer().isOnline()) {
@@ -1048,6 +1045,11 @@ public class UPlayer {
         }
         if (vanish != null) {
             return vanish;
+        }
+        if (!getPlayerConfig().contains("vanish")) {
+            vanish = false;
+            save();
+            return false;
         }
         vanish = getPlayerConfig().getBoolean("vanish");
         save();
