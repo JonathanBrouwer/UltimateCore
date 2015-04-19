@@ -144,18 +144,41 @@ public class CmdWorld implements UltimateCommand {
                 return;
             }
             WorldCreator settings = new WorldCreator(args[1]);
-            for (int i = 0; i < 10; i++) {
+            Integer na = 2;
+            Environment env = Environment.NORMAL;
+            for (int i = 0; i < args.length + 3; i++) {
 
-                Integer na = 2;
                 if (r.checkArgs(args, na) == true) {
-                    if (args[na].equalsIgnoreCase("normal")) {
+                    if (args[na].equalsIgnoreCase("flat") || args[na].equalsIgnoreCase("flatland")) {
+                        settings.type(WorldType.FLAT);
+                    } else if (args[na].equalsIgnoreCase("large") || args[na].replaceAll("_", "").equalsIgnoreCase("largebiomes")) {
+                        settings.type(WorldType.LARGE_BIOMES);
+                    } else if (args[na].equalsIgnoreCase("amplified")) {
+                        settings.type(WorldType.AMPLIFIED);
+                    } else if (args[na].equalsIgnoreCase("normal")) {
+                        env = Environment.NORMAL;
                     } else if (args[na].equalsIgnoreCase("nether")) {
                         settings.environment(Environment.NETHER);
+                        env = Environment.NETHER;
                     } else if (args[na].equalsIgnoreCase("end")) {
                         settings.environment(Environment.THE_END);
+                        env = Environment.THE_END;
+                    } else if (args[na].equalsIgnoreCase("nostructures")) {
+                        settings.generateStructures(false);
+                    } else if (r.isInt(args[na])) {
+                        settings.seed(Long.parseLong(args[na]));
+                    } else if (args[na].startsWith("s:")) {
+                        if (StringUtil.isAlphaNumeric(args[na])) {
+                            String seed1 = args[na].replaceFirst("s:", "");
+                            settings.seed(seed1.hashCode());
+                        }
+                    } else if (args[na].startsWith("g:")) {
+                        String generator = args[na].replaceFirst("g:", "");
+                        settings.generator(generator);
                     }
-
+                    na++;
                 }
+
             }
             r.sendMes(cs, "worldImportImporting", "%World", settings.name());
 
