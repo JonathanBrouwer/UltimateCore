@@ -82,6 +82,7 @@ public class CmdUltimatecore implements UltimateCommand {
             }
             Bukkit.getPluginManager().disablePlugin(r.getUC());
             System.gc();
+            r.prestart();
             Bukkit.getPluginManager().enablePlugin(UltimateCore.getInstance());
             r.sendMes(cs, "ultimatecoreReload");
         } else if (args[0].equalsIgnoreCase("disable")) {
