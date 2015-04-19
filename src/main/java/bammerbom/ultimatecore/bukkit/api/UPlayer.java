@@ -502,10 +502,6 @@ public class UPlayer {
     }
 
     public boolean isGod() {
-        if (!getPlayerConfig().contains("god")) {
-            god = false;
-            return false;
-        }
         if (getGodTime() >= 1 && getGodTimeLeft() <= 1 && getPlayerConfig().getBoolean("god")) {
             setGod(false);
             if (getPlayer().isOnline()) {
@@ -515,6 +511,10 @@ public class UPlayer {
         }
         if (god != null) {
             return god;
+        }
+        if (!getPlayerConfig().contains("god")) {
+            god = false;
+            return false;
         }
         god = getPlayerConfig().getBoolean("god");
         save();
@@ -683,9 +683,6 @@ public class UPlayer {
     }
 
     public boolean isJailed() {
-        if (!getPlayerConfig().contains("jailed")) {
-            return false;
-        }
         if (getJailTimeLeft() <= 1 && getPlayerConfig().getBoolean("jailed") && !(getJailTimeLeft() <= -1)) {
             unjail();
             if (getPlayer().isOnline()) {
@@ -696,6 +693,9 @@ public class UPlayer {
         }
         if (jailed != null) {
             return jailed;
+        }
+        if (!getPlayerConfig().contains("jailed")) {
+            return false;
         }
         jailed = getPlayerConfig().getBoolean("jailed");
         save();
