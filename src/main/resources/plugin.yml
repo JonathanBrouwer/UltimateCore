@@ -334,7 +334,7 @@ commands:
     usage: /<command> <Player> <Message>
     description: Send a private message.
     permissions: uc.msg
-    aliases: [w, m, t, pm, tell, whisper, message]
+    aliases: [w, m, pm, tell, whisper, message]
   mute:
     usage: /<command> <Player> [Time]
     description: Make someone not able to chat.

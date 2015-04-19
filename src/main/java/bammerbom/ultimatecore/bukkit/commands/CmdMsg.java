@@ -54,7 +54,7 @@ public class CmdMsg implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("w", "m", "t", "pm", "tell", "whisper", "message");
+        return Arrays.asList("w", "m", "pm", "tell", "whisper", "message");
     }
 
     @Override
