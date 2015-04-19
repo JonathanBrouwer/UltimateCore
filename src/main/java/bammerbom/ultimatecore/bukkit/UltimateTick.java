@@ -42,7 +42,7 @@ public class UltimateTick implements Runnable {
             p.isMuted();
             p.isVanish();
         }
-        r.debug("Player update tick took " + (System.currentTimeMillis() - time));
+        //r.debug("Player update tick took " + (System.currentTimeMillis() - time));
     }
 
 }
