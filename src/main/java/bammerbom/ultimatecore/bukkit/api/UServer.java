@@ -57,17 +57,19 @@ public class UServer {
     static Long silencetime = null;
 
     public static void start() {
-        try {
-            File file = new File(r.getUC().getDataFolder(), "motd.txt");
-            if (!file.exists()) {
-                r.getUC().saveResource("motd.txt", true);
+        if (motd == null) {
+            try {
+                File file = new File(r.getUC().getDataFolder(), "motd.txt");
+                if (!file.exists()) {
+                    r.getUC().saveResource("motd.txt", true);
+                }
+                ArrayList<String> lines = FileUtil.getLines(file);
+                for (String str : lines) {
+                    motd = motd + ChatColor.translateAlternateColorCodes('&', str) + "\n";
+                }
+            } catch (Exception ex) {
+                ErrorLogger.log(ex, "Failed to load MOTD");
             }
-            ArrayList<String> lines = FileUtil.getLines(file);
-            for (String str : lines) {
-                motd = motd + ChatColor.translateAlternateColorCodes('&', str) + "\n";
-            }
-        } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to load MOTD");
         }
     }
 
