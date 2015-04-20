@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 
 public class UltimateWorldLoader {
 
@@ -38,8 +39,14 @@ public class UltimateWorldLoader {
                 WorldCreator w = new WorldCreator(str);
                 if (conf.contains(str + ".env")) {
                     w.environment(Environment.valueOf(conf.getString(str + ".env")));
-                    Bukkit.createWorld(w);
                 }
+                if (conf.contains(str + ".type")) {
+                    w.type(WorldType.valueOf(conf.getString(str + ".type")));
+                }
+                if (conf.contains(str + ".gen")) {
+                    w.generator(conf.getString(str + ".gen"));
+                }
+                Bukkit.createWorld(w);
             } catch (Exception ex) {
                 r.log("Failed to load world " + str);
                 ErrorLogger.log(ex, "Failed to load world " + str);

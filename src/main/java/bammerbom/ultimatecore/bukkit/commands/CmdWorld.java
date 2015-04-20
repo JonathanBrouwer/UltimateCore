@@ -80,6 +80,7 @@ public class CmdWorld implements UltimateCommand {
                 return;
             }
             WorldCreator settings = new WorldCreator(args[1]);
+            String gen = null;
             Integer na = 2;
             for (int i = 0; i < args.length + 3; i++) {
 
@@ -109,6 +110,7 @@ public class CmdWorld implements UltimateCommand {
                         }
                     } else if (args[na].startsWith("g:")) {
                         String generator = args[na].replaceFirst("g:", "");
+                        gen = generator;
                         settings.generator(generator);
                     }
                     na++;
@@ -118,7 +120,7 @@ public class CmdWorld implements UltimateCommand {
             r.sendMes(cs, "worldCreateCreating", "%World", settings.name());
 
             World world = Bukkit.createWorld(settings);
-            UC.getWorld(world).register();
+            UC.getWorld(world).register(gen);
 
             r.sendMes(cs, "worldCreateCreated", "%World", settings.name());
         } else {
@@ -144,6 +146,7 @@ public class CmdWorld implements UltimateCommand {
                 return;
             }
             WorldCreator settings = new WorldCreator(args[1]);
+            String gen = null;
             Integer na = 2;
             Environment env = Environment.NORMAL;
             for (int i = 0; i < args.length + 3; i++) {
@@ -174,6 +177,7 @@ public class CmdWorld implements UltimateCommand {
                         }
                     } else if (args[na].startsWith("g:")) {
                         String generator = args[na].replaceFirst("g:", "");
+                        gen = generator;
                         settings.generator(generator);
                     }
                     na++;
@@ -183,7 +187,7 @@ public class CmdWorld implements UltimateCommand {
             r.sendMes(cs, "worldImportImporting", "%World", settings.name());
 
             World world = Bukkit.createWorld(settings);
-            UC.getWorld(world).register();
+            UC.getWorld(world).register(gen);
 
             r.sendMes(cs, "worldImportImported", "%World", settings.name());
         } else {

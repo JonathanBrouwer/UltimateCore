@@ -62,9 +62,12 @@ public class UWorld {
     }
 
     //Register
-    public void register() {
+    public void register(String gen) {
         Config conf = new Config(getDataFile());
         conf.set(base.getName() + ".env", base.getEnvironment().name());
+        conf.set(base.getName() + ".gen", gen);
+        conf.set(base.getName() + ".type", base.getWorldType().toString());
+//conf.set(base.getName() + ".gen", base.getGenerator().getClass());
         conf.save();
     }
 
@@ -75,8 +78,9 @@ public class UWorld {
     }
 
     public void resetData() {
+        String gen = new Config(getDataFile()).getString(base.getName() + ".gen");
         unregister();
-        register();
+        register(gen.isEmpty() ? null : gen);
     }
 
     public boolean isFlagDenied(WorldFlag f) {
