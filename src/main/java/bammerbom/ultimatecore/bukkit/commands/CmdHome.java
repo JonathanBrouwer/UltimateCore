@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -77,10 +78,27 @@ public class CmdHome implements UltimateCommand {
                 a = a.substring(0, a.length() - 2);
             } catch (IndexOutOfBoundsException ex) {
             }
+            //
+            Set<String> multihomes = r.getCnfg().getConfigurationSection("Command.HomeLimits").getKeys(false);
+            Integer limit = 1;
+            if (multihomes != null) {
+                for (String s : multihomes) {
+                    if (r.perm(cs, "uc.sethome." + s.toLowerCase(), false, false)) {
+                        if (limit < r.getCnfg().getInt("Command.HomeLimits." + s)) {
+                            limit = r.getCnfg().getInt("Command.HomeLimits." + s);
+                        }
+                    }
+                }
+            }
+            if (r.perm(cs, "uc.sethome.unlimited", false, false)) {
+                limit = 999999;
+            }
+            String limitformat = limit == 999999 ? r.mes("unlimited") : (limit + "");
+            //
             if (a.equalsIgnoreCase("") || a.equalsIgnoreCase(null)) {
                 r.sendMes(cs, "homeNoHomesFound");
             } else {
-                r.sendMes(cs, "homeList", "%Homes", a);
+                r.sendMes(cs, "homeList", "%Homes", a, "%Current", homes.size(), "%Max", limitformat);
             }
         } else {
             OfflinePlayer t;
