@@ -34,6 +34,7 @@ import org.bukkit.*;
 import org.bukkit.BanList.Type;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 
 public class UPlayer {
@@ -680,10 +681,19 @@ public class UPlayer {
         conf.set("jailtime", null);
         conf.save();
         save();
+        if (tpspawn && getOnlinePlayer() != null) {
+            if (UC.getServer().getSpawn() == null) {
+                LocationUtil.teleport(getOnlinePlayer(), getOnlinePlayer().getWorld().getSpawnLocation(), PlayerTeleportEvent.TeleportCause.COMMAND, false, false);
+            } else {
+                LocationUtil.teleport(getOnlinePlayer(), UC.getServer().getSpawn(), PlayerTeleportEvent.TeleportCause.COMMAND, false, false);
+            }
+        }
     }
 
+    static boolean tpspawn = r.getCnfg().getBoolean("Command.Jail.spawn");
+
     public boolean isJailed() {
-        if (getJailTimeLeft() <= 1 && getPlayerConfig().getBoolean("jailed") && !(getJailTimeLeft() <= -1)) {
+        if (getJailTime() >= 1 && getJailTimeLeft() <= 1 && getPlayerConfig().getBoolean("jailed")) {
             unjail();
             if (getPlayer().isOnline()) {
                 r.sendMes(getOnlinePlayer(), "unjailTarget");
@@ -694,9 +704,7 @@ public class UPlayer {
         if (jailed != null) {
             return jailed;
         }
-        if (!getPlayerConfig().contains("jailed")) {
-            return false;
-        }
+
         jailed = getPlayerConfig().getBoolean("jailed");
         save();
         return getPlayerConfig().getBoolean("jailed");
