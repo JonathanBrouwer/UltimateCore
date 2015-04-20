@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.*;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -182,7 +181,7 @@ public class CmdMoney implements UltimateCommand {
             while ((map.size() - 1) >= cur && cur <= 10) {
                 String player;
                 try {
-                    player = Bukkit.getPlayer(UUID.fromString(map.keySet().toArray(new String[map.size()])[cur])).getName();
+                    player = r.searchOfflinePlayer(UUID.fromString(map.keySet().toArray(new String[map.size()])[cur])).getName();
                 } catch (IllegalArgumentException | NullPointerException ex) {
                     player = map.keySet().toArray(new String[map.size()])[cur];
                 }
