@@ -43,7 +43,7 @@ public class CmdTeleportaskall implements UltimateCommand {
 
     @Override
     public String getPermission() {
-        return "uc.tpaskall";
+        return "uc.teleportaskall";
     }
 
     @Override
