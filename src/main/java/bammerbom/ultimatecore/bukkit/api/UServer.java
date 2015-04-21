@@ -33,10 +33,7 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.text.DateFormat;
 import java.util.*;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -80,22 +77,23 @@ public class UServer {
     }
 
     //Ban
-    public List<OfflinePlayer> getBannedOfflinePlayers() {
+    public List<OfflinePlayer> getBannedOnlinePlayers() {
         List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            if (UC.getPlayer(pl).isBanned()) {
-                pls.add(pl);
+        BanList bans = Bukkit.getBanList(BanList.Type.NAME);
+        for (BanEntry en : bans.getBanEntries()) {
+            OfflinePlayer p = r.searchOfflinePlayer(en.getTarget());
+            if (p.isOnline()) {
+                pls.add(p);
             }
         }
         return pls;
     }
 
-    public List<Player> getBannedOnlinePlayers() {
-        List<Player> pls = new ArrayList<>();
-        for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isBanned()) {
-                pls.add(pl);
-            }
+    public List<OfflinePlayer> getBannedOfflinePlayers() {
+        List<OfflinePlayer> pls = new ArrayList<>();
+        BanList bans = Bukkit.getBanList(BanList.Type.NAME);
+        for (BanEntry en : bans.getBanEntries()) {
+            pls.add(r.searchOfflinePlayer(en.getTarget()));
         }
         return pls;
     }
