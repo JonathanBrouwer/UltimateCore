@@ -74,7 +74,7 @@ public class CmdNear implements UltimateCommand {
                 builder.append(", ");
             }
             builder.append(t.getName());
-            builder.append("(" + Double.valueOf(t.getLocation().distance(p.getLocation())).intValue() + "), ");
+            builder.append("(" + Double.valueOf(t.getLocation().distance(p.getLocation())).intValue() + ")");
             a = false;
         }
         if (a) {
