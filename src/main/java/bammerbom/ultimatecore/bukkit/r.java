@@ -473,14 +473,14 @@ public class r {
 
     public static List<Entity> getNearbyEntities(Location loc, double range) {
         List<Entity> entities = loc.getWorld().getEntities();
-        List<Entity> rtrn = new ArrayList<>();
+        TreeMap<Double, Entity> rtrn = new TreeMap<>();
         for (Entity en : entities) {
             if (en.getLocation().distance(loc) > range) {
                 continue;
             }
-            rtrn.add(en);
+            rtrn.put(en.getLocation().distance(loc), en);
         }
-        return rtrn;
+        return new ArrayList<>(rtrn.values());
     }
 
     public static List<Entity> getNearbyEntities(Entity en, double range) {
@@ -489,7 +489,7 @@ public class r {
 
     public static List<Player> getNearbyPlayers(Location loc, double range) {
         List<Player> entities = r.getOnlinePlayersL();
-        List<Player> rtrn = new ArrayList<>();
+        TreeMap<Double, Player> rtrn = new TreeMap<>();
         for (Player en : entities) {
             if (!en.getLocation().getWorld().equals(loc.getWorld())) {
                 continue;
@@ -497,9 +497,9 @@ public class r {
             if (en.getLocation().distance(loc) > range) {
                 continue;
             }
-            rtrn.add(en);
+            rtrn.put(en.getLocation().distance(loc), en);
         }
-        return rtrn;
+        return new ArrayList<>(rtrn.values());
     }
 
     public static List<Player> getNearbyPlayers(Entity en, double range) {

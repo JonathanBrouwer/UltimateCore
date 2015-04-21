@@ -70,6 +70,9 @@ public class CmdNear implements UltimateCommand {
         }
         for (Entity e : r.getNearbyPlayers(p, range.doubleValue())) {
             Player t = (Player) e;
+            if (t.equals(cs)) {
+                continue;
+            }
             if (!a) {
                 builder.append(", ");
             }
