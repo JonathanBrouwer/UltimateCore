@@ -188,6 +188,9 @@ public class CmdGamemode implements UltimateCommand {
                     return;
             }
             if (r.checkArgs(args, 1)) {
+                if (!r.perm(cs, "uc.gamemode.others", false, true)) {
+                    return;
+                }
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
