@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.configuration.ConfigSection;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import java.io.*;
 import java.util.*;
@@ -41,13 +42,13 @@ public class UltimateFileLoader {
     public static File LANGf;
     public static File ENf;
 
-    public static File DFglobal;
-    public static File DFspawns;
-    public static File DFwarps;
-    public static File DFworlds;
-    public static File DFjails;
-    public static File DFkits;
-    public static File DFeconomy;
+    public static File Dglobal;
+    public static File Dspawns;
+    public static File Dwarps;
+    public static File Dworlds;
+    public static File Djails;
+    public static File Dkits;
+    public static File Deconomy;
     //DIS public static File DFuuid;
 
     public static void Enable() {
@@ -69,36 +70,36 @@ public class UltimateFileLoader {
             messages.mkdir();
         }
         //
-        DFglobal = new File(plugin.getDataFolder() + File.separator + "Data", "global.yml");
-        DFspawns = new File(plugin.getDataFolder() + File.separator + "Data", "spawns.yml");
-        DFwarps = new File(plugin.getDataFolder() + File.separator + "Data", "warps.yml");
-        DFworlds = new File(plugin.getDataFolder() + File.separator + "Data", "worlds.yml");
-        DFjails = new File(plugin.getDataFolder() + File.separator + "Data", "jails.yml");
-        DFkits = new File(plugin.getDataFolder() + File.separator + "Data", "kits.yml");
-        DFeconomy = new File(plugin.getDataFolder() + File.separator + "Data", "economy.yml");
+        Dglobal = new File(plugin.getDataFolder() + File.separator + "Data", "global.json");
+        Dspawns = new File(plugin.getDataFolder() + File.separator + "Data", "spawns.json");
+        Dwarps = new File(plugin.getDataFolder() + File.separator + "Data", "warps.json");
+        Dworlds = new File(plugin.getDataFolder() + File.separator + "Data", "worlds.json");
+        Djails = new File(plugin.getDataFolder() + File.separator + "Data", "jails.json");
+        Dkits = new File(plugin.getDataFolder(), "kits.yml");
+        Deconomy = new File(plugin.getDataFolder() + File.separator + "Data", "economy.json");
         //DIS DFuuid = new File(plugin.getDataFolder() + File.separator + "Data", "uuids.json");
         //
         try {
-            if (!DFglobal.exists()) {
-                DFglobal.createNewFile();
+            if (!Dglobal.exists()) {
+                Dglobal.createNewFile();
             }
-            if (!DFspawns.exists()) {
-                DFspawns.createNewFile();
+            if (!Dspawns.exists()) {
+                Dspawns.createNewFile();
             }
-            if (!DFwarps.exists()) {
-                DFwarps.createNewFile();
+            if (!Dwarps.exists()) {
+                Dwarps.createNewFile();
             }
-            if (!DFworlds.exists()) {
-                DFworlds.createNewFile();
+            if (!Dworlds.exists()) {
+                Dworlds.createNewFile();
             }
-            if (!DFjails.exists()) {
-                DFjails.createNewFile();
+            if (!Djails.exists()) {
+                Djails.createNewFile();
             }
-            if (!DFkits.exists()) {
-                plugin.saveResource("Data" + File.separator + "kits.yml", true);
+            if (!Dkits.exists()) {
+                plugin.saveResource("kits.yml", true);
             }
-            if (!DFeconomy.exists()) {
-                DFeconomy.createNewFile();
+            if (!Deconomy.exists()) {
+                Deconomy.createNewFile();
             }
             /*DIS if (!DFuuid.exists()) {
              DFuuid.createNewFile();
@@ -135,7 +136,7 @@ public class UltimateFileLoader {
 
     public static File getPlayerFile(final OfflinePlayer p) {
         UUID id = p.getUniqueId();
-        final File file = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + id.toString() + ".yml");
+        final File file = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + id.toString() + ".json");
         File directory = new File(r.getUC().getDataFolder() + File.separator + "Players");
         if (!file.exists()) {
             try {
@@ -151,9 +152,9 @@ public class UltimateFileLoader {
 
     }
 
-    public static Config getPlayerConfig(OfflinePlayer p) {
+    public static JsonConfig getPlayerConfig(OfflinePlayer p) {
         File file = getPlayerFile(p);
-        Config config = new Config(file);
+        JsonConfig config = new JsonConfig(file);
         return config;
     }
 

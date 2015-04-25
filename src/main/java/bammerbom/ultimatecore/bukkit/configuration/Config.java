@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.bukkit.resources.utils.StreamUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import java.io.*;
 import java.util.*;
-import org.bukkit.Bukkit;
 
 public class Config extends YamlConfiguration implements Cloneable {
 
@@ -103,17 +102,6 @@ public class Config extends YamlConfiguration implements Cloneable {
     }
 
     //save
-    @SuppressWarnings("deprecation")
-    public void reload() {
-        // Look for defaults in the jar
-        InputStream defConfigStream = Bukkit.getPluginManager().getPlugin("UltimateCore").getResource(file.getName());
-
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            setDefaults(defConfig);
-        }
-    }
-
     public void save() {
         save(file);
     }

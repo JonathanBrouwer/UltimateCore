@@ -94,7 +94,7 @@ public class CmdKit implements UltimateCommand {
             return;
         }
         final Player p = (Player) cs;
-        final Config config = new Config(UltimateFileLoader.DFkits);
+        final Config config = new Config(UltimateFileLoader.Dkits);
         final ConfigSection kitNode = config.getConfigurationSection(args[0]);
         if (kitNode == null) {
             r.sendMes(cs, "kitNotFound", "%Kit", args[0]);

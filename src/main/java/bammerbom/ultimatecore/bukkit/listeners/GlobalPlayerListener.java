@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.bukkit.listeners;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.commands.CmdMobtp;
-import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
@@ -118,7 +118,7 @@ public class GlobalPlayerListener implements Listener {
             }
             //Name changes
             if (UC.getPlayer(e.getPlayer()).getPlayerConfig().contains("oldname")) {
-                Config conf = UC.getPlayer(e.getPlayer()).getPlayerConfig();
+                JsonConfig conf = UC.getPlayer(e.getPlayer()).getPlayerConfig();
                 r.sendMes(e.getPlayer(), "nameChanged", "%Oldname", conf.getString("oldname"), "%Newname", e.getPlayer().getName());
                 conf.set("oldname", null);
                 conf.save();

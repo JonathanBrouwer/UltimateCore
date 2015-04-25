@@ -31,8 +31,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import org.apache.commons.io.IOUtils;
 
 public class FileUtil {
 
@@ -54,6 +56,17 @@ public class FileUtil {
             ErrorLogger.log(ex, "Failed to get lines of file " + file.getName());
             return null;
         }
+    }
+
+    public static List<String> getLines(InputStream stream) {
+        StringWriter writer = new StringWriter();
+        try {
+            IOUtils.copy(stream, writer);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        String list = writer.toString();
+        return Arrays.asList(list.split("\n"));
     }
 
     public static void writeLargerTextFile(File file, List<String> aLines) throws IOException {

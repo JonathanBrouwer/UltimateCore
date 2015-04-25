@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
-import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.Arrays;
 import java.util.List;
@@ -63,7 +63,7 @@ public class CmdNames implements UltimateCommand {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
-        Config conf = UltimateFileLoader.getPlayerConfig(p);
+        JsonConfig conf = UltimateFileLoader.getPlayerConfig(p);
         List<String> names = conf.getStringList("names");
         r.sendMes(cs, "namesMessage", "%Player", p.getName());
         for (String name : names) {

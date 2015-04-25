@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import com.google.common.collect.ImmutableList;
@@ -142,7 +142,7 @@ public class UuidUtil {
             if (p.getUniqueId() == null) {
                 continue;
             }
-            final File file = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + p.getUniqueId() + ".yml");
+            final File file = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + p.getUniqueId() + ".json");
             if (!file.exists()) {
                 try {
                     file.createNewFile();
@@ -150,7 +150,7 @@ public class UuidUtil {
                     ErrorLogger.log(e, "Failed to create new file for " + p.getUniqueId());
                 }
             }
-            Config conf = new Config(file);
+            JsonConfig conf = new JsonConfig(file);
             if (p.getName() == null) {
                 if (!conf.contains("name")) {
                     if (request == null) {
@@ -210,8 +210,8 @@ public class UuidUtil {
                 HashMap<UUID, String> s = new UuidToName(req).call();
                 for (UUID u : s.keySet()) {
                     String n = s.get(u);
-                    File f = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + u + ".yml");
-                    Config conf = new Config(f);
+                    File f = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + u + ".json");
+                    JsonConfig conf = new JsonConfig(f);
                     conf.set("name", n);
                     conf.save();
                     //

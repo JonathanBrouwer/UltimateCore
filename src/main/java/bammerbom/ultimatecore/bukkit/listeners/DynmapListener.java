@@ -68,7 +68,6 @@ public class DynmapListener implements Listener {
                 return;
             }
             if (reload) {
-                r.getCnfg().reload();
                 if (warpsE) {
                     if (warplayer != null) {
                         if (warplayer.set != null) {

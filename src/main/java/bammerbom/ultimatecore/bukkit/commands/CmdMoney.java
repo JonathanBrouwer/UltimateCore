@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
-import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import java.util.*;
 import org.bukkit.OfflinePlayer;
@@ -172,8 +172,8 @@ public class CmdMoney implements UltimateCommand {
                 return;
             }
             HashMap<String, Double> mapO = new HashMap<>();
-            Config c = new Config(UltimateFileLoader.DFeconomy);
-            for (String s : c.getKeys(false)) {
+            JsonConfig c = new JsonConfig(UltimateFileLoader.Deconomy);
+            for (String s : c.listKeys(false)) {
                 mapO.put(s, c.getDouble(s));
             }
             LinkedHashMap<String, Double> map = sortHashMapByValuesD(mapO);

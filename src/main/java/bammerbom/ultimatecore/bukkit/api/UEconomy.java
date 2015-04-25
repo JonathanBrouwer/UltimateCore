@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.api;
 
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
-import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.UuidUtil;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import org.bukkit.OfflinePlayer;
 
 public class UEconomy implements Economy {
 
-    static Config conf;
+    static JsonConfig conf;
     static String format;
     static String currencyName;
     static String currencyNamePlural;
@@ -44,13 +44,13 @@ public class UEconomy implements Economy {
      * Internal method, ignore please.
      */
     public static void start() {
-        conf = new Config(UltimateFileLoader.DFeconomy);
+        conf = new JsonConfig(UltimateFileLoader.Deconomy);
         format = r.getCnfg().getString("Economy.format");
         currencyName = r.getCnfg().getString("Economy.currencyName");
         currencyNamePlural = r.getCnfg().getString("Economy.currencyNamePlural");
     }
 
-    public Config getData() {
+    public JsonConfig getData() {
         return conf;
     }
 

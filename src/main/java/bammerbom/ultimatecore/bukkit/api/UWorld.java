@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.api;
 
-import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.resources.utils.FireworkUtil;
 import java.io.File;
 import org.bukkit.*;
@@ -54,7 +54,7 @@ public class UWorld {
 
     //Datafile
     public File getDataFile() {
-        return new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + File.separator + "Data", "worlds.yml");
+        return new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + File.separator + "Data", "worlds.json");
     }
 
     public World getWorld() {
@@ -63,7 +63,7 @@ public class UWorld {
 
     //Register
     public void register(String gen) {
-        Config conf = new Config(getDataFile());
+        JsonConfig conf = new JsonConfig(getDataFile());
         conf.set(base.getName() + ".env", base.getEnvironment().name());
         conf.set(base.getName() + ".gen", gen);
         conf.set(base.getName() + ".type", base.getWorldType().toString());
@@ -72,20 +72,20 @@ public class UWorld {
     }
 
     public void unregister() {
-        Config conf = new Config(getDataFile());
+        JsonConfig conf = new JsonConfig(getDataFile());
         conf.set(base.getName(), null);
         conf.save();
     }
 
     public void resetData() {
-        String gen = new Config(getDataFile()).getString(base.getName() + ".gen");
+        String gen = new JsonConfig(getDataFile()).getString(base.getName() + ".gen");
         unregister();
         register(gen.isEmpty() ? null : gen);
     }
 
     public boolean isFlagDenied(WorldFlag f) {
         File file = getDataFile();
-        Config conf = new Config(file);
+        JsonConfig conf = new JsonConfig(file);
         if (!conf.contains(getWorld().getName() + ".flags." + f.toString())) {
             return false;
         }
@@ -98,7 +98,7 @@ public class UWorld {
 
     public void setFlagAllowed(WorldFlag f) {
         File file = getDataFile();
-        Config conf = new Config(file);
+        JsonConfig conf = new JsonConfig(file);
         conf.set(getWorld().getName() + ".flags." + f.toString(), true);
         conf.save(file);
         if (f.equals(WorldFlag.ANIMAL)) {
@@ -114,7 +114,7 @@ public class UWorld {
 
     public void setFlagDenied(WorldFlag f) {
         File file = getDataFile();
-        Config conf = new Config(file);
+        JsonConfig conf = new JsonConfig(file);
         conf.set(getWorld().getName() + ".flags." + f.toString(), false);
         conf.save(file);
         if (f.equals(WorldFlag.ANIMAL)) {
@@ -130,14 +130,14 @@ public class UWorld {
 
     public GameMode getDefaultGamemode() {
         File file = getDataFile();
-        Config conf = new Config(file);
+        JsonConfig conf = new JsonConfig(file);
         String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
         return GameMode.valueOf(gm);
     }
 
     public void setDefaultGamemode(GameMode gm) {
         File file = getDataFile();
-        Config conf = new Config(file);
+        JsonConfig conf = new JsonConfig(file);
         conf.set(getWorld().getName() + ".flags.gamemode", gm.name());
         conf.save(file);
     }

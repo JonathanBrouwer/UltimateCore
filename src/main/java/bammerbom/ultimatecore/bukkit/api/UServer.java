@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.api;
 
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
@@ -249,8 +250,8 @@ public class UServer {
     public HashMap<String, Location> getJails() {
         if (jails == null) {
             jails = new HashMap<>();
-            for (String s : new Config(UltimateFileLoader.DFjails).getKeys(true)) {
-                Location loc = LocationUtil.convertStringToLocation(new Config(UltimateFileLoader.DFjails).getString(s));
+            for (String s : new Config(UltimateFileLoader.Djails).getKeys(true)) {
+                Location loc = LocationUtil.convertStringToLocation(new Config(UltimateFileLoader.Djails).getString(s));
                 jails.put(s, loc);
             }
         }
@@ -266,7 +267,7 @@ public class UServer {
             jails.remove(n);
         }
         jails.put(n, l);
-        Config c = new Config(UltimateFileLoader.DFjails);
+        JsonConfig c = new JsonConfig(UltimateFileLoader.Djails);
         c.set(n, LocationUtil.convertLocationToString(l));
         c.save();
     }
@@ -281,7 +282,7 @@ public class UServer {
     public void removeJail(String n) {
         getJails();
         jails.remove(n);
-        Config c = new Config(UltimateFileLoader.DFjails);
+        JsonConfig c = new JsonConfig(UltimateFileLoader.Djails);
         c.set(n, null);
         c.save();
     }
@@ -393,10 +394,10 @@ public class UServer {
 
     public Location getSpawn() {
         if (spawn == null) {
-            if (!new Config(UltimateFileLoader.DFspawns).contains("global")) {
+            if (!new JsonConfig(UltimateFileLoader.Dspawns).contains("global")) {
                 return null;
             }
-            String s = new Config(UltimateFileLoader.DFspawns).getString("global");
+            String s = new JsonConfig(UltimateFileLoader.Dspawns).getString("global");
             Location loc = LocationUtil.convertStringToLocation(s);
             spawn = loc;
             return loc;
@@ -407,7 +408,7 @@ public class UServer {
     public void setSpawn(Location loc) {
         spawn = loc;
         String s = LocationUtil.convertLocationToString(loc);
-        Config conf = new Config(UltimateFileLoader.DFspawns);
+        JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);
         conf.set("global", s);
         conf.save();
     }
@@ -483,11 +484,11 @@ public class UServer {
             return warps;
         }
         warps = new HashMap<>();
-        Config conf = new Config(UltimateFileLoader.DFwarps);
+        JsonConfig conf = new JsonConfig(UltimateFileLoader.Dwarps);
         if (!conf.contains("warps")) {
             return warps;
         }
-        for (String hname : conf.getConfigurationSection("warps").getKeys(false)) {
+        for (String hname : conf.listKeys("waprs", false)) {
             warps.put(hname, LocationUtil.convertStringToLocation(conf.getString("warps." + hname)));
         }
         return warps;
@@ -495,7 +496,7 @@ public class UServer {
 
     public void setWarps(HashMap<String, Location> nh) {
         warps = nh;
-        Config conf = new Config(UltimateFileLoader.DFwarps);
+        JsonConfig conf = new JsonConfig(UltimateFileLoader.Dwarps);
         conf.set("warps", null);
         for (String s : nh.keySet()) {
             conf.set("warps." + s, LocationUtil.convertLocationToString(nh.get(s.toLowerCase())));
@@ -561,7 +562,7 @@ public class UServer {
     }
 
     public List<UKit> getKits() {
-        ArrayList<String> kitnames = new ArrayList<>(new Config(UltimateFileLoader.DFkits).getKeys(false));
+        ArrayList<String> kitnames = new ArrayList<>(new Config(UltimateFileLoader.Dkits).getKeys(false));
         ArrayList<UKit> kits = new ArrayList<>();
         for (String s : kitnames) {
             kits.add(getKit(s));
@@ -570,20 +571,23 @@ public class UServer {
     }
 
     public List<String> getKitNames() {
-        return new ArrayList<>(new Config(UltimateFileLoader.DFkits).getKeys(false));
+        return new ArrayList<>(new Config(UltimateFileLoader.Dkits).getKeys(false));
     }
 
     public boolean isDebug() {
         return r.isDebug();
     }
 
-    public Config getGlobalConfig() {
-        return new Config(UltimateFileLoader.DFglobal);
+    public JsonConfig getGlobalConfig() {
+        return new JsonConfig(UltimateFileLoader.Dglobal);
     }
 
     public boolean isSilenced() {
         if (silence == null) {
-            silence = getGlobalConfig().getBoolean("silence", false);
+            silence = getGlobalConfig().getBoolean("silence");
+            if (silence == null) {
+                silence = false;
+            }
         }
         if (getSilenceTime() >= 1 && getSilenceTimeLeft() <= 1 && getGlobalConfig().getBoolean("silence")) {
             setSilenced(false);
@@ -595,7 +599,7 @@ public class UServer {
 
     public void setSilenced(boolean s) {
         silence = s;
-        Config c = getGlobalConfig();
+        JsonConfig c = getGlobalConfig();
         c.set("silence", s);
         c.set("silencetime", null);
         c.save();
@@ -618,7 +622,7 @@ public class UServer {
     }
 
     public void setSilenced(Boolean fr, Long time) {
-        Config conf = getGlobalConfig();
+        JsonConfig conf = getGlobalConfig();
         if (silencetime == null || silencetime == 0L) {
             silencetime = -1L;
         }

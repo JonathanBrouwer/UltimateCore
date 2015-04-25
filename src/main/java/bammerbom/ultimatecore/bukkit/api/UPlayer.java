@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.bukkit.api;
 
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
-import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
@@ -106,7 +106,7 @@ public class UPlayer {
         if (lastconnect != null) {
             return lastconnect;
         }
-        final Config conf = getPlayerConfig();
+        final JsonConfig conf = getPlayerConfig();
         if (conf.get("lastconnect") != null) {
             lastconnect = conf.getLong("lastconnect");
             save();
@@ -120,7 +120,7 @@ public class UPlayer {
 
     public void updateLastConnectMillis() {
         lastconnect = System.currentTimeMillis();
-        final Config conf = getPlayerConfig();
+        final JsonConfig conf = getPlayerConfig();
         conf.set("lastconnect", System.currentTimeMillis());
         conf.save();
         save();
@@ -128,7 +128,7 @@ public class UPlayer {
 
     public void updateLastConnectMillis(Long millis) {
         lastconnect = millis;
-        final Config conf = getPlayerConfig();
+        final JsonConfig conf = getPlayerConfig();
         conf.set("lastconnect", millis);
         conf.save();
         save();
@@ -138,7 +138,7 @@ public class UPlayer {
         if (lastip != null) {
             return lastip;
         }
-        final Config conf = getPlayerConfig();
+        final JsonConfig conf = getPlayerConfig();
         if (conf.get("ip") != null) {
             lastip = conf.getString("ip");
             save();
@@ -154,7 +154,7 @@ public class UPlayer {
 
     public void setLastIp(String ip) {
         lastip = ip;
-        final Config conf = getPlayerConfig();
+        final JsonConfig conf = getPlayerConfig();
         conf.set("ip", ip);
         conf.save();
         save();
@@ -166,7 +166,7 @@ public class UPlayer {
         if (lasthostname != null) {
             return lasthostname;
         }
-        final Config conf = getPlayerConfig();
+        final JsonConfig conf = getPlayerConfig();
         if (conf.get("hostname") != null) {
             lastip = conf.getString("hostname");
             save();
@@ -182,14 +182,14 @@ public class UPlayer {
 
     public void setLastHostname(String ip) {
         lasthostname = ip;
-        final Config conf = getPlayerConfig();
+        final JsonConfig conf = getPlayerConfig();
         conf.set("hostname", ip);
         conf.save();
         save();
     }
 
     //Configuration
-    public Config getPlayerConfig() {
+    public JsonConfig getPlayerConfig() {
         return UltimateFileLoader.getPlayerConfig(getPlayer());
     }
 
@@ -216,22 +216,17 @@ public class UPlayer {
 
     public void setLastLocation(Location loc) {
         lastLocation = loc;
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         conf.set("lastlocation", loc == null ? null : LocationUtil.convertLocationToString(loc));
         conf.save();
         save();
     }
 
     public boolean isBanned() {
-        if (getBanTime() != null && getBanTime() >= 1 && getBanTimeLeft() <= 1 && getPlayerConfig().getBoolean("banned")) {
+        if (getBanTime() != null && getBanTime() >= 1 && getBanTimeLeft() <= 1 && (banned != null ? banned : getPlayerConfig().getBoolean("banned"))) {
             unban();
             return false;
         }
-        //REMOVED BECAUSE OF ISSUES
-        /*if (banned != null) {
-         r.log("4");
-         return banned;
-         }*/
         if (getPlayer() == null || getPlayer().getName() == null) {
             return false;
         }
@@ -288,6 +283,8 @@ public class UPlayer {
             if (getLastIp() != null && list.isBanned(getLastIp()) && list.getBanEntry(getLastIp()).getExpiration() != null) {
                 return list.getBanEntry(getLastIp()).getExpiration().getTime();
             }
+            bantime = 0L;
+            save();
             return 0L;
         }
         bantime = getPlayerConfig().getLong("bantime");
@@ -321,7 +318,7 @@ public class UPlayer {
         bantime = 0L;
         banreason = "";
         save();
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         conf.set("banned", false);
         conf.set("bantime", null);
         conf.set("banreason", null);
@@ -337,7 +334,7 @@ public class UPlayer {
     }
 
     public void ban(Long time, String reason, CommandSender source) {
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         if (time == null || time == 0L) {
             time = -1L;
         }
@@ -389,7 +386,7 @@ public class UPlayer {
     }
 
     public boolean isDeaf() {
-        if (getDeafTime() >= 1 && getDeafTimeLeft() <= 1 && getPlayerConfig().getBoolean("deaf")) {
+        if (getDeafTime() >= 1 && getDeafTimeLeft() <= 1 && (deaf != null ? deaf : getPlayerConfig().getBoolean("deaf"))) {
             setDeaf(false);
             if (getPlayer().isOnline()) {
                 r.sendMes(getOnlinePlayer(), "undeafTarget");
@@ -401,6 +398,7 @@ public class UPlayer {
         }
         if (!getPlayerConfig().contains("deaf")) {
             deaf = false;
+            save();
             return false;
         }
         deaf = getPlayerConfig().getBoolean("deaf");
@@ -417,6 +415,8 @@ public class UPlayer {
             return deaftime;
         }
         if (!getPlayerConfig().contains("deaftime")) {
+            deaftime = 0L;
+            save();
             return 0L;
         }
         deaftime = getPlayerConfig().getLong("deaftime");
@@ -430,7 +430,7 @@ public class UPlayer {
     }
 
     public void setDeaf(Boolean dea, Long time) {
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         if (deaftime == null || deaftime == 0L) {
             deaftime = -1L;
         }
@@ -446,11 +446,7 @@ public class UPlayer {
     }
 
     public boolean isFrozen() {
-        if (!getPlayerConfig().contains("freeze")) {
-            freeze = false;
-            return false;
-        }
-        if (getFrozenTime() >= 1 && getFrozenTimeLeft() <= 1 && getPlayerConfig().getBoolean("freeze")) {
+        if (getFrozenTime() >= 1 && getFrozenTimeLeft() <= 1 && (freeze != null ? freeze : getPlayerConfig().getBoolean("freeze"))) {
             setFrozen(false);
             if (getPlayer().isOnline()) {
                 r.sendMes(getOnlinePlayer(), "unfreezeTarget");
@@ -459,6 +455,10 @@ public class UPlayer {
         }
         if (freeze != null) {
             return freeze;
+        }
+        if (!getPlayerConfig().contains("freeze")) {
+            freeze = false;
+            return false;
         }
         freeze = getPlayerConfig().getBoolean("freeze");
         save();
@@ -474,6 +474,8 @@ public class UPlayer {
             return freezetime;
         }
         if (!getPlayerConfig().contains("freezetime")) {
+            freezetime = 0L;
+            save();
             return 0L;
         }
         freezetime = getPlayerConfig().getLong("freezetime");
@@ -487,7 +489,7 @@ public class UPlayer {
     }
 
     public void setFrozen(Boolean fr, Long time) {
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         if (freezetime == null || freezetime == 0L) {
             freezetime = -1L;
         }
@@ -503,7 +505,7 @@ public class UPlayer {
     }
 
     public boolean isGod() {
-        if (getGodTime() >= 1 && getGodTimeLeft() <= 1 && getPlayerConfig().getBoolean("god")) {
+        if (getGodTime() >= 1 && getGodTimeLeft() <= 1 && (god != null ? god : getPlayerConfig().getBoolean("god"))) {
             setGod(false);
             if (getPlayer().isOnline()) {
                 r.sendMes(getOnlinePlayer(), "ungodTarget");
@@ -515,6 +517,7 @@ public class UPlayer {
         }
         if (!getPlayerConfig().contains("god")) {
             god = false;
+            save();
             return false;
         }
         god = getPlayerConfig().getBoolean("god");
@@ -531,6 +534,8 @@ public class UPlayer {
             return godtime;
         }
         if (!getPlayerConfig().contains("godtime")) {
+            godtime = 0L;
+            save();
             return 0L;
         }
         godtime = getPlayerConfig().getLong("godtime");
@@ -544,7 +549,7 @@ public class UPlayer {
     }
 
     public void setGod(Boolean fr, Long time) {
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         if (godtime == null || godtime == 0L) {
             godtime = -1L;
         }
@@ -564,11 +569,11 @@ public class UPlayer {
             return homes;
         }
         homes = new HashMap<>();
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         if (!conf.contains("homes")) {
             return homes;
         }
-        for (String hname : conf.getConfigurationSection("homes").getKeys(false)) {
+        for (String hname : conf.listKeys("homes", false)) {
             homes.put(hname, LocationUtil.convertStringToLocation(conf.getString("homes." + hname)));
         }
         save();
@@ -578,7 +583,7 @@ public class UPlayer {
     public void setHomes(HashMap<String, Location> nh) {
         homes = nh;
         save();
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         conf.set("homes", null);
         for (String s : nh.keySet()) {
             conf.set("homes." + s, LocationUtil.convertLocationToString(nh.get(s.toLowerCase())));
@@ -631,13 +636,13 @@ public class UPlayer {
     }
 
     public void updateLastInventory() {
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         conf.set("lastinventory", InventoryUtil.convertInventoryToString(getOnlinePlayer().getInventory()));
         conf.save();
     }
 
     public Inventory getLastInventory() {
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         if (!conf.contains("lastinventory")) {
             return null;
         }
@@ -663,7 +668,7 @@ public class UPlayer {
             l = l + System.currentTimeMillis();
         }
         jailtime = l;
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         conf.set("jailed", true);
         conf.set("jail", n);
         conf.set("jailtime", l == null ? 0L : l);
@@ -675,7 +680,7 @@ public class UPlayer {
         jailed = false;
         jail = null;
         jailtime = null;
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         conf.set("jailed", false);
         conf.set("jail", null);
         conf.set("jailtime", null);
@@ -693,7 +698,7 @@ public class UPlayer {
     static boolean tpspawn = r.getCnfg().getBoolean("Command.Jail.spawn");
 
     public boolean isJailed() {
-        if (getJailTime() >= 1 && getJailTimeLeft() <= 1 && getPlayerConfig().getBoolean("jailed")) {
+        if (getJailTime() >= 1 && getJailTimeLeft() <= 1 && (jailed != null ? jailed : getPlayerConfig().getBoolean("jailed"))) {
             unjail();
             if (getPlayer().isOnline()) {
                 r.sendMes(getOnlinePlayer(), "unjailTarget");
@@ -704,7 +709,11 @@ public class UPlayer {
         if (jailed != null) {
             return jailed;
         }
-
+        if (!getPlayerConfig().contains("jailed")) {
+            jailed = false;
+            save();
+            return false;
+        }
         jailed = getPlayerConfig().getBoolean("jailed");
         save();
         return getPlayerConfig().getBoolean("jailed");
@@ -715,6 +724,8 @@ public class UPlayer {
             return jailtime;
         }
         if (!getPlayerConfig().contains("jailtime")) {
+            jailtime = 0L;
+            save();
             return 0L;
         }
         jailtime = getPlayerConfig().getLong("jailtime");
@@ -749,7 +760,7 @@ public class UPlayer {
 
     public void setReply(Player pl) {
         reply = pl.getUniqueId();
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         conf.set("reply", pl.getUniqueId().toString());
         conf.save();
         save();
@@ -769,14 +780,14 @@ public class UPlayer {
 
     public void setSpy(Boolean sp) {
         spy = sp;
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         conf.set("spy", sp);
         conf.save();
         save();
     }
 
     public boolean isMuted() {
-        if (getMuteTime() >= 1 && getMuteTimeLeft() <= 1 && getPlayerConfig().getBoolean("mute")) {
+        if (getMuteTime() >= 1 && getMuteTimeLeft() <= 1 && (mute != null ? mute : getPlayerConfig().getBoolean("mute"))) {
             setMuted(false);
             if (getPlayer().isOnline()) {
                 r.sendMes(getOnlinePlayer(), "unmuteTarget");
@@ -805,6 +816,7 @@ public class UPlayer {
             return mutetime;
         }
         if (!getPlayerConfig().contains("mutetime")) {
+            mutetime = 0L;
             return 0L;
         }
         mutetime = getPlayerConfig().getLong("mutetime");
@@ -818,7 +830,7 @@ public class UPlayer {
     }
 
     public void setMuted(Boolean fr, Long time) {
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         if (mutetime == null || mutetime == 0L) {
             mutetime = -1L;
         }
@@ -852,7 +864,7 @@ public class UPlayer {
         if (nickname != null) {
             return nickname;
         }
-        Config data = getPlayerConfig();
+        JsonConfig data = getPlayerConfig();
         if (data.get("nick") == null) {
             return null;
         }
@@ -880,7 +892,7 @@ public class UPlayer {
                 getPlayer().getPlayer().setDisplayName(getPlayer().getPlayer().getName());
             }
         }
-        Config data = getPlayerConfig();
+        JsonConfig data = getPlayerConfig();
         data.set("nick", str);
         data.save(UltimateFileLoader.getPlayerFile(getPlayer()));
     }
@@ -897,17 +909,17 @@ public class UPlayer {
 
     public void clearPowertool(Material mat) {
         if (pts == null) {
-            Config data = getPlayerConfig();
+            JsonConfig data = getPlayerConfig();
             pts = new HashMap<>();
             if (data.contains("powertool")) {
-                for (String s : data.getConfigurationSection("powertool").getValues(false).keySet()) {
+                for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
                     pts.put(Material.getMaterial(s), l);
                 }
             }
         }
         pts.remove(mat);
-        Config data = getPlayerConfig();
+        JsonConfig data = getPlayerConfig();
         data.set("powertool." + mat.toString(), null);
         data.save();
         save();
@@ -918,10 +930,10 @@ public class UPlayer {
             return null;
         }
         if (pts == null) {
-            Config data = getPlayerConfig();
+            JsonConfig data = getPlayerConfig();
             pts = new HashMap<>();
             if (data.contains("powertool")) {
-                for (String s : data.getConfigurationSection("powertool").getValues(false).keySet()) {
+                for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
                     pts.put(Material.getMaterial(s), l);
                 }
@@ -936,10 +948,10 @@ public class UPlayer {
 
     public boolean hasPowertools() {
         if (pts == null) {
-            Config data = getPlayerConfig();
+            JsonConfig data = getPlayerConfig();
             pts = new HashMap<>();
             if (data.contains("powertool")) {
-                for (String s : data.getConfigurationSection("powertool").getValues(false).keySet()) {
+                for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
                     pts.put(Material.getMaterial(s), l);
                 }
@@ -951,10 +963,10 @@ public class UPlayer {
 
     public boolean hasPowertool(Material mat) {
         if (pts == null) {
-            Config data = getPlayerConfig();
+            JsonConfig data = getPlayerConfig();
             pts = new HashMap<>();
             if (data.contains("powertool")) {
-                for (String s : data.getConfigurationSection("powertool").getValues(false).keySet()) {
+                for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
                     pts.put(Material.getMaterial(s), l);
                 }
@@ -965,11 +977,11 @@ public class UPlayer {
     }
 
     public void setPowertool(Material mat, List<String> cmds) {
-        Config data = getPlayerConfig();
+        JsonConfig data = getPlayerConfig();
         if (pts == null) {
             pts = new HashMap<>();
             if (data.contains("powertool")) {
-                for (String s : data.getConfigurationSection("powertool").getValues(false).keySet()) {
+                for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
                     pts.put(Material.getMaterial(s), l);
                 }
@@ -1037,14 +1049,14 @@ public class UPlayer {
 
     public void setTeleportEnabled(Boolean tpe) {
         teleportEnabled = tpe;
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         conf.set("teleportenabled", tpe);
         conf.save();
         save();
     }
 
     public boolean isVanish() {
-        if (getVanishTime() >= 1 && getVanishTimeLeft() <= 1 && getPlayerConfig().getBoolean("vanish")) {
+        if (getVanishTime() >= 1 && getVanishTimeLeft() <= 1 && (vanish != null ? vanish : getPlayerConfig().getBoolean("vanish"))) {
             setVanish(false);
             if (getPlayer().isOnline()) {
                 r.sendMes(getOnlinePlayer(), "unvanishTarget");
@@ -1073,6 +1085,8 @@ public class UPlayer {
             return vanishtime;
         }
         if (!getPlayerConfig().contains("vanishtime")) {
+            vanishtime = 0L;
+            save();
             return 0L;
         }
         vanishtime = getPlayerConfig().getLong("vanishtime");
@@ -1086,7 +1100,7 @@ public class UPlayer {
     }
 
     public void setVanish(Boolean fr, Long time) {
-        Config conf = getPlayerConfig();
+        JsonConfig conf = getPlayerConfig();
         if (vanishtime == null || vanishtime == 0L) {
             vanishtime = -1L;
         }

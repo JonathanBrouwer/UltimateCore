@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
-import bammerbom.ultimatecore.bukkit.configuration.Config;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.World.Environment;
@@ -33,8 +33,8 @@ import org.bukkit.WorldType;
 public class UltimateWorldLoader {
 
     public static void startWorldLoading() {
-        Config conf = new Config(UltimateFileLoader.DFworlds);
-        for (String str : conf.getKeys(false)) {
+        JsonConfig conf = new JsonConfig(UltimateFileLoader.Dworlds);
+        for (String str : conf.listKeys(false)) {
             try {
                 WorldCreator w = new WorldCreator(str);
                 if (conf.contains(str + ".env")) {

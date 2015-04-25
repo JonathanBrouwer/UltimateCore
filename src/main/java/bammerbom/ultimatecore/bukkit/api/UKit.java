@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.bukkit.api;
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.configuration.ConfigSection;
+import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
@@ -43,7 +44,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class UKit {
 
-    private static final Config kits = new Config(UltimateFileLoader.DFkits);
+    private static final Config kits = new Config(UltimateFileLoader.Dkits);
     private final ConfigSection kit;
     private final String name;
     private final String description;
@@ -199,7 +200,8 @@ public class UKit {
      * @return Timestamp in milliseconds
      */
     public long getLastUsed(final Player p) {
-        return UC.getPlayer(p).getPlayerConfig().getLong("kits." + this.getName() + ".lastused", 0L);
+        Long l = UC.getPlayer(p).getPlayerConfig().getLong("kits." + this.getName() + ".lastused");
+        return l == null ? 0L : l;
     }
 
     /**
@@ -233,7 +235,7 @@ public class UKit {
         if (this.getCooldown() == 0L) {
             return;
         }
-        Config conf = UC.getPlayer(p).getPlayerConfig();
+        JsonConfig conf = UC.getPlayer(p).getPlayerConfig();
         conf.set("kits." + this.getName() + ".lastused", lastUsed);
         conf.save();
     }
