@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.json.simple.JSONValue;
 import org.yaml.snakeyaml.Yaml;
@@ -263,6 +264,9 @@ public class UltimateConverter {
                 //
                 r.log("Converting complete!");
                 r.log(ChatColor.DARK_RED + "-----------------------------------------------");
+                r.log("Server restart needed to complete convertion...");
+                r.log(ChatColor.GREEN + "Stopping server...");
+                Bukkit.getServer().shutdown();
             } catch (InterruptedException | IOException ex) {
                 ErrorLogger.log(ex, "Failed to convert from yaml data");
             }
