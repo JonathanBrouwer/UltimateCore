@@ -108,11 +108,8 @@ public class CmdUnban implements UltimateCommand {
             return new ArrayList<>();
         }
         ArrayList<String> str = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            r.log(pl.getName() + " - " + UC.getPlayer(pl).isBanned());
-            if (UC.getPlayer(pl).isBanned()) {
-                str.add(pl.getName());
-            }
+        for (OfflinePlayer pl : UC.getServer().getBannedOfflinePlayers()) {
+            str.add(pl.getName());
         }
         return str;
     }
