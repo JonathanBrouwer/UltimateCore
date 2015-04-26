@@ -488,7 +488,7 @@ public class UServer {
         if (!conf.contains("warps")) {
             return warps;
         }
-        for (String hname : conf.listKeys("waprs", false)) {
+        for (String hname : conf.listKeys("warps", false)) {
             warps.put(hname, LocationUtil.convertStringToLocation(conf.getString("warps." + hname)));
         }
         return warps;
