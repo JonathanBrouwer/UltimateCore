@@ -25,12 +25,15 @@ package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -90,7 +93,7 @@ public class UltimateConverter {
                 r.log("WARNING!!!");
                 r.log("UltimateCore is converting to json data...");
                 r.log("No data is lost!");
-                r.log("UltimateCore will make a backup for you: ");
+                r.log("UltimateCore will make a backup for you.");
                 r.log(ChatColor.DARK_RED + "-----------------------------------------------");
                 Thread.sleep(10000L);
                 r.log("Creating backup...");
@@ -118,6 +121,8 @@ public class UltimateConverter {
                     Map<String, Object> map = (Map<String, Object>) yaml.load(ios);
                     ios.close();
 
+                    map = convert(map);
+
                     String json = JSONValue.toJSONString(map);
                     if (json.equalsIgnoreCase("null")) {
                         json = "{}";
@@ -141,6 +146,8 @@ public class UltimateConverter {
                     Map<String, Object> map = (Map<String, Object>) yaml.load(ios);
                     ios.close();
 
+                    map = convert(map);
+
                     String json = JSONValue.toJSONString(map);
                     if (json.equalsIgnoreCase("null")) {
                         json = "{}";
@@ -162,6 +169,8 @@ public class UltimateConverter {
                     InputStream ios = new FileInputStream(oldf);
                     Map<String, Object> map = (Map<String, Object>) yaml.load(ios);
                     ios.close();
+
+                    map = convert(map);
 
                     String json = JSONValue.toJSONString(map);
                     if (json.equalsIgnoreCase("null")) {
@@ -185,6 +194,8 @@ public class UltimateConverter {
                     Map<String, Object> map = (Map<String, Object>) yaml.load(ios);
                     ios.close();
 
+                    map = convert(map);
+
                     String json = JSONValue.toJSONString(map);
                     if (json.equalsIgnoreCase("null")) {
                         json = "{}";
@@ -207,6 +218,8 @@ public class UltimateConverter {
                     Map<String, Object> map = (Map<String, Object>) yaml.load(ios);
                     ios.close();
 
+                    map = convert(map);
+
                     String json = JSONValue.toJSONString(map);
                     if (json.equalsIgnoreCase("null")) {
                         json = "{}";
@@ -228,6 +241,8 @@ public class UltimateConverter {
                     InputStream ios = new FileInputStream(oldf);
                     Map<String, Object> map = (Map<String, Object>) yaml.load(ios);
                     ios.close();
+
+                    map = convert(map);
 
                     String json = JSONValue.toJSONString(map);
                     if (json.equalsIgnoreCase("null")) {
@@ -252,6 +267,8 @@ public class UltimateConverter {
                         Map<String, Object> map = (Map<String, Object>) yaml.load(ios);
                         ios.close();
 
+                        map = convert(map);
+
                         String json = JSONValue.toJSONString(map);
                         if (json.equalsIgnoreCase("null")) {
                             json = "{}";
@@ -271,5 +288,27 @@ public class UltimateConverter {
                 ErrorLogger.log(ex, "Failed to convert from yaml data");
             }
         }
+    }
+
+    public static Map<String, Object> convert(Map<String, Object> input) {
+        if (StringUtil.nullOrEmpty(input)) {
+            return input;
+        }
+        return convert(input, "");
+    }
+
+    public static Map<String, Object> convert(Map<String, Object> input, String key) {
+        Map<String, Object> res = new HashMap<>();
+
+        for (Entry<String, Object> e : input.entrySet()) {
+            String newKey = key == "" ? e.getKey() : (key + "." + e.getKey());
+
+            if (e.getValue() instanceof Map) {
+                res.putAll(convert((Map) e.getValue(), newKey));  // recursive call
+            } else {
+                res.put(newKey, e.getValue());
+            }
+        }
+        return res;
     }
 }

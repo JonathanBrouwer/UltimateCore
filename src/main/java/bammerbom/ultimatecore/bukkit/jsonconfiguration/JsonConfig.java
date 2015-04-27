@@ -74,7 +74,12 @@ public class JsonConfig implements Cloneable {
     }
 
     public boolean contains(String s) {
-        return map.containsKey(s);
+        for (String st : map.keySet()) {
+            if (st.equals(s) || st.startsWith(s + ".")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getString(String s) {
