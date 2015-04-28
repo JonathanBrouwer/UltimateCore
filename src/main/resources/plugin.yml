@@ -59,7 +59,7 @@ commands:
     description: Set someone on fire.
     usage: /<command> <Player> [Time]
     permissions: uc.burn
-    aliases: [ignite]
+    aliases: [ignite, fire]
   butcher:
     description: Kill all monsters in a certain area.
     usage: /<command> [Type] [Range]

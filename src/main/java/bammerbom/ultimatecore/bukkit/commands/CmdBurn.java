@@ -45,7 +45,7 @@ public class CmdBurn implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("ignite");
+        return Arrays.asList("ignite", "fire");
     }
 
     @Override
