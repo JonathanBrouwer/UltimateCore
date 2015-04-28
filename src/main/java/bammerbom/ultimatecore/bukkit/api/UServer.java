@@ -518,11 +518,7 @@ public class UServer {
 
     public void removeWarp(String s) {
         HashMap<String, Location> h = getWarps();
-        for (String w : h.keySet()) {
-            if (w.equalsIgnoreCase(s)) {
-                h.remove(w);
-            }
-        }
+        h.remove(s.toLowerCase());
         setWarps(h);
     }
 
