@@ -138,7 +138,7 @@ public class AfkListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void playerCommand(PlayerCommandPreprocessEvent e) {
-        if (e.getMessage().equalsIgnoreCase("/afk") || e.getMessage().equalsIgnoreCase("afk")) {
+        if (e.getMessage().startsWith("/afk") || e.getMessage().startsWith("afk")) {
             return;
         }
         UC.getPlayer(e.getPlayer()).updateLastActivity();
