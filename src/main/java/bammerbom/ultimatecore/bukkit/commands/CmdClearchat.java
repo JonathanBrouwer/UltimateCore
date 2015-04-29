@@ -50,10 +50,11 @@ public class CmdClearchat implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.clearchat", false, true)) {
-            return;
-        }
         if (!r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.clearchat", false, true) && !r.perm(cs, "uc.clearchat.everyone", false, true)) {
+                r.sendMes(cs, "noPermissions");
+                return;
+            }
             for (Player p : r.getOnlinePlayers()) {
                 for (int i = 0; i < 100; i++) {
                     p.sendMessage("");
@@ -63,6 +64,10 @@ public class CmdClearchat implements UltimateCommand {
             Player pl = r.searchPlayer(args[0]);
             if (pl == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                return;
+            }
+            if (!r.perm(cs, "uc.clearchat", false, true) && !r.perm(cs, "uc.clearchat.player.others", false, true) && !(pl.equals(cs) && r.perm(cs, "uc.clearchat.player", true, true))) {
+                r.sendMes(cs, "noPermissions");
                 return;
             }
             for (int i = 0; i < 100; i++) {

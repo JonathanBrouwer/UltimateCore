@@ -3,222 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="9f41d463-ceb7-4188-b332-8c1d05b5d291" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.jar" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/AttributeUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/AttributeUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/AutomessageListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/AutomessageListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/AutosaveListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/AutosaveListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/BloodListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/BloodListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/BossbarUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/BossbarUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/ChatListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/ChatListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/Cmd.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/Cmd.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAccountstatus.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAccountstatus.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAfk.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAfk.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAlert.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAlert.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAnswer.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAnswer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAsk.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAsk.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBack.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBack.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBan.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBanip.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBanip.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBanlist.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBanlist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBroadcast.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBroadcast.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBurn.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBurn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdButcher.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdButcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClean.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClear.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClear.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClearchat.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClearchat.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdCompact.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdCompact.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdCompass.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdCompass.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdCoordinates.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdCoordinates.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDamage.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDamage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDeaf.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDeaf.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDeaflist.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDeaflist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDelhome.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDelhome.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDeljail.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDeljail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDelwarp.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdDelwarp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdEditsign.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdEditsign.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdEffect.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdEffect.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdEnchant.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdEnchant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdEnchantingtable.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdEnchantingtable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdEnderchest.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdEnderchest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdExperience.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdExperience.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdExtinguish.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdExtinguish.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFeed.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFeed.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFireball.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFireball.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFirework.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFirework.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFly.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFly.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFreeze.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFreeze.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFreezelist.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdFreezelist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdGamemode.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdGamemode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdGarbagecollector.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdGarbagecollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdGive.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdGive.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdGod.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdGod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHat.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHat.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHeal.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHeal.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHelp.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHelp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHome.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHome.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHomelist.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHomelist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHunger.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdHunger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdInventory.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdInventory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdIp.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdIp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdItem.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdJail.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdJail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdJaillist.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdJaillist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdJump.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdJump.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKick.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKick.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKickall.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKickall.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKill.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKill.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKillall.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKillall.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKit.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKittycannon.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdKittycannon.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdLag.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdLag.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdList.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMe.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMe.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMegasmite.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMegasmite.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMinecraftservers.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMinecraftservers.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMobtp.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMobtp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdModify.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdModify.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMoney.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMoney.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMore.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMore.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMotd.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMotd.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMsg.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMsg.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMute.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMute.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMutelist.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdMutelist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdNames.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdNames.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdNear.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdNear.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdNick.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdNick.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdPay.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdPay.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdPing.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdPing.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdPlugin.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdPlugin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdPotion.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdPotion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdPowertool.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdPowertool.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdRealname.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdRealname.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdRecipe.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdRecipe.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdRemoveall.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdRemoveall.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdRepair.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdRepair.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdReply.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdReply.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdRules.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdRules.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSave.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSave.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSay.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSay.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSeen.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSeen.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetarmor.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetarmor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetexperience.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetexperience.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSethealth.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSethealth.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSethome.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSethome.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSethunger.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSethunger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetjail.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetjail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetlevel.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetlevel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetmaxhealth.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetmaxhealth.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetspawn.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetspawn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetwarp.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSetwarp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSilence.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSilence.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSkull.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSkull.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSmite.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSmite.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSpawn.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSpawn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSpawner.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSpawner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSpawnmob.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSpawnmob.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSpeed.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSpeed.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSpy.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSpy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSudo.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdSudo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleport.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleport.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportaccept.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportaccept.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportall.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportall.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportask.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportaskall.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportaskall.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportaskhere.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportaskhere.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportdeny.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleportdeny.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleporthere.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleporthere.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleporttoggle.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTeleporttoggle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTime.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTime.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTop.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdTop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUltimatecore.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUltimatecore.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUnban.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUnban.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUndeaf.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUndeaf.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUnfreeze.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUnfreeze.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUnjail.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUnjail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUnmute.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUnmute.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUnsilence.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUnsilence.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUptime.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUptime.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUuid.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdUuid.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdVanish.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdVanish.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdWarp.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdWarp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdWarplist.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdWarplist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdWeather.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdWeather.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdWorkbench.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdWorkbench.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdWorld.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdWorld.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/Config.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/ConfigSection.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/ConfigSection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/ConfigurationSerialization.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/ConfigurationSerialization.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/DateUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/DateUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/DeathmessagesListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/DeathmessagesListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/DelegateDeserialization.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/DelegateDeserialization.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/DynmapListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/DynmapListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/databases/EffectDatabase.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/databases/EffectDatabase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/databases/EnchantmentDatabase.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/databases/EnchantmentDatabase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/ErrorLogger.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/ErrorLogger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/ExplosionListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/ExplosionListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/FileConfiguration.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/FileConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FileUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FileUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FireworkUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FireworkUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FormatUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FormatUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/GhostsUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/GhostsUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/GlobalPlayerListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/GlobalPlayerListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/InvalidConfigurationException.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/InvalidConfigurationException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/InventoryUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/InventoryUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/databases/ItemDatabase.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/databases/ItemDatabase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ItemUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ItemUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/jsonconfiguration/JsonConfig.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/jsonconfiguration/JsonConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/LocationUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/LocationUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/com/massivecraft/MassiveCore/2.7.5/MassiveCore-2.7.5.pom" afterPath="$PROJECT_DIR$/mvn-repo/com/massivecraft/MassiveCore/2.7.5/MassiveCore-2.7.5.pom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/MemoryConfiguration.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/MemoryConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/MessageUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/MessageUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MetaItemStack.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MetaItemStack.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MobData.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MobData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MobType.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MobType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ParticleUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ParticleUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/PluginStealListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/PluginStealListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/PluginUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/PluginUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ReflectionUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ReflectionUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/RespawnListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/RespawnListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/StreamUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/StreamUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/StringUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/StringUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/TabListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/TabListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/TabUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/TabUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/TitleUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/TitleUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/com/palmergames/Towny/custom/Towny-custom.pom" afterPath="$PROJECT_DIR$/mvn-repo/com/palmergames/Towny/custom/Towny-custom.pom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/TreeListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/TreeListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UC.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UC.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UEconomy.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UEconomy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UKit.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UKit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UPlayer.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UPlayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UServer.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UWorld.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/api/UWorld.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/UltimateCommand.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/UltimateCommand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateCommands.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateCommands.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateConverter.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateConverter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.0.13/UltimateCore-2.0.13.pom" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.0.13/UltimateCore-2.0.13.pom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.0.14/UltimateCore-2.0.14.pom" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.0.14/UltimateCore-2.0.14.pom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.0/UltimateCore-2.1.0.pom" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.0/UltimateCore-2.1.0.pom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.1/UltimateCore-2.1.1.pom" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.1/UltimateCore-2.1.1.pom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.2/UltimateCore-2.1.2.pom" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.2/UltimateCore-2.1.2.pom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.3/UltimateCore-2.1.3.pom" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.3/UltimateCore-2.1.3.pom" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.jar.md5" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.jar.md5" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.jar.sha1" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.jar.sha1" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom.md5" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom.md5" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom.sha1" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom.sha1" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateCore.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateCore.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateFileLoader.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateFileLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateMetrics.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateMetrics.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateUpdater.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/UnknownCommandListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/UnknownCommandListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/UuidUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/UuidUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlConfiguration.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlConstructor.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlConstructor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlRepresenter.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlRepresenter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml.md5" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml.md5" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml.sha1" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml.sha1" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/r.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/r.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="UltimateCore.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -667,66 +460,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="51" column="24" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/config.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CmdAfk.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAfk.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CmdAlert.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAlert.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CmdAnswer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAnswer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="62" column="39" selection-start-line="62" selection-start-column="39" selection-end-line="62" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CmdAsk.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAsk.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="CmdBack.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBack.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -750,21 +483,81 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CmdBan.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CmdBan.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBan.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.68218297">
+            <state vertical-scroll-proportion="0.0">
               <caret line="61" column="60" selection-start-line="61" selection-start-column="60" selection-end-line="61" selection-end-column="60" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/Style.css">
+      <file leaf-file-name="CmdBroadcast.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBroadcast.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdBurn.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBurn.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="53" column="30" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdButcher.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdButcher.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdClear.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClear.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdClearchat.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClearchat.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5088282">
+              <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="r.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/r.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.724138">
+              <caret line="204" column="12" selection-start-line="204" selection-start-column="12" selection-end-line="204" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdClean.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClean.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -804,6 +597,7 @@
         <option value="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/UltimateCore.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBan.java" />
+        <option value="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClearchat.java" />
       </list>
     </option>
   </component>
@@ -1558,12 +1352,12 @@
       <workItem from="1430251007199" duration="655000" />
       <workItem from="1430251943856" duration="2394000" />
       <workItem from="1430288878930" duration="381000" />
-      <workItem from="1430306120216" duration="20568000" />
+      <workItem from="1430306120216" duration="22623000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23998000" />
+    <option name="totallyTimeSpent" value="26053000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1882,8 +1676,64 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBan.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.68218297">
+        <state vertical-scroll-proportion="0.0">
           <caret line="61" column="60" selection-start-line="61" selection-start-column="60" selection-end-line="61" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBroadcast.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBurn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="53" column="30" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdButcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClean.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClear.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/r.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.724138">
+          <caret line="204" column="12" selection-start-line="204" selection-start-column="12" selection-end-line="204" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdClearchat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5088282">
+          <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
           <folding />
         </state>
       </provider>
