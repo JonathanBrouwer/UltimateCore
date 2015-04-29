@@ -43,7 +43,6 @@ import java.net.URI;
 public class UltimateCore extends Application {
 
     Stage stage;
-    Button button;
 
     public static void main(String args[]) {
         launch(args);
