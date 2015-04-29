@@ -45,3 +45,4 @@ bin
 *.classpath
 *.project
 /target
+.idea/workspace.xml
