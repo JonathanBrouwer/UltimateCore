@@ -7,14 +7,21 @@
 }
 
 .button-1 {
-    -fx-background-color: #AB4642;
+    -fx-background-color: #57964B;
     -fx-text-fill: #FFFFFF;
     -fx-background-radius: 4;
     -fx-font-weight: bold;
 }
 
 .button-2 {
-    -fx-background-color: #7cafc2;
+    -fx-background-color: #0EA181;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 4;
+    -fx-font-weight: bold;
+}
+
+.button-close {
+    -fx-background-color: #AB4642;
     -fx-text-fill: #FFFFFF;
     -fx-background-radius: 4;
     -fx-font-weight: bold;

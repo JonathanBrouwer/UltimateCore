@@ -105,7 +105,7 @@ public class UltimateCore extends Application {
         sponge.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                showErrorMessage("Opening web pages is not supported on your OS.");
+                showErrorMessage("This page is not available yet.");
             }
         });
         sponge.setCancelButton(true);
@@ -120,7 +120,7 @@ public class UltimateCore extends Application {
                 stage.close();
             }
         });
-        close.getStyleClass().add("button-2");
+        close.getStyleClass().add("button-close");
         GridPane.setConstraints(close, 3, 3);
 
         //Report issue
@@ -182,12 +182,14 @@ public class UltimateCore extends Application {
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("UltimateCore");
-        window.setMinWidth(250);
+        window.setWidth(250);
+        window.setResizable(false);
 
         Label label = new Label();
         label.setText(message);
-        Button closeButton = new Button("Close");
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+        Button close = new Button("Close");
+        close.getStyleClass().add("button-close");
+        close.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
                 window.close();
@@ -195,11 +197,13 @@ public class UltimateCore extends Application {
         });
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, closeButton);
+        layout.getChildren().addAll(label, close);
         layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(10, 10, 10, 10));
 
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
+        scene.getStylesheets().add("Style.css");
         window.setScene(scene);
         window.showAndWait();
     }
