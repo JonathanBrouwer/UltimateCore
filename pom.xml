@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <name>UltimateCore</name>
     <description>All you need to setup a server and more!</description>
     <groupId>bammerbom</groupId>
@@ -14,6 +15,14 @@
             <url>file://${basedir}/mvn-repo</url>
         </repository>
     </distributionManagement>
+    <developers>
+        <developer>
+            <name>Bammerbom</name>
+        </developer>
+    </developers>
+    <prerequisites>
+        <maven>4.0</maven>
+    </prerequisites>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
@@ -101,6 +110,25 @@
                     <excludes>
                         <exclude>bammerbom/ultimatecore/spongeapi/**</exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <includeProjectDependencies>true</includeProjectDependencies>
+                    <includePluginDependencies>true</includePluginDependencies>
+                    <classpathScope>compile</classpathScope>
+                    <mainClass>bammerbom.ultimatecore.UltimateCore</mainClass>
                 </configuration>
             </plugin>
             <!-- Include libraries -->
