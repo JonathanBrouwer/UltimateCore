@@ -26,11 +26,12 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
 import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
-import java.util.*;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.*;
 
 public class CmdMoney implements UltimateCommand {
 
@@ -182,7 +183,7 @@ public class CmdMoney implements UltimateCommand {
                 String player;
                 try {
                     player = r.searchOfflinePlayer(UUID.fromString(map.keySet().toArray(new String[map.size()])[cur])).getName();
-                } catch (IllegalArgumentException | NullPointerException ex) {
+                } catch (IllegalArgumentException|NullPointerException ex) {
                     player = map.keySet().toArray(new String[map.size()])[cur];
                 }
                 r.sendMes(cs, "moneyTopEntry", "%Rank", cur + 1, "%Player", player, "%Balance", r.getVault().getEconomy().format(new ArrayList<>(map.values()).get(cur)));

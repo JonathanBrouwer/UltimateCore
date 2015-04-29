@@ -24,6 +24,8 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import org.apache.commons.io.IOUtils;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -34,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import org.apache.commons.io.IOUtils;
 
 public class FileUtil {
 
@@ -78,8 +79,7 @@ public class FileUtil {
         }
     }
 
-    public static void copy(File src, File dest)
-            throws IOException {
+    public static void copy(File src, File dest) throws IOException {
 
         if (src.isDirectory()) {
 

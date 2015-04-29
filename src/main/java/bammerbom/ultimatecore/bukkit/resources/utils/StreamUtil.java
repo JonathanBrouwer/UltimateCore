@@ -29,8 +29,7 @@ import java.util.*;
 
 public class StreamUtil {
 
-    public static UUID readUUID(DataInputStream stream)
-            throws IOException {
+    public static UUID readUUID(DataInputStream stream) throws IOException {
         return new UUID(stream.readLong(), stream.readLong());
     }
 
@@ -94,13 +93,11 @@ public class StreamUtil {
         return false;
     }
 
-    public static FileOutputStream createOutputStream(File file)
-            throws IOException, SecurityException {
+    public static FileOutputStream createOutputStream(File file) throws IOException, SecurityException {
         return createOutputStream(file, false);
     }
 
-    public static FileOutputStream createOutputStream(File file, boolean append)
-            throws IOException, SecurityException {
+    public static FileOutputStream createOutputStream(File file, boolean append) throws IOException, SecurityException {
         File directory = file.getAbsoluteFile().getParentFile();
         if ((!directory.exists()) && (!directory.mkdirs())) {
             throw new IOException("Failed to create the parent directory of the file");
@@ -121,8 +118,7 @@ public class StreamUtil {
         return false;
     }
 
-    public static void copyFile(File sourceLocation, File targetLocation)
-            throws IOException {
+    public static void copyFile(File sourceLocation, File targetLocation) throws IOException {
         if (sourceLocation.isDirectory()) {
             if (!targetLocation.exists()) {
                 targetLocation.mkdirs();

@@ -24,6 +24,12 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtils.PackageType;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -33,11 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 /**
  * <b>ParticleEffect Library</b>
@@ -420,10 +421,6 @@ public enum ParticleUtil {
 
     private static final Map<String, ParticleUtil> NAME_MAP = new HashMap<>();
     private static final Map<Integer, ParticleUtil> ID_MAP = new HashMap<>();
-    private final String name;
-    private final int id;
-    private final int requiredVersion;
-    private final List<ParticleProperty> properties;
 
     // Initialize map for quick name and id lookup
     static {
@@ -433,13 +430,18 @@ public enum ParticleUtil {
         }
     }
 
+    private final String name;
+    private final int id;
+    private final int requiredVersion;
+    private final List<ParticleProperty> properties;
+
     /**
      * Construct a new particle effect
      *
-     * @param name Name of this particle effect
-     * @param id Id of this particle effect
+     * @param name            Name of this particle effect
+     * @param id              Id of this particle effect
      * @param requiredVersion Version which is required (1.x)
-     * @param properties Properties of this particle effect
+     * @param properties      Properties of this particle effect
      */
     private ParticleUtil(String name, int id, int requiredVersion, ParticleProperty... properties) {
         this.name = name;
@@ -514,7 +516,7 @@ public enum ParticleUtil {
      * Determine if the data type for a particle effect is correct
      *
      * @param effect Particle effect
-     * @param data Particle data
+     * @param data   Particle data
      * @return Whether the data type is correct or not
      */
     private static boolean isDataCorrect(ParticleUtil effect, ParticleData data) {
@@ -525,7 +527,7 @@ public enum ParticleUtil {
      * Determine if the color type for a particle effect is correct
      *
      * @param effect Particle effect
-     * @param color Particle color
+     * @param color  Particle color
      * @return Whether the color type is correct or not
      */
     private static boolean isColorCorrect(ParticleUtil effect, ParticleColor color) {
@@ -587,15 +589,15 @@ public enum ParticleUtil {
      * @param offsetX Maximum distance particles can fly away from the center on the x-axis
      * @param offsetY Maximum distance particles can fly away from the center on the y-axis
      * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
-     * @param speed Display speed of the particles
-     * @param amount Amount of particles
-     * @param center Center location of the effect
-     * @param range Range of the visibility
+     * @param speed   Display speed of the particles
+     * @param amount  Amount of particles
+     * @param center  Center location of the effect
+     * @param range   Range of the visibility
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect requires additional data
+     *                                  version
+     * @throws ParticleDataException    If the particle effect requires additional data
      * @throws IllegalArgumentException If the particle effect requires water and none is at the
-     * center location
+     *                                  center location
      * @see ParticlePacket
      * @see ParticlePacket#sendTo(Location, double)
      */
@@ -618,15 +620,15 @@ public enum ParticleUtil {
      * @param offsetX Maximum distance particles can fly away from the center on the x-axis
      * @param offsetY Maximum distance particles can fly away from the center on the y-axis
      * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
-     * @param speed Display speed of the particles
-     * @param amount Amount of particles
-     * @param center Center location of the effect
+     * @param speed   Display speed of the particles
+     * @param amount  Amount of particles
+     * @param center  Center location of the effect
      * @param players Receivers of the effect
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect requires additional data
+     *                                  version
+     * @throws ParticleDataException    If the particle effect requires additional data
      * @throws IllegalArgumentException If the particle effect requires water and none is at the
-     * center location
+     *                                  center location
      * @see ParticlePacket
      * @see ParticlePacket#sendTo(Location, List)
      */
@@ -649,15 +651,15 @@ public enum ParticleUtil {
      * @param offsetX Maximum distance particles can fly away from the center on the x-axis
      * @param offsetY Maximum distance particles can fly away from the center on the y-axis
      * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
-     * @param speed Display speed of the particles
-     * @param amount Amount of particles
-     * @param center Center location of the effect
+     * @param speed   Display speed of the particles
+     * @param amount  Amount of particles
+     * @param center  Center location of the effect
      * @param players Receivers of the effect
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect requires additional data
+     *                                  version
+     * @throws ParticleDataException    If the particle effect requires additional data
      * @throws IllegalArgumentException If the particle effect requires water and none is at the
-     * center location
+     *                                  center location
      * @see #display(float, float, float, float, int, Location, List)
      */
     public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, Player... players) throws ParticleVersionException, ParticleDataException, IllegalArgumentException {
@@ -669,14 +671,14 @@ public enum ParticleUtil {
      * all players within a certain range in the world of
      *
      * @param direction Direction of the particle
-     * @param speed Display speed of the particle
-     * @param center Center location of the effect
-     * @param range Range of the visibility
+     * @param speed     Display speed of the particle
+     * @param center    Center location of the effect
+     * @param range     Range of the visibility
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect requires additional data
+     *                                  version
+     * @throws ParticleDataException    If the particle effect requires additional data
      * @throws IllegalArgumentException If the particle effect is not directional or if it requires
-     * water and none is at the center location
+     *                                  water and none is at the center location
      * @see ParticlePacket#ParticlePacket(ParticleEffect, Vector, float, boolean, ParticleData)
      * @see ParticlePacket#sendTo(Location, double)
      */
@@ -701,14 +703,14 @@ public enum ParticleUtil {
      * the specified players
      *
      * @param direction Direction of the particle
-     * @param speed Display speed of the particle
-     * @param center Center location of the effect
-     * @param players Receivers of the effect
+     * @param speed     Display speed of the particle
+     * @param center    Center location of the effect
+     * @param players   Receivers of the effect
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect requires additional data
+     *                                  version
+     * @throws ParticleDataException    If the particle effect requires additional data
      * @throws IllegalArgumentException If the particle effect is not directional or if it requires
-     * water and none is at the center location
+     *                                  water and none is at the center location
      * @see ParticlePacket#ParticlePacket(ParticleEffect, Vector, float, boolean, ParticleData)
      * @see ParticlePacket#sendTo(Location, List)
      */
@@ -733,14 +735,14 @@ public enum ParticleUtil {
      * the specified players
      *
      * @param direction Direction of the particle
-     * @param speed Display speed of the particle
-     * @param center Center location of the effect
-     * @param players Receivers of the effect
+     * @param speed     Display speed of the particle
+     * @param center    Center location of the effect
+     * @param players   Receivers of the effect
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect requires additional data
+     *                                  version
+     * @throws ParticleDataException    If the particle effect requires additional data
      * @throws IllegalArgumentException If the particle effect is not directional or if it requires
-     * water and none is at the center location
+     *                                  water and none is at the center location
      * @see #display(Vector, float, Location, List)
      */
     public void display(Vector direction, float speed, Location center, Player... players) throws ParticleVersionException, ParticleDataException, IllegalArgumentException {
@@ -751,13 +753,13 @@ public enum ParticleUtil {
      * Displays a single particle which is colored and only visible for all players within a
      * certain range in the world of @param center
      *
-     * @param color Color of the particle
+     * @param color  Color of the particle
      * @param center Center location of the effect
-     * @param range Range of the visibility
+     * @param range  Range of the visibility
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleColorException If the particle effect is not colorable or the color type is
-     * incorrect
+     *                                  version
+     * @throws ParticleColorException   If the particle effect is not colorable or the color type is
+     *                                  incorrect
      * @see ParticlePacket#ParticlePacket(ParticleEffect, ParticleColor, boolean)
      * @see ParticlePacket#sendTo(Location, double)
      */
@@ -777,13 +779,13 @@ public enum ParticleUtil {
     /**
      * Displays a single particle which is colored and only visible for the specified players
      *
-     * @param color Color of the particle
-     * @param center Center location of the effect
+     * @param color   Color of the particle
+     * @param center  Center location of the effect
      * @param players Receivers of the effect
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleColorException If the particle effect is not colorable or the color type is
-     * incorrect
+     *                                  version
+     * @throws ParticleColorException   If the particle effect is not colorable or the color type is
+     *                                  incorrect
      * @see ParticlePacket#ParticlePacket(ParticleEffect, ParticleColor, boolean)
      * @see ParticlePacket#sendTo(Location, List)
      */
@@ -803,13 +805,13 @@ public enum ParticleUtil {
     /**
      * Displays a single particle which is colored and only visible for the specified players
      *
-     * @param color Color of the particle
-     * @param center Center location of the effect
+     * @param color   Color of the particle
+     * @param center  Center location of the effect
      * @param players Receivers of the effect
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleColorException If the particle effect is not colorable or the color type is
-     * incorrect
+     *                                  version
+     * @throws ParticleColorException   If the particle effect is not colorable or the color type is
+     *                                  incorrect
      * @see #display(ParticleColor, Location, List)
      */
     public void display(ParticleColor color, Location center, Player... players) throws ParticleVersionException, ParticleColorException {
@@ -820,18 +822,18 @@ public enum ParticleUtil {
      * Displays a particle effect which requires additional data and is only visible for all
      * players within a certain range in the world of @param center
      *
-     * @param data Data of the effect
+     * @param data    Data of the effect
      * @param offsetX Maximum distance particles can fly away from the center on the x-axis
      * @param offsetY Maximum distance particles can fly away from the center on the y-axis
      * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
-     * @param speed Display speed of the particles
-     * @param amount Amount of particles
-     * @param center Center location of the effect
-     * @param range Range of the visibility
+     * @param speed   Display speed of the particles
+     * @param amount  Amount of particles
+     * @param center  Center location of the effect
+     * @param range   Range of the visibility
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect does not require additional data or if
-     * the data type is incorrect
+     *                                  version
+     * @throws ParticleDataException    If the particle effect does not require additional data or if
+     *                                  the data type is incorrect
      * @see ParticlePacket
      * @see ParticlePacket#sendTo(Location, double)
      */
@@ -852,18 +854,18 @@ public enum ParticleUtil {
      * Displays a particle effect which requires additional data and is only visible for the
      * specified players
      *
-     * @param data Data of the effect
+     * @param data    Data of the effect
      * @param offsetX Maximum distance particles can fly away from the center on the x-axis
      * @param offsetY Maximum distance particles can fly away from the center on the y-axis
      * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
-     * @param speed Display speed of the particles
-     * @param amount Amount of particles
-     * @param center Center location of the effect
+     * @param speed   Display speed of the particles
+     * @param amount  Amount of particles
+     * @param center  Center location of the effect
      * @param players Receivers of the effect
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect does not require additional data or if
-     * the data type is incorrect
+     *                                  version
+     * @throws ParticleDataException    If the particle effect does not require additional data or if
+     *                                  the data type is incorrect
      * @see ParticlePacket
      * @see ParticlePacket#sendTo(Location, List)
      */
@@ -884,18 +886,18 @@ public enum ParticleUtil {
      * Displays a particle effect which requires additional data and is only visible for the
      * specified players
      *
-     * @param data Data of the effect
+     * @param data    Data of the effect
      * @param offsetX Maximum distance particles can fly away from the center on the x-axis
      * @param offsetY Maximum distance particles can fly away from the center on the y-axis
      * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
-     * @param speed Display speed of the particles
-     * @param amount Amount of particles
-     * @param center Center location of the effect
+     * @param speed   Display speed of the particles
+     * @param amount  Amount of particles
+     * @param center  Center location of the effect
      * @param players Receivers of the effect
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect does not require additional data or if
-     * the data type is incorrect
+     *                                  version
+     * @throws ParticleDataException    If the particle effect does not require additional data or if
+     *                                  the data type is incorrect
      * @see #display(ParticleData, float, float, float, float, int, Location, List)
      */
     public void display(ParticleData data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, Player... players) throws ParticleVersionException, ParticleDataException {
@@ -907,15 +909,15 @@ public enum ParticleUtil {
      * direction and is only visible for all players within a certain range in the world of @param
      * center
      *
-     * @param data Data of the effect
+     * @param data      Data of the effect
      * @param direction Direction of the particle
-     * @param speed Display speed of the particles
-     * @param center Center location of the effect
-     * @param range Range of the visibility
+     * @param speed     Display speed of the particles
+     * @param center    Center location of the effect
+     * @param range     Range of the visibility
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect does not require additional data or if
-     * the data type is incorrect
+     *                                  version
+     * @throws ParticleDataException    If the particle effect does not require additional data or if
+     *                                  the data type is incorrect
      * @see ParticlePacket
      * @see ParticlePacket#sendTo(Location, double)
      */
@@ -936,15 +938,15 @@ public enum ParticleUtil {
      * Displays a single particle which requires additional data that flies into a determined
      * direction and is only visible for the specified players
      *
-     * @param data Data of the effect
+     * @param data      Data of the effect
      * @param direction Direction of the particle
-     * @param speed Display speed of the particles
-     * @param center Center location of the effect
-     * @param players Receivers of the effect
+     * @param speed     Display speed of the particles
+     * @param center    Center location of the effect
+     * @param players   Receivers of the effect
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect does not require additional data or if
-     * the data type is incorrect
+     *                                  version
+     * @throws ParticleDataException    If the particle effect does not require additional data or if
+     *                                  the data type is incorrect
      * @see ParticlePacket
      * @see ParticlePacket#sendTo(Location, List)
      */
@@ -965,15 +967,15 @@ public enum ParticleUtil {
      * Displays a single particle which requires additional data that flies into a determined
      * direction and is only visible for the specified players
      *
-     * @param data Data of the effect
+     * @param data      Data of the effect
      * @param direction Direction of the particle
-     * @param speed Display speed of the particles
-     * @param center Center location of the effect
-     * @param players Receivers of the effect
+     * @param speed     Display speed of the particles
+     * @param center    Center location of the effect
+     * @param players   Receivers of the effect
      * @throws ParticleVersionException If the particle effect is not supported by the server
-     * version
-     * @throws ParticleDataException If the particle effect does not require additional data or if
-     * the data type is incorrect
+     *                                  version
+     * @throws ParticleDataException    If the particle effect does not require additional data or if
+     *                                  the data type is incorrect
      * @see #display(ParticleData, Vector, float, Location, List)
      */
     public void display(ParticleData data, Vector direction, float speed, Location center, Player... players) throws ParticleVersionException, ParticleDataException {
@@ -1030,7 +1032,7 @@ public enum ParticleUtil {
          * Construct a new particle data
          *
          * @param material Material of the item/block
-         * @param data Data value of the item/block
+         * @param data     Data value of the item/block
          */
         @SuppressWarnings("deprecation")
         public ParticleData(Material material, byte data) {
@@ -1091,7 +1093,7 @@ public enum ParticleUtil {
          * Construct a new item data
          *
          * @param material Material of the item
-         * @param data Data value of the item
+         * @param data     Data value of the item
          * @see ParticleData#ParticleData(Material, byte)
          */
         public ItemData(Material material, byte data) {
@@ -1115,7 +1117,7 @@ public enum ParticleUtil {
          * Construct a new block data
          *
          * @param material Material of the block
-         * @param data Data value of the block
+         * @param data     Data value of the block
          * @throws IllegalArgumentException If the material is not a block
          * @see ParticleData#ParticleData(Material, byte)
          */
@@ -1182,9 +1184,9 @@ public enum ParticleUtil {
         /**
          * Construct a new ordinary color
          *
-         * @param red Red value of the RGB format
+         * @param red   Red value of the RGB format
          * @param green Green value of the RGB format
-         * @param blue Blue value of the RGB format
+         * @param blue  Blue value of the RGB format
          * @throws IllegalArgumentException If one of the values is lower than 0 or higher than 255
          */
         public OrdinaryColor(int red, int green, int blue) throws IllegalArgumentException {
@@ -1421,57 +1423,6 @@ public enum ParticleUtil {
         private static Field playerConnection;
         private static Method sendPacket;
         private static boolean initialized;
-
-        /**
-         * Initializes {@link #packetConstructor}, {@link #getHandle}, {@link #playerConnection}
-         * and {@link #sendPacket} and sets {@link #initialized} to <code>true</code> if it
-         * succeeds
-         * <p/>
-         * <b>Note:</b> These fields only have to be initialized once, so it will return if
-         * {@link #initialized} is already set to <code>true</code>
-         *
-         * @throws VersionIncompatibleException if your bukkit version is not supported by this
-         * library
-         */
-        public static void initialize() throws VersionIncompatibleException {
-            if (initialized) {
-                return;
-            }
-            try {
-                version = Integer.parseInt(Character.toString(PackageType.getServerVersion().charAt(3)));
-                if (version > 7) {
-                    enumParticle = PackageType.MINECRAFT_SERVER.getClass("EnumParticle");
-                }
-                Class<?> packetClass = PackageType.MINECRAFT_SERVER.getClass(version < 7 ? "Packet63WorldParticles" : "PacketPlayOutWorldParticles");
-                packetConstructor = ReflectionUtils.getConstructor(packetClass);
-                getHandle = ReflectionUtils.getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
-                playerConnection = ReflectionUtils.getField("EntityPlayer", PackageType.MINECRAFT_SERVER, false, "playerConnection");
-                sendPacket = ReflectionUtils.getMethod(playerConnection.getType(), "sendPacket", PackageType.MINECRAFT_SERVER.getClass("Packet"));
-            } catch (Exception exception) {
-                throw new VersionIncompatibleException("Your current bukkit version seems to be incompatible with this library", exception);
-            }
-            initialized = true;
-        }
-
-        /**
-         * Returns the version of your server (1.x)
-         *
-         * @return The version number
-         */
-        public static int getVersion() {
-            return version;
-        }
-
-        /**
-         * Determine if {@link #packetConstructor}, {@link #getHandle}, {@link #playerConnection}
-         * and {@link #sendPacket} are initialized
-         *
-         * @return Whether these fields are initialized or not
-         * @see #initialize()
-         */
-        public static boolean isInitialized() {
-            return initialized;
-        }
         private final ParticleUtil effect;
         private final float offsetX;
         private final float offsetY;
@@ -1485,15 +1436,15 @@ public enum ParticleUtil {
         /**
          * Construct a new particle packet
          *
-         * @param effect Particle effect
-         * @param offsetX Maximum distance particles can fly away from the center on the x-axis
-         * @param offsetY Maximum distance particles can fly away from the center on the y-axis
-         * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
-         * @param speed Display speed of the particles
-         * @param amount Amount of particles
+         * @param effect       Particle effect
+         * @param offsetX      Maximum distance particles can fly away from the center on the x-axis
+         * @param offsetY      Maximum distance particles can fly away from the center on the y-axis
+         * @param offsetZ      Maximum distance particles can fly away from the center on the z-axis
+         * @param speed        Display speed of the particles
+         * @param amount       Amount of particles
          * @param longDistance Indicates whether the maximum distance is increased from 256 to
-         * 65536
-         * @param data Data of the effect
+         *                     65536
+         * @param data         Data of the effect
          * @throws IllegalArgumentException If the speed or amount is lower than 0
          * @see #initialize()
          */
@@ -1518,12 +1469,12 @@ public enum ParticleUtil {
         /**
          * Construct a new particle packet of a single particle flying into a determined direction
          *
-         * @param effect Particle effect
-         * @param direction Direction of the particle
-         * @param speed Display speed of the particle
+         * @param effect       Particle effect
+         * @param direction    Direction of the particle
+         * @param speed        Display speed of the particle
          * @param longDistance Indicates whether the maximum distance is increased from 256 to
-         * 65536
-         * @param data Data of the effect
+         *                     65536
+         * @param data         Data of the effect
          * @throws IllegalArgumentException If the speed is lower than 0
          * @see #ParticleEffect(ParticleEffect, float, float, float, float, int, boolean,
          * ParticleData)
@@ -1535,15 +1486,66 @@ public enum ParticleUtil {
         /**
          * Construct a new particle packet of a single colored particle
          *
-         * @param effect Particle effect
-         * @param color Color of the particle
+         * @param effect       Particle effect
+         * @param color        Color of the particle
          * @param longDistance Indicates whether the maximum distance is increased from 256 to
-         * 65536
+         *                     65536
          * @see #ParticleEffect(ParticleEffect, float, float, float, float, int, boolean,
          * ParticleData)
          */
         public ParticlePacket(ParticleUtil effect, ParticleColor color, boolean longDistance) {
             this(effect, color.getValueX(), color.getValueY(), color.getValueZ(), 1, 0, longDistance, null);
+        }
+
+        /**
+         * Initializes {@link #packetConstructor}, {@link #getHandle}, {@link #playerConnection}
+         * and {@link #sendPacket} and sets {@link #initialized} to <code>true</code> if it
+         * succeeds
+         * <p/>
+         * <b>Note:</b> These fields only have to be initialized once, so it will return if
+         * {@link #initialized} is already set to <code>true</code>
+         *
+         * @throws VersionIncompatibleException if your bukkit version is not supported by this
+         *                                      library
+         */
+        public static void initialize() throws VersionIncompatibleException {
+            if (initialized) {
+                return;
+            }
+            try {
+                version = Integer.parseInt(Character.toString(PackageType.getServerVersion().charAt(3)));
+                if (version > 7) {
+                    enumParticle = PackageType.MINECRAFT_SERVER.getClass("EnumParticle");
+                }
+                Class<?> packetClass = PackageType.MINECRAFT_SERVER.getClass(version < 7 ? "Packet63WorldParticles" : "PacketPlayOutWorldParticles");
+                packetConstructor = ReflectionUtils.getConstructor(packetClass);
+                getHandle = ReflectionUtils.getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
+                playerConnection = ReflectionUtils.getField("EntityPlayer", PackageType.MINECRAFT_SERVER, false, "playerConnection");
+                sendPacket = ReflectionUtils.getMethod(playerConnection.getType(), "sendPacket", PackageType.MINECRAFT_SERVER.getClass("Packet"));
+            } catch (Exception exception) {
+                throw new VersionIncompatibleException("Your current bukkit version seems to be incompatible with " + "this library", exception);
+            }
+            initialized = true;
+        }
+
+        /**
+         * Returns the version of your server (1.x)
+         *
+         * @return The version number
+         */
+        public static int getVersion() {
+            return version;
+        }
+
+        /**
+         * Determine if {@link #packetConstructor}, {@link #getHandle}, {@link #playerConnection}
+         * and {@link #sendPacket} are initialized
+         *
+         * @return Whether these fields are initialized or not
+         * @see #initialize()
+         */
+        public static boolean isInitialized() {
+            return initialized;
         }
 
         /**
@@ -1590,7 +1592,7 @@ public enum ParticleUtil {
          * @param center Center location of the effect
          * @param player Receiver of the packet
          * @throws PacketInstantiationException If instantion fails due to an unknown error
-         * @throws PacketSendingException If sending fails due to an unknown error
+         * @throws PacketSendingException       If sending fails due to an unknown error
          * @see #initializePacket(Location)
          */
         public void sendTo(Location center, Player player) throws PacketInstantiationException, PacketSendingException {
@@ -1605,7 +1607,7 @@ public enum ParticleUtil {
         /**
          * Sends the packet to all players in the list
          *
-         * @param center Center location of the effect
+         * @param center  Center location of the effect
          * @param players Receivers of the packet
          * @throws IllegalArgumentException If the player list is empty
          * @see #sendTo(Location center, Player player)
@@ -1623,8 +1625,8 @@ public enum ParticleUtil {
          * Sends the packet to all players in a certain range
          *
          * @param center Center location of the effect
-         * @param range Range in which players will receive the packet (Maximum range for particles
-         * is usually 16, but it can differ for some types)
+         * @param range  Range in which players will receive the packet (Maximum range for particles
+         *               is usually 16, but it can differ for some types)
          * @throws IllegalArgumentException If the range is lower than 1
          * @see #sendTo(Location center, Player player)
          */
@@ -1661,7 +1663,7 @@ public enum ParticleUtil {
              * Construct a new version incompatible exception
              *
              * @param message Message that will be logged
-             * @param cause Cause of the exception
+             * @param cause   Cause of the exception
              */
             public VersionIncompatibleException(String message, Throwable cause) {
                 super(message, cause);
@@ -1685,7 +1687,7 @@ public enum ParticleUtil {
              * Construct a new packet instantiation exception
              *
              * @param message Message that will be logged
-             * @param cause Cause of the exception
+             * @param cause   Cause of the exception
              */
             public PacketInstantiationException(String message, Throwable cause) {
                 super(message, cause);
@@ -1709,7 +1711,7 @@ public enum ParticleUtil {
              * Construct a new packet sending exception
              *
              * @param message Message that will be logged
-             * @param cause Cause of the exception
+             * @param cause   Cause of the exception
              */
             public PacketSendingException(String message, Throwable cause) {
                 super(message, cause);
@@ -1737,14 +1739,18 @@ public enum ParticleUtil {
  */
 final class ReflectionUtils {
 
+    // Prevent accidental construction
+    private ReflectionUtils() {
+    }
+
     /**
      * Returns the constructor of a given class with the given parameter types
      *
-     * @param clazz Target class
+     * @param clazz          Target class
      * @param parameterTypes Parameter types of the desired constructor
      * @return The constructor of the target class with the specified parameter types
      * @throws NoSuchMethodException If the desired constructor with the specified parameter types
-     * cannot be found
+     *                               cannot be found
      * @see DataType
      * @see DataType#getPrimitive(Class[])
      * @see DataType#compare(Class[], Class[])
@@ -1757,20 +1763,20 @@ final class ReflectionUtils {
             }
             return constructor;
         }
-        throw new NoSuchMethodException("There is no such constructor in this class with the specified parameter types");
+        throw new NoSuchMethodException("There is no such constructor in this class with the specified parameter " + "types");
     }
 
     /**
      * Returns the constructor of a desired class with the given parameter types
      *
-     * @param className Name of the desired target class
-     * @param packageType Package where the desired target class is located
+     * @param className      Name of the desired target class
+     * @param packageType    Package where the desired target class is located
      * @param parameterTypes Parameter types of the desired constructor
      * @return The constructor of the desired target class with the specified parameter types
-     * @throws NoSuchMethodException If the desired constructor with the specified parameter types
-     * cannot be found
+     * @throws NoSuchMethodException  If the desired constructor with the specified parameter types
+     *                                cannot be found
      * @throws ClassNotFoundException ClassNotFoundException If the desired target class with the
-     * specified name and package cannot be found
+     *                                specified name and package cannot be found
      * @see #getClass(String, PackageType)
      * @see #getConstructor(Class, Class...)
      */
@@ -1781,19 +1787,20 @@ final class ReflectionUtils {
     /**
      * Returns an instance of a class with the given arguments
      *
-     * @param clazz Target class
+     * @param clazz     Target class
      * @param arguments Arguments which are used to construct an object of the target class
      * @return The instance of the target class with the specified arguments
-     * @throws InstantiationException If you cannot create an instance of the target class due to
-     * certain circumstances
-     * @throws IllegalAccessException If the desired constructor cannot be accessed due to certain
-     * circumstances
-     * @throws IllegalArgumentException If the types of the arguments do not match the parameter
-     * types of the constructor (this should not occur since it searches for a constructor with the
-     * types of the arguments)
+     * @throws InstantiationException    If you cannot create an instance of the target class due to
+     *                                   certain circumstances
+     * @throws IllegalAccessException    If the desired constructor cannot be accessed due to certain
+     *                                   circumstances
+     * @throws IllegalArgumentException  If the types of the arguments do not match the parameter
+     *                                   types of the constructor (this should not occur since it searches for a
+     *                                   constructor with the
+     *                                   types of the arguments)
      * @throws InvocationTargetException If the desired constructor cannot be invoked
-     * @throws NoSuchMethodException If the desired constructor with the specified arguments cannot
-     * be found
+     * @throws NoSuchMethodException     If the desired constructor with the specified arguments cannot
+     *                                   be found
      */
     public static Object instantiateObject(Class<?> clazz, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
         return getConstructor(clazz, DataType.getPrimitive(arguments)).newInstance(arguments);
@@ -1802,22 +1809,23 @@ final class ReflectionUtils {
     /**
      * Returns an instance of a desired class with the given arguments
      *
-     * @param className Name of the desired target class
+     * @param className   Name of the desired target class
      * @param packageType Package where the desired target class is located
-     * @param arguments Arguments which are used to construct an object of the desired target class
+     * @param arguments   Arguments which are used to construct an object of the desired target class
      * @return The instance of the desired target class with the specified arguments
-     * @throws InstantiationException If you cannot create an instance of the desired target class
-     * due to certain circumstances
-     * @throws IllegalAccessException If the desired constructor cannot be accessed due to certain
-     * circumstances
-     * @throws IllegalArgumentException If the types of the arguments do not match the parameter
-     * types of the constructor (this should not occur since it searches for a constructor with the
-     * types of the arguments)
+     * @throws InstantiationException    If you cannot create an instance of the desired target class
+     *                                   due to certain circumstances
+     * @throws IllegalAccessException    If the desired constructor cannot be accessed due to certain
+     *                                   circumstances
+     * @throws IllegalArgumentException  If the types of the arguments do not match the parameter
+     *                                   types of the constructor (this should not occur since it searches for a
+     *                                   constructor with the
+     *                                   types of the arguments)
      * @throws InvocationTargetException If the desired constructor cannot be invoked
-     * @throws NoSuchMethodException If the desired constructor with the specified arguments cannot
-     * be found
-     * @throws ClassNotFoundException If the desired target class with the specified name and
-     * package cannot be found
+     * @throws NoSuchMethodException     If the desired constructor with the specified arguments cannot
+     *                                   be found
+     * @throws ClassNotFoundException    If the desired target class with the specified name and
+     *                                   package cannot be found
      * @see #getClass(String, PackageType)
      * @see #instantiateObject(Class, Object...)
      */
@@ -1828,12 +1836,12 @@ final class ReflectionUtils {
     /**
      * Returns a method of a class with the given parameter types
      *
-     * @param clazz Target class
-     * @param methodName Name of the desired method
+     * @param clazz          Target class
+     * @param methodName     Name of the desired method
      * @param parameterTypes Parameter types of the desired method
      * @return The method of the target class with the specified name and parameter types
      * @throws NoSuchMethodException If the desired method of the target class with the specified
-     * name and parameter types cannot be found
+     *                               name and parameter types cannot be found
      * @see DataType#getPrimitive(Class[])
      * @see DataType#compare(Class[], Class[])
      */
@@ -1845,21 +1853,21 @@ final class ReflectionUtils {
             }
             return method;
         }
-        throw new NoSuchMethodException("There is no such method in this class with the specified name and parameter types");
+        throw new NoSuchMethodException("There is no such method in this class with the specified name and parameter " + "types");
     }
 
     /**
      * Returns a method of a desired class with the given parameter types
      *
-     * @param className Name of the desired target class
-     * @param packageType Package where the desired target class is located
-     * @param methodName Name of the desired method
+     * @param className      Name of the desired target class
+     * @param packageType    Package where the desired target class is located
+     * @param methodName     Name of the desired method
      * @param parameterTypes Parameter types of the desired method
      * @return The method of the desired target class with the specified name and parameter types
-     * @throws NoSuchMethodException If the desired method of the desired target class with the
-     * specified name and parameter types cannot be found
+     * @throws NoSuchMethodException  If the desired method of the desired target class with the
+     *                                specified name and parameter types cannot be found
      * @throws ClassNotFoundException If the desired target class with the specified name and
-     * package cannot be found
+     *                                package cannot be found
      * @see #getClass(String, PackageType)
      * @see #getMethod(Class, String, Class...)
      */
@@ -1870,19 +1878,20 @@ final class ReflectionUtils {
     /**
      * Invokes a method on an object with the given arguments
      *
-     * @param instance Target object
+     * @param instance   Target object
      * @param methodName Name of the desired method
-     * @param arguments Arguments which are used to invoke the desired method
+     * @param arguments  Arguments which are used to invoke the desired method
      * @return The result of invoking the desired method on the target object
-     * @throws IllegalAccessException If the desired method cannot be accessed due to certain
-     * circumstances
-     * @throws IllegalArgumentException If the types of the arguments do not match the parameter
-     * types of the method (this should not occur since it searches for a method with the types of
-     * the arguments)
+     * @throws IllegalAccessException    If the desired method cannot be accessed due to certain
+     *                                   circumstances
+     * @throws IllegalArgumentException  If the types of the arguments do not match the parameter
+     *                                   types of the method (this should not occur since it searches for a method
+     *                                   with the types of
+     *                                   the arguments)
      * @throws InvocationTargetException If the desired method cannot be invoked on the target
-     * object
-     * @throws NoSuchMethodException If the desired method of the class of the target object with
-     * the specified name and arguments cannot be found
+     *                                   object
+     * @throws NoSuchMethodException     If the desired method of the class of the target object with
+     *                                   the specified name and arguments cannot be found
      * @see #getMethod(Class, String, Class...)
      * @see DataType#getPrimitive(Object[])
      */
@@ -1893,20 +1902,21 @@ final class ReflectionUtils {
     /**
      * Invokes a method of the target class on an object with the given arguments
      *
-     * @param instance Target object
-     * @param clazz Target class
+     * @param instance   Target object
+     * @param clazz      Target class
      * @param methodName Name of the desired method
-     * @param arguments Arguments which are used to invoke the desired method
+     * @param arguments  Arguments which are used to invoke the desired method
      * @return The result of invoking the desired method on the target object
-     * @throws IllegalAccessException If the desired method cannot be accessed due to certain
-     * circumstances
-     * @throws IllegalArgumentException If the types of the arguments do not match the parameter
-     * types of the method (this should not occur since it searches for a method with the types of
-     * the arguments)
+     * @throws IllegalAccessException    If the desired method cannot be accessed due to certain
+     *                                   circumstances
+     * @throws IllegalArgumentException  If the types of the arguments do not match the parameter
+     *                                   types of the method (this should not occur since it searches for a method
+     *                                   with the types of
+     *                                   the arguments)
      * @throws InvocationTargetException If the desired method cannot be invoked on the target
-     * object
-     * @throws NoSuchMethodException If the desired method of the target class with the specified
-     * name and arguments cannot be found
+     *                                   object
+     * @throws NoSuchMethodException     If the desired method of the target class with the specified
+     *                                   name and arguments cannot be found
      * @see #getMethod(Class, String, Class...)
      * @see DataType#getPrimitive(Object[])
      */
@@ -1917,23 +1927,24 @@ final class ReflectionUtils {
     /**
      * Invokes a method of a desired class on an object with the given arguments
      *
-     * @param instance Target object
-     * @param className Name of the desired target class
+     * @param instance    Target object
+     * @param className   Name of the desired target class
      * @param packageType Package where the desired target class is located
-     * @param methodName Name of the desired method
-     * @param arguments Arguments which are used to invoke the desired method
+     * @param methodName  Name of the desired method
+     * @param arguments   Arguments which are used to invoke the desired method
      * @return The result of invoking the desired method on the target object
-     * @throws IllegalAccessException If the desired method cannot be accessed due to certain
-     * circumstances
-     * @throws IllegalArgumentException If the types of the arguments do not match the parameter
-     * types of the method (this should not occur since it searches for a method with the types of
-     * the arguments)
+     * @throws IllegalAccessException    If the desired method cannot be accessed due to certain
+     *                                   circumstances
+     * @throws IllegalArgumentException  If the types of the arguments do not match the parameter
+     *                                   types of the method (this should not occur since it searches for a method
+     *                                   with the types of
+     *                                   the arguments)
      * @throws InvocationTargetException If the desired method cannot be invoked on the target
-     * object
-     * @throws NoSuchMethodException If the desired method of the desired target class with the
-     * specified name and arguments cannot be found
-     * @throws ClassNotFoundException If the desired target class with the specified name and
-     * package cannot be found
+     *                                   object
+     * @throws NoSuchMethodException     If the desired method of the desired target class with the
+     *                                   specified name and arguments cannot be found
+     * @throws ClassNotFoundException    If the desired target class with the specified name and
+     *                                   package cannot be found
      * @see #getClass(String, PackageType)
      * @see #invokeMethod(Object, Class, String, Object...)
      */
@@ -1944,12 +1955,12 @@ final class ReflectionUtils {
     /**
      * Returns a field of the target class with the given name
      *
-     * @param clazz Target class
-     * @param declared Whether the desired field is declared or not
+     * @param clazz     Target class
+     * @param declared  Whether the desired field is declared or not
      * @param fieldName Name of the desired field
      * @return The field of the target class with the specified name
      * @throws NoSuchFieldException If the desired field of the given class cannot be found
-     * @throws SecurityException If the desired field cannot be made accessible
+     * @throws SecurityException    If the desired field cannot be made accessible
      */
     public static Field getField(Class<?> clazz, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException {
         Field field = declared ? clazz.getDeclaredField(fieldName) : clazz.getField(fieldName);
@@ -1960,15 +1971,15 @@ final class ReflectionUtils {
     /**
      * Returns a field of a desired class with the given name
      *
-     * @param className Name of the desired target class
+     * @param className   Name of the desired target class
      * @param packageType Package where the desired target class is located
-     * @param declared Whether the desired field is declared or not
-     * @param fieldName Name of the desired field
+     * @param declared    Whether the desired field is declared or not
+     * @param fieldName   Name of the desired field
      * @return The field of the desired target class with the specified name
-     * @throws NoSuchFieldException If the desired field of the desired class cannot be found
-     * @throws SecurityException If the desired field cannot be made accessible
+     * @throws NoSuchFieldException   If the desired field of the desired class cannot be found
+     * @throws SecurityException      If the desired field cannot be made accessible
      * @throws ClassNotFoundException If the desired target class with the specified name and
-     * package cannot be found
+     *                                package cannot be found
      * @see #getField(Class, boolean, String)
      */
     public static Field getField(String className, PackageType packageType, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException, ClassNotFoundException {
@@ -1978,15 +1989,15 @@ final class ReflectionUtils {
     /**
      * Returns the value of a field of the given class of an object
      *
-     * @param instance Target object
-     * @param clazz Target class
-     * @param declared Whether the desired field is declared or not
+     * @param instance  Target object
+     * @param clazz     Target class
+     * @param declared  Whether the desired field is declared or not
      * @param fieldName Name of the desired field
      * @return The value of field of the target object
      * @throws IllegalArgumentException If the target object does not feature the desired field
-     * @throws IllegalAccessException If the desired field cannot be accessed
-     * @throws NoSuchFieldException If the desired field of the target class cannot be found
-     * @throws SecurityException If the desired field cannot be made accessible
+     * @throws IllegalAccessException   If the desired field cannot be accessed
+     * @throws NoSuchFieldException     If the desired field of the target class cannot be found
+     * @throws SecurityException        If the desired field cannot be made accessible
      * @see #getField(Class, boolean, String)
      */
     public static Object getValue(Object instance, Class<?> clazz, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
@@ -1996,18 +2007,18 @@ final class ReflectionUtils {
     /**
      * Returns the value of a field of a desired class of an object
      *
-     * @param instance Target object
-     * @param className Name of the desired target class
+     * @param instance    Target object
+     * @param className   Name of the desired target class
      * @param packageType Package where the desired target class is located
-     * @param declared Whether the desired field is declared or not
-     * @param fieldName Name of the desired field
+     * @param declared    Whether the desired field is declared or not
+     * @param fieldName   Name of the desired field
      * @return The value of field of the target object
      * @throws IllegalArgumentException If the target object does not feature the desired field
-     * @throws IllegalAccessException If the desired field cannot be accessed
-     * @throws NoSuchFieldException If the desired field of the desired class cannot be found
-     * @throws SecurityException If the desired field cannot be made accessible
-     * @throws ClassNotFoundException If the desired target class with the specified name and
-     * package cannot be found
+     * @throws IllegalAccessException   If the desired field cannot be accessed
+     * @throws NoSuchFieldException     If the desired field of the desired class cannot be found
+     * @throws SecurityException        If the desired field cannot be made accessible
+     * @throws ClassNotFoundException   If the desired target class with the specified name and
+     *                                  package cannot be found
      * @see #getValue(Object, Class, boolean, String)
      */
     public static Object getValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
@@ -2017,16 +2028,17 @@ final class ReflectionUtils {
     /**
      * Returns the value of a field with the given name of an object
      *
-     * @param instance Target object
-     * @param declared Whether the desired field is declared or not
+     * @param instance  Target object
+     * @param declared  Whether the desired field is declared or not
      * @param fieldName Name of the desired field
      * @return The value of field of the target object
      * @throws IllegalArgumentException If the target object does not feature the desired field
-     * (should not occur since it searches for a field with the given name in the class of the
-     * object)
-     * @throws IllegalAccessException If the desired field cannot be accessed
-     * @throws NoSuchFieldException If the desired field of the target object cannot be found
-     * @throws SecurityException If the desired field cannot be made accessible
+     *                                  (should not occur since it searches for a field with the given name in the
+     *                                  class of the
+     *                                  object)
+     * @throws IllegalAccessException   If the desired field cannot be accessed
+     * @throws NoSuchFieldException     If the desired field of the target object cannot be found
+     * @throws SecurityException        If the desired field cannot be made accessible
      * @see #getValue(Object, Class, boolean, String)
      */
     public static Object getValue(Object instance, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
@@ -2036,16 +2048,16 @@ final class ReflectionUtils {
     /**
      * Sets the value of a field of the given class of an object
      *
-     * @param instance Target object
-     * @param clazz Target class
-     * @param declared Whether the desired field is declared or not
+     * @param instance  Target object
+     * @param clazz     Target class
+     * @param declared  Whether the desired field is declared or not
      * @param fieldName Name of the desired field
-     * @param value New value
+     * @param value     New value
      * @throws IllegalArgumentException If the type of the value does not match the type of the
-     * desired field
-     * @throws IllegalAccessException If the desired field cannot be accessed
-     * @throws NoSuchFieldException If the desired field of the target class cannot be found
-     * @throws SecurityException If the desired field cannot be made accessible
+     *                                  desired field
+     * @throws IllegalAccessException   If the desired field cannot be accessed
+     * @throws NoSuchFieldException     If the desired field of the target class cannot be found
+     * @throws SecurityException        If the desired field cannot be made accessible
      * @see #getField(Class, boolean, String)
      */
     public static void setValue(Object instance, Class<?> clazz, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
@@ -2055,19 +2067,19 @@ final class ReflectionUtils {
     /**
      * Sets the value of a field of a desired class of an object
      *
-     * @param instance Target object
-     * @param className Name of the desired target class
+     * @param instance    Target object
+     * @param className   Name of the desired target class
      * @param packageType Package where the desired target class is located
-     * @param declared Whether the desired field is declared or not
-     * @param fieldName Name of the desired field
-     * @param value New value
+     * @param declared    Whether the desired field is declared or not
+     * @param fieldName   Name of the desired field
+     * @param value       New value
      * @throws IllegalArgumentException If the type of the value does not match the type of the
-     * desired field
-     * @throws IllegalAccessException If the desired field cannot be accessed
-     * @throws NoSuchFieldException If the desired field of the desired class cannot be found
-     * @throws SecurityException If the desired field cannot be made accessible
-     * @throws ClassNotFoundException If the desired target class with the specified name and
-     * package cannot be found
+     *                                  desired field
+     * @throws IllegalAccessException   If the desired field cannot be accessed
+     * @throws NoSuchFieldException     If the desired field of the desired class cannot be found
+     * @throws SecurityException        If the desired field cannot be made accessible
+     * @throws ClassNotFoundException   If the desired target class with the specified name and
+     *                                  package cannot be found
      * @see #setValue(Object, Class, boolean, String, Object)
      */
     public static void setValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
@@ -2077,23 +2089,19 @@ final class ReflectionUtils {
     /**
      * Sets the value of a field with the given name of an object
      *
-     * @param instance Target object
-     * @param declared Whether the desired field is declared or not
+     * @param instance  Target object
+     * @param declared  Whether the desired field is declared or not
      * @param fieldName Name of the desired field
-     * @param value New value
+     * @param value     New value
      * @throws IllegalArgumentException If the type of the value does not match the type of the
-     * desired field
-     * @throws IllegalAccessException If the desired field cannot be accessed
-     * @throws NoSuchFieldException If the desired field of the target object cannot be found
-     * @throws SecurityException If the desired field cannot be made accessible
+     *                                  desired field
+     * @throws IllegalAccessException   If the desired field cannot be accessed
+     * @throws NoSuchFieldException     If the desired field of the target object cannot be found
+     * @throws SecurityException        If the desired field cannot be made accessible
      * @see #setValue(Object, Class, boolean, String, Object)
      */
     public static void setValue(Object instance, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
         setValue(instance, instance.getClass(), declared, fieldName, value);
-    }
-
-    // Prevent accidental construction
-    private ReflectionUtils() {
     }
 
     /**
@@ -2142,7 +2150,7 @@ final class ReflectionUtils {
          * Construct a new package type
          *
          * @param parent Parent package of the package
-         * @param path Path of the package
+         * @param path   Path of the package
          */
         private PackageType(PackageType parent, String path) {
             this(parent + "." + path);
@@ -2172,7 +2180,7 @@ final class ReflectionUtils {
          * @param className Name of the desired class
          * @return The class with the specified name
          * @throws ClassNotFoundException If the desired class with the specified name and package
-         * cannot be found
+         *                                cannot be found
          */
         public Class<?> getClass(String className) throws ClassNotFoundException {
             return Class.forName(this + "." + className);
@@ -2205,8 +2213,6 @@ final class ReflectionUtils {
         BOOLEAN(boolean.class, Boolean.class);
 
         private static final Map<Class<?>, DataType> CLASS_MAP = new HashMap<>();
-        private final Class<?> primitive;
-        private final Class<?> reference;
 
         // Initialize map for quick class lookup
         static {
@@ -2215,6 +2221,9 @@ final class ReflectionUtils {
                 CLASS_MAP.put(type.reference, type);
             }
         }
+
+        private final Class<?> primitive;
+        private final Class<?> reference;
 
         /**
          * Construct a new data type
@@ -2322,7 +2331,7 @@ final class ReflectionUtils {
         /**
          * Compares two class arrays on equivalence
          *
-         * @param primary Primary class array
+         * @param primary   Primary class array
          * @param secondary Class array which is compared to the primary array
          * @return Whether these arrays are equal or not
          */

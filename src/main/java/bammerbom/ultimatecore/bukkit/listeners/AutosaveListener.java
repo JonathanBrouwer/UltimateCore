@@ -33,26 +33,25 @@ public class AutosaveListener {
         if (r.getCnfg().getBoolean("Autosave.Enabled") == false) {
             return;
         }
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(),
-                new Runnable() {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
 
-                    @Override
-                    public void run() {
-                        if (r.getCnfg().getBoolean("Autosave.Message") == true) {
-                            Bukkit.broadcastMessage(r.mes("autosaveStart"));
-                        }
-                        for (World w : Bukkit.getWorlds()) {
-                            try {
-                                w.save();
-                            } catch (Exception ex) {
-                            }
-                        }
-                        if (r.getCnfg().getBoolean("Autosave.Message") == true) {
-                            Bukkit.broadcastMessage(r.mes("autosaveDone"));
-                        }
-
+            @Override
+            public void run() {
+                if (r.getCnfg().getBoolean("Autosave.Message") == true) {
+                    Bukkit.broadcastMessage(r.mes("autosaveStart"));
+                }
+                for (World w : Bukkit.getWorlds()) {
+                    try {
+                        w.save();
+                    } catch (Exception ex) {
                     }
+                }
+                if (r.getCnfg().getBoolean("Autosave.Message") == true) {
+                    Bukkit.broadcastMessage(r.mes("autosaveDone"));
+                }
 
-                }, r.getCnfg().getInt("Autosave.Time") * 20, r.getCnfg().getInt("Autosave.Time") * 20);
+            }
+
+        }, r.getCnfg().getInt("Autosave.Time") * 20, r.getCnfg().getInt("Autosave.Time") * 20);
     }
 }

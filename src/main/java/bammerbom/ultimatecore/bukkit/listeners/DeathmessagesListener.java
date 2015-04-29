@@ -30,14 +30,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.*;
-import static org.bukkit.entity.EntityType.*;
 import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import static org.bukkit.event.entity.EntityDamageEvent.DamageCause.*;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class DeathmessagesListener implements Listener {

@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9f41d463-ceb7-4188-b332-8c1d05b5d291" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.jar" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/AfkListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/AfkListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/AttributeUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/AttributeUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/AutomessageListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/AutomessageListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/AutosaveListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/AutosaveListener.java" />
@@ -157,37 +156,28 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/ErrorLogger.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/ErrorLogger.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/ExplosionListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/ExplosionListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/FileConfiguration.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/FileConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/FileConfigurationOptions.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/FileConfigurationOptions.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FileUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FileUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FireworkUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FireworkUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FormatUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/FormatUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/GhostsUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/GhostsUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/GlobalPlayerListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/GlobalPlayerListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/GlobalWorldListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/GlobalWorldListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/InvalidConfigurationException.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/InvalidConfigurationException.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/InventoryUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/InventoryUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/databases/ItemDatabase.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/databases/ItemDatabase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ItemUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ItemUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/JoinLeaveListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/JoinLeaveListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/jsonconfiguration/JsonConfig.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/jsonconfiguration/JsonConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/LocationUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/LocationUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/com/massivecraft/MassiveCore/2.7.5/MassiveCore-2.7.5.pom" afterPath="$PROJECT_DIR$/mvn-repo/com/massivecraft/MassiveCore/2.7.5/MassiveCore-2.7.5.pom" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/MemoryConfiguration.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/MemoryConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/MemoryConfigurationOptions.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/MemoryConfigurationOptions.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/MessageUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/MessageUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MetaItemStack.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MetaItemStack.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MobData.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MobData.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MobType.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/classes/MobType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/MotdListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/MotdListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ParticleUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ParticleUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/PerformanceUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/PerformanceUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/PingUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/PingUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/PluginStealListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/PluginStealListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/PluginUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/PluginUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ReflectionUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/ReflectionUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/RespawnListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/RespawnListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/SerializableAs.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/SerializableAs.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/SignListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/SignListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/StreamUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/StreamUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/StringUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/StringUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/TabListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/TabListener.java" />
@@ -215,26 +205,19 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom.md5" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom.md5" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom.sha1" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom.sha1" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/2.1.4/UltimateCore-2.1.4.pom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/UltimateCore.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/UltimateCore.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateCore.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateCore.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateFileLoader.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateFileLoader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateMetrics.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateMetrics.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateTick.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateTick.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateUpdater.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateWorldLoader.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/UltimateWorldLoader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/UnknownCommandListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/UnknownCommandListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/UuidUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/UuidUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/WeatherListener.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/WeatherListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/XpUtil.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/resources/utils/XpUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlConfiguration.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlConfigurationOptions.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlConfigurationOptions.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlConstructor.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlConstructor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlRepresenter.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/configuration/YamlRepresenter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml.md5" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml.md5" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml.sha1" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml.sha1" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml" afterPath="$PROJECT_DIR$/mvn-repo/bammerbom/UltimateCore/maven-metadata.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/r.java" afterPath="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/r.java" />
     </list>
     <ignored path="UltimateCore.iws" />
@@ -684,11 +667,94 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3360791">
-              <caret line="66" column="30" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="51" column="24" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/config.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdAfk.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAfk.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdAlert.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAlert.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdAnswer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAnswer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="62" column="39" selection-start-line="62" selection-start-column="39" selection-end-line="62" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdAsk.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAsk.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdBack.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBack.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GlobalPlayerListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/GlobalPlayerListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.62069">
+              <caret line="333" column="23" selection-start-line="333" selection-start-column="18" selection-end-line="333" selection-end-column="23" />
+              <folding>
+                <element signature="e#3245#3444#0" expanded="true" />
+                <element signature="e#3443#3444#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CmdBan.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBan.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.68218297">
+              <caret line="61" column="60" selection-start-line="61" selection-start-column="60" selection-end-line="61" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -737,6 +803,7 @@
         <option value="$PROJECT_DIR$/src/main/resources/Style.css" />
         <option value="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/UltimateCore.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBan.java" />
       </list>
     </option>
   </component>
@@ -762,9 +829,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="960" />
-    <option name="width" value="960" />
-    <option name="height" value="1040" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -860,6 +928,112 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ultimatecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UltimateCore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UltimateCore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ultimatecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bukkit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UltimateCore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UltimateCore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ultimatecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bukkit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="listeners" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UltimateCore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UltimateCore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ultimatecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bukkit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="commands" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1384,16 +1558,16 @@
       <workItem from="1430251007199" duration="655000" />
       <workItem from="1430251943856" duration="2394000" />
       <workItem from="1430288878930" duration="381000" />
-      <workItem from="1430306120216" duration="16750000" />
+      <workItem from="1430306120216" duration="20568000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20180000" />
+    <option name="totallyTimeSpent" value="23998000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="960" y="0" width="960" height="1040" extended-state="0" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1402,10 +1576,10 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21583514" sideWeight="0.4915254" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.299117" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29392624" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.49555555" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3040254" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14947917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1456,12 +1630,12 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="94" column="68" selection-start-line="94" selection-start-column="68" selection-end-line="94" selection-end-column="68" />
           <folding>
-            <element signature="e#0#6443#0" expanded="false" />
+            <element signature="e#0#6437#0" expanded="false" />
             <element signature="imports" expanded="false" />
-            <element signature="e#2541#2542#0" expanded="false" />
-            <element signature="e#2572#2573#0" expanded="false" />
-            <element signature="e#2615#2616#0" expanded="false" />
-            <element signature="e#2642#2643#0" expanded="false" />
+            <element signature="e#2540#2541#0" expanded="false" />
+            <element signature="e#2571#2572#0" expanded="false" />
+            <element signature="e#2613#2614#0" expanded="false" />
+            <element signature="e#2640#2641#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1472,18 +1646,18 @@
           <caret line="61" column="32" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2329#2981#0" expanded="true" />
-            <element signature="e#2980#2981#0" expanded="true" />
-            <element signature="e#3192#3816#0" expanded="true" />
-            <element signature="e#3815#3816#0" expanded="true" />
-            <element signature="e#4013#4225#0" expanded="true" />
-            <element signature="e#4224#4225#0" expanded="true" />
-            <element signature="e#4816#5477#0" expanded="true" />
-            <element signature="e#5476#5477#0" expanded="true" />
-            <element signature="e#5694#6300#0" expanded="true" />
-            <element signature="e#6299#6300#0" expanded="true" />
-            <element signature="e#7209#7369#0" expanded="true" />
-            <element signature="e#7368#7369#0" expanded="true" />
+            <element signature="e#2327#2978#0" expanded="true" />
+            <element signature="e#2977#2978#0" expanded="true" />
+            <element signature="e#3189#3812#0" expanded="true" />
+            <element signature="e#3811#3812#0" expanded="true" />
+            <element signature="e#4009#4220#0" expanded="true" />
+            <element signature="e#4219#4220#0" expanded="true" />
+            <element signature="e#4810#5470#0" expanded="true" />
+            <element signature="e#5469#5470#0" expanded="true" />
+            <element signature="e#5687#6292#0" expanded="true" />
+            <element signature="e#6291#6292#0" expanded="true" />
+            <element signature="e#7200#7359#0" expanded="true" />
+            <element signature="e#7358#7359#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1503,12 +1677,12 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#6443#0" expanded="false" />
+            <element signature="e#0#6437#0" expanded="false" />
             <element signature="imports" expanded="false" />
-            <element signature="e#2541#2542#0" expanded="false" />
-            <element signature="e#2572#2573#0" expanded="false" />
-            <element signature="e#2615#2616#0" expanded="false" />
-            <element signature="e#2642#2643#0" expanded="false" />
+            <element signature="e#2540#2541#0" expanded="false" />
+            <element signature="e#2571#2572#0" expanded="false" />
+            <element signature="e#2613#2614#0" expanded="false" />
+            <element signature="e#2640#2641#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1599,18 +1773,18 @@
           <caret line="141" column="31" selection-start-line="141" selection-start-column="31" selection-end-line="141" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2329#2981#0" expanded="true" />
-            <element signature="e#2980#2981#0" expanded="true" />
-            <element signature="e#3192#3816#0" expanded="true" />
-            <element signature="e#3815#3816#0" expanded="true" />
-            <element signature="e#4013#4225#0" expanded="true" />
-            <element signature="e#4224#4225#0" expanded="true" />
-            <element signature="e#4816#5477#0" expanded="true" />
-            <element signature="e#5476#5477#0" expanded="true" />
-            <element signature="e#5694#6300#0" expanded="true" />
-            <element signature="e#6299#6300#0" expanded="true" />
-            <element signature="e#7209#7369#0" expanded="true" />
-            <element signature="e#7368#7369#0" expanded="true" />
+            <element signature="e#2327#2978#0" expanded="true" />
+            <element signature="e#2977#2978#0" expanded="true" />
+            <element signature="e#3189#3812#0" expanded="true" />
+            <element signature="e#3811#3812#0" expanded="true" />
+            <element signature="e#4009#4220#0" expanded="true" />
+            <element signature="e#4219#4220#0" expanded="true" />
+            <element signature="e#4810#5470#0" expanded="true" />
+            <element signature="e#5469#5470#0" expanded="true" />
+            <element signature="e#5687#6292#0" expanded="true" />
+            <element signature="e#6291#6292#0" expanded="true" />
+            <element signature="e#7200#7359#0" expanded="true" />
+            <element signature="e#7358#7359#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1618,14 +1792,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.16803955">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -1649,8 +1815,75 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3360791">
-          <caret line="66" column="30" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="24" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAfk.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAlert.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAnswer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="62" column="39" selection-start-line="62" selection-start-column="39" selection-end-line="62" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdAsk.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/listeners/GlobalPlayerListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.62069">
+          <caret line="333" column="23" selection-start-line="333" selection-start-column="18" selection-end-line="333" selection-end-column="23" />
+          <folding>
+            <element signature="e#3245#3444#0" expanded="true" />
+            <element signature="e#3443#3444#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bammerbom/ultimatecore/bukkit/commands/CmdBan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.68218297">
+          <caret line="61" column="60" selection-start-line="61" selection-start-column="60" selection-end-line="61" selection-end-column="60" />
           <folding />
         </state>
       </provider>

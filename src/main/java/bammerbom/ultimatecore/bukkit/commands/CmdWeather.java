@@ -25,14 +25,15 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.listeners.WeatherListener;
 import bammerbom.ultimatecore.bukkit.r;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CmdWeather implements UltimateCommand {
 
@@ -139,7 +140,8 @@ public class CmdWeather implements UltimateCommand {
                         world.setStorm(true);
                         world.setThundering(false);
                         weather = 2;
-                    } else if ("storm".equalsIgnoreCase(args[0]) || "thunder".equalsIgnoreCase(args[0]) || "thunderstorm".equalsIgnoreCase(args[0])) {
+                    } else if ("storm".equalsIgnoreCase(args[0]) || "thunder".equalsIgnoreCase(args[0]) ||
+                            "thunderstorm".equalsIgnoreCase(args[0])) {
                         if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.storm", false, false) == false) {
                             r.sendMes(cs, "noPermissions");
                             return;

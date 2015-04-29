@@ -30,13 +30,14 @@ import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.*;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.text.DateFormat;
 import java.util.*;
-import org.bukkit.*;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 public class UServer {
 
@@ -71,10 +72,6 @@ public class UServer {
             ErrorLogger.log(ex, "Failed to load MOTD");
         }
 
-    }
-
-    public static void setDebug(Boolean value) {
-        r.setDebug(value);
     }
 
     //Ban
@@ -354,7 +351,8 @@ public class UServer {
             Player pl = p;
             mt = mt.replace("{WORLD}", pl.getWorld().getName());
             mt = mt.replace("{WORLDNAME}", pl.getWorld().getName());
-            mt = mt.replace("{COORDS}", pl.getLocation().getBlockX() + ", " + pl.getLocation().getBlockY() + ", " + pl.getLocation().getBlockZ());
+            mt = mt.replace("{COORDS}", pl.getLocation().getBlockX() + ", " + pl.getLocation().getBlockY() + ", " +
+                    pl.getLocation().getBlockZ());
         } else {
             mt = mt.replace("{WORLD}", ChatColor.stripColor(r.mes("notAvailable")));
             mt = mt.replace("{WORLDNAME}", ChatColor.stripColor(r.mes("notAvailable")));
@@ -572,6 +570,10 @@ public class UServer {
 
     public boolean isDebug() {
         return r.isDebug();
+    }
+
+    public static void setDebug(Boolean value) {
+        r.setDebug(value);
     }
 
     public JsonConfig getGlobalConfig() {

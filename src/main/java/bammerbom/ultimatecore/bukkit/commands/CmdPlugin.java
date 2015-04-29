@@ -27,15 +27,6 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.PluginUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import com.google.common.io.Files;
-import java.io.*;
-import java.net.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,6 +38,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.*;
+import java.net.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CmdPlugin implements UltimateCommand {
 
@@ -574,13 +575,14 @@ public class CmdPlugin implements UltimateCommand {
                                 content.append(inputLine);
                             }
                             br.close();
-                            file = StringUtils.substringBetween(content.toString(), "<li class=\"user-action user-action-download\"><span><a href=\"", "\">Download</a></span></li>");
+                            file = StringUtils.substringBetween(content.toString(), "<li class=\"user-action " + "user-action-download\"><span><a href=\"", "\">Download</a></span></li>");
                         } else {
                             throw new Exception();
                         }
                     } catch (Exception e) {
                         r.sendMes(cs, "pluginDownloadInvalidtag");
-                        cs.sendMessage(r.negative + "http://dev.bukkit.org/server-mods/" + r.neutral + "ultimate_core" + r.negative + "/");
+                        cs.sendMessage(r.negative + "http://dev.bukkit.org/server-mods/" + r.neutral +
+                                "ultimate_core" + r.negative + "/");
                         return;
                     }
                     BufferedInputStream bis;
@@ -713,7 +715,7 @@ public class CmdPlugin implements UltimateCommand {
                     }
                     r.sendMes(cs, "pluginSearchHeader");
                     for (int i = 0; i < 20; i++) {
-                        final String project = StringUtils.substringBetween(content.toString(), " row-joined-to-next\">", "</tr>");
+                        final String project = StringUtils.substringBetween(content.toString(), " " + "row-joined-to-next\">", "</tr>");
                         final String base = StringUtils.substringBetween(project, "<td class=\"col-search-entry\">", "</td>");
                         if (base == null) {
                             if (i == 0) {
@@ -721,7 +723,7 @@ public class CmdPlugin implements UltimateCommand {
                             }
                             return;
                         }
-                        final Pattern p = Pattern.compile("<h2><a href=\"/bukkit-plugins/([\\W\\w]+)/\">([\\w\\W]+)</a></h2>");
+                        final Pattern p = Pattern.compile("<h2><a href=\"/bukkit-plugins/([\\W\\w]+)/\">([\\w\\W]+)" + "</a></h2>");
                         final Matcher m = p.matcher(base);
                         if (!m.find()) {
                             if (i == 0) {

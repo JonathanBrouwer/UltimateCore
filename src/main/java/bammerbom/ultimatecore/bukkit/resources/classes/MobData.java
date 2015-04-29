@@ -24,13 +24,14 @@
 package bammerbom.ultimatecore.bukkit.resources.classes;
 
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
-import java.util.*;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Colorable;
+
+import java.util.*;
 
 public enum MobData {
 

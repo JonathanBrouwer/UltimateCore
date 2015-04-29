@@ -55,8 +55,10 @@ public class RespawnListener implements Listener {
                 } catch (Exception ex) {
                     try {
                         Object nmsPlayer = p.getClass().getMethod("getHandle").invoke(p);
-                        Object packet = Class.forName(nmsPlayer.getClass().getPackage().getName() + ".PacketPlayInClientCommand").newInstance();
-                        Class<?> enumClass = Class.forName(nmsPlayer.getClass().getPackage().getName() + ".EnumClientCommand");
+                        Object packet = Class.forName(nmsPlayer.getClass().getPackage().getName() + "" +
+                                ".PacketPlayInClientCommand").newInstance();
+                        Class<?> enumClass = Class.forName(nmsPlayer.getClass().getPackage().getName() + "" +
+                                ".EnumClientCommand");
 
                         for (Object ob : enumClass.getEnumConstants()) {
                             if (ob.toString().equals("PERFORM_RESPAWN")) {

@@ -34,8 +34,6 @@ import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
 import com.google.common.base.Joiner;
-import java.util.*;
-import java.util.regex.Pattern;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -44,20 +42,13 @@ import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.*;
+import java.util.regex.Pattern;
+
 public class MetaItemStack {
 
     private static final Map<String, DyeColor> colorMap = new HashMap<>();
     private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap<>();
-
-    public static void start() {
-        for (DyeColor color : DyeColor.values()) {
-            colorMap.put(color.name(), color);
-        }
-        for (FireworkEffect.Type type : FireworkEffect.Type.values()) {
-            fireworkShape.put(type.name(), type);
-        }
-    }
-
     private final transient Pattern splitPattern = Pattern.compile("[:+',;.]");
     private ItemStack stack;
     private FireworkEffect.Builder builder = FireworkEffect.builder();
@@ -73,6 +64,15 @@ public class MetaItemStack {
 
     public MetaItemStack(ItemStack stack) {
         this.stack = stack.clone();
+    }
+
+    public static void start() {
+        for (DyeColor color : DyeColor.values()) {
+            colorMap.put(color.name(), color);
+        }
+        for (FireworkEffect.Type type : FireworkEffect.Type.values()) {
+            fireworkShape.put(type.name(), type);
+        }
     }
 
     public ItemStack getItemStack() {

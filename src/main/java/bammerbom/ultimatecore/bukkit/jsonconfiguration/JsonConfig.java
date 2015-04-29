@@ -26,11 +26,12 @@ package bammerbom.ultimatecore.bukkit.jsonconfiguration;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
-import java.io.*;
-import java.util.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import java.io.File;
+import java.util.*;
 
 public class JsonConfig implements Cloneable {
 

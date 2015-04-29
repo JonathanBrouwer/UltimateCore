@@ -24,13 +24,14 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
-import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+
+import java.util.*;
 
 abstract interface UText {
 
@@ -119,8 +120,7 @@ class TextInput implements UText {
     }
 }
 
-class HelpInput
-        implements UText {
+class HelpInput implements UText {
 
     private final transient List<String> lines = new ArrayList<>();
     private final transient List<String> chapters = new ArrayList<>();
@@ -198,8 +198,7 @@ class HelpInput
     }
 }
 
-class PluginCommandsInput
-        implements UText {
+class PluginCommandsInput implements UText {
 
     private final transient List<String> lines = new ArrayList<>();
     private final transient List<String> chapters = new ArrayList<>();
@@ -280,10 +279,6 @@ class PluginCommandsInput
 
 class TextPager {
 
-    private static String capitalCase(String input) {
-        return input.toUpperCase(Locale.ENGLISH).charAt(0) + input.toLowerCase(Locale.ENGLISH).substring(1);
-    }
-
     private final transient UText text;
     private final transient boolean onePage;
 
@@ -294,6 +289,10 @@ class TextPager {
     public TextPager(UText text, boolean onePage) {
         this.text = text;
         this.onePage = onePage;
+    }
+
+    private static String capitalCase(String input) {
+        return input.toUpperCase(Locale.ENGLISH).charAt(0) + input.toLowerCase(Locale.ENGLISH).substring(1);
     }
 
     public void showPage(String pageStr, String chapterPageStr, String commandName, CommandSender sender) {

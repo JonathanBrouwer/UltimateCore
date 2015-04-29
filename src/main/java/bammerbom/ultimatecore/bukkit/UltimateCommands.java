@@ -26,7 +26,6 @@ package bammerbom.ultimatecore.bukkit;
 import bammerbom.ultimatecore.bukkit.commands.*;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
-import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,6 +35,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
+
+import java.util.*;
 
 public class UltimateCommands implements TabCompleter {
 
@@ -295,7 +296,8 @@ public class UltimateCommands implements TabCompleter {
                     for (String label : labels) {
                         if (label.equalsIgnoreCase(uc.getLabel())) {
                             if (overriddenList.containsKey(uc)) {
-                                r.debug(ChatColor.WHITE + "Command un-overridden: " + label + " (" + pc.getPlugin() + ")");
+                                r.debug(ChatColor.WHITE + "Command un-overridden: " + label + " (" + pc.getPlugin() +
+                                        ")");
                                 overriddenList.remove(uc);
                             }
                         }

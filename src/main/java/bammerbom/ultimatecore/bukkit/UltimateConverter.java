@@ -26,6 +26,12 @@ package bammerbom.ultimatecore.bukkit;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import org.apache.commons.io.FilenameUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.json.simple.JSONValue;
+import org.yaml.snakeyaml.Yaml;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,11 +40,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.apache.commons.io.FilenameUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.json.simple.JSONValue;
-import org.yaml.snakeyaml.Yaml;
 
 public class UltimateConverter {
 
@@ -54,7 +55,8 @@ public class UltimateConverter {
          r.log(ChatColor.DARK_RED + "-----------------------------------------------");
          Thread.sleep(10000L);
          r.log("Creating backup...");
-         FileUtil.copy(r.getUC().getDataFolder(), new File(r.getUC().getDataFolder().getParentFile(), "UltimateCore (Backup from 1.x)"));
+         FileUtil.copy(r.getUC().getDataFolder(), new File(r.getUC().getDataFolder().getParentFile(), "UltimateCore
+         (Backup from 1.x)"));
          r.log("Converting...");
          HashMap<UUID, HashMap<String, Location>> homes = new HashMap<>();
          for (OfflinePlayer pl : r.getOfflinePlayers()) {
@@ -284,7 +286,7 @@ public class UltimateConverter {
                 r.log("Server restart needed to complete convertion...");
                 r.log(ChatColor.GREEN + "Stopping server...");
                 Bukkit.getServer().shutdown();
-            } catch (InterruptedException | IOException ex) {
+            } catch (InterruptedException|IOException ex) {
                 ErrorLogger.log(ex, "Failed to convert from yaml data");
             }
         }

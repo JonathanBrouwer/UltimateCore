@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.r;
-import java.lang.reflect.Field;
 import org.bukkit.Bukkit;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.EventHandler;
@@ -32,6 +31,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.SimplePluginManager;
+
+import java.lang.reflect.Field;
 
 public class UnknownCommandListener implements Listener {
 
@@ -51,14 +52,14 @@ public class UnknownCommandListener implements Listener {
             Field f;
             try {
                 f = SimplePluginManager.class.getDeclaredField("commandMap");
-            } catch (NoSuchFieldException | SecurityException e) {
+            } catch (NoSuchFieldException|SecurityException e) {
                 e.printStackTrace();
                 return null;
             }
             f.setAccessible(true);
             try {
                 return (SimpleCommandMap) f.get(Bukkit.getPluginManager());
-            } catch (IllegalArgumentException | IllegalAccessException e) {
+            } catch (IllegalArgumentException|IllegalAccessException e) {
                 e.printStackTrace();
                 return null;
             }

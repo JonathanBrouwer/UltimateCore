@@ -23,6 +23,11 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
+import org.bukkit.ChatColor;
+import org.bukkit.plugin.Plugin;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONValue;
+
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,10 +36,6 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.bukkit.ChatColor;
-import org.bukkit.plugin.Plugin;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
 
 /**
  * Check for updates on BukkitDev for a given plugin, and download the updates if needed.
@@ -111,11 +112,11 @@ public class UltimateUpdater {
     /**
      * Initialize the updater.
      *
-     * @param plugin The plugin that is checking for an update.
-     * @param id The dev.bukkit.org id of the project.
-     * @param file The file that the plugin is running from, get this by doing this.getFile() from
-     * within your main class.
-     * @param type Specify the type of update this will be. See {@link UpdateType}
+     * @param plugin   The plugin that is checking for an update.
+     * @param id       The dev.bukkit.org id of the project.
+     * @param file     The file that the plugin is running from, get this by doing this.getFile() from
+     *                 within your main class.
+     * @param type     Specify the type of update this will be. See {@link UpdateType}
      * @param announce True if the program should announce the progress of new updates in console.
      */
     public UltimateUpdater(Plugin plugin, int id, File file, UpdateType type, boolean announce) {
@@ -224,8 +225,8 @@ public class UltimateUpdater {
      * Save an update from dev.bukkit.org into the server's update folder.
      *
      * @param folder the updates folder location.
-     * @param file the name of the file to save it as.
-     * @param link the url of the file.
+     * @param file   the name of the file to save it as.
+     * @param link   the url of the file.
      */
     private void saveFile(File folder, String file, String link) {
         deleteOldFiles();
@@ -249,7 +250,7 @@ public class UltimateUpdater {
     /**
      * Download a file and save it to the specified folder.
      *
-     * @param link link to file.
+     * @param link   link to file.
      * @param folder folder to save file to.
      */
     private void downloadFile(String link, File folder) {
@@ -459,7 +460,7 @@ public class UltimateUpdater {
      * different from that of the local version a new update.
      * </p>
      *
-     * @param localVersion the current version
+     * @param localVersion  the current version
      * @param remoteVersion the remote version
      * @return true if Updater should consider the remote version an update, false if not.
      */
@@ -556,7 +557,7 @@ public class UltimateUpdater {
     /**
      * Perform a file operation and log any errors if it fails.
      *
-     * @param file file operation is performed on.
+     * @param file   file operation is performed on.
      * @param result result of file operation.
      * @param create true if a file is being created, false if deleted.
      */
@@ -658,8 +659,7 @@ public class UltimateUpdater {
 
         @Override
         public void run() {
-            if (UltimateUpdater.this.url != null
-                    && (UltimateUpdater.this.read() && UltimateUpdater.this.versionCheck(UltimateUpdater.versionName))) {
+            if (UltimateUpdater.this.url != null && (UltimateUpdater.this.read() && UltimateUpdater.this.versionCheck(UltimateUpdater.versionName))) {
                 // Obtain the results of the project's file feed
                 if ((UltimateUpdater.this.versionLink != null) && (UltimateUpdater.this.type != UpdateType.NO_DOWNLOAD)) {
                     String name = UltimateUpdater.this.file.getName();

@@ -28,8 +28,6 @@ import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
-import java.io.File;
-import java.util.*;
 import org.bukkit.*;
 import org.bukkit.BanList.Type;
 import org.bukkit.command.CommandSender;
@@ -37,9 +35,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 
+import java.io.File;
+import java.util.*;
+
 public class UPlayer {
 
     static Random ra = new Random();
+    static boolean tpspawn = r.getCnfg().getBoolean("Command.Jail.spawn");
     String name = null;
     UUID uuid = null;
     Location lastLocation = null;
@@ -77,6 +79,7 @@ public class UPlayer {
     String lastip;
     BanList.Type bantype;
     double money;
+    String lasthostname = null;
 
     public UPlayer(OfflinePlayer p) {
         name = p.getName();
@@ -159,8 +162,6 @@ public class UPlayer {
         conf.save();
         save();
     }
-
-    String lasthostname = null;
 
     public String getLastHostname() {
         if (lasthostname != null) {
@@ -694,8 +695,6 @@ public class UPlayer {
             }
         }
     }
-
-    static boolean tpspawn = r.getCnfg().getBoolean("Command.Jail.spawn");
 
     public boolean isJailed() {
         if (getJailTime() >= 1 && getJailTimeLeft() <= 1 && (jailed != null ? jailed : getPlayerConfig().getBoolean("jailed"))) {

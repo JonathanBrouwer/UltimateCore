@@ -25,14 +25,15 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CmdSetarmor implements UltimateCommand {
 
@@ -126,7 +127,9 @@ public class CmdSetarmor implements UltimateCommand {
                 r.sendMes(cs, "setarmorNotFound", "%Armor", args[0]);
             }
         } else if (r.checkArgs(args, 1)) {
-            if (!r.perm(cs, "uc.setarmor.others", false, true)) ;
+            if (!r.perm(cs, "uc.setarmor.others", false, true)) {
+                ;
+            }
             if (isArmor(args[0])) {
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {

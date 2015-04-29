@@ -26,7 +26,6 @@ package bammerbom.ultimatecore.bukkit.listeners;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
-import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -41,6 +40,8 @@ import org.dynmap.markers.Marker;
 import org.dynmap.markers.MarkerAPI;
 import org.dynmap.markers.MarkerIcon;
 import org.dynmap.markers.MarkerSet;
+
+import java.util.*;
 
 public class DynmapListener implements Listener {
 
@@ -57,9 +58,7 @@ public class DynmapListener implements Listener {
 
     public static void start() {
         reload = false;
-        if (r.getCnfg().getBoolean("Dynmap.Enable") == true
-                && Bukkit.getPluginManager().getPlugin("dynmap") != null
-                && Bukkit.getPluginManager().isPluginEnabled("dynmap")) {
+        if (r.getCnfg().getBoolean("Dynmap.Enable") == true && Bukkit.getPluginManager().getPlugin("dynmap") != null && Bukkit.getPluginManager().isPluginEnabled("dynmap")) {
             dynmap = Bukkit.getPluginManager().getPlugin("dynmap");
             api = (DynmapAPI) dynmap;
             Bukkit.getPluginManager().registerEvents(new DynmapListener(), r.getUC());

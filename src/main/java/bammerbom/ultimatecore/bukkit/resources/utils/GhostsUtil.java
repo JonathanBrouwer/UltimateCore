@@ -23,9 +23,6 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -35,6 +32,10 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class GhostsUtil {
 
@@ -46,14 +47,18 @@ public class GhostsUtil {
 
     // No players in the ghost factory
     private static final OfflinePlayer[] EMPTY_PLAYERS = new OfflinePlayer[0];
+    // Players that are actually ghosts
+    private static final Set<String> ghosts = new HashSet<>();
     private static Team ghostTeam;
-
     // Task that must be cleaned up
     private static BukkitTask task;
     private static boolean closed;
 
-    // Players that are actually ghosts
-    private static final Set<String> ghosts = new HashSet<>();
+    public GhostsUtil(Plugin plugin) {
+        // Initialize
+        createTask(plugin);
+        createGetTeam();
+    }
 
     private static void createGetTeam() {
         Scoreboard board = Bukkit.getServer().getScoreboardManager().getMainScoreboard();
@@ -136,7 +141,7 @@ public class GhostsUtil {
     /**
      * Set wheter or not a given player is a ghost.
      *
-     * @param player - the player to set as a ghost.
+     * @param player  - the player to set as a ghost.
      * @param isGhost - TRUE to make the given player into a ghost, FALSE otherwise.
      */
     public static void setGhost(Player player, boolean isGhost) {
@@ -185,7 +190,7 @@ public class GhostsUtil {
         Set<OfflinePlayer> players = new HashSet<>(ghostTeam.getPlayers());
 
         // Remove all non-ghost players
-        for (Iterator<OfflinePlayer> it = players.iterator(); it.hasNext();) {
+        for (Iterator<OfflinePlayer> it = players.iterator(); it.hasNext(); ) {
             if (!ghosts.contains(it.next().getName())) {
                 it.remove();
             }
@@ -227,11 +232,5 @@ public class GhostsUtil {
         if (closed) {
             throw new IllegalStateException("Ghost factory has closed. Cannot reuse instances.");
         }
-    }
-
-    public GhostsUtil(Plugin plugin) {
-        // Initialize
-        createTask(plugin);
-        createGetTeam();
     }
 }

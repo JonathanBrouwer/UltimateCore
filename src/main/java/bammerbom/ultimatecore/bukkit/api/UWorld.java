@@ -25,8 +25,9 @@ package bammerbom.ultimatecore.bukkit.api;
 
 import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.resources.utils.FireworkUtil;
-import java.io.File;
 import org.bukkit.*;
+
+import java.io.File;
 
 public class UWorld {
 
@@ -54,7 +55,8 @@ public class UWorld {
 
     //Datafile
     public File getDataFile() {
-        return new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + File.separator + "Data", "worlds.json");
+        return new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + File.separator +
+                "Data", "worlds.json");
     }
 
     public World getWorld() {
@@ -67,7 +69,7 @@ public class UWorld {
         conf.set(base.getName() + ".env", base.getEnvironment().name());
         conf.set(base.getName() + ".gen", gen);
         conf.set(base.getName() + ".type", base.getWorldType().toString());
-//conf.set(base.getName() + ".gen", base.getGenerator().getClass());
+        //conf.set(base.getName() + ".gen", base.getGenerator().getClass());
         conf.save();
     }
 

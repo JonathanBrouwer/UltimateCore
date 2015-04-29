@@ -44,11 +44,7 @@ public class PluginStealListener implements Listener {
         if (m.contains(" ")) {
             m = m.split(" ")[0];
         }
-        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins")
-                || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl")
-                || m.equalsIgnoreCase("about") || m.equalsIgnoreCase("bukkit:about")
-                || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version")
-                || m.equalsIgnoreCase("ver") || m.equalsIgnoreCase("bukkit:ver")) {
+        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins") || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl") || m.equalsIgnoreCase("about") || m.equalsIgnoreCase("bukkit:about") || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version") || m.equalsIgnoreCase("ver") || m.equalsIgnoreCase("bukkit:ver")) {
             if (!r.perm(e.getPlayer(), "uc.plugins", false, true)) {
                 e.setCancelled(true);
             }
@@ -75,11 +71,7 @@ public class PluginStealListener implements Listener {
                         if (m.contains(" ")) {
                             m = m.split(" ")[0];
                         }
-                        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins")
-                                || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl")
-                                || m.equalsIgnoreCase("about") || m.equalsIgnoreCase("bukkit:about")
-                                || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version")
-                                || m.equalsIgnoreCase("ver") || m.equalsIgnoreCase("bukkit:ver")) {
+                        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins") || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl") || m.equalsIgnoreCase("about") || m.equalsIgnoreCase("bukkit:about") || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version") || m.equalsIgnoreCase("ver") || m.equalsIgnoreCase("bukkit:ver")) {
                             if (!r.perm(event.getPlayer(), "uc.plugins", false, false)) {
                                 event.setCancelled(true);
                             }

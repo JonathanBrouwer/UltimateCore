@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
-import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -34,6 +33,8 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
+
+import java.util.*;
 
 public class CmdMobtp implements UltimateCommand {
 
@@ -64,7 +65,8 @@ public class CmdMobtp implements UltimateCommand {
         if (!p.getItemInHand().getType().equals(Material.STICK)) {
             return false;
         }
-        if (!p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.AQUA + "MobTP: select an entity (right click)")) {
+        if (!p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.AQUA + "MobTP: select an " +
+                "entity (right click)")) {
             return false;
         }
         ItemStack stick = new ItemStack(Material.BLAZE_ROD);
@@ -104,7 +106,8 @@ public class CmdMobtp implements UltimateCommand {
             if (!p.getItemInHand().getType().equals(Material.BLAZE_ROD)) {
                 return false;
             }
-            if (!p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.AQUA + "MobTP: place entity (right click)")) {
+            if (!p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.AQUA + "MobTP: place " +
+                    "entity (right click)")) {
                 return false;
             }
             if (!r.perm(p, "uc.mobtp", false, false)) {
@@ -115,7 +118,8 @@ public class CmdMobtp implements UltimateCommand {
             ItemMeta meta = stick.getItemMeta();
             meta.setDisplayName(ChatColor.AQUA + "MobTP: select an entity (right click)");
             ArrayList<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "" + ChatColor.UNDERLINE + "Find an entity to teleport, then right click to to pick it up.");
+            lore.add(ChatColor.GRAY + "" + ChatColor.UNDERLINE + "Find an entity to teleport, then right click to to " +
+                    "pick it up.");
             lore.add(ChatColor.GRAY + "Then right click again to place the entity");
             meta.setLore(lore);
             stick.setItemMeta(meta);
@@ -262,7 +266,8 @@ public class CmdMobtp implements UltimateCommand {
         ItemMeta meta = stick.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + "MobTP: select an entity (right click)");
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY + "" + ChatColor.UNDERLINE + "Find an entity to teleport, then right click to to pick it up.");
+        lore.add(ChatColor.GRAY + "" + ChatColor.UNDERLINE + "Find an entity to teleport, then right click to to pick" +
+                " it up.");
         lore.add(ChatColor.GRAY + "Then right click again to place the entity");
         meta.setLore(lore);
         stick.setItemMeta(meta);

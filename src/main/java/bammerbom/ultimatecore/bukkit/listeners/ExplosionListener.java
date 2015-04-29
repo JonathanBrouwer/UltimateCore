@@ -35,16 +35,16 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class ExplosionListener implements Listener {
 
-    public static void start() {
-        Bukkit.getPluginManager().registerEvents(new ExplosionListener(), r.getUC());
-    }
-
     Boolean creeper = r.getCnfg().getBoolean("Explode.Creeper");
     Boolean tnt = r.getCnfg().getBoolean("Explode.TNT");
     Boolean ghast = r.getCnfg().getBoolean("Explode.Ghast");
     Boolean enderdragon = r.getCnfg().getBoolean("Explode.Enderdragon");
     Boolean wither = r.getCnfg().getBoolean("Explode.Wither");
     Boolean lightning = r.getCnfg().getBoolean("Explode.Lightning");
+
+    public static void start() {
+        Bukkit.getPluginManager().registerEvents(new ExplosionListener(), r.getUC());
+    }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void explosionListener(EntityExplodeEvent e) {

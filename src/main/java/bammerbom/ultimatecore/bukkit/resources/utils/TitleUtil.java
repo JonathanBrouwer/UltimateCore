@@ -25,10 +25,11 @@ package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class TitleUtil {
 
@@ -74,9 +75,8 @@ public class TitleUtil {
         }
     }
 
-    private static Class<?> getNmsClass(String nmsClassName)
-            throws ClassNotFoundException {
-        return Class.forName("net.minecraft.server." + Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + "." + nmsClassName);
+    private static Class<?> getNmsClass(String nmsClassName) throws ClassNotFoundException {
+        return Class.forName("net.minecraft.server." + Bukkit.getServer().getClass().getPackage().getName().replace("" + ".", ",").split(",")[3] + "." + nmsClassName);
     }
 
     private static String getServerVersion() {
@@ -106,7 +106,8 @@ public class TitleUtil {
 
                 pcon.getClass().getMethod("sendPacket", new Class[]{getNmsClass("Packet")}).invoke(pcon, new Object[]{ppoc});
             }
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException | InstantiationException | NoSuchFieldException e) {
+        } catch (IllegalAccessException|IllegalArgumentException|InvocationTargetException|NoSuchMethodException
+                |SecurityException|ClassNotFoundException|InstantiationException|NoSuchFieldException e) {
             e.printStackTrace();
         }
     }

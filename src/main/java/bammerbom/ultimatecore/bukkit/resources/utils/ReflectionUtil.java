@@ -23,11 +23,12 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import org.bukkit.Bukkit;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import org.bukkit.Bukkit;
 
 /**
  * Helper class that can "execute" strings and helps general NSM and OBC calls.
@@ -45,9 +46,9 @@ public class ReflectionUtil {
     /**
      * Execute a reflection command
      *
-     * @param command The command to execute
+     * @param command  The command to execute
      * @param toCallOn The object to call the command on
-     * @param args The arguments
+     * @param args     The arguments
      * @return The Object derived from the execution, or null if nothing is returned
      * @throws Exception When something goes wrong during execution
      */
@@ -137,7 +138,7 @@ public class ReflectionUtil {
     /**
      * Tries to get a specified field value from the specified object
      *
-     * @param obj The object to find the field from
+     * @param obj   The object to find the field from
      * @param field The field name
      * @return The value of the field
      * @throws Exception If something went wrong during executing
@@ -174,7 +175,7 @@ public class ReflectionUtil {
     /**
      * Tries to invoke a method on the provided object with zero arguments
      *
-     * @param obj The object to call on
+     * @param obj        The object to call on
      * @param methodName The method name
      * @return The result of the function
      * @throws Exception If something went wrong during executing
@@ -212,7 +213,7 @@ public class ReflectionUtil {
     /**
      * Tries to invoke a method on the provided object with the provided arguments
      *
-     * @param obj The object to call on
+     * @param obj  The object to call on
      * @param name The name of the method
      * @param args The arguments used while executing
      * @return The result of the function
@@ -258,7 +259,7 @@ public class ReflectionUtil {
      * Compares a Class[] array and a Object[] array, checking if they have equal classes
      *
      * @param classes The Class array
-     * @param args The Object array
+     * @param args    The Object array
      * @return Whether the array classes are equals
      */
     private static boolean checkForMatch(Class<?>[] classes, Object[] args) {
@@ -313,7 +314,7 @@ public class ReflectionUtil {
     /**
      * Tries to find a matching constructor for the provided class and arguments
      *
-     * @param cls The class to find a constructor for
+     * @param cls  The class to find a constructor for
      * @param args The arguments
      * @return The constructor, or null if not found
      */
@@ -323,17 +324,32 @@ public class ReflectionUtil {
                 return constr;
             }
         }
-        throw new IllegalArgumentException("Could not create a ReflectionObject for class " + cls.getName() + ": No matching constructor found!");
+        throw new IllegalArgumentException("Could not create a ReflectionObject for class " + cls.getName() + ": No " +
+                "matching constructor found!");
     }
 
     public static class ReflectionObject {
+
+        /**
+         * The internal object operations are performed on
+         */
+        private final Object object;
+
+        /**
+         * Default constructor
+         *
+         * @param obj The object the ReflectionObject wraps around
+         */
+        public ReflectionObject(Object obj) {
+            this.object = obj;
+        }
 
         /**
          * Creates a new instance of the provided class, passing in the provided parameters. Then
          * returns the wrapped ReflectionObject
          *
          * @param className The name of the class
-         * @param args The constructor arguments
+         * @param args      The constructor arguments
          * @return The wrapped ReflectionObject. The real object can be received with
          * ReflectionObject.fromNMS(class, args).fetch();
          */
@@ -368,20 +384,6 @@ public class ReflectionUtil {
         }
 
         /**
-         * The internal object operations are performed on
-         */
-        private final Object object;
-
-        /**
-         * Default constructor
-         *
-         * @param obj The object the ReflectionObject wraps around
-         */
-        public ReflectionObject(Object obj) {
-            this.object = obj;
-        }
-
-        /**
          * Returns the wrapped object
          *
          * @return The wrapped object
@@ -395,7 +397,7 @@ public class ReflectionUtil {
          * object
          *
          * @param methodName The method name
-         * @param args The arguments
+         * @param args       The arguments
          * @return A {@link ReflectionObject} if the method did not return null
          */
         public ReflectionObject invoke(String methodName, Object... args) {
@@ -434,7 +436,8 @@ public class ReflectionUtil {
         }
 
         /**
-         * Does the same as {@link ReflectionObject#get(String)} but wraps the returned object in a {@link ReflectionObject
+         * Does the same as {@link ReflectionObject#get(String)} but wraps the returned object in a {@link
+         * ReflectionObject
          * }
          *
          * @param field The field name
@@ -471,7 +474,7 @@ public class ReflectionUtil {
          * ReflectionObject(operators);</i>
          *
          * @param field The field to get
-         * @param as The class to cast the returning value as.
+         * @param as    The class to cast the returning value as.
          * @return The gotten object, casted as the provided class
          */
         public <T> T get(String field, Class<T> as) {
@@ -504,7 +507,8 @@ public class ReflectionUtil {
                     return (T) constr.newInstance(obj);
                 }
 
-                throw new IllegalArgumentException("Could not convert object of class " + obj.getClass().getName() + " to " + as.getName());
+                throw new IllegalArgumentException("Could not convert object of class " + obj.getClass().getName() +
+                        " to " + as.getName());
             } catch (Exception e) {
                 throw new IllegalArgumentException(e);
             }
@@ -514,7 +518,7 @@ public class ReflectionUtil {
          * Sets the provided field to the provided value
          *
          * @param field The field to be set
-         * @param arg The value of the field
+         * @param arg   The value of the field
          */
         public void set(String field, Object arg) {
             try {

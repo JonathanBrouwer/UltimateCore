@@ -23,8 +23,9 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.databases;
 
-import java.util.HashMap;
 import org.bukkit.enchantments.Enchantment;
+
+import java.util.HashMap;
 
 public class EnchantmentDatabase {
 

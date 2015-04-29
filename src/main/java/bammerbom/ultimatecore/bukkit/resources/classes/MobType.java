@@ -23,7 +23,6 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.classes;
 
-import java.util.*;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -32,6 +31,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Skeleton.SkeletonType;
+
+import java.util.*;
 
 public enum MobType {
 
@@ -82,6 +83,19 @@ public enum MobType {
 
     private static final Map<String, MobType> hashMap;
     private static final Map<EntityType, MobType> bukkitMap;
+
+    static {
+        hashMap = new HashMap<>();
+        bukkitMap = new HashMap<>();
+
+        for (MobType mob : values()) {
+            hashMap.put(mob.name.toLowerCase(Locale.ENGLISH), mob);
+            bukkitMap.put(mob.bukkitType, mob);
+        }
+        hashMap.put("zombiepigman", MobType.PIGZOMBIE);
+        hashMap.put("zombiepig", MobType.PIGZOMBIE);
+    }
+
     public final String name;
     public final Enemies type;
     private final EntityType bukkitType;
@@ -113,18 +127,6 @@ public enum MobType {
             return null;
         }
         return bukkitMap.get(type);
-    }
-
-    static {
-        hashMap = new HashMap<>();
-        bukkitMap = new HashMap<>();
-
-        for (MobType mob : values()) {
-            hashMap.put(mob.name.toLowerCase(Locale.ENGLISH), mob);
-            bukkitMap.put(mob.bukkitType, mob);
-        }
-        hashMap.put("zombiepigman", MobType.PIGZOMBIE);
-        hashMap.put("zombiepig", MobType.PIGZOMBIE);
     }
 
     public Entity spawn(World world, Server server, Location loc) throws MobType.MobException {

@@ -24,8 +24,9 @@
 package bammerbom.ultimatecore.bukkit.resources.databases;
 
 import bammerbom.ultimatecore.bukkit.r;
-import java.util.HashMap;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.HashMap;
 
 public class EffectDatabase {
 

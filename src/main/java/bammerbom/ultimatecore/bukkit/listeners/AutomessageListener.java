@@ -27,10 +27,6 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.TitleUtil;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -38,6 +34,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class AutomessageListener implements Listener {
 
@@ -55,7 +56,7 @@ public class AutomessageListener implements Listener {
         messages = FileUtil.getLines(file);
         decrease = r.getCnfg().getBoolean("Messages.Decrease");
         random = new Random();
-        if (r.getCnfg().getBoolean("Messages.Enabledchat") == false && r.getCnfg().getBoolean("Messages.Enabledbossbar") == false && r.getCnfg().getBoolean("Messages.Enabledactionbar") == false) {
+        if (r.getCnfg().getBoolean("Messages.Enabledchat") == false && r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") == false && r.getCnfg().getBoolean("Messages.Enabledactionbar") == false) {
             return;
         }
         ArrayList<String> messgs = messages;
@@ -92,7 +93,7 @@ public class AutomessageListener implements Listener {
                         }
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
-                        TitleUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                        TitleUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " " + ""));
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledchat") == true) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', mess));

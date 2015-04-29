@@ -26,12 +26,13 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CmdGod implements UltimateCommand {
 
@@ -90,8 +91,10 @@ public class CmdGod implements UltimateCommand {
         /*//Info
          if(r.checkArgs(args, 1) == false){
          UC.getPlayer(banp).setGod(!UC.getPlayer(banp).isGod());
-         r.sendMes(cs, "godOthersSelfMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
-         if(banp.isOnline()) r.sendMes((Player) banp, "godOthersOtherMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
+         r.sendMes(cs, "godOthersSelfMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r
+         .mes("on") : r.mes("off")));
+         if(banp.isOnline()) r.sendMes((Player) banp, "godOthersOtherMessage", "%Player", banp.getName(), "%Status",
+         (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
          return;
          }*/
         Long time = 0L;

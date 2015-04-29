@@ -27,11 +27,12 @@ import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
 import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.UuidUtil;
-import java.util.ArrayList;
-import java.util.List;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UEconomy implements Economy {
 
@@ -132,7 +133,6 @@ public class UEconomy implements Economy {
     }
 
     /**
-     *
      * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer)} instead.
      */
     @Deprecated
@@ -178,7 +178,7 @@ public class UEconomy implements Economy {
      * return true if the player has joined the server at least once as all major economy plugins
      * auto-generate a player account when the player joins the server
      *
-     * @param player to check in the world
+     * @param player    to check in the world
      * @param worldName world-specific account
      * @return if the player has an account
      */
@@ -237,7 +237,7 @@ public class UEconomy implements Economy {
      * plugin does not support this the global balance will be returned.
      *
      * @param player to check
-     * @param world name of the world
+     * @param world  name of the world
      * @return Amount currently held in players account
      */
     @Override
@@ -290,9 +290,9 @@ public class UEconomy implements Economy {
      * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will
      * be returned.
      *
-     * @param player to check
+     * @param player    to check
      * @param worldName to check with
-     * @param amount to check for
+     * @param amount    to check for
      * @return True if <b>player</b> has <b>amount</b>, False else wise
      */
     @Override
@@ -319,14 +319,14 @@ public class UEconomy implements Economy {
         }
         r.debug("withdrawPlayer - " + playerName + " - " + amount);
         if (amount < 0.0D) {
-            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds");
+            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative " + "funds");
         }
         double amo = amount;
         if (!getData().contains(playerName)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "This player has no account");
         }
         if (getBalance(playerName) - amount < 0) {
-            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw more than the player has");
+            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw more than " + "the player has");
         }
         getData().set(playerName, getBalance(playerName) - amount);
         getData().save();
@@ -361,9 +361,9 @@ public class UEconomy implements Economy {
      * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will
      * be returned.
      *
-     * @param player to withdraw from
+     * @param player    to withdraw from
      * @param worldName - name of the world
-     * @param amount Amount to withdraw
+     * @param amount    Amount to withdraw
      * @return Detailed response of transaction
      */
     @Override
@@ -390,7 +390,7 @@ public class UEconomy implements Economy {
         }
         r.debug("depositPlayer - " + playerName + " - " + amount);
         if (amount < 0.0D) {
-            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds");
+            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative " + "funds");
         }
         double amo = amount;
         if (!getData().contains(playerName)) {
@@ -428,9 +428,9 @@ public class UEconomy implements Economy {
      * Deposit an amount to a player - DO NOT USE NEGATIVE AMOUNTS IMPLEMENTATION SPECIFIC - if an
      * economy plugin does not support this the global balance will be returned.
      *
-     * @param player to deposit to
+     * @param player    to deposit to
      * @param worldName name of the world
-     * @param amount Amount to deposit
+     * @param amount    Amount to deposit
      * @return Detailed response of transaction
      */
     @Override
@@ -444,19 +444,19 @@ public class UEconomy implements Economy {
     @Deprecated
     @Override
     public EconomyResponse createBank(String name, String player) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
      * Creates a bank account with the specified name and the player as the owner
      *
-     * @param name of account
+     * @param name   of account
      * @param player the account should be linked to
      * @return EconomyResponse Object
      */
     @Override
     public EconomyResponse createBank(String name, OfflinePlayer player) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
@@ -467,7 +467,7 @@ public class UEconomy implements Economy {
      */
     @Override
     public EconomyResponse deleteBank(String name) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
@@ -478,44 +478,44 @@ public class UEconomy implements Economy {
      */
     @Override
     public EconomyResponse bankBalance(String name) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
      * Returns true or false whether the bank has the amount specified - DO NOT USE NEGATIVE
      * AMOUNTS
      *
-     * @param name of the account
+     * @param name   of the account
      * @param amount to check for
      * @return EconomyResponse Object
      */
     @Override
     public EconomyResponse bankHas(String name, double amount) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
      * Withdraw an amount from a bank account - DO NOT USE NEGATIVE AMOUNTS
      *
-     * @param name of the account
+     * @param name   of the account
      * @param amount to withdraw
      * @return EconomyResponse Object
      */
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
      * Deposit an amount into a bank account - DO NOT USE NEGATIVE AMOUNTS
      *
-     * @param name of the account
+     * @param name   of the account
      * @param amount to deposit
      * @return EconomyResponse Object
      */
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
@@ -524,19 +524,19 @@ public class UEconomy implements Economy {
     @Deprecated
     @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
      * Check if a player is the owner of a bank account
      *
-     * @param name of the account
+     * @param name   of the account
      * @param player to check for ownership
      * @return EconomyResponse Object
      */
     @Override
     public EconomyResponse isBankOwner(String name, OfflinePlayer player) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
@@ -545,19 +545,19 @@ public class UEconomy implements Economy {
     @Deprecated
     @Override
     public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
      * Check if the player is a member of the bank account
      *
-     * @param name of the account
+     * @param name   of the account
      * @param player to check membership
      * @return EconomyResponse Object
      */
     @Override
     public EconomyResponse isBankMember(String name, OfflinePlayer player) {
-        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
@@ -620,7 +620,7 @@ public class UEconomy implements Economy {
      * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will
      * be returned.
      *
-     * @param player OfflinePlayer
+     * @param player    OfflinePlayer
      * @param worldName String name of the world
      * @return if the account creation was successful
      */

@@ -23,14 +23,6 @@
  */
 package bammerbom.ultimatecore.bukkit.configuration;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -40,6 +32,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Utility class for storing and retrieving classes for {@link Configuration}.
@@ -59,6 +60,12 @@ public class ConfigurationSerialization {
         registerClass(Pattern.class);
     }
 
+    private final Class<?> clazz;
+
+    protected ConfigurationSerialization(Class<?> clazz) {
+        this.clazz = clazz;
+    }
+
     /**
      * Attempts to deserialize the given arguments into a new instance of the given class.
      * <p/>
@@ -68,7 +75,7 @@ public class ConfigurationSerialization {
      * If a new instance could not be made, an example being the class not fully implementing the
      * interface, null will be returned.
      *
-     * @param args Arguments for deserialization
+     * @param args  Arguments for deserialization
      * @param clazz Class to deserialize into
      * @return New instance of the specified class
      */
@@ -198,11 +205,6 @@ public class ConfigurationSerialization {
 
         return clazz.getName();
     }
-    private final Class<?> clazz;
-
-    protected ConfigurationSerialization(Class<?> clazz) {
-        this.clazz = clazz;
-    }
 
     protected Method getMethod(String name, boolean isStatic) {
         try {
@@ -238,15 +240,13 @@ public class ConfigurationSerialization {
             ConfigurationSerializable result = (ConfigurationSerializable) method.invoke(null, args);
 
             if (result == null) {
-                Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + clazz + " for deserialization: method returned null");
+                Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method" +
+                        " '" + method.toString() + "' of " + clazz + " for deserialization: method returned null");
             } else {
                 return result;
             }
         } catch (Throwable ex) {
-            Logger.getLogger(ConfigurationSerialization.class.getName()).log(
-                    Level.SEVERE,
-                    "Could not call method '" + method.toString() + "' of " + clazz + " for deserialization",
-                    ex instanceof InvocationTargetException ? ex.getCause() : ex);
+            Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + clazz + " for deserialization", ex instanceof InvocationTargetException ? ex.getCause() : ex);
         }
 
         return null;
@@ -256,10 +256,8 @@ public class ConfigurationSerialization {
         try {
             return (ConfigurationSerializable) ctor.newInstance(args);
         } catch (Throwable ex) {
-            Logger.getLogger(ConfigurationSerialization.class.getName()).log(
-                    Level.SEVERE,
-                    "Could not call constructor '" + ctor.toString() + "' of " + clazz + " for deserialization",
-                    ex instanceof InvocationTargetException ? ex.getCause() : ex);
+            Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call " +
+                    "constructor '" + ctor.toString() + "' of " + clazz + " for deserialization", ex instanceof InvocationTargetException ? ex.getCause() : ex);
         }
 
         return null;

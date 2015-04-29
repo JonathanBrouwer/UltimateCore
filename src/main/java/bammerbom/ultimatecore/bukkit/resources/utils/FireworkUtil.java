@@ -24,12 +24,13 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * FireworkEffectPlayer v1.0
@@ -54,7 +55,8 @@ public class FireworkUtil {
      *
      * @EventHandler
      * public void onPlayerLogin(PlayerLoginEvent event) {
-     *   fplayer.playFirework(event.getPlayer().getWorld(), event.getPlayer.getLocation(), Util.getRandomFireworkEffect());
+     *   fplayer.playFirework(event.getPlayer().getWorld(), event.getPlayer.getLocation(), Util
+     *   .getRandomFireworkEffect());
      * }
      *
      * }
@@ -87,12 +89,12 @@ public class FireworkUtil {
         try {
             // invoke with no arguments
             nms_world = world_getHandle.invoke(loc.getWorld(), (Object[]) null);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (IllegalAccessException|IllegalArgumentException|InvocationTargetException ex) {
             ErrorLogger.log(ex, "Failed to play firework");
         }
         try {
             nms_firework = firework_getHandle.invoke(fw, (Object[]) null);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (IllegalAccessException|IllegalArgumentException|InvocationTargetException ex) {
             ErrorLogger.log(ex, "Failed to play firework");
         }
         // null checks are fast, so having this seperate is ok
@@ -119,7 +121,7 @@ public class FireworkUtil {
              */
             // invoke with arguments
             nms_world_broadcastEntityEffect.invoke(nms_world, new Object[]{nms_firework, (byte) 17});
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (IllegalAccessException|IllegalArgumentException|InvocationTargetException ex) {
             ErrorLogger.log(ex, "Failed to play firework");
         }
         // remove from the game

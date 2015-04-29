@@ -23,11 +23,12 @@
  */
 package bammerbom.ultimatecore.bukkit.configuration;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 class YamlRepresenter extends Representer {
 

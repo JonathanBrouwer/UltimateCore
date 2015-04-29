@@ -58,7 +58,7 @@ class InvalidConfigurationException extends Exception {
      * cause.
      *
      * @param cause The cause of the exception.
-     * @param msg The details of the exception.
+     * @param msg   The details of the exception.
      */
     public InvalidConfigurationException(String msg, Throwable cause) {
         super(msg, cause);

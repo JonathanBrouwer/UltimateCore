@@ -25,10 +25,7 @@ package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
-import static bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil.isBlockDamaging;
-import java.util.*;
 import org.bukkit.*;
-import static org.bukkit.Material.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -36,14 +33,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.*;
+
 public class LocationUtil {
 
     // The player can stand inside these materials
     public static final Set<Material> HOLLOW_MATERIALS = new HashSet<>();
-    private static final Set<Material> TRANSPARENT_MATERIALS = new HashSet<>();
-
     public static final int RADIUS = 3;
     public static final Vector3D[] VOLUME;
+    private static final Set<Material> TRANSPARENT_MATERIALS = new HashSet<>();
     static int delay2 = 0;
 
     static {
@@ -97,13 +95,12 @@ public class LocationUtil {
                 }
             }
         }
-        Collections.sort(
-                pos, new Comparator<Vector3D>() {
-                    @Override
-                    public int compare(Vector3D a, Vector3D b) {
-                        return (a.x * a.x + a.y * a.y + a.z * a.z) - (b.x * b.x + b.y * b.y + b.z * b.z);
-                    }
-                });
+        Collections.sort(pos, new Comparator<Vector3D>() {
+            @Override
+            public int compare(Vector3D a, Vector3D b) {
+                return (a.x * a.x + a.y * a.y + a.z * a.z) - (b.x * b.x + b.y * b.y + b.z * b.z);
+            }
+        });
         VOLUME = pos.toArray(new Vector3D[0]);
     }
 
@@ -209,9 +206,7 @@ public class LocationUtil {
     }
 
     public static boolean isBlockUnsafeForUser(final Player user, final World world, final int x, final int y, final int z) {
-        if (world.equals(user.getWorld())
-                && (user.getGameMode() == GameMode.CREATIVE || UC.getPlayer(user).isGod())
-                && user.getAllowFlight()) {
+        if (world.equals(user.getWorld()) && (user.getGameMode() == GameMode.CREATIVE || UC.getPlayer(user).isGod()) && user.getAllowFlight()) {
             return false;
         }
 
@@ -252,9 +247,7 @@ public class LocationUtil {
     }
 
     public static Location searchSafeLocation(final Player user, final Location loc) {
-        if (loc.getWorld().equals(user.getWorld())
-                && (user.getGameMode() == GameMode.CREATIVE || UC.getPlayer(user).isGod())
-                && user.getAllowFlight()) {
+        if (loc.getWorld().equals(user.getWorld()) && (user.getGameMode() == GameMode.CREATIVE || UC.getPlayer(user).isGod()) && user.getAllowFlight()) {
             if (shouldFly(loc)) {
                 user.setFlying(true);
             }
@@ -347,19 +340,18 @@ public class LocationUtil {
                     r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
                 }
             }, 2L);
-            Bukkit.getScheduler()
-                    .scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
 
-                        @Override
-                        public void run() {
-                            if (p.getLocation().getBlock().getLocation().equals(loc)) {
-                                teleport(p, to, c, safe, false);
-                                r.sendMes(p, "teleportDelaySucces");
-                            } else {
-                                r.sendMes(p, "teleportDelayFailedMove");
-                            }
-                        }
-                    }, (20L * delay2));
+                @Override
+                public void run() {
+                    if (p.getLocation().getBlock().getLocation().equals(loc)) {
+                        teleport(p, to, c, safe, false);
+                        r.sendMes(p, "teleportDelaySucces");
+                    } else {
+                        r.sendMes(p, "teleportDelayFailedMove");
+                    }
+                }
+            }, (20L * delay2));
 
             return;
         }
@@ -398,7 +390,7 @@ public class LocationUtil {
     /**
      * Creates a teleport effect
      *
-     * @param p The player who is teleported
+     * @param p   The player who is teleported
      * @param loc The location where the effect is shown
      */
     public static void playEffect(Player p, Location loc) {
@@ -420,12 +412,10 @@ public class LocationUtil {
         }
         if (s.contains(",")) {
             String[] split = s.split(",");
-            return new Location(
-                    Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float.parseFloat(split[4]));
+            return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float.parseFloat(split[4]));
         }
         String[] split = s.split("\\|");
-        return new Location(
-                Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float.parseFloat(split[4]));
+        return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float.parseFloat(split[4]));
     }
 
     public static String convertLocationToString(Location loc) {

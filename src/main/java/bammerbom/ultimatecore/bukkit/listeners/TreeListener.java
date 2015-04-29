@@ -97,8 +97,7 @@ public class TreeListener implements Listener {
                         int enchLvl = handItem.getEnchantmentLevel(Enchantment.DURABILITY);
                         long random = Math.round(Math.random() * enchLvl);
 
-                        if ((random == 0L)
-                                && (handItem.getType().getMaxDurability() > handItem.getDurability())) {
+                        if ((random == 0L) && (handItem.getType().getMaxDurability() > handItem.getDurability())) {
                             handItem.setDurability((short) (handItem.getDurability() + 1));
                         }
                     }

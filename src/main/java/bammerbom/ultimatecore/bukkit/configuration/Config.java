@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.bukkit.configuration;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.StreamUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+
 import java.io.*;
 import java.util.*;
 
@@ -47,8 +48,7 @@ public class Config extends YamlConfiguration implements Cloneable {
         }
     }
 
-    public void loadFromStream(InputStream stream)
-            throws IOException {
+    public void loadFromStream(InputStream stream) throws IOException {
         try {
             InputStreamReader reader = new InputStreamReader(stream);
             StringBuilder builder = new StringBuilder();

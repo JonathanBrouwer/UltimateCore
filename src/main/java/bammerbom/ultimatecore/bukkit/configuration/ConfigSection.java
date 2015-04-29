@@ -23,74 +23,19 @@
  */
 package bammerbom.ultimatecore.bukkit.configuration;
 
-import java.util.*;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
-import static org.bukkit.util.NumberConversions.toDouble;
-import static org.bukkit.util.NumberConversions.toInt;
-import static org.bukkit.util.NumberConversions.toLong;
-import static org.bukkit.util.NumberConversions.toShort;
+
+import java.util.*;
+
+import static org.bukkit.util.NumberConversions.*;
 
 /**
  * A type of {@link ConfigSection} that is stored in memory.
  */
 public class ConfigSection {
-
-    /**
-     * Creates a full path to the given {@link ConfigSection} from its root
-     * {@link MemoryConfiguration}.
-     * <p/>
-     * You may use this method for any given {@link ConfigSection}, not only {@link ConfigSection}.
-     *
-     * @param section Section to create a path for.
-     * @param key Name of the specified section.
-     * @return Full path of the section from its root.
-     */
-    protected static String createPath(ConfigSection section, String key) {
-        return createPath(section, key, (section == null) ? null : section.getRoot());
-    }
-
-    /**
-     * Creates a relative path to the given {@link ConfigSection} from the given relative section.
-     * <p/>
-     * You may use this method for any given {@link ConfigSection}, not only {@link ConfigSection}.
-     *
-     * @param section Section to create a path for.
-     * @param key Name of the specified section.
-     * @param relativeTo Section to create the path relative to.
-     * @return Full path of the section from its root.
-     */
-    protected static String createPath(ConfigSection section, String key, ConfigSection relativeTo) {
-        Validate.notNull(section, "Cannot create path without a section");
-        MemoryConfiguration root = section.getRoot();
-        if (root == null) {
-            throw new IllegalStateException("Cannot create path without a root");
-        }
-        char separator = root.options().pathSeparator();
-
-        StringBuilder builder = new StringBuilder();
-        if (section != null) {
-            for (ConfigSection parent = section; (parent != null) && (parent != relativeTo); parent = parent.getParent()) {
-                if (builder.length() > 0) {
-                    builder.insert(0, separator);
-                }
-
-                builder.insert(0, parent.getName());
-            }
-        }
-
-        if ((key != null) && (key.length() > 0)) {
-            if (builder.length() > 0) {
-                builder.append(separator);
-            }
-
-            builder.append(key);
-        }
-
-        return builder.toString();
-    }
 
     protected final Map<String, Object> map = new LinkedHashMap<>();
     private final MemoryConfiguration root;
@@ -122,10 +67,10 @@ public class ConfigSection {
      * Creates an empty MemorySection with the specified parent and path.
      *
      * @param parent Parent section that contains this own section.
-     * @param path Path that you may access this section from via the root
-     * {@link MemoryConfiguration}.
+     * @param path   Path that you may access this section from via the root
+     *               {@link MemoryConfiguration}.
      * @throws IllegalArgumentException Thrown is parent or path is null, or if parent contains no
-     * root MemoryConfiguration.
+     *                                  root MemoryConfiguration.
      */
     protected ConfigSection(ConfigSection parent, String path) {
         Validate.notNull(parent, "Parent cannot be null");
@@ -138,6 +83,60 @@ public class ConfigSection {
         Validate.notNull(root, "Path cannot be orphaned");
 
         this.fullPath = createPath(parent, path);
+    }
+
+    /**
+     * Creates a full path to the given {@link ConfigSection} from its root
+     * {@link MemoryConfiguration}.
+     * <p/>
+     * You may use this method for any given {@link ConfigSection}, not only {@link ConfigSection}.
+     *
+     * @param section Section to create a path for.
+     * @param key     Name of the specified section.
+     * @return Full path of the section from its root.
+     */
+    protected static String createPath(ConfigSection section, String key) {
+        return createPath(section, key, (section == null) ? null : section.getRoot());
+    }
+
+    /**
+     * Creates a relative path to the given {@link ConfigSection} from the given relative section.
+     * <p/>
+     * You may use this method for any given {@link ConfigSection}, not only {@link ConfigSection}.
+     *
+     * @param section    Section to create a path for.
+     * @param key        Name of the specified section.
+     * @param relativeTo Section to create the path relative to.
+     * @return Full path of the section from its root.
+     */
+    protected static String createPath(ConfigSection section, String key, ConfigSection relativeTo) {
+        Validate.notNull(section, "Cannot create path without a section");
+        MemoryConfiguration root = section.getRoot();
+        if (root == null) {
+            throw new IllegalStateException("Cannot create path without a root");
+        }
+        char separator = root.options().pathSeparator();
+
+        StringBuilder builder = new StringBuilder();
+        if (section != null) {
+            for (ConfigSection parent = section; (parent != null) && (parent != relativeTo); parent = parent.getParent()) {
+                if (builder.length() > 0) {
+                    builder.insert(0, separator);
+                }
+
+                builder.insert(0, parent.getName());
+            }
+        }
+
+        if ((key != null) && (key.length() > 0)) {
+            if (builder.length() > 0) {
+                builder.append(separator);
+            }
+
+            builder.append(key);
+        }
+
+        return builder.toString();
     }
 
     public Set<ConfigSection> getConfigurationSections(Boolean deep) {
@@ -783,10 +782,7 @@ public class ConfigSection {
     }
 
     protected boolean isPrimitiveWrapper(Object input) {
-        return input instanceof Integer || input instanceof Boolean
-                || input instanceof Character || input instanceof Byte
-                || input instanceof Short || input instanceof Double
-                || input instanceof Long || input instanceof Float;
+        return input instanceof Integer || input instanceof Boolean || input instanceof Character || input instanceof Byte || input instanceof Short || input instanceof Double || input instanceof Long || input instanceof Float;
     }
 
     protected Object getDefault(String path) {
@@ -843,14 +839,7 @@ public class ConfigSection {
     @Override
     public String toString() {
         MemoryConfiguration root = getRoot();
-        return new StringBuilder()
-                .append(getClass().getSimpleName())
-                .append("[path='")
-                .append(getCurrentPath())
-                .append("', root='")
-                .append(root == null ? null : root.getClass().getSimpleName())
-                .append("']")
-                .toString();
+        return new StringBuilder().append(getClass().getSimpleName()).append("[path='").append(getCurrentPath()).append("', root='").append(root == null ? null : root.getClass().getSimpleName()).append("']").toString();
     }
 
 }

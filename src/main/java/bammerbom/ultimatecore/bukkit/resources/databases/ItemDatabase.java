@@ -26,6 +26,11 @@ package bammerbom.ultimatecore.bukkit.resources.databases;
 import bammerbom.ultimatecore.bukkit.UltimateCore;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.security.DigestInputStream;
@@ -35,10 +40,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 public class ItemDatabase {
 
@@ -171,6 +172,29 @@ public class ItemDatabase {
 
 class ManagedFile {
 
+    private final transient File file;
+
+    public ManagedFile(String filename, Plugin instance) {
+        this.file = new File(instance.getDataFolder(), filename);
+
+        if (this.file.exists()) {
+            try {
+                if ((checkForVersion(this.file, instance.getDescription().getVersion())) && (!this.file.delete())) {
+                    throw new IOException("Could not delete file " + this.file.toString());
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        if (!this.file.exists()) {
+            try {
+                copyResourceAscii("/" + filename, this.file);
+            } catch (IOException ex) {
+            }
+        }
+    }
+
     public static void copyResourceAscii(String resourceName, File file) throws IOException {
         InputStreamReader reader = new InputStreamReader(ManagedFile.class.getResourceAsStream(resourceName));
         try {
@@ -271,29 +295,6 @@ class ManagedFile {
         }
     }
 
-    private final transient File file;
-
-    public ManagedFile(String filename, Plugin instance) {
-        this.file = new File(instance.getDataFolder(), filename);
-
-        if (this.file.exists()) {
-            try {
-                if ((checkForVersion(this.file, instance.getDescription().getVersion())) && (!this.file.delete())) {
-                    throw new IOException("Could not delete file " + this.file.toString());
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        if (!this.file.exists()) {
-            try {
-                copyResourceAscii("/" + filename, this.file);
-            } catch (IOException ex) {
-            }
-        }
-    }
-
     @SuppressWarnings({"rawtypes", "unchecked"})
     public List<String> getLines() {
         try {
@@ -342,7 +343,7 @@ class ItemData {
 
     @Override
     public int hashCode() {
-        return 31 * this.itemId.hashCode() ^ this.itemData;
+        return 31 * this.itemId.hashCode()^this.itemData;
     }
 
     @Override
@@ -358,8 +359,7 @@ class ItemData {
     }
 }
 
-class LengthCompare
-        implements Comparator<String> {
+class LengthCompare implements Comparator<String> {
 
     public LengthCompare() {
     }

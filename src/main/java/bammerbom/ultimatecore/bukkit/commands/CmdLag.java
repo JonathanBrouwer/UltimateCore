@@ -25,13 +25,14 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.PerformanceUtil;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CmdLag implements UltimateCommand {
 
@@ -56,7 +57,8 @@ public class CmdLag implements UltimateCommand {
             return;
         }
         r.sendMes(cs, "lagTps", "%Tps", PerformanceUtil.getTps());
-        r.sendMes(cs, "lagMem", "%Mem", (PerformanceUtil.usedRam() + "/" + PerformanceUtil.totalRam() + "/" + PerformanceUtil.maxRam()), "%Per", PerformanceUtil.percentageUsed());
+        r.sendMes(cs, "lagMem", "%Mem", (PerformanceUtil.usedRam() + "/" + PerformanceUtil.totalRam() + "/" +
+                PerformanceUtil.maxRam()), "%Per", PerformanceUtil.percentageUsed());
         int ws = 0;
         for (World w : Bukkit.getWorlds()) {
             if (r.checkArgs(args, 0) && !args[0].equalsIgnoreCase(w.getName())) {

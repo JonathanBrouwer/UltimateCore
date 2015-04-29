@@ -30,14 +30,15 @@ import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A class representing a kit.
@@ -62,7 +63,7 @@ public class UKit {
     /**
      * Adds a list of represented enchantments to an ItemStack.
      *
-     * @param is ItemStack to add enchantments to
+     * @param is           ItemStack to add enchantments to
      * @param enchantments List of nodes representing enchantments
      * @return ItemStack with enchantments applied
      */
@@ -228,7 +229,7 @@ public class UKit {
     /**
      * Sets the last time that the player used this kit.
      *
-     * @param p Player using kit
+     * @param p        Player using kit
      * @param lastUsed Timestamp in milliseconds
      */
     public void setLastUsed(final Player p, final long lastUsed) {

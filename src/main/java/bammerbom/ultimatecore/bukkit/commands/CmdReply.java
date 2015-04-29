@@ -26,20 +26,19 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class CmdReply implements UltimateCommand {
 
-    static String format = ChatColor.translateAlternateColorCodes('&',
-            r.getCnfg().getString("Chat.MsgFormat"));
-    static String formatSpy = ChatColor.translateAlternateColorCodes('&',
-            r.getCnfg().getString("Chat.MsgFormatSpy"));
+    static String format = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.MsgFormat"));
+    static String formatSpy = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.MsgFormatSpy"));
 
     @Override
     public String getName() {
@@ -79,29 +78,11 @@ public class CmdReply implements UltimateCommand {
         for (Player ps : r.getOnlinePlayers()) {
             UPlayer up = UC.getPlayer(ps);
             if (up.isSpy()) {
-                ps.sendMessage(formatSpy
-                        .replace("@1", r.positive + "")
-                        .replace("@2", r.neutral + "")
-                        .replace("@3", r.negative + "")
-                        .replace("%Player1", cs.getName())
-                        .replace("%Player2", pl.getName())
-                        .replace("%Message", r.getFinalArg(args, 0)));
+                ps.sendMessage(formatSpy.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", cs.getName()).replace("%Player2", pl.getName()).replace("%Message", r.getFinalArg(args, 0)));
             }
         }
-        cs.sendMessage(format
-                .replace("@1", r.positive + "")
-                .replace("@2", r.neutral + "")
-                .replace("@3", r.negative + "")
-                .replace("%Player1", r.mes("me"))
-                .replace("%Player2", pl.getName())
-                .replace("%Message", r.getFinalArg(args, 0)));
-        pl.sendMessage(format
-                .replace("@1", r.positive + "")
-                .replace("@2", r.neutral + "")
-                .replace("@3", r.negative + "")
-                .replace("%Player1", cs.getName())
-                .replace("%Player2", r.mes("me"))
-                .replace("%Message", r.getFinalArg(args, 0)));
+        cs.sendMessage(format.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", r.mes("me")).replace("%Player2", pl.getName()).replace("%Message", r.getFinalArg(args, 0)));
+        pl.sendMessage(format.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", cs.getName()).replace("%Player2", r.mes("me")).replace("%Message", r.getFinalArg(args, 0)));
     }
 
     @Override

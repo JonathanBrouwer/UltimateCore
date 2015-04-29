@@ -26,13 +26,14 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
-import java.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
+
+import java.util.*;
 
 public class CmdRecipe implements UltimateCommand {
 
@@ -77,9 +78,12 @@ public class CmdRecipe implements UltimateCommand {
                     materials[j][k] = (item == null ? null : item.getType());
                 }
             }
-            sender.sendMessage(r.neutral + "" + colorMap.get(materials[0][0]) + r.positive + " | " + r.neutral + colorMap.get(materials[0][1]) + r.positive + " | " + r.neutral + colorMap.get(materials[0][2]));
-            sender.sendMessage(r.neutral + "" + colorMap.get(materials[1][0]) + r.positive + " | " + r.neutral + colorMap.get(materials[1][1]) + r.positive + " | " + r.neutral + colorMap.get(materials[1][2]));
-            sender.sendMessage(r.neutral + "" + colorMap.get(materials[2][0]) + r.positive + " | " + r.neutral + colorMap.get(materials[2][1]) + r.positive + " | " + r.neutral + colorMap.get(materials[2][2]));
+            sender.sendMessage(r.neutral + "" + colorMap.get(materials[0][0]) + r.positive + " | " + r.neutral +
+                    colorMap.get(materials[0][1]) + r.positive + " | " + r.neutral + colorMap.get(materials[0][2]));
+            sender.sendMessage(r.neutral + "" + colorMap.get(materials[1][0]) + r.positive + " | " + r.neutral +
+                    colorMap.get(materials[1][1]) + r.positive + " | " + r.neutral + colorMap.get(materials[1][2]));
+            sender.sendMessage(r.neutral + "" + colorMap.get(materials[2][0]) + r.positive + " | " + r.neutral +
+                    colorMap.get(materials[2][1]) + r.positive + " | " + r.neutral + colorMap.get(materials[2][2]));
 
             StringBuilder s = new StringBuilder();
             Boolean a = false;

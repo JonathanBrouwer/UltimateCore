@@ -23,14 +23,15 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import java.util.*;
-import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.map.MapFont;
 import org.bukkit.map.MinecraftFont;
+
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class StringUtil {
 
@@ -310,7 +311,7 @@ public class StringUtil {
 
         StringBuilder rval = new StringBuilder();
         int i = 0;
-        for (Iterator<Object> i$ = items.iterator(); i$.hasNext();) {
+        for (Iterator<Object> i$ = items.iterator(); i$.hasNext(); ) {
             Object item = i$.next();
             if (i == items.size() - 1) {
                 rval.append(" and ");
@@ -398,8 +399,7 @@ public class StringUtil {
 
     public static int getSuccessiveCharCount(String value, char character, int startindex, int endindex) {
         int count = 0;
-        for (int i = startindex; (i <= endindex)
-                && (value.charAt(i) == character); i++) {
+        for (int i = startindex; (i <= endindex) && (value.charAt(i) == character); i++) {
             count++;
         }
 

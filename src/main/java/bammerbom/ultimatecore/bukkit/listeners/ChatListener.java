@@ -26,10 +26,6 @@ package bammerbom.ultimatecore.bukkit.listeners;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -37,6 +33,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public class ChatListener implements Listener {
 
@@ -119,7 +120,8 @@ public class ChatListener implements Listener {
                             swearAmount.put(p.getName(), s);
                             r.sendMes(p, "chatSwear");
                             if (s >= 3) {
-                                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mute " + p.getName() + " 5m");
+                                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mute " + p.getName() +
+                                        " 5m");
                                 set.setCancelled(true);
                             }
                         }
@@ -161,7 +163,7 @@ public class ChatListener implements Listener {
         //Anti URL
         if (!r.perm(p, "uc.chat.url", false, false)) {
             if (!r.getCnfg().contains("Chat.UrlFilter") || r.getCnfg().getBoolean("Chat.UrlFilter")) {
-                final Pattern domainPattern = Pattern.compile("((?:(?:https?)://)?[\\w-_\\.]{2,})\\.([a-zA-Z]{2,3}(?:/\\S+)?)");
+                final Pattern domainPattern = Pattern.compile("((?:(?:https?)://)?[\\w-_\\.]{2,})\\.([a-zA-Z]{2,3}" + "(?:/\\S+)?)");
                 if (domainPattern.matcher(set.getMessage()).find()) {
                     set.setCancelled(true);
                     r.sendMes(p, "chatUrl");

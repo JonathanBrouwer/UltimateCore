@@ -24,6 +24,10 @@
 package bammerbom.ultimatecore.bukkit.resources.classes;
 
 import bammerbom.ultimatecore.bukkit.r;
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,9 +35,6 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 public class ErrorLogger {
 
@@ -66,7 +67,8 @@ public class ErrorLogger {
         out.println("UltimateCore version: " + r.getUC().getDescription().getVersion());
         out.println("Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()));
         out.println("Java version: " + System.getProperty("java.version"));
-        out.println("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version"));
+        out.println("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " +
+                System.getProperty("os.version"));
         out.println("Online mode: " + Bukkit.getServer().getOnlineMode());
         out.println("Time: " + time);
         out.println("Error message: " + t.getMessage());
@@ -89,10 +91,13 @@ public class ErrorLogger {
         r.log(ChatColor.RED + "Include the file: ");
         r.log(ChatColor.YELLOW + "plugins/UltimateCore/Errors/" + time + ".txt ");
         /*r.log(ChatColor.RED + "Bukkit version: " + Bukkit.getServer().getVersion());
-         r.log(ChatColor.RED + "UltimateCore version: " + Bukkit.getPluginManager().getPlugin("UltimateCore").getDescription().getVersion());
-         r.log(ChatColor.RED + "Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()));
+         r.log(ChatColor.RED + "UltimateCore version: " + Bukkit.getPluginManager().getPlugin("UltimateCore")
+         .getDescription().getVersion());
+         r.log(ChatColor.RED + "Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays
+         .asList(Bukkit.getPluginManager().getPlugins()));
          r.log(ChatColor.RED + "Java version: " + System.getProperty("java.version"));
-         r.log(ChatColor.RED + "OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version"));
+         r.log(ChatColor.RED + "OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") +
+         ", " + System.getProperty("os.version"));
          r.log(ChatColor.RED + "Error message: " + t.getMessage());
          r.log(ChatColor.RED + "UltimateCore message: " + s);*/
         r.log(ChatColor.DARK_RED + "=========================================================");

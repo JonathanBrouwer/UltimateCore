@@ -27,14 +27,15 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.bukkit.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CmdItem implements UltimateCommand {
 
@@ -108,7 +109,7 @@ public class CmdItem implements UltimateCommand {
                             meta.parseStringMeta(cs, r.perm(cs, "uc.give.unsafe", false, false), args, metaStart);
                             item = meta.getItemStack();
                         } catch (IllegalArgumentException ex) {
-                            if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or too high")) {
+                            if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too " + "low or too high")) {
                                 r.sendMes(cs, "enchantUnsafe");
                                 return;
                             }

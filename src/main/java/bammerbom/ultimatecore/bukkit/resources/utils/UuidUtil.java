@@ -27,18 +27,22 @@ import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import com.google.common.collect.ImmutableList;
-import java.io.*;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 public class UuidUtil {
 
@@ -53,7 +57,8 @@ public class UuidUtil {
          try {
          if (uuids == null) {
          BufferedReader br = new BufferedReader(new FileReader(UltimateFileLoader.DFuuid));
-         uuids = br.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil.joinList(FileUtil.getLines(UltimateFileLoader.DFuuid))));
+         uuids = br.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil.joinList(FileUtil
+         .getLines(UltimateFileLoader.DFuuid))));
          }
          for (Object ob : uuids) {
          JSONObject job = (JSONObject) ob;
@@ -71,7 +76,8 @@ public class UuidUtil {
          try {
          File file = new File(r.getUC().getDataFolder().getParentFile().getParentFile(), "usercache.json");
          BufferedReader br = new BufferedReader(new FileReader(file));
-         JSONArray serveruuids = br.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil.joinList(FileUtil.getLines(file))));
+         JSONArray serveruuids = br.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil
+         .joinList(FileUtil.getLines(file))));
          for (Object ob : serveruuids) {
          JSONObject job = (JSONObject) ob;
          if (job.get("name").equals(p.getName())) {
@@ -79,7 +85,8 @@ public class UuidUtil {
          if (uuids == null) {
          //JSONParser parser2 = new JSONParser();
          BufferedReader br2 = new BufferedReader(new FileReader(UltimateFileLoader.DFuuid));
-         uuids = br2.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil.joinList(FileUtil.getLines(UltimateFileLoader.DFuuid))));
+         uuids = br2.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil.joinList(FileUtil
+         .getLines(UltimateFileLoader.DFuuid))));
          }
          UUID u = UUID.fromString(job.get("uuid").toString());
          JSONObject obj = new JSONObject();
@@ -114,7 +121,8 @@ public class UuidUtil {
          if (uuids == null) {
          //JSONParser parser2 = new JSONParser();
          BufferedReader br = new BufferedReader(new FileReader(UltimateFileLoader.DFuuid));
-         uuids = br.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil.joinList(FileUtil.getLines(UltimateFileLoader.DFuuid))));
+         uuids = br.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil.joinList(FileUtil
+         .getLines(UltimateFileLoader.DFuuid))));
          }
          JSONObject obj = new JSONObject();
          obj.put("name", p.getName());
@@ -210,7 +218,8 @@ public class UuidUtil {
                 HashMap<UUID, String> s = new UuidToName(req).call();
                 for (UUID u : s.keySet()) {
                     String n = s.get(u);
-                    File f = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + u + ".json");
+                    File f = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + u + "" +
+                            ".json");
                     JsonConfig conf = new JsonConfig(f);
                     conf.set("name", n);
                     conf.save();
@@ -277,6 +286,12 @@ public class UuidUtil {
     public static class NameToUuid implements Callable<Map<String, UUID>> {
 
         private static final String PROFILE_URL = "https://api.mojang.com/profiles/minecraft";
+        private final JSONParser jsonParser = new JSONParser();
+        private final List<String> names;
+
+        public NameToUuid(List<String> names) {
+            this.names = ImmutableList.copyOf(names);
+        }
 
         private static void writeBody(HttpURLConnection connection, String body) throws Exception {
             try (OutputStream stream = connection.getOutputStream()) {
@@ -319,12 +334,6 @@ public class UuidUtil {
 
         public static UUID getUUIDOf(String name) throws Exception {
             return new NameToUuid(Arrays.asList(name)).call().get(name);
-        }
-        private final JSONParser jsonParser = new JSONParser();
-        private final List<String> names;
-
-        public NameToUuid(List<String> names) {
-            this.names = ImmutableList.copyOf(names);
         }
 
         @Override

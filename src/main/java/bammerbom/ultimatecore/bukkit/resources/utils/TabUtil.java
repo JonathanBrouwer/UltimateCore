@@ -25,8 +25,9 @@ package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
-import java.lang.reflect.Field;
 import org.bukkit.entity.Player;
+
+import java.lang.reflect.Field;
 
 public class TabUtil {
 

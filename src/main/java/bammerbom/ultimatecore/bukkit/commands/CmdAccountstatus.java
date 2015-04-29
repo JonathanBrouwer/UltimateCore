@@ -24,6 +24,10 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,9 +38,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 
 public class CmdAccountstatus implements UltimateCommand {
 
@@ -75,7 +76,7 @@ public class CmdAccountstatus implements UltimateCommand {
                 URL u;
                 try {
                     u = new URL("https://minecraft.net/haspaid.jsp?user=" + URLEncoder.encode(pl.getName(), "UTF-8"));
-                } catch (MalformedURLException | UnsupportedEncodingException ex) {
+                } catch (MalformedURLException|UnsupportedEncodingException ex) {
                     r.sendMes(cs, "accountstatusFailedSupport");
                     return;
                 }

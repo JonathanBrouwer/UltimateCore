@@ -25,14 +25,15 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 public class CmdTeleportaskhere implements UltimateCommand {
 
@@ -91,15 +92,14 @@ public class CmdTeleportaskhere implements UltimateCommand {
         r.sendMes(cs, "teleportaskhereTarget1", "%Player", p.getName());
         r.sendMes(cs, "teleportaskTarget2");
         r.sendMes(cs, "teleportaskTarget3");
-        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(),
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        if (UC.getServer().getTeleportHereRequests().containsKey(t.getUniqueId()) && UC.getServer().getTeleportHereRequests().get(t.getUniqueId()).equals(p.getUniqueId())) {
-                            UC.getServer().removeTeleportHereRequest(t.getUniqueId());
-                        }
-                    }
-                }, r.getCnfg().getInt("Command.Teleport.TpaCancel") * 20L);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+            @Override
+            public void run() {
+                if (UC.getServer().getTeleportHereRequests().containsKey(t.getUniqueId()) && UC.getServer().getTeleportHereRequests().get(t.getUniqueId()).equals(p.getUniqueId())) {
+                    UC.getServer().removeTeleportHereRequest(t.getUniqueId());
+                }
+            }
+        }, r.getCnfg().getInt("Command.Teleport.TpaCancel") * 20L);
     }
 
     @Override

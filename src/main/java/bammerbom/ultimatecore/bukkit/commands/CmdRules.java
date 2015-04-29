@@ -25,12 +25,13 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 public class CmdRules implements UltimateCommand {
 
