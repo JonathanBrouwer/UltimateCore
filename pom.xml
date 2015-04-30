@@ -131,11 +131,6 @@
                     <mainClass>bammerbom.ultimatecore.UltimateCore</mainClass>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.bitbucket.shemnon.javafxplugin</groupId>
-                <artifactId>gradle-javafx-plugin</artifactId>
-                <version>8.1.1</version>
-            </plugin>
             <!-- Include libraries -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -162,10 +157,7 @@
         </plugins>
     </build>
     <pluginRepositories>
-        <pluginRepository>
-            <id>javafx-gradle</id>
-            <url>http://dl.bintray.com/content/shemnon/javafx-gradle/</url>
-        </pluginRepository>
+
     </pluginRepositories>
     <dependencies>
         <dependency>
@@ -310,5 +302,6 @@
             <id>ultimatecore-repo</id>
             <url>https://raw.github.com/Bammerbom/UltimateCore/master/mvn-repo/</url>
         </repository>
+
     </repositories>
 </project>
