@@ -158,14 +158,54 @@ public class UltimateCore extends Application {
             }
         });
         features.getStyleClass().add("button-1");
+        features.setAlignment(Pos.CENTER);
         GridPane.setConstraints(features, 1, 2);
+
+        //Source
+        Button source = new Button("Source");
+        features.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                if (Desktop.isDesktopSupported()) {
+                    try {
+                        Desktop.getDesktop().browse(new URI("https://github.com/Bammerbom/UltimateCore"));
+                    } catch (Exception ex) {
+                        showErrorMessage("Failed to open web page.");
+                    }
+                } else {
+                    showErrorMessage("Opening web pages is not supported on your OS.");
+                }
+            }
+        });
+        source.getStyleClass().add("button-1");
+        source.setAlignment(Pos.CENTER);
+        GridPane.setConstraints(source, 2, 2);
+
+        //MCStats
+        Button mcstats = new Button("MCStats");
+        mcstats.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                if (Desktop.isDesktopSupported()) {
+                    try {
+                        Desktop.getDesktop().browse(new URI("http://mcstats.org/plugin/UltimateCore"));
+                    } catch (Exception ex) {
+                        showErrorMessage("Failed to open web page.");
+                    }
+                } else {
+                    showErrorMessage("Opening web pages is not supported on your OS.");
+                }
+            }
+        });
+        mcstats.getStyleClass().add("button-1");
+        GridPane.setConstraints(mcstats, 3, 2);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(10);
         grid.setHgap(8);
 
-        grid.getChildren().addAll(text, reportissue, features, bukkit, ucweb, sponge, close);
+        grid.getChildren().addAll(text, reportissue, features, mcstats, source, bukkit, ucweb, sponge, close);
 
         Scene scene = new Scene(grid);
 
