@@ -34,6 +34,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -80,12 +81,6 @@ public class CmdEditsign implements UltimateCommand {
             }
             return;
         }
-        BlockBreakEvent ev = new BlockBreakEvent(b, p);
-        Bukkit.getPluginManager().callEvent(ev);
-        if (ev.isCancelled()) {
-            r.sendMes(cs, "editsignNoAccess");
-            return;
-        }
         Sign s = (Sign) b.getState();
         int lineNumber;
         try {
@@ -99,23 +94,34 @@ public class CmdEditsign implements UltimateCommand {
             r.sendMes(cs, "editsignUsage");
             return;
         }
+        String text = args.length < 2 ? "" : r.getFinalArg(args, 1);
+        String l1 = lineNumber == 0 ? text : s.getLine(0);
+        String l2 = lineNumber == 1 ? text : s.getLine(1);
+        String l3 = lineNumber == 2 ? text : s.getLine(2);
+        String l4 = lineNumber == 3 ? text : s.getLine(3);
+        SignChangeEvent ev = new SignChangeEvent(b, p, new String[]{l1, l2, l3, l4});
+        Bukkit.getPluginManager().callEvent(ev);
+        if (ev.isCancelled()) {
+            r.sendMes(cs, "editsignNoAccess");
+            return;
+        }
         if (args.length < 2) {
             s.setLine(lineNumber, "");
             s.update();
             r.sendMes(cs, "editsignClear", "%Line", lineNumber + 1);
             return;
         }
-        String text = r.getFinalArg(args, 1);
         if (r.perm(p, "uc.sign.colored", false, false)) {
-            s.setLine(0, ChatColor.translateAlternateColorCodes('&', s.getLine(0)));
-            s.setLine(1, ChatColor.translateAlternateColorCodes('&', s.getLine(1)));
-            s.setLine(2, ChatColor.translateAlternateColorCodes('&', s.getLine(2)));
-            s.setLine(3, ChatColor.translateAlternateColorCodes('&', s.getLine(3)));
+            s.setLine(0, ChatColor.translateAlternateColorCodes('&', l1));
+            s.setLine(1, ChatColor.translateAlternateColorCodes('&', l2));
+            s.setLine(2, ChatColor.translateAlternateColorCodes('&', l3));
+            s.setLine(3, ChatColor.translateAlternateColorCodes('&', l4));
             text = ChatColor.translateAlternateColorCodes('&', text);
+        }else {
+            s.setLine(lineNumber, text);
         }
-        s.setLine(lineNumber, text);
         s.update();
-        r.sendMes(cs, "editsignSet", "%Line", lineNumber + 1, "%Text", r.getFinalArg(args, 1));
+        r.sendMes(cs, "editsignSet", "%Line", lineNumber + 1, "%Text", text);
     }
 
     @Override
