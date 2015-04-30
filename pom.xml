@@ -246,11 +246,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>javafx</artifactId>
-            <version>2.0</version>
-            <scope>system</scope>
-            <systemPath>${java.home}\lib\jfxrt.jar</systemPath>
+            <groupId>jfxrt</groupId>
+            <artifactId>jfxrt</artifactId>
+            <version>jre7</version>
+            <scope>compile</scope>
         </dependency>
         <!-- Hosted on GitHub -->
         <dependency>
@@ -300,7 +299,7 @@
         </repository>
         <repository>
             <id>ultimatecore-repo</id>
-            <url>https://raw.github.com/Bammerbom/UltimateCore/master/mvn-repo/</url>
+            <url>https://raw.githubusercontent.com/Bammerbom/UltimateCore/master/mvn-repo/</url>
         </repository>
 
     </repositories>

@@ -45,15 +45,7 @@
     <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.2.2" level="project" />
     <orderEntry type="library" name="Maven: com.comphenix.executors:BukkitExecutors:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.26.Final" level="project" />
-    <orderEntry type="module-library">
-      <library name="Maven: com.oracle:javafx:2.0">
-        <CLASSES>
-          <root url="jar://C:/Program Files/Java/jdk1.7.0_75/jre/lib/jfxrt.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="Maven: jfxrt:javafx:jre7" level="project" />
     <orderEntry type="library" name="Maven: com.palmergames:Towny:custom" level="project" />
     <orderEntry type="library" name="Maven: com.massivecraft:Factions:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: com.massivecraft:MassiveCore:2.7.5" level="project" />
