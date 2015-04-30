@@ -163,7 +163,7 @@ public class UltimateCore extends Application {
 
         //Source
         Button source = new Button("Source");
-        features.setOnAction(new EventHandler<ActionEvent>() {
+        source.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
                 if (Desktop.isDesktopSupported()) {
