@@ -45,7 +45,7 @@
     <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.2.2" level="project" />
     <orderEntry type="library" name="Maven: com.comphenix.executors:BukkitExecutors:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.26.Final" level="project" />
-    <orderEntry type="library" name="Maven: jfxrt:javafx:jre7" level="project" />
+    <orderEntry type="library" name="Maven: jfxrt:jfxrt:jre7" level="project" />
     <orderEntry type="library" name="Maven: com.palmergames:Towny:custom" level="project" />
     <orderEntry type="library" name="Maven: com.massivecraft:Factions:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: com.massivecraft:MassiveCore:2.7.5" level="project" />
