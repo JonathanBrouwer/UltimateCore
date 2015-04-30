@@ -78,6 +78,7 @@ public class UltimateCore extends Application {
             }
         });
         bukkit.getStyleClass().add("button-2");
+        bukkit.setPrefWidth(90.0);
         GridPane.setConstraints(bukkit, 0, 3);
 
         //UltimateCore web
@@ -120,6 +121,7 @@ public class UltimateCore extends Application {
             }
         });
         close.getStyleClass().add("button-close");
+        close.setPrefWidth(67);
         GridPane.setConstraints(close, 3, 3);
 
         //Report issue
@@ -158,7 +160,7 @@ public class UltimateCore extends Application {
             }
         });
         features.getStyleClass().add("button-1");
-        features.setAlignment(Pos.CENTER);
+        features.setPrefWidth(142.0);
         GridPane.setConstraints(features, 1, 2);
 
         //Source
@@ -178,7 +180,7 @@ public class UltimateCore extends Application {
             }
         });
         source.getStyleClass().add("button-1");
-        source.setAlignment(Pos.CENTER);
+        source.setPrefWidth(94.0);
         GridPane.setConstraints(source, 2, 2);
 
         //MCStats

@@ -33,7 +33,6 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -117,7 +116,7 @@ public class CmdEditsign implements UltimateCommand {
             s.setLine(2, ChatColor.translateAlternateColorCodes('&', l3));
             s.setLine(3, ChatColor.translateAlternateColorCodes('&', l4));
             text = ChatColor.translateAlternateColorCodes('&', text);
-        }else {
+        } else {
             s.setLine(lineNumber, text);
         }
         s.update();
