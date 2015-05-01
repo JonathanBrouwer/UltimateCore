@@ -572,7 +572,7 @@ public class UServer {
         return r.isDebug();
     }
 
-    public static void setDebug(Boolean value) {
+    public void setDebug(Boolean value) {
         r.setDebug(value);
     }
 
