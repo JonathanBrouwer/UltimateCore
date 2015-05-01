@@ -145,8 +145,7 @@ public class UWorld {
     }
 
     //World
-    public static enum WorldFlag {
-
+    public enum WorldFlag {
         MONSTER,
         ANIMAL,
         PVP

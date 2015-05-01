@@ -70,7 +70,6 @@ public class CmdWorld implements UltimateCommand {
             usage(cs);
             return;
         }
-        Environment env = Environment.NORMAL;
         if (r.checkArgs(args, 1) == true) {
             if (Bukkit.getWorld(args[1]) != null) {
                 r.sendMes(cs, "worldAlreadyExist");
@@ -93,13 +92,10 @@ public class CmdWorld implements UltimateCommand {
                     } else if (args[na].equalsIgnoreCase("amplified")) {
                         settings.type(WorldType.AMPLIFIED);
                     } else if (args[na].equalsIgnoreCase("normal")) {
-                        env = Environment.NORMAL;
                     } else if (args[na].equalsIgnoreCase("nether")) {
                         settings.environment(Environment.NETHER);
-                        env = Environment.NETHER;
                     } else if (args[na].equalsIgnoreCase("end")) {
                         settings.environment(Environment.THE_END);
-                        env = Environment.THE_END;
                     } else if (args[na].equalsIgnoreCase("nostructures")) {
                         settings.generateStructures(false);
                     } else if (r.isInt(args[na])) {
@@ -149,7 +145,6 @@ public class CmdWorld implements UltimateCommand {
             WorldCreator settings = new WorldCreator(args[1]);
             String gen = null;
             Integer na = 2;
-            Environment env = Environment.NORMAL;
             for (int i = 0; i < args.length + 3; i++) {
 
                 if (r.checkArgs(args, na) == true) {
@@ -160,13 +155,10 @@ public class CmdWorld implements UltimateCommand {
                     } else if (args[na].equalsIgnoreCase("amplified")) {
                         settings.type(WorldType.AMPLIFIED);
                     } else if (args[na].equalsIgnoreCase("normal")) {
-                        env = Environment.NORMAL;
                     } else if (args[na].equalsIgnoreCase("nether")) {
                         settings.environment(Environment.NETHER);
-                        env = Environment.NETHER;
                     } else if (args[na].equalsIgnoreCase("end")) {
                         settings.environment(Environment.THE_END);
-                        env = Environment.THE_END;
                     } else if (args[na].equalsIgnoreCase("nostructures")) {
                         settings.generateStructures(false);
                     } else if (r.isInt(args[na])) {
