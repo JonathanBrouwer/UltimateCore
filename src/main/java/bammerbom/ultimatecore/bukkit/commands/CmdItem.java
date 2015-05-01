@@ -118,13 +118,13 @@ public class CmdItem implements UltimateCommand {
 
                     }
                 } catch (Exception e) {
-                    r.sendMes(cs, "giveMetadataFailed");
+                    r.sendMes(cs, "itemMetadataFailed");
                     return;
                 }
             }
         }
         InventoryUtil.addItem(p.getInventory(), item);
-        r.sendMes(cs, "giveMessage", "%Item", ItemUtil.getName(item), "%Amount", amount, "%Player", p.getName());
+        r.sendMes(cs, "itemMessage", "%Item", ItemUtil.getName(item), "%Amount", amount, "%Player", p.getName());
     }
 
     @Override

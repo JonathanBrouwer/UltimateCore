@@ -108,7 +108,7 @@ public class CmdBanip implements UltimateCommand {
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
             Bukkit.broadcastMessage(r.mes("banBroadcast", "%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason", reason));
         } else {
-            r.sendMes(cs, "banBroadcast", "%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason", reason);
+            r.sendMes(cs, "banipBroadcast", "%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason", reason);
         }
 
     }
