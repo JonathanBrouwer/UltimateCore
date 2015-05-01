@@ -587,7 +587,7 @@ public class UServer {
                 silence = false;
             }
         }
-        if (getSilenceTime() >= 1 && getSilenceTimeLeft() <= 1 && getGlobalConfig().getBoolean("silence")) {
+        if (getSilenceTime() >= 1 && getSilenceTimeLeft() <= 1 && silence) {
             setSilenced(false);
             //TODO broadcast unsilence message r.sendMes(getOnlinePlayer(), "unsilenceTarget");
             return false;
