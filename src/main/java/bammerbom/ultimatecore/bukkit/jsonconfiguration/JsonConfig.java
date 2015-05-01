@@ -66,8 +66,9 @@ public class JsonConfig implements Cloneable {
             for (String st : remv) {
                 map.remove(st);
             }
+        } else {
+            map.put(s, o);
         }
-        map.put(s, o);
     }
 
     public Object get(String s) {
