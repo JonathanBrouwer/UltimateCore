@@ -69,6 +69,9 @@ public class DateUtil {
                         break;
                 }
             }
+            if (r.isInt(time)) {
+                mil = mil + (Integer.parseInt(time) * 1000 * 60 * 60);
+            }
             if (mil == 999) {
                 return -1L;
             }
