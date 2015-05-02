@@ -37,6 +37,8 @@ public enum MobData {
 
     BABY_AGEABLE("baby", Ageable.class, Data.BABY, true),
     ADULT_AGEABLE("adult", Ageable.class, Data.ADULT, true),
+    SMALL_ARMORSTAND("small", EntityType.ARMOR_STAND, Data.SMALLARMORSTAND, true),
+    SMALL_ARMORSTAND2("baby", EntityType.ARMOR_STAND, Data.SMALLARMORSTAND, true),
     BABY_PIG("piglet", EntityType.PIG, Data.BABY, false),
     BABY_WOLF("puppy", EntityType.WOLF, Data.BABY, false),
     BABY_CHICKEN("chick", EntityType.CHICKEN, Data.BABY, false),
@@ -254,6 +256,8 @@ public enum MobData {
                 this.matched = rawData;
             } catch (NumberFormatException e) {
             }
+        } else if (this.value.equals(Data.SMALLARMORSTAND)) {
+            ((ArmorStand) spawned).setSmall(true);
         } else if (this.value.equals(Data.ELDER)) {
             ((Guardian) spawned).setElder(true);
         } else if ((this.value instanceof Horse.Color)) {
@@ -279,7 +283,7 @@ public enum MobData {
     }
 
     public static enum Data {
-
+        SMALLARMORSTAND,
         ADULT,
         AGELOCK,
         BABY,
