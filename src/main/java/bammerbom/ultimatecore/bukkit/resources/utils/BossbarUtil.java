@@ -404,7 +404,7 @@ class Util {
 
     public static Method getMethod(Class<?> cl, String method, Integer args) {
         for (Method m : cl.getMethods()) {
-            if ((m.getName().equals(method)) && (args.equals(new Integer(m.getParameterTypes().length)))) {
+            if ((m.getName().equals(method)) && (args.equals(m.getParameterTypes().length))) {
                 return m;
             }
         }

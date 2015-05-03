@@ -31,7 +31,6 @@ public class UltimateTick implements Runnable {
 
     @Override
     public void run() {
-        Long time = System.currentTimeMillis();
         for (Player pl : r.getOnlinePlayers()) {
             UPlayer p = UC.getPlayer(pl);
             //p.isBanned();
@@ -42,7 +41,6 @@ public class UltimateTick implements Runnable {
             p.isMuted();
             p.isVanish();
         }
-        //r.debug("Player update tick took " + (System.currentTimeMillis() - time));
     }
 
 }

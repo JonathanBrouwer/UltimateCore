@@ -52,15 +52,15 @@ public class PerformanceUtil {
     }
 
     public static float maxRam() {
-        return Runtime.getRuntime().maxMemory() / 1048576;
+        return Runtime.getRuntime().maxMemory() / 1048576F;
     }
 
     public static float totalRam() {
-        return Runtime.getRuntime().totalMemory() / 1048576;
+        return Runtime.getRuntime().totalMemory() / 1048576F;
     }
 
     public static float freeRam() {
-        return Runtime.getRuntime().freeMemory() / 1048576;
+        return Runtime.getRuntime().freeMemory() / 1048576F;
     }
 
     public static float usedRam() {

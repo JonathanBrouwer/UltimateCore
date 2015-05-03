@@ -321,7 +321,6 @@ public class UEconomy implements Economy {
         if (amount < 0.0D) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative " + "funds");
         }
-        double amo = amount;
         if (!getData().contains(playerName)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "This player has no account");
         }
@@ -392,7 +391,6 @@ public class UEconomy implements Economy {
         if (amount < 0.0D) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative " + "funds");
         }
-        double amo = amount;
         if (!getData().contains(playerName)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "This player has no account");
         }

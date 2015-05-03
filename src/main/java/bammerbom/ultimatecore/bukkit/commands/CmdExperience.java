@@ -131,12 +131,6 @@ public class CmdExperience implements UltimateCommand {
                 return;
             }
             if (rawxp.endsWith("L") || rawxp.endsWith("l")) {
-                if (x > Integer.MAX_VALUE) {
-                    x = Integer.MAX_VALUE;
-                }
-                if (x < Integer.MIN_VALUE) {
-                    x = Integer.MIN_VALUE;
-                }
                 if (t.getLevel() + x < 1) {
                     XpUtil.setTotalExp(t, 0);
                 } else {

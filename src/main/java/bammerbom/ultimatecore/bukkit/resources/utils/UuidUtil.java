@@ -339,7 +339,7 @@ public class UuidUtil {
         @Override
         public Map<String, UUID> call() throws Exception {
             Map<String, UUID> uuidMap = new HashMap<>();
-            int requests = (int) Math.ceil(names.size() / 100);
+            int requests = new Double(Math.ceil(names.size() / 100)).intValue();
             for (int i = 0; i < requests; i++) {
                 HttpURLConnection connection = createConnection();
                 String body = JSONArray.toJSONString(names.subList(i * 100, Math.min((i + 1) * 100, names.size())));

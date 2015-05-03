@@ -297,7 +297,6 @@ public class AttributeUtil {
         }
 
         public void setUUID(@Nonnull UUID id) {
-            Preconditions.checkNotNull("id", "id cannot be NULL.");
             data.put("UUIDLeast", id.getLeastSignificantBits());
             data.put("UUIDMost", id.getMostSignificantBits());
         }

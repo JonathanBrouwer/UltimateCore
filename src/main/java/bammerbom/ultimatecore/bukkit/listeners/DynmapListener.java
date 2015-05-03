@@ -49,8 +49,6 @@ public class DynmapListener implements Listener {
     static DynmapAPI api;
     static MarkerAPI markerapi;
     static Layer warplayer;
-    static long updperiod;
-    static long playerupdperiod;
     static boolean reload;
     static boolean stop = false;
     static boolean warpsE = r.getCnfg().getBoolean("Dynmap.Warps");

@@ -186,6 +186,8 @@ public class LocationUtil {
             case MELON_STEM:
                 is.setType(Material.MELON_SEEDS);
                 break;
+            default:
+                break;
         }
         return is;
     }

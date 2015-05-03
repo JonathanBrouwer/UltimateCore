@@ -78,12 +78,12 @@ public class r {
         r.debug("Trying to start economy...");
         if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
             r.debug("Vault found.");
-            vault = new r().new Vault();
+            vault = new Vault();
             UC.ueconomy = new UEconomy();
             Bukkit.getPluginManager().getPlugin("Vault").getLogger().info("[Economy] UltimateCore found: Loaded");
             Bukkit.getServicesManager().register(Economy.class, UC.ueconomy, Bukkit.getPluginManager().getPlugin("Vault"), ServicePriority.Low);
         } else {
-            r.debug("Vault not found. " + Bukkit.getPluginManager().getPlugins());
+            r.debug("Vault not found. " + Arrays.toString(Bukkit.getPluginManager().getPlugins()));
         }
     }
 
@@ -644,7 +644,7 @@ public class r {
                                 }
                             }
                             nextLine = nextLine.substring(startIndex, nextLine.length());
-                            line = new String(loppedLine + nextLine);
+                            line = loppedLine + nextLine;
                             len = line.length();
                         }
 
@@ -879,7 +879,7 @@ public class r {
         }
     }
 
-    public class Vault {
+    public static class Vault {
 
         public Vault() {
         }

@@ -67,10 +67,12 @@ public class DateUtil {
                     case "Y":
                         mil = mil + (numb * 1000 * 60 * 60 * 24 * 365);
                         break;
+                    default:
+                        break;
                 }
             }
             if (r.isInt(time)) {
-                mil = mil + (Integer.parseInt(time) * 1000 * 60 * 60);
+                mil = mil + (Long.parseLong(time) * 1000 * 60 * 60);
             }
             if (mil == 999) {
                 return -1L;

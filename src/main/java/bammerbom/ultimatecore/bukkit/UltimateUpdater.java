@@ -527,6 +527,7 @@ public class UltimateUpdater {
 
             final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             final String response = reader.readLine();
+            reader.close();
 
             final JSONArray array = (JSONArray) JSONValue.parse(response);
 

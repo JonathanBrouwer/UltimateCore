@@ -98,8 +98,8 @@ public enum MobType {
 
     public final String name;
     public final Enemies type;
+    public final String suffix;
     private final EntityType bukkitType;
-    public String suffix = "s";
 
     private MobType(String n, Enemies en, String s, EntityType type) {
         this.suffix = s;
@@ -112,6 +112,7 @@ public enum MobType {
         this.name = n;
         this.type = en;
         this.bukkitType = type;
+        this.suffix = "s";
     }
 
     public static Set<String> getMobList() {

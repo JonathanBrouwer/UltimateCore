@@ -118,14 +118,12 @@ public class ConfigSection {
         char separator = root.options().pathSeparator();
 
         StringBuilder builder = new StringBuilder();
-        if (section != null) {
-            for (ConfigSection parent = section; (parent != null) && (parent != relativeTo); parent = parent.getParent()) {
-                if (builder.length() > 0) {
-                    builder.insert(0, separator);
-                }
-
-                builder.insert(0, parent.getName());
+        for (ConfigSection parent = section; (parent != null) && (parent != relativeTo); parent = parent.getParent()) {
+            if (builder.length() > 0) {
+                builder.insert(0, separator);
             }
+
+            builder.insert(0, parent.getName());
         }
 
         if ((key != null) && (key.length() > 0)) {
@@ -794,44 +792,26 @@ public class ConfigSection {
     }
 
     protected void mapChildrenKeys(Set<String> output, ConfigSection section, boolean deep) {
-        if (section instanceof ConfigSection) {
-            ConfigSection sec = section;
+        for (Map.Entry<String, Object> entry : section.map.entrySet()) {
+            output.add(createPath(section, entry.getKey(), this));
 
-            for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
-                output.add(createPath(section, entry.getKey(), this));
-
-                if ((deep) && (entry.getValue() instanceof ConfigSection)) {
-                    ConfigSection subsection = (ConfigSection) entry.getValue();
-                    mapChildrenKeys(output, subsection, deep);
-                }
-            }
-        } else {
-            Set<String> keys = section.getKeys(deep);
-
-            for (String key : keys) {
-                output.add(createPath(section, key, this));
+            if ((deep) && (entry.getValue() instanceof ConfigSection)) {
+                ConfigSection subsection = (ConfigSection) entry.getValue();
+                mapChildrenKeys(output, subsection, deep);
             }
         }
     }
 
     protected void mapChildrenValues(Map<String, Object> output, ConfigSection section, boolean deep) {
-        if (section instanceof ConfigSection) {
-            ConfigSection sec = section;
+        ConfigSection sec = section;
 
-            for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
-                output.put(createPath(section, entry.getKey(), this), entry.getValue());
+        for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
+            output.put(createPath(section, entry.getKey(), this), entry.getValue());
 
-                if (entry.getValue() instanceof ConfigSection) {
-                    if (deep) {
-                        mapChildrenValues(output, (ConfigSection) entry.getValue(), deep);
-                    }
+            if (entry.getValue() instanceof ConfigSection) {
+                if (deep) {
+                    mapChildrenValues(output, (ConfigSection) entry.getValue(), deep);
                 }
-            }
-        } else {
-            Map<String, Object> values = section.getValues(deep);
-
-            for (Map.Entry<String, Object> entry : values.entrySet()) {
-                output.put(createPath(section, entry.getKey(), this), entry.getValue());
             }
         }
     }

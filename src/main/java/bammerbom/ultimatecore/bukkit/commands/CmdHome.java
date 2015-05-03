@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -67,18 +68,7 @@ public class CmdHome implements UltimateCommand {
             }
             Player p = (Player) cs;
             ArrayList<String> homes = UC.getPlayer(p).getHomeNames();
-            String a = "";
-            Integer b = 0;
-            try {
-                Integer amount = homes.toArray().length;
-                for (int i = 0; i < amount; i++) {
-                    a = a + homes.get(b) + ", ";
-                    b++;
-
-                }
-                a = a.substring(0, a.length() - 2);
-            } catch (IndexOutOfBoundsException ex) {
-            }
+            String a = StringUtil.joinList(homes);
             //
             Set<String> multihomes = r.getCnfg().getConfigurationSection("Command.HomeLimits").getKeys(false);
             Integer limit = 1;

@@ -347,17 +347,10 @@ public class UServer {
         mt = mt.replace("{PLAYER}", UC.getPlayer(p).getDisplayName());
         mt = mt.replace("{NAME}", UC.getPlayer(p).getDisplayName());
         mt = mt.replace("{RAWNAME}", p.getName());
-        if (p instanceof Player) {
-            Player pl = p;
-            mt = mt.replace("{WORLD}", pl.getWorld().getName());
-            mt = mt.replace("{WORLDNAME}", pl.getWorld().getName());
-            mt = mt.replace("{COORDS}", pl.getLocation().getBlockX() + ", " + pl.getLocation().getBlockY() + ", " +
-                    pl.getLocation().getBlockZ());
-        } else {
-            mt = mt.replace("{WORLD}", ChatColor.stripColor(r.mes("notAvailable")));
-            mt = mt.replace("{WORLDNAME}", ChatColor.stripColor(r.mes("notAvailable")));
-            mt = mt.replace("{COORDS}", ChatColor.stripColor(r.mes("notAvailable")));
-        }
+        mt = mt.replace("{WORLD}", p.getWorld().getName());
+        mt = mt.replace("{WORLDNAME}", p.getWorld().getName());
+        mt = mt.replace("{COORDS}", p.getLocation().getBlockX() + ", " + p.getLocation().getBlockY() + ", " +
+                p.getLocation().getBlockZ());
         StringBuilder b = new StringBuilder();
         Integer i = 0;
         for (Player pl : r.getOnlinePlayers()) {

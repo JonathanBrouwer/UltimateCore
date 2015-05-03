@@ -65,7 +65,6 @@ public class UPlayer {
     Boolean mute = null;
     Long mutetime = null;
     String nickname = null;
-    Boolean pte = null;
     HashMap<Material, List<String>> pts = null;
     Boolean inRecipeView = false;
     Boolean vanish = null;
@@ -78,7 +77,6 @@ public class UPlayer {
     long lastaction = System.currentTimeMillis();
     String lastip;
     BanList.Type bantype;
-    double money;
     String lasthostname = null;
 
     public UPlayer(OfflinePlayer p) {

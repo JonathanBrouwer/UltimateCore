@@ -174,8 +174,6 @@ class HelpInput implements UText {
                 }
             } catch (NullPointerException ex) {
             } catch (Exception ex) {
-                if (!reported) {
-                }
                 reported = true;
             }
         }
@@ -253,8 +251,6 @@ class PluginCommandsInput implements UText {
                 }
             } catch (NullPointerException ex) {
             } catch (Exception ex) {
-                if (!reported) {
-                }
                 reported = true;
             }
         }
