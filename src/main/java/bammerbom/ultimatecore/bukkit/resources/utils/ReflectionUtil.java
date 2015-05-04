@@ -403,11 +403,7 @@ public class ReflectionUtil {
         public ReflectionObject invoke(String methodName, Object... args) {
             try {
                 Object obj;
-                if (object instanceof Class) {
-                    obj = getStaticObjByFunction((Class<?>) object, methodName, args);
-                } else {
-                    obj = getObjByFunction(object, methodName, args);
-                }
+                obj = getObjByFunction(object, methodName, args);
                 if (obj != null) {
                     return new ReflectionObject(obj);
                 }

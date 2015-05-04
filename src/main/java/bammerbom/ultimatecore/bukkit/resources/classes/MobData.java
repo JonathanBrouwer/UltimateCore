@@ -23,7 +23,10 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.classes;
 
-import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
@@ -31,275 +34,329 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Colorable;
 
-import java.util.*;
+import java.util.Locale;
+import java.util.Random;
 
-public enum MobData {
+public class MobData {
 
-    BABY_AGEABLE("baby", Ageable.class, Data.BABY, true),
-    ADULT_AGEABLE("adult", Ageable.class, Data.ADULT, true),
-    SMALL_ARMORSTAND("small", EntityType.ARMOR_STAND, Data.SMALLARMORSTAND, true),
-    SMALL_ARMORSTAND2("baby", EntityType.ARMOR_STAND, Data.SMALLARMORSTAND, true),
-    BABY_PIG("piglet", EntityType.PIG, Data.BABY, false),
-    BABY_WOLF("puppy", EntityType.WOLF, Data.BABY, false),
-    BABY_CHICKEN("chick", EntityType.CHICKEN, Data.BABY, false),
-    BABY_HORSE("colt", EntityType.HORSE, Data.BABY, false),
-    BABY_OCELOT("kitten", EntityType.OCELOT, Data.BABY, false),
-    BABY_SHEEP("lamb", EntityType.SHEEP, Data.BABY, false),
-    BABY_COW("calf", EntityType.COW, Data.BABY, false),
-    BABY_VILLAGER("child", EntityType.VILLAGER, Data.BABY, false),
-    BABY_MUSHROOMCOW("baby", EntityType.MUSHROOM_COW, Data.BABY, false),
-    BABY_PIG2("baby", EntityType.PIG, Data.BABY, false),
-    BABY_WOLF2("baby", EntityType.WOLF, Data.BABY, false),
-    BABY_CHICKEN2("baby", EntityType.CHICKEN, Data.BABY, false),
-    BABY_HORSE2("baby", EntityType.HORSE, Data.BABY, false),
-    BABY_OCELOT2("baby", EntityType.OCELOT, Data.BABY, false),
-    BABY_SHEEP2("baby", EntityType.SHEEP, Data.BABY, false),
-    BABY_COW2("baby", EntityType.COW, Data.BABY, false),
-    BABY_VILLAGER2("baby", EntityType.VILLAGER, Data.BABY, false),
-    AGELOCK("agelock", Ageable.class, Data.AGELOCK, false),
-    TAMED_TAMEABLE("tamed", Tameable.class, Data.TAMED, true),
-    TAME_TAMEABLE("tame", Tameable.class, Data.TAMED, false),
-    RANDOM_SHEEP("random", EntityType.SHEEP, Data.COLORABLE, true),
-    COLORABLE_SHEEP("", StringUtil.joinList(DyeColor.values()).toLowerCase(Locale.ENGLISH), EntityType.SHEEP, Data.COLORABLE, true),
-    DONKEY_HORSE("donkey", EntityType.HORSE, Horse.Variant.DONKEY, true),
-    MULE_HORSE("mule", EntityType.HORSE, Horse.Variant.MULE, true),
-    SKELETON_HORSE("skeleton", EntityType.HORSE, Horse.Variant.SKELETON_HORSE, true),
-    UNDEAD_HORSE("undead", EntityType.HORSE, Horse.Variant.UNDEAD_HORSE, true),
-    ZOMBIE_HORSE("zombie", EntityType.HORSE, Horse.Variant.UNDEAD_HORSE, false),
-    POLKA_HORSE("polka", EntityType.HORSE, Horse.Style.BLACK_DOTS, true),
-    SOOTY_HORSE("sooty", EntityType.HORSE, Horse.Style.BLACK_DOTS, false),
-    BLAZE_HORSE("blaze", EntityType.HORSE, Horse.Style.WHITE, true),
-    SOCKS_HORSE("socks", EntityType.HORSE, Horse.Style.WHITE, false),
-    LEOPARD_HORSE("leopard", EntityType.HORSE, Horse.Style.WHITE_DOTS, true),
-    APPALOOSA_HORSE("appaloosa", EntityType.HORSE, Horse.Style.WHITE_DOTS, false),
-    PAINT_HORSE("paint", EntityType.HORSE, Horse.Style.WHITEFIELD, true),
-    MILKY_HORSE("milky", EntityType.HORSE, Horse.Style.WHITEFIELD, false),
-    SPLOTCHY_HORSE("splotchy", EntityType.HORSE, Horse.Style.WHITEFIELD, false),
-    BLACK_HORSE("black", EntityType.HORSE, Horse.Color.BLACK, true),
-    CHESTNUT_HORSE("chestnut", EntityType.HORSE, Horse.Color.CHESTNUT, true),
-    LIVER_HORSE("liver", EntityType.HORSE, Horse.Color.CHESTNUT, false),
-    CREAMY_HORSE("creamy", EntityType.HORSE, Horse.Color.CREAMY, true),
-    FLAXEN_HORSE("flaxen", EntityType.HORSE, Horse.Color.CREAMY, false),
-    GRAY_HORSE("gray", EntityType.HORSE, Horse.Color.GRAY, true),
-    DAPPLE_HORSE("dapple", EntityType.HORSE, Horse.Color.GRAY, false),
-    BUCKSKIN_HORSE("buckskin", EntityType.HORSE, Horse.Color.DARK_BROWN, true),
-    DARKBROWN_HORSE("darkbrown", EntityType.HORSE, Horse.Color.DARK_BROWN, false),
-    DARK_HORSE("dark", EntityType.HORSE, Horse.Color.DARK_BROWN, false),
-    DBROWN_HORSE("dbrown", EntityType.HORSE, Horse.Color.DARK_BROWN, false),
-    BAY_HORSE("bay", EntityType.HORSE, Horse.Color.BROWN, true),
-    BROWN_HORSE("brown", EntityType.HORSE, Horse.Color.BROWN, false),
-    CHEST_HORSE("chest", EntityType.HORSE, Data.CHEST, true),
-    SADDLE_HORSE("saddle", EntityType.HORSE, Data.HORSESADDLE, true),
-    GOLD_ARMOR_HORSE("goldarmor", EntityType.HORSE, Material.GOLD_BARDING, true),
-    DIAMOND_ARMOR_HORSE("diamondarmor", EntityType.HORSE, Material.DIAMOND_BARDING, true),
-    ARMOR_HORSE("ironarmor", EntityType.HORSE, Material.IRON_BARDING, true),
-    SIAMESE_CAT("siamese", EntityType.OCELOT, Ocelot.Type.SIAMESE_CAT, true),
-    WHITE_CAT("white", EntityType.OCELOT, Ocelot.Type.SIAMESE_CAT, false),
-    RED_CAT("red", EntityType.OCELOT, Ocelot.Type.RED_CAT, true),
-    ORANGE_CAT("orange", EntityType.OCELOT, Ocelot.Type.RED_CAT, false),
-    TABBY_CAT("tabby", EntityType.OCELOT, Ocelot.Type.RED_CAT, false),
-    BLACK_CAT("black", EntityType.OCELOT, Ocelot.Type.BLACK_CAT, true),
-    TUXEDO_CAT("tuxedo", EntityType.OCELOT, Ocelot.Type.BLACK_CAT, false),
-    VILLAGER_ZOMBIE("villager", EntityType.ZOMBIE, Data.VILLAGER, true),
-    BABY_ZOMBIE("baby", EntityType.ZOMBIE, Data.BABYZOMBIE, true),
-    ADULT_ZOMBIE("adult", EntityType.ZOMBIE, Data.ADULTZOMBIE, true),
-    DIAMOND_SWORD_ZOMBIE("diamondsword", EntityType.ZOMBIE, Material.DIAMOND_SWORD, true),
-    GOLD_SWORD_ZOMBIE("goldsword", EntityType.ZOMBIE, Material.GOLD_SWORD, true),
-    IRON_SWORD_ZOMBIE("ironsword", EntityType.ZOMBIE, Material.IRON_SWORD, true),
-    STONE_SWORD_ZOMBIE("stonesword", EntityType.ZOMBIE, Material.STONE_SWORD, false),
-    SWORD_ZOMBIE("sword", EntityType.ZOMBIE, Material.STONE_SWORD, true),
-    DIAMOND_SWORD_SKELETON("diamondsword", EntityType.SKELETON, Material.DIAMOND_SWORD, true),
-    GOLD_SWORD_SKELETON("goldsword", EntityType.SKELETON, Material.GOLD_SWORD, true),
-    IRON_SWORD_SKELETON("ironsword", EntityType.SKELETON, Material.IRON_SWORD, true),
-    STONE_SWORD_SKELETON("stonesword", EntityType.SKELETON, Material.STONE_SWORD, false),
-    SWORD_SKELETON("sword", EntityType.SKELETON, Material.STONE_SWORD, true),
-    BOW_SKELETON("bow", EntityType.SKELETON, Material.BOW, true),
-    WHITHER_SKELETON("wither", EntityType.SKELETON, Data.WITHER, true),
-    POWERED_CREEPER("powered", EntityType.CREEPER, Data.ELECTRIFIED, true),
-    ELECTRIC_CREEPER("electric", EntityType.CREEPER, Data.ELECTRIFIED, false),
-    CHARGED_CREEPER("charged", EntityType.CREEPER, Data.ELECTRIFIED, false),
-    SADDLE_PIG("saddle", EntityType.PIG, Data.PIGSADDLE, true),
-    ANGRY_WOLF("angry", EntityType.WOLF, Data.ANGRY, true),
-    RABID_WOLF("rabid", EntityType.WOLF, Data.ANGRY, false),
-    FARMER_VILLAGER("farmer", EntityType.VILLAGER, Villager.Profession.FARMER, true),
-    LIBRARIAN_VILLAGER("librarian", EntityType.VILLAGER, Villager.Profession.LIBRARIAN, true),
-    PRIEST_VILLAGER("priest", EntityType.VILLAGER, Villager.Profession.PRIEST, true),
-    FATHER_VILLAGER("father", EntityType.VILLAGER, Villager.Profession.PRIEST, false),
-    SMITH_VILLAGER("smith", EntityType.VILLAGER, Villager.Profession.BLACKSMITH, true),
-    BUTCHER_VILLAGER("butcher", EntityType.VILLAGER, Villager.Profession.BUTCHER, true),
-    SIZE_SLIME("", "<1-100>", EntityType.SLIME, Data.SIZE, true),
-    ELDER_GUARDIAN("elder", EntityType.GUARDIAN, Data.ELDER, true),
-    NUM_EXPERIENCE_ORB("", "<1-2000000000>", EntityType.EXPERIENCE_ORB, Data.EXP, true);
+    static Random random = new Random();
 
-    private final String nickname;
-    private final String helpMessage;
-    private final Object type;
-    private final Object value;
-    private final boolean isPublic;
-    private String matched;
-
-    private MobData(String n, Object type, Object value, boolean isPublic) {
-        this.nickname = n;
-        this.matched = n;
-        this.helpMessage = n;
-        this.type = type;
-        this.value = value;
-        this.isPublic = isPublic;
-    }
-
-    private MobData(String n, String h, Object type, Object value, boolean isPublic) {
-        this.nickname = n;
-        this.matched = n;
-        this.helpMessage = h;
-        this.type = type;
-        this.value = value;
-        this.isPublic = isPublic;
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static LinkedHashMap<String, MobData> getPossibleData(EntityType spawned, boolean publicOnly) {
-        LinkedHashMap mobList = new LinkedHashMap();
-        for (MobData data : values()) {
-            if (((data.type instanceof EntityType)) && (spawned.equals(data.type)) && (((publicOnly) && (data.isPublic)) || (!publicOnly))) {
-                mobList.put(data.nickname.toLowerCase(Locale.ENGLISH), data);
-            } else if (((data.type instanceof Class)) && (((Class) data.type).isAssignableFrom(spawned.getClass())) && (((publicOnly) && (data.isPublic)) || (!publicOnly))) {
-                mobList.put(data.nickname.toLowerCase(Locale.ENGLISH), data);
+    //Methods
+    static boolean isHorseColor(String str) {
+        for (Horse.Color color : Horse.Color.values()) {
+            String colors = color.name().toLowerCase().replaceAll("_", "");
+            String inputs = str.toLowerCase().replaceAll("_", "");
+            if (colors.equals(inputs)) {
+                return true;
             }
         }
-
-        return mobList;
+        return false;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static List<String> getValidHelp(EntityType spawned) {
-        List output = new ArrayList();
-        LinkedHashMap<String, MobData> posData = getPossibleData(spawned, true);
-
-        for (MobData data : posData.values()) {
-            output.add(data.helpMessage);
-        }
-        return output;
-    }
-
-    public static MobData fromData(Entity spawned, String name) {
-        if (name.isEmpty()) {
-            return null;
-        }
-
-        LinkedHashMap<String, MobData> posData = getPossibleData(spawned.getType(), false);
-        for (String data : posData.keySet()) {
-            if (name.contains(data)) {
-                return posData.get(data);
+    static Horse.Color getHorseColor(String str) {
+        for (Horse.Color color : Horse.Color.values()) {
+            String colors = color.name().toLowerCase().replaceAll("_", "");
+            String inputs = str.toLowerCase().replaceAll("_", "");
+            if (colors.equals(inputs)) {
+                return color;
             }
         }
         return null;
     }
 
-    public String getMatched() {
-        return this.matched;
+    static boolean isHorseStyle(String str) {
+        if (str.equalsIgnoreCase("whitelegs")) {
+            return true;
+        }
+        for (Horse.Style style : Horse.Style.values()) {
+            String styles = style.name().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
+            String inputs = str.toLowerCase().replaceAll("white_", "").replaceAll("_", "").replaceAll("whitelegs", "white");
+            if (styles.equals(inputs)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void setData(Entity spawned, Player target, String rawData) throws Exception {
-        if (this.value.equals(Data.ANGRY)) {
-            ((Wolf) spawned).setAngry(true);
-        } else if (this.value.equals(Data.ADULT)) {
-            ((Ageable) spawned).setAdult();
-        } else if (this.value.equals(Data.AGELOCK)) {
-            ((Ageable) spawned).setAgeLock(true);
-        } else if (this.value.equals(Data.BABY)) {
-            ((Ageable) spawned).setBaby();
-        } else if (this.value.equals(Data.ADULTZOMBIE)) {
-            ((Zombie) spawned).setBaby(false);
-        } else if (this.value.equals(Data.BABYZOMBIE)) {
-            ((Zombie) spawned).setBaby(true);
-        } else if (this.value.equals(Data.CHEST)) {
-            ((Tameable) spawned).setTamed(true);
-            ((Horse) spawned).setCarryingChest(true);
-        } else if (this.value.equals(Data.ELECTRIFIED)) {
-            ((Creeper) spawned).setPowered(true);
-        } else if (this.value.equals(Data.HORSESADDLE)) {
-            Horse horse = (Horse) spawned;
-            horse.setTamed(true);
-            horse.setOwner(target);
-            horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
-        } else if (this.value.equals(Data.PIGSADDLE)) {
-            ((Pig) spawned).setSaddle(true);
-        } else if (this.value.equals(Data.TAMED)) {
-            Tameable tameable = (Tameable) spawned;
-            tameable.setTamed(true);
-            tameable.setOwner(target);
-        } else if (this.value.equals(Data.VILLAGER)) {
-            ((Zombie) spawned).setVillager(this.value.equals(Data.VILLAGER));
-        } else if (this.value.equals(Data.WITHER)) {
-            ((Skeleton) spawned).setSkeletonType(Skeleton.SkeletonType.WITHER);
-        } else if (this.value.equals(Data.COLORABLE)) {
-            String color = rawData.toUpperCase(Locale.ENGLISH);
-            try {
-                if (color.equals("RANDOM")) {
-                    Random rand = new Random();
-                    ((Colorable) spawned).setColor(DyeColor.values()[rand.nextInt(DyeColor.values().length)]);
-                } else if (!color.isEmpty()) {
-                    ((Colorable) spawned).setColor(DyeColor.valueOf(color));
-                }
-                this.matched = rawData;
-            } catch (Exception e) {
+    static Horse.Style getHorseStyle(String str) {
+        if (str.equalsIgnoreCase("whitelegs")) {
+            return Horse.Style.WHITE;
+        }
+        for (Horse.Style style : Horse.Style.values()) {
+            String styles = style.name().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
+            String inputs = str.toLowerCase().replaceAll("white_", "").replaceAll("_", "").replaceAll("whitelegs", "white");
+            if (styles.equals(inputs)) {
+                return style;
             }
-        } else if (this.value.equals(Data.EXP)) {
-            try {
-                ((ExperienceOrb) spawned).setExperience(Integer.parseInt(rawData));
-                this.matched = rawData;
-            } catch (NumberFormatException e) {
+        }
+        return null;
+    }
+
+    static void setHorseSpeed(Horse h, double speed) {
+        try {
+            ReflectionUtil.ReflectionObject attributes = ReflectionUtil.execute("getHandle().getAttributeInstance({1})", h, ReflectionUtil.executeStatic("d", ReflectionUtil.ReflectionStatic.fromNMS("GenericAttributes")).fetch());
+            if (attributes.get("b()") == speed) {
+                return;
             }
-        } else if (this.value.equals(Data.SIZE)) {
-            try {
-                ((Slime) spawned).setSize(Integer.parseInt(rawData));
-                this.matched = rawData;
-            } catch (NumberFormatException e) {
-            }
-        } else if (this.value.equals(Data.SMALLARMORSTAND)) {
-            ((ArmorStand) spawned).setSmall(true);
-        } else if (this.value.equals(Data.ELDER)) {
-            ((Guardian) spawned).setElder(true);
-        } else if ((this.value instanceof Horse.Color)) {
-            ((Horse) spawned).setColor((Horse.Color) this.value);
-        } else if ((this.value instanceof Horse.Style)) {
-            ((Horse) spawned).setStyle((Horse.Style) this.value);
-        } else if ((this.value instanceof Horse.Variant)) {
-            ((Horse) spawned).setVariant((Horse.Variant) this.value);
-        } else if ((this.value instanceof Ocelot.Type)) {
-            ((Ocelot) spawned).setCatType((Ocelot.Type) this.value);
-        } else if ((this.value instanceof Villager.Profession)) {
-            ((Villager) spawned).setProfession((Villager.Profession) this.value);
-        } else if ((this.value instanceof Material)) {
-            if (this.type.equals(EntityType.HORSE)) {
-                ((Tameable) spawned).setTamed(true);
-                ((Horse) spawned).getInventory().setArmor(new ItemStack((Material) this.value, 1));
-            } else if ((this.type.equals(EntityType.ZOMBIE)) || (this.type.equals(EntityType.SKELETON))) {
-                EntityEquipment invent = ((LivingEntity) spawned).getEquipment();
-                invent.setItemInHand(new ItemStack((Material) this.value, 1));
-                invent.setItemInHandDropChance(0.1F);
-            }
+            attributes.set("f", speed);
+            attributes.invoke("f");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
-    public static enum Data {
-        SMALLARMORSTAND,
-        ADULT,
-        AGELOCK,
-        BABY,
-        CHEST,
-        ADULTZOMBIE,
-        BABYZOMBIE,
-        VILLAGER,
-        HORSESADDLE,
-        PIGSADDLE,
-        ELECTRIFIED,
-        WITHER,
-        ANGRY,
-        TAMED,
-        COLORABLE,
-        EXP,
-        SIZE,
-        ELDER;
+    public static void setDatas(Entity en, String[] data, Player p) {
+        setDatas(en, r.getFinalArg(data, 1), p);
+    }
+
+    public static void setDatas(Entity en, String data, Player p) {
+        if (!data.contains(" ")) {
+            setData(en, data, p);
+        }
+        for (String dat : data.split(" ")) {
+            setData(en, dat, p);
+        }
+    }
+
+    public static boolean setData(Entity en, String data, Player p) {
+        if (data.equalsIgnoreCase("baby") || data.equalsIgnoreCase("small")) {
+            if (en instanceof Ageable) {
+                ((Ageable) en).setBaby();
+                return true;
+            } else if (en instanceof Zombie) {
+                ((Zombie) en).setBaby(true);
+                return true;
+            } else if (en instanceof ArmorStand) {
+                ((ArmorStand) en).setSmall(true);
+                return true;
+            }
+        } else if (data.startsWith("age:")) {
+            if (en instanceof Ageable) {
+                if (r.isInt(data.split(":")[1])) {
+                    ((Ageable) en).setAge(Integer.parseInt(data.split(":")[1]));
+                    return true;
+                }
+            }
+        } else if (data.equalsIgnoreCase("agelock")) {
+            if (en instanceof Ageable) {
+                ((Ageable) en).setAgeLock(true);
+                return true;
+            }
+        } else if (data.equalsIgnoreCase("tame") || data.equalsIgnoreCase("tameable")) {
+            if (en instanceof Tameable) {
+                ((Tameable) en).setTamed(true);
+                if (p != null) {
+                    ((Tameable) en).setOwner(p);
+                }
+                return true;
+            }
+        } else if (data.equalsIgnoreCase("random")) {
+            if (en instanceof Colorable) {
+                ((Colorable) en).setColor(DyeColor.values()[random.nextInt(DyeColor.values().length)]);
+                return true;
+            }
+        } else if (data.startsWith("color:")) {
+            if (en instanceof Colorable) {
+                String color = data.toUpperCase(Locale.ENGLISH);
+                ((Colorable) en).setColor(DyeColor.valueOf(color));
+                return true;
+            }
+        } else if (data.equalsIgnoreCase("zombie") || data.equalsIgnoreCase("zombievillager")) {
+            if (en instanceof Zombie) {
+                ((Zombie) en).setVillager(true);
+                return true;
+            }
+        } else if (data.equalsIgnoreCase("wither") || data.equalsIgnoreCase("witherskeleton")) {
+            if (en instanceof Skeleton) {
+                ((Skeleton) en).setSkeletonType(Skeleton.SkeletonType.WITHER);
+                return true;
+            }
+        } else if (data.equalsIgnoreCase("powered") || data.equalsIgnoreCase("electrified") || data.equalsIgnoreCase("charged")) {
+            if (en instanceof Creeper) {
+                ((Creeper) en).setPowered(true);
+                return true;
+            }
+        } else if (data.equalsIgnoreCase("saddle") || data.equalsIgnoreCase("saddled")) {
+            if (en instanceof Pig) {
+                ((Pig) en).setSaddle(true);
+                return true;
+            } else if (en instanceof Horse) {
+                ((Horse) en).setTamed(true);
+                ((Horse) en).getInventory().setSaddle(new ItemStack(Material.SADDLE));
+                return true;
+            }
+        } else if (data.equalsIgnoreCase("angry") || data.equalsIgnoreCase("rabid")) {
+            if (en instanceof Wolf) {
+                ((Wolf) en).setAngry(true);
+                return true;
+            }
+        } else if (data.startsWith("size:")) {
+            if (r.isInt(data.split(":")[1])) {
+                if (en instanceof Slime) {
+                    ((Slime) en).setSize(Integer.parseInt(data.split(":")[1]));
+                    return true;
+                } else if (en instanceof MagmaCube) {
+                    ((MagmaCube) en).setSize(Integer.parseInt(data.split(":")[1]));
+                    return true;
+                }
+            }
+        } else if (data.equalsIgnoreCase("elder") || data.equalsIgnoreCase("elderguardian")) {
+            if (en instanceof Guardian) {
+                ((Guardian) en).setElder(true);
+                return true;
+            }
+        } else if (data.startsWith("exp:") || data.startsWith("xp:") || data.startsWith("experience:") || data.startsWith("amount:")) {
+            if (r.isInt(data.split(":")[1]) && en instanceof ExperienceOrb) {
+                Integer amount = r.normalize(Integer.parseInt(data.split(":")[1]), 1, 2000000000);
+                ((ExperienceOrb) en).setExperience(amount);
+                return true;
+            }
+        } else if (data.startsWith("maxhealth:")) {
+            if (r.isDouble(data.split(":")[1]) && en instanceof LivingEntity) {
+                Double amount = r.normalize(Double.parseDouble(data.split(":")[1]), 1.0, 999999.0);
+                ((LivingEntity) en).setMaxHealth(amount);
+                return true;
+            }
+        } else if (data.startsWith("health:")) {
+            if (r.isDouble(data.split(":")[1]) && en instanceof LivingEntity) {
+                Double amount = r.normalize(Double.parseDouble(data.split(":")[1]), 1.0, ((LivingEntity) en).getMaxHealth());
+                ((LivingEntity) en).setHealth(amount);
+                return true;
+            }
+        } else if (data.startsWith("name:")) {
+            en.setCustomNameVisible(true);
+            en.setCustomName(ChatColor.translateAlternateColorCodes('&', data.split(":")[1]).replace("_", " "));
+            return true;
+        } else if (data.equalsIgnoreCase("noai")) {
+            if (en instanceof LivingEntity) {
+                try {
+                    ReflectionUtil.ReflectionObject cen = ReflectionUtil.execute("getHandle()", en);
+                    ReflectionUtil.ReflectionObject tag = cen.invoke("getNBTTag");
+                    if (tag == null) {
+                        tag = ReflectionUtil.ReflectionObject.fromNMS("NBTTagCompound");
+                    }
+                    cen.invoke("c", tag.fetch());
+                    tag.invoke("setInt", "NoAI", 1);
+                    cen.invoke("f", tag.fetch());
+                    return true;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }else if(data.equalsIgnoreCase("invisible")){
+            if(en instanceof ArmorStand){
+                ((ArmorStand) en).setVisible(false);
+            }
+        } else if (ItemUtil.searchItem(data) != null) {
+            if (en instanceof LivingEntity) {
+                ((LivingEntity) en).getEquipment().setItemInHand(ItemUtil.searchItem(data));
+                return true;
+            }
+        }
+        if (en instanceof Horse) {
+            Horse horse = (Horse) en;
+            if (data.equalsIgnoreCase("donkey")) {
+                horse.setVariant(Horse.Variant.DONKEY);
+                return true;
+            } else if (data.equalsIgnoreCase("mule")) {
+                horse.setVariant(Horse.Variant.MULE);
+                return true;
+            } else if (data.equalsIgnoreCase("skeleton")) {
+                horse.setVariant(Horse.Variant.SKELETON_HORSE);
+                return true;
+            } else if (data.equalsIgnoreCase("undead") || data.equalsIgnoreCase("zombie")) {
+                horse.setVariant(Horse.Variant.UNDEAD_HORSE);
+                return true;
+            } else if (isHorseColor(data)) {
+                horse.setColor(getHorseColor(data));
+                return true;
+            } else if (isHorseStyle(data)) {
+                horse.setStyle(getHorseStyle(data));
+                return true;
+            } else if (data.equalsIgnoreCase("diamond") || data.equalsIgnoreCase("diamondarmor")) {
+                horse.getInventory().setArmor(new ItemStack(Material.DIAMOND_BARDING));
+                return true;
+            } else if (data.equalsIgnoreCase("iron") || data.equalsIgnoreCase("ironarmor")) {
+                horse.getInventory().setArmor(new ItemStack(Material.IRON_BARDING));
+                return true;
+            } else if (data.equalsIgnoreCase("gold") || data.equalsIgnoreCase("goldarmor")) {
+                horse.getInventory().setArmor(new ItemStack(Material.GOLD_BARDING));
+                return true;
+            } else if (data.equalsIgnoreCase("tame") || data.equalsIgnoreCase("tamed")) {
+                horse.setTamed(true);
+                return true;
+            } else if (data.startsWith("speed:")) {
+                try {
+                    setHorseSpeed(horse, Double.parseDouble(data.split(":")[1]));
+                    return true;
+                } catch (NumberFormatException ex) {
+                }
+            } else if (data.startsWith("jump:") || data.startsWith("jumpdataength:")) {
+                try {
+                    horse.setJumpStrength(Double.parseDouble(data.split(":")[1]));
+                    return true;
+                } catch (NumberFormatException ex) {
+                }
+            }
+        }
+        if (en instanceof Ocelot) {
+            Ocelot ocelot = (Ocelot) en;
+            if (data.equalsIgnoreCase("black") || data.equalsIgnoreCase("blackcat")) {
+                ocelot.setCatType(Ocelot.Type.BLACK_CAT);
+                return true;
+            } else if (data.equalsIgnoreCase("red") || data.equalsIgnoreCase("redcat")) {
+                ocelot.setCatType(Ocelot.Type.RED_CAT);
+                return true;
+            } else if (data.equalsIgnoreCase("siamese") || data.equalsIgnoreCase("siamesecat")) {
+                ocelot.setCatType(Ocelot.Type.SIAMESE_CAT);
+                return true;
+            } else if (data.equalsIgnoreCase("wild") || data.equalsIgnoreCase("wildcat") || data.equalsIgnoreCase("wildocelot")) {
+                ocelot.setCatType(Ocelot.Type.WILD_OCELOT);
+                return true;
+            }
+        }
+        if (en instanceof Villager) {
+            if (data.equalsIgnoreCase("farmer")) {
+                ((Villager) en).setProfession(Villager.Profession.FARMER);
+                return true;
+            } else if (data.equalsIgnoreCase("librarian")) {
+                ((Villager) en).setProfession(Villager.Profession.LIBRARIAN);
+                return true;
+            } else if (data.equalsIgnoreCase("priest")) {
+                ((Villager) en).setProfession(Villager.Profession.PRIEST);
+                return true;
+            } else if (data.equalsIgnoreCase("smith") || data.equalsIgnoreCase("blacksmith")) {
+                ((Villager) en).setProfession(Villager.Profession.BLACKSMITH);
+                return true;
+            } else if (data.equalsIgnoreCase("butcher")) {
+                ((Villager) en).setProfession(Villager.Profession.BUTCHER);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void setDefault(Entity spawned) {
+        if (spawned instanceof Ageable) {
+            ((Ageable) spawned).setAdult();
+        }
+        if (spawned instanceof Zombie) {
+            ((Zombie) spawned).setBaby(false);
+        }
+        if (spawned.getType() == EntityType.SKELETON) {
+            if (!((Skeleton) spawned).getSkeletonType().equals(Skeleton.SkeletonType.WITHER)) {
+                Skeleton skel = (Skeleton) spawned;
+                skel.setSkeletonType(Skeleton.SkeletonType.NORMAL);
+                skel.getEquipment().setItemInHand(new ItemStack(Material.BOW));
+                skel.getEquipment().setItemInHandDropChance(0.09F);
+                return;
+            }
+
+        }
+        if (spawned.getType() == EntityType.PIG_ZOMBIE) {
+            EntityEquipment invent = ((LivingEntity) spawned).getEquipment();
+            invent.setItemInHand(new ItemStack(Material.GOLD_SWORD, 1));
+            invent.setItemInHandDropChance(0.05F);
+        }
     }
 }
