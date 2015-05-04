@@ -19,6 +19,7 @@
     <orderEntry type="library" name="Maven: org.avaje:ebean:2.8.1" level="project" />
     <orderEntry type="library" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: net.md-5:bungeecord-chat:1.8-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.spigotmc:spigot:1.7.10-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.spongepowered:spongeapi:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm:5.0.3" level="project" />
@@ -67,6 +68,7 @@
         <entry key="property.minPriorityToReport" value="Medium" />
         <entry key="property.runAnalysisInBackground" value="false" />
         <entry key="property.showHiddenDetectors" value="false" />
+        <entry key="property.toolWindowEditorPreview" value="false" />
         <entry key="property.toolWindowToFront" value="true" />
       </map>
     </option>
