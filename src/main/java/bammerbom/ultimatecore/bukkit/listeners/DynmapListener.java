@@ -220,6 +220,9 @@ public class DynmapListener implements Listener {
                 Location loc = marks.get(name);
 
                 String wname = loc.getWorld().getName();
+                if (wname == null || name == null) {
+                    continue;
+                }
 
                 if (isVisible(name, wname)) {
                     String id = wname + "/" + name;
