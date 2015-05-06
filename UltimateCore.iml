@@ -21,12 +21,13 @@
     <orderEntry type="library" name="Maven: net.md-5:bungeecord-chat:1.8-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.spigotmc:spigot:1.7.10-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.spongepowered:spongeapi:2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.7" level="project" />
-    <orderEntry type="library" name="Maven: org.ow2.asm:asm:5.0.3" level="project" />
-    <orderEntry type="library" name="Maven: com.flowpowered:flow-math:1.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.google.inject:guice:4.0-beta5" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.3.2" level="project" />
+    <orderEntry type="library" name="Maven: com.google.inject:guice:4.0" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.ow2.asm:asm:5.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.12" level="project" />
+    <orderEntry type="library" name="Maven: com.flowpowered:flow-math:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: net.milkbowl.vault:VaultAPI:1.5" level="project" />
     <orderEntry type="library" name="Maven: org.bukkit:bukkit:1.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: net.ess3:Essentials:2.14-SNAPSHOT" level="project" />
