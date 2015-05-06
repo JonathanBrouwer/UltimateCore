@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.bukkit.listeners;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.commands.CmdMobtp;
+import bammerbom.ultimatecore.bukkit.commands.CmdVillager;
 import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
@@ -33,6 +34,7 @@ import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
@@ -259,6 +261,10 @@ public class GlobalPlayerListener implements Listener {
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInTeleportMenu()) {
                 UC.getPlayer(e.getPlayer().getUniqueId()).setInTeleportMenu(false);
             }
+            //Villager
+            if (e.getInventory().getTitle().startsWith("Villager Editor")) {
+                CmdVillager.closeInv(e.getPlayer(), e.getInventory());
+            }
 
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: InventoryCloseEvent");
@@ -293,6 +299,9 @@ public class GlobalPlayerListener implements Listener {
                 Bukkit.getServer().dispatchCommand(e.getWhoClicked(), "tp " + ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()));
                 e.setCancelled(true);
                 e.getWhoClicked().closeInventory();
+            }
+            if (!e.isCancelled() && e.getInventory().getTitle().startsWith("Villager Editor")) {
+                e.setCancelled(CmdVillager.clickButton(e));
             }
             //
 
@@ -424,7 +433,10 @@ public class GlobalPlayerListener implements Listener {
             if (!e.isCancelled()) {
                 e.setCancelled(CmdMobtp.pickup(e.getPlayer(), e.getRightClicked()));
             }
-            //
+            //Villager
+            if (!e.isCancelled() && e.getRightClicked() instanceof Villager) {
+                e.setCancelled(CmdVillager.confirm(e.getPlayer(), (Villager) e.getRightClicked(), 1));
+            }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerInteractEntityEvent");
         }

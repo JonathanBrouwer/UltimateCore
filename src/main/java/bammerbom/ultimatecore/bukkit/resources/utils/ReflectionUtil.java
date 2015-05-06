@@ -362,7 +362,7 @@ public class ReflectionUtil {
                     Class<?> clazz = Class.forName(className);
                     return new ReflectionObject(getMatchingConstructor(clazz, args).newInstance(args));
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    e.printStackTrace();
                     return null;
                 }
             }
@@ -377,7 +377,7 @@ public class ReflectionUtil {
                     Class<?> clazz = Class.forName(className);
                     return new ReflectionObject(getMatchingConstructor(clazz, args).newInstance(args));
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    e.printStackTrace();
                     return null;
                 }
             }
@@ -539,7 +539,7 @@ public class ReflectionUtil {
                     Class<?> clazz = Class.forName(className);
                     return clazz;
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    e.printStackTrace();
                     return null;
                 }
             }
@@ -554,7 +554,7 @@ public class ReflectionUtil {
                     Class<?> clazz = Class.forName(className);
                     return clazz;
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    e.printStackTrace();
                     return null;
                 }
             }
