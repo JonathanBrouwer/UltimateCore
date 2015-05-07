@@ -52,6 +52,8 @@ Economy:
   currencyNamePlural: "dollars"
   #How much money does a player start with after joining the server?
   startingBalance: 10.0
+  #Round balances on a certain number of decimals. (-1 for no rounding)
+  roundBalance: 3
 Explode:
   #Disable explosions? (True = disabled)
   Creeper: false

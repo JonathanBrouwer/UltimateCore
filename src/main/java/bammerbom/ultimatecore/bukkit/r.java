@@ -48,6 +48,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class r {
@@ -555,6 +557,16 @@ public class r {
         } catch (Exception ex) {
             return null;
         }
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) {
+            return value;
+        }
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public static String getFaction(Player p) {

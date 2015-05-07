@@ -173,7 +173,6 @@ public class UltimateCore extends JavaPlugin {
     }
 
     public void test() {
-        r.log(Bukkit.getVersion());
 
     }
 

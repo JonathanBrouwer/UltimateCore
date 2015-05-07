@@ -40,6 +40,7 @@ public class UEconomy implements Economy {
     static String format;
     static String currencyName;
     static String currencyNamePlural;
+    static int round;
 
     /**
      * Internal method, ignore please.
@@ -49,6 +50,7 @@ public class UEconomy implements Economy {
         format = r.getCnfg().getString("Economy.format");
         currencyName = r.getCnfg().getString("Economy.currencyName");
         currencyNamePlural = r.getCnfg().getString("Economy.currencyNamePlural");
+        round = r.getCnfg().getInt("Economy.roundBalance", 3);
     }
 
     public JsonConfig getData() {
@@ -107,7 +109,8 @@ public class UEconomy implements Economy {
     @Override
     public String format(double amount) {
         r.debug("format - " + amount);
-        return format.replace("%Amount", amount + "");
+
+        return format.replace("%Amount", r.round(amount, round) + "");
     }
 
     /**
