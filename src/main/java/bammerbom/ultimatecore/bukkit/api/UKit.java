@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.configuration.ConfigSection;
 import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
+import bammerbom.ultimatecore.bukkit.resources.databases.EnchantmentDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import org.bukkit.ChatColor;
@@ -85,7 +86,7 @@ public class UKit {
      * @return Enchantment (may be null)
      */
     private Enchantment getEnchantment(final ConfigSection enchantment) {
-        return Enchantment.getByName(enchantment.getString("type", "").toUpperCase());
+        return EnchantmentDatabase.getByName(enchantment.getString("type", "").toUpperCase());
     }
 
     /**

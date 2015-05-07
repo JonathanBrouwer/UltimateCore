@@ -24,9 +24,8 @@
 package bammerbom.ultimatecore.spongeapi.api;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
+import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -51,7 +50,7 @@ public class UC {
         return pl;
     }
 
-    public static UPlayer getPlayer(OfflinePlayer p) {
+    public static UPlayer getPlayer(User p) {
         for (UPlayer pl : uplayers) {
             if (pl.uuid.equals(p.getUniqueId())) {
                 return pl;
@@ -87,10 +86,10 @@ public class UC {
     }
 
     public static UWorld getWorld(String world) {
-        if (Bukkit.getWorld(world) == null) {
+        if (r.getGame().getServer().getWorld(world).orNull() == null) {
             return null;
         }
-        return getWorld(Bukkit.getWorld(world));
+        return getWorld(r.getGame().getServer().getWorld(world).get());
     }
 
     public static UServer getServer() {

@@ -40,6 +40,8 @@ import org.spongepowered.api.util.command.CommandSource;
 import org.spongepowered.api.world.Location;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class r {
@@ -453,7 +455,7 @@ public class r {
         return r.getGame().getServer().getPlayer(u).orNull();
     }
 
-    public static OfflinePlayer searchOfflinePlayer(UUID u) {
+    public static User searchOfflinePlayer(UUID u) {
         return Bukkit.getOfflinePlayer(u); //TODO
     }
 
@@ -558,6 +560,16 @@ public class r {
             a = c;
         }
         return a;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) {
+            return value;
+        }
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public static Double normalize(Double a, Double b, Double c) {

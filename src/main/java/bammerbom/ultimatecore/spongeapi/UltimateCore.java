@@ -31,7 +31,6 @@ import bammerbom.ultimatecore.spongeapi.listeners.*;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.PerformanceUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
@@ -152,7 +151,6 @@ public class UltimateCore {
             UuidUtil.loadPlayers();
             UltimateCommands.load();
             PerformanceUtil.getTps();
-            BossbarUtil.enable();
             ItemDatabase.enable();
             //
             UEconomy.start();
@@ -222,7 +220,6 @@ public class UltimateCore {
             //
             r.removeUC();
             ItemDatabase.disable();
-            BossbarUtil.disable();
             DynmapListener.stop();
             //
             time = System.currentTimeMillis() - time;

@@ -27,11 +27,11 @@ import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import com.google.common.collect.ImmutableList;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.player.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +48,7 @@ public class UuidUtil {
 
     static JSONArray uuids = null;
 
-    public static UUID requestUuid(OfflinePlayer p) {
+    public static UUID requestUuid(User p) {
         return p.getUniqueId();
         //This code was written as test code, don't use it.
         /*//long time = System.currentTimeMillis();
@@ -146,7 +146,7 @@ public class UuidUtil {
             directory.mkdirs();
         }
         ArrayList<UUID> request = null;
-        for (OfflinePlayer p : r.getOfflinePlayers()) {
+        for (User p : r.getOfflinePlayers()) {
             if (p.getUniqueId() == null) {
                 continue;
             }
@@ -202,7 +202,7 @@ public class UuidUtil {
                         conf.set("names", names);
                         conf.set("name", p.getName());
                         if (p.isOnline()) {
-                            r.sendMes((CommandSender) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
+                            r.sendMes((Player) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
                         } else {
                             conf.set("oldname", oldname);
                         }

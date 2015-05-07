@@ -25,65 +25,77 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.inventory.ItemStack;
+import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
+import com.flowpowered.math.vector.Vector3d;
+import com.flowpowered.math.vector.Vector3f;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.block.BlockType;
+import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.effect.particle.ParticleTypes;
+import org.spongepowered.api.effect.sound.SoundTypes;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.player.gamemode.GameModes;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+import org.spongepowered.api.world.extent.Extent;
 
 import java.util.*;
 
 public class LocationUtil {
 
-    // The player can stand inside these materials
-    public static final Set<Material> HOLLOW_MATERIALS = new HashSet<>();
+    // The player can stand inside these BlockTypess
+    public static final Set<BlockType> HOLLOW_MATERIALS = new HashSet<>();
     public static final int RADIUS = 3;
     public static final Vector3D[] VOLUME;
-    private static final Set<Material> TRANSPARENT_MATERIALS = new HashSet<>();
+    private static final Set<BlockType> TRANSPARENT_MATERIALS = new HashSet<>();
     static int delay2 = 0;
 
     static {
-        HOLLOW_MATERIALS.add(Material.AIR);
-        HOLLOW_MATERIALS.add(Material.SAPLING);
-        HOLLOW_MATERIALS.add(Material.POWERED_RAIL);
-        HOLLOW_MATERIALS.add(Material.DETECTOR_RAIL);
-        HOLLOW_MATERIALS.add(Material.LONG_GRASS);
-        HOLLOW_MATERIALS.add(Material.DEAD_BUSH);
-        HOLLOW_MATERIALS.add(Material.YELLOW_FLOWER);
-        HOLLOW_MATERIALS.add(Material.RED_ROSE);
-        HOLLOW_MATERIALS.add(Material.BROWN_MUSHROOM);
-        HOLLOW_MATERIALS.add(Material.RED_MUSHROOM);
-        HOLLOW_MATERIALS.add(Material.TORCH);
-        HOLLOW_MATERIALS.add(Material.REDSTONE_WIRE);
-        HOLLOW_MATERIALS.add(Material.SEEDS);
-        HOLLOW_MATERIALS.add(Material.SIGN_POST);
-        HOLLOW_MATERIALS.add(Material.WOODEN_DOOR);
-        HOLLOW_MATERIALS.add(Material.LADDER);
-        HOLLOW_MATERIALS.add(Material.RAILS);
-        HOLLOW_MATERIALS.add(Material.WALL_SIGN);
-        HOLLOW_MATERIALS.add(Material.LEVER);
-        HOLLOW_MATERIALS.add(Material.STONE_PLATE);
-        HOLLOW_MATERIALS.add(Material.IRON_DOOR_BLOCK);
-        HOLLOW_MATERIALS.add(Material.WOOD_PLATE);
-        HOLLOW_MATERIALS.add(Material.REDSTONE_TORCH_OFF);
-        HOLLOW_MATERIALS.add(Material.REDSTONE_TORCH_ON);
-        HOLLOW_MATERIALS.add(Material.STONE_BUTTON);
-        HOLLOW_MATERIALS.add(Material.SNOW);
-        HOLLOW_MATERIALS.add(Material.SUGAR_CANE_BLOCK);
-        HOLLOW_MATERIALS.add(Material.DIODE_BLOCK_OFF);
-        HOLLOW_MATERIALS.add(Material.DIODE_BLOCK_ON);
-        HOLLOW_MATERIALS.add(Material.PUMPKIN_STEM);
-        HOLLOW_MATERIALS.add(Material.MELON_STEM);
-        HOLLOW_MATERIALS.add(Material.VINE);
-        HOLLOW_MATERIALS.add(Material.FENCE_GATE);
-        HOLLOW_MATERIALS.add(Material.WATER_LILY);
-        HOLLOW_MATERIALS.add(Material.NETHER_WARTS);
-        HOLLOW_MATERIALS.add(Material.CARPET);
+        HOLLOW_MATERIALS.add(BlockTypes.AIR);
+        HOLLOW_MATERIALS.add(BlockTypes.SAPLING);
+        HOLLOW_MATERIALS.add(BlockTypes.GOLDEN_RAIL);
+        HOLLOW_MATERIALS.add(BlockTypes.DETECTOR_RAIL);
+        HOLLOW_MATERIALS.add(BlockTypes.TALLGRASS);
+        HOLLOW_MATERIALS.add(BlockTypes.DEADBUSH);
+        HOLLOW_MATERIALS.add(BlockTypes.YELLOW_FLOWER);
+        HOLLOW_MATERIALS.add(BlockTypes.RED_FLOWER);
+        HOLLOW_MATERIALS.add(BlockTypes.BROWN_MUSHROOM);
+        HOLLOW_MATERIALS.add(BlockTypes.RED_MUSHROOM);
+        HOLLOW_MATERIALS.add(BlockTypes.TORCH);
+        HOLLOW_MATERIALS.add(BlockTypes.REDSTONE_WIRE);
+        //HOLLOW_MATERIALS.add(BlockTypes.S);
+        HOLLOW_MATERIALS.add(BlockTypes.STANDING_SIGN);
+        HOLLOW_MATERIALS.add(BlockTypes.STANDING_BANNER);
+        HOLLOW_MATERIALS.add(BlockTypes.WOODEN_DOOR);
+        HOLLOW_MATERIALS.add(BlockTypes.LADDER);
+        HOLLOW_MATERIALS.add(BlockTypes.RAIL);
+        HOLLOW_MATERIALS.add(BlockTypes.WALL_SIGN);
+        HOLLOW_MATERIALS.add(BlockTypes.WALL_BANNER);
+        HOLLOW_MATERIALS.add(BlockTypes.LEVER);
+        HOLLOW_MATERIALS.add(BlockTypes.STONE_PRESSURE_PLATE);
+        HOLLOW_MATERIALS.add(BlockTypes.IRON_DOOR);
+        HOLLOW_MATERIALS.add(BlockTypes.WOODEN_PRESSURE_PLATE);
+        HOLLOW_MATERIALS.add(BlockTypes.REDSTONE_TORCH);
+        HOLLOW_MATERIALS.add(BlockTypes.UNLIT_REDSTONE_TORCH);
+        HOLLOW_MATERIALS.add(BlockTypes.STONE_BUTTON);
+        HOLLOW_MATERIALS.add(BlockTypes.SNOW);
+        HOLLOW_MATERIALS.add(BlockTypes.REEDS); //TODO
+        HOLLOW_MATERIALS.add(BlockTypes.UNPOWERED_REPEATER);
+        HOLLOW_MATERIALS.add(BlockTypes.POWERED_REPEATER);
+        HOLLOW_MATERIALS.add(BlockTypes.UNPOWERED_COMPARATOR);
+        HOLLOW_MATERIALS.add(BlockTypes.POWERED_COMPARATOR);
+        HOLLOW_MATERIALS.add(BlockTypes.PUMPKIN_STEM);
+        HOLLOW_MATERIALS.add(BlockTypes.MELON_STEM);
+        HOLLOW_MATERIALS.add(BlockTypes.VINE);
+        HOLLOW_MATERIALS.add(BlockTypes.FENCE_GATE);
+        HOLLOW_MATERIALS.add(BlockTypes.WATERLILY);
+        HOLLOW_MATERIALS.add(BlockTypes.NETHER_WART);
+        HOLLOW_MATERIALS.add(BlockTypes.CARPET);
         TRANSPARENT_MATERIALS.addAll(HOLLOW_MATERIALS);
-        TRANSPARENT_MATERIALS.add(Material.WATER);
-        TRANSPARENT_MATERIALS.add(Material.STATIONARY_WATER);
+        TRANSPARENT_MATERIALS.add(BlockTypes.WATER);
+        TRANSPARENT_MATERIALS.add(BlockTypes.FLOWING_WATER);
     }
 
     static {
@@ -110,105 +122,21 @@ public class LocationUtil {
         }
     }
 
-    public static ItemStack convertBlockToItem(final Block block) {
-        final ItemStack is = new ItemStack(block.getType(), 1, (short) 0, block.getData());
-        switch (is.getType()) {
-            case WOODEN_DOOR:
-                is.setType(Material.WOOD_DOOR);
-                is.setDurability((short) 0);
-                break;
-            case IRON_DOOR_BLOCK:
-                is.setType(Material.IRON_DOOR);
-                is.setDurability((short) 0);
-                break;
-            case SIGN_POST:
-            case WALL_SIGN:
-                is.setType(Material.SIGN);
-                is.setDurability((short) 0);
-                break;
-            case CROPS:
-                is.setType(Material.SEEDS);
-                is.setDurability((short) 0);
-                break;
-            case CAKE_BLOCK:
-                is.setType(Material.CAKE);
-                is.setDurability((short) 0);
-                break;
-            case BED_BLOCK:
-                is.setType(Material.BED);
-                is.setDurability((short) 0);
-                break;
-            case REDSTONE_WIRE:
-                is.setType(Material.REDSTONE);
-                is.setDurability((short) 0);
-                break;
-            case REDSTONE_TORCH_OFF:
-            case REDSTONE_TORCH_ON:
-                is.setType(Material.REDSTONE_TORCH_ON);
-                is.setDurability((short) 0);
-                break;
-            case DIODE_BLOCK_OFF:
-            case DIODE_BLOCK_ON:
-                is.setType(Material.DIODE);
-                is.setDurability((short) 0);
-                break;
-            case DOUBLE_STEP:
-                is.setType(Material.STEP);
-                break;
-            case TORCH:
-            case RAILS:
-            case LADDER:
-            case WOOD_STAIRS:
-            case COBBLESTONE_STAIRS:
-            case LEVER:
-            case STONE_BUTTON:
-            case FURNACE:
-            case DISPENSER:
-            case PUMPKIN:
-            case JACK_O_LANTERN:
-            case WOOD_PLATE:
-            case STONE_PLATE:
-            case PISTON_STICKY_BASE:
-            case PISTON_BASE:
-            case IRON_FENCE:
-            case THIN_GLASS:
-            case TRAP_DOOR:
-            case FENCE:
-            case FENCE_GATE:
-            case NETHER_FENCE:
-                is.setDurability((short) 0);
-                break;
-            case FIRE:
-                return null;
-            case PUMPKIN_STEM:
-                is.setType(Material.PUMPKIN_SEEDS);
-                break;
-            case MELON_STEM:
-                is.setType(Material.MELON_SEEDS);
-                break;
-            default:
-                break;
-        }
-        return is;
+    public static Location getTarget(final Living entity) {
+        final Location block = entity.getT(TRANSPARENT_MATERIALS, 300); //TODO get target block
+        return block;
     }
 
-    public static Location getTarget(final LivingEntity entity) {
-        final Block block = entity.getTargetBlock(TRANSPARENT_MATERIALS, 300);
-        if (block == null) {
-            return null;
-        }
-        return block.getLocation();
-    }
-
-    static boolean isBlockAboveAir(final World world, final int x, final int y, final int z) {
-        if (y > world.getMaxHeight()) {
+    static boolean isBlockAboveAir(final Extent extent, final int x, final int y, final int z) {
+        if (y > 256) {
             return true;
         }
-        return HOLLOW_MATERIALS.contains(world.getBlockAt(x, y - 1, z).getType());
+        return HOLLOW_MATERIALS.contains(extent.getBlock(x, y - 1, z).getType());
     }
 
     public static boolean isBlockUnsafeForUser(final Player user, final World world, final int x, final int y, final int z) {
-        if (world.equals(user.getWorld()) && (user.getGameMode() == GameMode.CREATIVE || UC.getPlayer(user).isGod()) && user.getAllowFlight()) {
+        user.getGameModeData();
+        if (world.equals(user.getWorld()) && (user.getGameModeData().getGameMode() == GameModes.CREATIVE || UC.getPlayer(user).isGod()) /* TODO && allow flying*/) {
             return false;
         }
 
@@ -226,32 +154,28 @@ public class LocationUtil {
     }
 
     public static boolean isBlockDamaging(final World world, final int x, final int y, final int z) {
-        final Block below = world.getBlockAt(x, y - 1, z);
-        if (below.getType() == Material.LAVA || below.getType() == Material.STATIONARY_LAVA) {
+        final BlockState below = world.getBlock(x, y - 1, z);
+        if (below.getType() == BlockTypes.LAVA || below.getType() == BlockTypes.FLOWING_LAVA) {
             return true;
         }
-        if (below.getType() == Material.FIRE) {
+        if (below.getType() == BlockTypes.FIRE) {
             return true;
         }
-        if (below.getType() == Material.BED_BLOCK) {
+        if (below.getType() == BlockTypes.BED) {
             return true;
         }
-        return (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y, z).getType())) || (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y + 1, z).getType()));
+        return (!HOLLOW_MATERIALS.contains(world.getBlock(x, y, z).getType())) || (!HOLLOW_MATERIALS.contains(world.getBlock(x, y + 1, z).getType()));
     }
 
     // Not needed if using searchSafeLocation(loc)
     public static Location getRoundedDestination(final Location loc) {
-        final World world = loc.getWorld();
-        int x = loc.getBlockX();
-        int y = (int) Math.round(loc.getY());
-        int z = loc.getBlockZ();
-        return new Location(world, x + 0.5, y, z + 0.5, loc.getYaw(), loc.getPitch());
+        return new Location(loc.getExtent(), new Vector3d(loc.getPosition().getFloorX() + 0.5, loc.getPosition().getFloorY(), loc.getPosition().getFloorZ() + 0.5));
     }
 
     public static Location searchSafeLocation(final Player user, final Location loc) {
-        if (loc.getWorld().equals(user.getWorld()) && (user.getGameMode() == GameMode.CREATIVE || UC.getPlayer(user).isGod()) && user.getAllowFlight()) {
+        if (loc.getExtent().equals(user.getWorld()) && (user.getGameModeData().getGameMode() == GameModes.CREATIVE || UC.getPlayer(user).isGod()) /* TODO && getAllowFlying */) {
             if (shouldFly(loc)) {
-                user.setFlying(true);
+                //TODO setFlying(true);
             }
             return getRoundedDestination(loc);
         }
@@ -259,30 +183,29 @@ public class LocationUtil {
     }
 
     public static Location searchSafeLocation(final Location loc) {
-        if (loc == null || loc.getWorld() == null) {
+        if (loc == null) {
             return null;
         }
-        Location org = loc;
-        final World world = loc.getWorld();
-        int x = loc.getBlockX();
-        int y = (int) Math.round(loc.getY());
-        int z = loc.getBlockZ();
+        final Extent extent = loc.getExtent();
+        int x = loc.getPosition().getFloorX();
+        int y = loc.getPosition().getFloorY();
+        int z = loc.getPosition().getFloorZ();
         final int origX = x;
         final int origY = y;
         final int origZ = z;
-        while (isBlockAboveAir(world, x, y, z)) {
+        while (isBlockAboveAir(extent, x, y, z)) {
             y -= 1;
             if (y < 0) {
                 y = origY;
                 break;
             }
         }
-        if (isBlockUnsafe(world, x, y, z)) {
-            x = Math.round(loc.getX()) == origX ? x - 1 : x + 1;
-            z = Math.round(loc.getZ()) == origZ ? z - 1 : z + 1;
+        if (isBlockUnsafe(extent, x, y, z)) {
+            x = loc.getPosition().getFloorX() == origX ? x - 1 : x + 1;
+            z = loc.getPosition().getFloorZ() == origZ ? z - 1 : z + 1;
         }
         int i = 0;
-        while (isBlockUnsafe(world, x, y, z)) {
+        while (isBlockUnsafe(extent, x, y, z)) {
             i++;
             if (i >= VOLUME.length) {
                 x = origX;
@@ -294,33 +217,32 @@ public class LocationUtil {
             y = origY + VOLUME[i].y;
             z = origZ + VOLUME[i].z;
         }
-        while (isBlockUnsafe(world, x, y, z)) {
+        while (isBlockUnsafe(extent, x, y, z)) {
             y += 1;
-            if (y >= world.getMaxHeight()) {
+            if (y >= 256) {
                 x += 1;
                 break;
             }
         }
-        while (isBlockUnsafe(world, x, y, z)) {
+        while (isBlockUnsafe(extent, x, y, z)) {
             y -= 1;
             if (y <= 1) {
                 x += 1;
-                y = world.getHighestBlockYAt(x, z);
-                if (x - 48 > loc.getBlockX()) {
-                    return org;
+                y = extent.getHighestBlockYAt(x, z); //TODO
+                if (x - 48 > loc.getPosition().getFloorX()) {
+                    return null;
                 }
             }
         }
-        return new Location(world, x + 0.5, y, z + 0.5, loc.getYaw(), loc.getPitch());
+        return new Location(extent, new Vector3d(x + 0.5, y, z + 0.5));
     }
 
     public static boolean shouldFly(Location loc) {
-        final World world = loc.getWorld();
-        final int x = loc.getBlockX();
-        int y = (int) Math.round(loc.getY());
-        final int z = loc.getBlockZ();
+        final int x = loc.getPosition().getFloorX();
+        int y = loc.getPosition().getFloorY();
+        final int z = loc.getPosition().getFloorZ();
         int count = 0;
-        while (LocationUtil.isBlockUnsafe(world, x, y, z) && y > -1) {
+        while (LocationUtil.isBlockUnsafe(loc.getExtent(), x, y, z) && y > -1) {
             y--;
             count++;
             if (count > 2) {
@@ -331,97 +253,92 @@ public class LocationUtil {
         return y < 0;
     }
 
-    public static void teleport(final Player p, Location l, final TeleportCause c, final boolean safe, boolean delay) {
+    public static void teleport(final Player p, Location l, final boolean safe, boolean delay) {
+        p.setLocation(l);
         if (delay && delay2 > 0 && !r.perm(p, "uc.teleport.bypasstimer", false, false)) {
             final Location loc = p.getLocation().getBlock().getLocation();
             l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;
             final Location to = l;
-            Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-                @Override
-                public void run() {
-                    r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
-                }
-            }, 2L);
-            Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+            r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
+            r.getGame().getSyncScheduler().runTaskAfter(r.getUC(), new Runnable() {
 
                 @Override
                 public void run() {
                     if (p.getLocation().getBlock().getLocation().equals(loc)) {
-                        teleport(p, to, c, safe, false);
+                        teleport(p, to, safe, false);
+                        playEffect(p, to);
                         r.sendMes(p, "teleportDelaySucces");
                     } else {
                         r.sendMes(p, "teleportDelayFailedMove");
                     }
                 }
-            }, (20L * delay2));
+            }, delay2 * 20L);
 
-            return;
         }
         if (!safe) {
-            if (p.isInsideVehicle()) {
-                p.leaveVehicle();
+            if (p.getVehicle().isPresent()) {
+                p.setVehicle(null);
             }
-            p.teleport(LocationUtil.getRoundedDestination(l), c);
-            playEffect(p, l);
+            p.setLocation(LocationUtil.getRoundedDestination(l));
             return;
         }
-
-        if (LocationUtil.isBlockUnsafeForUser(p, l.getWorld(), l.getBlockX(), l.getBlockY(), l.getBlockZ())) {
-            if (p.isInsideVehicle()) {
-                p.leaveVehicle();
+        if (LocationUtil.isBlockUnsafeForUser(p, l.getExtent(), l.getPosition().getFloorX(), l.getPosition().getFloorY(), l.getPosition().getFloorZ())) {
+            if (p.getVehicle().isPresent()) {
+                p.setVehicle(null);
             }
-            p.teleport(LocationUtil.searchSafeLocation(p, l), c);
-            playEffect(p, l);
+            p.teleport(LocationUtil.searchSafeLocation(p, l));
         } else {
-            if (p.isInsideVehicle()) {
-                p.leaveVehicle();
+            if (p.getVehicle().isPresent()) {
+                p.setVehicle(null);
             }
-            p.teleport(LocationUtil.getRoundedDestination(l), c);
-            playEffect(p, l);
+            p.teleport(LocationUtil.getRoundedDestination(l));
         }
     }
 
-    public static void teleport(Player p, Entity e, final TeleportCause c, final boolean safe, boolean delay) {
-        teleport(p, e.getLocation(), c, safe, delay);
+    public static void teleport(Player p, Entity e, final boolean safe, boolean delay) {
+        teleport(p, e.getLocation(), safe, delay);
     }
 
-    public static void teleportUnsafe(Player p, Location loc, TeleportCause c, boolean delay) {
-        teleport(p, loc, c, false, delay);
+    public static void teleportUnsafe(Player p, Location loc, boolean delay) {
+        teleport(p, loc, false, delay);
     }
 
     /**
      * Creates a teleport effect
      *
-     * @param p   The player who is teleported
+     * @param p The player who is teleported
      * @param loc The location where the effect is shown
      */
     public static void playEffect(Player p, Location loc) {
         if (UC.getPlayer(p).isVanish()) {
             return;
         }
-        for (Player pl : Bukkit.getOnlinePlayers()) {
-            if (p != null && !pl.canSee(p)) {
+        for (Player pl : r.getOnlinePlayers()) {
+            if (p != null && p.isInvisibleTo(pl)) {
                 continue;
             }
-            pl.playEffect(loc, Effect.ENDER_SIGNAL, 10);
-            pl.playSound(loc, Sound.ENDERMAN_TELEPORT, 1, 1);
+            pl.spawnParticles(r.getGame().getRegistry().getParticleEffectBuilder(ParticleTypes.MOB_APPEARANCE).build(), loc.getPosition());
+            pl.playSound(SoundTypes.ENDERMAN_TELEPORT, loc.getPosition(), 1, 1);
         }
     }
 
-    public static Location convertStringToLocation(String s) {
+    public static RLocation convertStringToLocation(String s) {
         if (s == null) {
+            return null;
+        }
+        if (!r.getGame().getServer().isPresent()) {
             return null;
         }
         if (s.contains(",")) {
             String[] split = s.split(",");
-            return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float.parseFloat(split[4]));
+            return new RLocation(r.getGame().getServer().get().getWorld(split[0]).get(), new Vector3d(Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3])), new Vector3f(Float.parseFloat(split[4]), Float.parseFloat(split[5]), Float.parseFloat(split[6])));
         }
         String[] split = s.split("\\|");
-        return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float.parseFloat(split[4]));
+        return new RLocation(r.getGame().getServer().get().getWorld(split[0]).get(), new Vector3d(Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3])), new Vector3f(Float.parseFloat(split[4]), Float.parseFloat(split[5]), Float.parseFloat(split[6])));
     }
 
-    public static String convertLocationToString(Location loc) {
-        return loc.getWorld().getName() + "|" + loc.getX() + "|" + loc.getY() + "|" + loc.getZ() + "|" + loc.getPitch() + "|" + loc.getYaw();
+    public static String convertLocationToString(RLocation loc) {
+        return ((World) loc.getExtent()).getName() + "|" + loc.getPosition().getX() + "|" + loc.getPosition().getY() + "|" + loc.getRotation().getX() + "|" + loc.getRotation().getY() + "|" + loc.getRotation().getZ();
     }
 
     public static double getCoordinate(String input, double current) {
@@ -450,13 +367,13 @@ public class LocationUtil {
         return result;
     }
 
-    public static Location getAbsoluteTarget(LivingEntity entity) {
-        Block block = entity.getTargetBlock((Set<Material>) null, 300);
+    public static Location getAbsoluteTarget(Living entity) {
+        //TODO target block
+        Block block = entity.getTargetBlock((Set<BlockTypes>) null, 300);
         if (block == null) {
             return null;
         }
         return block.getLocation();
-
     }
 
     public static class Vector3D {

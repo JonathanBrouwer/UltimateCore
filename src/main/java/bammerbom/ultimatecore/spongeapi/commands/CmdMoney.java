@@ -186,6 +186,9 @@ public class CmdMoney implements UltimateCommand {
                 } catch (IllegalArgumentException|NullPointerException ex) {
                     player = map.keySet().toArray(new String[map.size()])[cur];
                 }
+                if (player == null) {
+                    player = map.keySet().toArray(new String[map.size()])[cur];
+                }
                 r.sendMes(cs, "moneyTopEntry", "%Rank", cur + 1, "%Player", player, "%Balance", r.getVault().getEconomy().format(new ArrayList<>(map.values()).get(cur)));
                 cur++;
             }
