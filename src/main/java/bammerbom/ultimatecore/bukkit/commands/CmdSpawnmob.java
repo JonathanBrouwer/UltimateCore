@@ -77,8 +77,9 @@ public class CmdSpawnmob implements UltimateCommand {
             if (str.isEmpty() || r.isInt(str)) {
                 continue;
             }
-            if (!MobData.setData(en, str, p))
+            if (!MobData.setData(en, str, p)) {
                 r.sendMes(p, "spawnmobDataNotFound", "%Data", str);
+            }
         }
     }
 
