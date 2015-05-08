@@ -595,7 +595,6 @@ public class CmdVillager implements UltimateCommand {
         r.debug("Save page " + page);
         List<VillagerUtil.VillagerTrade> trades = VillagerUtil.listTrades(currentVillager.get(p.getUniqueId()));
         r.debug("[1] " + trades);
-        r.debug("[1] " + trades.get(0).getItem1().getAmount());
         int cur = ((page - 1) * 9);
         if (cur < 0) {
             cur = 0;
@@ -611,7 +610,6 @@ public class CmdVillager implements UltimateCommand {
         } catch (Exception ex) {
         }
         r.debug("[2] " + trades);
-        r.debug("[2] " + trades.get(0).getItem1().getAmount());
 
         for (int i : Arrays.asList(9, 18, 27, 36, 45, 14, 23, 32, 41)) {
             ItemStack lapis = inv.getItem(i + 3);
@@ -644,7 +642,6 @@ public class CmdVillager implements UltimateCommand {
             }
         }
         r.debug("[3] " + trades);
-        r.debug("[3] " + trades.get(0).getItem1().getAmount());
         new ReflectionUtil.ReflectionObject(currentVillager.get(p.getUniqueId())).invoke("getHandle").set("tradingPlayer", null);
         VillagerUtil.setTrades(currentVillager.get(p.getUniqueId()), trades);
     }
