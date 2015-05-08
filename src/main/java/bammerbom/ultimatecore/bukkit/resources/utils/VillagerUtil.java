@@ -44,7 +44,7 @@ public class VillagerUtil {
         }*/
         try {
             Object entityVillager = ReflectionUtil.execute("getHandle()", villager).fetch();
-            Field recipes = entityVillager.getClass().getDeclaredField("br");
+            Field recipes = entityVillager.getClass().getDeclaredField(ReflectionUtil.NMS_PATH.contains("v1_8_R1") ? "bp" : "br");
             recipes.setAccessible(true);
             ReflectionUtil.ReflectionObject list = ReflectionUtil.ReflectionObject.fromNMS("MerchantRecipeList");
             recipes.set(entityVillager, list.fetch());
@@ -78,7 +78,7 @@ public class VillagerUtil {
         }*/
         try {
             Object entityVillager = ReflectionUtil.execute("getHandle()", villager).fetch();
-            Field recipes = entityVillager.getClass().getDeclaredField("br");
+            Field recipes = entityVillager.getClass().getDeclaredField(ReflectionUtil.NMS_PATH.contains("v1_8_R1") ? "bp" : "br");
             recipes.setAccessible(true);
             List list = (List) recipes.get(entityVillager);
             if (villagerTrade.hasItem2()) {
@@ -107,7 +107,7 @@ public class VillagerUtil {
         try {
             Object entityVillager = ReflectionUtil.execute("getHandle()", villager).fetch();
             List<VillagerTrade> rtrn = new ArrayList<>();
-            Field recipes = entityVillager.getClass().getDeclaredField("br");
+            Field recipes = entityVillager.getClass().getDeclaredField(ReflectionUtil.NMS_PATH.contains("v1_8_R1") ? "bp" : "br");
             recipes.setAccessible(true);
             List list = (List) recipes.get(entityVillager);
             for (Object recipe : list) {
