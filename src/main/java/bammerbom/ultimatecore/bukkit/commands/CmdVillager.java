@@ -372,6 +372,9 @@ public class CmdVillager implements UltimateCommand {
             @Override
             public void run() {
                 Boolean all = true;
+                if (inv == null) {
+                    return;
+                }
                 for (int i : Arrays.asList(9, 18, 27, 36, 45, 14, 23, 32, 41)) {
                     if (inv.getItem(i) != null && inv.getItem(i + 2) != null) {
                         inv.setItem(i + 3, barrier);
