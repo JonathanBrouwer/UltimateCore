@@ -152,7 +152,6 @@ public class ItemUtil {
 }
 
 class EnchantGlow extends EnchantmentWrapper {
-
     private static Enchantment glow;
 
     public EnchantGlow(int id) {
@@ -162,6 +161,10 @@ class EnchantGlow extends EnchantmentWrapper {
     public static Enchantment getGlow() {
         if (glow != null) {
             return glow;
+        }
+
+        if (Enchantment.getByName("Glow") != null) {
+            return Enchantment.getByName("Glow");
         }
 
         try {
@@ -177,10 +180,14 @@ class EnchantGlow extends EnchantmentWrapper {
         return glow;
     }
 
-    public static void addGlow(ItemStack item) {
+    public static ItemStack addGlow(ItemStack item) {
         Enchantment glow = getGlow();
 
-        item.addEnchantment(glow, 1);
+        if (!item.containsEnchantment(glow)) {
+            item.addUnsafeEnchantment(glow, 1);
+        }
+
+        return item;
     }
 
     @Override
@@ -212,5 +219,4 @@ class EnchantGlow extends EnchantmentWrapper {
     public int getStartLevel() {
         return 1;
     }
-
 }

@@ -29,7 +29,6 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +37,7 @@ import org.bukkit.inventory.PlayerInventory;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class InventoryUtil implements Listener {
+public class InventoryUtil {
 
     public static void addItem(Inventory inv, ItemStack item) {
         Integer amount = item.getAmount();
@@ -201,7 +200,7 @@ public class InventoryUtil implements Listener {
             if (is != null) {
                 String serializedItemStack = "";
 
-                String isType = String.valueOf(is.getType().getId());
+                String isType = String.valueOf(ItemUtil.getID(is.getType()));
                 serializedItemStack += "t@" + isType;
 
                 if (is.getDurability() != 0) {
@@ -252,7 +251,7 @@ public class InventoryUtil implements Listener {
             for (String itemInfo : serializedItemStack) {
                 String[] itemAttribute = itemInfo.split("@");
                 if (itemAttribute[0].equals("t")) {
-                    is = new ItemStack(Material.getMaterial(Integer.valueOf(itemAttribute[1])));
+                    is = new ItemStack(r.isInt(itemAttribute[1]) ? Material.getMaterial(Integer.parseInt(itemAttribute[1])) : Material.getMaterial(itemAttribute[1]));
                     createdItemStack = true;
                 } else if (itemAttribute[0].equals("d") && createdItemStack) {
                     is.setDurability(Short.valueOf(itemAttribute[1]));
