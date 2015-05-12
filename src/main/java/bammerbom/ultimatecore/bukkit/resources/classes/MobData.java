@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit.resources.classes;
 
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.databases.EffectDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -223,6 +224,13 @@ public class MobData {
                 ((LivingEntity) en).setHealth(amount);
                 return true;
             }
+        } else if (data.contains(":") && EffectDatabase.getByName(data.split(":")[0]) != null) {
+            if (en instanceof LivingEntity) {
+                if (r.isInt(data.split(":")[1])) {
+                    Integer i = Integer.parseInt(data.split(":")[1]);
+                    ((LivingEntity) en).addPotionEffect(EffectDatabase.getByName(data.split(":")[0]).createEffect(999999, i));
+                }
+            }
         } else if (data.startsWith("name:")) {
             en.setCustomNameVisible(true);
             en.setCustomName(ChatColor.translateAlternateColorCodes('&', data.split(":")[1]).replace("_", " "));
@@ -243,8 +251,8 @@ public class MobData {
                     ex.printStackTrace();
                 }
             }
-        }else if(data.equalsIgnoreCase("invisible")){
-            if(en instanceof ArmorStand){
+        } else if (data.equalsIgnoreCase("invisible")) {
+            if (en instanceof ArmorStand) {
                 ((ArmorStand) en).setVisible(false);
             }
         } else if (ItemUtil.searchItem(data) != null) {
@@ -291,7 +299,7 @@ public class MobData {
                     return true;
                 } catch (NumberFormatException ex) {
                 }
-            } else if (data.startsWith("jump:") || data.startsWith("jumpdataength:")) {
+            } else if (data.startsWith("jump:") || data.startsWith("jumpstrength:")) {
                 try {
                     horse.setJumpStrength(Double.parseDouble(data.split(":")[1]));
                     return true;
