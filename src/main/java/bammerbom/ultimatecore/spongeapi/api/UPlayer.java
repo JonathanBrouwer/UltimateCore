@@ -34,8 +34,8 @@ import org.spongepowered.api.entity.player.User;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.util.ban.BanType;
-import org.spongepowered.api.world.Location;
 
 import java.io.File;
 import java.util.*;
@@ -46,7 +46,7 @@ public class UPlayer {
     static boolean tpspawn = r.getCnfg().getBoolean("Command.Jail.spawn");
     String name = null;
     UUID uuid = null;
-    Location lastLocation = null;
+    RLocation lastLocation = null;
     Boolean banned = null;
     Long bantime = null;
     String banreason = null;
@@ -66,7 +66,7 @@ public class UPlayer {
     Boolean spy = null;
     Boolean mute = null;
     Long mutetime = null;
-    String nickname = null;
+    Text nickname = null;
     HashMap<ItemType, List<String>> pts = null;
     Boolean inRecipeView = false;
     Boolean vanish = null;
@@ -205,9 +205,9 @@ public class UPlayer {
         setLastLocation(getOnlinePlayer().getLocation());
     }
 
-    public Location getLastLocation() {
+    public RLocation getLastLocation() {
         if (lastLocation == null) {
-            Location loc = LocationUtil.convertStringToLocation(getPlayerConfig().getString("lastlocation"));
+            RLocation loc = LocationUtil.convertStringToLocation(getPlayerConfig().getString("lastlocation"));
             lastLocation = loc;
             save();
             return loc;
@@ -215,7 +215,7 @@ public class UPlayer {
         return lastLocation;
     }
 
-    public void setLastLocation(Location loc) {
+    public void setLastLocation(RLocation loc) {
         lastLocation = loc;
         JsonConfig conf = getPlayerConfig();
         conf.set("lastlocation", loc == null ? null : LocationUtil.convertLocationToString(loc));
@@ -754,7 +754,7 @@ public class UPlayer {
         if (!getPlayerConfig().contains("reply")) {
             return null;
         }
-        return  r.searchPlayer(UUID.fromString(getPlayerConfig().getString("reply")));
+        return r.searchPlayer(UUID.fromString(getPlayerConfig().getString("reply")));
     }
 
     public void setReply(Player pl) {
@@ -852,14 +852,14 @@ public class UPlayer {
             if (getOnlinePlayer().getDisplayNameData().getDisplayName() != null) {
                 return getOnlinePlayer().getDisplayNameData().getDisplayName();
             }
-            if (getOnlinePlayer().getDisplayName() != null) {
-                return getOnlinePlayer().getDisplayName();
+            if (getOnlinePlayer().getDisplayNameData().getDisplayName() != null) {
+                return getOnlinePlayer().getDisplayNameData().getDisplayName();
             }
         }
-        return getPlayer().getName();
+        return Texts.of(getPlayer().getName());
     }
 
-    public String getNick() {
+    public Text getNick() {
         if (nickname != null) {
             return nickname;
         }
@@ -867,7 +867,7 @@ public class UPlayer {
         if (data.get("nick") == null) {
             return null;
         }
-        String nick = ChatColor.translateAlternateColorCodes('&', data.getString("nick"));
+        String nick = r.translateAlternateColorCodes('&', data.getString("nick"));
         if (getPlayer().isOnline()) {
             getPlayer().getPlayer().setDisplayName(nick.replace("&y", ""));
         }

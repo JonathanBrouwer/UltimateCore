@@ -68,6 +68,9 @@ public class CmdSpawn implements UltimateCommand {
             }
             r.sendMes(cs, "spawnMessage");
         } else {
+            if (!r.perm(cs, "uc.spawn.others", false, true)) {
+                return;
+            }
             Player t = r.searchPlayer(args[0]);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);

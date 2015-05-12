@@ -53,12 +53,14 @@ public class CmdGamemode implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.gamemode", false, true)) {
-            return;
-        }
         //Survival
         if (label.equalsIgnoreCase("s") || label.equalsIgnoreCase("survival")) {
+
             if (!r.checkArgs(args, 0)) {
+                if (!r.perm(cs, "uc.gamemode.survival", false, false) && !r.perm(cs, "uc.gamemode", false, false)) {
+                    r.sendMes(cs, "noPermissions");
+                    return;
+                }
                 if (!r.isPlayer(cs)) {
                     return;
                 }
@@ -66,7 +68,8 @@ public class CmdGamemode implements UltimateCommand {
                 p.setGameMode(GameMode.SURVIVAL);
                 r.sendMes(cs, "gamemodeSelf", "%Gamemode", r.mes("gamemodeSurvival"));
             } else {
-                if (!r.perm(cs, "uc.gamemode.others", false, true)) {
+                if (!r.perm(cs, "uc.gamemode.others.survival", false, false) && !r.perm(cs, "uc.gamemode.others", false, false)) {
+                    r.sendMes(cs, "noPermissions");
                     return;
                 }
                 Player t = r.searchPlayer(args[0]);
@@ -82,7 +85,12 @@ public class CmdGamemode implements UltimateCommand {
         }
         //Creative
         if (label.equalsIgnoreCase("c") || label.equalsIgnoreCase("creative")) {
+
             if (!r.checkArgs(args, 0)) {
+                if (!r.perm(cs, "uc.gamemode.creative", false, false) && !r.perm(cs, "uc.gamemode", false, false)) {
+                    r.sendMes(cs, "noPermissions");
+                    return;
+                }
                 if (!r.isPlayer(cs)) {
                     return;
                 }
@@ -90,7 +98,8 @@ public class CmdGamemode implements UltimateCommand {
                 p.setGameMode(GameMode.CREATIVE);
                 r.sendMes(cs, "gamemodeSelf", "%Gamemode", r.mes("gamemodeCreative"));
             } else {
-                if (!r.perm(cs, "uc.gamemode.others", false, true)) {
+                if (!r.perm(cs, "uc.gamemode.others.creative", false, false) && !r.perm(cs, "uc.gamemode.others", false, false)) {
+                    r.sendMes(cs, "noPermissions");
                     return;
                 }
                 Player t = r.searchPlayer(args[0]);
@@ -106,7 +115,12 @@ public class CmdGamemode implements UltimateCommand {
         }
         //Adventure
         if (label.equalsIgnoreCase("a") || label.equalsIgnoreCase("adventure")) {
+
             if (!r.checkArgs(args, 0)) {
+                if (!r.perm(cs, "uc.gamemode.adventure", false, false) && !r.perm(cs, "uc.gamemode", false, false)) {
+                    r.sendMes(cs, "noPermissions");
+                    return;
+                }
                 if (!r.isPlayer(cs)) {
                     return;
                 }
@@ -114,7 +128,8 @@ public class CmdGamemode implements UltimateCommand {
                 p.setGameMode(GameMode.ADVENTURE);
                 r.sendMes(cs, "gamemodeSelf", "%Gamemode", r.mes("gamemodeAdventure"));
             } else {
-                if (!r.perm(cs, "uc.gamemode.others", false, true)) {
+                if (!r.perm(cs, "uc.gamemode.others.adventure", false, false) && !r.perm(cs, "uc.gamemode.others", false, false)) {
+                    r.sendMes(cs, "noPermissions");
                     return;
                 }
                 Player t = r.searchPlayer(args[0]);
@@ -129,7 +144,12 @@ public class CmdGamemode implements UltimateCommand {
             return;
         }
         if (label.equalsIgnoreCase("spec") || label.equalsIgnoreCase("spectator")) {
+
             if (!r.checkArgs(args, 0)) {
+                if (!r.perm(cs, "uc.gamemode.spectator", false, false) && !r.perm(cs, "uc.gamemode", false, false)) {
+                    r.sendMes(cs, "noPermissions");
+                    return;
+                }
                 if (!r.isPlayer(cs)) {
                     return;
                 }
@@ -137,7 +157,8 @@ public class CmdGamemode implements UltimateCommand {
                 p.setGameMode(GameMode.SPECTATOR);
                 r.sendMes(cs, "gamemodeSelf", "%Gamemode", r.mes("gamemodeSpectator"));
             } else {
-                if (!r.perm(cs, "uc.gamemode.others", false, true)) {
+                if (!r.perm(cs, "uc.gamemode.others.spectator", false, false) && !r.perm(cs, "uc.gamemode.others", false, false)) {
+                    r.sendMes(cs, "noPermissions");
                     return;
                 }
                 Player t = r.searchPlayer(args[0]);
@@ -188,10 +209,14 @@ public class CmdGamemode implements UltimateCommand {
                     r.sendMes(cs, "gamemodeUsage");
                     return;
             }
+
             if (r.checkArgs(args, 1)) {
-                if (!r.perm(cs, "uc.gamemode.others", false, true)) {
+                //Permissions
+                if (!r.perm(cs, "uc.gamemode.others." + mode.toString().toLowerCase(), false, false) && !r.perm(cs, "uc.gamemode.others", false, false)) {
+                    r.sendMes(cs, "noPermissions");
                     return;
                 }
+                //
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
@@ -204,6 +229,12 @@ public class CmdGamemode implements UltimateCommand {
                 if (!r.isPlayer(cs)) {
                     return;
                 }
+                //Permissions
+                if (!r.perm(cs, "uc.gamemode." + mode.toString().toLowerCase(), false, false) && !r.perm(cs, "uc.gamemode", false, false)) {
+                    r.sendMes(cs, "noPermissions");
+                    return;
+                }
+                //
                 Player p = (Player) cs;
                 p.setGameMode(mode);
                 r.sendMes(cs, "gamemodeSelf", "%Gamemode", r.mes("gamemode" + StringUtil.firstUpperCase(mode.toString().toLowerCase())));
