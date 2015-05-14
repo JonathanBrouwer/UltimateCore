@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
+import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.UltimateCore;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater;
 import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateType;

@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
+import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.r;
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
+import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.commands.ServerCheck.MinecraftServer;
 import bammerbom.ultimatecore.bukkit.commands.ServerCheck.Status;
 import bammerbom.ultimatecore.bukkit.r;

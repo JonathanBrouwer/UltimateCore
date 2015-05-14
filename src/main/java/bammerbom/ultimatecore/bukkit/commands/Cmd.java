@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.commands;
 
+import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
