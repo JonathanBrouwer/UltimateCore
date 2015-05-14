@@ -41,7 +41,7 @@ public class AutosaveListener {
                 }
                 for (World w : r.getGame().getServer().getWorlds()) {
                     try {
-                        r.getGame().getServer().saveWorldProperties(w.getProperties())
+                        r.getGame().getServer().saveWorldProperties(w.getProperties());
                     } catch (Exception ex) {
                     }
                 }

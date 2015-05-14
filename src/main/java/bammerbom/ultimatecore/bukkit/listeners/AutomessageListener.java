@@ -59,6 +59,7 @@ public class AutomessageListener implements Listener {
         if (r.getCnfg().getBoolean("Messages.Enabledchat") == false && r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") == false && r.getCnfg().getBoolean("Messages.Enabledactionbar") == false) {
             return;
         }
+        Bukkit.getPluginManager().registerEvents(new AutomessageListener(), r.getUC());
         ArrayList<String> messgs = messages;
         Integer length = messgs.size();
         if (length != 0) {
@@ -93,7 +94,7 @@ public class AutomessageListener implements Listener {
                         }
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
-                        TitleUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " " + ""));
+                        TitleUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledchat") == true) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', mess));
@@ -115,10 +116,10 @@ public class AutomessageListener implements Listener {
                     return;
                 }
                 if (r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
-                    BossbarUtil.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage));
+                    BossbarUtil.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
                 }
                 if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
-                    TitleUtil.sendActionBar(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage));
+                    TitleUtil.sendActionBar(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
                 }
             }
         }, 100L);
