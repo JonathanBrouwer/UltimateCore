@@ -23,15 +23,9 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
-import bammerbom.ultimatecore.spongeapi.UltimateCommands;
+import bammerbom.ultimatecore.spongeapi.UltimateCommandExecutor;
 import bammerbom.ultimatecore.spongeapi.r;
-import com.google.common.base.Optional;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.command.CommandCallable;
-import org.spongepowered.api.util.command.CommandException;
-import org.spongepowered.api.util.command.CommandResult;
+import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.util.command.CommandSource;
 
 import java.io.BufferedReader;
@@ -45,30 +39,34 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdAccountstatus implements CommandCallable {
+public class CmdAccountstatus implements UltimateCommandExecutor {
 
+    @Override
     public String getName() {
         return "accountstatus";
     }
 
+    @Override
     public String getPermission() {
         return "uc.accountstatus";
     }
 
     @Override
-    public Text getUsage(CommandSource source) {
-        return Texts.of("/accountstatus <User>");
+    public String getUsage() {
+        return "/accountstatus <User>";
     }
 
     @Override
-    public Optional<Text> getShortDescription(CommandSource source) {
-        return Optional.<Text>of(Texts.of(TextColors.GREEN + "Test"));
+    public String getDescription() {
+        return "Checks if an account is premium or not.";
     }
 
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("acstatus");
     }
 
+    @Override
     public void run(final CommandSource cs, String label, final String[] args) {
         if (!r.perm(cs, "uc.accountstatus", false, true)) {
             return;
@@ -99,7 +97,7 @@ public class CmdAccountstatus implements CommandCallable {
                     r.sendMes(cs, "accountstatusFailedConnect");
                     return;
                 }
-                String status = premium ? r.mes("accountstatusPremium") : r.mes("accountstatusNotPremium");
+                String status = premium ? r.mes("accountstatusPremium").toString() : r.mes("accountstatusNotPremium").toString();
                 r.sendMes(cs, "accountstatusMessage", "%Player", args[0], "%Status", status);
             }
         });
@@ -107,32 +105,16 @@ public class CmdAccountstatus implements CommandCallable {
         t.start();
     }
 
-    public List<String> onTabComplete(CommandSource cs, String[] args, String curs, Integer curn) {
-        return null;
-    }
-
-    //Ignore
     @Override
-    public Optional<CommandResult> process(CommandSource source, String arguments) throws CommandException {
-        run(source, "", UltimateCommands.convertsArgs(arguments));
-        return Optional.absent();
-    }
-
-    @Override
-    public List<String> getSuggestions(CommandSource cs, String arguments) throws CommandException {
-        String[] args = UltimateCommands.convertsArgs(arguments);
-        List<String> tabs = onTabComplete(cs, args, args[args.length - 1], args.length - 1); //TODO
-        return tabs == null ? new ArrayList<String>() : tabs;
-    }
-
-    @Override
-    public boolean testPermission(CommandSource source) {
-        return source.hasPermission(getPermission());
-    }
-
-    @Override
-    public Optional<Text> getHelp(CommandSource source) {
-        return getShortDescription(source);
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
+        List<String> rtrn = null;
+        if (rtrn == null) {
+            rtrn = new ArrayList<>();
+            for (Player p : r.getOnlinePlayers()) {
+                rtrn.add(p.getName());
+            }
+        }
+        return rtrn;
     }
 
 }

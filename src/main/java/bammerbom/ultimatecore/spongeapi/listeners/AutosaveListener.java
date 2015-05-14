@@ -24,8 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
+import org.spongepowered.api.world.World;
 
 public class AutosaveListener {
 
@@ -33,25 +32,25 @@ public class AutosaveListener {
         if (r.getCnfg().getBoolean("Autosave.Enabled") == false) {
             return;
         }
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+        r.getGame().getSyncScheduler().runRepeatingTask(r.getUC(), new Runnable() {
 
             @Override
             public void run() {
                 if (r.getCnfg().getBoolean("Autosave.Message") == true) {
-                    Bukkit.broadcastMessage(r.mes("autosaveStart"));
+                    r.getGame().getServer().broadcastMessage(r.mes("autosaveStart"));
                 }
-                for (World w : Bukkit.getWorlds()) {
+                for (World w : r.getGame().getServer().getWorlds()) {
                     try {
-                        w.save();
+                        r.getGame().getServer().saveWorldProperties(w.getProperties())
                     } catch (Exception ex) {
                     }
                 }
                 if (r.getCnfg().getBoolean("Autosave.Message") == true) {
-                    Bukkit.broadcastMessage(r.mes("autosaveDone"));
+                    r.getGame().getServer().broadcastMessage(r.mes("autosaveDone"));
                 }
 
             }
 
-        }, r.getCnfg().getInt("Autosave.Time") * 20, r.getCnfg().getInt("Autosave.Time") * 20);
+        }, r.getCnfg().getInt("Autosave.Time") * 20);
     }
 }

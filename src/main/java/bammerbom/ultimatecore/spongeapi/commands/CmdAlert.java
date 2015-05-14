@@ -23,17 +23,16 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
+import bammerbom.ultimatecore.spongeapi.UltimateCommandExecutor;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.util.command.CommandSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdAlert implements UltimateCommand {
+public class CmdAlert implements UltimateCommandExecutor {
 
     String format = r.getCnfg().getString("Chat.AlertFormat");
 
@@ -48,12 +47,22 @@ public class CmdAlert implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Message>";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Sends everyone on the server an alert message.";
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("");
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, final String[] args) {
         if (!r.perm(cs, "uc.alert", false, true)) {
             return;
         }
@@ -63,11 +72,12 @@ public class CmdAlert implements UltimateCommand {
         }
         String message = r.getFinalArg(args, 0);
         message = format.replace("%Message", message);
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
+        r.getGame().getServer().broadcastMessage(Texts.of(r.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n")));
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
         return new ArrayList<>();
     }
+
 }

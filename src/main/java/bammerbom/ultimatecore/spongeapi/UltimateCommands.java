@@ -23,24 +23,20 @@
  */
 package bammerbom.ultimatecore.spongeapi;
 
-import bammerbom.ultimatecore.spongeapi.commands.*;
-import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.*;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.plugin.Plugin;
+import bammerbom.ultimatecore.spongeapi.commands.CmdAccountstatus;
+import bammerbom.ultimatecore.spongeapi.commands.CmdAfk;
+import bammerbom.ultimatecore.spongeapi.commands.CmdAlert;
+import bammerbom.ultimatecore.spongeapi.commands.CmdAnswer;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.util.command.args.CommandContext;
+import org.spongepowered.api.util.command.spec.CommandSpec;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UltimateCommands implements TabCompleter {
+public class UltimateCommands {
 
-    public static List<UltimateCommand> cmds = new ArrayList<>();
+    public static List<UltimateCommandExecutor> cmds = new ArrayList<>();
     public static UltimateCommands ucmds;
 
     public static void load() {
@@ -181,170 +177,27 @@ public class UltimateCommands implements TabCompleter {
         //
         ucmds = new UltimateCommands();
         //
-        for (UltimateCommand cmd : cmds) {
-            if (Bukkit.getPluginCommand("ultimatecore:" + cmd.getName()) == null) {
+        for (UltimateCommandExecutor cmd : cmds) {
+            if (!r.getGame().getCommandDispatcher().get("ultimatecore:" + cmd.getName()).isPresent()) {
                 r.log("Failed to load command: " + cmd.getName());
                 continue;
             }
-            Bukkit.getPluginCommand("ultimatecore:" + cmd.getName()).setTabCompleter(ucmds);
+
+            List<String> aliases = new ArrayList<>();
+            aliases.add(cmd.getName());
+            aliases.addAll(cmd.getAliases());
+
+            for (String label : aliases) {
+                r.getGame().getCommandDispatcher().register(r.getUC(), CommandSpec.builder().setDescription(Texts.of(cmd.getDescription())).setExecutor(new UltimateCommandExecutor.DefaultExecutor(cmd, label)).setArguments(new UltimateCommandElement(null, cmd, label)).build(), label);
+            }
+
         }
     }
 
-    public static void onCmd(final CommandSender sender, Command cmd, String label, final String[] args) {
-        if (Overrider.checkOverridden(sender, cmd, label, args)) {
-            return;
-        }
-        if (label.startsWith("ultimatecore:")) {
-            label = label.replaceFirst("ultimatecore:", "");
-        }
-        for (UltimateCommand cmdr : cmds) {
-            if (label.equals(cmdr.getName()) || cmdr.getAliases().contains(label)) {
-                cmdr.run(sender, label, args);
-                break;
-            }
-        }
+    public static String[] convertsArgs(CommandContext args) {
+        return (String[]) args.getAll("string").toArray();
     }
 
-    public static String[] convertsArgs(String arg) {
-        if (!arg.contains(" ")) {
-            String[] args = {arg};
-            return args;
-        }
-        return arg.split(" ");
-    }
 
-    @Override
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        if (Overrider.checkOverridden(sender, cmd, label, args)) {
-            return null;
-        }
-        List<String> rtrn = null;
-        if (label.startsWith("ultimatecore:")) {
-            label = label.replaceFirst("ultimatecore:", "");
-        }
-        for (UltimateCommand cmdr : cmds) {
-            if (cmdr.getName().equals(label) || cmdr.getAliases().contains(label)) {
-                try {
-                    rtrn = cmdr.onTabComplete(sender, cmd, label, args, args[args.length - 1], args.length - 1);
-                } catch (Exception ex) {
-                    ErrorLogger.log(ex, "Failed tabcompleting for " + label);
-                }
-                break;
-            }
-        }
-        if (rtrn == null) {
-            rtrn = new ArrayList<>();
-            for (Player p : r.getOnlinePlayers()) {
-                rtrn.add(p.getName());
-            }
-        }
-        ArrayList<String> rtrn2 = new ArrayList<>();
-        rtrn2.addAll(rtrn);
-        rtrn = rtrn2;
-        if (!StringUtil.nullOrEmpty(args[args.length - 1])) {
-            List<String> remv = new ArrayList<>();
-            for (String s : rtrn) {
-                if (!StringUtils.startsWithIgnoreCase(s, args[args.length - 1])) {
-                    remv.add(s);
-                }
-            }
-            rtrn.removeAll(remv);
-        }
-        return rtrn;
-    }
-
-    static class Overrider {
-
-        private static final transient Map<PluginCommand, PluginCommand> overriddenList = new HashMap<>();
-
-        public static void fixCommands() {
-            for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
-                if (pl.isEnabled() && !pl.equals(r.getUC())) {
-                    addPlugin(pl);
-                }
-            }
-        }
-
-        public static void addPlugin(Plugin pl) {
-            if (pl.getName().contains("Essentials")) {
-                return;
-            }
-            List<Command> commands = PluginCommandYamlParser.parse(pl);
-            for (Command command : commands) {
-                PluginCommand pc = (PluginCommand) command;
-                List<String> labels = new ArrayList<>(pc.getAliases());
-                labels.add(pc.getName());
-                for (String lab : labels) {
-                    PluginCommand uc;
-                    uc = Bukkit.getServer().getPluginCommand("ultimatecore:" + lab);
-                    /*if(uc == null){
-                     uc = plugin.getServer().getPluginCommand(pc.getName().toLowerCase(Locale.ENGLISH));
-                     }*/
-                    if ((uc != null) && uc.getPlugin().equals(r.getUC())) {
-                        if (lab.equalsIgnoreCase(uc.getLabel())) {
-                            overriddenList.put(uc, pc);
-                            r.debug(ChatColor.WHITE + "Command overridden: " + lab + " (" + pc.getPlugin() + ")");
-                        }
-                    }
-                }
-            }
-        }
-
-        public static void removePlugin(Plugin pl) {
-            List<Command> commands = PluginCommandYamlParser.parse(pl);
-            for (Command command : commands) {
-                PluginCommand pc = (PluginCommand) command;
-                List<String> labels = new ArrayList<>(pc.getAliases());
-                labels.add(pc.getName());
-                PluginCommand uc;
-                uc = Bukkit.getServer().getPluginCommand("ultimatecore:" + pc.getName());
-                if (uc == null) {
-                    uc = Bukkit.getServer().getPluginCommand(pc.getName().toLowerCase(Locale.ENGLISH));
-                }
-                if ((uc != null) && uc.getPlugin().equals(r.getUC())) {
-                    for (String label : labels) {
-                        if (label.equalsIgnoreCase(uc.getLabel())) {
-                            if (overriddenList.containsKey(uc)) {
-                                r.debug(ChatColor.WHITE + "Command un-overridden: " + label + " (" + pc.getPlugin() +
-                                        ")");
-                                overriddenList.remove(uc);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        public static boolean checkOverridden(final CommandSender cs, Command cmd, final String label, final String[] args) {
-            PluginCommand uc = (PluginCommand) cmd;
-            if (overriddenList.containsKey(uc) || r.getCnfg().getList("disabledcommands").contains(label)) {
-                r.debug(uc + " " + overriddenList.get(uc));
-                PluginCommand pc = overriddenList.get(uc);
-                if (pc == null || pc.getExecutor() == null) {
-                    r.sendMes(cs, "unknownCommand");
-                    return true;
-                }
-                r.debug("Executing " + cs + " " + pc + " " + label);
-
-                pc.execute(cs, label, args);
-                return true;
-            }
-            return false;
-        }
-
-        @EventHandler
-        public void plEnable(PluginEnableEvent e) {
-            if (!e.getPlugin().equals(r.getUC())) {
-                addPlugin(e.getPlugin());
-            }
-        }
-
-        @EventHandler
-        public void plDisable(PluginDisableEvent e) {
-            if (!e.getPlugin().equals(r.getUC())) {
-                removePlugin(e.getPlugin());
-            }
-        }
-    }
 
 }

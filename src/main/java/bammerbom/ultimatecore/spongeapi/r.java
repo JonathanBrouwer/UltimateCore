@@ -33,6 +33,7 @@ import org.spongepowered.api.GameRegistry;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
@@ -357,40 +358,39 @@ public class r {
         }
     }
 
-    public static String mes(String padMessage, Object... repl) {
+    public static Text mes(String padMessage, Object... repl) {
         if (cu.map.containsKey(padMessage)) {
-            String a = r.positive + translateAlternateColorCodes('&', cu.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
+            Text a = Texts.of(r.positive + translateAlternateColorCodes('&', cu.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n")));
             String repA = null;
             for (Object s : repl) {
                 if (repA == null) {
                     repA = s.toString();
                 } else {
-                    a = a.replace(repA, s.toString());
+                    a = a.replace(repA, s.toString()); //TODO replace
                     repA = null;
                 }
             }
             return a;
         }
         if (en.map.containsKey(padMessage)) {
-            String b = r.positive + translateAlternateColorCodes('&', en.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
-            String repB = null;
+            Text a = Texts.of(r.positive + translateAlternateColorCodes('&', en.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n")));
+            String repA = null;
             for (Object s : repl) {
-                if (repB == null) {
-                    repB = s.toString();
+                if (repA == null) {
+                    repA = s.toString();
                 } else {
-                    b = b.replace(repB, s.toString());
-                    repB = null;
+                    a = a.replace(repA, s.toString()); //TODO replace
+                    repA = null;
                 }
             }
-            return b;
+            return a;
         }
         r.log(r.negative + "Failed to find " + padMessage + " in Messages file.");
-        return "";
+        return Texts.of();
     }
 
     public static void sendMes(CommandSource cs, String padMessage, Object... repl) {
-        String mes = mes(padMessage, repl);
-        cs.sendMessage(Texts.of(mes));
+        cs.sendMessage(mes(padMessage, repl));
     }
 
     public static void log(Object message) {
@@ -435,7 +435,7 @@ public class r {
 
     public static User[] getOfflinePlayers() {
         List<User> plz = Arrays.asList(getGame().getServer().); //TODO
-        return plz.toArray(new OfflinePlayer[plz.size()]);
+        return plz.toArray(new User[plz.size()]);
     }
 
     public static List<User> getOfflinePlayersL() {
