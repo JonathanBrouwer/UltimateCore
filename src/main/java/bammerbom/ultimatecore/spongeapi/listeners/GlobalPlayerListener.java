@@ -112,7 +112,7 @@ public class GlobalPlayerListener implements Listener {
             //Lastconnect
             UC.getPlayer(e.getPlayer()).updateLastConnectMillis();
             //Lastip
-            UC.getPlayer(e.getPlayer()).setLastIp(e.getPlayer().getAddress().toString().split("/")[1].split(":")[0]);
+            UC.getPlayer(e.getPlayer()).setLastIp(e.getPlayer().getAddress().toString().split("/")[1].split("\\:")[0]);
             UC.getPlayer(e.getPlayer()).setLastHostname(e.getPlayer().getAddress().getHostName());
             //Vanish
             for (Player p : UC.getServer().getVanishOnlinePlayers()) {

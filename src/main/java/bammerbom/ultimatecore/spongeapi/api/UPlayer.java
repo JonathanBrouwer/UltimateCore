@@ -148,7 +148,7 @@ public class UPlayer {
             return lastip;
         } else {
             if (getPlayer().isOnline()) {
-                setLastIp(getOnlinePlayer().getConnection().getAddress().toString().split("/")[1].split(":")[0]);
+                setLastIp(getOnlinePlayer().getConnection().getAddress().toString().split("/")[1].split("\\:")[0]);
                 return lastip;
             }
             return null;

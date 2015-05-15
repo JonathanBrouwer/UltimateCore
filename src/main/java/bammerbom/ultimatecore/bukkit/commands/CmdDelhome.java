@@ -67,17 +67,17 @@ public class CmdDelhome implements UltimateCommand {
                 if (r.perm(p, "uc.delhome.others", true, true) == false) {
                     return;
                 }
-                OfflinePlayer t = r.searchOfflinePlayer(args[0].split(":")[0]);
+                OfflinePlayer t = r.searchOfflinePlayer(args[0].split("\\:")[0]);
                 if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 List<String> homes = UC.getPlayer(t).getHomeNames();
-                if (!homes.contains(args[0].toLowerCase().split(":")[1].toLowerCase())) {
+                if (!homes.contains(args[0].toLowerCase().split("\\:")[1].toLowerCase())) {
                     r.sendMes(cs, "homeNotExist", "%Home", args[0]);
                     return;
                 }
-                UC.getPlayer(t).removeHome(args[0].toLowerCase().split(":")[1]);
+                UC.getPlayer(t).removeHome(args[0].toLowerCase().split("\\:")[1]);
                 r.sendMes(cs, "delhomeMessage", "%Home", args[0]);
                 return;
             }

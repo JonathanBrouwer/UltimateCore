@@ -156,8 +156,8 @@ public class ItemDatabase {
     }
 
     public static ItemStack getItem(String str) {
-        if (str.contains(":") && !r.isInt(str.split(":")[1])) {
-            str = str.split(":")[1];
+        if (str.contains(":") && !r.isInt(str.split("\\:")[1])) {
+            str = str.split("\\:")[1];
         }
 
         if (Material.matchMaterial(str) != null) {

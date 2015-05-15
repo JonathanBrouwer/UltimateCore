@@ -55,7 +55,7 @@ public class CmdHome implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("homes", "homelist");
     }
 
     @Override
@@ -102,9 +102,9 @@ public class CmdHome implements UltimateCommand {
                     return;
                 }
                 if (args[0].endsWith(":") || args[0].endsWith(":list")) {
-                    t = r.searchPlayer(args[0].split(":")[0]);
+                    t = r.searchPlayer(args[0].split("\\:")[0]);
                     if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                        r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                        r.sendMes(cs, "playerNotFound", "%Player", args[0].split("\\:")[0]);
                         return;
                     }
                     ArrayList<String> homes = UC.getPlayer(t).getHomeNames();
@@ -124,7 +124,22 @@ public class CmdHome implements UltimateCommand {
                         r.sendMes(cs, "homeNoHomesFound");
                         return;
                     } else {
-                        r.sendMes(cs, "homeList", "%Homes", a);
+                        Set<String> multihomes = r.getCnfg().getConfigurationSection("Command.HomeLimits").getKeys(false);
+                        Integer limit = 1;
+                        if (multihomes != null) {
+                            for (String s : multihomes) {
+                                if (r.perm(cs, "uc.sethome." + s.toLowerCase(), false, false)) {
+                                    if (limit < r.getCnfg().getInt("Command.HomeLimits." + s)) {
+                                        limit = r.getCnfg().getInt("Command.HomeLimits." + s);
+                                    }
+                                }
+                            }
+                        }
+                        if (r.perm(cs, "uc.sethome.unlimited", false, false)) {
+                            limit = 999999;
+                        }
+                        String limitformat = limit == 999999 ? r.mes("unlimited") : (limit + "");
+                        r.sendMes(cs, "homeList", "%Homes", a, "%Current", homes.size(), "%Max", limitformat);
                         return;
                     }
                 }
@@ -132,19 +147,19 @@ public class CmdHome implements UltimateCommand {
                     return;
                 }
                 Player p = (Player) cs;
-                t = r.searchOfflinePlayer(args[0].split(":")[0]);
+                t = r.searchOfflinePlayer(args[0].split("\\:")[0]);
                 if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                    r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0].split("\\:")[0]);
                     return;
                 }
                 List<String> homes = UC.getPlayer(t).getHomeNames();
-                if (!homes.contains(args[0].split(":")[1].toLowerCase())) {
+                if (!homes.contains(args[0].split("\\:")[1].toLowerCase())) {
                     r.sendMes(cs, "homeNotExist", "%Home", args[0]);
                     return;
                 }
                 try {
                     //Teleport
-                    Location location = UC.getPlayer(t).getHome(args[0].toLowerCase().split(":")[1]);
+                    Location location = UC.getPlayer(t).getHome(args[0].toLowerCase().split("\\:")[1]);
                     if (r.isPlayer(cs)) {
                         LocationUtil.teleport(p, location, TeleportCause.COMMAND, true, true);
                     }

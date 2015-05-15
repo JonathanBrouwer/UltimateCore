@@ -133,8 +133,8 @@ public class MobData {
             }
         } else if (data.startsWith("age:")) {
             if (en instanceof Ageable) {
-                if (r.isInt(data.split(":")[1])) {
-                    ((Ageable) en).setAge(Integer.parseInt(data.split(":")[1]));
+                if (r.isInt(data.split("\\:")[1])) {
+                    ((Ageable) en).setAge(Integer.parseInt(data.split("\\:")[1]));
                     return true;
                 }
             }
@@ -192,12 +192,12 @@ public class MobData {
                 return true;
             }
         } else if (data.startsWith("size:")) {
-            if (r.isInt(data.split(":")[1])) {
+            if (r.isInt(data.split("\\:")[1])) {
                 if (en instanceof Slime) {
-                    ((Slime) en).setSize(Integer.parseInt(data.split(":")[1]));
+                    ((Slime) en).setSize(Integer.parseInt(data.split("\\:")[1]));
                     return true;
                 } else if (en instanceof MagmaCube) {
-                    ((MagmaCube) en).setSize(Integer.parseInt(data.split(":")[1]));
+                    ((MagmaCube) en).setSize(Integer.parseInt(data.split("\\:")[1]));
                     return true;
                 }
             }
@@ -207,33 +207,33 @@ public class MobData {
                 return true;
             }
         } else if (data.startsWith("exp:") || data.startsWith("xp:") || data.startsWith("experience:") || data.startsWith("amount:")) {
-            if (r.isInt(data.split(":")[1]) && en instanceof ExperienceOrb) {
-                Integer amount = r.normalize(Integer.parseInt(data.split(":")[1]), 1, 2000000000);
+            if (r.isInt(data.split("\\:")[1]) && en instanceof ExperienceOrb) {
+                Integer amount = r.normalize(Integer.parseInt(data.split("\\:")[1]), 1, 2000000000);
                 ((ExperienceOrb) en).setExperience(amount);
                 return true;
             }
         } else if (data.startsWith("maxhealth:")) {
-            if (r.isDouble(data.split(":")[1]) && en instanceof LivingEntity) {
-                Double amount = r.normalize(Double.parseDouble(data.split(":")[1]), 1.0, 999999.0);
+            if (r.isDouble(data.split("\\:")[1]) && en instanceof LivingEntity) {
+                Double amount = r.normalize(Double.parseDouble(data.split("\\:")[1]), 1.0, 999999.0);
                 ((LivingEntity) en).setMaxHealth(amount);
                 return true;
             }
         } else if (data.startsWith("health:")) {
-            if (r.isDouble(data.split(":")[1]) && en instanceof LivingEntity) {
-                Double amount = r.normalize(Double.parseDouble(data.split(":")[1]), 1.0, ((LivingEntity) en).getMaxHealth());
+            if (r.isDouble(data.split("\\:")[1]) && en instanceof LivingEntity) {
+                Double amount = r.normalize(Double.parseDouble(data.split("\\:")[1]), 1.0, ((LivingEntity) en).getMaxHealth());
                 ((LivingEntity) en).setHealth(amount);
                 return true;
             }
-        } else if (data.contains(":") && EffectDatabase.getByName(data.split(":")[0]) != null) {
+        } else if (data.contains(":") && EffectDatabase.getByName(data.split("\\:")[0]) != null) {
             if (en instanceof LivingEntity) {
-                if (r.isInt(data.split(":")[1])) {
-                    Integer i = Integer.parseInt(data.split(":")[1]);
-                    ((LivingEntity) en).addPotionEffect(EffectDatabase.getByName(data.split(":")[0]).createEffect(999999, i));
+                if (r.isInt(data.split("\\:")[1])) {
+                    Integer i = Integer.parseInt(data.split("\\:")[1]);
+                    ((LivingEntity) en).addPotionEffect(EffectDatabase.getByName(data.split("\\:")[0]).createEffect(999999, i));
                 }
             }
         } else if (data.startsWith("name:")) {
             en.setCustomNameVisible(true);
-            en.setCustomName(ChatColor.translateAlternateColorCodes('&', data.split(":")[1]).replace("_", " "));
+            en.setCustomName(ChatColor.translateAlternateColorCodes('&', data.split("\\:")[1]).replace("_", " "));
             return true;
         } else if (data.equalsIgnoreCase("noai")) {
             if (en instanceof LivingEntity) {
@@ -295,13 +295,13 @@ public class MobData {
                 return true;
             } else if (data.startsWith("speed:")) {
                 try {
-                    setHorseSpeed(horse, Double.parseDouble(data.split(":")[1]));
+                    setHorseSpeed(horse, Double.parseDouble(data.split("\\:")[1]));
                     return true;
                 } catch (NumberFormatException ex) {
                 }
             } else if (data.startsWith("jump:") || data.startsWith("jumpstrength:")) {
                 try {
-                    horse.setJumpStrength(Double.parseDouble(data.split(":")[1]));
+                    horse.setJumpStrength(Double.parseDouble(data.split("\\:")[1]));
                     return true;
                 } catch (NumberFormatException ex) {
                 }

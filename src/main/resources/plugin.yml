@@ -220,11 +220,7 @@ commands:
     usage: /<command> [Player:][Name]
     description: Teleport to your home.
     permissions: uc.home
-  homelist:
-    description: View a list of all of your current homes.
-    usage: /<command>
-    permissions: uc.home
-    aliases: [homes]
+    aliases: [homelist, homes]
   hunger:
     usage: /<command> <Amount> [Player]
     description: Remove hunger points.
@@ -610,11 +606,7 @@ commands:
     usage: /<command> <Warp>
     description: Teleport yourself to a warp.
     permissions: uc.warp
-  warplist:
-    description: View a list of all warps.
-    usage: /<command>
-    permissions: uc.warplist
-    aliases: [warps]
+    aliases: [warplist, warps]
   weather:
     usage: /<command> clear/rain/thunder [Time]
     description: Change the weather.

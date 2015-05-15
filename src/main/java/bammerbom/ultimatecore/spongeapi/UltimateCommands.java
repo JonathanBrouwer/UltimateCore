@@ -85,7 +85,6 @@ public class UltimateCommands {
         cmds.add(new CmdHeal());
         cmds.add(new CmdHelp());
         cmds.add(new CmdHome());
-        cmds.add(new CmdHomelist());
         cmds.add(new CmdHunger());
         cmds.add(new CmdInventory());
         cmds.add(new CmdIp());
@@ -170,7 +169,6 @@ public class UltimateCommands {
         cmds.add(new CmdVanish());
         cmds.add(new CmdVillager());
         cmds.add(new CmdWarp());
-        cmds.add(new CmdWarplist());
         cmds.add(new CmdWeather());
         cmds.add(new CmdWorkbench());
         cmds.add(new CmdWorld());

@@ -21,13 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.spongeapi.commands_old;
+package bammerbom.ultimatecore.spongeapi.commands;
 
+import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.spongeapi.resources.classes.FancyMessage;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -54,7 +55,7 @@ public class CmdHome implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("homes", "homelist");
     }
 
     @Override
@@ -68,7 +69,8 @@ public class CmdHome implements UltimateCommand {
             }
             Player p = (Player) cs;
             ArrayList<String> homes = UC.getPlayer(p).getHomeNames();
-
+            String a = StringUtil.joinList(homes);
+            //
             Set<String> multihomes = r.getCnfg().getConfigurationSection("Command.HomeLimits").getKeys(false);
             Integer limit = 1;
             if (multihomes != null) {
@@ -84,25 +86,11 @@ public class CmdHome implements UltimateCommand {
                 limit = 999999;
             }
             String limitformat = limit == 999999 ? r.mes("unlimited") : (limit + "");
-
-            if (homes.size() == 0) {
+            //
+            if (a.equalsIgnoreCase("") || a.equalsIgnoreCase(null)) {
                 r.sendMes(cs, "homeNoHomesFound");
             } else {
-                FancyMessage message = new FancyMessage(r.mes("homeList", "%Current", homes.size(), "%Max", limitformat));
-
-                FancyMessage homesPart = new FancyMessage();
-                Boolean ne = true;
-                for (String home : homes) {
-                    if (!ne) {
-                        homesPart.text(", ");
-                    }
-                    homesPart.text(home);
-                    homesPart.command("/home " + home.toString());
-                    homesPart.then();
-                }
-                message.replace("%Homes", homesPart);
-
-                message.send(cs);
+                r.sendMes(cs, "homeList", "%Homes", a, "%Current", homes.size(), "%Max", limitformat);
             }
         } else {
             OfflinePlayer t;
@@ -114,9 +102,9 @@ public class CmdHome implements UltimateCommand {
                     return;
                 }
                 if (args[0].endsWith(":") || args[0].endsWith(":list")) {
-                    t = r.searchPlayer(args[0].split(":")[0]);
+                    t = r.searchPlayer(args[0].split("\\:")[0]);
                     if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                        r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                        r.sendMes(cs, "playerNotFound", "%Player", args[0].split("\\:")[0]);
                         return;
                     }
                     ArrayList<String> homes = UC.getPlayer(t).getHomeNames();
@@ -144,19 +132,19 @@ public class CmdHome implements UltimateCommand {
                     return;
                 }
                 Player p = (Player) cs;
-                t = r.searchOfflinePlayer(args[0].split(":")[0]);
+                t = r.searchOfflinePlayer(args[0].split("\\:")[0]);
                 if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                    r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0].split("\\:")[0]);
                     return;
                 }
                 List<String> homes = UC.getPlayer(t).getHomeNames();
-                if (!homes.contains(args[0].split(":")[1].toLowerCase())) {
+                if (!homes.contains(args[0].split("\\:")[1].toLowerCase())) {
                     r.sendMes(cs, "homeNotExist", "%Home", args[0]);
                     return;
                 }
                 try {
                     //Teleport
-                    Location location = UC.getPlayer(t).getHome(args[0].toLowerCase().split(":")[1]);
+                    Location location = UC.getPlayer(t).getHome(args[0].toLowerCase().split("\\:")[1]);
                     if (r.isPlayer(cs)) {
                         LocationUtil.teleport(p, location, TeleportCause.COMMAND, true, true);
                     }

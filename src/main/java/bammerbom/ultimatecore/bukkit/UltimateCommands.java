@@ -89,13 +89,11 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdHeal());
         cmds.add(new CmdHelp());
         cmds.add(new CmdHome());
-        cmds.add(new CmdHomelist());
         cmds.add(new CmdHunger());
         cmds.add(new CmdInventory());
         cmds.add(new CmdIp());
         cmds.add(new CmdItem());
         cmds.add(new CmdJail());
-        cmds.add(new CmdJaillist());
         cmds.add(new CmdJump());
         cmds.add(new CmdKick());
         cmds.add(new CmdKickall());
@@ -174,7 +172,6 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdVanish());
         cmds.add(new CmdVillager());
         cmds.add(new CmdWarp());
-        cmds.add(new CmdWarplist());
         cmds.add(new CmdWeather());
         cmds.add(new CmdWorkbench());
         cmds.add(new CmdWorld());
