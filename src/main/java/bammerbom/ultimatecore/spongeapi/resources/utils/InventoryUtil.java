@@ -80,7 +80,7 @@ public class InventoryUtil {
             if (args[offset].equalsIgnoreCase("**")) {
                 type = "-2";
             } else if (!args[offset].equalsIgnoreCase("*")) {
-                String[] split = args[offset].split("\\:");
+                String[] split = args[offset].split(":");
                 ItemStack item = ItemUtil.searchItem(split[0]);
                 if (item == null) {
                     r.sendMes(cs, "clearItemNotFound", "%Item", split[0]);
@@ -234,7 +234,7 @@ public class InventoryUtil {
             ItemStack is = null;
             Boolean createdItemStack = false;
 
-            String[] serializedItemStack = serializedBlock[1].split("\\:");
+            String[] serializedItemStack = serializedBlock[1].split(":");
             for (String itemInfo : serializedItemStack) {
                 String[] itemAttribute = itemInfo.split("@");
                 if (itemAttribute[0].equals("t")) {

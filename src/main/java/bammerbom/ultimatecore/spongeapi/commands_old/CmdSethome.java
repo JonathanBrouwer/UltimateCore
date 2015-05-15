@@ -64,9 +64,9 @@ public class CmdSethome implements UltimateCommand {
             if (!r.perm(p, "uc.sethome.others", true, true)) {
                 return;
             }
-            OfflinePlayer t = r.searchOfflinePlayer(args[0].split("\\:")[0]);
+            OfflinePlayer t = r.searchOfflinePlayer(args[0].split(":")[0]);
             if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                r.sendMes(cs, "playerNotFound", "%Player", args[0].split("\\:")[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
                 return;
             }
             List<String> homes = UC.getPlayer(t).getHomeNames();
@@ -75,10 +75,10 @@ public class CmdSethome implements UltimateCommand {
             } else {
                 r.sendMes(cs, "sethomeSet", "%Home", args[0]);
             }
-            if (!homes.contains(args[0].toLowerCase().split("\\:")[1])) {
-                homes.add(args[0].toLowerCase().split("\\:")[1]);
+            if (!homes.contains(args[0].toLowerCase().split(":")[1])) {
+                homes.add(args[0].toLowerCase().split(":")[1]);
             }
-            UC.getPlayer(t).addHome(args[0].toLowerCase().split("\\:")[1], p.getLocation());
+            UC.getPlayer(t).addHome(args[0].toLowerCase().split(":")[1], p.getLocation());
             return;
         }
         Set<String> multihomes = r.getCnfg().getConfigurationSection("Command.HomeLimits").getKeys(false);

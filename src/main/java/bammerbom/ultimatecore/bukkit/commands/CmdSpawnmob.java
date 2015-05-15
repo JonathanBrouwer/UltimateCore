@@ -169,12 +169,12 @@ public class CmdSpawnmob implements UltimateCommand {
             for (String string : args[0].split(",")) {
                 MobType mo1 = MobType.fromName(string);
                 if (mo1 == null || mo1.name == null || mo1.name.equals("") || mo1.getType() == null) {
-                    mo1 = MobType.fromName(string.split("\\:")[0]);
+                    mo1 = MobType.fromName(string.split(":")[0]);
                     if (mo1 == null || mo1.name == null || mo1.name.equals("") || mo1.getType() == null) {
                         r.sendMes(cs, "spawnmobNotFound", "%Mob", string);
                         return;
                     } else {
-                        kits.add(new SpawnKit(mo1, string.split("\\:")[1]));
+                        kits.add(new SpawnKit(mo1, string.split(":")[1]));
                     }
                 } else {
                     kits.add(new SpawnKit(mo1, ""));

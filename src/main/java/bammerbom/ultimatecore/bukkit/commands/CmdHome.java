@@ -102,9 +102,9 @@ public class CmdHome implements UltimateCommand {
                     return;
                 }
                 if (args[0].endsWith(":") || args[0].endsWith(":list")) {
-                    t = r.searchPlayer(args[0].split("\\:")[0]);
+                    t = r.searchPlayer(args[0].split(":")[0]);
                     if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                        r.sendMes(cs, "playerNotFound", "%Player", args[0].split("\\:")[0]);
+                        r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
                         return;
                     }
                     ArrayList<String> homes = UC.getPlayer(t).getHomeNames();
@@ -147,19 +147,19 @@ public class CmdHome implements UltimateCommand {
                     return;
                 }
                 Player p = (Player) cs;
-                t = r.searchOfflinePlayer(args[0].split("\\:")[0]);
+                t = r.searchOfflinePlayer(args[0].split(":")[0]);
                 if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                    r.sendMes(cs, "playerNotFound", "%Player", args[0].split("\\:")[0]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
                     return;
                 }
                 List<String> homes = UC.getPlayer(t).getHomeNames();
-                if (!homes.contains(args[0].split("\\:")[1].toLowerCase())) {
+                if (!homes.contains(args[0].split(":")[1].toLowerCase())) {
                     r.sendMes(cs, "homeNotExist", "%Home", args[0]);
                     return;
                 }
                 try {
                     //Teleport
-                    Location location = UC.getPlayer(t).getHome(args[0].toLowerCase().split("\\:")[1]);
+                    Location location = UC.getPlayer(t).getHome(args[0].toLowerCase().split(":")[1]);
                     if (r.isPlayer(cs)) {
                         LocationUtil.teleport(p, location, TeleportCause.COMMAND, true, true);
                     }

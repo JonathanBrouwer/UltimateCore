@@ -81,7 +81,7 @@ public class CmdFirework implements UltimateCommand {
             if (arg.equalsIgnoreCase("power") || arg.equalsIgnoreCase("p")) {
                 FireworkMeta fmeta = (FireworkMeta) stack.getItemMeta();
                 try {
-                    int power = Integer.parseInt(arg.split("\\:")[1]);
+                    int power = Integer.parseInt(arg.split(":")[1]);
                     try {
                         mStack.addFireworkMeta(true, "power:" + power);
                     } catch (Exception e) {
