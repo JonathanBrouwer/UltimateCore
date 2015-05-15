@@ -159,7 +159,7 @@ public class MobData {
         } else if (data.startsWith("color:")) {
             if (en instanceof Colorable) {
                 String color = data.toUpperCase(Locale.ENGLISH);
-                ((Colorable) en).setColor(DyeColor.valueOf(color));
+                ((Colorable) en).setColor(DyeColor.valueOf(color.split("\\:")[1]));
                 return true;
             }
         } else if (data.equalsIgnoreCase("zombie") || data.equalsIgnoreCase("zombievillager")) {
