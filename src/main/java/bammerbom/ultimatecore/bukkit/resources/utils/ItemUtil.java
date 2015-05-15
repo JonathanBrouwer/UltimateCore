@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.r;
-import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
 import net.milkbowl.vault.item.Items;
@@ -112,8 +111,7 @@ public class ItemUtil {
         try {
             return ReflectionUtil.execute("getName()", ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionStatic.fromOBC("inventory.CraftItemStack"), stack).fetch()).fetch().toString();
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to get item name.");
-            return "NAME";
+            return getTypeName(stack);
         }
     }
 
