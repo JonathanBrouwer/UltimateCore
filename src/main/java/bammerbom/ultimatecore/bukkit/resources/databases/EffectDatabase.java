@@ -60,6 +60,9 @@ public class EffectDatabase {
                 }
             }
         }
+        if (str.contains(":")) {
+            str = str.split(":")[1];
+        }
         return !r.isInt(str) ? pf.get(str.toLowerCase()) : PotionEffectType.getById(Integer.parseInt(str));
     }
 
