@@ -179,7 +179,7 @@ public class CmdGamemode implements UltimateCommand {
                 r.sendMes(cs, "gamemodeUsage");
                 return;
             }
-            switch (args[0]) {
+            switch (args[0].toLowerCase()) {
                 case "survival":
                 case "s":
                 case "surv":
