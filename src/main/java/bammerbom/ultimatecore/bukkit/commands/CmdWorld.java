@@ -399,6 +399,37 @@ public class CmdWorld implements UltimateCommand {
                     r.sendMes(cs, "worldUsage8");
                     r.sendMes(cs, "worldUsage9", "%Flags", StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
                 }
+            } else if (flag.equalsIgnoreCase("gamemode")) {
+                GameMode mode = null;
+                switch (value.toLowerCase()) {
+                    case "survival":
+                    case "s":
+                    case "surv":
+                    case "0":
+                        mode = GameMode.SURVIVAL;
+                        break;
+                    case "creative":
+                    case "c":
+                    case "crea":
+                    case "1":
+                        mode = GameMode.CREATIVE;
+                        break;
+                    case "adventure:":
+                    case "a":
+                    case "adven":
+                    case "2":
+                        mode = GameMode.ADVENTURE;
+                        break;
+                    case "sp":
+                    case "spec":
+                    case "spectate":
+                    case "spectator":
+                    case "3":
+                        mode = GameMode.SPECTATOR;
+                        break;
+                }
+                world.setDefaultGamemode(mode);
+                r.sendMes(cs, "worldFlagGamemode", "%World", world.getWorld().getName(), "%Value", mode.toString().toLowerCase());
             } else {
                 r.sendMes(cs, "worldUsage8");
                 r.sendMes(cs, "worldUsage9", "%Flags", StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));

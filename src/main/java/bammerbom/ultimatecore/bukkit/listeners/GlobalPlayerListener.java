@@ -442,6 +442,20 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.LOW)
+    public void onWorldChange(PlayerChangedWorldEvent e) {
+        try {
+            r.log(UC.getWorld(e.getPlayer().getWorld()).getDefaultGamemode());
+            r.log(r.perm(e.getPlayer(), "uc.world.flag.override", false, false));
+            //Gamemode
+            if (UC.getWorld(e.getPlayer().getWorld()).getDefaultGamemode() != null && !r.perm(e.getPlayer(), "uc.world.flag.override", false, false)) {
+                e.getPlayer().setGameMode(UC.getWorld(e.getPlayer().getWorld()).getDefaultGamemode());
+            }
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: PlayerChangedWorldEvent");
+        }
+    }
+
     public void onRespawn(PlayerRespawnEvent e) {
         try {
             if (UC.getServer().getSpawn() != null) {

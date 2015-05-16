@@ -134,7 +134,11 @@ public class UWorld {
         File file = getDataFile();
         JsonConfig conf = new JsonConfig(file);
         String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
-        return GameMode.valueOf(gm);
+        try {
+            return GameMode.valueOf(gm);
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
     }
 
     public void setDefaultGamemode(GameMode gm) {
