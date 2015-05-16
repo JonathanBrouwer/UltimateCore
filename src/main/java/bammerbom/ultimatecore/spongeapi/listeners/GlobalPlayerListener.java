@@ -458,8 +458,8 @@ public class GlobalPlayerListener implements Listener {
 
     public void onRespawn(PlayerRespawnEvent e) {
         try {
-            if (UC.getServer().getSpawn() != null) {
-                e.setRespawnLocation(UC.getServer().getSpawn());
+            if (UC.getPlayer(e.getPlayer()).getSpawn(false) != null) {
+                e.setRespawnLocation(UC.getPlayer(e.getPlayer()).getSpawn(false));
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerRespawnEvent");

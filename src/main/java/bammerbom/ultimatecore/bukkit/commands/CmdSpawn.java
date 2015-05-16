@@ -62,10 +62,10 @@ public class CmdSpawn implements UltimateCommand {
                 return;
             }
             Player p = (Player) cs;
-            if (UC.getServer().getSpawn() == null) {
+            if (UC.getPlayer(p).getSpawn(false) == null) {
                 LocationUtil.teleport(p, p.getWorld().getSpawnLocation(), TeleportCause.COMMAND, false, true);
             } else {
-                LocationUtil.teleport(p, UC.getServer().getSpawn(), TeleportCause.COMMAND, false, true);
+                LocationUtil.teleport(p, UC.getPlayer(p).getSpawn(false), TeleportCause.COMMAND, false, true);
             }
             r.sendMes(cs, "spawnMessage");
         } else {
@@ -77,10 +77,10 @@ public class CmdSpawn implements UltimateCommand {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
-            if (UC.getServer().getSpawn() == null) {
+            if (UC.getPlayer(t).getSpawn(false) == null) {
                 LocationUtil.teleport(t, t.getWorld().getSpawnLocation(), TeleportCause.COMMAND, false, false);
             } else {
-                LocationUtil.teleport(t, UC.getServer().getSpawn(), TeleportCause.COMMAND, false, false);
+                LocationUtil.teleport(t, UC.getPlayer(t).getSpawn(false), TeleportCause.COMMAND, false, false);
             }
             r.sendMes(cs, "spawnMessageOtherSelf", "%Player", UC.getPlayer(t).getDisplayName());
             r.sendMes(t, "spawnMessageOtherOthers", "%Player", cs.getName());

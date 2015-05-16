@@ -166,7 +166,7 @@ public class CmdUltimatecore implements UltimateCommand {
                 }
                 try {
                     IEssentialsSpawn esp = (IEssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");
-                    UC.getServer().setSpawn(esp.getSpawn("default"));
+                    UC.getServer().setSpawn(esp.getSpawn("default"), false, null, false);
                 } catch (Exception ex) {
                 }
                 r.log("Importing Player Data...");

@@ -218,7 +218,10 @@ Command:
     #The delay. (In seconds)
     Delay: 5
   Spawn:
-    # Set this to 'lowest', if you want the world (or multiverse) to handle the respawning.
-    # Set this to 'high', if you want UltimateCore to handle the respawning.
-    # Set this to 'highest', if you want to force UltimateCore to handle the respawning.
+    #Set this to 'lowest', if you want the world (or multiverse) to handle the respawning.
+    #Set this to 'high', if you want UltimateCore to handle the respawning.
+    #Set this to 'highest', if you want to force UltimateCore to handle the respawning.
     Priority: high
+    #When there is a world spawn and a global group spawn set, which spawn must UC choose?
+    # "world" or "group"
+    WorldOrGroup: world

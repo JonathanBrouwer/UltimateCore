@@ -44,8 +44,6 @@ public class UServer {
     static HashMap<String, Location> jails = null;
     static String motd = "";
 
-    //Spawn
-    static Location spawn = null;
     //Receiver, Sender
     static Map<UUID, UUID> tp = new HashMap<>();
     static Map<UUID, UUID> tph = new HashMap<>();
@@ -383,27 +381,6 @@ public class UServer {
         return mt;
     }
 
-    public Location getSpawn() {
-        if (spawn == null) {
-            if (!new JsonConfig(UltimateFileLoader.Dspawns).contains("global")) {
-                return null;
-            }
-            String s = new JsonConfig(UltimateFileLoader.Dspawns).getString("global");
-            Location loc = LocationUtil.convertStringToLocation(s);
-            spawn = loc;
-            return loc;
-        }
-        return spawn;
-    }
-
-    public void setSpawn(Location loc) {
-        spawn = loc;
-        String s = LocationUtil.convertLocationToString(loc);
-        JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);
-        conf.set("global", s);
-        conf.save();
-    }
-
     public List<OfflinePlayer> getInTeleportMenuOffline() {
         List<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
@@ -625,6 +602,48 @@ public class UServer {
         conf.save();
         silence = fr;
         silencetime = fr ? time : -1L;
+    }
+
+    public Location getGlobalSpawn() {
+        if (!new JsonConfig(UltimateFileLoader.Dspawns).contains("global")) {
+            return null;
+        }
+        String s = new JsonConfig(UltimateFileLoader.Dspawns).getString("global");
+        Location loc = LocationUtil.convertStringToLocation(s);
+        return loc;
+    }
+
+    public void setSpawn(Location loc, Boolean world, String group, Boolean firstjoin) {
+        String path = "global";
+        if (firstjoin) {
+            path = "global.firstjoin";
+        } else if (world && StringUtil.nullOrEmpty(group)) {
+            path = "worlds.world." + loc.getWorld().getName() + ".global";
+        } else if (!StringUtil.nullOrEmpty(group) && !world) {
+            path = "global.group." + group;
+        } else if (!StringUtil.nullOrEmpty(group) && world) {
+            path = "worlds.world." + loc.getWorld().getName() + ".group." + group;
+        }
+        String s = LocationUtil.convertLocationToString(loc);
+        JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);
+        conf.set(path, s);
+        conf.save();
+    }
+
+    public void delSpawn(World world, String group, Boolean firstjoin) {
+        String path = "global";
+        if (firstjoin) {
+            path = "global.firstjoin";
+        } else if (!StringUtil.nullOrEmpty(world) && StringUtil.nullOrEmpty(group)) {
+            path = "worlds.world." + world.getName() + ".global";
+        } else if (!StringUtil.nullOrEmpty(group) && StringUtil.nullOrEmpty(world)) {
+            path = "global.group." + group;
+        } else if (!StringUtil.nullOrEmpty(group) && !StringUtil.nullOrEmpty(world)) {
+            path = "worlds.world." + world.getName() + ".group." + group;
+        }
+        JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);
+        conf.set(path, null);
+        conf.save();
     }
 
 }

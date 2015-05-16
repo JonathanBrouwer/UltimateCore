@@ -456,6 +456,10 @@ public class StringUtil {
         return (text == null) || (text.isEmpty());
     }
 
+    public static boolean nullOrEmpty(World world) {
+        return world == null || world.getName() == null || world.getName().isEmpty();
+    }
+
     public static boolean nullOrEmpty(Object[] array) {
         return (array == null) || (array.length == 0);
     }

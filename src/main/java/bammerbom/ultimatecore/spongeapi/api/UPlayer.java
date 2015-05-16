@@ -587,7 +587,7 @@ public class UPlayer {
         JsonConfig conf = getPlayerConfig();
         conf.set("homes", null);
         for (String s : nh.keySet()) {
-            conf.set("homes." + s, LocationUtil.convertLocationToString(nh.get(s.toLowerCase())));
+            conf.set("homes." + s.toLowerCase(), LocationUtil.convertLocationToString(nh.get(s)));
         }
         conf.save();
     }
@@ -688,10 +688,10 @@ public class UPlayer {
         conf.save();
         save();
         if (tpspawn && getOnlinePlayer() != null) {
-            if (UC.getServer().getSpawn() == null) {
+            if (UC.getPlayer(getPlayer()).getSpawn(false) == null) {
                 LocationUtil.teleport(getOnlinePlayer(), getOnlinePlayer().getWorld().getSpawnLocation(), TeleportCause.COMMAND, false, false);
             } else {
-                LocationUtil.teleport(getOnlinePlayer(), UC.getServer().getSpawn(), PlayerTeleportEvent.TeleportCause.COMMAND, false, false);
+                LocationUtil.teleport(getOnlinePlayer(), UC.getPlayer(getPlayer()).getSpawn(false), PlayerTeleportEvent.TeleportCause.COMMAND, false, false);
             }
         }
     }
@@ -1148,4 +1148,37 @@ public class UPlayer {
             Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getDisplayName()));
         }
     }
+
+    public Location getSpawn(Boolean firstjoin) {
+        JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);
+        String loc;
+        Player p = r.searchPlayer(uuid);
+        Boolean world = conf.contains("worlds.world." + p.getWorld().getName());
+        String world_ = world ? conf.getString("worlds.world." + p.getWorld().getName()) : null;
+        Boolean group = conf.contains("global.group." + r.getVault().getPermission().getPrimaryGroup(p));
+        String group_ = group ? conf.getString("global.group." + r.getVault().getPermission().getPrimaryGroup(p)) : null;
+        Boolean gw = conf.contains("worlds.world." + p.getWorld().getName() + ".group." + r.getVault().getPermission().getPrimaryGroup(p));
+        String gw_ = conf.getString("worlds.world." + p.getWorld().getName() + ".group." + r.getVault().getPermission().getPrimaryGroup(p));
+        if (firstjoin && conf.contains("global.firstjoin")) {
+            loc = conf.getString("global.firstjoin");
+        } else if (gw) {
+            loc = gw_;
+        } else if (world && group) {
+            if (r.getCnfg().getBoolean("Command.Spawn.WorldOrGroup")) {
+                loc = world_;
+            } else {
+                loc = group_;
+            }
+        } else if (world) {
+            loc = world_;
+        } else if (group) {
+            loc = group_;
+        } else if (conf.contains("global")) {
+            loc = conf.getString("global");
+        } else {
+            return null;
+        }
+        return LocationUtil.convertStringToLocation(loc);
+    }
+
 }

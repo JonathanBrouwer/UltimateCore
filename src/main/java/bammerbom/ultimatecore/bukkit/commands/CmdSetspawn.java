@@ -59,8 +59,26 @@ public class CmdSetspawn implements UltimateCommand {
             return;
         }
         Player p = (Player) cs;
-        UC.getServer().setSpawn(p.getLocation());
-        p.getWorld().setSpawnLocation(p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
+
+        Boolean world = false;
+        Boolean newbie = false;
+        String group = null;
+        for (String s : args) {
+            if (s.equalsIgnoreCase("-w") || s.equalsIgnoreCase("-world")) {
+                world = true;
+            }
+            if (s.equalsIgnoreCase("-n") || s.equalsIgnoreCase("-newbie")) {
+                newbie = true;
+            }
+            if (s.startsWith("g:")) {
+                group = s.split(":")[1];
+            }
+        }
+
+        UC.getServer().setSpawn(p.getLocation(), world, group, newbie);
+        if (world) {
+            p.getWorld().setSpawnLocation(p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
+        }
         r.sendMes(cs, "setspawnMessage");
     }
 
