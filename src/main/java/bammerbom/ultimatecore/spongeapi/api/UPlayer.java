@@ -1153,8 +1153,8 @@ public class UPlayer {
         JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);
         String loc;
         Player p = r.searchPlayer(uuid);
-        Boolean world = conf.contains("worlds.world." + p.getWorld().getName());
-        String world_ = world ? conf.getString("worlds.world." + p.getWorld().getName()) : null;
+        Boolean world = conf.contains("worlds.world." + p.getWorld().getName() + ".global");
+        String world_ = world ? conf.getString("worlds.world." + p.getWorld().getName() + ".global") : null;
         Boolean group = conf.contains("global.group." + r.getVault().getPermission().getPrimaryGroup(p));
         String group_ = group ? conf.getString("global.group." + r.getVault().getPermission().getPrimaryGroup(p)) : null;
         Boolean gw = conf.contains("worlds.world." + p.getWorld().getName() + ".group." + r.getVault().getPermission().getPrimaryGroup(p));
