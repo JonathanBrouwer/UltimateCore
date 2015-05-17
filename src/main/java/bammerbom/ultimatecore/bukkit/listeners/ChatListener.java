@@ -254,7 +254,7 @@ public class ChatListener implements Listener {
                 prefix = r.getVault().getChat().getPlayerPrefix(e.getPlayer());
             }
             if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer()).equalsIgnoreCase("")) {
-                prefix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
+                suffix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
             }
             if (!f.contains("\\+Name")) {
                 e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
