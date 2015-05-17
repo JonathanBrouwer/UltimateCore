@@ -118,6 +118,11 @@ commands:
     description: Remove a jail.
     permissions: uc.deljail
     aliases: [removejail, remjail]
+  delspawn:
+    usage: /<command> [Args...]
+    description: Remove a spawn
+    permissions: uc.delspawn
+    aliases: [removespawn]
   delwarp:
     usage: /<command> <Warp>
     description: Remove a warp.

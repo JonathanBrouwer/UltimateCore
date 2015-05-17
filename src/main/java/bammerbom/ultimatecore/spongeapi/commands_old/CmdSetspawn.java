@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.spongeapi.commands_old;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -77,7 +78,7 @@ public class CmdSetspawn implements UltimateCommand {
         if (world) {
             p.getWorld().setSpawnLocation(p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
         }
-        r.sendMes(cs, "setspawnMessage");
+        r.sendMes(cs, "setspawnMessage", "%Args", StringUtil.joinList(args));
     }
 
     @Override

@@ -67,6 +67,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdDeaflist());
         cmds.add(new CmdDelhome());
         cmds.add(new CmdDeljail());
+        cmds.add(new CmdDelspawn());
         cmds.add(new CmdDelwarp());
         cmds.add(new CmdEditsign());
         cmds.add(new CmdEffect());

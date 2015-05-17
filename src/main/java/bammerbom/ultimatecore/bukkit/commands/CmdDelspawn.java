@@ -34,21 +34,21 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdSetspawn implements UltimateCommand {
+public class CmdDelspawn implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "setspawn";
+        return "delspawn";
     }
 
     @Override
     public String getPermission() {
-        return "uc.setspawn";
+        return "uc.delspawn";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("removespawn");
     }
 
     @Override
@@ -56,7 +56,7 @@ public class CmdSetspawn implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return;
         }
-        if (!r.perm(cs, "uc.setspawn", false, true)) {
+        if (!r.perm(cs, "uc.delspawn", false, true)) {
             return;
         }
         Player p = (Player) cs;
@@ -76,11 +76,11 @@ public class CmdSetspawn implements UltimateCommand {
             }
         }
 
-        UC.getServer().setSpawn(p.getLocation(), world, group, newbie);
-        if (world) {
-            p.getWorld().setSpawnLocation(p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
+        if (UC.getServer().delSpawn(world ? p.getWorld() : null, group, newbie)) {
+            r.sendMes(cs, "delspawnMessage", "%Args", StringUtil.joinList(args));
+        } else {
+            r.sendMes(cs, "delspawnNotFound", "%Args", StringUtil.joinList(args));
         }
-        r.sendMes(cs, "setspawnMessage", "%Args", StringUtil.joinList(args));
     }
 
     @Override

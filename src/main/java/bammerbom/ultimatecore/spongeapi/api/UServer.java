@@ -630,7 +630,7 @@ public class UServer {
         conf.save();
     }
 
-    public void delSpawn(World world, String group, Boolean firstjoin) {
+    public boolean delSpawn(World world, String group, Boolean firstjoin) {
         String path = "global";
         if (firstjoin) {
             path = "global.firstjoin";
@@ -642,8 +642,13 @@ public class UServer {
             path = "worlds.world." + world.getName() + ".group." + group;
         }
         JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);
-        conf.set(path, null);
-        conf.save();
+        if (conf.contains(path)) {
+            conf.set(path, null);
+            conf.save();
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

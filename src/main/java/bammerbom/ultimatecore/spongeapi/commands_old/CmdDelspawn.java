@@ -21,12 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.bukkit.commands;
+package bammerbom.ultimatecore.spongeapi.commands_old;
 
-import bammerbom.ultimatecore.bukkit.UltimateCommand;
-import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.r;
-import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,21 +33,21 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdSetspawn implements UltimateCommand {
+public class CmdDelspawn implements UltimateCommand {
 
     @Override
     public String getName() {
-        return "setspawn";
+        return "delspawn";
     }
 
     @Override
     public String getPermission() {
-        return "uc.setspawn";
+        return "uc.delspawn";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("removespawn");
     }
 
     @Override
@@ -56,7 +55,7 @@ public class CmdSetspawn implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return;
         }
-        if (!r.perm(cs, "uc.setspawn", false, true)) {
+        if (!r.perm(cs, "uc.delspawn", false, true)) {
             return;
         }
         Player p = (Player) cs;
@@ -76,11 +75,11 @@ public class CmdSetspawn implements UltimateCommand {
             }
         }
 
-        UC.getServer().setSpawn(p.getLocation(), world, group, newbie);
-        if (world) {
-            p.getWorld().setSpawnLocation(p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
+        if (UC.getServer().delSpawn(world ? p.getWorld() : null, group, newbie)) {
+            r.sendMes(cs, "delspawnMessage", "%Args", StringUtil.joinList(args));
+        } else {
+            r.sendMes(cs, "delspawnNotFound", "%Args", StringUtil.joinList(args));
         }
-        r.sendMes(cs, "setspawnMessage", "%Args", StringUtil.joinList(args));
     }
 
     @Override
