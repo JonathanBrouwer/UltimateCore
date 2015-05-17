@@ -1,5 +1,6 @@
 language: java
 install: mvn install deploy
+cache: bundler
 jdk:
   - openjdk7
   - oraclejdk7
