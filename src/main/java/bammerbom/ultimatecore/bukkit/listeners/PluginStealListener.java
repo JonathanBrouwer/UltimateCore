@@ -59,6 +59,7 @@ public class PluginStealListener implements Listener {
     static class TabCompleteListener {
 
         public static void start() {
+            /* TODO 
             ((com.comphenix.protocol.ProtocolManager) r.getProtocolManager()).addPacketListener(new com.comphenix.protocol.events.PacketAdapter(r.getUC(), com.comphenix.protocol.events.ListenerPriority.NORMAL, new com.comphenix.protocol.PacketType[]{com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE}) {
                 @Override
                 public void onPacketReceiving(com.comphenix.protocol.events.PacketEvent event) {
@@ -83,7 +84,7 @@ public class PluginStealListener implements Listener {
                         }
                     }
                 }
-            });
+            });*/
         }
     }
 

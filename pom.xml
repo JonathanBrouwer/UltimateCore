@@ -247,12 +247,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>3.6.3-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>jfxrt</groupId>
             <artifactId>jfxrt</artifactId>
             <version>jre7</version>
@@ -299,10 +293,6 @@
         <repository>
             <id>dynmap-repo</id>
             <url>http://repo.mikeprimm.com</url>
-        </repository>
-        <repository>
-            <id>shadowvolt-repo</id>
-            <url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
         </repository>
         <repository>
             <id>ultimatecore-repo</id>
