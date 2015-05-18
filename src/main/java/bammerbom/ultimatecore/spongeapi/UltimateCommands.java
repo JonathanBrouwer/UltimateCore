@@ -37,9 +37,11 @@ import java.util.List;
 public class UltimateCommands {
 
     public static List<UltimateCommandExecutor> cmds = new ArrayList<>();
+    public static List<String> disabled;
     public static UltimateCommands ucmds;
 
     public static void load() {
+        disabled = r.getCnfg().getStringList("Command.DisabledCommands");
         cmds.add(new CmdAccountstatus());
         cmds.add(new CmdAfk());
         cmds.add(new CmdAlert());
@@ -177,11 +179,14 @@ public class UltimateCommands {
         ucmds = new UltimateCommands();
         //
         for (UltimateCommandExecutor cmd : cmds) {
-            if (!r.getGame().getCommandDispatcher().get("ultimatecore:" + cmd.getName()).isPresent()) {
-                r.log("Failed to load command: " + cmd.getName());
+            if (disabled.contains(cmd.getName())) {
                 continue;
             }
-
+            for (String a : cmd.getAliases()) {
+                if (disabled.contains(a)) {
+                    continue;
+                }
+            }
             List<String> aliases = new ArrayList<>();
             aliases.add(cmd.getName());
             aliases.addAll(cmd.getAliases());

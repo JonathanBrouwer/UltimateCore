@@ -28,22 +28,22 @@ import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.plugin.Plugin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UltimateCommands implements TabCompleter {
 
     public static List<UltimateCommand> cmds = new ArrayList<>();
+    public static List<String> disabled;
     public static UltimateCommands ucmds;
 
     public static void load() {
+        disabled = r.getCnfg().getStringList("Command.DisabledCommands");
         cmds.add(new CmdAccountstatus());
         cmds.add(new CmdAfk());
         cmds.add(new CmdAlert());
@@ -189,14 +189,21 @@ public class UltimateCommands implements TabCompleter {
     }
 
     public static void onCmd(final CommandSender sender, Command cmd, String label, final String[] args) {
-        if (Overrider.checkOverridden(sender, cmd, label, args)) {
-            return;
-        }
         if (label.startsWith("ultimatecore:")) {
             label = label.replaceFirst("ultimatecore:", "");
         }
         for (UltimateCommand cmdr : cmds) {
             if (label.equals(cmdr.getName()) || cmdr.getAliases().contains(label)) {
+                if (disabled.contains(cmdr.getName())) {
+                    r.sendMes(sender, "commandDisabled");
+                    return;
+                }
+                for (String a : cmdr.getAliases()) {
+                    if (disabled.contains(a)) {
+                        r.sendMes(sender, "commandDisabled");
+                        return;
+                    }
+                }
                 cmdr.run(sender, label, args);
                 break;
             }
@@ -205,15 +212,22 @@ public class UltimateCommands implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        if (Overrider.checkOverridden(sender, cmd, label, args)) {
-            return null;
-        }
         List<String> rtrn = null;
         if (label.startsWith("ultimatecore:")) {
             label = label.replaceFirst("ultimatecore:", "");
         }
         for (UltimateCommand cmdr : cmds) {
             if (cmdr.getName().equals(label) || cmdr.getAliases().contains(label)) {
+                if (disabled.contains(cmdr.getName())) {
+                    r.sendMes(sender, "commandDisabled");
+                    return new ArrayList<>();
+                }
+                for (String a : cmdr.getAliases()) {
+                    if (disabled.contains(a)) {
+                        r.sendMes(sender, "commandDisabled");
+                        return new ArrayList<>();
+                    }
+                }
                 try {
                     rtrn = cmdr.onTabComplete(sender, cmd, label, args, args[args.length - 1], args.length - 1);
                 } catch (Exception ex) {
@@ -241,100 +255,6 @@ public class UltimateCommands implements TabCompleter {
             rtrn.removeAll(remv);
         }
         return rtrn;
-    }
-
-    static class Overrider {
-
-        private static final transient Map<PluginCommand, PluginCommand> overriddenList = new HashMap<>();
-
-        public static void fixCommands() {
-            for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
-                if (pl.isEnabled() && !pl.equals(r.getUC())) {
-                    addPlugin(pl);
-                }
-            }
-        }
-
-        public static void addPlugin(Plugin pl) {
-            if (pl.getName().contains("Essentials")) {
-                return;
-            }
-            List<Command> commands = PluginCommandYamlParser.parse(pl);
-            for (Command command : commands) {
-                PluginCommand pc = (PluginCommand) command;
-                List<String> labels = new ArrayList<>(pc.getAliases());
-                labels.add(pc.getName());
-                for (String lab : labels) {
-                    PluginCommand uc;
-                    uc = Bukkit.getServer().getPluginCommand("ultimatecore:" + lab);
-                    /*if(uc == null){
-                     uc = plugin.getServer().getPluginCommand(pc.getName().toLowerCase(Locale.ENGLISH));
-                     }*/
-                    if ((uc != null) && uc.getPlugin().equals(r.getUC())) {
-                        if (lab.equalsIgnoreCase(uc.getLabel())) {
-                            overriddenList.put(uc, pc);
-                            r.debug(ChatColor.WHITE + "Command overridden: " + lab + " (" + pc.getPlugin() + ")");
-                        }
-                    }
-                }
-            }
-        }
-
-        public static void removePlugin(Plugin pl) {
-            List<Command> commands = PluginCommandYamlParser.parse(pl);
-            for (Command command : commands) {
-                PluginCommand pc = (PluginCommand) command;
-                List<String> labels = new ArrayList<>(pc.getAliases());
-                labels.add(pc.getName());
-                PluginCommand uc;
-                uc = Bukkit.getServer().getPluginCommand("ultimatecore:" + pc.getName());
-                if (uc == null) {
-                    uc = Bukkit.getServer().getPluginCommand(pc.getName().toLowerCase(Locale.ENGLISH));
-                }
-                if ((uc != null) && uc.getPlugin().equals(r.getUC())) {
-                    for (String label : labels) {
-                        if (label.equalsIgnoreCase(uc.getLabel())) {
-                            if (overriddenList.containsKey(uc)) {
-                                r.debug(ChatColor.WHITE + "Command un-overridden: " + label + " (" + pc.getPlugin() +
-                                        ")");
-                                overriddenList.remove(uc);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        public static boolean checkOverridden(final CommandSender cs, Command cmd, final String label, final String[] args) {
-            PluginCommand uc = (PluginCommand) cmd;
-            if (overriddenList.containsKey(uc) || r.getCnfg().getList("disabledcommands").contains(label)) {
-                r.debug(uc + " " + overriddenList.get(uc));
-                PluginCommand pc = overriddenList.get(uc);
-                if (pc == null || pc.getExecutor() == null) {
-                    r.sendMes(cs, "unknownCommand");
-                    return true;
-                }
-                r.debug("Executing " + cs + " " + pc + " " + label);
-
-                pc.execute(cs, label, args);
-                return true;
-            }
-            return false;
-        }
-
-        @EventHandler
-        public void plEnable(PluginEnableEvent e) {
-            if (!e.getPlugin().equals(r.getUC())) {
-                addPlugin(e.getPlugin());
-            }
-        }
-
-        @EventHandler
-        public void plDisable(PluginDisableEvent e) {
-            if (!e.getPlugin().equals(r.getUC())) {
-                removePlugin(e.getPlugin());
-            }
-        }
     }
 
 }

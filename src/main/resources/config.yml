@@ -184,7 +184,10 @@ Chat:
 
 #Command customization
 Command:
-  #Enable the custom unknown command message?
+  #Disabled commands
+  DisabledCommands:
+  - Example_Command
+  #Enable the custom unknown command message? (Customizable in messages file)
   UnknownCommand: true
   #Broadcast when someone gets banned?
   BanBroadcast: true
