@@ -69,7 +69,7 @@ public class CmdTeleportaccept implements UltimateCommand {
             } else {
                 LocationUtil.teleport(p, t, TeleportCause.COMMAND, true, true);
                 r.sendMes(cs, "teleportaskhereAcceptSender", "%Player", t.getName());
-                r.sendMes(t, "teleportaskhereAcceptTarget", "%Player", p.getName());
+                r.sendMes(t, "teleportaskhereAcceptTarget", "%Player", r.getDisplayName(p));
                 UC.getServer().removeTeleportHereRequest(t.getUniqueId());
             }
         } else if (!UC.getServer().getTeleportRequests().containsKey(p.getUniqueId())) {
@@ -81,7 +81,7 @@ public class CmdTeleportaccept implements UltimateCommand {
             } else {
                 LocationUtil.teleport(t, p, TeleportCause.COMMAND, true, true);
                 r.sendMes(cs, "teleportaskAcceptSender", "%Player", t.getName());
-                r.sendMes(t, "teleportaskAcceptTarget", "%Player", p.getName());
+                r.sendMes(t, "teleportaskAcceptTarget", "%Player", r.getDisplayName(p));
                 UC.getServer().removeTeleportRequest(p.getUniqueId());
             }
         }

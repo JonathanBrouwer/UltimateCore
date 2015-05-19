@@ -93,7 +93,7 @@ public class CmdSetmaxhealth implements UltimateCommand {
                     t.setMaxHealth(d);
                     t.setHealth(d);
                     r.sendMes(cs, "setmaxhealthMessage", "%Player", UC.getPlayer(t).getDisplayName(), "%Health", d);
-                    r.sendMes(t, "setmaxhealthOthers", "%Player", cs.getName(), "%Health", d);
+                    r.sendMes(t, "setmaxhealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
                 } else if (r.isDouble(args[1])) {
                     Double d = Double.parseDouble(args[1]);
                     d = r.normalize(d, 1.0, 999999.0);
@@ -105,7 +105,7 @@ public class CmdSetmaxhealth implements UltimateCommand {
                     t.setMaxHealth(d);
                     t.setHealth(d);
                     r.sendMes(cs, "setmaxhealthMessage", "%Player", UC.getPlayer(t).getDisplayName(), "%Health", d);
-                    r.sendMes(t, "setmaxhealthOthers", "%Player", cs.getName(), "%Health", d);
+                    r.sendMes(t, "setmaxhealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
                 } else {
                     r.sendMes(cs, "numberFormat", "%Number", args[0]);
                 }

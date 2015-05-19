@@ -73,8 +73,8 @@ public class CmdFeed implements UltimateCommand {
             }
             p.setFoodLevel(20);
             p.setSaturation(10F);
-            r.sendMes(cs, "feedOthersSelf", "%Player", p.getName());
-            r.sendMes(p, "feedOthersOther", "%Player", cs.getName());
+            r.sendMes(cs, "feedOthersSelf", "%Player", r.getDisplayName(p));
+            r.sendMes(p, "feedOthersOther", "%Player", r.getDisplayName(cs));
         }
     }
 

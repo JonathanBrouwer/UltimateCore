@@ -67,7 +67,7 @@ public class CmdHunger implements UltimateCommand {
                 Integer d = Integer.parseInt(args[0]);
                 Player p = (Player) cs;
                 p.setFoodLevel(p.getFoodLevel() - r.normalize(d, 0, 20));
-                r.sendMes(cs, "hungerSelf", "%Player", p.getName(), "%Hunger", args[0]);
+                r.sendMes(cs, "hungerSelf", "%Player", r.getDisplayName(p), "%Hunger", args[0]);
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }

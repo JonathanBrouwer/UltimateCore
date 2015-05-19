@@ -61,7 +61,7 @@ public class CmdSethunger implements UltimateCommand {
             Player p = (Player) cs;
             p.setFoodLevel(20);
             p.setSaturation(10F);
-            r.sendMes(cs, "sethungerMessage", "%Player", p.getName(), "%Food", "20");
+            r.sendMes(cs, "sethungerMessage", "%Player", r.getDisplayName(p), "%Food", "20");
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
                 return;
@@ -70,7 +70,7 @@ public class CmdSethunger implements UltimateCommand {
                 Integer d = Integer.parseInt(args[0]);
                 Player p = (Player) cs;
                 p.setFoodLevel(r.normalize(d, 0, 20));
-                r.sendMes(cs, "sethungerMessage", "%Player", p.getName(), "%Food", r.normalize(d, 0, 20));
+                r.sendMes(cs, "sethungerMessage", "%Player", r.getDisplayName(p), "%Food", r.normalize(d, 0, 20));
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
@@ -88,7 +88,7 @@ public class CmdSethunger implements UltimateCommand {
                 t.setFoodLevel(r.normalize(d, 0, 20));
                 t.setSaturation(10F);
                 r.sendMes(cs, "sethungerMessage", "%Player", t.getName(), "%Food", r.normalize(d, 0, 20));
-                r.sendMes(t, "sethungerOthers", "%Player", cs.getName(), "%Food", r.normalize(d, 0, 20));
+                r.sendMes(t, "sethungerOthers", "%Player", r.getDisplayName(cs), "%Food", r.normalize(d, 0, 20));
             } else if (r.isInt(args[1])) {
                 Integer d = Integer.parseInt(args[1]);
                 Player t = r.searchPlayer(args[0]);
@@ -99,7 +99,7 @@ public class CmdSethunger implements UltimateCommand {
                 t.setFoodLevel(r.normalize(d, 0, 20));
                 t.setSaturation(10F);
                 r.sendMes(cs, "sethungerMessage", "%Player", t.getName(), "%Food", r.normalize(d, 0, 20));
-                r.sendMes(t, "sethungerOthers", "%Player", cs.getName(), "%Food", r.normalize(d, 0, 20));
+                r.sendMes(t, "sethungerOthers", "%Player", r.getDisplayName(cs), "%Food", r.normalize(d, 0, 20));
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }

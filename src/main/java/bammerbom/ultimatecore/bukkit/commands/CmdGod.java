@@ -113,14 +113,14 @@ public class CmdGod implements UltimateCommand {
         }
         UC.getPlayer(banp).setGod(!UC.getPlayer(banp).isGod(), time);
         if (time == 0L) {
-            r.sendMes(cs, "godOthersSelfMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
+            r.sendMes(cs, "godOthersSelfMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
             if (banp.isOnline()) {
-                r.sendMes((CommandSender) banp, "godOthersOtherMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
+                r.sendMes((CommandSender) banp, "godOthersOtherMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
             }
         } else {
-            r.sendMes(cs, "godOthersSelfMessageT", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
+            r.sendMes(cs, "godOthersSelfMessageT", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
             if (banp.isOnline()) {
-                r.sendMes((CommandSender) banp, "godOthersOtherMessageT", "%Player", cs.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
+                r.sendMes((CommandSender) banp, "godOthersOtherMessageT", "%Player", r.getDisplayName(cs), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
             }
         }
     }

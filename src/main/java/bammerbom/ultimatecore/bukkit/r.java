@@ -194,6 +194,18 @@ public class r {
         return false;
     }
 
+    public static String getDisplayName(Object cs) {
+        if (cs instanceof Player) {
+            return UC.getPlayer((Player) cs).getDisplayName();
+        } else if (cs instanceof OfflinePlayer) {
+            return ((OfflinePlayer) cs).getName();
+        } else if (cs instanceof CommandSender) {
+            return ((CommandSender) cs).getName();
+        } else {
+            return cs.toString();
+        }
+    }
+
     public static boolean perm(CommandSender cs, String perm, Boolean def, Boolean message) {
         if (!(cs instanceof Player)) {
             return true;

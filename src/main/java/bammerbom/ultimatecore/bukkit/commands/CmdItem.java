@@ -125,7 +125,7 @@ public class CmdItem implements UltimateCommand {
             }
         }
         InventoryUtil.addItem(p.getInventory(), item);
-        r.sendMes(cs, "itemMessage", "%Item", ItemUtil.getName(item), "%Amount", amount, "%Player", p.getName());
+        r.sendMes(cs, "itemMessage", "%Item", ItemUtil.getName(item), "%Amount", amount, "%Player", r.getDisplayName(p));
     }
 
     @Override

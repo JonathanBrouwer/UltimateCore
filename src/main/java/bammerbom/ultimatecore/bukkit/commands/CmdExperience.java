@@ -62,7 +62,7 @@ public class CmdExperience implements UltimateCommand {
                 r.sendMes(cs, "noPermissions");
                 return;
             }
-            r.sendMes(cs, "experienceShow", "%Player", cs.getName(), "%Experience", XpUtil.getExp(p), "%Levels", p.getLevel());
+            r.sendMes(cs, "experienceShow", "%Player", r.getDisplayName(cs), "%Experience", XpUtil.getExp(p), "%Levels", p.getLevel());
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             String rawxp = args[0];
             String xp = args[0].endsWith("L") ? rawxp : rawxp.replace("L", "").replace("l", "");
@@ -73,7 +73,7 @@ public class CmdExperience implements UltimateCommand {
                         r.sendMes(cs, "noPermissions");
                         return;
                     }
-                    r.sendMes(cs, "experienceShow", "%Player", p.getName(), "%Experience", XpUtil.getExp(p), "%Levels", p.getLevel());
+                    r.sendMes(cs, "experienceShow", "%Player", r.getDisplayName(p), "%Experience", XpUtil.getExp(p), "%Levels", p.getLevel());
                     return;
                 } else {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
@@ -96,9 +96,9 @@ public class CmdExperience implements UltimateCommand {
                     p.setLevel(p.getLevel() + x);
                 }
                 if (x >= 0) {
-                    r.sendMes(cs, "experienceGive", "%Experience", x, "%Settype", r.mes("experienceSettypeLevels"), "%Player", p.getName());
+                    r.sendMes(cs, "experienceGive", "%Experience", x, "%Settype", r.mes("experienceSettypeLevels"), "%Player", r.getDisplayName(p));
                 } else {
-                    r.sendMes(cs, "experienceTake", "%Experience", x * -1, "%Settype", r.mes("experienceSettypeLevels"), "%Player", p.getName());
+                    r.sendMes(cs, "experienceTake", "%Experience", x * -1, "%Settype", r.mes("experienceSettypeLevels"), "%Player", r.getDisplayName(p));
                 }
             } else {
                 if (XpUtil.getExp(p) + x < 1) {
@@ -107,10 +107,10 @@ public class CmdExperience implements UltimateCommand {
                     XpUtil.setTotalExp(p, XpUtil.getExp(p) + x);
                 }
                 if (x >= 0) {
-                    r.sendMes(cs, "experienceGive", "%Experience", x, "%Settype", r.mes("experienceSettypeExperience"), "%Player", p.getName());
+                    r.sendMes(cs, "experienceGive", "%Experience", x, "%Settype", r.mes("experienceSettypeExperience"), "%Player", r.getDisplayName(p));
                     r.sendMes(cs, "experienceTip", "%Command", "/xp " + x + "L");
                 } else {
-                    r.sendMes(cs, "experienceTake", "%Experience", x * -1, "%Settype", r.mes("experienceSettypeExperience"), "%Player", p.getName());
+                    r.sendMes(cs, "experienceTake", "%Experience", x * -1, "%Settype", r.mes("experienceSettypeExperience"), "%Player", r.getDisplayName(p));
                     r.sendMes(cs, "experienceTip", "%Command", "/xp " + (x * -1) + "L");
                 }
             }

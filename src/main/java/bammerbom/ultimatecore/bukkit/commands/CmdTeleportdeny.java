@@ -65,10 +65,10 @@ public class CmdTeleportdeny implements UltimateCommand {
             Player t2 = r.searchPlayer(UC.getServer().getTeleportHereRequests().get(p.getUniqueId()));
             r.sendMes(cs, "teleportdenySender");
             if (t1 != null) {
-                r.sendMes(t1, "teleportdenyTarget", "%Player", p.getName());
+                r.sendMes(t1, "teleportdenyTarget", "%Player", r.getDisplayName(p));
             }
             if (t2 != null) {
-                r.sendMes(t2, "teleportdenyTarget", "%Player", p.getName());
+                r.sendMes(t2, "teleportdenyTarget", "%Player", r.getDisplayName(p));
             }
             UC.getServer().removeTeleportRequest(p.getUniqueId());
             UC.getServer().removeTeleportHereRequest(p.getUniqueId());

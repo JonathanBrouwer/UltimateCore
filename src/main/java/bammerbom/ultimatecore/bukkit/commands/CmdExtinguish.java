@@ -72,7 +72,7 @@ public class CmdExtinguish implements UltimateCommand {
             }
             t.setFireTicks(0);
             r.sendMes(cs, "extinguishOthersSelf", "%Player", t.getName());
-            r.sendMes(t, "extinguishOthersOther", "%Player", cs.getName());
+            r.sendMes(t, "extinguishOthersOther", "%Player", r.getDisplayName(cs));
         }
     }
 

@@ -66,7 +66,7 @@ public class CmdMe implements UltimateCommand {
         if (r.perm(cs, "uc.coloredchat", false, false)) {
             mes = ChatColor.translateAlternateColorCodes('&', mes);
         }
-        Bukkit.broadcastMessage(f.replace("%Player", cs.getName()).replace("%Message", mes));
+        Bukkit.broadcastMessage(f.replace("%Player", r.getDisplayName(cs)).replace("%Message", mes));
 
     }
 

@@ -84,7 +84,7 @@ public class CmdSkull implements UltimateCommand {
             meta.setOwner(p.getName());
             skull.setItemMeta(meta);
             InventoryUtil.addItem(p.getInventory(), skull);
-            r.sendMes(cs, "skullMessage", "%Player", p.getName());
+            r.sendMes(cs, "skullMessage", "%Player", r.getDisplayName(p));
         }
     }
 

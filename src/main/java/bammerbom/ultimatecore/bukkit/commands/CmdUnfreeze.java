@@ -71,7 +71,7 @@ public class CmdUnfreeze implements UltimateCommand {
             return;
         }
         UC.getPlayer(banp).setFrozen(false);
-        r.sendMes(cs, "unfreezeMessage", "%Player", banp.getName());
+        r.sendMes(cs, "unfreezeMessage", "%Player", r.getDisplayName(banp));
         if (banp.isOnline()) {
             Player banp2 = (Player) banp;
             r.sendMes(banp2, "unfreezeTarget");

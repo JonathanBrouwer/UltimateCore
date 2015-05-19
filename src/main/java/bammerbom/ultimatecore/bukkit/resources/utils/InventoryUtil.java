@@ -114,7 +114,7 @@ public class InventoryUtil {
                     r.sendMes(cs, "clearSelfAll");
                 } else {
                     r.sendMes(cs, "clearOtherAllSender", "%Player", player.getName());
-                    r.sendMes(player, "clearOtherAllPlayer", "%Player", cs.getName());
+                    r.sendMes(player, "clearOtherAllPlayer", "%Player", r.getDisplayName(cs));
                 }
             }
             player.getInventory().clear();
@@ -125,7 +125,7 @@ public class InventoryUtil {
                     r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
                 } else {
                     r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", cs.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
+                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
                 }
             }
             player.getInventory().clear(type, data);
@@ -140,7 +140,7 @@ public class InventoryUtil {
                     r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
                 } else {
                     r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", cs.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
+                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
                 }
             }
         } else {
@@ -153,7 +153,7 @@ public class InventoryUtil {
                     r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
                 } else {
                     r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", cs.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
+                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
                 }
                 player.getInventory().removeItem(new ItemStack[]{stack});
             } else if (showExtended) {

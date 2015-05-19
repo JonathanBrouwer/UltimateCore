@@ -83,7 +83,7 @@ public class CmdSpawn implements UltimateCommand {
                 LocationUtil.teleport(t, UC.getPlayer(t).getSpawn(false), TeleportCause.COMMAND, false, false);
             }
             r.sendMes(cs, "spawnMessageOtherSelf", "%Player", UC.getPlayer(t).getDisplayName());
-            r.sendMes(t, "spawnMessageOtherOthers", "%Player", cs.getName());
+            r.sendMes(t, "spawnMessageOtherOthers", "%Player", r.getDisplayName(cs));
         }
     }
 

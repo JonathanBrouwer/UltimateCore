@@ -76,10 +76,10 @@ public class CmdSetexperience implements UltimateCommand {
             r.normalize(x, 0, 999999);
             if (amount.endsWith("l") || amount.endsWith("L")) {
                 p.setLevel(x);
-                r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeLevels"), "%Player", p.getName(), "%Experience", x);
+                r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeLevels"), "%Player", r.getDisplayName(p), "%Experience", x);
             } else {
                 XpUtil.setTotalExp(p, x);
-                r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeExperience"), "%Player", p.getName(), "%Experience", x);
+                r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeExperience"), "%Player", r.getDisplayName(p), "%Experience", x);
                 r.sendMes(cs, "experienceTip", "%Command", "/setexperience " + x + "L");
             }
 
@@ -103,11 +103,11 @@ public class CmdSetexperience implements UltimateCommand {
             r.normalize(x, 0, 999999);
             if (amount.endsWith("l") || amount.endsWith("L")) {
                 p.setLevel(x);
-                r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeLevels"), "%Player", p.getName(), "%Experience", x);
+                r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeLevels"), "%Player", r.getDisplayName(p), "%Experience", x);
             } else {
                 XpUtil.setTotalExp(p, x);
-                r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeExperience"), "%Player", p.getName(), "%Experience", x);
-                r.sendMes(cs, "experienceTip", "%Command", "/setexperience " + x + "L " + p.getName());
+                r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeExperience"), "%Player", r.getDisplayName(p), "%Experience", x);
+                r.sendMes(cs, "experienceTip", "%Command", "/setexperience " + x + "L " + r.getDisplayName(p));
             }
         }
     }

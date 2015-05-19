@@ -75,11 +75,11 @@ public class CmdFly implements UltimateCommand {
             if (target != null) {
                 if (target.getAllowFlight() == true) {
                     target.setAllowFlight(false);
-                    r.sendMes(target, "flyOthersOther", "%Status", r.mes("off"), "%Player", cs.getName());
+                    r.sendMes(target, "flyOthersOther", "%Status", r.mes("off"), "%Player", r.getDisplayName(cs));
                     r.sendMes(cs, "flyOthersSelf", "%Status", r.mes("off"), "%Player", target.getName());
                 } else {
                     target.setAllowFlight(true);
-                    r.sendMes(target, "flyOthersOther", "%Status", r.mes("on"), "%Player", cs.getName());
+                    r.sendMes(target, "flyOthersOther", "%Status", r.mes("on"), "%Player", r.getDisplayName(cs));
                     r.sendMes(cs, "flyOthersSelf", "%Status", r.mes("on"), "%Player", target.getName());
                 }
             } else {

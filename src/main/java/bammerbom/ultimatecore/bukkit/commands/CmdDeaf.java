@@ -80,9 +80,9 @@ public class CmdDeaf implements UltimateCommand {
         }
         UC.getPlayer(banp).setDeaf(true, time);
         if (time == 0L) {
-            r.sendMes(cs, "deafMessage", "%Player", banp.getName());
+            r.sendMes(cs, "deafMessage", "%Player", r.getDisplayName(banp));
         } else {
-            r.sendMes(cs, "deafMessageTime", "%Player", banp.getName(), "%Time", DateUtil.format(time));
+            r.sendMes(cs, "deafMessageTime", "%Player", r.getDisplayName(banp), "%Time", DateUtil.format(time));
         }
         if (banp.isOnline()) {
             Player banp2 = (Player) banp;

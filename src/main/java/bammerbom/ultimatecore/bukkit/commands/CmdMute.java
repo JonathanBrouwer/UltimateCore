@@ -64,7 +64,7 @@ public class CmdMute implements UltimateCommand {
             return;
         }
         if (UC.getPlayer(banp).isMuted()) {
-            r.sendMes(cs, "muteAlreadyMuted", "%Player", banp.getName());
+            r.sendMes(cs, "muteAlreadyMuted", "%Player", r.getDisplayName(banp));
             return;
         }
         Long time = 0L;
@@ -83,7 +83,7 @@ public class CmdMute implements UltimateCommand {
             return;
         }
         UC.getPlayer(banp).setMuted(true, time);
-        r.sendMes(cs, "muteMessage", "%Player", banp.getName());
+        r.sendMes(cs, "muteMessage", "%Player", r.getDisplayName(banp));
         if (banp.isOnline()) {
             Player banp2 = (Player) banp;
             r.sendMes(banp2, "muteTarget");

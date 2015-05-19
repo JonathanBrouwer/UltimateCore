@@ -60,7 +60,7 @@ public class CmdDamage implements UltimateCommand {
             }
             Player p = (Player) cs;
             p.damage(0.0);
-            r.sendMes(cs, "damageMessage", "%Player", p.getName(), "%Health", 0);
+            r.sendMes(cs, "damageMessage", "%Player", r.getDisplayName(p), "%Health", 0);
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
                 return;
@@ -72,7 +72,7 @@ public class CmdDamage implements UltimateCommand {
                 Double d = Double.parseDouble(args[0]);
                 Player p = (Player) cs;
                 p.damage(d);
-                r.sendMes(cs, "damageMessage", "%Player", p.getName(), "%Health", d);
+                r.sendMes(cs, "damageMessage", "%Player", r.getDisplayName(p), "%Health", d);
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }

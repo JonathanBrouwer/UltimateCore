@@ -847,9 +847,6 @@ public class UPlayer {
             return getNick();
         }
         if (getPlayer().isOnline()) {
-            if (getOnlinePlayer().getCustomName() != null) {
-                return getOnlinePlayer().getCustomName();
-            }
             if (getOnlinePlayer().getDisplayName() != null) {
                 return getOnlinePlayer().getDisplayName();
             }

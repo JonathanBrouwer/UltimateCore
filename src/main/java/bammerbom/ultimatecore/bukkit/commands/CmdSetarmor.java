@@ -123,7 +123,7 @@ public class CmdSetarmor implements UltimateCommand {
             Player p = (Player) cs;
             if (isArmor(args[0])) {
                 setArmor(p, getArmor(args[0]));
-                r.sendMes(cs, "setarmorSet", "%Player", cs.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
+                r.sendMes(cs, "setarmorSet", "%Player", r.getDisplayName(cs), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
             } else {
                 r.sendMes(cs, "setarmorNotFound", "%Armor", args[0]);
             }
@@ -139,7 +139,7 @@ public class CmdSetarmor implements UltimateCommand {
                 }
                 setArmor(t, getArmor(args[0]));
                 r.sendMes(cs, "setarmorSet", "%Player", t.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
-                r.sendMes(t, "setarmorOthers", "%Player", cs.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
+                r.sendMes(t, "setarmorOthers", "%Player", r.getDisplayName(cs), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
             } else if (isArmor(args[1])) {
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
@@ -148,7 +148,7 @@ public class CmdSetarmor implements UltimateCommand {
                 }
                 setArmor(t, getArmor(args[1]));
                 r.sendMes(cs, "setarmorSet", "%Player", t.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[1]).name().toLowerCase()));
-                r.sendMes(t, "setarmorOthers", "%Player", cs.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[1]).name().toLowerCase()));
+                r.sendMes(t, "setarmorOthers", "%Player", r.getDisplayName(cs), "%Armor", StringUtil.firstUpperCase(getArmor(args[1]).name().toLowerCase()));
             } else {
                 r.sendMes(cs, "setarmorNotFound", "%Armor", args[0]);
             }

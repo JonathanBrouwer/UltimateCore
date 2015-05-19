@@ -66,11 +66,11 @@ public class CmdUnmute implements UltimateCommand {
             return;
         }
         if (!UC.getPlayer(banp).isMuted()) {
-            r.sendMes(cs, "unmuteNotMuted", "%Player", banp.getName());
+            r.sendMes(cs, "unmuteNotMuted", "%Player", r.getDisplayName(banp));
             return;
         }
         UC.getPlayer(banp).setMuted(false);
-        r.sendMes(cs, "unmuteMessage", "%Player", banp.getName());
+        r.sendMes(cs, "unmuteMessage", "%Player", r.getDisplayName(banp));
         if (banp.isOnline()) {
             Player banp2 = (Player) banp;
             r.sendMes(banp2, "unmuteTarget");

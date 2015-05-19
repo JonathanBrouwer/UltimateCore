@@ -82,7 +82,7 @@ public class CmdNick implements UltimateCommand {
             }
             r.sendMes(cs, "nickMessage", "%Name", r.mes("nickOff"), "%Player", t.getName());
             if (o) {
-                r.sendMes(t, "nickMessageOthers", "%Player", cs.getName(), "%Name", r.mes("nickOff"));
+                r.sendMes(t, "nickMessageOthers", "%Player", r.getDisplayName(cs), "%Name", r.mes("nickOff"));
             }
             UC.getPlayer(t).setNick(null);
             return;
@@ -116,7 +116,7 @@ public class CmdNick implements UltimateCommand {
         UC.getPlayer(t).setNick(name);
         r.sendMes(cs, "nickMessage", "%Name", name, "%Player", t.getName());
         if (o) {
-            r.sendMes(t, "nickMessageOthers", "%Player", cs.getName(), "%Name", name);
+            r.sendMes(t, "nickMessageOthers", "%Player", r.getDisplayName(cs), "%Name", name);
         }
     }
 

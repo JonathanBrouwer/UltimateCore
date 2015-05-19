@@ -67,7 +67,7 @@ public class CmdNames implements UltimateCommand {
         }
         JsonConfig conf = UltimateFileLoader.getPlayerConfig(p);
         List<String> names = conf.getStringList("names");
-        r.sendMes(cs, "namesMessage", "%Player", p.getName());
+        r.sendMes(cs, "namesMessage", "%Player", r.getDisplayName(p));
         for (String name : names) {
             String n = name.split(" - ")[0];
             String d = name.split(" - ")[1];

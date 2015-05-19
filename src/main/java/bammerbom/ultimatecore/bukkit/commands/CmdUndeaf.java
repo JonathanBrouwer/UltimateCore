@@ -70,7 +70,7 @@ public class CmdUndeaf implements UltimateCommand {
             return;
         }
         UC.getPlayer(banp).setDeaf(false);
-        r.sendMes(cs, "undeafMessage", "%Player", banp.getName());
+        r.sendMes(cs, "undeafMessage", "%Player", r.getDisplayName(banp));
         if (banp.isOnline()) {
             Player banp2 = (Player) banp;
             r.sendMes(banp2, "undeafTarget");

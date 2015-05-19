@@ -75,7 +75,7 @@ public class CmdUnban implements UltimateCommand {
                     }
                 }
                 if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-                    Bukkit.broadcastMessage(r.mes("unbanBroadcast").replace("%Unbanner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase())).replace("%Unbanned", args[0]));
+                    Bukkit.broadcastMessage(r.mes("unbanBroadcast").replace("%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase())).replace("%Unbanned", args[0]));
                 }
             }
             return;
@@ -87,7 +87,7 @@ public class CmdUnban implements UltimateCommand {
         }
         UPlayer pl = UC.getPlayer(banp);
         if (!pl.isBanned()) {
-            r.sendMes(cs, "unbanNotBanned", "%Player", banp.getName());
+            r.sendMes(cs, "unbanNotBanned", "%Player", r.getDisplayName(banp));
             return;
         }
         pl.unban();
@@ -98,9 +98,9 @@ public class CmdUnban implements UltimateCommand {
         }
         //
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-            Bukkit.broadcastMessage(r.mes("unbanBroadcast", "%Unbanner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Unbanned", banp.getName()));
+            Bukkit.broadcastMessage(r.mes("unbanBroadcast", "%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Unbanned", r.getDisplayName(banp)));
         } else {
-            r.sendMes(cs, "unbanBroadcast", "%Unbanner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Unbanned", banp.getName());
+            r.sendMes(cs, "unbanBroadcast", "%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Unbanned", r.getDisplayName(banp));
         }
     }
 

@@ -63,7 +63,7 @@ public class CmdUuid implements UltimateCommand {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
-        r.sendMes(cs, "uuidMessage", "%Name", p.getName(), "%Uuid", p.getUniqueId());
+        r.sendMes(cs, "uuidMessage", "%Name", r.getDisplayName(p), "%Uuid", p.getUniqueId());
     }
 
     @Override

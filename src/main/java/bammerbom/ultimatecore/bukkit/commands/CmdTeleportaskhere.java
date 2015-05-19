@@ -90,7 +90,7 @@ public class CmdTeleportaskhere implements UltimateCommand {
         for (UUID u : remove) {
             UC.getServer().removeTeleportRequest(u);
         }
-        r.sendMes(cs, "teleportaskhereTarget1", "%Player", p.getName());
+        r.sendMes(cs, "teleportaskhereTarget1", "%Player", r.getDisplayName(p));
         r.sendMes(cs, "teleportaskTarget2");
         r.sendMes(cs, "teleportaskTarget3");
         Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {

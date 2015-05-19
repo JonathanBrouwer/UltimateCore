@@ -80,7 +80,7 @@ public class CmdGamemode implements UltimateCommand {
                 }
                 t.setGameMode(GameMode.SURVIVAL);
                 r.sendMes(cs, "gamemodeOthersSelf", "%Gamemode", r.mes("gamemodeSurvival"), "%Player", t.getName());
-                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeSurvival"), "%Player", cs.getName());
+                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeSurvival"), "%Player", r.getDisplayName(cs));
             }
             return;
         }
@@ -110,7 +110,7 @@ public class CmdGamemode implements UltimateCommand {
                 }
                 t.setGameMode(GameMode.CREATIVE);
                 r.sendMes(cs, "gamemodeOthersSelf", "%Gamemode", r.mes("gamemodeCreative"), "%Player", t.getName());
-                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeCreative"), "%Player", cs.getName());
+                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeCreative"), "%Player", r.getDisplayName(cs));
             }
             return;
         }
@@ -140,7 +140,7 @@ public class CmdGamemode implements UltimateCommand {
                 }
                 t.setGameMode(GameMode.ADVENTURE);
                 r.sendMes(cs, "gamemodeOthersSelf", "%Gamemode", r.mes("gamemodeAdventure"), "%Player", t.getName());
-                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeAdventure"), "%Player", cs.getName());
+                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeAdventure"), "%Player", r.getDisplayName(cs));
             }
             return;
         }
@@ -169,7 +169,7 @@ public class CmdGamemode implements UltimateCommand {
                 }
                 t.setGameMode(GameMode.SPECTATOR);
                 r.sendMes(cs, "gamemodeOthersSelf", "%Gamemode", r.mes("gamemodeSpectator"), "%Player", t.getName());
-                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeSpectator"), "%Player", cs.getName());
+                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeSpectator"), "%Player", r.getDisplayName(cs));
             }
             return;
         }
@@ -225,7 +225,7 @@ public class CmdGamemode implements UltimateCommand {
                 }
                 t.setGameMode(mode);
                 r.sendMes(cs, "gamemodeOthersSelf", "%Gamemode", r.mes("gamemode" + StringUtil.firstUpperCase(mode.toString().toLowerCase())), "%Player", t.getName());
-                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemode" + StringUtil.firstUpperCase(mode.toString().toLowerCase())), "%Player", cs.getName());
+                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemode" + StringUtil.firstUpperCase(mode.toString().toLowerCase())), "%Player", r.getDisplayName(cs));
             } else {
                 if (!r.isPlayer(cs)) {
                     return;

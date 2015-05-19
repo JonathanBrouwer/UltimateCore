@@ -60,7 +60,7 @@ public class CmdSethealth implements UltimateCommand {
             }
             Player p = (Player) cs;
             p.setHealth(20.0);
-            r.sendMes(cs, "sethealthMessage", "%Player", p.getName(), "%Health", "20.0");
+            r.sendMes(cs, "sethealthMessage", "%Player", r.getDisplayName(p), "%Health", "20.0");
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
                 return;
@@ -73,7 +73,7 @@ public class CmdSethealth implements UltimateCommand {
                     p.setMaxHealth(d);
                 }
                 p.setHealth(d);
-                r.sendMes(cs, "sethealthMessage", "%Player", p.getName(), "%Health", d);
+                r.sendMes(cs, "sethealthMessage", "%Player", r.getDisplayName(p), "%Health", d);
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
@@ -94,7 +94,7 @@ public class CmdSethealth implements UltimateCommand {
                 }
                 t.setHealth(d);
                 r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Healh", d);
-                r.sendMes(t, "sethealthOthers", "%Player", cs.getName(), "%Health", d);
+                r.sendMes(t, "sethealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
             } else if (r.isDouble(args[1])) {
                 Double d = Double.parseDouble(args[1]);
                 d = r.normalize(d, 0.0, 999999.0);
@@ -108,7 +108,7 @@ public class CmdSethealth implements UltimateCommand {
                 }
                 t.setHealth(d);
                 r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Health", d);
-                r.sendMes(t, "sethealthOthers", "%Player", cs.getName(), "%Health", d);
+                r.sendMes(t, "sethealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }

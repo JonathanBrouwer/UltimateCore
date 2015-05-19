@@ -91,8 +91,8 @@ public class CmdRepair implements UltimateCommand {
                 return;
             }
             stack.setDurability((short) 0);
-            r.sendMes(cs, "repairOtherSelfHand", "%Player", p.getName());
-            r.sendMes(p, "repairOtherOtherHand", "%Player", cs.getName());
+            r.sendMes(cs, "repairOtherSelfHand", "%Player", r.getDisplayName(p));
+            r.sendMes(p, "repairOtherOtherHand", "%Player", r.getDisplayName(cs));
         } else if (args[0].equalsIgnoreCase("all")) {
             //repair all <Player>
             if (!r.perm(cs, "uc.repair.all", false, true)) {
@@ -122,8 +122,8 @@ public class CmdRepair implements UltimateCommand {
                     }
                     stack.setDurability((short) 0);
                 }
-                r.sendMes(cs, "repairOtherSelfAll", "%Player", p.getName());
-                r.sendMes(p, "repairOtherOtherAll", "%Player", cs.getName());
+                r.sendMes(cs, "repairOtherSelfAll", "%Player", r.getDisplayName(p));
+                r.sendMes(p, "repairOtherOtherAll", "%Player", r.getDisplayName(cs));
             } else {
                 //repair all
                 if (!r.isPlayer(cs)) {

@@ -61,7 +61,7 @@ public class CmdSay implements UltimateCommand {
             r.sendMes(cs, "sayUsage");
             return;
         }
-        String m = format.replace("%Player", cs.getName()).replace("%Message", r.getFinalArg(args, 0));
+        String m = format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 0));
         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', m).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
     }
 

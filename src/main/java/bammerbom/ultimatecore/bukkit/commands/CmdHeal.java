@@ -94,7 +94,7 @@ public class CmdHeal implements UltimateCommand {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             } else {
                 r.sendMes(cs, "healOthersSelf", "%Player", t.getName());
-                r.sendMes(t, "healOthersOther", "%Player", cs.getName());
+                r.sendMes(t, "healOthersOther", "%Player", r.getDisplayName(cs));
                 for (PotionEffect effect : t.getActivePotionEffects()) {
                     if (!healPositiveEffects) {
                         for (NegativeEffect bad : NegativeEffect.values()) {

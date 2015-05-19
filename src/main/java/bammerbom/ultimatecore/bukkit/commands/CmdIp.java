@@ -69,8 +69,8 @@ public class CmdIp implements UltimateCommand {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
-            r.sendMes(cs, "ipPlayer1", "%Player", p.getName(), "%Hostname", UC.getPlayer(p).getLastHostname());
-            r.sendMes(cs, "ipPlayer2", "%Player", p.getName(), "%IP", UC.getPlayer(p).getLastIp());
+            r.sendMes(cs, "ipPlayer1", "%Player", r.getDisplayName(p), "%Hostname", UC.getPlayer(p).getLastHostname());
+            r.sendMes(cs, "ipPlayer2", "%Player", r.getDisplayName(p), "%IP", UC.getPlayer(p).getLastIp());
         }
     }
 

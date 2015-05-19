@@ -67,7 +67,7 @@ public class CmdTeleporttoggle implements UltimateCommand {
             }
             UC.getPlayer(t).setTeleportEnabled(!UC.getPlayer(t).hasTeleportEnabled());
             r.sendMes(cs, "teleporttoggleOthersSelf", "%Player", t.getName(), "%Enabled", UC.getPlayer(t).hasTeleportEnabled() ? r.mes("enabled") : r.mes("disabled"));
-            r.sendMes(t, "teleporttoggleOthersOthers", "%Player", cs.getName(), "%Enabled", UC.getPlayer(t).hasTeleportEnabled() ? r.mes("enabled") : r.mes("disabled"));
+            r.sendMes(t, "teleporttoggleOthersOthers", "%Player", r.getDisplayName(cs), "%Enabled", UC.getPlayer(t).hasTeleportEnabled() ? r.mes("enabled") : r.mes("disabled"));
         }
 
     }

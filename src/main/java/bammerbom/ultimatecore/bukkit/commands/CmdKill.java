@@ -72,7 +72,7 @@ public class CmdKill implements UltimateCommand {
             if (target == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             } else {
-                r.sendMes(target, "killTarget", "%Player", cs.getName());
+                r.sendMes(target, "killTarget", "%Player", r.getDisplayName(cs));
                 r.sendMes(cs, "killKiller", "%Player", target.getName());
 
                 target.setLastDamageCause(new EntityDamageEvent(target, DamageCause.CUSTOM, Double.MAX_VALUE));

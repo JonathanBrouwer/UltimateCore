@@ -61,7 +61,7 @@ public class CmdAnswer implements UltimateCommand {
             r.sendMes(cs, "answerUsage");
             return;
         }
-        cs.sendMessage(format.replace("%Player", cs.getName()).replace("%Message", r.getFinalArg(args, 1)));
+        cs.sendMessage(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 1)));
     }
 
     @Override

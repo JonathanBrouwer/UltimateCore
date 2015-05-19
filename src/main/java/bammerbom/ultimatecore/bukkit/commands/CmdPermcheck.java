@@ -59,9 +59,9 @@ public class CmdPermcheck implements UltimateCommand {
             return;
         } else if (!r.checkArgs(args, 1)) {
             if (r.perm(cs, args[0], false, false)) {
-                r.sendMes(cs, "permcheckMessageTrue", "%Player", cs.getName(), "%Permission", args[0]);
+                r.sendMes(cs, "permcheckMessageTrue", "%Player", r.getDisplayName(cs), "%Permission", args[0]);
             } else {
-                r.sendMes(cs, "permcheckMessageFalse", "%Player", cs.getName(), "%Permission", args[0]);
+                r.sendMes(cs, "permcheckMessageFalse", "%Player", r.getDisplayName(cs), "%Permission", args[0]);
             }
         } else {
             if (!r.perm(cs, "uc.permcheck.others", false, true)) {
