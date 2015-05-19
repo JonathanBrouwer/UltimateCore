@@ -23,21 +23,20 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.SignChangeEvent;
 
-import java.util.List;
-
-public interface UltimateCommand {
+public interface UltimateSign {
 
     String getName();
 
     String getPermission();
 
-    List<String> getAliases();
+    void onClick(Player p, Sign sign);
 
-    void run(CommandSender sender, String label, String[] args);
+    void onCreate(SignChangeEvent event);
 
-    List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args, String curs, Integer curn);
-
+    void onDestroy(BlockBreakEvent event);
 }

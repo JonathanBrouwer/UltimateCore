@@ -21,23 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.bukkit;
+package bammerbom.ultimatecore.spongeapi;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import bammerbom.ultimatecore.bukkit.signs.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public interface UltimateCommand {
+public class UltimateSigns {
 
-    String getName();
+    public static List<UltimateSign> signs = new ArrayList<>();
 
-    String getPermission();
-
-    List<String> getAliases();
-
-    void run(CommandSender sender, String label, String[] args);
-
-    List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args, String curs, Integer curn);
-
+    public static void start() {
+        signs.add(new SignBalance());
+        signs.add(new SignDisposal());
+        signs.add(new SignFree());
+        signs.add(new SignGamemode());
+        signs.add(new SignHeal());
+        signs.add(new SignKit());
+        signs.add(new SignRepair());
+        signs.add(new SignTime());
+        signs.add(new SignWarp());
+        signs.add(new SignWeather());
+    }
 }

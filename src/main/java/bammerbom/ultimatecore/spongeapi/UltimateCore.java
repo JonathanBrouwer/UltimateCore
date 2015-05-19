@@ -150,6 +150,7 @@ public class UltimateCore {
             r.setColors();
             UuidUtil.loadPlayers();
             UltimateCommands.load();
+            UltimateSigns.start();
             PerformanceUtil.getTps();
             ItemDatabase.enable();
             //

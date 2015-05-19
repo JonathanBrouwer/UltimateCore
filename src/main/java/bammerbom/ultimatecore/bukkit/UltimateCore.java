@@ -80,6 +80,7 @@ public class UltimateCore extends JavaPlugin {
             r.setColors();
             UuidUtil.loadPlayers();
             UltimateCommands.load();
+            UltimateSigns.start();
             PerformanceUtil.getTps();
             BossbarUtil.enable();
             ItemDatabase.enable();
