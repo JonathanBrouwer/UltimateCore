@@ -363,6 +363,11 @@ commands:
     usage: /<command> <Player> <Amount>
     description: Give someone a certain amount of money
     permissions: uc.pay
+  permcheck:
+    usage: /<command> [Player] <Permission>
+    description: Check if a certain player has a permission
+    permissions: uc.permcheck
+    aliases: [permissioncheck]
   ping:
     usage: /<command> [Player]
     description: View a players ping.

@@ -120,6 +120,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdNear());
         cmds.add(new CmdNick());
         cmds.add(new CmdPay());
+        cmds.add(new CmdPermcheck());
         cmds.add(new CmdPing());
         cmds.add(new CmdPlugin());
         cmds.add(new CmdPotion());
