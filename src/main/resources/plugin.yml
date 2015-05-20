@@ -628,6 +628,6 @@ commands:
     permissions: uc.workbench
     aliases: [wb, craftingtable, ct, wbench]
   world:
-    usage: /<command> create/import/remove/list/tp/flag/reset
+    usage: /<command> create/import/remove/list/tp/flag
     description: World management command.
     permissions: uc.world

@@ -40,7 +40,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.util.FileUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +58,6 @@ public class CmdWorld implements UltimateCommand {
         r.sendMes(cs, "worldUsage7");
         r.sendMes(cs, "worldUsage8");
         r.sendMes(cs, "worldUsage9", "%Flags", StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
-        r.sendMes(cs, "worldUsage10");
     }
 
     public static void create(CommandSender cs, String[] args) {
@@ -248,44 +246,6 @@ public class CmdWorld implements UltimateCommand {
         }
     }
 
-    public static void reset(CommandSender cs, String[] args) {
-        if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.reset", false, false)) {
-            r.sendMes(cs, "noPermissions");
-            return;
-        }
-        if (r.checkArgs(args, 1) == false) {
-            r.sendMes(cs, "worldUsage10");
-            return;
-        }
-        if (r.checkArgs(args, 1) == true) {
-            World world = Bukkit.getWorld(args[1]);
-            if (world == null) {
-                r.sendMes(cs, "worldNotFound", "%World", args[1]);
-                return;
-            }
-            if (world.getPlayers().size() > 0) {
-                r.sendMes(cs, "worldResetPlayersInside");
-                return;
-            }
-            r.sendMes(cs, "worldResetResetting", "%World", args[1]);
-            String i = "";
-            while (new File(world.getWorldFolder().getName() + "_OLD" + i).exists()) {
-                if (i.equalsIgnoreCase("")) {
-                    i = "1";
-                } else {
-                    Integer a = Integer.parseInt(i);
-                    a++;
-                    i = a + "";
-                }
-            }
-            File f = new File(world.getWorldFolder().getName() + "_OLD" + i);
-            FileUtil.copy(world.getWorldFolder(), f);
-            resetAll(world);
-            r.sendMes(cs, "worldResetReset", "%World", args[1]);
-        }
-
-    }
-
     private static void clear(File dir) {
         for (File file : dir.listFiles()) {
             if (file.getName().toLowerCase().contains("player")) {
@@ -469,8 +429,6 @@ public class CmdWorld implements UltimateCommand {
             remove(cs, args);
         } else if (args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("teleport")) {
             tp(cs, args);
-        } else if (args[0].equalsIgnoreCase("reset")) {
-            reset(cs, args);
         } else if (args[0].equalsIgnoreCase("flag")) {
             flag(cs, args);
         } else {
@@ -481,7 +439,7 @@ public class CmdWorld implements UltimateCommand {
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
-            return Arrays.asList("create", "import", "list", "remove", "tp", "reset", "flag");
+            return Arrays.asList("create", "import", "list", "remove", "tp", "flag");
         }
         if (curn == 1) {
             if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("import") || args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("flag")) {
