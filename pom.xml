@@ -252,6 +252,11 @@
             <version>jre7</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>3.6.3-SNAPSHOT</version>
+        </dependency>
         <!-- Hosted on GitHub -->
         <dependency>
             <groupId>com.palmergames</groupId>
@@ -298,6 +303,9 @@
             <id>ultimatecore-repo</id>
             <url>https://raw.githubusercontent.com/Bammerbom/UltimateCore/master/mvn-repo/</url>
         </repository>
-
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>http://repo.dmulloy2.net/content/groups/public/</url>
+        </repository>
     </repositories>
 </project>

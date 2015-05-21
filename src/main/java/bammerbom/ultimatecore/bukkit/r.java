@@ -90,6 +90,9 @@ public class r {
     }
 
     public static void start() {
+        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
+            prom = com.comphenix.protocol.ProtocolLibrary.getProtocolManager();
+        }
         if (r.getCnfg().contains("Debug")) {
             setDebug(r.getCnfg().getBoolean("Debug"));
         }
