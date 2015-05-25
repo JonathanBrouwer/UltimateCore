@@ -545,7 +545,7 @@ commands:
     usage: /<command>
     description: Deny a teleport request.
     permissions: uc.teleportdeny
-    aliases: [tpdeny]
+    aliases: [tpdeny, tpno]
   teleporthere:
     usage: /<command> <Player>
     description: Teleport someone to you.

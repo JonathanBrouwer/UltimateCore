@@ -48,7 +48,7 @@ public class CmdTeleportdeny implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("tpdeny");
+        return Arrays.asList("tpdeny", "tpno");
     }
 
     @Override
