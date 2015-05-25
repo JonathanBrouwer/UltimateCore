@@ -95,6 +95,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdIp());
         cmds.add(new CmdItem());
         cmds.add(new CmdJail());
+        cmds.add(new CmdJaillist());
         cmds.add(new CmdJump());
         cmds.add(new CmdKick());
         cmds.add(new CmdKickall());
@@ -157,6 +158,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdTeleportall());
         cmds.add(new CmdTeleportask());
         cmds.add(new CmdTeleportaskall());
+        cmds.add(new CmdTeleportaskhere());
         cmds.add(new CmdTeleportdeny());
         cmds.add(new CmdTeleporthere());
         cmds.add(new CmdTeleporttoggle());
