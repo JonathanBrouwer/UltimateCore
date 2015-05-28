@@ -50,7 +50,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 
-@Plugin(id = "UltimateCore", name = "UltimateCore", version = "2.1.6")
+@Plugin(id = "UltimateCore", name = "UltimateCore", version = "2.1.7")
 public class UltimateCore {
 
     public static UltimateCore instance;
