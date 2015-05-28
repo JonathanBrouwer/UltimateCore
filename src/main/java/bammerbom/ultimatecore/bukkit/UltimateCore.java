@@ -85,7 +85,9 @@ public class UltimateCore extends JavaPlugin {
             BossbarUtil.enable();
             ItemDatabase.enable();
             //
-            UEconomy.start();
+            if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+                UEconomy.start();
+            }
             r.start();
             UServer.start();
             CmdHeal.start();
