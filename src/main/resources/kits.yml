@@ -1,6 +1,7 @@
 tools:
   description: A kit with stone tools.
   cooldown: "20s"
+  firstjoin: true
   items:
     - type: STONE_SWORD 
       unbreakable: 1

@@ -52,6 +52,7 @@ public class UKit {
     private final String description;
     private final List<ItemStack> items;
     private final long cooldown;
+    private final boolean firstjoin;
 
     public UKit(final String name) {
         this.name = name;
@@ -59,7 +60,18 @@ public class UKit {
         this.items = getItemStacks(kit.getMapList("items"));
         this.cooldown = DateUtil.parseDateDiff(kit.getString("cooldown", "0"));
         this.description = ChatColor.translateAlternateColorCodes('&', kit.getString("description", ""));
+        this.firstjoin = kit.getBoolean("firstjoin", false);
     }
+
+    /**
+     * Gets if the kit is given to the player on first join.
+     *
+     * @return If the kit is given to the player on first join.
+     */
+    public boolean firstJoin() {
+        return firstjoin;
+    }
+
 
     /**
      * Adds a list of represented enchantments to an ItemStack.

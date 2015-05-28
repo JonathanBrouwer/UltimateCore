@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
+import bammerbom.ultimatecore.bukkit.api.UKit;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
 import org.bukkit.Bukkit;
@@ -35,6 +36,10 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
+import java.util.Map;
 
 public class JoinLeaveListener implements Listener {
 
@@ -45,7 +50,20 @@ public class JoinLeaveListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void JoinMessage(PlayerJoinEvent e) {
         if (!e.getPlayer().hasPlayedBefore()) {
+            //Message
             Bukkit.broadcastMessage(r.mes("firstJoin", "%Player", e.getPlayer().getDisplayName()));
+            //Kits
+            for (UKit kit : UC.getServer().getKits()) {
+                if (kit.firstJoin()) {
+                    final List<ItemStack> items = kit.getItems();
+                    final Map<Integer, ItemStack> leftOver = e.getPlayer().getInventory().addItem(items.toArray(new ItemStack[items.size()]));
+                    for (final ItemStack is : leftOver.values()) {
+                        e.getPlayer().getWorld().dropItemNaturally(e.getPlayer().getLocation(), is);
+                    }
+                    kit.setLastUsed(e.getPlayer(), System.currentTimeMillis());
+                }
+            }
+            //Teleport to spawn
             LocationUtil.teleportUnsafe(e.getPlayer(), UC.getPlayer(e.getPlayer()).getSpawn(true) != null ? UC.getPlayer(e.getPlayer()).getSpawn(true) : e.getPlayer().getWorld().getSpawnLocation(), TeleportCause.PLUGIN, false);
         }
         if (UC.getPlayer(e.getPlayer()).isBanned()) {
