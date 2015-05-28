@@ -63,7 +63,7 @@ public class CmdSeen implements UltimateCommand {
         }
         OfflinePlayer p = r.searchOfflinePlayer(args[0]);
         if (p == null || (!p.hasPlayedBefore() && !p.isOnline())) {
-            r.sendMes(cs, "seenNotFound");
+            r.sendMes(cs, "seenNotFound", "%Player", args[0]);
             return;
         }
         UPlayer pl = UC.getPlayer(p);
