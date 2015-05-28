@@ -216,6 +216,19 @@ public class MetaItemStack {
                 meta.setColor(Color.fromRGB(red, green, blue));
                 this.stack.setItemMeta(meta);
             } else {
+                Color colo = null;
+                try {
+                    if (DyeColor.valueOf(split[1].toUpperCase()) != null) {
+                        colo = DyeColor.valueOf(split[1].toUpperCase()).getColor();
+                    }
+                } catch (Exception e) {
+                    colo = null; // Not defined
+                }
+                if (colo != null) {
+                    LeatherArmorMeta meta = (LeatherArmorMeta) this.stack.getItemMeta();
+                    meta.setColor(colo);
+                    this.stack.setItemMeta(meta);
+                }
             }
         } else if (split[0].equalsIgnoreCase("glow") || split[0].equalsIgnoreCase("glowing")) {
             ItemUtil.addGlow(stack);
