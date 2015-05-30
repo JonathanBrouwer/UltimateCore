@@ -113,6 +113,9 @@ public class CmdNick implements UltimateCommand {
             return;
         }
         for (Player pl : r.getOnlinePlayers()) {
+            if (pl.equals(t)) {
+                continue;
+            }
             if (pl.getName().equalsIgnoreCase(ChatColor.stripColor(name).replaceAll("&y", "")) || UC.getPlayer(pl).getDisplayName().equalsIgnoreCase(ChatColor.stripColor(name).replaceAll("&y", ""))) {
                 r.sendMes(cs, "nickAlreadyInUse");
                 return;
