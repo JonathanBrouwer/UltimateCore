@@ -108,9 +108,15 @@ public class CmdNick implements UltimateCommand {
         if (r.perm(cs, "uc.nick.colors", false, false)) {
             name = ChatColor.translateAlternateColorCodes('&', name);
         }
-        if (!ChatColor.stripColor(name).replaceAll("�", "").replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "").equalsIgnoreCase("")) {
+        if (!ChatColor.stripColor(name).replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "").equalsIgnoreCase("")) {
             r.sendMes(cs, "nickNonAlpha");
             return;
+        }
+        for (Player pl : r.getOnlinePlayers()) {
+            if (pl.getName().equalsIgnoreCase(ChatColor.stripColor(name).replaceAll("&y", "")) || UC.getPlayer(pl).getDisplayName().equalsIgnoreCase(ChatColor.stripColor(name).replaceAll("&y", ""))) {
+                r.sendMes(cs, "nickAlreadyInUse");
+                return;
+            }
         }
         name = ChatColor.translateAlternateColorCodes('&', args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", ""));
         UC.getPlayer(t).setNick(name);
