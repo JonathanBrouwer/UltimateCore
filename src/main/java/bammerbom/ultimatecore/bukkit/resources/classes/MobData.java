@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.databases.EffectDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.*;

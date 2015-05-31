@@ -72,7 +72,6 @@ public class UKit {
         return firstjoin;
     }
 
-
     /**
      * Adds a list of represented enchantments to an ItemStack.
      *
