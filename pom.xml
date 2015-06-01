@@ -60,10 +60,14 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <file>${basedir}/target/classes/plugin.yml</file>
+                    <unescape>true</unescape>
+                    <includes>
+                        <include>${basedir}/target/classes/plugin.yml</include>
+                        <!-- <file>${basedir}/target/classes/bammerbom/ultimatecore/spongeapi/UltimateCore.class</file> -->
+                    </includes>
                     <replacements>
                         <replacement>
-                            <token>PROJECT_VERSION_AUTOMATED</token>
+                            <token>\$\{project.version\}</token>
                             <value>${project.version}</value>
                         </replacement>
                     </replacements>
@@ -84,6 +88,7 @@
                     <target>1.7</target>
                     <excludes>
                         <exclude>bammerbom/ultimatecore/spongeapi/**</exclude>
+                        <exclude>bammerbom/ultimatecore/spongeapi_old/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -109,6 +114,7 @@
                     </archive>
                     <excludes>
                         <exclude>bammerbom/ultimatecore/spongeapi/**</exclude>
+                        <exclude>bammerbom/ultimatecore/spongeapi_old/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>

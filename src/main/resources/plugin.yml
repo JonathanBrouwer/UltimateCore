@@ -1,5 +1,5 @@
 name: UltimateCore
-version: PROJECT_VERSION_AUTOMATED
+version: ${project.version}
 description: Ultimate Core is all you need to setup a server and more!
 author: Bammerbom
 authors: [Bammerbom, KoffieMeister, Coolechriz]
