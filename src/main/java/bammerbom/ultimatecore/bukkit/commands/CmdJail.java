@@ -71,9 +71,8 @@ public class CmdJail implements UltimateCommand {
             for (String j : jails.keySet()) {
                 if (b.length() != 0) {
                     b.append(j + ", ");
-                } else {
-                    b.append(j);
                 }
+                b.append(j);
             }
             r.sendMes(cs, "jailList", "%Jails", b.toString());
         } else {

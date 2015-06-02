@@ -47,7 +47,6 @@
           <unescape>true</unescape>
           <includes>
             <include>${basedir}/target/classes/plugin.yml</include>
-            <include>${basedir}/target/classes/bammerbom/ultimatecore/bukkit/UltimateCore.class</include>
           </includes>
           <replacements>
             <replacement>
