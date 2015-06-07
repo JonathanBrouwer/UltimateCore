@@ -27,11 +27,13 @@ import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.configuration.ConfigSection;
 import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
+import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.bukkit.resources.databases.EnchantmentDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -107,28 +109,33 @@ public class UKit {
      * @return ItemStack of null
      */
     private ItemStack getItemStack(final Map<String, Object> item) {
-        final ItemStack is = ItemUtil.searchItem((String) item.get("type"));
-        if (is == null) {
-            return null;
-        }
-        if (item.containsKey("amount")) {
-            is.setAmount((int) item.get("amount"));
-        }
-        if (item.containsKey("damage")) {
-            is.setDurability(((Number) item.get("damage")).shortValue());
-        }
-        MetaItemStack ism = new MetaItemStack(is);
-        for (String s : item.keySet()) {
-            if (s.equalsIgnoreCase("amount") || s.equalsIgnoreCase("type") || s.equalsIgnoreCase("damage")) {
-                continue;
+        try {
+            final ItemStack is = ItemUtil.searchItem((String) item.get("type"));
+            if (is == null) {
+                return null;
             }
-            try {
-                ism.addStringMeta(null, true, s + ":" + item.get(s).toString().replaceAll(" ", "_"));
-            } catch (Exception ex) {
-                continue;
+            if (item.containsKey("amount")) {
+                is.setAmount((int) item.get("amount"));
             }
+            if (item.containsKey("damage")) {
+                is.setDurability(((Number) item.get("damage")).shortValue());
+            }
+            MetaItemStack ism = new MetaItemStack(is);
+            for (String s : item.keySet()) {
+                if (s.equalsIgnoreCase("amount") || s.equalsIgnoreCase("type") || s.equalsIgnoreCase("damage")) {
+                    continue;
+                }
+                try {
+                    ism.addStringMeta(null, true, s + ":" + item.get(s).toString().replaceAll(" ", "_"));
+                } catch (Exception ex) {
+                    continue;
+                }
+            }
+            return ism.getItemStack();
+        } catch (Exception ex) {
+            r.log("Kit " + name + " has an invalid item: " + item);
+            return new ItemStack(Material.AIR);
         }
-        return ism.getItemStack();
     }
 
     /**
