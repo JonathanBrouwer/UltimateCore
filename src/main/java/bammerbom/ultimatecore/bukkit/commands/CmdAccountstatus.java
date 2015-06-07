@@ -77,7 +77,7 @@ public class CmdAccountstatus implements UltimateCommand {
                 URL u;
                 try {
                     u = new URL("https://minecraft.net/haspaid.jsp?user=" + URLEncoder.encode(pl.getName(), "UTF-8"));
-                } catch (MalformedURLException|UnsupportedEncodingException ex) {
+                } catch (MalformedURLException | UnsupportedEncodingException ex) {
                     r.sendMes(cs, "accountstatusFailedSupport");
                     return;
                 }

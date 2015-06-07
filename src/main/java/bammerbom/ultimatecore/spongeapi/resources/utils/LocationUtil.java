@@ -306,7 +306,7 @@ public class LocationUtil {
     /**
      * Creates a teleport effect
      *
-     * @param p The player who is teleported
+     * @param p   The player who is teleported
      * @param loc The location where the effect is shown
      */
     public static void playEffect(Player p, Location loc) {

@@ -665,7 +665,7 @@ class NbtFactory {
     private static Method getMethod(int requireMod, int bannedMod, Class<?> clazz, String methodName, Class<?>... params) {
         for (Method method : clazz.getDeclaredMethods()) {
             // Limitation: Doesn't handle overloads
-            if ((method.getModifiers()&requireMod) == requireMod && (method.getModifiers()&bannedMod) == 0 &&
+            if ((method.getModifiers() & requireMod) == requireMod && (method.getModifiers() & bannedMod) == 0 &&
                     (methodName == null || method.getName().equals(methodName)) && Arrays.equals(method.getParameterTypes(), params)) {
 
                 method.setAccessible(true);

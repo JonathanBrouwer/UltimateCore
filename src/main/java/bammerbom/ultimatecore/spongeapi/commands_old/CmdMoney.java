@@ -183,7 +183,7 @@ public class CmdMoney implements UltimateCommand {
                 String player;
                 try {
                     player = r.searchOfflinePlayer(UUID.fromString(map.keySet().toArray(new String[map.size()])[cur])).getName();
-                } catch (IllegalArgumentException|NullPointerException ex) {
+                } catch (IllegalArgumentException | NullPointerException ex) {
                     player = map.keySet().toArray(new String[map.size()])[cur];
                 }
                 if (player == null) {

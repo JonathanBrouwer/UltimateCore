@@ -272,7 +272,7 @@ public class r {
                 if (b) {
                     en.save(new FileOutputStream(UltimateFileLoader.ENf), "UltimateCore messages file.");
                 }
-            } catch (NullPointerException|FileNotFoundException ex) {
+            } catch (NullPointerException | FileNotFoundException ex) {
                 //IGNORE: CUSTOM MESSAGES FILE
             }
         } catch (IOException ex) {

@@ -106,8 +106,8 @@ public class TitleUtil {
 
                 pcon.getClass().getMethod("sendPacket", new Class[]{getNmsClass("Packet")}).invoke(pcon, new Object[]{ppoc});
             }
-        } catch (IllegalAccessException|IllegalArgumentException|InvocationTargetException|NoSuchMethodException
-                |SecurityException|ClassNotFoundException|InstantiationException|NoSuchFieldException e) {
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+                | SecurityException | ClassNotFoundException | InstantiationException | NoSuchFieldException e) {
             e.printStackTrace();
         }
     }

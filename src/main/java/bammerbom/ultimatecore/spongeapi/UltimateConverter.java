@@ -286,7 +286,7 @@ public class UltimateConverter {
                 r.log("Server restart needed to complete convertion...");
                 r.log(ChatColor.GREEN + "Stopping server...");
                 Bukkit.getServer().shutdown();
-            } catch (InterruptedException|IOException ex) {
+            } catch (InterruptedException | IOException ex) {
                 ErrorLogger.log(ex, "Failed to convert from yaml data");
             }
         }

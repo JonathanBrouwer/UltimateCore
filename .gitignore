@@ -26,7 +26,8 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must ends with two \r.
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -46,3 +47,4 @@ bin
 *.project
 /target
 .idea
+dependency-reduced-pom.xml

@@ -52,14 +52,14 @@ public class UnknownCommandListener implements Listener {
             Field f;
             try {
                 f = SimplePluginManager.class.getDeclaredField("commandMap");
-            } catch (NoSuchFieldException|SecurityException e) {
+            } catch (NoSuchFieldException | SecurityException e) {
                 e.printStackTrace();
                 return null;
             }
             f.setAccessible(true);
             try {
                 return (SimpleCommandMap) f.get(Bukkit.getPluginManager());
-            } catch (IllegalArgumentException|IllegalAccessException e) {
+            } catch (IllegalArgumentException | IllegalAccessException e) {
                 e.printStackTrace();
                 return null;
             }

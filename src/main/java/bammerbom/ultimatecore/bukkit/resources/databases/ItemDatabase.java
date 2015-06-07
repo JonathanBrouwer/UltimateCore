@@ -343,7 +343,7 @@ class ItemData {
 
     @Override
     public int hashCode() {
-        return 31 * this.itemId.hashCode()^this.itemData;
+        return 31 * this.itemId.hashCode() ^ this.itemData;
     }
 
     @Override

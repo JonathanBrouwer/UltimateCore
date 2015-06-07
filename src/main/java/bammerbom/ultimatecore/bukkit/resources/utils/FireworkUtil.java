@@ -89,12 +89,12 @@ public class FireworkUtil {
         try {
             // invoke with no arguments
             nms_world = world_getHandle.invoke(loc.getWorld(), (Object[]) null);
-        } catch (IllegalAccessException|IllegalArgumentException|InvocationTargetException ex) {
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             ErrorLogger.log(ex, "Failed to play firework");
         }
         try {
             nms_firework = firework_getHandle.invoke(fw, (Object[]) null);
-        } catch (IllegalAccessException|IllegalArgumentException|InvocationTargetException ex) {
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             ErrorLogger.log(ex, "Failed to play firework");
         }
         // null checks are fast, so having this seperate is ok
@@ -121,7 +121,7 @@ public class FireworkUtil {
              */
             // invoke with arguments
             nms_world_broadcastEntityEffect.invoke(nms_world, new Object[]{nms_firework, (byte) 17});
-        } catch (IllegalAccessException|IllegalArgumentException|InvocationTargetException ex) {
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             ErrorLogger.log(ex, "Failed to play firework");
         }
         // remove from the game
