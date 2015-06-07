@@ -714,7 +714,9 @@ public class CmdPlugin implements UltimateCommand {
                         return;
                     }
                     r.sendMes(cs, "pluginSearchHeader");
-                    for (int i = 0; i < 20; i++) {
+                    for (int i = 0;
+                         i < 20;
+                         i++) {
                         final String project = StringUtils.substringBetween(content.toString(), " " + "row-joined-to-next\">", "</tr>");
                         final String base = StringUtils.substringBetween(project, "<td class=\"col-search-entry\">", "</td>");
                         if (base == null) {

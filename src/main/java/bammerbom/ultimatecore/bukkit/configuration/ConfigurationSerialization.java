@@ -246,7 +246,8 @@ public class ConfigurationSerialization {
                 return result;
             }
         } catch (Throwable ex) {
-            Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + clazz + " for deserialization", ex instanceof InvocationTargetException ? ex.getCause() : ex);
+            Logger.getLogger(ConfigurationSerialization.class.getName())
+                    .log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + clazz + " for deserialization", ex instanceof InvocationTargetException ? ex.getCause() : ex);
         }
 
         return null;

@@ -35,7 +35,8 @@ import java.util.List;
 
 public class CmdAsk implements UltimateCommand {
 
-    String format = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.AskFormat")).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n");
+    String format = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.AskFormat")).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
+            .replace("\\\\n", "\n");
 
     @Override
     public String getName() {

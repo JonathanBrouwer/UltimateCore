@@ -112,12 +112,15 @@ public class VillagerUtil {
             List list = (List) recipes.get(entityVillager);
             for (Object recipe : list) {
                 ReflectionUtil.ReflectionObject reflObj = new ReflectionUtil.ReflectionObject(recipe);
-                ItemStack buyingItem1 = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("buyingItem1")).fetch();
+                ItemStack buyingItem1 = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("buyingItem1"))
+                        .fetch();
                 ItemStack buyingItem2 = null;
                 if (reflObj.get("buyingItem2") != null) {
-                    buyingItem2 = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("buyingItem2")).fetch();
+                    buyingItem2 = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("buyingItem2"))
+                            .fetch();
                 }
-                ItemStack sellingItem = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("sellingItem")).fetch();
+                ItemStack sellingItem = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("sellingItem"))
+                        .fetch();
                 Integer maxUses = (Integer) ReflectionUtil.execute("maxUses", recipe).fetch();
                 Integer uses = (Integer) ReflectionUtil.execute("uses", recipe).fetch();
                 Boolean rewardxp = (Boolean) ReflectionUtil.execute("rewardExp", recipe).fetch();

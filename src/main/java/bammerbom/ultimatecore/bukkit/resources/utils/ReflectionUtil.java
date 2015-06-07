@@ -184,7 +184,9 @@ public class ReflectionUtil {
         Method m = null;
         Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
-        for (c = obj.getClass(); c != null; c = c.getSuperclass()) {
+        for (c = obj.getClass();
+             c != null;
+             c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
                 if (method.getName().equals(methodName)) {
                     m = method;
@@ -199,7 +201,9 @@ public class ReflectionUtil {
         Method m = null;
         Class<?> c = obj;
         //Traverse loop to make sure we get every method, also the inherited ones
-        for (c = obj; c != null; c = c.getSuperclass()) {
+        for (c = obj;
+             c != null;
+             c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
                 if (method.getName().equals(methodName)) {
                     m = method;
@@ -223,7 +227,9 @@ public class ReflectionUtil {
         Method m = null;
         Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
-        for (c = obj.getClass(); c != null; c = c.getSuperclass()) {
+        for (c = obj.getClass();
+             c != null;
+             c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
                 if (method.getName().equals(name) && checkForMatch(method.getParameterTypes(), args)) {
                     m = method;
@@ -241,7 +247,9 @@ public class ReflectionUtil {
         Method m = null;
         Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
-        for (c = obj; c != null; c = c.getSuperclass()) {
+        for (c = obj;
+             c != null;
+             c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
                 if (method.getName().equals(name) && checkForMatch(method.getParameterTypes(), args)) {
                     m = method;

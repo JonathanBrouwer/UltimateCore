@@ -64,7 +64,9 @@ public class CmdFreezelist implements UltimateCommand {
         StringBuilder freezelist = new StringBuilder();
         Integer cur = 0;
         String result;
-        for (int i = 0; i < freezes.size(); i++) {
+        for (int i = 0;
+             i < freezes.size();
+             i++) {
             freezelist.append(freezes.get(cur).getName() + ", ");
             cur++;
 

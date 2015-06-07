@@ -113,12 +113,18 @@ public class TreeListener implements Listener {
             }
             if (isTree == true) {
 
-                for (int yVec = 0; yVec < height + 6.0D; yVec++) {
+                for (int yVec = 0;
+                     yVec < height + 6.0D;
+                     yVec++) {
                     x2 = x3;
                     z2 = z3;
-                    for (int xVec = 0; xVec < 7; xVec++) {
+                    for (int xVec = 0;
+                         xVec < 7;
+                         xVec++) {
                         z2 = z3;
-                        for (int zVec = 0; zVec < 7; zVec++) {
+                        for (int zVec = 0;
+                             zVec < 7;
+                             zVec++) {
                             Location surround = new Location(world, x2, y2, z2);
                             Material surroundType = surround.getBlock().getType();
 

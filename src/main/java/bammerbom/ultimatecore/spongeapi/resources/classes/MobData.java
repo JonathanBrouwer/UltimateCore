@@ -94,7 +94,8 @@ public class MobData {
 
     static void setHorseSpeed(Horse h, double speed) {
         try {
-            ReflectionUtil.ReflectionObject attributes = ReflectionUtil.execute("getHandle().getAttributeInstance({1})", h, ReflectionUtil.executeStatic("d", ReflectionUtil.ReflectionStatic.fromNMS("GenericAttributes")).fetch());
+            ReflectionUtil.ReflectionObject attributes = ReflectionUtil
+                    .execute("getHandle().getAttributeInstance({1})", h, ReflectionUtil.executeStatic("d", ReflectionUtil.ReflectionStatic.fromNMS("GenericAttributes")).fetch());
             if (attributes.get("b()") == speed) {
                 return;
             }

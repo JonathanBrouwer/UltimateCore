@@ -56,7 +56,9 @@ public class CmdClearchat implements UltimateCommand {
                 return;
             }
             for (Player p : r.getOnlinePlayers()) {
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0;
+                     i < 100;
+                     i++) {
                     p.sendMessage("");
                 }
             }
@@ -70,7 +72,9 @@ public class CmdClearchat implements UltimateCommand {
                 r.sendMes(cs, "noPermissions");
                 return;
             }
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0;
+                 i < 100;
+                 i++) {
                 pl.sendMessage("");
             }
         }

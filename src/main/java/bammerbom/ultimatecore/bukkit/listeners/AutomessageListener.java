@@ -56,7 +56,8 @@ public class AutomessageListener implements Listener {
         messages = FileUtil.getLines(file);
         decrease = r.getCnfg().getBoolean("Messages.Decrease");
         random = new Random();
-        if (r.getCnfg().getBoolean("Messages.Enabledchat") == false && r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") == false && r.getCnfg().getBoolean("Messages.Enabledactionbar") == false) {
+        if (r.getCnfg().getBoolean("Messages.Enabledchat") == false && r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") == false && r.getCnfg()
+                .getBoolean("Messages.Enabledactionbar") == false) {
             return;
         }
         Bukkit.getPluginManager().registerEvents(new AutomessageListener(), r.getUC());

@@ -414,7 +414,8 @@ public class GlobalPlayerListener implements Listener {
                 e.setCancelled(CmdMobtp.place(e.getPlayer()));
             }
             //Powertool
-            if (!e.getAction().equals(Action.PHYSICAL) && e.getPlayer() != null && e.getPlayer().getItemInHand() != null && e.getPlayer().getItemInHand().getType() != null && !e.getPlayer().getItemInHand().getType().equals(Material.AIR) && UC.getPlayer(e.getPlayer()).hasPowertool(e.getPlayer().getItemInHand().getType())) {
+            if (!e.getAction().equals(Action.PHYSICAL) && e.getPlayer() != null && e.getPlayer().getItemInHand() != null && e.getPlayer().getItemInHand().getType() != null && !e.getPlayer()
+                    .getItemInHand().getType().equals(Material.AIR) && UC.getPlayer(e.getPlayer()).hasPowertool(e.getPlayer().getItemInHand().getType())) {
                 for (String s : UC.getPlayer(e.getPlayer()).getPowertools(e.getPlayer().getItemInHand().getType())) {
                     e.getPlayer().performCommand(s);
                 }

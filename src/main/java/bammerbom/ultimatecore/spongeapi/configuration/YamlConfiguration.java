@@ -190,7 +190,9 @@ class YamlConfiguration extends FileConfiguration {
         boolean readingHeader = true;
         boolean foundHeader = false;
 
-        for (int i = 0; (i < lines.length) && (readingHeader); i++) {
+        for (int i = 0;
+             (i < lines.length) && (readingHeader);
+             i++) {
             String line = lines[i];
 
             if (line.startsWith(COMMENT_PREFIX)) {
@@ -238,7 +240,9 @@ class YamlConfiguration extends FileConfiguration {
         String[] lines = header.split("\r?\n", -1);
         boolean startedHeader = false;
 
-        for (int i = lines.length - 1; i >= 0; i--) {
+        for (int i = lines.length - 1;
+             i >= 0;
+             i--) {
             builder.insert(0, "\n");
 
             if ((startedHeader) || (lines[i].length() != 0)) {

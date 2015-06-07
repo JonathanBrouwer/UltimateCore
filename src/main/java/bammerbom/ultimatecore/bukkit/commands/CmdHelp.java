@@ -328,7 +328,9 @@ class TextPager {
 
             int start = this.onePage ? 0 : (page - 1) * 9;
             int end;
-            for (end = 0; end < lines.size(); end++) {
+            for (end = 0;
+                 end < lines.size();
+                 end++) {
                 String line = lines.get(end);
                 if (line.startsWith("#")) {
                     break;
@@ -349,7 +351,9 @@ class TextPager {
                 }
                 r.sendMes(sender, "helpHeader", "%Content", content, "%Page", page, "%MaxPages", pages);
             }
-            for (int i = start; i < end; i++) {
+            for (int i = start;
+                 i < end;
+                 i++) {
                 if (i >= start + (this.onePage ? 20 : 9)) {
                     break;
                 }
@@ -386,7 +390,9 @@ class TextPager {
         int chapterstart = bookmarks.get(pageStr.toLowerCase(Locale.ENGLISH)).intValue() + 1;
 
         int chapterend;
-        for (chapterend = chapterstart; chapterend < lines.size(); chapterend++) {
+        for (chapterend = chapterstart;
+             chapterend < lines.size();
+             chapterend++) {
             String line = lines.get(chapterend);
             if ((line.length() > 0) && (line.charAt(0) == '#')) {
                 break;
@@ -403,7 +409,9 @@ class TextPager {
             content.append(pageStr);
             r.sendMes(sender, "helpHeader", "%Content", content, "%Page", page, "%Pages", pages);
         }
-        for (int i = start; i < chapterend; i++) {
+        for (int i = start;
+             i < chapterend;
+             i++) {
             if (i >= start + (this.onePage ? 20 : 9)) {
                 break;
             }

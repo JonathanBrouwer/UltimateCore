@@ -125,7 +125,9 @@ public class MetaItemStack {
             //TODO
             //this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
         } else {
-            for (int i = fromArg; i < string.length; i++) {
+            for (int i = fromArg;
+                 i < string.length;
+                 i++) {
                 addStringMeta(sender, allowUnsafe, string[i]);
             }
             if (this.validFirework) {

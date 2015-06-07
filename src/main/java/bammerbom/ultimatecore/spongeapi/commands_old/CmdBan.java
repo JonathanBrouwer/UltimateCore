@@ -96,7 +96,8 @@ public class CmdBan implements UltimateCommand {
         UPlayer pl = UC.getPlayer(banp);
         pl.ban(time, reason, cs);
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-            Bukkit.broadcastMessage(r.mes("banBroadcast", "%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Banned", banp.getName(), "%Time", timen, "%Reason", reason));
+            Bukkit.broadcastMessage(r
+                    .mes("banBroadcast", "%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Banned", banp.getName(), "%Time", timen, "%Reason", reason));
         } else {
             r.sendMes(cs, "banBroadcast", "%Banner", ((cs instanceof Player) ? cs.getName() : cs.getName().toLowerCase()), "%Banned", banp.getName(), "%Time", timen, "%Reason", reason);
         }

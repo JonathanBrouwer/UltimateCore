@@ -191,7 +191,8 @@ public class ChatListener implements Listener {
                 e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
                 return;
             }
-            if ((Bukkit.getPluginManager().getPlugin("EssentialsChat") != null && Bukkit.getPluginManager().getPlugin("EssentialsChat").isEnabled()) || (Bukkit.getPluginManager().getPlugin("Essentials") != null && Bukkit.getPluginManager().isPluginEnabled("Essentials"))) {
+            if ((Bukkit.getPluginManager().getPlugin("EssentialsChat") != null && Bukkit.getPluginManager().getPlugin("EssentialsChat").isEnabled()) || (Bukkit.getPluginManager()
+                    .getPlugin("Essentials") != null && Bukkit.getPluginManager().isPluginEnabled("Essentials"))) {
                 if (!ChatColor.stripColor(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")) {
                     e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
                     return;
@@ -250,10 +251,12 @@ public class ChatListener implements Listener {
                 prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
                 suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
             }
-            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer()).equalsIgnoreCase("")) {
+            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer())
+                    .equalsIgnoreCase("")) {
                 prefix = r.getVault().getChat().getPlayerPrefix(e.getPlayer());
             }
-            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer()).equalsIgnoreCase("")) {
+            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer())
+                    .equalsIgnoreCase("")) {
                 suffix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
             }
             if (!f.contains("\\+Name")) {
@@ -262,8 +265,10 @@ public class ChatListener implements Listener {
                 e.getPlayer().setDisplayName(e.getPlayer().getName());
             }
             f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (group != null ? group.replaceAll("&y", r.getRandomChatColor() + "") : "") : (group != null ? group : ""));
-            f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (prefix != null ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (prefix != null ? prefix : ""));
-            f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (suffix != null ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (suffix != null ? suffix : ""));
+            f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (prefix != null ? prefix
+                    .replaceAll("&y", r.getRandomChatColor() + "") : "") : (prefix != null ? prefix : ""));
+            f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (suffix != null ? suffix
+                    .replaceAll("&y", r.getRandomChatColor() + "") : "") : (suffix != null ? suffix : ""));
             f = r(f, "\\+Name", "\\%1\\$s");
             f = r(f, "\\+Displayname", "\\%1\\$s");
             f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");

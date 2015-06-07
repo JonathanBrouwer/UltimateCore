@@ -63,7 +63,9 @@ public class CmdDeaflist implements UltimateCommand {
         StringBuilder deaflist = new StringBuilder();
         Integer cur = 0;
         String result;
-        for (int i = 0; i < deafs.size(); i++) {
+        for (int i = 0;
+             i < deafs.size();
+             i++) {
             deaflist.append(deafs.get(cur).getName() + ", ");
             cur++;
 

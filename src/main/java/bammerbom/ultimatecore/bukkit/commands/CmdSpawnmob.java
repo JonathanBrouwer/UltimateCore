@@ -180,7 +180,9 @@ public class CmdSpawnmob implements UltimateCommand {
                     kits.add(new SpawnKit(mo1, ""));
                 }
             }
-            for (int i = 0; i < amount; i++) {
+            for (int i = 0;
+                 i < amount;
+                 i++) {
                 LivingEntity lastmob = null;
                 for (SpawnKit kit : kits) {
                     EntityType type = kit.a().getType();
@@ -213,7 +215,9 @@ public class CmdSpawnmob implements UltimateCommand {
             return;
         }
         //Unstacked
-        for (int i = 0; i < amount; i++) {
+        for (int i = 0;
+             i < amount;
+             i++) {
             try {
                 Entity en = loc.getWorld().spawnEntity(loc, mob.getType());
                 if (args[0].equals("witherskeleton")) {

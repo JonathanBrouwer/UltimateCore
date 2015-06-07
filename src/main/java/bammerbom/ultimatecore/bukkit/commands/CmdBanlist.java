@@ -64,7 +64,9 @@ public class CmdBanlist implements UltimateCommand {
         StringBuilder banlist = new StringBuilder();
         Integer cur = 0;
         String result;
-        for (int i = 0; i < bans.size(); i++) {
+        for (int i = 0;
+             i < bans.size();
+             i++) {
             banlist.append(bans.get(cur).getName() + ", ");
             cur++;
 

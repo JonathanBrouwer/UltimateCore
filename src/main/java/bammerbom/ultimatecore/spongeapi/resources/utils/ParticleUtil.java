@@ -2277,7 +2277,9 @@ final class ReflectionUtils {
         public static Class<?>[] getPrimitive(Class<?>[] classes) {
             int length = classes == null ? 0 : classes.length;
             Class<?>[] types = new Class<?>[length];
-            for (int index = 0; index < length; index++) {
+            for (int index = 0;
+                 index < length;
+                 index++) {
                 types[index] = getPrimitive(classes[index]);
             }
             return types;
@@ -2292,7 +2294,9 @@ final class ReflectionUtils {
         public static Class<?>[] getReference(Class<?>[] classes) {
             int length = classes == null ? 0 : classes.length;
             Class<?>[] types = new Class<?>[length];
-            for (int index = 0; index < length; index++) {
+            for (int index = 0;
+                 index < length;
+                 index++) {
                 types[index] = getReference(classes[index]);
             }
             return types;
@@ -2307,7 +2311,9 @@ final class ReflectionUtils {
         public static Class<?>[] getPrimitive(Object[] objects) {
             int length = objects == null ? 0 : objects.length;
             Class<?>[] types = new Class<?>[length];
-            for (int index = 0; index < length; index++) {
+            for (int index = 0;
+                 index < length;
+                 index++) {
                 types[index] = getPrimitive(objects[index].getClass());
             }
             return types;
@@ -2322,7 +2328,9 @@ final class ReflectionUtils {
         public static Class<?>[] getReference(Object[] objects) {
             int length = objects == null ? 0 : objects.length;
             Class<?>[] types = new Class<?>[length];
-            for (int index = 0; index < length; index++) {
+            for (int index = 0;
+                 index < length;
+                 index++) {
                 types[index] = getReference(objects[index].getClass());
             }
             return types;
@@ -2339,7 +2347,9 @@ final class ReflectionUtils {
             if (primary == null || secondary == null || primary.length != secondary.length) {
                 return false;
             }
-            for (int index = 0; index < primary.length; index++) {
+            for (int index = 0;
+                 index < primary.length;
+                 index++) {
                 Class<?> primaryClass = primary[index];
                 Class<?> secondaryClass = secondary[index];
                 if (primaryClass.equals(secondaryClass) || primaryClass.isAssignableFrom(secondaryClass)) {

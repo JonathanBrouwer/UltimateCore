@@ -194,7 +194,9 @@ public final class UltimateMetrics {
         StringBuilder builder = new StringBuilder();
 
         builder.append('"');
-        for (int index = 0; index < text.length(); index++) {
+        for (int index = 0;
+             index < text.length();
+             index++) {
             char chr = text.charAt(index);
 
             switch (chr) {

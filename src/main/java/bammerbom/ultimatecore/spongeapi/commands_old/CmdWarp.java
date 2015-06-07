@@ -66,7 +66,9 @@ public class CmdWarp implements UltimateCommand {
             StringBuilder warplist = new StringBuilder();
             Integer cur = 0;
             String result;
-            for (int i = 0; i < warps.size(); i++) {
+            for (int i = 0;
+                 i < warps.size();
+                 i++) {
                 warplist.append(warps.get(cur) + ", ");
                 cur++;
 

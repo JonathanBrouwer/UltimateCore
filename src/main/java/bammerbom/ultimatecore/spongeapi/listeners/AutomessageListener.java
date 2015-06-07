@@ -53,7 +53,8 @@ public class AutomessageListener {
         messages = FileUtil.getLines(file);
         decrease = r.getCnfg().getBoolean("Messages.Decrease");
         random = new Random();
-        if (r.getCnfg().getBoolean("Messages.Enabledchat") == false && r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") == false && r.getCnfg().getBoolean("Messages.Enabledactionbar") == false) {
+        if (r.getCnfg().getBoolean("Messages.Enabledchat") == false && r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") == false && r.getCnfg()
+                .getBoolean("Messages.Enabledactionbar") == false) {
             return;
         }
         r.getGame().getEventManager().register(r.getUC(), new AutomessageListener());

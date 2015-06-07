@@ -47,8 +47,12 @@ public class CmdRecipe implements UltimateCommand {
             UC.getPlayer(p).setInRecipeView(true);
             String[] recipeShape = recipe.getShape();
             Map<Character, ItemStack> ingredientMap = recipe.getIngredientMap();
-            for (int j = 0; j < recipeShape.length; j++) {
-                for (int k = 0; k < recipeShape[j].length(); k++) {
+            for (int j = 0;
+                 j < recipeShape.length;
+                 j++) {
+                for (int k = 0;
+                     k < recipeShape[j].length();
+                     k++) {
                     ItemStack item = ingredientMap.get(Character.valueOf(recipeShape[j].toCharArray()[k]));
                     if (item != null) {
                         item.setAmount(1);
@@ -63,7 +67,9 @@ public class CmdRecipe implements UltimateCommand {
             HashMap<Material, String> colorMap = new HashMap<>();
             char[] arr = "abcdefghi".toCharArray();
             int len = arr.length;
-            for (int i = 0; i < len; i++) {
+            for (int i = 0;
+                 i < len;
+                 i++) {
                 Character c = arr[i];
 
                 ItemStack item = recipeMap.get(c);
@@ -72,8 +78,12 @@ public class CmdRecipe implements UltimateCommand {
                 }
             }
             Material[][] materials = new Material[3][3];
-            for (int j = 0; j < recipe.getShape().length; j++) {
-                for (int k = 0; k < recipe.getShape()[j].length(); k++) {
+            for (int j = 0;
+                 j < recipe.getShape().length;
+                 j++) {
+                for (int k = 0;
+                     k < recipe.getShape()[j].length();
+                     k++) {
                     ItemStack item = recipe.getIngredientMap().get(Character.valueOf(recipe.getShape()[j].toCharArray()[k]));
                     materials[j][k] = (item == null ? null : item.getType());
                 }
@@ -105,13 +115,17 @@ public class CmdRecipe implements UltimateCommand {
             Player p = (Player) sender;
             InventoryView view = p.openWorkbench(null, true);
             UC.getPlayer(p).setInRecipeView(true);
-            for (int i = 0; i < ingredients.size(); i++) {
+            for (int i = 0;
+                 i < ingredients.size();
+                 i++) {
                 view.setItem(i + 1, ingredients.get(i));
             }
 
         } else {
             StringBuilder s = new StringBuilder();
-            for (int i = 0; i < ingredients.size(); i++) {
+            for (int i = 0;
+                 i < ingredients.size();
+                 i++) {
                 s.append(ingredients.get(i).getType().name().toLowerCase().replaceAll("_", ""));
                 if (i != ingredients.size() - 1) {
                     s.append(",");

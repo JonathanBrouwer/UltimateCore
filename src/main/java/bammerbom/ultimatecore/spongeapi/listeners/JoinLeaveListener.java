@@ -46,7 +46,8 @@ public class JoinLeaveListener implements Listener {
     public void JoinMessage(PlayerJoinEvent e) {
         if (!e.getPlayer().hasPlayedBefore()) {
             Bukkit.broadcastMessage(r.mes("firstJoin", "%Player", e.getPlayer().getDisplayName()));
-            LocationUtil.teleportUnsafe(e.getPlayer(), UC.getPlayer(e.getPlayer()).getSpawn(true) != null ? UC.getPlayer(e.getPlayer()).getSpawn(true) : e.getPlayer().getWorld().getSpawnLocation(), TeleportCause.PLUGIN, false);
+            LocationUtil.teleportUnsafe(e.getPlayer(), UC.getPlayer(e.getPlayer()).getSpawn(true) != null ? UC.getPlayer(e.getPlayer()).getSpawn(true) : e.getPlayer().getWorld()
+                    .getSpawnLocation(), TeleportCause.PLUGIN, false);
         }
         if (UC.getPlayer(e.getPlayer()).isBanned()) {
             e.setJoinMessage(null);

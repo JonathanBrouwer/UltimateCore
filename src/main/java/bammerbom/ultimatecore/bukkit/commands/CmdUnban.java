@@ -75,7 +75,8 @@ public class CmdUnban implements UltimateCommand {
                     }
                 }
                 if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-                    Bukkit.broadcastMessage(r.mes("unbanBroadcast").replace("%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase())).replace("%Unbanned", args[0]));
+                    Bukkit.broadcastMessage(r.mes("unbanBroadcast").replace("%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()))
+                            .replace("%Unbanned", args[0]));
                 }
             }
             return;

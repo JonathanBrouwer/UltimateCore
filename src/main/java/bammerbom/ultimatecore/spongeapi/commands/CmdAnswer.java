@@ -32,7 +32,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CmdAnswer implements UltimateCommandExecutor {
-    String format = r.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.AnswerFormat")).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n");
+    String format = r.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.AnswerFormat")).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
+            .replace("\\\\n", "\n");
 
     @Override
     public String getName() {

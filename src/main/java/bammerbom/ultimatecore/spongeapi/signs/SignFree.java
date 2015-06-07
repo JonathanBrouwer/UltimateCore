@@ -55,7 +55,9 @@ public class SignFree implements UltimateSign {
         ItemStack item = ItemUtil.searchItem(sign.getLine(1));
         item.setAmount(item.getMaxStackSize());
         Inventory inv = Bukkit.createInventory(p, 36, ItemUtil.getName(item));
-        for (int i = 0; i < 36; i++) {
+        for (int i = 0;
+             i < 36;
+             i++) {
             inv.addItem(item);
         }
         p.openInventory(inv);

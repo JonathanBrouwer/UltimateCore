@@ -63,7 +63,9 @@ public class CmdMutelist implements UltimateCommand {
         StringBuilder mutelist = new StringBuilder();
         Integer cur = 0;
         String result;
-        for (int i = 0; i < mutes.size(); i++) {
+        for (int i = 0;
+             i < mutes.size();
+             i++) {
             mutelist.append(mutes.get(cur).getName() + ", ");
             cur++;
 

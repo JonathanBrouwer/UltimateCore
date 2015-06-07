@@ -192,7 +192,9 @@ public class UltimateCommands {
             aliases.addAll(cmd.getAliases());
 
             for (String label : aliases) {
-                r.getGame().getCommandDispatcher().register(r.getUC(), CommandSpec.builder().setDescription(Texts.of(cmd.getDescription())).setExecutor(new UltimateCommandExecutor.DefaultExecutor(cmd, label)).setArguments(new UltimateCommandElement(null, cmd, label)).build(), label);
+                r.getGame().getCommandDispatcher()
+                        .register(r.getUC(), CommandSpec.builder().setDescription(Texts.of(cmd.getDescription())).setExecutor(new UltimateCommandExecutor.DefaultExecutor(cmd, label))
+                                .setArguments(new UltimateCommandElement(null, cmd, label)).build(), label);
             }
 
         }

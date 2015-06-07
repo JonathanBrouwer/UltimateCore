@@ -190,7 +190,8 @@ public class GhostsUtil {
         Set<OfflinePlayer> players = new HashSet<>(ghostTeam.getPlayers());
 
         // Remove all non-ghost players
-        for (Iterator<OfflinePlayer> it = players.iterator(); it.hasNext(); ) {
+        for (Iterator<OfflinePlayer> it = players.iterator();
+             it.hasNext(); ) {
             if (!ghosts.contains(it.next().getName())) {
                 it.remove();
             }

@@ -60,12 +60,14 @@ public class GlobalWorldListener implements Listener {
             if (e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG) || e.getSpawnReason().equals(SpawnReason.CUSTOM)) {
                 return;
             }
-            if (e.getEntity() instanceof Monster || (MobType.fromBukkitType(e.getEntityType()) != null && MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.ENEMY)) || e.getEntityType().equals(EntityType.GHAST) || e.getEntityType().equals(EntityType.SLIME)) {
+            if (e.getEntity() instanceof Monster || (MobType.fromBukkitType(e.getEntityType()) != null && MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.ENEMY)) || e.getEntityType()
+                    .equals(EntityType.GHAST) || e.getEntityType().equals(EntityType.SLIME)) {
                 if (UC.getWorld(e.getEntity().getLocation().getWorld()).isFlagDenied(WorldFlag.MONSTER)) {
                     e.setCancelled(true);
                 }
             }
-            if (e.getEntity() instanceof Animals || (MobType.fromBukkitType(e.getEntityType()) != null && MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.FRIENDLY)) || MobType.fromBukkitType(e.getEntityType()) != null && MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.NEUTRAL) || e.getEntityType().equals(EntityType.SQUID)) {
+            if (e.getEntity() instanceof Animals || (MobType.fromBukkitType(e.getEntityType()) != null && MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.FRIENDLY)) || MobType
+                    .fromBukkitType(e.getEntityType()) != null && MobType.fromBukkitType(e.getEntityType()).type.equals(Enemies.NEUTRAL) || e.getEntityType().equals(EntityType.SQUID)) {
                 if (UC.getWorld(e.getEntity().getLocation().getWorld()).isFlagDenied(WorldFlag.ANIMAL)) {
                     e.setCancelled(true);
                 }

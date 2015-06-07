@@ -50,7 +50,8 @@ public class TitleUtil {
                         break;
                     }
                 }
-                titlePacket = Class.forName(ReflectionUtil.NMS_PATH + ".PacketPlayOutTitle").getConstructor(clazz, ReflectionStatic.fromNMS("IChatBaseComponent"), int.class, int.class, int.class).newInstance(value, titleJSON.fetch(), fadeIn, stay, fadeOut);
+                titlePacket = Class.forName(ReflectionUtil.NMS_PATH + ".PacketPlayOutTitle").getConstructor(clazz, ReflectionStatic.fromNMS("IChatBaseComponent"), int.class, int.class, int.class)
+                        .newInstance(value, titleJSON.fetch(), fadeIn, stay, fadeOut);
             }
 
             Object subtitlePacket;
@@ -65,7 +66,8 @@ public class TitleUtil {
                         break;
                     }
                 }
-                subtitlePacket = Class.forName(ReflectionUtil.NMS_PATH + ".PacketPlayOutTitle").getConstructor(clazz, ReflectionStatic.fromNMS("IChatBaseComponent")).newInstance(value, subtitleJSON.fetch());
+                subtitlePacket = Class.forName(ReflectionUtil.NMS_PATH + ".PacketPlayOutTitle").getConstructor(clazz, ReflectionStatic.fromNMS("IChatBaseComponent"))
+                        .newInstance(value, subtitleJSON.fetch());
             }
 
             ReflectionUtil.execute("getHandle().playerConnection.sendPacket({1})", p, titlePacket);

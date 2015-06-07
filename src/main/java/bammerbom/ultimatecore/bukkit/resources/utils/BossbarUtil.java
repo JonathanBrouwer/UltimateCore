@@ -74,7 +74,8 @@ public class BossbarUtil implements Listener {
             removeBar(player);
         }
         players.clear();
-        for (Iterator<Integer> i = timers.values().iterator(); i.hasNext(); ) {
+        for (Iterator<Integer> i = timers.values().iterator();
+             i.hasNext(); ) {
             int timerID = i.next().intValue();
             Bukkit.getScheduler().cancelTask(timerID);
         }
@@ -426,7 +427,9 @@ class Util {
         if (l1.length != l2.length) {
             return false;
         }
-        for (int i = 0; i < l1.length; i++) {
+        for (int i = 0;
+             i < l1.length;
+             i++) {
             if (l1[i] != l2[i]) {
                 equal = false;
                 break;
@@ -651,7 +654,8 @@ class FakeDragon {
 
         Object packet = null;
         try {
-            packet = PacketPlayOutEntityMetadata.getConstructor(new Class[]{Integer.TYPE, DataWatcher, Boolean.TYPE}).newInstance(new Object[]{Integer.valueOf(this.id), watcher, Boolean.valueOf(true)});
+            packet = PacketPlayOutEntityMetadata.getConstructor(new Class[]{Integer.TYPE, DataWatcher, Boolean.TYPE})
+                    .newInstance(new Object[]{Integer.valueOf(this.id), watcher, Boolean.valueOf(true)});
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -674,7 +678,9 @@ class FakeDragon {
 
         Object packet = null;
         try {
-            packet = PacketPlayOutEntityTeleport.getConstructor(new Class[]{Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Byte.TYPE, Byte.TYPE, Boolean.TYPE}).newInstance(new Object[]{Integer.valueOf(this.id), Integer.valueOf(loc.getBlockX() * 32), Integer.valueOf(loc.getBlockY() * 32), Integer.valueOf(loc.getBlockZ() * 32), Byte.valueOf((byte) ((int) loc.getYaw() * 256 / 360)), Byte.valueOf((byte) ((int) loc.getPitch() * 256 / 360)), Boolean.valueOf(false)});
+            packet = PacketPlayOutEntityTeleport.getConstructor(new Class[]{Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Byte.TYPE, Byte.TYPE, Boolean.TYPE})
+                    .newInstance(new Object[]{Integer.valueOf(this.id), Integer.valueOf(loc.getBlockX() * 32), Integer.valueOf(loc.getBlockY() * 32), Integer.valueOf(loc.getBlockZ() * 32), Byte
+                            .valueOf((byte) ((int) loc.getYaw() * 256 / 360)), Byte.valueOf((byte) ((int) loc.getPitch() * 256 / 360)), Boolean.valueOf(false)});
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (SecurityException e) {

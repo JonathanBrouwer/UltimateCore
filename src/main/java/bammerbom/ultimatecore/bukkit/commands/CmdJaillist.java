@@ -64,7 +64,9 @@ public class CmdJaillist implements UltimateCommand {
         StringBuilder jaillist = new StringBuilder();
         Integer cur = 0;
         String result;
-        for (int i = 0; i < jails.size(); i++) {
+        for (int i = 0;
+             i < jails.size();
+             i++) {
             jaillist.append(jails.get(cur).getName() + ", ");
             cur++;
 

@@ -44,7 +44,8 @@ public class PluginStealListener implements Listener {
         if (m.contains(" ")) {
             m = m.split(" ")[0];
         }
-        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins") || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl") || m.equalsIgnoreCase("about") || m.equalsIgnoreCase("bukkit:about") || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version") || m.equalsIgnoreCase("ver") || m.equalsIgnoreCase("bukkit:ver")) {
+        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins") || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl") || m.equalsIgnoreCase("about") || m
+                .equalsIgnoreCase("bukkit:about") || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version") || m.equalsIgnoreCase("ver") || m.equalsIgnoreCase("bukkit:ver")) {
             if (!r.perm(e.getPlayer(), "uc.plugins", false, true)) {
                 e.setCancelled(true);
             }
@@ -59,7 +60,8 @@ public class PluginStealListener implements Listener {
     static class TabCompleteListener {
 
         public static void start() {
-            ((com.comphenix.protocol.ProtocolManager) r.getProtocolManager()).addPacketListener(new com.comphenix.protocol.events.PacketAdapter(r.getUC(), com.comphenix.protocol.events.ListenerPriority.NORMAL, new com.comphenix.protocol.PacketType[]{com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE}) {
+            ((com.comphenix.protocol.ProtocolManager) r.getProtocolManager()).addPacketListener(new com.comphenix.protocol.events.PacketAdapter(r
+                    .getUC(), com.comphenix.protocol.events.ListenerPriority.NORMAL, new com.comphenix.protocol.PacketType[]{com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE}) {
                 @Override
                 public void onPacketReceiving(com.comphenix.protocol.events.PacketEvent event) {
                     if (event.getPacketType() == com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE) {
@@ -71,7 +73,9 @@ public class PluginStealListener implements Listener {
                         if (m.contains(" ")) {
                             m = m.split(" ")[0];
                         }
-                        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins") || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl") || m.equalsIgnoreCase("about") || m.equalsIgnoreCase("bukkit:about") || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version") || m.equalsIgnoreCase("ver") || m.equalsIgnoreCase("bukkit:ver")) {
+                        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins") || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl") || m.equalsIgnoreCase("about") || m
+                                .equalsIgnoreCase("bukkit:about") || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version") || m.equalsIgnoreCase("ver") || m
+                                .equalsIgnoreCase("bukkit:ver")) {
                             if (!r.perm(event.getPlayer(), "uc.plugins", false, false)) {
                                 event.setCancelled(true);
                             }

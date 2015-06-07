@@ -195,7 +195,9 @@ public class InventoryUtil {
     @SuppressWarnings("deprecation")
     public static String convertInventoryToString(Inventory invInventory) {
         String serialization = invInventory.getSize() + ";";
-        for (int i = 0; i < invInventory.getSize(); i++) {
+        for (int i = 0;
+             i < invInventory.getSize();
+             i++) {
             ItemStack is = invInventory.getItem(i);
             if (is != null) {
                 String serializedItemStack = "";
@@ -236,7 +238,9 @@ public class InventoryUtil {
         String invInfo = serializedBlocks[0];
         Inventory deserializedInventory = Bukkit.getServer().createInventory(null, Integer.valueOf(invInfo), (name.length() >= 32) ? name.substring(0, 31) : name);
 
-        for (int i = 1; i < serializedBlocks.length; i++) {
+        for (int i = 1;
+             i < serializedBlocks.length;
+             i++) {
             String[] serializedBlock = serializedBlocks[i].split("#");
             int stackPosition = Integer.valueOf(serializedBlock[0]);
 

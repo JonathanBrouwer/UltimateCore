@@ -82,7 +82,9 @@ public class CmdWorld implements UltimateCommand {
             WorldCreator settings = new WorldCreator(args[1]);
             String gen = null;
             Integer na = 2;
-            for (int i = 0; i < args.length + 3; i++) {
+            for (int i = 0;
+                 i < args.length + 3;
+                 i++) {
 
                 if (r.checkArgs(args, na) == true) {
                     if (args[na].equalsIgnoreCase("flat") || args[na].equalsIgnoreCase("flatland")) {
@@ -145,7 +147,9 @@ public class CmdWorld implements UltimateCommand {
             WorldCreator settings = new WorldCreator(args[1]);
             String gen = null;
             Integer na = 2;
-            for (int i = 0; i < args.length + 3; i++) {
+            for (int i = 0;
+                 i < args.length + 3;
+                 i++) {
 
                 if (r.checkArgs(args, na) == true) {
                     if (args[na].equalsIgnoreCase("flat") || args[na].equalsIgnoreCase("flatland")) {
@@ -207,7 +211,9 @@ public class CmdWorld implements UltimateCommand {
         String result;
         try {
             Integer cur = 0;
-            for (int i = 0; i < worlds.toArray().length; i++) {
+            for (int i = 0;
+                 i < worlds.toArray().length;
+                 i++) {
                 list.append(worlds.get(cur) + ", ");
                 cur++;
             }

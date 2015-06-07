@@ -67,10 +67,12 @@ public class CmdSeen implements UltimateCommand {
             return;
         }
         UPlayer pl = UC.getPlayer(p);
-        r.sendMes(cs, "seenMessage", "%Player", r.getDisplayName(p), "%Status", (p.isOnline() ? r.mes("seenOnline") : r.mes("seenOffline")), "%Time", DateUtil.formatDateDiff(pl.getLastConnectMillis()));
+        r.sendMes(cs, "seenMessage", "%Player", r.getDisplayName(p), "%Status", (p.isOnline() ? r.mes("seenOnline") : r.mes("seenOffline")), "%Time", DateUtil
+                .formatDateDiff(pl.getLastConnectMillis()));
         //Last location
         if (p.getPlayer() != null && p.getPlayer().getLocation() != null) {
-            String loc = p.getPlayer().getWorld().getName() + " " + p.getPlayer().getLocation().getBlockX() + " " + p.getPlayer().getLocation().getBlockY() + " " + p.getPlayer().getLocation().getBlockZ();
+            String loc = p.getPlayer().getWorld().getName() + " " + p.getPlayer().getLocation().getBlockX() + " " + p.getPlayer().getLocation().getBlockY() + " " + p.getPlayer().getLocation()
+                    .getBlockZ();
             r.sendMes(cs, "seenLocation", "%Location", loc);
         }
         //Ban

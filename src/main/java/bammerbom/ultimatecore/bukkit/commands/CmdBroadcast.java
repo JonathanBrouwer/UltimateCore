@@ -64,7 +64,8 @@ public class CmdBroadcast implements UltimateCommand {
         }
         String message = r.getFinalArg(args, 0);
         message = format.replace("%Message", message);
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
+        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
+                .replace("\\\\n", "\n"));
     }
 
     @Override

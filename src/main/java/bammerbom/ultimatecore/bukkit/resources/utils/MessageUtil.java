@@ -222,7 +222,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     public MessageUtil clone() throws CloneNotSupportedException {
         MessageUtil instance = (MessageUtil) super.clone();
         messageParts = new ArrayList<>(messageParts.size());
-        for (int i = 0; i < messageParts.size(); i++) {
+        for (int i = 0;
+             i < messageParts.size();
+             i++) {
             messageParts.add(i, messageParts.get(i).clone());
         }
         instance.dirty = false;
@@ -551,7 +553,8 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
     public MessageUtil itemTooltip(final ItemStack itemStack) {
         try {
             Object nmsItem = Reflection.getMethod(Reflection.getOBCClass("inventory.CraftItemStack"), "asNMSCopy", ItemStack.class).invoke(null, itemStack);
-            return itemTooltip(Reflection.getMethod(Reflection.getNMSClass("ItemStack"), "save", Reflection.getNMSClass("NBTTagCompound")).invoke(nmsItem, Reflection.getNMSClass("NBTTagCompound").newInstance()).toString());
+            return itemTooltip(Reflection.getMethod(Reflection.getNMSClass("ItemStack"), "save", Reflection.getNMSClass("NBTTagCompound"))
+                    .invoke(nmsItem, Reflection.getNMSClass("NBTTagCompound").newInstance()).toString());
         } catch (Exception e) {
             e.printStackTrace();
             return this;
@@ -618,7 +621,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
      */
     public MessageUtil tooltip(final String... lines) {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < lines.length; i++) {
+        for (int i = 0;
+             i < lines.length;
+             i++) {
             builder.append(lines[i]);
             if (i != lines.length - 1) {
                 builder.append('\n');
@@ -671,7 +676,9 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
         result.messageParts.clear(); // Remove the one existing text component that exists by default, which
         // destabilizes the object
 
-        for (int i = 0; i < lines.length; i++) {
+        for (int i = 0;
+             i < lines.length;
+             i++) {
             try {
                 for (MessagePart component : lines[i]) {
                     if (component.clickActionData != null && component.clickActionName != null) {

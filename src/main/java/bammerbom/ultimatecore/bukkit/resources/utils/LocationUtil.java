@@ -88,9 +88,15 @@ public class LocationUtil {
 
     static {
         List<Vector3D> pos = new ArrayList<>();
-        for (int x = -RADIUS; x <= RADIUS; x++) {
-            for (int y = -RADIUS; y <= RADIUS; y++) {
-                for (int z = -RADIUS; z <= RADIUS; z++) {
+        for (int x = -RADIUS;
+             x <= RADIUS;
+             x++) {
+            for (int y = -RADIUS;
+                 y <= RADIUS;
+                 y++) {
+                for (int z = -RADIUS;
+                     z <= RADIUS;
+                     z++) {
                     pos.add(new Vector3D(x, y, z));
                 }
             }
@@ -414,10 +420,12 @@ public class LocationUtil {
         }
         if (s.contains(",")) {
             String[] split = s.split(",");
-            return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float.parseFloat(split[4]));
+            return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float
+                    .parseFloat(split[4]));
         }
         String[] split = s.split("\\|");
-        return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float.parseFloat(split[4]));
+        return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float
+                .parseFloat(split[4]));
     }
 
     public static String convertLocationToString(Location loc) {

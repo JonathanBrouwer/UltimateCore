@@ -44,7 +44,9 @@ public class StringUtil {
     static {
         ChatColor[] styles = ChatColor.values();
         LinkedHashSet<Character> chars = new LinkedHashSet<>(styles.length * 2);
-        for (int i = 0; i < styles.length; i++) {
+        for (int i = 0;
+             i < styles.length;
+             i++) {
             chars.add(Character.valueOf(Character.toLowerCase(styles[i].getChar())));
             chars.add(Character.valueOf(Character.toUpperCase(styles[i].getChar())));
         }
@@ -63,7 +65,9 @@ public class StringUtil {
     public static String consolidateStrings(String[] args, int start) {
         String ret = args[start];
         if (args.length > start + 1) {
-            for (int i = start + 1; i < args.length; i++) {
+            for (int i = start + 1;
+                 i < args.length;
+                 i++) {
                 ret = ret + " " + args[i];
             }
         }
@@ -133,7 +137,9 @@ public class StringUtil {
             int z = Integer.parseInt(s[(s.length - 1)]);
 
             StringBuilder worldName = new StringBuilder(12);
-            for (int i = 0; i < s.length - 3; i++) {
+            for (int i = 0;
+                 i < s.length - 3;
+                 i++) {
                 if (i != 0) {
                     worldName.append('_');
                 }
@@ -153,7 +159,9 @@ public class StringUtil {
     public static int getWidth(String[] text) {
         int width = 0;
         for (String part : text) {
-            for (int i = 0; i < part.length(); i++) {
+            for (int i = 0;
+                 i < part.length();
+                 i++) {
                 char character = part.charAt(i);
                 if (character != '\n') {
                     if (character == '�') {
@@ -177,7 +185,9 @@ public class StringUtil {
     }
 
     public static int firstIndexOf(String text, char[] values) {
-        for (int i = 0; i < text.length(); i++) {
+        for (int i = 0;
+             i < text.length();
+             i++) {
             if (containsChar(text.charAt(i), values)) {
                 return i;
             }
@@ -186,7 +196,9 @@ public class StringUtil {
     }
 
     public static boolean containsChar(char value, CharSequence sequence) {
-        for (int i = 0; i < sequence.length(); i++) {
+        for (int i = 0;
+             i < sequence.length();
+             i++) {
             if (sequence.charAt(i) == value) {
                 return true;
             }
@@ -221,7 +233,9 @@ public class StringUtil {
 
     public static String getFilledString(String text, int n) {
         StringBuffer outputBuffer = new StringBuffer(text.length() * n);
-        for (int i = 0; i < n; i++) {
+        for (int i = 0;
+             i < n;
+             i++) {
             outputBuffer.append(text);
         }
         return outputBuffer.toString();
@@ -272,7 +286,9 @@ public class StringUtil {
     }
 
     public static String trimStart(String text) {
-        for (int i = 0; i < text.length(); i++) {
+        for (int i = 0;
+             i < text.length();
+             i++) {
             if (text.charAt(i) != ' ') {
                 return text.substring(i);
             }
@@ -281,7 +297,9 @@ public class StringUtil {
     }
 
     public static String trimEnd(String text) {
-        for (int i = text.length() - 1; i >= 0; i--) {
+        for (int i = text.length() - 1;
+             i >= 0;
+             i--) {
             if (text.charAt(i) != ' ') {
                 return text.substring(0, i + 1);
             }
@@ -311,7 +329,8 @@ public class StringUtil {
 
         StringBuilder rval = new StringBuilder();
         int i = 0;
-        for (Iterator<Object> i$ = items.iterator(); i$.hasNext(); ) {
+        for (Iterator<Object> i$ = items.iterator();
+             i$.hasNext(); ) {
             Object item = i$.next();
             if (i == items.size() - 1) {
                 rval.append(" and ");
@@ -399,7 +418,9 @@ public class StringUtil {
 
     public static int getSuccessiveCharCount(String value, char character, int startindex, int endindex) {
         int count = 0;
-        for (int i = startindex; (i <= endindex) && (value.charAt(i) == character); i++) {
+        for (int i = startindex;
+             (i <= endindex) && (value.charAt(i) == character);
+             i++) {
             count++;
         }
 
@@ -435,7 +456,9 @@ public class StringUtil {
 
     public static String swapColorCodes(String line, char fromCode, char toCode) {
         StringBuilder builder = new StringBuilder(line);
-        for (int i = 0; i < builder.length() - 1; i++) {
+        for (int i = 0;
+             i < builder.length() - 1;
+             i++) {
             if ((builder.charAt(i) == fromCode) && (isChatCode(builder.charAt(i + 1)))) {
                 builder.setCharAt(i, toCode);
                 i++;

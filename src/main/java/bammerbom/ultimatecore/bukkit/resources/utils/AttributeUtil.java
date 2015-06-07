@@ -104,7 +104,8 @@ public class AttributeUtil {
     public boolean remove(Attribute attribute) {
         UUID uuid = attribute.getUUID();
 
-        for (Iterator<Attribute> it = values().iterator(); it.hasNext(); ) {
+        for (Iterator<Attribute> it = values().iterator();
+             it.hasNext(); ) {
             if (Objects.equal(it.next().getUUID(), uuid)) {
                 it.remove();
                 return true;

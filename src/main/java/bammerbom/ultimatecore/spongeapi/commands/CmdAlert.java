@@ -72,7 +72,8 @@ public class CmdAlert implements UltimateCommandExecutor {
         }
         String message = r.getFinalArg(args, 0);
         message = format.replace("%Message", message);
-        r.getGame().getServer().broadcastMessage(Texts.of(r.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n")));
+        r.getGame().getServer().broadcastMessage(Texts
+                .of(r.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n")));
     }
 
     @Override

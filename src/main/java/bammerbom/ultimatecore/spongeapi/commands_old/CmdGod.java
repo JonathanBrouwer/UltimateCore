@@ -119,7 +119,8 @@ public class CmdGod implements UltimateCommand {
         } else {
             r.sendMes(cs, "godOthersSelfMessageT", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
             if (banp.isOnline()) {
-                r.sendMes((CommandSender) banp, "godOthersOtherMessageT", "%Player", cs.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
+                r.sendMes((CommandSender) banp, "godOthersOtherMessageT", "%Player", cs.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil
+                        .format(time));
             }
         }
     }

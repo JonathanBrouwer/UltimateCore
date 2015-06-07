@@ -158,7 +158,8 @@ public class CmdVillager implements UltimateCommand {
         ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
         ItemMeta barrier_meta = barrier.getItemMeta();
         barrier_meta.setDisplayName(ChatColor.DARK_AQUA + "Edit");
-        barrier_meta.setLore(Arrays.asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + trade.getUses(), ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + trade.getMaxUses(), ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA + trade.getRewardExp()));
+        barrier_meta.setLore(Arrays.asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + trade.getUses(), ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + trade
+                .getMaxUses(), ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA + trade.getRewardExp()));
         barrier.setItemMeta(barrier_meta);
         Integer s1 = s.get(0), s2 = s.get(1), s3 = s.get(2), s4 = s.get(3), s5 = s.get(4), s6 = s.get(5), s7 = s.get(6), s8 = s.get(7), s9 = s.get(8);
         if (s1 != null) {
@@ -315,7 +316,8 @@ public class CmdVillager implements UltimateCommand {
                 ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
                 ItemMeta barrier_meta = barrier.getItemMeta();
                 barrier_meta.setDisplayName(ChatColor.DARK_AQUA + "Edit");
-                barrier_meta.setLore(Arrays.asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + uses, ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + max_uses, ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA + generateExp));
+                barrier_meta.setLore(Arrays
+                        .asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + uses, ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + max_uses, ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA + generateExp));
                 barrier.setItemMeta(barrier_meta);
 
                 inv.setItem(iedit, barrier);
@@ -347,7 +349,8 @@ public class CmdVillager implements UltimateCommand {
         final ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
         ItemMeta barrier_meta = barrier.getItemMeta();
         barrier_meta.setDisplayName(ChatColor.DARK_AQUA + "Edit");
-        barrier_meta.setLore(Arrays.asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + "0", ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + "7", ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA + "true"));
+        barrier_meta.setLore(Arrays
+                .asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + "0", ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + "7", ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA + "true"));
         barrier.setItemMeta(barrier_meta);
 
         final ItemStack redglass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 11);
@@ -408,7 +411,8 @@ public class CmdVillager implements UltimateCommand {
         }
         if (item != null && !inv.getTitle().equalsIgnoreCase("Villager Editor (Settings)")) {
             //Edit
-            if (e.getSlot() == 12 || e.getSlot() == 21 || e.getSlot() == 30 || e.getSlot() == 39 || e.getSlot() == 48 || e.getSlot() == 17 || e.getSlot() == 26 || e.getSlot() == 35 || e.getSlot() == 44) {
+            if (e.getSlot() == 12 || e.getSlot() == 21 || e.getSlot() == 30 || e.getSlot() == 39 || e.getSlot() == 48 || e.getSlot() == 17 || e.getSlot() == 26 || e.getSlot() == 35 || e
+                    .getSlot() == 44) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
                     @Override
                     public void run() {

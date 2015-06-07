@@ -109,7 +109,8 @@ public class CmdGive implements UltimateCommand {
                         try {
                             meta.parseStringMeta(cs, r.perm(cs, "uc.give.unsafe", false, false), args, metaStart);
                         } catch (IllegalArgumentException ex) {
-                            if (ex.getMessage() != null && (ex.getMessage().contains("Enchantment level is either too" + " low or too high") || ex.getMessage().contains("Specified enchantment cannot be " + "applied"))) {
+                            if (ex.getMessage() != null && (ex.getMessage().contains("Enchantment level is either too" + " low or too high") || ex.getMessage()
+                                    .contains("Specified enchantment cannot be " + "applied"))) {
                                 r.sendMes(cs, "enchantUnsafe");
                             }
                             return;

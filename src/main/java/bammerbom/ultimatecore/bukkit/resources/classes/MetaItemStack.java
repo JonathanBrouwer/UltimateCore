@@ -113,7 +113,9 @@ public class MetaItemStack {
         if (string[fromArg].startsWith("{")) {
             this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
         } else {
-            for (int i = fromArg; i < string.length; i++) {
+            for (int i = fromArg;
+                 i < string.length;
+                 i++) {
                 addStringMeta(sender, allowUnsafe, string[i]);
             }
             if (this.validFirework) {
@@ -206,7 +208,8 @@ public class MetaItemStack {
             addFireworkMeta(false, string);
         } else if (this.stack.getType() == Material.POTION) {
             addPotionMeta(false, string);
-        } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour"))) && ((this.stack.getType() == Material.LEATHER_BOOTS) || (this.stack.getType() == Material.LEATHER_CHESTPLATE) || (this.stack.getType() == Material.LEATHER_HELMET) || (this.stack.getType() == Material.LEATHER_LEGGINGS))) {
+        } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour"))) && ((this.stack.getType() == Material.LEATHER_BOOTS) || (this.stack
+                .getType() == Material.LEATHER_CHESTPLATE) || (this.stack.getType() == Material.LEATHER_HELMET) || (this.stack.getType() == Material.LEATHER_LEGGINGS))) {
             String[] color = split[1].split("(\\||,)");
             if (color.length == 3) {
                 int red = r.isInt(color[0]) ? Integer.parseInt(color[0]) : 0;
