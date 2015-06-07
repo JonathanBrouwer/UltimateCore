@@ -56,6 +56,10 @@ public class CmdWeather implements UltimateCommand {
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
         if (label.equalsIgnoreCase("sun")) {
+            if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.sun", false, false) == false) {
+                r.sendMes(cs, "noPermissions");
+                return;
+            }
             WeatherListener.setEnabled(false);
             if (!(cs instanceof Player)) {
                 for (World world : Bukkit.getWorlds()) {
@@ -79,6 +83,10 @@ public class CmdWeather implements UltimateCommand {
             return;
         }
         if (label.equalsIgnoreCase("rain")) {
+            if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.rain", false, false) == false) {
+                r.sendMes(cs, "noPermissions");
+                return;
+            }
             WeatherListener.setEnabled(false);
             if (!(cs instanceof Player)) {
                 for (World world : Bukkit.getWorlds()) {
@@ -102,6 +110,10 @@ public class CmdWeather implements UltimateCommand {
             return;
         }
         if (label.equalsIgnoreCase("thunder") || label.equalsIgnoreCase("storm")) {
+            if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.storm", false, false) == false) {
+                r.sendMes(cs, "noPermissions");
+                return;
+            }
             WeatherListener.setEnabled(false);
             if (!(cs instanceof Player)) {
                 for (World world : Bukkit.getWorlds()) {
