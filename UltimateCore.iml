@@ -27,7 +27,6 @@
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm:5.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.12" level="project" />
-    <orderEntry type="library" name="Maven: com.flowpowered:flow-math:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: net.milkbowl.vault:VaultAPI:1.5" level="project" />
     <orderEntry type="library" name="Maven: org.bukkit:bukkit:1.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: net.ess3:Essentials:2.14-SNAPSHOT" level="project" />
