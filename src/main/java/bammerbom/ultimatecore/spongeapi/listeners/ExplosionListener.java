@@ -43,7 +43,7 @@ public class ExplosionListener implements Listener {
     Boolean lightning = r.getCnfg().getBoolean("Explode.Lightning");
 
     public static void start() {
-        Bukkit.getPluginManager().registerEvents(new ExplosionListener(), r.getUC());
+        Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.ExplosionListener(), r.getUC());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

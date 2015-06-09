@@ -162,10 +162,10 @@ public class UltimateCore {
             MetaItemStack.start();
             ItemUtil.start();
             //
-            if (!ev.getGame().getMinecraftVersion().getName().startsWith("1.8")) {
+            if (!ev.getGame().getPlatform().getMinecraftVersion().getName().startsWith("1.8")) {
                 logger.info(" ");
                 r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                r.log(TextColors.YELLOW + "Warning! Version " + ev.getGame().getMinecraftVersion().getName() + " of spongeapi is not supported!");
+                r.log(TextColors.YELLOW + "Warning! Version " + ev.getGame().getPlatform().getMinecraftVersion().getName() + " of spongeapi_old is not supported!");
                 r.log(TextColors.YELLOW + "Use UltimateCore at your own risk!");
                 r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 logger.info(" ");

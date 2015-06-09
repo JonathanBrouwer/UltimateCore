@@ -81,19 +81,19 @@ public enum MobType {
     ELDERGUARDIAN("ElderGuardian", Enemies.ENEMY, EntityType.GUARDIAN),
     RABBIT("Rabbit", Enemies.FRIENDLY, EntityType.RABBIT);
 
-    private static final Map<String, MobType> hashMap;
-    private static final Map<EntityType, MobType> bukkitMap;
+    private static final Map<String, bammerbom.ultimatecore.spongeapi.resources.classes.MobType> hashMap;
+    private static final Map<EntityType, bammerbom.ultimatecore.spongeapi.resources.classes.MobType> bukkitMap;
 
     static {
         hashMap = new HashMap<>();
         bukkitMap = new HashMap<>();
 
-        for (MobType mob : values()) {
+        for (bammerbom.ultimatecore.spongeapi.resources.classes.MobType mob : values()) {
             hashMap.put(mob.name.toLowerCase(Locale.ENGLISH), mob);
             bukkitMap.put(mob.bukkitType, mob);
         }
-        hashMap.put("zombiepigman", MobType.PIGZOMBIE);
-        hashMap.put("zombiepig", MobType.PIGZOMBIE);
+        hashMap.put("zombiepigman", bammerbom.ultimatecore.spongeapi.resources.classes.MobType.PIGZOMBIE);
+        hashMap.put("zombiepig", bammerbom.ultimatecore.spongeapi.resources.classes.MobType.PIGZOMBIE);
     }
 
     public final String name;
@@ -119,18 +119,18 @@ public enum MobType {
         return Collections.unmodifiableSet(hashMap.keySet());
     }
 
-    public static MobType fromName(String name) {
+    public static bammerbom.ultimatecore.spongeapi.resources.classes.MobType fromName(String name) {
         return hashMap.get(name.toLowerCase(Locale.ENGLISH));
     }
 
-    public static MobType fromBukkitType(EntityType type) {
+    public static bammerbom.ultimatecore.spongeapi.resources.classes.MobType fromBukkitType(EntityType type) {
         if (!bukkitMap.containsKey(type)) {
             return null;
         }
         return bukkitMap.get(type);
     }
 
-    public Entity spawn(World world, Server server, Location loc) throws MobType.MobException {
+    public Entity spawn(World world, Server server, Location loc) throws bammerbom.ultimatecore.spongeapi.resources.classes.MobType.MobException {
         Entity entity = world.spawn(loc, this.bukkitType.getEntityClass());
         if (entity == null) {
             throw new MobException();

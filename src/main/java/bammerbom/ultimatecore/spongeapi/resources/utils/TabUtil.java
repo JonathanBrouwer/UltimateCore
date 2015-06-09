@@ -41,8 +41,8 @@ public class TabUtil {
                 footer = "";
             }
 
-            Object hc = ReflectionUtil.executeStatic("a({1})", ReflectionStatic.fromNMS("ChatSerializer"), "{\"text\": \"" + header + "\"}").fetch();
-            Object fc = ReflectionUtil.executeStatic("a({1})", ReflectionStatic.fromNMS("ChatSerializer"), "{\"text\": \"" + footer + "\"}").fetch();
+            Object hc = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.executeStatic("a({1})", ReflectionStatic.fromNMS("ChatSerializer"), "{\"text\": \"" + header + "\"}").fetch();
+            Object fc = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.executeStatic("a({1})", ReflectionStatic.fromNMS("ChatSerializer"), "{\"text\": \"" + footer + "\"}").fetch();
             Object ob = ReflectionObject.fromNMS("PacketPlayOutPlayerListHeaderFooter", hc).fetch();
 
             Field field = ob.getClass().getDeclaredField("b");

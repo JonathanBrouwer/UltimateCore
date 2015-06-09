@@ -419,12 +419,12 @@ public enum ParticleUtil {
      */
     MOB_APPEARANCE("mobappearance", 41, 8);
 
-    private static final Map<String, ParticleUtil> NAME_MAP = new HashMap<>();
-    private static final Map<Integer, ParticleUtil> ID_MAP = new HashMap<>();
+    private static final Map<String, bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil> NAME_MAP = new HashMap<>();
+    private static final Map<Integer, bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil> ID_MAP = new HashMap<>();
 
     // Initialize map for quick name and id lookup
     static {
-        for (ParticleUtil effect : values()) {
+        for (bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect : values()) {
             NAME_MAP.put(effect.name, effect);
             ID_MAP.put(effect.id, effect);
         }
@@ -456,8 +456,8 @@ public enum ParticleUtil {
      * @param name Name of the particle effect
      * @return The particle effect
      */
-    public static ParticleUtil fromName(String name) {
-        for (Entry<String, ParticleUtil> entry : NAME_MAP.entrySet()) {
+    public static bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil fromName(String name) {
+        for (Entry<String, bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil> entry : NAME_MAP.entrySet()) {
             if (!entry.getKey().equalsIgnoreCase(name)) {
                 continue;
             }
@@ -472,8 +472,8 @@ public enum ParticleUtil {
      * @param id Id of the particle effect
      * @return The particle effect
      */
-    public static ParticleUtil fromId(int id) {
-        for (Entry<Integer, ParticleUtil> entry : ID_MAP.entrySet()) {
+    public static bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil fromId(int id) {
+        for (Entry<Integer, bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil> entry : ID_MAP.entrySet()) {
             if (entry.getKey() != id) {
                 continue;
             }
@@ -519,7 +519,7 @@ public enum ParticleUtil {
      * @param data   Particle data
      * @return Whether the data type is correct or not
      */
-    private static boolean isDataCorrect(ParticleUtil effect, ParticleData data) {
+    private static boolean isDataCorrect(bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect, ParticleData data) {
         return ((effect == BLOCK_CRACK || effect == BLOCK_DUST) && data instanceof BlockData) || (effect == ITEM_CRACK && data instanceof ItemData);
     }
 
@@ -530,7 +530,7 @@ public enum ParticleUtil {
      * @param color  Particle color
      * @return Whether the color type is correct or not
      */
-    private static boolean isColorCorrect(ParticleUtil effect, ParticleColor color) {
+    private static boolean isColorCorrect(bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect, ParticleColor color) {
         return ((effect == SPELL_MOB || effect == SPELL_MOB_AMBIENT || effect == REDSTONE) && color instanceof OrdinaryColor) || (effect == NOTE && color instanceof NoteColor);
     }
 
@@ -1423,7 +1423,7 @@ public enum ParticleUtil {
         private static Field playerConnection;
         private static Method sendPacket;
         private static boolean initialized;
-        private final ParticleUtil effect;
+        private final bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect;
         private final float offsetX;
         private final float offsetY;
         private final float offsetZ;
@@ -1448,7 +1448,7 @@ public enum ParticleUtil {
          * @throws IllegalArgumentException If the speed or amount is lower than 0
          * @see #initialize()
          */
-        public ParticlePacket(ParticleUtil effect, float offsetX, float offsetY, float offsetZ, float speed, int amount, boolean longDistance, ParticleData data) throws IllegalArgumentException {
+        public ParticlePacket(bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect, float offsetX, float offsetY, float offsetZ, float speed, int amount, boolean longDistance, ParticleData data) throws IllegalArgumentException {
             initialize();
             if (speed < 0) {
                 throw new IllegalArgumentException("The speed is lower than 0");
@@ -1479,7 +1479,7 @@ public enum ParticleUtil {
          * @see #ParticleEffect(ParticleEffect, float, float, float, float, int, boolean,
          * ParticleData)
          */
-        public ParticlePacket(ParticleUtil effect, Vector direction, float speed, boolean longDistance, ParticleData data) throws IllegalArgumentException {
+        public ParticlePacket(bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect, Vector direction, float speed, boolean longDistance, ParticleData data) throws IllegalArgumentException {
             this(effect, (float) direction.getX(), (float) direction.getY(), (float) direction.getZ(), speed, 0, longDistance, data);
         }
 
@@ -1493,7 +1493,7 @@ public enum ParticleUtil {
          * @see #ParticleEffect(ParticleEffect, float, float, float, float, int, boolean,
          * ParticleData)
          */
-        public ParticlePacket(ParticleUtil effect, ParticleColor color, boolean longDistance) {
+        public ParticlePacket(bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect, ParticleColor color, boolean longDistance) {
             this(effect, color.getValueX(), color.getValueY(), color.getValueZ(), 1, 0, longDistance, null);
         }
 
@@ -1518,10 +1518,10 @@ public enum ParticleUtil {
                     enumParticle = PackageType.MINECRAFT_SERVER.getClass("EnumParticle");
                 }
                 Class<?> packetClass = PackageType.MINECRAFT_SERVER.getClass(version < 7 ? "Packet63WorldParticles" : "PacketPlayOutWorldParticles");
-                packetConstructor = ReflectionUtils.getConstructor(packetClass);
-                getHandle = ReflectionUtils.getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
-                playerConnection = ReflectionUtils.getField("EntityPlayer", PackageType.MINECRAFT_SERVER, false, "playerConnection");
-                sendPacket = ReflectionUtils.getMethod(playerConnection.getType(), "sendPacket", PackageType.MINECRAFT_SERVER.getClass("Packet"));
+                packetConstructor = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.getConstructor(packetClass);
+                getHandle = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
+                playerConnection = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.getField("EntityPlayer", PackageType.MINECRAFT_SERVER, false, "playerConnection");
+                sendPacket = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.getMethod(playerConnection.getType(), "sendPacket", PackageType.MINECRAFT_SERVER.getClass("Packet"));
             } catch (Exception exception) {
                 throw new VersionIncompatibleException("Your current bukkit version seems to be incompatible with " + "this library", exception);
             }
@@ -1565,22 +1565,22 @@ public enum ParticleUtil {
                     if (data != null) {
                         name += data.getPacketDataString();
                     }
-                    ReflectionUtils.setValue(packet, true, "a", name);
+                    bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "a", name);
                 } else {
-                    ReflectionUtils.setValue(packet, true, "a", enumParticle.getEnumConstants()[effect.getId()]);
-                    ReflectionUtils.setValue(packet, true, "j", longDistance);
+                    bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "a", enumParticle.getEnumConstants()[effect.getId()]);
+                    bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "j", longDistance);
                     if (data != null) {
-                        ReflectionUtils.setValue(packet, true, "k", data.getPacketData());
+                        bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "k", data.getPacketData());
                     }
                 }
-                ReflectionUtils.setValue(packet, true, "b", (float) center.getX());
-                ReflectionUtils.setValue(packet, true, "c", (float) center.getY());
-                ReflectionUtils.setValue(packet, true, "d", (float) center.getZ());
-                ReflectionUtils.setValue(packet, true, "e", offsetX);
-                ReflectionUtils.setValue(packet, true, "f", offsetY);
-                ReflectionUtils.setValue(packet, true, "g", offsetZ);
-                ReflectionUtils.setValue(packet, true, "h", speed);
-                ReflectionUtils.setValue(packet, true, "i", amount);
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "b", (float) center.getX());
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "c", (float) center.getY());
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "d", (float) center.getZ());
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "e", offsetX);
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "f", offsetY);
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "g", offsetZ);
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "h", speed);
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtils.setValue(packet, true, "i", amount);
             } catch (Exception exception) {
                 throw new PacketInstantiationException("Packet instantiation failed", exception);
             }

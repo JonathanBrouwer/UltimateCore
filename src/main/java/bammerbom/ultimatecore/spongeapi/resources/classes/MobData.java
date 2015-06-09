@@ -24,9 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.resources.classes;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.databases.EffectDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
@@ -94,11 +95,9 @@ public class MobData {
 
     static void setHorseSpeed(Horse h, double speed) {
         try {
-            ReflectionUtil.ReflectionObject attributes = ReflectionUtil
-                    .execute("getHandle().getAttributeInstance({1})", h, ReflectionUtil.executeStatic("d", ReflectionUtil.ReflectionStatic.fromNMS("GenericAttributes")).fetch());
-            if (attributes.get("b()") == speed) {
-                return;
-            }
+            ReflectionUtil.ReflectionObject attributes = ReflectionUtil.execute("getHandle().getAttributeInstance({1})", h, ReflectionUtil
+                    .executeStatic(ReflectionUtil.NMS_PATH.equalsIgnoreCase("net.minecraft.server.1_8_R1") || ReflectionUtil.NMS_PATH
+                            .equalsIgnoreCase("net.minecraft.server.1_8_R2") ? "d" : "MOVEMENT_SPEED", ReflectionUtil.ReflectionStatic.fromNMS("GenericAttributes")).fetch());
             attributes.set("f", speed);
             attributes.invoke("f");
         } catch (Exception ex) {
@@ -224,6 +223,13 @@ public class MobData {
                 ((LivingEntity) en).setHealth(amount);
                 return true;
             }
+        } else if (data.contains(":") && EffectDatabase.getByName(data.split(":")[0]) != null) {
+            if (en instanceof LivingEntity) {
+                if (r.isInt(data.split(":")[1])) {
+                    Integer i = Integer.parseInt(data.split(":")[1]);
+                    ((LivingEntity) en).addPotionEffect(EffectDatabase.getByName(data.split(":")[0]).createEffect(999999, i));
+                }
+            }
         } else if (data.startsWith("name:")) {
             en.setCustomNameVisible(true);
             en.setCustomName(ChatColor.translateAlternateColorCodes('&', data.split(":")[1]).replace("_", " "));
@@ -292,7 +298,7 @@ public class MobData {
                     return true;
                 } catch (NumberFormatException ex) {
                 }
-            } else if (data.startsWith("jump:") || data.startsWith("jumpdataength:")) {
+            } else if (data.startsWith("jump:") || data.startsWith("jumpstrength:")) {
                 try {
                     horse.setJumpStrength(Double.parseDouble(data.split(":")[1]));
                     return true;

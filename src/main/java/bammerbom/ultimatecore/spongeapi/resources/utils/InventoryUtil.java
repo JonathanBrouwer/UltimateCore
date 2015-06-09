@@ -24,13 +24,15 @@
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.item.ItemType;
-import org.spongepowered.api.item.inventory.Carrier;
-import org.spongepowered.api.item.inventory.Inventory;
-import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.types.CarriedInventory;
-import org.spongepowered.api.util.command.CommandSource;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.command.CommandSource;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -38,39 +40,51 @@ import java.util.Map.Entry;
 public class InventoryUtil {
 
     public static void addItem(Inventory inv, ItemStack item) {
-        Integer amount = item.getQuantity();
-        while (item.getQuantity() >= 64 && !isFullInventory(inv)) {
-            ItemStack item2 = item;
-            item2.setQuantity(64);
-            inv.offer(item2);
-            item.setQuantity(item.getQuantity() - 64);
+        Integer amount = item.getAmount();
+        while (item.getAmount() >= 64 && !isFullInventory(inv)) {
+            ItemStack item2 = item.clone();
+            item2.setAmount(64);
+            inv.addItem(item2);
+            item.setAmount(item.getAmount() - 64);
             amount = amount - 64;
         }
         if (!isFullInventory(inv)) {
             if (amount == 0) {
                 return;
             }
-            inv.offer(item);
+            inv.addItem(item);
         }
 
     }
 
     public static void clearInventory(final Player p) {
-        p.setItemInHand(null);
-        CarriedInventory<? extends Carrier> inv = p.getInventory();
+        p.setItemInHand(new ItemStack(Material.AIR));
+        PlayerInventory inv = p.getInventory();
         inv.clear();
-        p.setHelmet(null);
-        p.setChestplate(null);
-        p.setLeggings(null);
-        p.setBoots(null);
-        if (p.getOpenInventory().isPresent()) {
-            p.closeInventory();
+        inv.setHelmet(null);
+        inv.setChestplate(null);
+        inv.setLeggings(null);
+        inv.setBoots(null);
+        InventoryView view = p.getOpenInventory();
+        if (view != null) {
+            view.setCursor(null);
+            Inventory i = view.getTopInventory();
+            if (i != null) {
+                i.clear();
+            }
         }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+            @Override
+            public void run() {
+                p.updateInventory();
+
+            }
+        }, 1L);
     }
 
     public static void clearHandler(CommandSource cs, Player player, String[] args, int offset, boolean showExtended) {
         short data = -1;
-        String type = "minecraft:air";
+        int type = -1;
         int amount = -1;
 
         if ((args.length > offset + 1) && (r.isInt(args[(offset + 1)]))) {
@@ -78,56 +92,59 @@ public class InventoryUtil {
         }
         if (args.length > offset) {
             if (args[offset].equalsIgnoreCase("**")) {
-                type = "-2";
+                type = -2;
             } else if (!args[offset].equalsIgnoreCase("*")) {
                 String[] split = args[offset].split(":");
-                ItemStack item = ItemUtil.searchItem(split[0]);
+                ItemStack item = bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.searchItem(split[0]);
                 if (item == null) {
                     r.sendMes(cs, "clearItemNotFound", "%Item", split[0]);
                     return;
                 }
-                type = item.getItem().getId();
+                type = item.getTypeId();
                 if ((split.length > 1) && (r.isInt(split[1]))) {
                     data = Short.parseShort(split[1]);
                 } else {
-                    data = item.getDurability(); //TODO
+                    data = item.getDurability();
                 }
             }
         }
-        if (type.equals("-1") || type.equals("-2") || type.equalsIgnoreCase("minecraft:air")) {
+        if (type == -1 || type == -2) {
             if (showExtended) {
                 if (cs.equals(player)) {
                     r.sendMes(cs, "clearSelfAll");
                 } else {
                     r.sendMes(cs, "clearOtherAllSender", "%Player", player.getName());
-                    r.sendMes(player, "clearOtherAllPlayer", "%Player", cs.getName());
+                    r.sendMes(player, "clearOtherAllPlayer", "%Player", r.getDisplayName(cs));
                 }
             }
             player.getInventory().clear();
         } else if (data == -1) {
-            ItemStack stack = ItemUtil.searchItem(type);
+            ItemStack stack = new ItemStack(type);
             if (showExtended) {
                 if (cs.equals(player)) {
-                    r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
+                    r.sendMes(cs, "clearSelfItem", "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
                 } else {
-                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", cs.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
+                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack).toLowerCase(), "%Amount", r
+                            .mes("clearAll"));
+                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack)
+                            .toLowerCase(), "%Amount", r.mes("clearAll"));
                 }
             }
             player.getInventory().clear(type, data);
         } else if (amount == -1) {
-            //TODO data
-            ItemStack stack = r.getRegistry().getItemBuilder().fromItemStack(ItemUtil.searchItem(type)).quantity(999999).build();
+            ItemStack stack = new ItemStack(type, 100000, data);
             ItemStack removedStack = player.getInventory().removeItem(new ItemStack[]{stack}).get(Integer.valueOf(0));
             int removedAmount = 100000 - removedStack.getAmount();
             if (removedAmount == 0) {
-                r.sendMes(cs, "clearNoItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack));
+                r.sendMes(cs, "clearNoItems", "%Player", player.getName(), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack));
             } else if ((removedAmount > 0) || (showExtended)) {
                 if (cs.equals(player)) {
-                    r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
+                    r.sendMes(cs, "clearSelfItem", "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
                 } else {
-                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", cs.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
+                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack)
+                            .toLowerCase(), "%Amount", removedAmount);
+                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack)
+                            .toLowerCase(), "%Amount", removedAmount);
                 }
             }
         } else {
@@ -137,14 +154,16 @@ public class InventoryUtil {
             ItemStack stack = new ItemStack(type, amount, data);
             if (player.getInventory().containsAtLeast(stack, amount)) {
                 if (cs.equals(player)) {
-                    r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
+                    r.sendMes(cs, "clearSelfItem", "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
                 } else {
-                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", cs.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
+                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack)
+                            .toLowerCase(), "%Amount", amount);
+                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack)
+                            .toLowerCase(), "%Amount", amount);
                 }
                 player.getInventory().removeItem(new ItemStack[]{stack});
             } else if (showExtended) {
-                r.sendMes(cs, "clearNotEnoughItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
+                r.sendMes(cs, "clearNotEnoughItems", "%Player", player.getName(), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
             }
         }
     }
@@ -189,7 +208,7 @@ public class InventoryUtil {
             if (is != null) {
                 String serializedItemStack = "";
 
-                String isType = String.valueOf(is.getType().getId());
+                String isType = String.valueOf(ItemUtil.getID(is.getType()));
                 serializedItemStack += "t@" + isType;
 
                 if (is.getDurability() != 0) {
@@ -242,7 +261,7 @@ public class InventoryUtil {
             for (String itemInfo : serializedItemStack) {
                 String[] itemAttribute = itemInfo.split("@");
                 if (itemAttribute[0].equals("t")) {
-                    is = new ItemStack(r.isInt(itemAttribute[1]) ? "minecraft:air" : ItemUtil.searchItem(itemAttribute[1]));
+                    is = new ItemStack(r.isInt(itemAttribute[1]) ? Material.getMaterial(Integer.parseInt(itemAttribute[1])) : Material.getMaterial(itemAttribute[1]));
                     createdItemStack = true;
                 } else if (itemAttribute[0].equals("d") && createdItemStack) {
                     is.setDurability(Short.valueOf(itemAttribute[1]));
@@ -256,19 +275,6 @@ public class InventoryUtil {
         }
 
         return deserializedInventory;
-    }
-
-    public static Inventory clear(Inventory inv, ItemType type) {
-        ItemStack[] items = inv.items(); //TODO
-        for (int i = 0;
-             i < items.length;
-             i++) {
-            ItemStack item = items[i];
-            if ((item != null) && (item.getItem().equals(type))) {
-                inv.setItem(i, null);
-            }
-        }
-        return inv;
     }
 
 }

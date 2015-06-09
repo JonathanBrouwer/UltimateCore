@@ -23,10 +23,10 @@
  */
 package bammerbom.ultimatecore.spongeapi;
 
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.SignChangeEvent;
+import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
+import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
 
 public interface UltimateSign {
 
@@ -36,7 +36,7 @@ public interface UltimateSign {
 
     void onClick(Player p, Sign sign);
 
-    void onCreate(SignChangeEvent event);
+    void onCreate(SignChangeEvent event, Player p);
 
-    void onDestroy(BlockBreakEvent event);
+    void onDestroy(PlayerBreakBlockEvent event);
 }

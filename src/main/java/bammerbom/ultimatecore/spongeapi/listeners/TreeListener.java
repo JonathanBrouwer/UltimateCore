@@ -36,7 +36,7 @@ import org.bukkit.inventory.ItemStack;
 public class TreeListener implements Listener {
 
     public static void start() {
-        Bukkit.getServer().getPluginManager().registerEvents(new TreeListener(), r.getUC());
+        Bukkit.getServer().getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.TreeListener(), r.getUC());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

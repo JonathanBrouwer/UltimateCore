@@ -23,6 +23,8 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.databases;
 
+
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.potion.PotionEffectType;
 import org.spongepowered.api.potion.PotionEffectTypes;
@@ -49,7 +51,7 @@ public class EffectDatabase {
             pf.put("resistance", PotionEffectTypes.RESISTANCE);
             pf.put("invis", PotionEffectTypes.INVISIBILITY);
             pf.put("blind", PotionEffectTypes.BLINDNESS);
-            for (PotionEffectType type : CatalogTypes.POTION_EFFECT_TYPE.getEnumConstants()) {
+            for (PotionEffectType type : r.getRegistry().getAllOf(CatalogTypes.POTION_EFFECT_TYPE)) {
                 if (type == null) {
                     continue;
                 }
@@ -64,7 +66,4 @@ public class EffectDatabase {
         return pf.get(str.toLowerCase());
     }
 
-    public static PotionEffectType[] values() {
-        return CatalogTypes.POTION_EFFECT_TYPE.getEnumConstants();
-    }
 }

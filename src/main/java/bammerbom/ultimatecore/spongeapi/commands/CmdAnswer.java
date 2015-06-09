@@ -23,16 +23,19 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
-import bammerbom.ultimatecore.spongeapi.UltimateCommandExecutor;
+import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.util.command.CommandSource;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdAnswer implements UltimateCommandExecutor {
-    String format = r.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.AnswerFormat")).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
+public class CmdAnswer implements UltimateCommand {
+
+    String format = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.AnswerFormat")).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
             .replace("\\\\n", "\n");
 
     @Override
@@ -46,22 +49,12 @@ public class CmdAnswer implements UltimateCommandExecutor {
     }
 
     @Override
-    public String getUsage() {
-        return "/<command> <Player> <Message>";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Answer a question send with /ask";
-    }
-
-    @Override
     public List<String> getAliases() {
         return Arrays.asList("ans", "askr", "askreply");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, final String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.answer", true, true)) {
             return;
         }
@@ -69,12 +62,14 @@ public class CmdAnswer implements UltimateCommandExecutor {
             r.sendMes(cs, "answerUsage");
             return;
         }
-        cs.sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", r.getFinalArg(args, 1))));
+        cs.sendMessage(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 1)));
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
-        return null;
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+        if (curn == 0) {
+            return null;
+        }
+        return new ArrayList<>();
     }
-
 }

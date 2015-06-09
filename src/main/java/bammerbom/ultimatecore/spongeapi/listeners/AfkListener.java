@@ -25,15 +25,14 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.entity.player.PlayerEvent;
-import org.spongepowered.api.event.entity.player.PlayerMoveEvent;
-import org.spongepowered.api.event.message.CommandEvent;
-import org.spongepowered.api.text.Texts;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.*;
 
-public class AfkListener {
+public class AfkListener implements Listener {
 
     static Integer afktime = r.getCnfg().getInt("Afk.AfkTime");
     static Integer kicktime = r.getCnfg().getInt("Afk.KickTime");
@@ -41,8 +40,8 @@ public class AfkListener {
 
     public static void start() {
         if (r.getCnfg().getBoolean("Afk.Enabled")) {
-            r.getGame().getEventManager().register(r.getUC(), new AfkListener());
-            r.getGame().getSyncScheduler().runRepeatingTask(r.getUC(), new Runnable() {
+            Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.AfkListener(), r.getUC());
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
                 @Override
                 public void run() {
                     for (Player pl : r.getOnlinePlayers()) {
@@ -53,36 +52,112 @@ public class AfkListener {
                         if (dif > afktime) {
                             if (!UC.getPlayer(pl).isAfk()) {
                                 UC.getPlayer(pl).setAfk(true);
-                                r.getGame().getServer().broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
+                                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
                             }
                         }
                         if (dif > kicktime) {
                             if (kickenabled) {
                                 if (!r.perm(pl, "uc.afk.excempt", false, false)) {
-                                    pl.kick(Texts.of(r.mes("afkKick").toString()));
+                                    pl.kickPlayer(r.mes("afkKick"));
                                 }
                             }
                         }
 
                     }
                 }
-            }, 100L);
+            }, 100L, 100L);
         }
     }
 
-    @Subscribe(order = Order.POST)
-    public void event(PlayerEvent e) {
-        if (e instanceof PlayerMoveEvent && !((PlayerMoveEvent) e).getOldLocation().getBlockPosition().equals(((PlayerMoveEvent) e).getNewLocation().getBlockPosition())) {
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(AsyncPlayerChatEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerBedEnterEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerBedLeaveEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerChatTabCompleteEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerEditBookEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerInteractEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerInteractEntityEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerItemHeldEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerMoveEvent e) {
+        if (!e.getFrom().getBlock().equals(e.getTo().getBlock())) {
             UC.getPlayer(e.getPlayer()).updateLastActivity();
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerRespawnEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerToggleSneakEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void event(PlayerVelocityEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void playerJoin(PlayerJoinEvent e) {
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void playerCommand(PlayerCommandPreprocessEvent e) {
+        if (e.getMessage().startsWith("/afk") || e.getMessage().startsWith("afk")) {
+            return;
         }
         UC.getPlayer(e.getPlayer()).updateLastActivity();
     }
 
-    @Subscribe(order = Order.POST)
-    public void event(CommandEvent e) {
-        if (!e.getCommand().equalsIgnoreCase("afk") && r.isPlayer(e.getSource())) {
-            UC.getPlayer((Player) e.getSource()).updateLastActivity();
+    @EventHandler
+    public void playerQuit(PlayerQuitEvent e) {
+        if (UC.getPlayer(e.getPlayer()).isAfk()) {
+            UC.getPlayer(e.getPlayer()).setAfk(false);
         }
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    }
+
+    @EventHandler
+    public void playerKick(PlayerKickEvent e) {
+        if (UC.getPlayer(e.getPlayer()).isAfk()) {
+            UC.getPlayer(e.getPlayer()).setAfk(false);
+        }
+        UC.getPlayer(e.getPlayer()).updateLastActivity();
     }
 
 }

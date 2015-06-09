@@ -33,6 +33,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class ErrorLogger {
@@ -62,12 +63,9 @@ public class ErrorLogger {
         out.println("=======================================");
         out.println("UltimateCore has run into an error ");
         out.println("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
-        out.println("API version: " + r.getGame().getApiVersion());
-        //TODO implementation name
-        out.println("Implementation version: " + r.getGame().getImplementationVersion());
-        out.println("Minecraft version: " + r.getGame().getMinecraftVersion());
+        out.println("Sponge version: " + r.getGame().getPlatform().getName() + "-" + r.getGame().getPlatform().getVersion());
         out.println("UltimateCore version: " + UltimateCore.version);
-        out.println("Plugins loaded (" + r.getGame().getPluginManager().getPlugins().size() + "): " + r.getGame().getPluginManager().getPlugins());
+        out.println("Plugins loaded (" + r.getGame().getPluginManager().getPlugins().size() + "): " + Arrays.asList(r.getGame().getPluginManager().getPlugins()));
         out.println("Java version: " + System.getProperty("java.version"));
         out.println("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " +
                 System.getProperty("os.version"));
@@ -85,7 +83,7 @@ public class ErrorLogger {
             e.printStackTrace();
         }
         //
-        UltimateCore.logger.info(" ");
+        r.log(" ");
         r.log(TextColors.DARK_RED + "=========================================================");
         r.log(TextColors.RED + "UltimateCore has run into an error ");
         r.log(TextColors.RED + "Please report your error on ");
@@ -108,6 +106,6 @@ public class ErrorLogger {
             t.printStackTrace();
             r.log(TextColors.DARK_RED + "=========================================================");
         }
-        UltimateCore.logger.info(" ");
+        r.log(" ");
     }
 }

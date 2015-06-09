@@ -48,7 +48,7 @@ public class BloodListener implements Listener {
 
     public static void start() {
         if (r.getCnfg().getBoolean("Blood.Enabled")) {
-            Bukkit.getPluginManager().registerEvents(new BloodListener(), r.getUC());
+            Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.BloodListener(), r.getUC());
         }
     }
 

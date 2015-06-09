@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.databases;
 
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.item.Enchantment;
 import org.spongepowered.api.item.Enchantments;
@@ -207,7 +208,7 @@ public class EnchantmentDatabase {
             ench.put("depth", Enchantments.DEPTH_STRIDER);
             ench.put("ds", Enchantments.DEPTH_STRIDER);
 
-            for (Enchantment enc : CatalogTypes.ENCHANTMENT.getEnumConstants()) {
+            for (Enchantment enc : r.getRegistry().getAllOf(CatalogTypes.ENCHANTMENT)) {
                 if (!ench.containsKey(enc.getName().toLowerCase())) {
                     ench.put(enc.getName().toLowerCase(), enc);
                     if (enc.getName().contains("_")) {

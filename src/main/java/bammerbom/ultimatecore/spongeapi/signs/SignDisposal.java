@@ -23,8 +23,8 @@
  */
 package bammerbom.ultimatecore.spongeapi.signs;
 
-import bammerbom.ultimatecore.bukkit.UltimateSign;
-import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.spongeapi.UltimateSign;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;

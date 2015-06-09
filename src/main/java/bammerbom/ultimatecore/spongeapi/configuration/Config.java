@@ -54,8 +54,8 @@ public class Config extends YamlConfiguration implements Cloneable {
             StringBuilder builder = new StringBuilder();
             BufferedReader input = new BufferedReader(reader);
             try {
-                HeaderBuilder header = new HeaderBuilder();
-                NodeBuilder node = new NodeBuilder(getIndent());
+                bammerbom.ultimatecore.spongeapi.configuration.HeaderBuilder header = new bammerbom.ultimatecore.spongeapi.configuration.HeaderBuilder();
+                bammerbom.ultimatecore.spongeapi.configuration.NodeBuilder node = new bammerbom.ultimatecore.spongeapi.configuration.NodeBuilder(getIndent());
                 StringBuilder mainHeader = new StringBuilder();
                 String line;
                 while ((line = input.readLine()) != null) {
@@ -130,7 +130,7 @@ public class Config extends YamlConfiguration implements Cloneable {
                 int anchIndent = 0;
 
                 StringBuilder refData = new StringBuilder();
-                NodeBuilder node = new NodeBuilder(getIndent());
+                bammerbom.ultimatecore.spongeapi.configuration.NodeBuilder node = new bammerbom.ultimatecore.spongeapi.configuration.NodeBuilder(getIndent());
                 for (String line : saveToString().split("\n", -1)) {
                     if (line.startsWith("#")) {
                         continue;

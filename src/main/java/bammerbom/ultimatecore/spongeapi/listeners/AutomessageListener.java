@@ -24,20 +24,23 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.entity.player.PlayerJoinEvent;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.text.chat.ChatTypes;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TitleUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class AutomessageListener {
+public class AutomessageListener implements Listener {
 
     public static ArrayList<String> messages = new ArrayList<>();
     public static String currentmessage = "";
@@ -57,7 +60,7 @@ public class AutomessageListener {
                 .getBoolean("Messages.Enabledactionbar") == false) {
             return;
         }
-        r.getGame().getEventManager().register(r.getUC(), new AutomessageListener());
+        Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.AutomessageListener(), r.getUC());
         ArrayList<String> messgs = messages;
         Integer length = messgs.size();
         if (length != 0) {
@@ -68,7 +71,7 @@ public class AutomessageListener {
     public static void timer(final List<String> messgs) {
         final Integer time = r.getCnfg().getInt("Messages.Time");
         final Boolean ur = r.getCnfg().getBoolean("Messages.Randomise");
-        r.getGame().getSyncScheduler().runRepeatingTask(r.getUC(), new Runnable() {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
             @Override
             public void run() {
                 String mess = ur ? messgs.get(random.nextInt(messgs.size())) : "";
@@ -82,29 +85,44 @@ public class AutomessageListener {
                     }
                 }
                 mess = mess.replace("\\n", "\n");
-                currentmessage = r.translateAlternateColorCodes('&', mess);
+                currentmessage = ChatColor.translateAlternateColorCodes('&', mess);
                 for (Player p : r.getOnlinePlayers()) {
+                    if (r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
+                        if (decrease) {
+                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "), time);
+                        } else {
+                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                        }
+                    }
                     if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
-                        p.sendMessage(ChatTypes.ACTION_BAR, r.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                        TitleUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledchat") == true) {
-                        p.sendMessage(Texts.of(r.translateAlternateColorCodes('&', mess)));
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', mess));
                     }
 
                 }
             }
-        }, time * 20);
+        }, 0, time * 20);
     }
 
-    @Subscribe(order = Order.EARLY)
+    @EventHandler(priority = EventPriority.LOW)
     public void onJoin(final PlayerJoinEvent e) {
-        ArrayList<String> messgs = messages;
-        Integer length = messgs.size();
-        if (length == 0) {
-            return;
-        }
-        if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
-            e.getPlayer().sendMessage(ChatTypes.ACTION_BAR, r.translateAlternateColorCodes('&', currentmessage).replace("\n", " "));
-        }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> messgs = messages;
+                Integer length = messgs.size();
+                if (length == 0) {
+                    return;
+                }
+                if (r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
+                    BossbarUtil.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
+                }
+                if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
+                    TitleUtil.sendActionBar(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
+                }
+            }
+        }, 100L);
     }
 }

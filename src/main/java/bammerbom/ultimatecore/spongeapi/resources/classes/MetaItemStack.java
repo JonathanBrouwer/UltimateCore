@@ -26,41 +26,32 @@ package bammerbom.ultimatecore.spongeapi.resources.classes;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.databases.EffectDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.databases.EnchantmentDatabase;
+import bammerbom.ultimatecore.spongeapi.resources.utils.AttributeUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.AttributeUtil.Attribute;
+import bammerbom.ultimatecore.spongeapi.resources.utils.AttributeUtil.AttributeType;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.spongepowered.api.CatalogTypes;
-import org.spongepowered.api.attribute.Attributes;
-import org.spongepowered.api.block.BlockType;
-import org.spongepowered.api.data.manipulators.*;
-import org.spongepowered.api.data.manipulators.items.DurabilityData;
-import org.spongepowered.api.data.manipulators.items.LoreData;
-import org.spongepowered.api.data.manipulators.items.PagedData;
-import org.spongepowered.api.data.types.DyeColor;
-import org.spongepowered.api.data.types.SkullTypes;
-import org.spongepowered.api.item.FireworkEffect;
-import org.spongepowered.api.item.FireworkEffectBuilder;
-import org.spongepowered.api.item.FireworkShape;
-import org.spongepowered.api.item.ItemTypes;
-import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.potion.PotionEffect;
-import org.spongepowered.api.potion.PotionEffectType;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.util.command.CommandSource;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionObject;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic;
+import com.google.common.base.Joiner;
+import org.bukkit.*;
+import org.bukkit.command.CommandSource;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.*;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class MetaItemStack {
 
     private static final Map<String, DyeColor> colorMap = new HashMap<>();
-    private static final Map<String, FireworkShape> fireworkShape = new HashMap<>();
+    private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap<>();
     private final transient Pattern splitPattern = Pattern.compile("[:+',;.]");
     private ItemStack stack;
-    private FireworkEffectBuilder builder = r.getRegistry().getFireworkEffectBuilder();
+    private FireworkEffect.Builder builder = FireworkEffect.builder();
     private PotionEffectType pEffectType;
     private PotionEffect pEffect;
     private boolean validFirework = false;
@@ -72,17 +63,15 @@ public class MetaItemStack {
     private int duration = 120;
 
     public MetaItemStack(ItemStack stack) {
-        this.stack = stack;
+        this.stack = stack.clone();
     }
 
     public static void start() {
-        for (DyeColor color : CatalogTypes.DYE_COLOR.getEnumConstants()) {
-            colorMap.put(color.getId(), color);
-            colorMap.put(color.getName().replace(" ", ""), color);
+        for (DyeColor color : DyeColor.values()) {
+            colorMap.put(color.name(), color);
         }
-        for (FireworkShape type : CatalogTypes.FIREWORK_SHAPE.getEnumConstants()) {
-            fireworkShape.put(type.getId(), type);
-            fireworkShape.put(type.getName().replace(" ", ""), type);
+        for (FireworkEffect.Type type : FireworkEffect.Type.values()) {
+            fireworkShape.put(type.name(), type);
         }
     }
 
@@ -98,7 +87,7 @@ public class MetaItemStack {
         return (this.validPotionEffect) && (this.validPotionDuration) && (this.validPotionPower);
     }
 
-    public FireworkEffectBuilder getFireworkBuilder() {
+    public FireworkEffect.Builder getFireworkBuilder() {
         return this.builder;
     }
 
@@ -122,8 +111,7 @@ public class MetaItemStack {
     @SuppressWarnings("deprecation")
     public void parseStringMeta(CommandSource sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception {
         if (string[fromArg].startsWith("{")) {
-            //TODO
-            //this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
+            this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
         } else {
             for (int i = fromArg;
                  i < string.length;
@@ -132,9 +120,9 @@ public class MetaItemStack {
             }
             if (this.validFirework) {
                 FireworkEffect effect = this.builder.build();
-                FireworkData data = stack.getOrCreate(FireworkData.class).get();
-                data.add(effect);
-                this.stack.offer(data);
+                FireworkMeta fmeta = (FireworkMeta) this.stack.getItemMeta();
+                fmeta.addEffect(effect);
+                this.stack.setItemMeta(fmeta);
             }
         }
     }
@@ -147,101 +135,116 @@ public class MetaItemStack {
         }
 
         if ((split.length > 1) && (split[0].equalsIgnoreCase("name"))) {
-            String displayName = r.translateAlternateColorCodes('&', split[1].replace('_', ' '));
-            DisplayNameData data = stack.getOrCreate(DisplayNameData.class).get();
-            data.setDisplayName(Texts.of(displayName));
-            stack.offer(data);
+            String displayName = ChatColor.translateAlternateColorCodes('&', split[1].replace('_', ' '));
+            ItemMeta meta = this.stack.getItemMeta();
+            meta.setDisplayName(displayName);
+            this.stack.setItemMeta(meta);
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("maxhealth") || split[0].equalsIgnoreCase("health"))) {
             if (r.isDouble(split[1])) {
                 Double max = Double.parseDouble(split[1]);
                 max = r.normalize(max, 0.0, 2147483647.0);
-                AttributeData data = stack.getOrCreate(AttributeData.class).get();
-                data.setBase(Attributes.GENERIC_MAX_HEALTH, max);
-                stack.offer(data);
+                AttributeUtil attributes = new AttributeUtil(stack);
+                attributes.add(Attribute.newBuilder().name("Health").type(AttributeType.GENERIC_MAX_HEALTH).amount(max).build());
+                stack = attributes.getStack();
             }
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("damage") || split[0].equalsIgnoreCase("attack") || split[0].equalsIgnoreCase("attackdamage"))) {
             if (r.isDouble(split[1])) {
                 Double max = Double.parseDouble(split[1]);
                 max = r.normalize(max, 0.0, Double.MAX_VALUE);
-                AttributeData data = stack.getOrCreate(AttributeData.class).get();
-                data.setBase(Attributes.GENERIC_ATTACK_DAMAGE, max);
-                stack.offer(data);
+                AttributeUtil attributes = new AttributeUtil(stack);
+                attributes.add(Attribute.newBuilder().name("Attack Damage").type(AttributeType.GENERIC_ATTACK_DAMAGE).amount(max).build());
+                stack = attributes.getStack();
             }
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("speed") || split[0].equalsIgnoreCase("movementspeed") || split[0].equalsIgnoreCase("swiftness"))) {
             if (r.isDouble(split[1])) {
                 Double max = Double.parseDouble(split[1]);
                 max = max / 50;
                 max = r.normalize(max, 0.0, Double.MAX_VALUE);
-                AttributeData data = stack.getOrCreate(AttributeData.class).get();
-                data.setBase(Attributes.GENERIC_MOVEMENT_SPEED, max);
-                stack.offer(data);
+                AttributeUtil attributes = new AttributeUtil(stack);
+                attributes.add(Attribute.newBuilder().name("Speed").type(AttributeType.GENERIC_MOVEMENT_SPEED).amount(max).build());
+                stack = attributes.getStack();
             }
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("knockbackres") || split[0].equalsIgnoreCase("knockbackresistance") || split[0].equalsIgnoreCase("kres"))) {
             if (r.isDouble(split[1])) {
                 Double max = Double.parseDouble(split[1]);
                 max = r.normalize(max, 0.0, 100.0);
                 max = max / 100.0;
-                AttributeData data = stack.getOrCreate(AttributeData.class).get();
-                data.setBase(Attributes.GENERIC_KNOCKBACK_RESISTANCE, max);
-                stack.offer(data);
+                AttributeUtil attributes = new AttributeUtil(stack);
+                attributes.add(Attribute.newBuilder().name("Knockback Resistance").type(AttributeType.GENERIC_KNOCKBACK_RESISTANCE).amount(max).build());
+                stack = attributes.getStack();
             }
         } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("lore")) || (split[0].equalsIgnoreCase("desc")))) {
-            List<Text> lore = new ArrayList<>();
+            List<String> lore = new ArrayList<>();
             for (String line : split[1].split("\\|")) {
-                lore.add(Texts.of(r.translateAlternateColorCodes('&', line.replace('_', ' '))));
+                lore.add(ChatColor.translateAlternateColorCodes('&', line.replace('_', ' ')));
             }
-            LoreData data = stack.getOrCreate(LoreData.class).get();
-            data.set(lore);
-            stack.offer(data);
-        } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("player")) || (split[0].equalsIgnoreCase("owner"))) && (this.stack.getItem() == ItemTypes.SKULL)) {
-            if (this.stack.isCompatible(SkullData.class) && stack.getOrCreate(SkullData.class).get().getValue().equals(SkullTypes.PLAYER)) {
+            ItemMeta meta = this.stack.getItemMeta();
+            meta.setLore(lore);
+            this.stack.setItemMeta(meta);
+        } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("player")) || (split[0].equalsIgnoreCase("owner"))) && (this.stack.getType() == Material.SKULL_ITEM)) {
+            if (this.stack.getDurability() == 3) {
                 String owner = split[1];
-                SkullData data = stack.getOrCreate(SkullData.class).get();
-                //TODO
+                SkullMeta meta = (SkullMeta) this.stack.getItemMeta();
                 meta.setOwner(owner);
                 this.stack.setItemMeta(meta);
             } else {
             }
-        } else if ((split.length > 1) && (split[0].equalsIgnoreCase("author")) && stack.isCompatible(PagedData.class)) {
-            String author = r.translateAlternateColorCodes('&', split[1]);
-            PagedData data = stack.getOrCreate(PagedData.class).get();
-            //TODO
+        } else if ((split.length > 1) && (split[0].equalsIgnoreCase("author")) && (this.stack.getType() == Material.WRITTEN_BOOK)) {
+            String author = ChatColor.translateAlternateColorCodes('&', split[1]);
+            BookMeta meta = (BookMeta) this.stack.getItemMeta();
             meta.setAuthor(author);
             this.stack.setItemMeta(meta);
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("title")) && (this.stack.getType() == Material.WRITTEN_BOOK)) {
             String title = ChatColor.translateAlternateColorCodes('&', split[1].replace('_', ' '));
             BookMeta meta = (BookMeta) this.stack.getItemMeta();
             meta.setTitle(title);
-            //TODO
             this.stack.setItemMeta(meta);
-        } else if ((split.length > 1) && (split[0].equalsIgnoreCase("power")) && stack.isCompatible(FireworkData.class)) {
+        } else if ((split.length > 1) && (split[0].equalsIgnoreCase("power")) && (this.stack.getType() == Material.FIREWORK)) {
             int power = r.isInt(split[1]) ? Integer.parseInt(split[1]) : 0;
-            FireworkData data = stack.getOrCreate(FireworkData.class).get();
-            data.setFlightModifier(power > 3 ? 4 : power);
-            stack.offer(data);
-        } else if (this.stack.getItem() == ItemTypes.FIREWORKS) {
+            FireworkMeta meta = (FireworkMeta) this.stack.getItemMeta();
+            meta.setPower(power > 3 ? 4 : power);
+            this.stack.setItemMeta(meta);
+        } else if (this.stack.getType() == Material.FIREWORK) {
             addFireworkMeta(false, string);
-        } else if (this.stack.getItem() == ItemTypes.POTION) {
+        } else if (this.stack.getType() == Material.POTION) {
             addPotionMeta(false, string);
-        } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour"))) && stack.isCompatible(ColoredData.class)) {
+        } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour"))) && ((this.stack.getType() == Material.LEATHER_BOOTS) || (this.stack
+                .getType() == Material.LEATHER_CHESTPLATE) || (this.stack.getType() == Material.LEATHER_HELMET) || (this.stack.getType() == Material.LEATHER_LEGGINGS))) {
             String[] color = split[1].split("(\\||,)");
             if (color.length == 3) {
                 int red = r.isInt(color[0]) ? Integer.parseInt(color[0]) : 0;
                 int green = r.isInt(color[1]) ? Integer.parseInt(color[1]) : 0;
                 int blue = r.isInt(color[2]) ? Integer.parseInt(color[2]) : 0;
-                ColoredData data = stack.getOrCreate(ColoredData.class).get();
-                data.setColor(new Color(red, green, blue));
-                stack.offer(data);
+                LeatherArmorMeta meta = (LeatherArmorMeta) this.stack.getItemMeta();
+                meta.setColor(Color.fromRGB(red, green, blue));
+                this.stack.setItemMeta(meta);
             } else {
+                Color colo = null;
+                try {
+                    if (DyeColor.valueOf(split[1].toUpperCase()) != null) {
+                        colo = DyeColor.valueOf(split[1].toUpperCase()).getColor();
+                    }
+                } catch (Exception e) {
+                    colo = null; // Not defined
+                }
+                if (colo != null) {
+                    LeatherArmorMeta meta = (LeatherArmorMeta) this.stack.getItemMeta();
+                    meta.setColor(colo);
+                    this.stack.setItemMeta(meta);
+                }
             }
         } else if (split[0].equalsIgnoreCase("glow") || split[0].equalsIgnoreCase("glowing")) {
             ItemUtil.addGlow(stack);
-        } else if (split[0].equalsIgnoreCase("unbreakable") && stack.isCompatible(DurabilityData.class)) {
-            DurabilityData data = stack.getOrCreate(DurabilityData.class).get();
-            data.setBreakable(false);
-            stack.offer(data);
+        } else if (split[0].equalsIgnoreCase("unbreakable")) {
+            try {
+                ItemMeta meta = stack.getItemMeta();
+                meta.spigot().setUnbreakable(true);
+                stack.setItemMeta(meta);
+            } catch (Exception ex) {
+                throw new UnsupportedOperationException("Unbreakable does currently only work on Spigot.");
+            }
         } else if (split.length > 1 && (split[0].equalsIgnoreCase("canplaceon"))) {
-            List<BlockType> c = new ArrayList<>();
+            List<ItemStack> c = new ArrayList<>();
             if (split[1].contains(",")) {
                 for (String s : split[1].split(",")) {
                     ItemStack i = ItemUtil.searchItem(s);
@@ -263,7 +266,6 @@ public class MetaItemStack {
                 }
                 c.add(i);
             }
-
             StringBuilder s = new StringBuilder();
             for (ItemStack i : c) {
                 if (!s.toString().isEmpty()) {
@@ -483,7 +485,7 @@ public class MetaItemStack {
         }
     }
 
-    private void parseEnchantmentStrings(CommandSender cs, boolean allowUnsafe, String[] split) throws Exception {
+    private void parseEnchantmentStrings(CommandSource cs, boolean allowUnsafe, String[] split) throws Exception {
         Enchantment enchantment = EnchantmentDatabase.getByName(split[0]);
         if ((enchantment == null)) {
             return;
@@ -504,7 +506,7 @@ public class MetaItemStack {
         addEnchantment(cs, allowUnsafe, enchantment, level);
     }
 
-    public void addEnchantment(CommandSender cs, boolean allowUnsafe, Enchantment enchantment, int level) {
+    public void addEnchantment(CommandSource cs, boolean allowUnsafe, Enchantment enchantment, int level) {
         if (enchantment == null) {
             return;
         }

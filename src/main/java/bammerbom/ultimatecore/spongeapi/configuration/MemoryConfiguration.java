@@ -32,25 +32,25 @@ import java.util.Map;
  * stores all values in memory only. This is useful for temporary Configurations for providing
  * defaults.
  */
-class MemoryConfiguration extends ConfigSection {
+class MemoryConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.ConfigSection {
 
-    protected MemoryConfiguration defaults;
-    protected MemoryConfigurationOptions options;
+    protected bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults;
+    protected bammerbom.ultimatecore.spongeapi.configuration.MemoryConfigurationOptions options;
 
     /**
-     * Creates an empty {@link MemoryConfiguration} with no default values.
+     * Creates an empty {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} with no default values.
      */
     public MemoryConfiguration() {
     }
 
     /**
-     * Creates an empty {@link MemoryConfiguration} using the specified {@link
-     * Configuration} as a source for all default values.
+     * Creates an empty {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} using the specified {@link
+     * Config} as a source for all default values.
      *
      * @param defaults Default value provider
      * @throws IllegalArgumentException Thrown if defaults is null
      */
-    public MemoryConfiguration(MemoryConfiguration defaults) {
+    public MemoryConfiguration(bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults) {
         this.defaults = defaults;
     }
 
@@ -59,7 +59,7 @@ class MemoryConfiguration extends ConfigSection {
         Validate.notNull(path, "Path may not be null");
 
         if (defaults == null) {
-            defaults = new MemoryConfiguration();
+            defaults = new bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration();
         }
 
         defaults.set(path, value);
@@ -73,17 +73,17 @@ class MemoryConfiguration extends ConfigSection {
         }
     }
 
-    public void addDefaults(MemoryConfiguration defaults) {
+    public void addDefaults(bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         addDefaults(defaults.getValues(true));
     }
 
-    public MemoryConfiguration getDefaults() {
+    public bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration getDefaults() {
         return defaults;
     }
 
-    public void setDefaults(MemoryConfiguration defaults) {
+    public void setDefaults(bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         this.defaults = defaults;
@@ -94,9 +94,9 @@ class MemoryConfiguration extends ConfigSection {
         return null;
     }
 
-    public MemoryConfigurationOptions options() {
+    public bammerbom.ultimatecore.spongeapi.configuration.MemoryConfigurationOptions options() {
         if (options == null) {
-            options = new MemoryConfigurationOptions(this);
+            options = new bammerbom.ultimatecore.spongeapi.configuration.MemoryConfigurationOptions(this);
         }
         return options;
     }

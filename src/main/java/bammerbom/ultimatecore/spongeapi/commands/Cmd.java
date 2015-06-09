@@ -23,13 +23,14 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
-import bammerbom.ultimatecore.spongeapi.UltimateCommandExecutor;
-import org.spongepowered.api.util.command.CommandSource;
+import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSource;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Cmd implements UltimateCommandExecutor {
+public class Cmd implements UltimateCommand {
 
     @Override
     public String getName() {
@@ -42,28 +43,17 @@ public class Cmd implements UltimateCommandExecutor {
     }
 
     @Override
-    public String getUsage() {
-        return "";
-    }
-
-    @Override
-    public String getDescription() {
-        return "";
-    }
-
-    @Override
     public List<String> getAliases() {
-        return Arrays.asList("");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, final String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
 
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-
 }

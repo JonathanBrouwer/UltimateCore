@@ -36,7 +36,7 @@ public class WeatherListener implements Listener {
     private static boolean enabled = true;
 
     public static void start() {
-        Bukkit.getPluginManager().registerEvents(new WeatherListener(), r.getUC());
+        Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.WeatherListener(), r.getUC());
     }
 
     public static void setEnabled(Boolean b) {

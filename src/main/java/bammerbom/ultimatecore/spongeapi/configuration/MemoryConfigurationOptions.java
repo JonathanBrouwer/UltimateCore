@@ -29,15 +29,15 @@ package bammerbom.ultimatecore.spongeapi.configuration;
  */
 class MemoryConfigurationOptions {
 
-    private final MemoryConfiguration configuration;
+    private final bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration configuration;
     private char pathSeparator = '.';
     private boolean copyDefaults = false;
 
-    protected MemoryConfigurationOptions(MemoryConfiguration configuration) {
+    protected MemoryConfigurationOptions(bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration configuration) {
         this.configuration = configuration;
     }
 
-    public MemoryConfiguration configuration() {
+    public bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration configuration() {
         return configuration;
     }
 
@@ -45,7 +45,7 @@ class MemoryConfigurationOptions {
         return this.pathSeparator;
     }
 
-    public MemoryConfigurationOptions pathSeparator(char value) {
+    public bammerbom.ultimatecore.spongeapi.configuration.MemoryConfigurationOptions pathSeparator(char value) {
         this.pathSeparator = value;
         return this;
     }
@@ -54,7 +54,7 @@ class MemoryConfigurationOptions {
         return this.copyDefaults;
     }
 
-    public MemoryConfigurationOptions copyDefaults(boolean value) {
+    public bammerbom.ultimatecore.spongeapi.configuration.MemoryConfigurationOptions copyDefaults(boolean value) {
         this.copyDefaults = value;
         return this;
     }

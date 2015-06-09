@@ -23,10 +23,7 @@
  */
 package bammerbom.ultimatecore.spongeapi;
 
-import bammerbom.ultimatecore.spongeapi.commands.CmdAccountstatus;
-import bammerbom.ultimatecore.spongeapi.commands.CmdAfk;
-import bammerbom.ultimatecore.spongeapi.commands.CmdAlert;
-import bammerbom.ultimatecore.spongeapi.commands.CmdAnswer;
+import bammerbom.ultimatecore.spongeapi.commands.*;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.util.command.args.CommandContext;
 import org.spongepowered.api.util.command.spec.CommandSpec;
@@ -36,9 +33,9 @@ import java.util.List;
 
 public class UltimateCommands {
 
-    public static List<UltimateCommandExecutor> cmds = new ArrayList<>();
+    public static List<bammerbom.ultimatecore.spongeapi.UltimateCommand> cmds = new ArrayList<>();
     public static List<String> disabled;
-    public static UltimateCommands ucmds;
+    public static bammerbom.ultimatecore.spongeapi.UltimateCommands ucmds;
 
     public static void load() {
         disabled = r.getCnfg().getStringList("Command.DisabledCommands");
@@ -119,6 +116,7 @@ public class UltimateCommands {
         cmds.add(new CmdNear());
         cmds.add(new CmdNick());
         cmds.add(new CmdPay());
+        cmds.add(new CmdPermcheck());
         cmds.add(new CmdPing());
         cmds.add(new CmdPlugin());
         cmds.add(new CmdPotion());
@@ -155,6 +153,7 @@ public class UltimateCommands {
         cmds.add(new CmdTeleportall());
         cmds.add(new CmdTeleportask());
         cmds.add(new CmdTeleportaskall());
+        cmds.add(new CmdTeleportaskhere());
         cmds.add(new CmdTeleportdeny());
         cmds.add(new CmdTeleporthere());
         cmds.add(new CmdTeleporttoggle());
@@ -178,7 +177,7 @@ public class UltimateCommands {
         //
         ucmds = new UltimateCommands();
         //
-        for (UltimateCommandExecutor cmd : cmds) {
+        for (UltimateCommand cmd : cmds) {
             if (disabled.contains(cmd.getName())) {
                 continue;
             }
@@ -192,9 +191,8 @@ public class UltimateCommands {
             aliases.addAll(cmd.getAliases());
 
             for (String label : aliases) {
-                r.getGame().getCommandDispatcher()
-                        .register(r.getUC(), CommandSpec.builder().setDescription(Texts.of(cmd.getDescription())).setExecutor(new UltimateCommandExecutor.DefaultExecutor(cmd, label))
-                                .setArguments(new UltimateCommandElement(null, cmd, label)).build(), label);
+                r.getGame().getCommandDispatcher().register(r.getUC(), CommandSpec.builder().description(Texts.of(cmd.getDescription())).executor(new UltimateCommandExecutor(cmd, label))
+                        .arguments(new UltimateCommandElement(null, cmd, label)).build(), label);
             }
 
         }
@@ -203,6 +201,5 @@ public class UltimateCommands {
     public static String[] convertsArgs(CommandContext args) {
         return (String[]) args.getAll("string").toArray();
     }
-
 
 }

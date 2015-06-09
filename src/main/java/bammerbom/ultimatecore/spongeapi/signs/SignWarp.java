@@ -23,10 +23,10 @@
  */
 package bammerbom.ultimatecore.spongeapi.signs;
 
-import bammerbom.ultimatecore.bukkit.UltimateSign;
-import bammerbom.ultimatecore.bukkit.api.UC;
-import bammerbom.ultimatecore.bukkit.r;
-import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import bammerbom.ultimatecore.spongeapi.UltimateSign;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;

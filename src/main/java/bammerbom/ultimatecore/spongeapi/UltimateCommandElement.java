@@ -19,7 +19,7 @@ import java.util.List;
 public class UltimateCommandElement extends CommandElement {
 
     private final SimpleDispatcher dispatcher = new SimpleDispatcher(SimpleDispatcher.FIRST_DISAMBIGUATOR);
-    private UltimateCommandExecutor cmd;
+    private UltimateCommand cmd;
     private String label;
 
     protected UltimateCommandElement(@Nullable Text key) {
@@ -28,7 +28,7 @@ public class UltimateCommandElement extends CommandElement {
         label = null;
     }
 
-    public UltimateCommandElement(@Nullable Text key, UltimateCommandExecutor cmd_, String alias) {
+    public UltimateCommandElement(@Nullable Text key, UltimateCommand cmd_, String alias) {
         this(key);
         cmd = cmd_;
         label = alias;

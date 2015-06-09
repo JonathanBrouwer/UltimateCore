@@ -98,7 +98,7 @@ public class UServer {
     public List<OfflinePlayer> getDeafOfflinePlayers() {
         List<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            if (UC.getPlayer(pl).isDeaf()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isDeaf()) {
                 pls.add(pl);
             }
         }
@@ -108,7 +108,7 @@ public class UServer {
     public List<Player> getDeafOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isDeaf()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isDeaf()) {
                 pls.add(pl);
             }
         }
@@ -119,7 +119,7 @@ public class UServer {
     public List<OfflinePlayer> getMutedOfflinePlayers() {
         List<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            if (UC.getPlayer(pl).isMuted()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isMuted()) {
                 pls.add(pl);
             }
         }
@@ -129,7 +129,7 @@ public class UServer {
     public List<Player> getMutedOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isMuted()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isMuted()) {
                 pls.add(pl);
             }
         }
@@ -140,7 +140,7 @@ public class UServer {
     public List<OfflinePlayer> getJailedOfflinePlayers() {
         List<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            if (UC.getPlayer(pl).isJailed()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
         }
@@ -150,7 +150,7 @@ public class UServer {
     public List<Player> getJailedOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isJailed()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
         }
@@ -161,7 +161,7 @@ public class UServer {
     public List<OfflinePlayer> getInCommandEnchantingtablePlayers() {
         List<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            if (UC.getPlayer(pl).isInCommandEnchantingtable()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isInCommandEnchantingtable()) {
                 pls.add(pl);
             }
         }
@@ -171,7 +171,7 @@ public class UServer {
     public List<Player> getInCommandEnchantingtableOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isInCommandEnchantingtable()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isInCommandEnchantingtable()) {
                 pls.add(pl);
             }
         }
@@ -182,7 +182,7 @@ public class UServer {
     public List<OfflinePlayer> getFrozenOfflinePlayers() {
         List<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            if (UC.getPlayer(pl).isFrozen()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isFrozen()) {
                 pls.add(pl);
             }
         }
@@ -192,7 +192,7 @@ public class UServer {
     public List<Player> getFrozenOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isFrozen()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isFrozen()) {
                 pls.add(pl);
             }
         }
@@ -203,7 +203,7 @@ public class UServer {
     public List<OfflinePlayer> getGodOfflinePlayers() {
         List<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            if (UC.getPlayer(pl).isGod()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isGod()) {
                 pls.add(pl);
             }
         }
@@ -213,7 +213,7 @@ public class UServer {
     public List<Player> getGodOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isGod()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isGod()) {
                 pls.add(pl);
             }
         }
@@ -224,7 +224,7 @@ public class UServer {
     public List<Player> getInOnlineInventoryOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isInOnlineInventory()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isInOnlineInventory()) {
                 pls.add(pl);
             }
         }
@@ -234,7 +234,7 @@ public class UServer {
     public List<Player> getInOfflineInventoryOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isInOfflineInventory()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isInOfflineInventory()) {
                 pls.add(pl);
             }
         }
@@ -285,7 +285,7 @@ public class UServer {
     public ArrayList<Player> getOnlineJailed() {
         ArrayList<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isJailed()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
         }
@@ -295,7 +295,7 @@ public class UServer {
     public ArrayList<OfflinePlayer> getOfflineJailed() {
         ArrayList<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            if (UC.getPlayer(pl).isJailed()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
         }
@@ -312,7 +312,7 @@ public class UServer {
             if (!StringUtil.nullOrEmpty(b.toString())) {
                 b.append(", ");
             }
-            b.append(UC.getPlayer(pl).getDisplayName());
+            b.append(bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).getDisplayName());
         }
         mt = mt.replace("{ONLINE}", b.toString());
         mt = mt.replace("{PLAYERS}", b.toString());
@@ -342,8 +342,8 @@ public class UServer {
 
     public String getMotd(Player p) {
         String mt = motd;
-        mt = mt.replace("{PLAYER}", UC.getPlayer(p).getDisplayName());
-        mt = mt.replace("{NAME}", UC.getPlayer(p).getDisplayName());
+        mt = mt.replace("{PLAYER}", bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).getDisplayName());
+        mt = mt.replace("{NAME}", bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).getDisplayName());
         mt = mt.replace("{RAWNAME}", p.getName());
         mt = mt.replace("{WORLD}", p.getWorld().getName());
         mt = mt.replace("{WORLDNAME}", p.getWorld().getName());
@@ -359,7 +359,7 @@ public class UServer {
             if (!StringUtil.nullOrEmpty(b.toString())) {
                 b.append(", ");
             }
-            b.append(UC.getPlayer(pl).getDisplayName());
+            b.append(bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).getDisplayName());
         }
         mt = mt.replace("{ONLINE}", b.toString());
         mt = mt.replace("{PLAYERCOUNT}", i + "");
@@ -384,7 +384,7 @@ public class UServer {
     public List<OfflinePlayer> getInTeleportMenuOffline() {
         List<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            if (UC.getPlayer(pl).isInTeleportMenu()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isInTeleportMenu()) {
                 pls.add(pl);
             }
         }
@@ -394,7 +394,7 @@ public class UServer {
     public List<Player> getInTeleportMenuOnline() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isInTeleportMenu()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isInTeleportMenu()) {
                 pls.add(pl);
             }
         }
@@ -430,7 +430,7 @@ public class UServer {
     public List<OfflinePlayer> getVanishOfflinePlayers() {
         List<OfflinePlayer> pls = new ArrayList<>();
         for (OfflinePlayer pl : r.getOfflinePlayers()) {
-            if (UC.getPlayer(pl).isVanish()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isVanish()) {
                 pls.add(pl);
             }
         }
@@ -440,7 +440,7 @@ public class UServer {
     public List<Player> getVanishOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {
-            if (UC.getPlayer(pl).isVanish()) {
+            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isVanish()) {
                 pls.add(pl);
             }
         }
@@ -650,6 +650,5 @@ public class UServer {
             return false;
         }
     }
-
 
 }

@@ -218,7 +218,6 @@ public class r {
         }
         r.debug("Checked " + p.getName() + " for " + perm + ", returned " + p.hasPermission(perm) + ". (4)");
         return p.hasPermission(perm);
-        //}
     }
 
     public static boolean checkArgs(Object[] args, Integer numb) {

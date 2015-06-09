@@ -24,22 +24,23 @@
 package bammerbom.ultimatecore.spongeapi.configuration;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Color;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.item.inventory.ItemStack;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 import static org.bukkit.util.NumberConversions.*;
 
 /**
- * A type of {@link ConfigSection} that is stored in memory.
+ * A type of {@link bammerbom.ultimatecore.spongeapi.configuration.ConfigSection} that is stored in memory.
  */
 public class ConfigSection {
 
     protected final Map<String, Object> map = new LinkedHashMap<>();
-    private final MemoryConfiguration root;
-    private final ConfigSection parent;
+    private final bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root;
+    private final bammerbom.ultimatecore.spongeapi.configuration.ConfigSection parent;
     private final String path;
     private final String fullPath;
 
@@ -53,14 +54,14 @@ public class ConfigSection {
      *                               MemoryConfiguration} root.
      */
     protected ConfigSection() {
-        if (!(this instanceof MemoryConfiguration)) {
+        if (!(this instanceof bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration)) {
             throw new IllegalStateException("Cannot construct a root MemorySection when not a MemoryConfiguration");
         }
 
         this.path = "";
         this.fullPath = "";
         this.parent = null;
-        this.root = (MemoryConfiguration) this;
+        this.root = (bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration) this;
     }
 
     /**
@@ -72,7 +73,7 @@ public class ConfigSection {
      * @throws IllegalArgumentException Thrown is parent or path is null, or if parent contains no
      *                                  root MemoryConfiguration.
      */
-    protected ConfigSection(ConfigSection parent, String path) {
+    protected ConfigSection(bammerbom.ultimatecore.spongeapi.configuration.ConfigSection parent, String path) {
         Validate.notNull(parent, "Parent cannot be null");
         Validate.notNull(path, "Path cannot be null");
 
@@ -86,39 +87,39 @@ public class ConfigSection {
     }
 
     /**
-     * Creates a full path to the given {@link ConfigSection} from its root
+     * Creates a full path to the given {@link bammerbom.ultimatecore.spongeapi.configuration.ConfigSection} from its root
      * {@link MemoryConfiguration}.
      * <p/>
-     * You may use this method for any given {@link ConfigSection}, not only {@link ConfigSection}.
+     * You may use this method for any given {@link bammerbom.ultimatecore.spongeapi.configuration.ConfigSection}, not only {@link bammerbom.ultimatecore.spongeapi.configuration.ConfigSection}.
      *
      * @param section Section to create a path for.
      * @param key     Name of the specified section.
      * @return Full path of the section from its root.
      */
-    protected static String createPath(ConfigSection section, String key) {
+    protected static String createPath(bammerbom.ultimatecore.spongeapi.configuration.ConfigSection section, String key) {
         return createPath(section, key, (section == null) ? null : section.getRoot());
     }
 
     /**
-     * Creates a relative path to the given {@link ConfigSection} from the given relative section.
+     * Creates a relative path to the given {@link bammerbom.ultimatecore.spongeapi.configuration.ConfigSection} from the given relative section.
      * <p/>
-     * You may use this method for any given {@link ConfigSection}, not only {@link ConfigSection}.
+     * You may use this method for any given {@link bammerbom.ultimatecore.spongeapi.configuration.ConfigSection}, not only {@link bammerbom.ultimatecore.spongeapi.configuration.ConfigSection}.
      *
      * @param section    Section to create a path for.
      * @param key        Name of the specified section.
      * @param relativeTo Section to create the path relative to.
      * @return Full path of the section from its root.
      */
-    protected static String createPath(ConfigSection section, String key, ConfigSection relativeTo) {
+    protected static String createPath(bammerbom.ultimatecore.spongeapi.configuration.ConfigSection section, String key, bammerbom.ultimatecore.spongeapi.configuration.ConfigSection relativeTo) {
         Validate.notNull(section, "Cannot create path without a section");
-        MemoryConfiguration root = section.getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = section.getRoot();
         if (root == null) {
             throw new IllegalStateException("Cannot create path without a root");
         }
         char separator = root.options().pathSeparator();
 
         StringBuilder builder = new StringBuilder();
-        for (ConfigSection parent = section;
+        for (bammerbom.ultimatecore.spongeapi.configuration.ConfigSection parent = section;
              (parent != null) && (parent != relativeTo);
              parent = parent.getParent()) {
             if (builder.length() > 0) {
@@ -139,8 +140,8 @@ public class ConfigSection {
         return builder.toString();
     }
 
-    public Set<ConfigSection> getConfigurationSections(Boolean deep) {
-        Set<ConfigSection> result = new LinkedHashSet<>();
+    public Set<bammerbom.ultimatecore.spongeapi.configuration.ConfigSection> getConfigurationSections(Boolean deep) {
+        Set<bammerbom.ultimatecore.spongeapi.configuration.ConfigSection> result = new LinkedHashSet<>();
         for (String r : getKeys(deep)) {
             if (this.isConfigurationSection(r)) {
                 result.add(this.getConfigurationSection(r));
@@ -152,9 +153,9 @@ public class ConfigSection {
     public Set<String> getKeys(boolean deep) {
         Set<String> result = new LinkedHashSet<>();
 
-        MemoryConfiguration root = getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = getRoot();
         if (root != null && root.options().copyDefaults()) {
-            ConfigSection defaults = getDefaultSection();
+            bammerbom.ultimatecore.spongeapi.configuration.ConfigSection defaults = getDefaultSection();
 
             if (defaults != null) {
                 result.addAll(defaults.getKeys(deep));
@@ -169,9 +170,9 @@ public class ConfigSection {
     public Map<String, Object> getValues(boolean deep) {
         Map<String, Object> result = new LinkedHashMap<>();
 
-        MemoryConfiguration root = getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = getRoot();
         if (root != null && root.options().copyDefaults()) {
-            ConfigSection defaults = getDefaultSection();
+            bammerbom.ultimatecore.spongeapi.configuration.ConfigSection defaults = getDefaultSection();
 
             if (defaults != null) {
                 result.putAll(defaults.getValues(deep));
@@ -188,7 +189,7 @@ public class ConfigSection {
     }
 
     public boolean isSet(String path) {
-        MemoryConfiguration root = getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = getRoot();
         if (root == null) {
             return false;
         }
@@ -206,18 +207,18 @@ public class ConfigSection {
         return path;
     }
 
-    public MemoryConfiguration getRoot() {
+    public bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration getRoot() {
         return root;
     }
 
-    public ConfigSection getParent() {
+    public bammerbom.ultimatecore.spongeapi.configuration.ConfigSection getParent() {
         return parent;
     }
 
     public void addDefault(String path, Object value) {
         Validate.notNull(path, "Path cannot be null");
 
-        MemoryConfiguration root = getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = getRoot();
         if (root == null) {
             throw new IllegalStateException("Cannot add default without root");
         }
@@ -227,9 +228,9 @@ public class ConfigSection {
         root.addDefault(createPath(this, path), value);
     }
 
-    public ConfigSection getDefaultSection() {
-        MemoryConfiguration root = getRoot();
-        MemoryConfiguration defaults = root == null ? null : root.getDefaults();
+    public bammerbom.ultimatecore.spongeapi.configuration.ConfigSection getDefaultSection() {
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults = root == null ? null : root.getDefaults();
 
         if (defaults != null) {
             if (defaults.isConfigurationSection(getCurrentPath())) {
@@ -243,7 +244,7 @@ public class ConfigSection {
     public void set(String path, Object value) {
         Validate.notEmpty(path, "Cannot set to an empty path");
 
-        MemoryConfiguration root = getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = getRoot();
         if (root == null) {
             throw new IllegalStateException("Cannot use section without a root");
         }
@@ -252,10 +253,10 @@ public class ConfigSection {
         // i1 is the leading (higher) index
         // i2 is the trailing (lower) index
         int i1 = -1, i2;
-        ConfigSection section = this;
+        bammerbom.ultimatecore.spongeapi.configuration.ConfigSection section = this;
         while ((i1 = path.indexOf(separator, i2 = i1 + 1)) != -1) {
             String node = path.substring(i2, i1);
-            ConfigSection subSection = section.getConfigurationSection(node);
+            bammerbom.ultimatecore.spongeapi.configuration.ConfigSection subSection = section.getConfigurationSection(node);
             if (subSection == null) {
                 section = section.createSection(node);
             } else {
@@ -286,7 +287,7 @@ public class ConfigSection {
             return this;
         }
 
-        MemoryConfiguration root = getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = getRoot();
         if (root == null) {
             throw new IllegalStateException("Cannot access section without a root");
         }
@@ -295,7 +296,7 @@ public class ConfigSection {
         // i1 is the leading (higher) index
         // i2 is the trailing (lower) index
         int i1 = -1, i2;
-        ConfigSection section = this;
+        bammerbom.ultimatecore.spongeapi.configuration.ConfigSection section = this;
         while ((i1 = path.indexOf(separator, i2 = i1 + 1)) != -1) {
             section = section.getConfigurationSection(path.substring(i2, i1));
             if (section == null) {
@@ -311,9 +312,9 @@ public class ConfigSection {
         return section.get(key, def);
     }
 
-    public ConfigSection createSection(String path) {
+    public bammerbom.ultimatecore.spongeapi.configuration.ConfigSection createSection(String path) {
         Validate.notEmpty(path, "Cannot create section at empty path");
-        MemoryConfiguration root = getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = getRoot();
         if (root == null) {
             throw new IllegalStateException("Cannot create section without a root");
         }
@@ -322,10 +323,10 @@ public class ConfigSection {
         // i1 is the leading (higher) index
         // i2 is the trailing (lower) index
         int i1 = -1, i2;
-        ConfigSection section = this;
+        bammerbom.ultimatecore.spongeapi.configuration.ConfigSection section = this;
         while ((i1 = path.indexOf(separator, i2 = i1 + 1)) != -1) {
             String node = path.substring(i2, i1);
-            ConfigSection subSection = section.getConfigurationSection(node);
+            bammerbom.ultimatecore.spongeapi.configuration.ConfigSection subSection = section.getConfigurationSection(node);
             if (subSection == null) {
                 section = section.createSection(node);
             } else {
@@ -335,15 +336,15 @@ public class ConfigSection {
 
         String key = path.substring(i2);
         if (section == this) {
-            ConfigSection result = new ConfigSection(this, key);
+            bammerbom.ultimatecore.spongeapi.configuration.ConfigSection result = new bammerbom.ultimatecore.spongeapi.configuration.ConfigSection(this, key);
             map.put(key, result);
             return result;
         }
         return section.createSection(key);
     }
 
-    public ConfigSection createSection(String path, Map<?, ?> map) {
-        ConfigSection section = createSection(path);
+    public bammerbom.ultimatecore.spongeapi.configuration.ConfigSection createSection(String path, Map<?, ?> map) {
+        bammerbom.ultimatecore.spongeapi.configuration.ConfigSection section = createSection(path);
 
         for (Map.Entry<?, ?> entry : map.entrySet()) {
             if (entry.getValue() instanceof Map) {
@@ -721,19 +722,19 @@ public class ConfigSection {
         return val instanceof Vector;
     }
 
-    public OfflinePlayer getOfflinePlayer(String path) {
+    public User getUser(String path) {
         Object def = getDefault(path);
-        return getOfflinePlayer(path, (def instanceof OfflinePlayer) ? (OfflinePlayer) def : null);
+        return getUser(path, (def instanceof User) ? (User) def : null);
     }
 
-    public OfflinePlayer getOfflinePlayer(String path, OfflinePlayer def) {
+    public User getUser(String path, User def) {
         Object val = get(path, def);
-        return (val instanceof OfflinePlayer) ? (OfflinePlayer) val : def;
+        return (val instanceof User) ? (User) val : def;
     }
 
-    public boolean isOfflinePlayer(String path) {
+    public boolean isUser(String path) {
         Object val = get(path);
-        return val instanceof OfflinePlayer;
+        return val instanceof User;
     }
 
     public ItemStack getItemStack(String path) {
@@ -766,19 +767,19 @@ public class ConfigSection {
         return val instanceof Color;
     }
 
-    public ConfigSection getConfigurationSection(String path) {
+    public bammerbom.ultimatecore.spongeapi.configuration.ConfigSection getConfigurationSection(String path) {
         Object val = get(path, null);
         if (val != null) {
-            return (val instanceof ConfigSection) ? (ConfigSection) val : null;
+            return (val instanceof bammerbom.ultimatecore.spongeapi.configuration.ConfigSection) ? (bammerbom.ultimatecore.spongeapi.configuration.ConfigSection) val : null;
         }
 
         val = get(path, getDefault(path));
-        return (val instanceof ConfigSection) ? createSection(path) : null;
+        return (val instanceof bammerbom.ultimatecore.spongeapi.configuration.ConfigSection) ? createSection(path) : null;
     }
 
     public boolean isConfigurationSection(String path) {
         Object val = get(path);
-        return val instanceof ConfigSection;
+        return val instanceof bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
     }
 
     protected boolean isPrimitiveWrapper(Object input) {
@@ -788,31 +789,31 @@ public class ConfigSection {
     protected Object getDefault(String path) {
         Validate.notNull(path, "Path cannot be null");
 
-        MemoryConfiguration root = getRoot();
-        MemoryConfiguration defaults = root == null ? null : root.getDefaults();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults = root == null ? null : root.getDefaults();
         return (defaults == null) ? null : defaults.get(createPath(this, path));
     }
 
-    protected void mapChildrenKeys(Set<String> output, ConfigSection section, boolean deep) {
+    protected void mapChildrenKeys(Set<String> output, bammerbom.ultimatecore.spongeapi.configuration.ConfigSection section, boolean deep) {
         for (Map.Entry<String, Object> entry : section.map.entrySet()) {
             output.add(createPath(section, entry.getKey(), this));
 
-            if ((deep) && (entry.getValue() instanceof ConfigSection)) {
-                ConfigSection subsection = (ConfigSection) entry.getValue();
+            if ((deep) && (entry.getValue() instanceof bammerbom.ultimatecore.spongeapi.configuration.ConfigSection)) {
+                bammerbom.ultimatecore.spongeapi.configuration.ConfigSection subsection = (bammerbom.ultimatecore.spongeapi.configuration.ConfigSection) entry.getValue();
                 mapChildrenKeys(output, subsection, deep);
             }
         }
     }
 
-    protected void mapChildrenValues(Map<String, Object> output, ConfigSection section, boolean deep) {
-        ConfigSection sec = section;
+    protected void mapChildrenValues(Map<String, Object> output, bammerbom.ultimatecore.spongeapi.configuration.ConfigSection section, boolean deep) {
+        bammerbom.ultimatecore.spongeapi.configuration.ConfigSection sec = section;
 
         for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
             output.put(createPath(section, entry.getKey(), this), entry.getValue());
 
-            if (entry.getValue() instanceof ConfigSection) {
+            if (entry.getValue() instanceof bammerbom.ultimatecore.spongeapi.configuration.ConfigSection) {
                 if (deep) {
-                    mapChildrenValues(output, (ConfigSection) entry.getValue(), deep);
+                    mapChildrenValues(output, (bammerbom.ultimatecore.spongeapi.configuration.ConfigSection) entry.getValue(), deep);
                 }
             }
         }
@@ -820,7 +821,7 @@ public class ConfigSection {
 
     @Override
     public String toString() {
-        MemoryConfiguration root = getRoot();
+        bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration root = getRoot();
         return new StringBuilder().append(getClass().getSimpleName()).append("[path='").append(getCurrentPath()).append("', root='").append(root == null ? null : root.getClass().getSimpleName())
                 .append("']").toString();
     }

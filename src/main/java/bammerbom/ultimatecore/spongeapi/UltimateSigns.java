@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.spongeapi;
 
-import bammerbom.ultimatecore.bukkit.signs.*;
+import bammerbom.ultimatecore.spongeapi.signs.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -43,10 +43,11 @@ public class VillagerUtil {
             exc.printStackTrace();
         }*/
         try {
-            Object entityVillager = ReflectionUtil.execute("getHandle()", villager).fetch();
-            Field recipes = entityVillager.getClass().getDeclaredField("br");
+            Object entityVillager = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.execute("getHandle()", villager).fetch();
+            Field recipes = entityVillager.getClass().getDeclaredField(bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.NMS_PATH.contains("v1_8_R1") ? "bp" : "br");
             recipes.setAccessible(true);
-            ReflectionUtil.ReflectionObject list = ReflectionUtil.ReflectionObject.fromNMS("MerchantRecipeList");
+            bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionObject list = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionObject
+                    .fromNMS("MerchantRecipeList");
             recipes.set(entityVillager, list.fetch());
         } catch (Exception exc) {
             exc.printStackTrace();
@@ -77,21 +78,33 @@ public class VillagerUtil {
             exc.printStackTrace();
         }*/
         try {
-            Object entityVillager = ReflectionUtil.execute("getHandle()", villager).fetch();
-            Field recipes = entityVillager.getClass().getDeclaredField("br");
+            Object entityVillager = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.execute("getHandle()", villager).fetch();
+            Field recipes = entityVillager.getClass().getDeclaredField(bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.NMS_PATH.contains("v1_8_R1") ? "bp" : "br");
             recipes.setAccessible(true);
             List list = (List) recipes.get(entityVillager);
             if (villagerTrade.hasItem2()) {
-                Object item1 = ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getItem1()).fetch();
-                Object item2 = ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getItem2()).fetch();
-                Object reward = ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getRewardItem()).fetch();
-                ReflectionUtil.ReflectionObject recipe = ReflectionUtil.ReflectionObject.fromNMS("MerchantRecipe", item1, item2, reward, villagerTrade.getUses(), villagerTrade.getMaxUses());
+                Object item1 = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil
+                        .executeStatic("asNMSCopy({1})", bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getItem1())
+                        .fetch();
+                Object item2 = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil
+                        .executeStatic("asNMSCopy({1})", bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getItem2())
+                        .fetch();
+                Object reward = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil
+                        .executeStatic("asNMSCopy({1})", bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade
+                                .getRewardItem()).fetch();
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionObject recipe = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionObject
+                        .fromNMS("MerchantRecipe", item1, item2, reward, villagerTrade.getUses(), villagerTrade.getMaxUses());
                 recipe.set("rewardExp", villagerTrade.getRewardExp());
                 list.add(recipe.fetch());
             } else {
-                Object item1 = ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getItem1()).fetch();
-                Object reward = ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getRewardItem()).fetch();
-                ReflectionUtil.ReflectionObject recipe = ReflectionUtil.ReflectionObject.fromNMS("MerchantRecipe", item1, reward);
+                Object item1 = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil
+                        .executeStatic("asNMSCopy({1})", bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getItem1())
+                        .fetch();
+                Object reward = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil
+                        .executeStatic("asNMSCopy({1})", bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade
+                                .getRewardItem()).fetch();
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionObject recipe = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionObject
+                        .fromNMS("MerchantRecipe", item1, reward);
                 recipe.set("rewardExp", villagerTrade.getRewardExp());
                 recipe.set("uses", villagerTrade.getUses());
                 recipe.set("maxUses", villagerTrade.getMaxUses());
@@ -105,24 +118,27 @@ public class VillagerUtil {
 
     public static List<VillagerTrade> listTrades(Villager villager) {
         try {
-            Object entityVillager = ReflectionUtil.execute("getHandle()", villager).fetch();
+            Object entityVillager = bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.execute("getHandle()", villager).fetch();
             List<VillagerTrade> rtrn = new ArrayList<>();
-            Field recipes = entityVillager.getClass().getDeclaredField("br");
+            Field recipes = entityVillager.getClass().getDeclaredField(bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.NMS_PATH.contains("v1_8_R1") ? "bp" : "br");
             recipes.setAccessible(true);
             List list = (List) recipes.get(entityVillager);
             for (Object recipe : list) {
-                ReflectionUtil.ReflectionObject reflObj = new ReflectionUtil.ReflectionObject(recipe);
-                ItemStack buyingItem1 = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("buyingItem1"))
-                        .fetch();
+                bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionObject reflObj = new bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionObject(recipe);
+                ItemStack buyingItem1 = (ItemStack) bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil
+                        .executeStatic("asBukkitCopy({1})", bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj
+                                .get("buyingItem1")).fetch();
                 ItemStack buyingItem2 = null;
                 if (reflObj.get("buyingItem2") != null) {
-                    buyingItem2 = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("buyingItem2"))
-                            .fetch();
+                    buyingItem2 = (ItemStack) bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil
+                            .executeStatic("asBukkitCopy({1})", bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj
+                                    .get("buyingItem2")).fetch();
                 }
-                ItemStack sellingItem = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("sellingItem"))
-                        .fetch();
-                Integer maxUses = (Integer) ReflectionUtil.execute("maxUses", recipe).fetch();
-                Integer uses = (Integer) ReflectionUtil.execute("uses", recipe).fetch();
+                ItemStack sellingItem = (ItemStack) bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil
+                        .executeStatic("asBukkitCopy({1})", bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj
+                                .get("sellingItem")).fetch();
+                Integer maxUses = (Integer) bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.execute("maxUses", recipe).fetch();
+                Integer uses = (Integer) bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.execute("uses", recipe).fetch();
                 Boolean rewardxp = (Boolean) ReflectionUtil.execute("rewardExp", recipe).fetch();
 
                 if (buyingItem2 != null) {

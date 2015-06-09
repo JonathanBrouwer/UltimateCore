@@ -421,7 +421,7 @@ public final class UltimateMetrics {
         String pluginName = description.getName();
         boolean onlineMode = r.getGame().getServer().getOnlineMode(); // TRUE if online mode is enabled
         String pluginVersion = description.getVersion();
-        String serverVersion = "git-Sponge_" + "//TODO implementation" + "-1d14d5f-ba32592 (MC: " + r.getGame().getMinecraftVersion().getName() + ")";
+        String serverVersion = "git-Sponge_" + r.getGame().getPlatform().getName() + "-1d14d5f-ba32592 (MC: " + r.getGame().getPlatform().getMinecraftVersion().getName() + ")";
         int playersOnline = r.getOnlinePlayers().length;
 
         // END server software specific section -- all code below does not use any code outside of this class / Java

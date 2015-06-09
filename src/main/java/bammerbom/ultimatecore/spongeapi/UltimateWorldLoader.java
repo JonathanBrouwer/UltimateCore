@@ -26,25 +26,5 @@ package bammerbom.ultimatecore.spongeapi;
 public class UltimateWorldLoader {
 
     public static void startWorldLoading() {
-        /*JsonConfig conf = new JsonConfig(UltimateFileLoader.Dworlds);
-        for (String str : conf.listKeys(false)) {
-            try {
-                r.getGame().getServer().loadWorld() WorldCreator w = new WorldCreator(str);
-                if (conf.contains(str + ".env")) {
-                    w.environment(Environment.valueOf(conf.getString(str + ".env")));
-                }
-                if (conf.contains(str + ".type")) {
-                    w.type(WorldType.valueOf(conf.getString(str + ".type")));
-                }
-                if (conf.contains(str + ".gen")) {
-                    w.generator(conf.getString(str + ".gen"));
-                }
-                Bukkit.createWorld(w);
-            } catch (Exception ex) {
-                r.log("Failed to load world " + str);
-                ErrorLogger.log(ex, "Failed to load world " + str);
-            }
-        }*/
-        //Not needed in sponge
     }
 }

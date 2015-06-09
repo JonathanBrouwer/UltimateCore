@@ -47,13 +47,13 @@ public class ChatListener implements Listener {
     static HashMap<String, Integer> swearAmount = new HashMap<>();
 
     public static void start() {
-        ChatListener list = new ChatListener();
+        bammerbom.ultimatecore.spongeapi.listeners.ChatListener list = new bammerbom.ultimatecore.spongeapi.listeners.ChatListener();
         list.spamTask();
         Bukkit.getPluginManager().registerEvents(list, r.getUC());
     }
 
-    private static ChatSet testMessage(String mr, Player p) {
-        ChatSet set = new ChatSet(mr);
+    private static bammerbom.ultimatecore.spongeapi.listeners.ChatSet testMessage(String mr, Player p) {
+        bammerbom.ultimatecore.spongeapi.listeners.ChatSet set = new bammerbom.ultimatecore.spongeapi.listeners.ChatSet(mr);
         if (r.perm(p, "uc.chat", false, false)) {
             return set;
         }
@@ -180,7 +180,7 @@ public class ChatListener implements Listener {
             if (r.perm(e.getPlayer(), "uc.coloredchat", false, false)) {
                 m = ChatColor.translateAlternateColorCodes('&', m);
             }
-            ChatSet set = testMessage(m, e.getPlayer());
+            bammerbom.ultimatecore.spongeapi.listeners.ChatSet set = testMessage(m, e.getPlayer());
             if (set.isCancelled()) {
                 e.setCancelled(true);
                 return;
@@ -257,7 +257,7 @@ public class ChatListener implements Listener {
             }
             if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer())
                     .equalsIgnoreCase("")) {
-                prefix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
+                suffix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
             }
             if (!f.contains("\\+Name")) {
                 e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());

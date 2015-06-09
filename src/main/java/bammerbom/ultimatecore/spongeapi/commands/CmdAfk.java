@@ -23,16 +23,18 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
-import bammerbom.ultimatecore.spongeapi.UltimateCommandExecutor;
+import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.util.command.CommandSource;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSource;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdAfk implements UltimateCommandExecutor {
+public class CmdAfk implements UltimateCommand {
 
     @Override
     public String getName() {
@@ -45,22 +47,12 @@ public class CmdAfk implements UltimateCommandExecutor {
     }
 
     @Override
-    public String getUsage() {
-        return "/<command> [Player]";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Marks you as away-from-keyboard.";
-    }
-
-    @Override
     public List<String> getAliases() {
         return Arrays.asList("away");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, final String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
                 return;
@@ -70,10 +62,10 @@ public class CmdAfk implements UltimateCommandExecutor {
                 return;
             }
             if (!UC.getPlayer(p).isAfk()) {
-                r.getGame().getServer().broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(p).getDisplayName()));
+                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(p).getDisplayName()));
                 UC.getPlayer(p).setAfk(true);
             } else {
-                r.getGame().getServer().broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getDisplayName()));
+                Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getDisplayName()));
                 UC.getPlayer(p).setAfk(false);
             }
         } else {
@@ -83,10 +75,10 @@ public class CmdAfk implements UltimateCommandExecutor {
             if (r.searchPlayer(args[0]) != null) {
                 Player t = r.searchPlayer(args[0]);
                 if (!UC.getPlayer(t).isAfk()) {
-                    r.getGame().getServer().broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(t).getDisplayName()));
+                    Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(t).getDisplayName()));
                     UC.getPlayer(t).setAfk(true);
                 } else {
-                    r.getGame().getServer().broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getDisplayName()));
+                    Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getDisplayName()));
                     UC.getPlayer(t).setAfk(false);
                 }
             } else {
@@ -96,8 +88,7 @@ public class CmdAfk implements UltimateCommandExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-
 }

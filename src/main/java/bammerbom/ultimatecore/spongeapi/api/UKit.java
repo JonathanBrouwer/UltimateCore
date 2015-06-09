@@ -32,7 +32,8 @@ import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.databases.EnchantmentDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.spongepowered.api.data.manipulators.items.EnchantmentData;
+import org.spongepowered.api.data.manipulator.catalog.CatalogItemData;
+import org.spongepowered.api.data.manipulator.item.EnchantmentData;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.item.Enchantment;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -53,6 +54,7 @@ public class UKit {
     private final String description;
     private final List<ItemStack> items;
     private final long cooldown;
+    private final boolean firstjoin;
 
     public UKit(final String name) {
         this.name = name;
@@ -60,6 +62,16 @@ public class UKit {
         this.items = getItemStacks(kit.getMapList("items"));
         this.cooldown = DateUtil.parseDateDiff(kit.getString("cooldown", "0"));
         this.description = r.translateAlternateColorCodes('&', kit.getString("description", ""));
+        this.firstjoin = kit.getBoolean("firstjoin", false);
+    }
+
+    /**
+     * Gets if the kit is given to the player on first join.
+     *
+     * @return If the kit is given to the player on first join.
+     */
+    public boolean firstJoin() {
+        return firstjoin;
     }
 
     /**
@@ -75,8 +87,8 @@ public class UKit {
             if (realEnchantment == null) {
                 continue;
             }
-            EnchantmentData data = is.getOrCreate(EnchantmentData.class).get();
-            data.setUnsafe(realEnchantment, enchantment.getInt("level", 1));
+            EnchantmentData d = is.getOrCreate(CatalogItemData.ENCHANTMENT_DATA).get().setUnsafe(realEnchantment, enchantment.getInt("level", 1));
+            is.offer(d);
         }
         return is;
     }
@@ -98,29 +110,33 @@ public class UKit {
      * @return ItemStack of null
      */
     private ItemStack getItemStack(final Map<String, Object> item) {
-        final ItemStack is = ItemUtil.searchItem((String) item.get("type"));
-        if (is == null) {
-            return null;
-        }
-        if (item.containsKey("amount")) {
-            is.setQuantity((int) item.get("amount"));
-        }
-        if (item.containsKey("damage")) {
-            //No longer supported.
-            //is.setDurability(((Number) item.get("damage")).shortValue());
-        }
-        MetaItemStack ism = new MetaItemStack(is);
-        for (String s : item.keySet()) {
-            if (s.equalsIgnoreCase("amount") || s.equalsIgnoreCase("type") || s.equalsIgnoreCase("damage")) {
-                continue;
+        try {
+            final ItemStack is = ItemUtil.searchItem((String) item.get("type"));
+            if (is == null) {
+                return null;
             }
-            try {
-                ism.addStringMeta(null, true, s + ":" + item.get(s).toString().replaceAll(" ", "_"));
-            } catch (Exception ex) {
-                continue;
+            if (item.containsKey("amount")) {
+                is.setQuantity((int) item.get("amount"));
             }
+            if (item.containsKey("damage")) {
+                is.setDurability(((Number) item.get("damage")).shortValue());
+            }
+            MetaItemStack ism = new MetaItemStack(is);
+            for (String s : item.keySet()) {
+                if (s.equalsIgnoreCase("amount") || s.equalsIgnoreCase("type") || s.equalsIgnoreCase("damage")) {
+                    continue;
+                }
+                try {
+                    ism.addStringMeta(null, true, s + ":" + item.get(s).toString().replaceAll(" ", "_"));
+                } catch (Exception ex) {
+                    continue;
+                }
+            }
+            return ism.getItemStack();
+        } catch (Exception ex) {
+            r.log("Kit " + name + " has an invalid item: " + item);
+            return new ItemStack(Material.AIR);
         }
-        return ism.getItemStack();
     }
 
     /**
@@ -205,7 +221,7 @@ public class UKit {
      * @return Timestamp in milliseconds
      */
     public long getLastUsed(final Player p) {
-        Long l = UC.getPlayer(p).getPlayerConfig().getLong("kits." + this.getName() + ".lastused");
+        Long l = bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).getPlayerConfig().getLong("kits." + this.getName() + ".lastused");
         return l == null ? 0L : l;
     }
 

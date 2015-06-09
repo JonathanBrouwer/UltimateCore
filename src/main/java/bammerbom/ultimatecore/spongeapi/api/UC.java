@@ -86,7 +86,7 @@ public class UC {
     }
 
     public static UWorld getWorld(String world) {
-        if (r.getGame().getServer().getWorld(world).orNull() == null) {
+        if (!r.getGame().getServer().getWorld(world).isPresent()) {
             return null;
         }
         return getWorld(r.getGame().getServer().getWorld(world).get());

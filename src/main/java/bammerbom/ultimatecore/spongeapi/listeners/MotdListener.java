@@ -36,7 +36,7 @@ import org.bukkit.event.server.ServerListPingEvent;
 public class MotdListener implements Listener {
 
     public static void start() {
-        Bukkit.getPluginManager().registerEvents(new MotdListener(), r.getUC());
+        Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.MotdListener(), r.getUC());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

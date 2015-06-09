@@ -27,13 +27,11 @@ import bammerbom.ultimatecore.spongeapi.UltimateFileLoader;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
-import net.milkbowl.vault.economy.EconomyResponse;
-import org.spongepowered.api.entity.player.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UEconomy {
+public class UEconomy implements Economy {
 
     static JsonConfig conf;
     static String format;
@@ -61,8 +59,10 @@ public class UEconomy {
      *
      * @return Success or Failure
      */
+    @Override
     public boolean isEnabled() {
-        return true;
+        r.debug("isEnabled - " + r.getUC().isEnaled());
+        return r.getUC().isEnabled();
     }
 
     /**
@@ -70,6 +70,7 @@ public class UEconomy {
      *
      * @return Name of Economy Method
      */
+    @Override
     public String getName() {
         return "UltimateCore";
     }
@@ -79,6 +80,7 @@ public class UEconomy {
      *
      * @return true if the implementation supports banks
      */
+    @Override
     public boolean hasBankSupport() {
         return false;
     }
@@ -89,6 +91,7 @@ public class UEconomy {
      *
      * @return number of digits after the decimal point kept
      */
+    @Override
     public int fractionalDigits() {
         return -1;
     }
@@ -100,8 +103,10 @@ public class UEconomy {
      * @param amount to format
      * @return Human readable string describing amount
      */
+    @Override
     public String format(double amount) {
         r.debug("format - " + amount);
+
         return format.replace("%Amount", r.round(amount, round) + "");
     }
 
@@ -111,6 +116,7 @@ public class UEconomy {
      *
      * @return name of the currency (plural)
      */
+    @Override
     public String currencyNamePlural() {
         return currencyName;
     }
@@ -121,19 +127,21 @@ public class UEconomy {
      *
      * @return name of the currency (singular)
      */
+    @Override
     public String currencyNameSingular() {
         return currencyNamePlural;
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(org.spongepowered.api.entity.player.User)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer)} instead.
      */
     @Deprecated
+    @Override
     public boolean hasAccount(String playerName) {
         Long time = System.currentTimeMillis();
         r.debug("hasAccount - " + playerName + " - " + getData().contains(playerName));
         if (!r.isUUID(playerName)) {
-            User player = r.searchOfflinePlayer(playerName);
+            OfflinePlayer player = r.searchOfflinePlayer(playerName);
             if (UuidUtil.requestUuid(player) != null) {
                 playerName = UuidUtil.requestUuid(player).toString();
             }
@@ -151,14 +159,16 @@ public class UEconomy {
      * @param player to check
      * @return if the player has an account
      */
-    public boolean hasAccount(User player) {
+    @Override
+    public boolean hasAccount(OfflinePlayer player) {
         return hasAccount(UuidUtil.requestUuid(player).toString());
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(User, String)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer, String)} instead.
      */
     @Deprecated
+    @Override
     public boolean hasAccount(String playerName, String worldName) {
         return hasAccount(playerName);
     }
@@ -172,18 +182,20 @@ public class UEconomy {
      * @param worldName world-specific account
      * @return if the player has an account
      */
-    public boolean hasAccount(User player, String worldName) {
+    @Override
+    public boolean hasAccount(OfflinePlayer player, String worldName) {
         return hasAccount(player);
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #getBalance(User)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer)} instead.
      */
     @Deprecated
+    @Override
     public double getBalance(String playerName) {
         Long time = System.currentTimeMillis();
         if (!r.isUUID(playerName)) {
-            User player = r.searchOfflinePlayer(playerName);
+            OfflinePlayer player = r.searchOfflinePlayer(playerName);
             if (UuidUtil.requestUuid(player) != null) {
                 playerName = UuidUtil.requestUuid(player).toString();
             }
@@ -203,7 +215,8 @@ public class UEconomy {
      * @param player of the player
      * @return Amount currently held in players account
      */
-    public double getBalance(User player) {
+    @Override
+    public double getBalance(OfflinePlayer player) {
         if (!hasAccount(player)) {
             createPlayerAccount(player);
         }
@@ -211,9 +224,10 @@ public class UEconomy {
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #getBalance(User, String)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer, String)} instead.
      */
     @Deprecated
+    @Override
     public double getBalance(String playerName, String world) {
         return getBalance(playerName);
     }
@@ -226,18 +240,20 @@ public class UEconomy {
      * @param world  name of the world
      * @return Amount currently held in players account
      */
-    public double getBalance(User player, String world) {
+    @Override
+    public double getBalance(OfflinePlayer player, String world) {
         return getBalance(player);
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #has(User, double)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #has(OfflinePlayer, double)} instead.
      */
     @Deprecated
+    @Override
     public boolean has(String playerName, double amount) {
         Long time = System.currentTimeMillis();
         if (!r.isUUID(playerName)) {
-            User player = r.searchOfflinePlayer(playerName);
+            OfflinePlayer player = r.searchOfflinePlayer(playerName);
             if (UuidUtil.requestUuid(player) != null) {
                 playerName = UuidUtil.requestUuid(player).toString();
             }
@@ -254,15 +270,17 @@ public class UEconomy {
      * @param amount to check for
      * @return True if <b>player</b> has <b>amount</b>, False else wise
      */
-    public boolean has(User player, double amount) {
+    @Override
+    public boolean has(OfflinePlayer player, double amount) {
         return getBalance(player) >= amount;
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use @{link {@link #has(User, String, double)}
+     * @deprecated As of VaultAPI 1.4 use @{link {@link #has(OfflinePlayer, String, double)}
      * instead.
      */
     @Deprecated
+    @Override
     public boolean has(String playerName, String worldName, double amount) {
         return getBalance(playerName) >= amount;
     }
@@ -277,19 +295,21 @@ public class UEconomy {
      * @param amount    to check for
      * @return True if <b>player</b> has <b>amount</b>, False else wise
      */
-    public boolean has(User player, String worldName, double amount) {
+    @Override
+    public boolean has(OfflinePlayer player, String worldName, double amount) {
         return getBalance(player) >= amount;
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(User, double)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(OfflinePlayer, double)} instead.
      */
     @Deprecated
+    @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
         Long time = System.currentTimeMillis();
 
         if (!r.isUUID(playerName)) {
-            User player = r.searchOfflinePlayer(playerName);
+            OfflinePlayer player = r.searchOfflinePlayer(playerName);
             if (UuidUtil.requestUuid(player) != null) {
                 playerName = UuidUtil.requestUuid(player).toString();
             }
@@ -320,15 +340,17 @@ public class UEconomy {
      * @param amount Amount to withdraw
      * @return Detailed response of transaction
      */
-    public EconomyResponse withdrawPlayer(User player, double amount) {
+    @Override
+    public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
         return withdrawPlayer(UuidUtil.requestUuid(player).toString(), amount);
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(User, String, double)}
+     * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(OfflinePlayer, String, double)}
      * instead.
      */
     @Deprecated
+    @Override
     public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
         return withdrawPlayer(playerName, amount);
     }
@@ -343,19 +365,21 @@ public class UEconomy {
      * @param amount    Amount to withdraw
      * @return Detailed response of transaction
      */
-    public EconomyResponse withdrawPlayer(User player, String worldName, double amount) {
+    @Override
+    public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
         return withdrawPlayer(UuidUtil.requestUuid(player).toString(), amount);
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #depositPlayer(User, double)} instead.
+     * @deprecated As of VaultAPI 1.4 use {@link #depositPlayer(OfflinePlayer, double)} instead.
      */
     @Deprecated
+    @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
         Long time = System.currentTimeMillis();
 
         if (!r.isUUID(playerName)) {
-            User player = r.searchOfflinePlayer(playerName);
+            OfflinePlayer player = r.searchOfflinePlayer(playerName);
             if (UuidUtil.requestUuid(player) != null) {
                 playerName = UuidUtil.requestUuid(player).toString();
             }
@@ -383,15 +407,17 @@ public class UEconomy {
      * @param amount Amount to deposit
      * @return Detailed response of transaction
      */
-    public EconomyResponse depositPlayer(User player, double amount) {
+    @Override
+    public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
         return depositPlayer(UuidUtil.requestUuid(player).toString(), amount);
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {@link #depositPlayer(User, String, double)}
+     * @deprecated As of VaultAPI 1.4 use {@link #depositPlayer(OfflinePlayer, String, double)}
      * instead.
      */
     @Deprecated
+    @Override
     public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
         return depositPlayer(playerName, amount);
     }
@@ -405,14 +431,16 @@ public class UEconomy {
      * @param amount    Amount to deposit
      * @return Detailed response of transaction
      */
-    public EconomyResponse depositPlayer(User player, String worldName, double amount) {
+    @Override
+    public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
         return depositPlayer(UuidUtil.requestUuid(player).toString(), amount);
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {{@link #createBank(String, User)} instead.
+     * @deprecated As of VaultAPI 1.4 use {{@link #createBank(String, OfflinePlayer)} instead.
      */
     @Deprecated
+    @Override
     public EconomyResponse createBank(String name, String player) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
@@ -424,7 +452,8 @@ public class UEconomy {
      * @param player the account should be linked to
      * @return EconomyResponse Object
      */
-    public EconomyResponse createBank(String name, User player) {
+    @Override
+    public EconomyResponse createBank(String name, OfflinePlayer player) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
@@ -434,6 +463,7 @@ public class UEconomy {
      * @param name of the back to delete
      * @return if the operation completed successfully
      */
+    @Override
     public EconomyResponse deleteBank(String name) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
@@ -444,6 +474,7 @@ public class UEconomy {
      * @param name of the account
      * @return EconomyResponse Object
      */
+    @Override
     public EconomyResponse bankBalance(String name) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
@@ -456,6 +487,7 @@ public class UEconomy {
      * @param amount to check for
      * @return EconomyResponse Object
      */
+    @Override
     public EconomyResponse bankHas(String name, double amount) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
@@ -467,6 +499,7 @@ public class UEconomy {
      * @param amount to withdraw
      * @return EconomyResponse Object
      */
+    @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
@@ -478,14 +511,16 @@ public class UEconomy {
      * @param amount to deposit
      * @return EconomyResponse Object
      */
+    @Override
     public EconomyResponse bankDeposit(String name, double amount) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {{@link #isBankOwner(String, User)} instead.
+     * @deprecated As of VaultAPI 1.4 use {{@link #isBankOwner(String, OfflinePlayer)} instead.
      */
     @Deprecated
+    @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
@@ -497,14 +532,16 @@ public class UEconomy {
      * @param player to check for ownership
      * @return EconomyResponse Object
      */
-    public EconomyResponse isBankOwner(String name, User player) {
+    @Override
+    public EconomyResponse isBankOwner(String name, OfflinePlayer player) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {{@link #isBankMember(String, User)} instead.
+     * @deprecated As of VaultAPI 1.4 use {{@link #isBankMember(String, OfflinePlayer)} instead.
      */
     @Deprecated
+    @Override
     public EconomyResponse isBankMember(String name, String playerName) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
@@ -516,7 +553,8 @@ public class UEconomy {
      * @param player to check membership
      * @return EconomyResponse Object
      */
-    public EconomyResponse isBankMember(String name, User player) {
+    @Override
+    public EconomyResponse isBankMember(String name, OfflinePlayer player) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
     }
 
@@ -525,20 +563,22 @@ public class UEconomy {
      *
      * @return the List of Banks
      */
+    @Override
     public List<String> getBanks() {
         return new ArrayList<>();
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {{@link #createPlayerAccount(User)} instead.
+     * @deprecated As of VaultAPI 1.4 use {{@link #createPlayerAccount(OfflinePlayer)} instead.
      */
     @Deprecated
+    @Override
     public boolean createPlayerAccount(String playerName) {
         Long time = System.currentTimeMillis();
         r.debug("createPlayerAccount - " + playerName);
 
         if (!r.isUUID(playerName)) {
-            User player = r.searchOfflinePlayer(playerName);
+            OfflinePlayer player = r.searchOfflinePlayer(playerName);
             if (UuidUtil.requestUuid(player) != null) {
                 playerName = UuidUtil.requestUuid(player).toString();
             }
@@ -555,18 +595,20 @@ public class UEconomy {
     /**
      * Attempts to create a player account for the given player
      *
-     * @param player User
+     * @param player OfflinePlayer
      * @return if the account creation was successful
      */
-    public boolean createPlayerAccount(User player) {
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer player) {
         return createPlayerAccount(UuidUtil.requestUuid(player).toString());
     }
 
     /**
-     * @deprecated As of VaultAPI 1.4 use {{@link #createPlayerAccount(User, String)}
+     * @deprecated As of VaultAPI 1.4 use {{@link #createPlayerAccount(OfflinePlayer, String)}
      * instead.
      */
     @Deprecated
+    @Override
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
     }
@@ -576,11 +618,12 @@ public class UEconomy {
      * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will
      * be returned.
      *
-     * @param player    User
+     * @param player    OfflinePlayer
      * @param worldName String name of the world
      * @return if the account creation was successful
      */
-    public boolean createPlayerAccount(User player, String worldName) {
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
         return createPlayerAccount(UuidUtil.requestUuid(player).toString());
     }
 

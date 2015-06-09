@@ -25,8 +25,7 @@ package bammerbom.ultimatecore.spongeapi.resources.databases;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCore;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.CatalogTypes;
-import org.spongepowered.api.item.ItemType;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.io.*;
@@ -42,8 +41,8 @@ import java.util.regex.Pattern;
 public class ItemDatabase {
 
     private final transient static Map<String, String> items = new HashMap<>();
-    private final transient static Map<ItemData, List<String>> names = new HashMap<>();
-    private final transient static Map<ItemData, String> primaryName = new HashMap<>();
+    private final transient static Map<bammerbom.ultimatecore.spongeapi.resources.databases.ItemData, List<String>> names = new HashMap<>();
+    private final transient static Map<bammerbom.ultimatecore.spongeapi.resources.databases.ItemData, String> primaryName = new HashMap<>();
     private final transient static Map<String, Short> durabilities = new HashMap<>();
     static private UltimateCore plugin;
 
@@ -92,14 +91,14 @@ public class ItemDatabase {
                         items.put(itemName.replace("_", ""), id);
                     }
 
-                    ItemData itemData = new ItemData(id, data);
+                    bammerbom.ultimatecore.spongeapi.resources.databases.ItemData itemData = new bammerbom.ultimatecore.spongeapi.resources.databases.ItemData(id, data);
                     if (names.containsKey(itemData)) {
                         List<String> nameList = names.get(itemData);
                         nameList.add(itemName);
                         if (itemName.contains("_")) {
                             nameList.add(itemName.replace("_", ""));
                         }
-                        Collections.sort(nameList, new LengthCompare());
+                        Collections.sort(nameList, new bammerbom.ultimatecore.spongeapi.resources.databases.LengthCompare());
                     } else {
                         List<String> nameList = new ArrayList<>();
                         nameList.add(itemName);
@@ -113,7 +112,7 @@ public class ItemDatabase {
 
     @SuppressWarnings("deprecation")
     private static ItemStack get(String id) {
-        String itemid = null;
+        String itemid;
         String itemname;
         short metaData = 0;
         Matcher parts = Pattern.compile("((.*)[:+',;.](\\d+))").matcher(id);
@@ -129,34 +128,39 @@ public class ItemDatabase {
             if ((durabilities.containsKey(itemname)) && (metaData == 0)) {
                 metaData = durabilities.get(itemname).shortValue();
             }
+        } else if (Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH)) != null) {
+            Material bMaterial = Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH));
+            itemid = ItemUtil.getID(bMaterial);
         } else {
-            for (ItemType t : CatalogTypes.ITEM_TYPE.getEnumConstants()) {
-                if (t.getId().equalsIgnoreCase(itemname)) {
-                    itemid = t.getId();
-                }
+            try {
+                Material bMaterial = Bukkit.getUnsafe().getMaterialFromInternalName(itemname.toLowerCase(Locale.ENGLISH));
+                itemid = ItemUtil.getID(bMaterial);
+            } catch (Throwable throwable) {
+                return null;
             }
         }
         if (itemid.equals("minecraft:air")) {
             return null;
         }
-        ItemType type = null;
-        for (ItemType t : CatalogTypes.ITEM_TYPE.getEnumConstants()) {
-            if (t.getId().equalsIgnoreCase(itemid)) {
-                type = t;
-            }
-        }
-        if (type == null) {
+        Material mat = ItemUtil.getMaterialFromId(itemid);
+        if (mat == null) {
             return null;
         }
-        ItemStack stack = r.getRegistry().getItemBuilder().itemType(type).build();
-        stack.setQuantity(stack.getMaxStackQuantity());
-        //TODO data?
-        return stack;
+        ItemStack retval = new ItemStack(mat);
+        retval.setAmount(mat.getMaxStackSize());
+        retval.setDurability(metaData);
+        return retval;
     }
 
     public static ItemStack getItem(String str) {
         if (str.contains(":") && !r.isInt(str.split(":")[1])) {
             str = str.split(":")[1];
+        }
+
+        if (Material.matchMaterial(str) != null) {
+            Material mat = Material.matchMaterial(str);
+            ItemStack stack = new ItemStack(mat);
+            return stack;
         }
         return get(str);
     }
@@ -167,12 +171,12 @@ class ManagedFile {
 
     private final transient File file;
 
-    public ManagedFile(String filename, UltimateCore instance) {
+    public ManagedFile(String filename, Plugin instance) {
         this.file = new File(instance.getDataFolder(), filename);
 
         if (this.file.exists()) {
             try {
-                if ((checkForVersion(this.file, UltimateCore.version)) && (!this.file.delete())) {
+                if ((checkForVersion(this.file, instance.getDescription().getVersion())) && (!this.file.delete())) {
                     throw new IOException("Could not delete file " + this.file.toString());
                 }
             } catch (IOException ex) {
@@ -189,7 +193,7 @@ class ManagedFile {
     }
 
     public static void copyResourceAscii(String resourceName, File file) throws IOException {
-        InputStreamReader reader = new InputStreamReader(ManagedFile.class.getResourceAsStream(resourceName));
+        InputStreamReader reader = new InputStreamReader(bammerbom.ultimatecore.spongeapi.resources.databases.ManagedFile.class.getResourceAsStream(resourceName));
         try {
             MessageDigest digest = getDigest();
             DigestOutputStream digestStream = new DigestOutputStream(new FileOutputStream(file), digest);
@@ -344,10 +348,10 @@ class ItemData {
         if (o == null) {
             return false;
         }
-        if (!(o instanceof ItemData)) {
+        if (!(o instanceof bammerbom.ultimatecore.spongeapi.resources.databases.ItemData)) {
             return false;
         }
-        ItemData pairo = (ItemData) o;
+        bammerbom.ultimatecore.spongeapi.resources.databases.ItemData pairo = (bammerbom.ultimatecore.spongeapi.resources.databases.ItemData) o;
         return (this.itemId.equals(pairo.getItemId())) && (this.itemData == pairo.getItemData());
     }
 }

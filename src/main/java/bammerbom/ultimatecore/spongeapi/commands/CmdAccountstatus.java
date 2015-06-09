@@ -23,10 +23,11 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
-import bammerbom.ultimatecore.spongeapi.UltimateCommandExecutor;
+import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.util.command.CommandSource;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSource;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdAccountstatus implements UltimateCommandExecutor {
+public class CmdAccountstatus implements UltimateCommand {
 
     @Override
     public String getName() {
@@ -52,22 +53,12 @@ public class CmdAccountstatus implements UltimateCommandExecutor {
     }
 
     @Override
-    public String getUsage() {
-        return "/accountstatus <User>";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Checks if an account is premium or not.";
-    }
-
-    @Override
     public List<String> getAliases() {
         return Arrays.asList("acstatus");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, final String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.accountstatus", false, true)) {
             return;
         }
@@ -79,12 +70,13 @@ public class CmdAccountstatus implements UltimateCommandExecutor {
             r.sendMes(cs, "accountstatusUsage");
             return;
         }
+        final OfflinePlayer pl = r.searchOfflinePlayer(args[0]);
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 URL u;
                 try {
-                    u = new URL("https://minecraft.net/haspaid.jsp?user=" + URLEncoder.encode(args[0], "UTF-8"));
+                    u = new URL("https://minecraft.net/haspaid.jsp?user=" + URLEncoder.encode(pl.getName(), "UTF-8"));
                 } catch (MalformedURLException | UnsupportedEncodingException ex) {
                     r.sendMes(cs, "accountstatusFailedSupport");
                     return;
@@ -97,8 +89,8 @@ public class CmdAccountstatus implements UltimateCommandExecutor {
                     r.sendMes(cs, "accountstatusFailedConnect");
                     return;
                 }
-                String status = premium ? r.mes("accountstatusPremium").toString() : r.mes("accountstatusNotPremium").toString();
-                r.sendMes(cs, "accountstatusMessage", "%Player", args[0], "%Status", status);
+                String status = premium ? r.mes("accountstatusPremium") : r.mes("accountstatusNotPremium");
+                r.sendMes(cs, "accountstatusMessage", "%Player", pl.getName(), "%Status", status);
             }
         });
         t.setName("UltimateCore: AccountStatus thread");
@@ -106,15 +98,10 @@ public class CmdAccountstatus implements UltimateCommandExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
-        List<String> rtrn = null;
-        if (rtrn == null) {
-            rtrn = new ArrayList<>();
-            for (Player p : r.getOnlinePlayers()) {
-                rtrn.add(p.getName());
-            }
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+        if (curn == 0) {
+            return null;
         }
-        return rtrn;
+        return new ArrayList<>();
     }
-
 }

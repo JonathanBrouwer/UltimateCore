@@ -23,9 +23,9 @@
  */
 package bammerbom.ultimatecore.spongeapi.signs;
 
-import bammerbom.ultimatecore.bukkit.UltimateSign;
-import bammerbom.ultimatecore.bukkit.r;
-import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
+import bammerbom.ultimatecore.spongeapi.UltimateSign;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
