@@ -56,7 +56,7 @@ public class DeathmessagesListener implements Listener {
             keys.put("death.attack.inFire", r.mes("deathAttackInFire", "%Player", "%1$s"));
             keys.put("death.attack.inFire.player", r.mes("deathAttackInFirePlayer", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.onFire", r.mes("deathAttackOnFire", "%Player", "%1$s"));
-            keys.put("death.attack.onFire.player", r.mes("deathAttackOnFirePlayer", "%Player", "%1$s", "%Killert", "%2$s"));
+            keys.put("death.attack.onFire.player", r.mes("deathAttackOnFirePlayer", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.lava", r.mes("deathAttackLava", "%Player", "%1$s"));
             keys.put("death.attack.lava.player", r.mes("deathAttackLavaPlayer", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.inWall", r.mes("deathAttackInWall", "%Player", "%1$s"));
@@ -74,7 +74,7 @@ public class DeathmessagesListener implements Listener {
             keys.put("death.attack.fallingBlock", r.mes("deathAttackFallingBlock", "%Player", "%1$s"));
             keys.put("death.attack.mob", r.mes("deathAttackMob", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.player", r.mes("deathAttackPlayer", "%Player", "%1$s", "%Killer", "%2$s"));
-            keys.put("death.attack.player.item", r.mes("deathAttackPlayerItem", "%Player", "%1$s", "%Killer", "%2$s", "%Weapon", "%2$s"));
+            keys.put("death.attack.player.item", r.mes("deathAttackPlayerItem", "%Player", "%1$s", "%Killer", "%2$s", "%Weapon", "%3$s"));
             keys.put("death.attack.arrow", r.mes("deathAttackArrow", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.arrow.item", r.mes("deathAttackArrowItem", "%Player", "%1$s", "%Killer", "%2$s", "%Weapon", "%3$s"));
             keys.put("death.attack.fireball", r.mes("deathAttackFireball", "%Player", "%1$s", "%Killer", "%2$s"));
