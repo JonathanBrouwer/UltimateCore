@@ -75,18 +75,19 @@ public class CmdReply implements UltimateCommand {
             return;
         }
         UC.getPlayer(pl).setReply((Player) cs);
+        String message = r.perm(cs, "uc.coloredchat", false, false) ? ChatColor.translateAlternateColorCodes('&', r.getFinalArg(args, 1)) : r.getFinalArg(args, 1);
         //Spy
         for (Player ps : r.getOnlinePlayers()) {
             UPlayer up = UC.getPlayer(ps);
             if (up.isSpy()) {
                 ps.sendMessage(formatSpy.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", r.getDisplayName(cs))
-                        .replace("%Player2", pl.getName()).replace("%Message", r.getFinalArg(args, 0)));
+                        .replace("%Player2", pl.getName()).replace("%Message", message));
             }
         }
         cs.sendMessage(format.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", r.mes("me")).replace("%Player2", pl.getName())
-                .replace("%Message", r.getFinalArg(args, 0)));
+                .replace("%Message", message));
         pl.sendMessage(format.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", r.getDisplayName(cs)).replace("%Player2", r.mes("me"))
-                .replace("%Message", r.getFinalArg(args, 0)));
+                .replace("%Message", message));
     }
 
     @Override
