@@ -23,20 +23,11 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.classes;
 
-import org.bukkit.Location;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Guardian;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Skeleton.SkeletonType;
-
 import java.util.*;
 
 public enum MobType {
 
-    ARMORSTAND("ArmorStand", Enemies.NEUTRAL, EntityType.ARMOR_STAND),
+    ARMORSTAND("ArmorStand", Enemies.NEUTRAL, CatalogTypes.),
     CHICKEN("Chicken", Enemies.FRIENDLY, EntityType.CHICKEN),
     COW("Cow", Enemies.FRIENDLY, EntityType.COW),
     CREEPER("Creeper", Enemies.ENEMY, EntityType.CREEPER),
