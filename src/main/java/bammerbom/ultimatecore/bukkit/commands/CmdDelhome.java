@@ -31,6 +31,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -93,6 +94,9 @@ public class CmdDelhome implements UltimateCommand {
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        if (!r.isPlayer(cs)) {
+            return new ArrayList<>();
+        }
+        return UC.getPlayer((OfflinePlayer) cs).getHomeNames();
     }
 }
