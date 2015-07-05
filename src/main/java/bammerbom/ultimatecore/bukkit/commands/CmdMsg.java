@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -72,6 +73,14 @@ public class CmdMsg implements UltimateCommand {
             return;
         }
         if (cs instanceof Player) {
+            if (UC.getPlayer((Player) cs).isMuted()) {
+                if (UC.getPlayer((Player) cs).getMuteTime() == 0 || UC.getPlayer((Player) cs).getMuteTime() == -1) {
+                    r.sendMes(cs, "muteChat");
+                } else {
+                    r.sendMes(cs, "muteChatTime", "%Time", DateUtil.format(UC.getPlayer((Player) cs).getMuteTimeLeft()));
+                }
+                return;
+            }
             UC.getPlayer(pl).setReply((Player) cs);
             UC.getPlayer((OfflinePlayer) cs).setReply(pl);
         }
