@@ -66,6 +66,11 @@ public class CmdBanip implements UltimateCommand {
         OfflinePlayer t = null;
         if (FormatUtil.validIP(args[0])) {
             ip = args[0];
+            for (Player p : r.getOnlinePlayers()) {
+                if (ip.equalsIgnoreCase(UC.getPlayer(t).getLastIp())) {
+                    t = p;
+                }
+            }
         } else {
             t = r.searchOfflinePlayer(args[0]);
             if (UC.getPlayer(t).getLastIp() != null) {

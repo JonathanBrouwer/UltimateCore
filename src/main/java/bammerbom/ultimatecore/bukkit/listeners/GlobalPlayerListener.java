@@ -175,6 +175,10 @@ public class GlobalPlayerListener implements Listener {
                     String msg = r.mes("banipFormat", "%Time", time, "%Reason", reason);
                     e.disallow(Result.KICK_BANNED, msg);
                 }
+            } else {
+                if (e.getResult().equals(Result.KICK_BANNED)) {
+                    e.setResult(Result.ALLOWED);
+                }
             }
             //
 
