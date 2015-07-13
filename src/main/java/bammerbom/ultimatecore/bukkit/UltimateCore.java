@@ -46,7 +46,7 @@ import java.io.File;
 
 public class UltimateCore extends JavaPlugin {
 
-    public static UltimateCore instance;
+    private static UltimateCore instance = null;
     public static File file;
 
     static {
@@ -59,8 +59,13 @@ public class UltimateCore extends JavaPlugin {
     }
 
     public static UltimateCore getInstance() {
+        if(instance == null) {
+            instance = new UltimateCore();
+        }
         return instance;
     }
+    
+    private UltimateCore() {}
 
     public static File getPluginFile() {
         return file;
@@ -72,7 +77,6 @@ public class UltimateCore extends JavaPlugin {
             //
             Long time = System.currentTimeMillis();
             //
-            instance = this;
             file = getFile();
             UltimateFileLoader.Enable();
             r.enableMES();
