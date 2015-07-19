@@ -53,7 +53,7 @@ import java.net.URLConnection;
 @Plugin(id = "UltimateCore", name = "UltimateCore", version = "2.1.7")
 public class UltimateCore {
 
-    public static UltimateCore instance;
+    private static UltimateCore instance = null;
     @Inject
     @ConfigDir(sharedRoot = false)
     public static File cfile;
@@ -73,8 +73,13 @@ public class UltimateCore {
     }
 
     public static UltimateCore getInstance() {
+        if(instance == null) {
+            this.instance = new UltimateCore();
+        }
         return instance;
     }
+    
+    private UltimateCore() {}
 
     public static File getPluginFile() {
         return file;
@@ -140,7 +145,6 @@ public class UltimateCore {
             //
             Long time = System.currentTimeMillis();
             //
-            instance = this;
             file = cfile.getParentFile();
             game = ev.getGame();
             version = ev.getGame().getPluginManager().getPlugin("UltimateCore").get().getVersion();
