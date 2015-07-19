@@ -57,11 +57,12 @@ public class UltimateCore extends JavaPlugin {
             ex.printStackTrace();
         }
     }
-    
+
+    public UltimateCore() {
+        instance = this;
+    }
+
     public static UltimateCore getInstance() {
-        if(instance == null) {
-            instance = new UltimateCore();
-        }
         return instance;
     }
 
@@ -75,7 +76,6 @@ public class UltimateCore extends JavaPlugin {
             //
             Long time = System.currentTimeMillis();
             //
-            instance = this;
             file = getFile();
             UltimateFileLoader.Enable();
             r.enableMES();
