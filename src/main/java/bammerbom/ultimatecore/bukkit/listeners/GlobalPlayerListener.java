@@ -294,7 +294,8 @@ public class GlobalPlayerListener implements Listener {
                 }, 1L);
             }
             //Teleportmenu
-            if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInTeleportMenu()) {
+            if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInTeleportMenu() && e.getCurrentItem() != null && e.getCurrentItem().getItemMeta() != null && e.getCurrentItem().getItemMeta()
+                    .hasDisplayName()) {
                 UC.getPlayer(e.getWhoClicked().getUniqueId()).setInTeleportMenu(false);
                 Bukkit.getServer().dispatchCommand(e.getWhoClicked(), "tp " + ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()));
                 e.setCancelled(true);
