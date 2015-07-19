@@ -57,9 +57,6 @@ public class UltimateCore extends JavaPlugin {
             ex.printStackTrace();
         }
     }
-
-    private UltimateCore() {
-    }
     
     public static UltimateCore getInstance() {
         if(instance == null) {
