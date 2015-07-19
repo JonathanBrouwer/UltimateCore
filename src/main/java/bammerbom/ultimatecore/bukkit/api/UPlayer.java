@@ -548,7 +548,11 @@ public class UPlayer {
             return homes;
         }
         for (String hname : conf.listKeys("homes", false)) {
+            try {
             homes.put(hname, LocationUtil.convertStringToLocation(conf.getString("homes." + hname)));
+            } catch (Exception ex) {
+                r.log(r.negative + "Home " + getPlayer().getName() + ":" + hname + " has been removed. (Invalid location)");
+            }
         }
         save();
         return homes;

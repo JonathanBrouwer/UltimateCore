@@ -467,7 +467,11 @@ public class UServer {
         JsonConfig conf = new JsonConfig(UltimateFileLoader.Dwarps);
         conf.set("warps", null);
         for (String s : nh.keySet()) {
-            conf.set("warps." + s, LocationUtil.convertLocationToString(nh.get(s.toLowerCase())));
+            try {
+                conf.set("warps." + s, LocationUtil.convertLocationToString(nh.get(s.toLowerCase())));
+            } catch (Exception ex) {
+                r.log(r.negative + "Warp " + s + " has been removed. (Invalid location)");
+            }
         }
         conf.save();
     }
