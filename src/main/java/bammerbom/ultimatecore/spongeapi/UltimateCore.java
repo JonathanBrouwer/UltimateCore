@@ -53,7 +53,6 @@ import java.net.URLConnection;
 @Plugin(id = "UltimateCore", name = "UltimateCore", version = "2.1.7")
 public class UltimateCore {
 
-    private static UltimateCore instance = null;
     @Inject
     @ConfigDir(sharedRoot = false)
     public static File cfile;
@@ -62,6 +61,7 @@ public class UltimateCore {
     @Inject
     public static Logger logger;
     public static String version;
+    private static UltimateCore instance = null;
 
     static {
         r.prestart();
@@ -72,14 +72,15 @@ public class UltimateCore {
         }
     }
 
+    private UltimateCore() {
+    }
+
     public static UltimateCore getInstance() {
-        if(instance == null) {
-            this.instance = new UltimateCore();
+        if (instance == null) {
+            instance = new UltimateCore();
         }
         return instance;
     }
-    
-    private UltimateCore() {}
 
     public static File getPluginFile() {
         return file;
@@ -113,7 +114,7 @@ public class UltimateCore {
         resourcePath = resourcePath.replace('\\', '/');
         InputStream in = getResource(resourcePath);
         if (in == null) {
-            throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found in " + this.file);
+            throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found in " + file);
         }
         File outFile = new File(getDataFolder(), resourcePath);
         int lastIndex = resourcePath.lastIndexOf('/');
@@ -132,10 +133,10 @@ public class UltimateCore {
                 out.close();
                 in.close();
             } else {
-                this.logger.info("Could not save " + outFile.getName() + " to " + outFile + " because " + outFile.getName() + " already exists.");
+                logger.info("Could not save " + outFile.getName() + " to " + outFile + " because " + outFile.getName() + " already exists.");
             }
         } catch (IOException ex) {
-            this.logger.info("Could not save " + outFile.getName() + " to " + outFile, ex);
+            logger.info("Could not save " + outFile.getName() + " to " + outFile, ex);
         }
     }
 
@@ -145,6 +146,7 @@ public class UltimateCore {
             //
             Long time = System.currentTimeMillis();
             //
+            instance = this;
             file = cfile.getParentFile();
             game = ev.getGame();
             version = ev.getGame().getPluginManager().getPlugin("UltimateCore").get().getVersion();
