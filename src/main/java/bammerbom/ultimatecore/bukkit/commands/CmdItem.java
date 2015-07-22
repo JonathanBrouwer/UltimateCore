@@ -107,7 +107,7 @@ public class CmdItem implements UltimateCommand {
                         item = Bukkit.getUnsafe().modifyItemStack(item, s);
                     } else {
                         try {
-                            meta.parseStringMeta(cs, r.perm(cs, "uc.give.unsafe", false, false), args, metaStart);
+                            meta.parseStringMeta(cs, r.perm(cs, "uc.item.unsafe", false, false), args, metaStart);
                             item = meta.getItemStack();
                         } catch (IllegalArgumentException ex) {
                             if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too " + "low or too high")) {
