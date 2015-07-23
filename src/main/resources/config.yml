@@ -100,6 +100,9 @@ Weather:
   #Disable rain and thunder? (True = Disabled)
   Rain: false
 
+#Enable broadcasting when the mojang servers are offline?
+MojangServersBroadcasting: true
+
 #Chat customization
 Chat:
   #How is the /alert command displayed?

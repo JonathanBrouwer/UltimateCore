@@ -97,6 +97,7 @@ public class UltimateCore extends JavaPlugin {
             CmdRules.start();
             MetaItemStack.start();
             ItemUtil.start();
+            MinecraftServerListener.start();
             //
             String c = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
             Integer v = Integer.parseInt(c.replace(".", ""));

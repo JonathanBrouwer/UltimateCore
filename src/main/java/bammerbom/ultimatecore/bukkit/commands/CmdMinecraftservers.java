@@ -24,58 +24,17 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.UltimateCommand;
-import bammerbom.ultimatecore.bukkit.commands.ServerCheck.MinecraftServer;
-import bammerbom.ultimatecore.bukkit.commands.ServerCheck.Status;
 import bammerbom.ultimatecore.bukkit.r;
-import org.bukkit.Bukkit;
+import bammerbom.ultimatecore.bukkit.resources.utils.MinecraftServerUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.MinecraftServerUtil.MinecraftServer;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CmdMinecraftservers implements UltimateCommand {
-
-    static Boolean on = false;
-    static ArrayList<MinecraftServer> offline = new ArrayList<>();
-    static ArrayList<MinecraftServer> unknown = new ArrayList<>();
-    static ArrayList<MinecraftServer> problems = new ArrayList<>();
-    static ArrayList<MinecraftServer> online = new ArrayList<>();
-
-    private static void runcheck() {
-        //
-        on = true;
-        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-            @Override
-            public void run() {
-                on = false;
-            }
-        }, 20 * 10L);
-        //
-        offline.clear();
-        unknown.clear();
-        problems.clear();
-        online.clear();
-        for (MinecraftServer serv : MinecraftServer.values()) {
-            Status status = ServerCheck.getStatus(serv);
-            if (status.equals(Status.ONLINE)) {
-                online.add(serv);
-            } else if (status.equals(Status.EXPERIENCE)) {
-                problems.add(serv);
-            } else if (status.equals(Status.OFFLINE)) {
-                offline.add(serv);
-            } else if (status.equals(Status.UNKNOWN)) {
-                unknown.add(serv);
-            }
-        }
-    }
 
     @Override
     public String getName() {
@@ -104,32 +63,31 @@ public class CmdMinecraftservers implements UltimateCommand {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if (!on) {
-                    runcheck();
-                }
+                MinecraftServerUtil.runcheck();
+
                 String os = "";
-                for (MinecraftServer str : online) {
+                for (MinecraftServer str : MinecraftServerUtil.online) {
                     if (!os.equals("")) {
                         os = os + ", " + ChatColor.GREEN + str.toString().toLowerCase() + r.positive + "";
                     } else {
                         os = os + ChatColor.GREEN + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
-                for (MinecraftServer str : problems) {
+                for (MinecraftServer str : MinecraftServerUtil.problems) {
                     if (!os.equals("")) {
                         os = os + ", " + ChatColor.GOLD + str.toString().toLowerCase() + r.positive + "";
                     } else {
                         os = os + ChatColor.GOLD + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
-                for (MinecraftServer str : offline) {
+                for (MinecraftServer str : MinecraftServerUtil.offline) {
                     if (!os.equals("")) {
                         os = os + ", " + ChatColor.DARK_RED + str.toString().toLowerCase() + r.positive + "";
                     } else {
                         os = os + ChatColor.DARK_RED + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
-                for (MinecraftServer str : unknown) {
+                for (MinecraftServer str : MinecraftServerUtil.unknown) {
                     if (!os.equals("")) {
                         os = os + ", " + ChatColor.GRAY + str.toString().toLowerCase() + r.positive + "";
                     } else {
@@ -150,83 +108,4 @@ public class CmdMinecraftservers implements UltimateCommand {
     }
 }
 
-class ServerCheck {
 
-    private static final JSONParser parser = new JSONParser();
-
-    public static Status getStatus(MinecraftServer service) {
-        String status;
-
-        try {
-            URL url = new URL("http://status.mojang.com/check?service=" + service.getURL());
-            BufferedReader input = new BufferedReader(new InputStreamReader(url.openStream()));
-            Object object = parser.parse(input);
-            JSONObject jsonObject = (JSONObject) object;
-
-            status = (String) jsonObject.get(service.getURL());
-        } catch (Exception e) {
-            return Status.UNKNOWN;
-        }
-
-        return status(status);
-    }
-
-    private static Status status(String status) {
-        switch (status.toLowerCase()) {
-            case "green":
-                return Status.ONLINE;
-
-            case "yellow":
-                return Status.EXPERIENCE;
-
-            case "red":
-                return Status.OFFLINE;
-
-            default:
-                return Status.UNKNOWN;
-        }
-    }
-
-    public enum MinecraftServer {
-
-        //Minecraft
-        WEBSITE("minecraft.net"),
-        SKIN("skins.minecraft.net"),
-        SESSION("session.minecraft.net"),
-        //Mojang
-        ACCOUNT("account.mojang.com"),
-        AUTH("auth.mojang.com"),
-        AUTHSERVER("authserver.mojang.com"),
-        MOJANGSESSION("sessionserver.mojang.com");
-
-        private final String url;
-
-        MinecraftServer(String url) {
-            this.url = url;
-        }
-
-        private String getURL() {
-            return url;
-        }
-    }
-
-    public enum Status {
-
-        ONLINE("No problems detected!"),
-        EXPERIENCE("May be experiencing issues"),
-        OFFLINE("Experiencing problems!"),
-        UNKNOWN("Couldn't connect to Mojang!");
-
-        private final String description;
-
-        Status(String description) {
-            this.description = description;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-    }
-
-}
