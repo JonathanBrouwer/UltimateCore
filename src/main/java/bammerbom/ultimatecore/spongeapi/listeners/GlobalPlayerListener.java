@@ -55,7 +55,7 @@ public class GlobalPlayerListener implements Listener {
     Boolean jailedmove = r.getCnfg().getBoolean("Command.Jail.move");
 
     public static void start() {
-        final GlobalPlayerListener gpl = new GlobalPlayerListener();
+        final bammerbom.ultimatecore.spongeapi.listeners.GlobalPlayerListener gpl = new bammerbom.ultimatecore.spongeapi.listeners.GlobalPlayerListener();
         Bukkit.getPluginManager().registerEvents(gpl, r.getUC());
         EventPriority p;
         String s = r.getCnfg().getString("Command.Spawn.Priority");
@@ -175,6 +175,10 @@ public class GlobalPlayerListener implements Listener {
                     String msg = r.mes("banipFormat", "%Time", time, "%Reason", reason);
                     e.disallow(Result.KICK_BANNED, msg);
                 }
+            } else {
+                if (e.getResult().equals(Result.KICK_BANNED)) {
+                    e.setResult(Result.ALLOWED);
+                }
             }
             //
 
@@ -189,10 +193,6 @@ public class GlobalPlayerListener implements Listener {
             //Deaf
             e.getRecipients().removeAll(UC.getServer().getDeafOnlinePlayers());
             e.getRecipients().add(e.getPlayer());
-            //            if (UC.getPlayer(e.getPlayer()).isDeaf()) {
-            //                r.sendMes(e.getPlayer(), "deafTalk");
-            //                e.setCancelled(true);
-            //            }
             //Jail
             if (!jailChat && UC.getPlayer(e.getPlayer()).isJailed()) {
                 r.sendMes(e.getPlayer(), "jailNotAllowedTalk");
@@ -294,7 +294,8 @@ public class GlobalPlayerListener implements Listener {
                 }, 1L);
             }
             //Teleportmenu
-            if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInTeleportMenu()) {
+            if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInTeleportMenu() && e.getCurrentItem() != null && e.getCurrentItem().getItemMeta() != null && e.getCurrentItem().getItemMeta()
+                    .hasDisplayName()) {
                 UC.getPlayer(e.getWhoClicked().getUniqueId()).setInTeleportMenu(false);
                 Bukkit.getServer().dispatchCommand(e.getWhoClicked(), "tp " + ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()));
                 e.setCancelled(true);

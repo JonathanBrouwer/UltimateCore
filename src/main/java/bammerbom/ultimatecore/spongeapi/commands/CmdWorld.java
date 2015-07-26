@@ -34,7 +34,7 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
@@ -48,7 +48,7 @@ import java.util.List;
 
 public class CmdWorld implements UltimateCommand {
 
-    public static void usage(CommandSource cs) {
+    public static void usage(CommandSender cs) {
         r.sendMes(cs, "worldUsage1");
         r.sendMes(cs, "worldUsage2");
         r.sendMes(cs, "worldUsage3");
@@ -60,7 +60,7 @@ public class CmdWorld implements UltimateCommand {
         r.sendMes(cs, "worldUsage9", "%Flags", StringUtil.firstUpperCase(StringUtil.joinList(WorldFlag.values()).toLowerCase()));
     }
 
-    public static void create(CommandSource cs, String[] args) {
+    public static void create(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.create", false, false)) {
             r.sendMes(cs, "noPermissions");
             return;
@@ -128,7 +128,7 @@ public class CmdWorld implements UltimateCommand {
 
     }
 
-    public static void importw(CommandSource cs, String[] args) {
+    public static void importw(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.import", false, false)) {
             r.sendMes(cs, "noPermissions");
             return;
@@ -191,7 +191,7 @@ public class CmdWorld implements UltimateCommand {
         }
     }
 
-    public static void list(CommandSource cs, String[] args) {
+    public static void list(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.list", false, false)) {
             r.sendMes(cs, "noPermissions");
             return;
@@ -222,7 +222,7 @@ public class CmdWorld implements UltimateCommand {
         r.sendMes(cs, "worldList", "%Worlds", result);
     }
 
-    public static void remove(CommandSource cs, String[] args) {
+    public static void remove(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.remove", false, false)) {
             r.sendMes(cs, "noPermissions");
             return;
@@ -280,7 +280,7 @@ public class CmdWorld implements UltimateCommand {
 
     }
 
-    public static void tp(CommandSource cs, String[] args) {
+    public static void tp(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.tp", false, false)) {
             r.sendMes(cs, "noPermissions");
             return;
@@ -305,7 +305,7 @@ public class CmdWorld implements UltimateCommand {
         }
     }
 
-    public static void flag(CommandSource cs, String[] args) {
+    public static void flag(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.flag", false, false)) {
             r.sendMes(cs, "noPermissions");
             return;
@@ -422,7 +422,7 @@ public class CmdWorld implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (r.checkArgs(args, 0) == false) {
             usage(cs);
         } else if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("add")) {
@@ -443,7 +443,7 @@ public class CmdWorld implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             return Arrays.asList("create", "import", "list", "remove", "tp", "flag");
         }

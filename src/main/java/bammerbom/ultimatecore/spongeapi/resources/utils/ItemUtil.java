@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic;
 import net.milkbowl.vault.item.Items;
@@ -76,7 +77,7 @@ public class ItemUtil {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to read item uuids.");
         }
     }
 
@@ -185,10 +186,10 @@ class EnchantGlow extends EnchantmentWrapper {
             f.setAccessible(true);
             f.set(null, true);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to create glow enchantment.");
         }
 
-        glow = new EnchantGlow(255);
+        glow = new bammerbom.ultimatecore.spongeapi.resources.utils.EnchantGlow(255);
         Enchantment.registerEnchantment(glow);
         return glow;
     }

@@ -44,6 +44,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class r {
 
@@ -339,6 +340,13 @@ public class r {
         return new String(b);
     }
 
+    public static String stripColor(String input) {
+        if (input == null) {
+            return null;
+        }
+        return Pattern.compile("(?i)" + String.valueOf('§') + "[0-9A-FK-OR]").matcher(input).replaceAll("");
+    }
+
     public static void setColors() {
         String c1 = r.getCnfg().getString("Chat.Default");
         String c2 = r.getCnfg().getString("Chat.Value");
@@ -589,7 +597,8 @@ public class r {
 
     public static TextColor getRandomTextColors() {
         List<TextColor.Base> values = Arrays
-                .asList(TextColors.BLACK, TextColors.DARK_BLUE, TextColors.DARK_GREEN, TextColors.DARK_AQUA, TextColors.DARK_RED, TextColors.DARK_PURPLE, TextColors.GOLD, TextColors.GRAY, TextColors.DARK_GRAY, TextColors.BLUE, TextColors.GREEN, TextColors.AQUA, TextColors.RED, TextColors.LIGHT_PURPLE, TextColors.YELLOW, TextColors.WHITE);
+                .asList(TextColors.BLACK, TextColors.DARK_BLUE, TextColors.DARK_GREEN, TextColors.DARK_AQUA, TextColors.DARK_RED, TextColors.DARK_PURPLE, TextColors.GOLD, TextColors.GRAY,
+                        TextColors.DARK_GRAY, TextColors.BLUE, TextColors.GREEN, TextColors.AQUA, TextColors.RED, TextColors.LIGHT_PURPLE, TextColors.YELLOW, TextColors.WHITE);
         return values.get(ra.nextInt(values.size()));
     }
 

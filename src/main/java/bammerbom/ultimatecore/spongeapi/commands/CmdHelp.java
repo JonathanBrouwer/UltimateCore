@@ -25,10 +25,11 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
@@ -61,7 +62,7 @@ public class CmdHelp implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.help", false, true)) {
             return;
         }
@@ -87,7 +88,7 @@ public class CmdHelp implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }
@@ -99,7 +100,7 @@ class TextInput implements bammerbom.ultimatecore.spongeapi.commands.UText {
     private final transient List<String> chapters;
     private final transient Map<String, Integer> bookmarks;
 
-    public TextInput(CommandSource sender) {
+    public TextInput(CommandSender sender) {
         this.lines = Collections.emptyList();
         this.chapters = Collections.emptyList();
         this.bookmarks = Collections.emptyMap();
@@ -128,7 +129,7 @@ class HelpInput implements bammerbom.ultimatecore.spongeapi.commands.UText {
     private final transient Map<String, Integer> bookmarks = new HashMap<>();
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public HelpInput(CommandSource user, String match) {
+    public HelpInput(CommandSender user, String match) {
         boolean reported = false;
         List newLines = new ArrayList();
         String pluginName;
@@ -204,7 +205,7 @@ class PluginCommandsInput implements bammerbom.ultimatecore.spongeapi.commands.U
     private final transient Map<String, Integer> bookmarks = new HashMap<>();
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public PluginCommandsInput(CommandSource user, String match) {
+    public PluginCommandsInput(CommandSender user, String match) {
         boolean reported = false;
         List newLines = new ArrayList();
         String pluginName;
@@ -237,7 +238,7 @@ class PluginCommandsInput implements bammerbom.ultimatecore.spongeapi.commands.U
                             }
                         }
                     } catch (NullPointerException ex) {
-                        ex.printStackTrace();
+                        ErrorLogger.log(ex, "Failed to get permission key");
                     }
                 }
 
@@ -292,7 +293,7 @@ class TextPager {
         return input.toUpperCase(Locale.ENGLISH).charAt(0) + input.toLowerCase(Locale.ENGLISH).substring(1);
     }
 
-    public void showPage(String pageStr, String chapterPageStr, String commandName, CommandSource sender) {
+    public void showPage(String pageStr, String chapterPageStr, String commandName, CommandSender sender) {
         List<String> lines = this.text.getLines();
         List<String> chapters = this.text.getChapters();
         Map<String, Integer> bookmarks = this.text.getBookmarks();

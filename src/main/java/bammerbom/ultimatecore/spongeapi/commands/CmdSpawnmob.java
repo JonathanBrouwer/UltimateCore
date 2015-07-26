@@ -25,12 +25,13 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MobData;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.inventory.EntityEquipment;
@@ -100,7 +101,7 @@ public class CmdSpawnmob implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.spawnmob", false, true)) {
             return;
         }
@@ -236,13 +237,13 @@ public class CmdSpawnmob implements UltimateCommand {
                     utilize(args, mob, (LivingEntity) en, p);
                 }
             } catch (ClassCastException ex) {
-                ex.printStackTrace();
+                ErrorLogger.log(ex, "Mob spawning failed. (Invalid mob?)");
             }
         }
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         List<String> rtrn = new ArrayList<>();
         if (curn == 0) {
             for (MobType t : MobType.values()) {

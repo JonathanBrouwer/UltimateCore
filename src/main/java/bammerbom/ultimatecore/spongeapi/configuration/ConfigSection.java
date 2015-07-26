@@ -24,12 +24,11 @@
 package bammerbom.ultimatecore.spongeapi.configuration;
 
 import org.apache.commons.lang.Validate;
-import org.spongepowered.api.entity.player.User;
-import org.spongepowered.api.item.inventory.ItemStack;
+import org.bukkit.Color;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 import static org.bukkit.util.NumberConversions.*;
 
@@ -45,13 +44,13 @@ public class ConfigSection {
     private final String fullPath;
 
     /**
-     * Creates an empty MemorySection for use as a root {@link MemoryConfiguration} section.
+     * Creates an empty MemorySection for use as a root {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} section.
      * <p/>
-     * Note that calling this without being yourself a {@link MemoryConfiguration} will throw an
+     * Note that calling this without being yourself a {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} will throw an
      * exception!
      *
      * @throws IllegalStateException Thrown if this is not a {@link
-     *                               MemoryConfiguration} root.
+     *                               bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} root.
      */
     protected ConfigSection() {
         if (!(this instanceof bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration)) {
@@ -69,7 +68,7 @@ public class ConfigSection {
      *
      * @param parent Parent section that contains this own section.
      * @param path   Path that you may access this section from via the root
-     *               {@link MemoryConfiguration}.
+     *               {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration}.
      * @throws IllegalArgumentException Thrown is parent or path is null, or if parent contains no
      *                                  root MemoryConfiguration.
      */
@@ -88,7 +87,7 @@ public class ConfigSection {
 
     /**
      * Creates a full path to the given {@link bammerbom.ultimatecore.spongeapi.configuration.ConfigSection} from its root
-     * {@link MemoryConfiguration}.
+     * {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration}.
      * <p/>
      * You may use this method for any given {@link bammerbom.ultimatecore.spongeapi.configuration.ConfigSection}, not only {@link bammerbom.ultimatecore.spongeapi.configuration.ConfigSection}.
      *
@@ -722,19 +721,19 @@ public class ConfigSection {
         return val instanceof Vector;
     }
 
-    public User getUser(String path) {
+    public OfflinePlayer getOfflinePlayer(String path) {
         Object def = getDefault(path);
-        return getUser(path, (def instanceof User) ? (User) def : null);
+        return getOfflinePlayer(path, (def instanceof OfflinePlayer) ? (OfflinePlayer) def : null);
     }
 
-    public User getUser(String path, User def) {
+    public OfflinePlayer getOfflinePlayer(String path, OfflinePlayer def) {
         Object val = get(path, def);
-        return (val instanceof User) ? (User) val : def;
+        return (val instanceof OfflinePlayer) ? (OfflinePlayer) val : def;
     }
 
-    public boolean isUser(String path) {
+    public boolean isOfflinePlayer(String path) {
         Object val = get(path);
-        return val instanceof User;
+        return val instanceof OfflinePlayer;
     }
 
     public ItemStack getItemStack(String path) {
@@ -783,7 +782,8 @@ public class ConfigSection {
     }
 
     protected boolean isPrimitiveWrapper(Object input) {
-        return input instanceof Integer || input instanceof Boolean || input instanceof Character || input instanceof Byte || input instanceof Short || input instanceof Double || input instanceof Long || input instanceof Float;
+        return input instanceof Integer || input instanceof Boolean || input instanceof Character || input instanceof Byte || input instanceof Short || input instanceof Double || input instanceof
+                Long || input instanceof Float;
     }
 
     protected Object getDefault(String path) {

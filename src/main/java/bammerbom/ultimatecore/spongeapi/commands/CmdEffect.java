@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.databases.EffectDatabase;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -54,7 +54,7 @@ public class CmdEffect implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.effect", false, true)) {
             return;
         }
@@ -109,7 +109,7 @@ public class CmdEffect implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             return null;
         } else if (curn == 1) {

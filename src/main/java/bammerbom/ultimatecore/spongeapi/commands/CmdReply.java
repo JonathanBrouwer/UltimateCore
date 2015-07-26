@@ -27,9 +27,10 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class CmdReply implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.reply", false, true)) {
             return;
         }
@@ -68,6 +69,14 @@ public class CmdReply implements UltimateCommand {
         if (!r.isPlayer(cs)) {
             return;
         }
+        if (UC.getPlayer((Player) cs).isMuted()) {
+            if (UC.getPlayer((Player) cs).getMuteTime() == 0 || UC.getPlayer((Player) cs).getMuteTime() == -1) {
+                r.sendMes(cs, "muteChat");
+            } else {
+                r.sendMes(cs, "muteChatTime", "%Time", DateUtil.format(UC.getPlayer((Player) cs).getMuteTimeLeft()));
+            }
+            return;
+        }
         Player p = (Player) cs;
         Player pl = UC.getPlayer(p).getReply();
         if (pl == null) {
@@ -75,7 +84,7 @@ public class CmdReply implements UltimateCommand {
             return;
         }
         UC.getPlayer(pl).setReply((Player) cs);
-        String message = r.perm(cs, "uc.coloredchat", false, false) ? ChatColor.translateAlternateColorCodes('&', r.getFinalArg(args, 1)) : r.getFinalArg(args, 1);
+        String message = r.perm(cs, "uc.coloredchat", false, false) ? ChatColor.translateAlternateColorCodes('&', r.getFinalArg(args, 0)) : r.getFinalArg(args, 0);
         //Spy
         for (Player ps : r.getOnlinePlayers()) {
             UPlayer up = UC.getPlayer(ps);
@@ -91,7 +100,7 @@ public class CmdReply implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
     }
 }

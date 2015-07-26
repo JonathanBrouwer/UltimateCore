@@ -32,7 +32,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -60,7 +60,7 @@ public class CmdEditsign implements UltimateCommand {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.editsign", false, true)) {
             return;
         }
@@ -125,7 +125,7 @@ public class CmdEditsign implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             return Arrays.asList("1", "2", "3", "4");
         } else {

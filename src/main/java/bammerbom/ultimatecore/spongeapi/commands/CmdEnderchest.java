@@ -23,16 +23,14 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
-import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdEnderchest implements UltimateCommand {
+public class CmdEnderchest implements bammerbom.ultimatecore.spongeapi.UltimateCommand {
 
     @Override
     public String getName() {
@@ -50,31 +48,31 @@ public class CmdEnderchest implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!(r.isPlayer(cs))) {
+    public void run(final CommandSender cs, String label, String[] args) {
+        if (!(bammerbom.ultimatecore.spongeapi.r.isPlayer(cs))) {
             return;
         }
         Player p = (Player) cs;
-        if (r.checkArgs(args, 0) == false) {
-            if (!r.perm(cs, "uc.enderchest", false, true)) {
+        if (bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 0) == false) {
+            if (!bammerbom.ultimatecore.spongeapi.r.perm(cs, "uc.enderchest", false, true)) {
                 return;
             }
             p.openInventory(p.getEnderChest());
         } else {
-            if (!r.perm(cs, "uc.enderchest.others", false, true)) {
+            if (!bammerbom.ultimatecore.spongeapi.r.perm(cs, "uc.enderchest.others", false, true)) {
                 return;
             }
-            Player target = r.searchPlayer(args[0]);
+            Player target = bammerbom.ultimatecore.spongeapi.r.searchPlayer(args[0]);
             if (target != null) {
                 p.openInventory(target.getEnderChest());
             } else {
-                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             }
         }
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

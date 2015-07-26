@@ -24,8 +24,12 @@
 package bammerbom.ultimatecore.spongeapi.api;
 
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
+import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FireworkUtil;
-import org.bukkit.*;
+import org.spongepowered.api.entity.player.gamemode.GameMode;
+import org.spongepowered.api.item.FireworkEffect;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.io.File;
 
@@ -39,10 +43,10 @@ public class UWorld {
 
     public UWorld(String world) {
         try {
-            if (world == null || Bukkit.getWorld(world) == null) {
+            if (world == null || !r.getGame().getServer().getWorld(world).isPresent()) {
                 throw new NullPointerException("World not found");
             }
-            base = Bukkit.getWorld(world);
+            base = r.getGame().getServer().getWorld(world).get();
         } catch (NullPointerException ex) {
             throw new NullPointerException("World not found");
         }
@@ -55,7 +59,7 @@ public class UWorld {
 
     //Datafile
     public File getDataFile() {
-        return new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + File.separator +
+        return new File(r.getUC().getDataFolder() + File.separator +
                 "Data", "worlds.json");
     }
 
@@ -66,9 +70,9 @@ public class UWorld {
     //Register
     public void register(String gen) {
         JsonConfig conf = new JsonConfig(getDataFile());
-        conf.set(base.getName() + ".env", base.getEnvironment().name());
+        conf.set(base.getName() + ".env", base.getDimension().getType().getId());
         conf.set(base.getName() + ".gen", gen);
-        conf.set(base.getName() + ".type", base.getWorldType().toString());
+        conf.set(base.getName() + ".type", base.getCreationSettings().getGeneratorType().getId());
         //conf.set(base.getName() + ".gen", base.getGenerator().getClass());
         conf.save();
     }
@@ -103,15 +107,6 @@ public class UWorld {
         JsonConfig conf = new JsonConfig(file);
         conf.set(getWorld().getName() + ".flags." + f.toString(), true);
         conf.save(file);
-        if (f.equals(WorldFlag.ANIMAL)) {
-            getWorld().setAnimalSpawnLimit(15);
-        }
-        if (f.equals(WorldFlag.MONSTER)) {
-            getWorld().setMonsterSpawnLimit(70);
-        }
-        if (f.equals(WorldFlag.PVP)) {
-            getWorld().setPVP(true);
-        }
     }
 
     public void setFlagDenied(WorldFlag f) {
@@ -119,15 +114,6 @@ public class UWorld {
         JsonConfig conf = new JsonConfig(file);
         conf.set(getWorld().getName() + ".flags." + f.toString(), false);
         conf.save(file);
-        if (f.equals(WorldFlag.ANIMAL)) {
-            getWorld().setAnimalSpawnLimit(0);
-        }
-        if (f.equals(WorldFlag.MONSTER)) {
-            getWorld().setMonsterSpawnLimit(0);
-        }
-        if (f.equals(WorldFlag.PVP)) {
-            getWorld().setPVP(false);
-        }
     }
 
     public GameMode getDefaultGamemode() {
@@ -135,7 +121,7 @@ public class UWorld {
         JsonConfig conf = new JsonConfig(file);
         String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
         try {
-            return GameMode.valueOf(gm);
+            return r.getGame().get
         } catch (IllegalArgumentException ex) {
             return null;
         }
@@ -144,7 +130,7 @@ public class UWorld {
     public void setDefaultGamemode(GameMode gm) {
         File file = getDataFile();
         JsonConfig conf = new JsonConfig(file);
-        conf.set(getWorld().getName() + ".flags.gamemode", gm.name());
+        conf.set(getWorld().getName() + ".flags.gamemode", gm.getId());
         conf.save(file);
     }
 

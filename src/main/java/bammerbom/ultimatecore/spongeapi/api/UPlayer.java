@@ -26,14 +26,21 @@ package bammerbom.ultimatecore.spongeapi.api;
 import bammerbom.ultimatecore.spongeapi.UltimateFileLoader;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
 import bammerbom.ultimatecore.spongeapi.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.bukkit.*;
-import org.bukkit.BanList.Type;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.inventory.Inventory;
+import org.spongepowered.api.data.manipulator.catalog.CatalogEntityData;
+import org.spongepowered.api.data.manipulator.entity.BanData;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.service.ban.BanService;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.ban.Ban;
+import org.spongepowered.api.util.ban.Bans;
+import org.spongepowered.api.util.command.CommandSource;
 
 import java.io.File;
 import java.util.*;
@@ -44,17 +51,14 @@ public class UPlayer {
     static boolean tpspawn = r.getCnfg().getBoolean("Command.Jail.spawn");
     String name = null;
     UUID uuid = null;
-    Location lastLocation = null;
-    Boolean banned = null;
-    Long bantime = null;
-    String banreason = null;
+    RLocation lastLocation = null;
     Boolean deaf = null;
     Long deaftime = null;
     Boolean freeze = null;
     Long freezetime = null;
     Boolean god = null;
     Long godtime = null;
-    HashMap<String, Location> homes = null;
+    HashMap<String, RLocation> homes = null;
     boolean onlineInv = false;
     boolean offlineInv = false;
     Boolean jailed = null;
@@ -64,8 +68,8 @@ public class UPlayer {
     Boolean spy = null;
     Boolean mute = null;
     Long mutetime = null;
-    String nickname = null;
-    HashMap<Material, List<String>> pts = null;
+    Text.Literal nickname = null;
+    HashMap<ItemType, List<String>> pts = null;
     Boolean inRecipeView = false;
     Boolean vanish = null;
     Long vanishtime = null;
@@ -76,16 +80,15 @@ public class UPlayer {
     boolean afk = false;
     long lastaction = System.currentTimeMillis();
     String lastip;
-    Type bantype;
     String lasthostname = null;
 
-    public UPlayer(OfflinePlayer p) {
+    public UPlayer(User p) {
         name = p.getName();
         uuid = p.getUniqueId();
     }
 
     public UPlayer(UUID uuid) {
-        OfflinePlayer p = r.searchOfflinePlayer(uuid);
+        User p = r.searchOfflinePlayer(uuid);
         name = p.getName();
         this.uuid = p.getUniqueId();
     }
@@ -95,12 +98,12 @@ public class UPlayer {
         bammerbom.ultimatecore.spongeapi.api.UC.uplayers.add(this);
     }
 
-    public OfflinePlayer getPlayer() {
-        return Bukkit.getOfflinePlayer(uuid);
+    public User getPlayer() {
+        return r.searchOfflinePlayer(uuid);
     }
 
     public Player getOnlinePlayer() {
-        return Bukkit.getPlayer(uuid);
+        return r.searchPlayer(uuid);
     }
 
     public long getLastConnectMillis() {
@@ -113,9 +116,9 @@ public class UPlayer {
             save();
             return lastconnect;
         } else {
-            lastconnect = getPlayer().getLastPlayed();
+            lastconnect = getPlayer().getOrCreate(CatalogEntityData.JOIN_DATA).get().getLastPlayed().getTime();
             save();
-            return getPlayer().getLastPlayed();
+            return getPlayer().getOrCreate(CatalogEntityData.JOIN_DATA).get().getLastPlayed().getTime();
         }
     }
 
@@ -146,7 +149,7 @@ public class UPlayer {
             return lastip;
         } else {
             if (getPlayer().isOnline()) {
-                setLastIp(getOnlinePlayer().getAddress().toString().split("/")[1].split(":")[0]);
+                setLastIp(getOnlinePlayer().getConnection().getAddress().toString().split("/")[1].split(":")[0]);
                 return lastip;
             }
             return null;
@@ -172,7 +175,7 @@ public class UPlayer {
             return lastip;
         } else {
             if (getPlayer().isOnline()) {
-                setLastHostname(getOnlinePlayer().getAddress().getHostName());
+                setLastHostname(getOnlinePlayer().getConnection().getAddress().getHostName());
                 return lastip;
             }
             return null;
@@ -200,15 +203,15 @@ public class UPlayer {
         if (!getPlayer().isOnline()) {
             return;
         }
-        setLastLocation(getOnlinePlayer().getLocation());
+        setLastLocation(new RLocation(getOnlinePlayer().getLocation(), getOnlinePlayer().getRotation()));
     }
 
-    public Location getLastLocation() {
+    public RLocation getLastLocation() {
         if (lastLocation == null) {
-            if (!getPlayerConfig().contains("lastlocation")) {
+            if (!getPlayerConfig().contains("lastLocation")) {
                 return null;
             }
-            Location loc = LocationUtil.convertStringToLocation(getPlayerConfig().getString("lastlocation"));
+            RLocation loc = LocationUtil.convertStringToLocation(getPlayerConfig().getString("lastLocation"));
             lastLocation = loc;
             save();
             return loc;
@@ -216,80 +219,49 @@ public class UPlayer {
         return lastLocation;
     }
 
-    public void setLastLocation(Location loc) {
+    public void setLastLocation(RLocation loc) {
         lastLocation = loc;
         JsonConfig conf = getPlayerConfig();
-        conf.set("lastlocation", loc == null ? null : LocationUtil.convertLocationToString(loc));
+        conf.set("lastLocation", loc == null ? null : LocationUtil.convertLocationToString(loc));
         conf.save();
         save();
     }
 
     public boolean isBanned() {
-        if (getBanTime() != null && getBanTime() >= 1 && getBanTimeLeft() <= 1 && (banned != null ? banned : getPlayerConfig().getBoolean("banned"))) {
+        if (getBanTime() != null && getBanTime() >= 1 && getBanTimeLeft() <= 1 && getPlayerConfig().getBoolean("banned")) {
             unban();
             return false;
         }
         if (getPlayer() == null || getPlayer().getName() == null) {
             return false;
         }
-        BanList list = Bukkit.getBanList(Type.NAME);
-        BanList list2 = Bukkit.getBanList(Type.IP);
+        if (!getOnlinePlayer().getBanData().getBans().isEmpty()) {
+            return true;
+        }
+        if (getLastIp() != null) {
+            for (Ban.Ip ip : r.getGame().getServiceManager().provide(BanService.class).get().getIpBans()) {
+                if (ip.getAddress().toString().split("/")[1].split(":")[0].equalsIgnoreCase(getLastIp())) {
+                    return true;
+                }
+            }
+        }
         if (getPlayerConfig().getBoolean("banned")) {
-            banned = true;
-            return true;
-        }
-        if (list.isBanned(getPlayer().getName())) {
-            banned = true;
-            return true;
-        }
-        if (getLastIp() != null && list2.isBanned(getLastIp())) {
-            banned = true;
             return true;
         }
         return false;
     }
 
-    public Type getBanType() {
-        if (bantype != null) {
-            return bantype;
-        }
-        if (!isBanned()) {
-            return null;
-        }
-        if (getPlayer() == null || getPlayer().getName() == null) {
-            return null;
-        }
-        BanList list = Bukkit.getBanList(Type.NAME);
-        BanList list2 = Bukkit.getBanList(Type.IP);
-        if (getPlayerConfig().getBoolean("banned")) {
-            bantype = Type.NAME;
-            return Type.NAME;
-        }
-        if (list.isBanned(getPlayer().getName())) {
-            bantype = Type.NAME;
-            return Type.NAME;
-        }
-        if (getLastIp() != null && list2.isBanned(getLastIp())) {
-            bantype = Type.IP;
-            return Type.IP;
-        }
-        return null;
-    }
-
     public Long getBanTime() {
-        if (bantime != null) {
-            return bantime;
-        }
         if (!getPlayerConfig().contains("bantime")) {
-            BanList list = Bukkit.getBanList(Type.IP);
-            if (getLastIp() != null && list.isBanned(getLastIp()) && list.getBanEntry(getLastIp()).getExpiration() != null) {
-                return list.getBanEntry(getLastIp()).getExpiration().getTime();
+            for (Ban.User b : getPlayer().getBanData().getBans()) {
+                if (b.getExpirationDate().isPresent()) {
+                    return b.getExpirationDate().get().getTime();
+                }
+                break;
             }
-            bantime = 0L;
             save();
             return 0L;
         }
-        bantime = getPlayerConfig().getLong("bantime");
         save();
         return getPlayerConfig().getLong("bantime");
 
@@ -300,42 +272,31 @@ public class UPlayer {
     }
 
     public String getBanReason() {
-        if (banreason != null) {
-            return banreason;
-        }
         if (!getPlayerConfig().contains("banreason")) {
-            BanList list = Bukkit.getBanList(Type.IP);
-            if (getLastIp() != null && list.isBanned(getLastIp()) && list.getBanEntry(getLastIp()).getReason() != null) {
-                return list.getBanEntry(getLastIp()).getReason();
+            for (Ban.User b : getPlayer().getBanData().getBans()) {
+                return b.getReason().getContent();
             }
             return "";
         }
-        banreason = getPlayerConfig().getString("banreason");
         save();
         return getPlayerConfig().getString("banreason");
     }
 
     public void unban() {
-        banned = false;
-        bantime = 0L;
-        banreason = "";
         save();
         JsonConfig conf = getPlayerConfig();
         conf.set("banned", false);
         conf.set("bantime", null);
         conf.set("banreason", null);
         conf.save();
-        BanList list = Bukkit.getBanList(Type.NAME);
-        if (list.isBanned(getPlayer().getName())) {
-            list.pardon(getPlayer().getName());
+        BanData d = getPlayer().getBanData();
+        while (!d.getBans().isEmpty()) {
+            d.remove(0);
         }
-        BanList list2 = Bukkit.getBanList(Type.IP);
-        if (getLastIp() != null && list2.isBanned(getLastIp())) {
-            list2.pardon(getLastIp());
-        }
+        getPlayer().offer(d);
     }
 
-    public void ban(Long time, String reason, CommandSource source) {
+    public void ban(Long time, Text.Literal reason, CommandSource source) {
         JsonConfig conf = getPlayerConfig();
         if (time == null || time == 0L) {
             time = -1L;
@@ -350,12 +311,13 @@ public class UPlayer {
         conf.set("bantime", time);
         conf.set("banreason", reason);
         conf.save();
-        BanList list = Bukkit.getBanList(Type.NAME);
-        Date date = time == -1 ? null : new Date(time + System.currentTimeMillis());
-        list.addBan(getPlayer().getName(), reason, date, source.getName());
-        banned = true;
-        bantime = time;
-        banreason = reason;
+        BanData d = getPlayer().getBanData();
+
+        if (time != -1L) {
+            d.ban((Ban.User) Bans.builder().user(getPlayer()).expirationDate(new Date(time)).reason(reason).source(source).build());
+        } else {
+            d.ban((Ban.User) Bans.builder().user(getPlayer()).reason(reason).source(source).build());
+        }
         save();
     }
 
@@ -363,7 +325,7 @@ public class UPlayer {
         ban(time, null, null);
     }
 
-    public void ban(String reason) {
+    public void ban(Text.Literal reason) {
         ban(null, reason, null);
     }
 
@@ -375,7 +337,7 @@ public class UPlayer {
         ban(time, null, source);
     }
 
-    public void ban(String reason, CommandSource source) {
+    public void ban(Text.Literal reason, CommandSource source) {
         ban(null, reason, source);
     }
 
@@ -383,7 +345,7 @@ public class UPlayer {
         ban(null, null, source);
     }
 
-    public void ban(Long time, String reason) {
+    public void ban(Long time, Text.Literal reason) {
         ban(time, reason, null);
     }
 
@@ -566,7 +528,7 @@ public class UPlayer {
         save();
     }
 
-    public HashMap<String, Location> getHomes() {
+    public HashMap<String, RLocation> getHomes() {
         if (homes != null) {
             return homes;
         }
@@ -576,13 +538,17 @@ public class UPlayer {
             return homes;
         }
         for (String hname : conf.listKeys("homes", false)) {
-            homes.put(hname, LocationUtil.convertStringToLocation(conf.getString("homes." + hname)));
+            try {
+                homes.put(hname, LocationUtil.convertStringToLocation(conf.getString("homes." + hname)));
+            } catch (Exception ex) {
+                r.log(r.negative + "Home " + getPlayer().getName() + ":" + hname + " has been removed. (Invalid location)");
+            }
         }
         save();
         return homes;
     }
 
-    public void setHomes(HashMap<String, Location> nh) {
+    public void setHomes(HashMap<String, RLocation> nh) {
         homes = nh;
         save();
         JsonConfig conf = getPlayerConfig();
@@ -599,24 +565,24 @@ public class UPlayer {
         return h;
     }
 
-    public void addHome(String s, Location l) {
-        HashMap<String, Location> h = getHomes();
+    public void addHome(String s, RLocation l) {
+        HashMap<String, RLocation> h = getHomes();
         h.put(s.toLowerCase(), l);
         setHomes(h);
     }
 
     public void removeHome(String s) {
-        HashMap<String, Location> h = getHomes();
+        HashMap<String, RLocation> h = getHomes();
         h.remove(s.toLowerCase());
         setHomes(h);
     }
 
-    public Location getHome(String s) {
+    public RLocation getHome(String s) {
         return getHomes().get(s.toLowerCase());
     }
 
     public void clearHomes() {
-        setHomes(new HashMap<String, Location>());
+        setHomes(new HashMap<String, RLocation>());
     }
 
     public boolean isInOnlineInventory() {
@@ -751,12 +717,12 @@ public class UPlayer {
 
     public Player getReply() {
         if (reply != null) {
-            return Bukkit.getPlayer(reply);
+            return r.searchPlayer(reply);
         }
         if (!getPlayerConfig().contains("reply")) {
             return null;
         }
-        return Bukkit.getPlayer(UUID.fromString(getPlayerConfig().getString("reply")));
+        return r.searchPlayer(UUID.fromString(getPlayerConfig().getString("reply")));
     }
 
     public void setReply(Player pl) {
@@ -846,19 +812,19 @@ public class UPlayer {
         save();
     }
 
-    public String getDisplayName() {
+    public Text.Literal getDisplayName() {
         if (getNick() != null) {
             return getNick();
         }
         if (getPlayer().isOnline()) {
-            if (getOnlinePlayer().getDisplayName() != null) {
-                return getOnlinePlayer().getDisplayName();
+            if (getOnlinePlayer().getDisplayNameData().getDisplayName() != null) {
+                return getOnlinePlayer().getDisplayNameData().getDisplayName().toLiteral();
             }
         }
         return getPlayer().getName();
     }
 
-    public String getNick() {
+    public Text.Literal getNick() {
         if (nickname != null) {
             return nickname;
         }
@@ -866,24 +832,24 @@ public class UPlayer {
         if (data.get("nick") == null) {
             return null;
         }
-        String nick = ChatColor.translateAlternateColorCodes('&', data.getString("nick"));
+        String nick = r.translateAlternateColorCodes('&', data.getString("nick"));
         if (getPlayer().isOnline()) {
-            getPlayer().getPlayer().setDisplayName(nick.replace("&y", ""));
+            getOnlinePlayer().offer(getOnlinePlayer().getDisplayNameData().setDisplayName(nick.replace("&y", "")));
         }
         if (getPlayer().isOnline() && r.perm((CommandSource) getPlayer(), "uc.chat.rainbow", false, false)) {
-            nick = nick.replaceAll("&y", r.getRandomChatColor() + "");
+            nick = nick.replaceAll("&y", r.getRandomTextColors() + "");
         }
-        nickname = nick + ChatColor.RESET;
+        nickname = nick + TextColors.RESET;
         save();
-        return nick + ChatColor.RESET;
+        return nick + TextColors.RESET;
     }
 
-    public void setNick(String str) {
-        nickname = str == null ? null : str + ChatColor.RESET;
+    public void setNick(Text.Literal str) {
+        nickname = str == null ? null : str + TextColors.RESET;
         save();
         if (str != null) {
             if (getPlayer().isOnline()) {
-                getPlayer().getPlayer().setDisplayName(nickname.replace("&y", ""));
+                getOnlinePlayer().offer(getOnlinePlayer().getDisplayNameData().setDisplayName(nickname.replace("&y", "")));
             }
         } else {
             if (getPlayer().isOnline()) {
@@ -1148,7 +1114,7 @@ public class UPlayer {
         }
     }
 
-    public Location getSpawn(Boolean firstjoin) {
+    public RLocation getSpawn(Boolean firstjoin) {
         JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);
         String loc;
         Player p = r.searchPlayer(uuid);
@@ -1181,7 +1147,7 @@ public class UPlayer {
         } else {
             return null;
         }
-        return LocationUtil.convertStringToLocation(loc);
+        return RLocationUtil.convertStringToRLocation(loc);
     }
 
 

@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -36,7 +37,7 @@ import java.util.Map;
 public class DeathmessagesListener implements Listener {
 
     public static void start() {
-        Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.DeathmessagesListener(), r.getUC());
+        Bukkit.getPluginManager().registerEvents(new DeathmessagesListener(), r.getUC());
         //Set deathmessages
         try {
             ReflectionUtil.ReflectionObject localeI18n = ReflectionUtil.executeStatic("a", ReflectionUtil.ReflectionStatic.fromNMS("LocaleI18n"));
@@ -89,7 +90,7 @@ public class DeathmessagesListener implements Listener {
 
             localeI18n.set("d", keys);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to write deathmessages.");
         }
     }
 

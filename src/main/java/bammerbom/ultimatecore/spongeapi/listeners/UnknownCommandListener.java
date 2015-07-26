@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.EventHandler;
@@ -53,14 +54,14 @@ public class UnknownCommandListener implements Listener {
             try {
                 f = SimplePluginManager.class.getDeclaredField("commandMap");
             } catch (NoSuchFieldException | SecurityException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to load command map.");
                 return null;
             }
             f.setAccessible(true);
             try {
                 return (SimpleCommandMap) f.get(Bukkit.getPluginManager());
             } catch (IllegalArgumentException | IllegalAccessException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Command map is modded.");
                 return null;
             }
         }

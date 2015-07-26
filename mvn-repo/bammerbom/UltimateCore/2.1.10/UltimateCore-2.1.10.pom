@@ -47,6 +47,7 @@
           <unescape>true</unescape>
           <includes>
             <include>${basedir}/target/classes/plugin.yml</include>
+            <include>${basedir}/target/classes/bammerbom/ultimatecore/spongeapi/UltimateCore.class</include>
           </includes>
           <replacements>
             <replacement>
@@ -72,6 +73,7 @@
           <excludes>
             <exclude>bammerbom/ultimatecore/spongeapi/**</exclude>
             <exclude>bammerbom/ultimatecore/spongeapi_old/**</exclude>
+            <exclude>bammerbom/ultimatecore/spongeapi_old2/**</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -96,6 +98,7 @@
           <excludes>
             <exclude>bammerbom/ultimatecore/spongeapi/**</exclude>
             <exclude>bammerbom/ultimatecore/spongeapi_old/**</exclude>
+            <exclude>bammerbom/ultimatecore/spongeapi_old2/**</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -134,6 +137,7 @@
           <artifactSet>
             <includes>
               <include>com.google.code.gson:gson</include>
+              <include>com.goebl:david-webb</include>
             </includes>
           </artifactSet>
         </configuration>
@@ -194,14 +198,6 @@
         <exclusion>
           <artifactId>configurate-hocon</artifactId>
           <groupId>ninja.leaping.configurate</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>flow-math</artifactId>
-          <groupId>com.flowpowered</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>flow-noise</artifactId>
-          <groupId>com.flowpowered</groupId>
         </exclusion>
       </exclusions>
       <optional>true</optional>
@@ -267,7 +263,7 @@
     <dependency>
       <groupId>com.comphenix.protocol</groupId>
       <artifactId>ProtocolLib</artifactId>
-      <version>3.6.4-SNAPSHOT</version>
+      <version>3.6.4</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

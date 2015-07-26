@@ -31,7 +31,7 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -57,7 +57,7 @@ public class CmdItem implements UltimateCommand {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.item", false, true)) {
             return;
         }
@@ -107,7 +107,7 @@ public class CmdItem implements UltimateCommand {
                         item = Bukkit.getUnsafe().modifyItemStack(item, s);
                     } else {
                         try {
-                            meta.parseStringMeta(cs, r.perm(cs, "uc.give.unsafe", false, false), args, metaStart);
+                            meta.parseStringMeta(cs, r.perm(cs, "uc.item.unsafe", false, false), args, metaStart);
                             item = meta.getItemStack();
                         } catch (IllegalArgumentException ex) {
                             if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too " + "low or too high")) {
@@ -129,7 +129,7 @@ public class CmdItem implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

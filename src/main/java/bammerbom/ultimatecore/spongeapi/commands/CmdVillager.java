@@ -31,7 +31,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -320,7 +320,8 @@ public class CmdVillager implements UltimateCommand {
                 ItemMeta barrier_meta = barrier.getItemMeta();
                 barrier_meta.setDisplayName(ChatColor.DARK_AQUA + "Edit");
                 barrier_meta.setLore(Arrays
-                        .asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + uses, ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + max_uses, ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA + generateExp));
+                        .asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + uses, ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + max_uses, ChatColor.DARK_AQUA + "Reward exp: " +
+                                ChatColor.AQUA + generateExp));
                 barrier.setItemMeta(barrier_meta);
 
                 inv.setItem(iedit, barrier);
@@ -353,7 +354,8 @@ public class CmdVillager implements UltimateCommand {
         ItemMeta barrier_meta = barrier.getItemMeta();
         barrier_meta.setDisplayName(ChatColor.DARK_AQUA + "Edit");
         barrier_meta.setLore(Arrays
-                .asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + "0", ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + "7", ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA + "true"));
+                .asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + "0", ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + "7", ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA +
+                        "true"));
         barrier.setItemMeta(barrier_meta);
 
         final ItemStack redglass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 11);
@@ -702,7 +704,7 @@ public class CmdVillager implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.villager", false, true)) {
             return;
         }
@@ -715,7 +717,7 @@ public class CmdVillager implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

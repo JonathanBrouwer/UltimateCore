@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.bukkit.entity.Player;
 
 public class PingUtil {
@@ -32,7 +33,7 @@ public class PingUtil {
             Integer ping = (Integer) ReflectionUtil.execute("getHandle().ping", p).fetch();
             return ping;
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to get player ping.");
             return 0;
         }
     }

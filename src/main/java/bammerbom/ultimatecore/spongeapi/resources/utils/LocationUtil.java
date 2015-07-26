@@ -402,7 +402,7 @@ public class LocationUtil {
      * @param loc The location where the effect is shown
      */
     public static void playEffect(Player p, Location loc) {
-        if (UC.getPlayer(p).isVanish()) {
+        if (p != null && UC.getPlayer(p).isVanish()) {
             return;
         }
         for (Player pl : Bukkit.getOnlinePlayers()) {

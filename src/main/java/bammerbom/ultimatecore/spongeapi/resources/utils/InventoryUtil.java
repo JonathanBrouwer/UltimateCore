@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -82,7 +82,7 @@ public class InventoryUtil {
         }, 1L);
     }
 
-    public static void clearHandler(CommandSource cs, Player player, String[] args, int offset, boolean showExtended) {
+    public static void clearHandler(CommandSender cs, Player player, String[] args, int offset, boolean showExtended) {
         short data = -1;
         int type = -1;
         int amount = -1;
@@ -95,7 +95,7 @@ public class InventoryUtil {
                 type = -2;
             } else if (!args[offset].equalsIgnoreCase("*")) {
                 String[] split = args[offset].split(":");
-                ItemStack item = bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.searchItem(split[0]);
+                ItemStack item = ItemUtil.searchItem(split[0]);
                 if (item == null) {
                     r.sendMes(cs, "clearItemNotFound", "%Item", split[0]);
                     return;
@@ -122,12 +122,10 @@ public class InventoryUtil {
             ItemStack stack = new ItemStack(type);
             if (showExtended) {
                 if (cs.equals(player)) {
-                    r.sendMes(cs, "clearSelfItem", "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
+                    r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
                 } else {
-                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack).toLowerCase(), "%Amount", r
-                            .mes("clearAll"));
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack)
-                            .toLowerCase(), "%Amount", r.mes("clearAll"));
+                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
+                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
                 }
             }
             player.getInventory().clear(type, data);
@@ -136,15 +134,13 @@ public class InventoryUtil {
             ItemStack removedStack = player.getInventory().removeItem(new ItemStack[]{stack}).get(Integer.valueOf(0));
             int removedAmount = 100000 - removedStack.getAmount();
             if (removedAmount == 0) {
-                r.sendMes(cs, "clearNoItems", "%Player", player.getName(), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack));
+                r.sendMes(cs, "clearNoItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack));
             } else if ((removedAmount > 0) || (showExtended)) {
                 if (cs.equals(player)) {
-                    r.sendMes(cs, "clearSelfItem", "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
+                    r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
                 } else {
-                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack)
-                            .toLowerCase(), "%Amount", removedAmount);
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack)
-                            .toLowerCase(), "%Amount", removedAmount);
+                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
+                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
                 }
             }
         } else {
@@ -154,16 +150,14 @@ public class InventoryUtil {
             ItemStack stack = new ItemStack(type, amount, data);
             if (player.getInventory().containsAtLeast(stack, amount)) {
                 if (cs.equals(player)) {
-                    r.sendMes(cs, "clearSelfItem", "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
+                    r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
                 } else {
-                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack)
-                            .toLowerCase(), "%Amount", amount);
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack)
-                            .toLowerCase(), "%Amount", amount);
+                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
+                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
                 }
                 player.getInventory().removeItem(new ItemStack[]{stack});
             } else if (showExtended) {
-                r.sendMes(cs, "clearNotEnoughItems", "%Player", player.getName(), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
+                r.sendMes(cs, "clearNotEnoughItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
             }
         }
     }

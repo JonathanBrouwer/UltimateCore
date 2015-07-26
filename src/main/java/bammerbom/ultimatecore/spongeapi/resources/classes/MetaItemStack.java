@@ -35,7 +35,7 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.Reflectio
 import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic;
 import com.google.common.base.Joiner;
 import org.bukkit.*;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
@@ -109,7 +109,7 @@ public class MetaItemStack {
     }
 
     @SuppressWarnings("deprecation")
-    public void parseStringMeta(CommandSource sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception {
+    public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception {
         if (string[fromArg].startsWith("{")) {
             this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
         } else {
@@ -128,7 +128,7 @@ public class MetaItemStack {
     }
 
     @SuppressWarnings({"unchecked"})
-    public void addStringMeta(CommandSource cs, boolean allowUnsafe, String string) throws Exception {
+    public void addStringMeta(CommandSender cs, boolean allowUnsafe, String string) throws Exception {
         String[] split = this.splitPattern.split(string, 2);
         if (split.length < 1) {
             return;
@@ -485,7 +485,7 @@ public class MetaItemStack {
         }
     }
 
-    private void parseEnchantmentStrings(CommandSource cs, boolean allowUnsafe, String[] split) throws Exception {
+    private void parseEnchantmentStrings(CommandSender cs, boolean allowUnsafe, String[] split) throws Exception {
         Enchantment enchantment = EnchantmentDatabase.getByName(split[0]);
         if ((enchantment == null)) {
             return;
@@ -506,7 +506,7 @@ public class MetaItemStack {
         addEnchantment(cs, allowUnsafe, enchantment, level);
     }
 
-    public void addEnchantment(CommandSource cs, boolean allowUnsafe, Enchantment enchantment, int level) {
+    public void addEnchantment(CommandSender cs, boolean allowUnsafe, Enchantment enchantment, int level) {
         if (enchantment == null) {
             return;
         }

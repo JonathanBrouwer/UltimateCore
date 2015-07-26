@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -202,7 +202,7 @@ public class UuidUtil {
                         conf.set("names", names);
                         conf.set("name", p.getName());
                         if (p.isOnline()) {
-                            r.sendMes((CommandSource) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
+                            r.sendMes((CommandSender) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
                         } else {
                             conf.set("oldname", oldname);
                         }

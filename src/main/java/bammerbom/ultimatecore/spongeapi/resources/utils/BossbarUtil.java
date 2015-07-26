@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -306,17 +307,17 @@ class Util {
         try {
             fakeDragon = bammerbom.ultimatecore.spongeapi.resources.utils.FakeDragon.class.getConstructor(new Class[]{String.class, Location.class}).newInstance(new Object[]{message, loc});
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (SecurityException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
 
         return fakeDragon;
@@ -330,15 +331,15 @@ class Util {
             Method packet_method = getMethod(con.getClass(), "sendPacket");
             packet_method.invoke(con, new Object[]{packet});
         } catch (SecurityException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
     }
 
@@ -348,7 +349,7 @@ class Util {
         try {
             c = Class.forName(className);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
         return c;
     }
@@ -359,11 +360,11 @@ class Util {
         try {
             nms_entity = entity_getHandle.invoke(world, new Object[0]);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
         return nms_entity;
     }
@@ -374,11 +375,11 @@ class Util {
         try {
             nms_entity = entity_getHandle.invoke(entity, new Object[0]);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
         return nms_entity;
     }
@@ -387,9 +388,9 @@ class Util {
         try {
             return cl.getDeclaredField(field_name);
         } catch (SecurityException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
         return null;
     }
@@ -608,17 +609,17 @@ class FakeDragon {
 
             packet = PacketPlayOutSpawnEntityLiving.getConstructor(new Class[]{EntityLiving}).newInstance(new Object[]{this.dragon});
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (SecurityException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
 
         return packet;
@@ -634,15 +635,15 @@ class FakeDragon {
             a.setAccessible(true);
             a.set(packet, new int[]{this.id});
         } catch (SecurityException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
 
         return packet;
@@ -658,17 +659,17 @@ class FakeDragon {
             packet = PacketPlayOutEntityMetadata.getConstructor(new Class[]{Integer.TYPE, DataWatcher, Boolean.TYPE})
                     .newInstance(new Object[]{Integer.valueOf(this.id), watcher, Boolean.valueOf(true)});
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (SecurityException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
 
         return packet;
@@ -683,17 +684,17 @@ class FakeDragon {
                     .newInstance(new Object[]{Integer.valueOf(this.id), Integer.valueOf(loc.getBlockX() * 32), Integer.valueOf(loc.getBlockY() * 32), Integer.valueOf(loc.getBlockZ() * 32), Byte
                             .valueOf((byte) ((int) loc.getYaw() * 256 / 360)), Byte.valueOf((byte) ((int) loc.getPitch() * 256 / 360)), Boolean.valueOf(false)});
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (SecurityException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
 
         return packet;
@@ -715,17 +716,17 @@ class FakeDragon {
             a.invoke(watcher, new Object[]{Integer.valueOf(10), this.name});
             a.invoke(watcher, new Object[]{Integer.valueOf(11), Byte.valueOf((byte) 1)});
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (SecurityException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Bossbar util failed.");
         }
         return watcher;
     }

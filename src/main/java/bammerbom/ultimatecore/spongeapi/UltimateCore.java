@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.spongeapi;
 
+import bammerbom.ultimatecore.bukkit.resources.utils.ServerIDUtil;
 import bammerbom.ultimatecore.spongeapi.api.UEconomy;
 import bammerbom.ultimatecore.spongeapi.api.UServer;
 import bammerbom.ultimatecore.spongeapi.commands.CmdHeal;
@@ -31,6 +32,7 @@ import bammerbom.ultimatecore.spongeapi.listeners.*;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
+import bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.PerformanceUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
@@ -39,7 +41,6 @@ import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.event.Subscribe;
 import org.spongepowered.api.event.state.InitializationEvent;
-import org.spongepowered.api.event.state.ServerStartingEvent;
 import org.spongepowered.api.event.state.ServerStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.config.ConfigDir;
@@ -50,7 +51,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 
-@Plugin(id = "UltimateCore", name = "UltimateCore", version = "2.1.7")
+@Plugin(id = "UltimateCore", name = "UltimateCore", version = "${project.version}")
 public class UltimateCore {
 
     @Inject
@@ -151,6 +152,7 @@ public class UltimateCore {
             game = ev.getGame();
             version = ev.getGame().getPluginManager().getPlugin("UltimateCore").get().getVersion();
             UltimateFileLoader.Enable();
+            ServerIDUtil.start();
             r.enableMES();
             UltimateFileLoader.addConfig();
             r.setColors();
@@ -158,6 +160,7 @@ public class UltimateCore {
             UltimateCommands.load();
             UltimateSigns.start();
             PerformanceUtil.getTps();
+            BossbarUtil.enable();
             ItemDatabase.enable();
             //
             UEconomy.start();
@@ -167,6 +170,7 @@ public class UltimateCore {
             CmdRules.start();
             MetaItemStack.start();
             ItemUtil.start();
+            MinecraftServerListener.start();
             //
             if (!ev.getGame().getPlatform().getMinecraftVersion().getName().startsWith("1.8")) {
                 logger.info(" ");
@@ -176,8 +180,6 @@ public class UltimateCore {
                 r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 logger.info(" ");
             }
-            //
-            UltimateConverter.convert();
             //
             r.runUpdater();
             r.runMetrics();
@@ -203,7 +205,7 @@ public class UltimateCore {
             UnknownCommandListener.start();
             WeatherListener.start();
             //
-            game.getSyncScheduler().runRepeatingTaskAfter(this, new UltimateTick(), 20L, 20L);
+            game.getScheduler().getTaskBuilder().interval(20L).delay(20L).execute(new UltimateTick()).name("UltimateCore TICK").submit(this);
             //
             time = System.currentTimeMillis() - time;
             r.log(TextColors.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
@@ -212,11 +214,6 @@ public class UltimateCore {
             ErrorLogger.log(ex, "Failed to enable UltimateCore");
         }
         test();
-    }
-
-    @Subscribe
-    public void onWorldLoad(ServerStartingEvent e) {
-        UltimateWorldLoader.startWorldLoading();
     }
 
     @Subscribe
@@ -239,7 +236,7 @@ public class UltimateCore {
     }
 
     public void test() {
-
+        ErrorLogger.log(new IllegalArgumentException(), "Just a test.");
     }
 
 }

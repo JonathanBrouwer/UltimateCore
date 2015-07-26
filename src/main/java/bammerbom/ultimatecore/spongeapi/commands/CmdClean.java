@@ -30,7 +30,7 @@ import org.bukkit.Chunk;
 import org.bukkit.EntityEffect;
 import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Monster;
@@ -57,7 +57,7 @@ public class CmdClean implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.clean", false, true)) {
             return;
         }
@@ -103,7 +103,7 @@ public class CmdClean implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         ArrayList<String> str = new ArrayList<>();
         for (World w : Bukkit.getWorlds()) {
             str.add(w.getName());

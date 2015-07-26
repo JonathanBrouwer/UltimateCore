@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -53,7 +53,7 @@ public class CmdGod implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.god", false, true)) {
             return;
         }
@@ -115,19 +115,19 @@ public class CmdGod implements UltimateCommand {
         if (time == 0L) {
             r.sendMes(cs, "godOthersSelfMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
             if (banp.isOnline()) {
-                r.sendMes((CommandSource) banp, "godOthersOtherMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
+                r.sendMes((CommandSender) banp, "godOthersOtherMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
             }
         } else {
             r.sendMes(cs, "godOthersSelfMessageT", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
             if (banp.isOnline()) {
-                r.sendMes((CommandSource) banp, "godOthersOtherMessageT", "%Player", r.getDisplayName(cs), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil
+                r.sendMes((CommandSender) banp, "godOthersOtherMessageT", "%Player", r.getDisplayName(cs), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil
                         .format(time));
             }
         }
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

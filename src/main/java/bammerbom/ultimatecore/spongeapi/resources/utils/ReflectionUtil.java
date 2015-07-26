@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 
 import java.lang.reflect.Constructor;
@@ -370,7 +371,7 @@ public class ReflectionUtil {
                     Class<?> clazz = Class.forName(className);
                     return new ReflectionObject(getMatchingConstructor(clazz, args).newInstance(args));
                 } catch (Exception ex) {
-                    e.printStackTrace();
+                    ErrorLogger.log(ex, "(REFLECTION) Failed to find NMS class." + className);
                     return null;
                 }
             }
@@ -385,7 +386,7 @@ public class ReflectionUtil {
                     Class<?> clazz = Class.forName(className);
                     return new ReflectionObject(getMatchingConstructor(clazz, args).newInstance(args));
                 } catch (Exception ex) {
-                    e.printStackTrace();
+                    ErrorLogger.log(ex, "(REFLECTION) Failed to find OBC class. " + className);
                     return null;
                 }
             }
@@ -547,7 +548,7 @@ public class ReflectionUtil {
                     Class<?> clazz = Class.forName(className);
                     return clazz;
                 } catch (Exception ex) {
-                    e.printStackTrace();
+                    ErrorLogger.log(ex, "(REFLECTION) Failed to find NMS class." + className);
                     return null;
                 }
             }
@@ -562,7 +563,7 @@ public class ReflectionUtil {
                     Class<?> clazz = Class.forName(className);
                     return clazz;
                 } catch (Exception ex) {
-                    e.printStackTrace();
+                    ErrorLogger.log(ex, "(REFLECTION) Failed to find OBC class. " + className);
                     return null;
                 }
             }

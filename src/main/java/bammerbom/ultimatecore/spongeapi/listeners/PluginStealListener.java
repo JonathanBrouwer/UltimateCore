@@ -32,7 +32,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 public class PluginStealListener implements Listener {
 
     public static void start() {
-        Bukkit.getPluginManager().registerEvents(new PluginStealListener(), r.getUC());
+        Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.PluginStealListener(), r.getUC());
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
             TabCompleteListener.start();
         }

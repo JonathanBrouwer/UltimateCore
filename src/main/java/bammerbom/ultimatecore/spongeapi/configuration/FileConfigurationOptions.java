@@ -25,14 +25,14 @@ package bammerbom.ultimatecore.spongeapi.configuration;
 
 /**
  * Various settings for controlling the input and output of a {@link
- * bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration}
+ * FileConfiguration}
  */
-class FileConfigurationOptions extends MemoryConfigurationOptions {
+class FileConfigurationOptions extends bammerbom.ultimatecore.spongeapi.configuration.MemoryConfigurationOptions {
 
     private String header = null;
     private boolean copyHeader = true;
 
-    protected FileConfigurationOptions(MemoryConfiguration configuration) {
+    protected FileConfigurationOptions(bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration configuration) {
         super(configuration);
     }
 
@@ -52,7 +52,7 @@ class FileConfigurationOptions extends MemoryConfigurationOptions {
      * Gets the header that will be applied to the top of the saved output.
      * <p/>
      * This header will be commented out and applied directly at the top of the generated output of
-     * the {@link bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration}. It is not required to include a newline at the end of the
+     * the {@link FileConfiguration}. It is not required to include a newline at the end of the
      * header as it will automatically be applied, but you may include one if you wish for extra
      * spacing.
      * <p/>
@@ -69,7 +69,7 @@ class FileConfigurationOptions extends MemoryConfigurationOptions {
      * Sets the header that will be applied to the top of the saved output.
      * <p/>
      * This header will be commented out and applied directly at the top of the generated output of
-     * the {@link bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration}. It is not required to include a newline at the end of the
+     * the {@link FileConfiguration}. It is not required to include a newline at the end of the
      * header as it will automatically be applied, but you may include one if you wish for extra
      * spacing.
      * <p/>
@@ -86,7 +86,7 @@ class FileConfigurationOptions extends MemoryConfigurationOptions {
     /**
      * Gets whether or not the header should be copied from a default source.
      * <p/>
-     * If this is true, if a default {@link bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration} is passed to null
+     * If this is true, if a default {@link FileConfiguration} is passed to null
      * FileConfiguration#setDefaults(org.bukkit.configuration.Configuration)} then upon saving it
      * will use the header from that config, instead of the one provided here.
      * <p/>
@@ -105,7 +105,7 @@ class FileConfigurationOptions extends MemoryConfigurationOptions {
     /**
      * Sets whether or not the header should be copied from a default source.
      * <p/>
-     * If this is true, if a default {@link bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration} is passed to null
+     * If this is true, if a default {@link FileConfiguration} is passed to null
      * FileConfiguration#setDefaults(org.bukkit.configuration.Configuration)} then upon saving it
      * will use the header from that config, instead of the one provided here.
      * <p/>

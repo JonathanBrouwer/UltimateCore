@@ -27,10 +27,11 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class CmdMsg implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.msg", false, true)) {
             return;
         }
@@ -72,6 +73,14 @@ public class CmdMsg implements UltimateCommand {
             return;
         }
         if (cs instanceof Player) {
+            if (UC.getPlayer((Player) cs).isMuted()) {
+                if (UC.getPlayer((Player) cs).getMuteTime() == 0 || UC.getPlayer((Player) cs).getMuteTime() == -1) {
+                    r.sendMes(cs, "muteChat");
+                } else {
+                    r.sendMes(cs, "muteChatTime", "%Time", DateUtil.format(UC.getPlayer((Player) cs).getMuteTimeLeft()));
+                }
+                return;
+            }
             UC.getPlayer(pl).setReply((Player) cs);
             UC.getPlayer((OfflinePlayer) cs).setReply(pl);
         }
@@ -91,7 +100,7 @@ public class CmdMsg implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             return null;
         }

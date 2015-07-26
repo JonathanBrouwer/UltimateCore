@@ -30,7 +30,7 @@ import bammerbom.ultimatecore.spongeapi.resources.databases.EnchantmentDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -57,7 +57,7 @@ public class CmdEnchant implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.enchant", false, true)) {
             return;
         }
@@ -106,7 +106,7 @@ public class CmdEnchant implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             List<String> sts = new ArrayList<>();
             for (Enchantment enc : Enchantment.values()) {

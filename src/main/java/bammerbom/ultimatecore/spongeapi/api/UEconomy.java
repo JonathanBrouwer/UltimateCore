@@ -27,6 +27,9 @@ import bammerbom.ultimatecore.spongeapi.UltimateFileLoader;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +64,7 @@ public class UEconomy implements Economy {
      */
     @Override
     public boolean isEnabled() {
-        r.debug("isEnabled - " + r.getUC().isEnaled());
+        r.debug("isEnabled - " + r.getUC().isEnabled());
         return r.getUC().isEnabled();
     }
 

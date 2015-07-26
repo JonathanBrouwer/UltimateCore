@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -34,7 +35,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.EntityType;
@@ -78,7 +79,8 @@ interface JsonRepresentedObject {
  * that editing component.
  * </p>
  */
-public class MessageUtil implements bammerbom.ultimatecore.spongeapi.resources.utils.JsonRepresentedObject, Cloneable, Iterable<bammerbom.ultimatecore.spongeapi.resources.utils.MessagePart>, ConfigurationSerializable {
+public class MessageUtil implements bammerbom.ultimatecore.spongeapi.resources.utils.JsonRepresentedObject, Cloneable, Iterable<bammerbom.ultimatecore.spongeapi.resources.utils.MessagePart>,
+        ConfigurationSerializable {
 
     private static Constructor<?> nmsPacketPlayOutChatConstructor;
     // The ChatSerializer's instance of Gson
@@ -565,7 +567,7 @@ public class MessageUtil implements bammerbom.ultimatecore.spongeapi.resources.u
                     .getMethod(bammerbom.ultimatecore.spongeapi.resources.utils.Reflection.getNMSClass("ItemStack"), "save", bammerbom.ultimatecore.spongeapi.resources.utils.Reflection
                             .getNMSClass("NBTTagCompound")).invoke(nmsItem, bammerbom.ultimatecore.spongeapi.resources.utils.Reflection.getNMSClass("NBTTagCompound").newInstance()).toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to set item tooltip.");
             return this;
         }
     }
@@ -865,7 +867,7 @@ public class MessageUtil implements bammerbom.ultimatecore.spongeapi.resources.u
         send(player, toJSONString());
     }
 
-    private void send(CommandSource sender, String jsonString) {
+    private void send(CommandSender sender, String jsonString) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(toOldMessageFormat());
             return;
@@ -919,7 +921,7 @@ public class MessageUtil implements bammerbom.ultimatecore.spongeapi.resources.u
      * @param sender The command sender who will receive the message.
      * @see #toOldMessageFormat()
      */
-    public void send(CommandSource sender) {
+    public void send(CommandSender sender) {
         send(sender, toJSONString());
     }
 
@@ -927,11 +929,11 @@ public class MessageUtil implements bammerbom.ultimatecore.spongeapi.resources.u
      * Sends this message to multiple command senders.
      *
      * @param senders The command senders who will receive the message.
-     * @see #send(CommandSource)
+     * @see #send(CommandSender)
      */
-    public void send(final Iterable<? extends CommandSource> senders) {
+    public void send(final Iterable<? extends CommandSender> senders) {
         String string = toJSONString();
-        for (final CommandSource sender : senders) {
+        for (final CommandSender sender : senders) {
             send(sender, string);
         }
     }
@@ -1099,7 +1101,8 @@ final class MessagePart implements bammerbom.ultimatecore.spongeapi.resources.ut
 
     @SuppressWarnings(value = "unchecked")
     public static bammerbom.ultimatecore.spongeapi.resources.utils.MessagePart deserialize(Map<String, Object> serialized) {
-        bammerbom.ultimatecore.spongeapi.resources.utils.MessagePart part = new bammerbom.ultimatecore.spongeapi.resources.utils.MessagePart((bammerbom.ultimatecore.spongeapi.resources.utils.TextualComponent) serialized
+        bammerbom.ultimatecore.spongeapi.resources.utils.MessagePart part = new bammerbom.ultimatecore.spongeapi.resources.utils.MessagePart((bammerbom.ultimatecore.spongeapi.resources.utils
+                .TextualComponent) serialized
                 .get("text"));
         part.styles = (ArrayList<ChatColor>) serialized.get("styles");
         part.color = ChatColor.getByChar(serialized.get("color").toString());
@@ -1654,7 +1657,7 @@ final class Reflection {
         try {
             clazz = Class.forName(fullName);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to find NMS class. " + className);
             _loadedNMSClasses.put(className, null);
             return null;
         }
@@ -1683,7 +1686,7 @@ final class Reflection {
         try {
             clazz = Class.forName(fullName);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to get OBC class. " + className);
             _loadedOBCClasses.put(className, null);
             return null;
         }
@@ -1706,7 +1709,7 @@ final class Reflection {
         try {
             return getMethod(obj.getClass(), "getHandle").invoke(obj);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "getHandle() failed.");
             return null;
         }
     }
@@ -1750,7 +1753,7 @@ final class Reflection {
             return field;
         } catch (Exception e) {
             // Error loading
-            e.printStackTrace();
+            ErrorLogger.log(e, "getField() failed.");
             // Cache field as not existing
             loaded.put(name, null);
             return null;

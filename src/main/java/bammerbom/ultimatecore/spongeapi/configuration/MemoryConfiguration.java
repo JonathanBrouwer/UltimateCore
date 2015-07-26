@@ -32,10 +32,10 @@ import java.util.Map;
  * stores all values in memory only. This is useful for temporary Configurations for providing
  * defaults.
  */
-class MemoryConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.ConfigSection {
+class MemoryConfiguration extends ConfigSection {
 
     protected bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults;
-    protected bammerbom.ultimatecore.spongeapi.configuration.MemoryConfigurationOptions options;
+    protected MemoryConfigurationOptions options;
 
     /**
      * Creates an empty {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} with no default values.
@@ -45,7 +45,7 @@ class MemoryConfiguration extends bammerbom.ultimatecore.spongeapi.configuration
 
     /**
      * Creates an empty {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} using the specified {@link
-     * Config} as a source for all default values.
+     * Configuration} as a source for all default values.
      *
      * @param defaults Default value provider
      * @throws IllegalArgumentException Thrown if defaults is null
@@ -94,9 +94,9 @@ class MemoryConfiguration extends bammerbom.ultimatecore.spongeapi.configuration
         return null;
     }
 
-    public bammerbom.ultimatecore.spongeapi.configuration.MemoryConfigurationOptions options() {
+    public MemoryConfigurationOptions options() {
         if (options == null) {
-            options = new bammerbom.ultimatecore.spongeapi.configuration.MemoryConfigurationOptions(this);
+            options = new MemoryConfigurationOptions(this);
         }
         return options;
     }

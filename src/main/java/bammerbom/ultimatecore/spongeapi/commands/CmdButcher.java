@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MobType.Enemies;
 import org.bukkit.EntityEffect;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -57,7 +57,7 @@ public class CmdButcher implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return;
         }
@@ -129,7 +129,7 @@ public class CmdButcher implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             ArrayList<String> types = new ArrayList<>();
             for (MobType type : MobType.values()) {

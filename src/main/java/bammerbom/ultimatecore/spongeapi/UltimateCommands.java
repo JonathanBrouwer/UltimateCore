@@ -33,9 +33,9 @@ import java.util.List;
 
 public class UltimateCommands {
 
-    public static List<bammerbom.ultimatecore.spongeapi.UltimateCommand> cmds = new ArrayList<>();
+    public static List<UltimateCommand> cmds = new ArrayList<>();
     public static List<String> disabled;
-    public static bammerbom.ultimatecore.spongeapi.UltimateCommands ucmds;
+    public static UltimateCommands ucmds;
 
     public static void load() {
         disabled = r.getCnfg().getStringList("Command.DisabledCommands");

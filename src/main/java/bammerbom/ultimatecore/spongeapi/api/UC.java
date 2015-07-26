@@ -33,17 +33,17 @@ import java.util.UUID;
 public class UC {
 
     public static ArrayList<UPlayer> uplayers = new ArrayList<>();
-    public static UServer userver = new UServer();
-    public static UEconomy ueconomy = null;
+    public static bammerbom.ultimatecore.spongeapi.api.UServer userver = new bammerbom.ultimatecore.spongeapi.api.UServer();
+    public static bammerbom.ultimatecore.spongeapi.api.UEconomy ueconomy = null;
     public static ArrayList<UWorld> uworlds = new ArrayList<>();
 
-    public static UPlayer getPlayer(UUID u) {
+    public static bammerbom.ultimatecore.spongeapi.api.UPlayer getPlayer(UUID u) {
         for (UPlayer p : uplayers) {
             if (p.uuid.equals(u)) {
                 return p;
             }
         }
-        UPlayer pl = new UPlayer(u);
+        bammerbom.ultimatecore.spongeapi.api.UPlayer pl = new bammerbom.ultimatecore.spongeapi.api.UPlayer(u);
         if (pl.getPlayer().isOnline()) {
             uplayers.add(pl);
         }
@@ -51,36 +51,36 @@ public class UC {
     }
 
     public static UPlayer getPlayer(User p) {
-        for (UPlayer pl : uplayers) {
+        for (bammerbom.ultimatecore.spongeapi.api.UPlayer pl : uplayers) {
             if (pl.uuid.equals(p.getUniqueId())) {
                 return pl;
             }
         }
-        UPlayer pl = new UPlayer(p);
+        bammerbom.ultimatecore.spongeapi.api.UPlayer pl = new bammerbom.ultimatecore.spongeapi.api.UPlayer(p);
         if (pl.getPlayer().isOnline()) {
             uplayers.add(pl);
         }
         return pl;
     }
 
-    public static UPlayer getPlayer(String n) {
-        for (UPlayer pl : uplayers) {
+    public static bammerbom.ultimatecore.spongeapi.api.UPlayer getPlayer(String n) {
+        for (bammerbom.ultimatecore.spongeapi.api.UPlayer pl : uplayers) {
             if (pl.name.equals(n)) {
                 return pl;
             }
         }
-        UPlayer pl = new UPlayer(r.searchOfflinePlayer(n));
+        bammerbom.ultimatecore.spongeapi.api.UPlayer pl = new bammerbom.ultimatecore.spongeapi.api.UPlayer(r.searchOfflinePlayer(n));
         uplayers.add(pl);
         return pl;
     }
 
-    public static UWorld getWorld(World world) {
-        for (UWorld w : uworlds) {
+    public static bammerbom.ultimatecore.spongeapi.api.UWorld getWorld(World world) {
+        for (bammerbom.ultimatecore.spongeapi.api.UWorld w : uworlds) {
             if (w.base.equals(world)) {
                 return w;
             }
         }
-        UWorld w = new UWorld(world);
+        bammerbom.ultimatecore.spongeapi.api.UWorld w = new bammerbom.ultimatecore.spongeapi.api.UWorld(world);
         uworlds.add(w);
         return w;
     }
@@ -92,7 +92,7 @@ public class UC {
         return getWorld(r.getGame().getServer().getWorld(world).get());
     }
 
-    public static UServer getServer() {
+    public static bammerbom.ultimatecore.spongeapi.api.UServer getServer() {
         return userver;
     }
 

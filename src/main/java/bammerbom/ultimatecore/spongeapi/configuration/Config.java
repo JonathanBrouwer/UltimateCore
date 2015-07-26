@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.configuration;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StreamUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 
@@ -44,7 +45,7 @@ public class Config extends YamlConfiguration implements Cloneable {
         try {
             loadFromStream(new FileInputStream(file));
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load yaml file.");
         }
     }
 
@@ -208,7 +209,7 @@ public class Config extends YamlConfiguration implements Cloneable {
                 writer.close();
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to save yalm file.");
         }
     }
 

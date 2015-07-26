@@ -38,8 +38,8 @@ import com.earth2me.essentials.api.IWarps;
 import com.earth2me.essentials.spawn.IEssentialsSpawn;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.command.ConsoleCommandSource;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,7 +64,7 @@ public class CmdUltimatecore implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (args.length == 0) {
             if (!r.perm(cs, "uc.ultimatecore", false, true)) {
                 return;
@@ -128,7 +128,7 @@ public class CmdUltimatecore implements UltimateCommand {
                                 r.sendMes(cs, "ultimatecoreUpdateNotAvaiable");
                                 break;
                             case SUCCESS:
-                                if (!(cs instanceof ConsoleCommandSource)) {
+                                if (!(cs instanceof ConsoleCommandSender)) {
                                     r.sendMes(cs, "ultimatecoreUpdateSucces");
                                 }
                                 break;
@@ -212,7 +212,7 @@ public class CmdUltimatecore implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return Arrays.asList("reload", "credits", "disable", "version", "update", "convert");
     }
 }

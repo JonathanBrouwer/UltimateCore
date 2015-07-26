@@ -299,7 +299,8 @@ public final class UltimateMetrics {
             }
 
             // Begin hitting the server with glorious data
-            task = r.getGame().getAsyncScheduler().runRepeatingTask(plugin, new Runnable() {
+            task = r.getGame().getScheduler().getTaskBuilder().async().delay(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS).interval(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS)
+                    .execute(new Runnable() {
 
                 private boolean firstPost = true;
 
@@ -330,7 +331,7 @@ public final class UltimateMetrics {
                     } catch (IOException e) {
                     }
                 }
-            }, TimeUnit.MILLISECONDS, PING_INTERVAL * 1200L * 50).get();
+                    }).submit(r.getUC());
 
             return true;
         }

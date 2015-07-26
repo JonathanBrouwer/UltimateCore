@@ -25,8 +25,10 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -53,7 +55,7 @@ public class CmdKill implements UltimateCommand {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (r.checkArgs(args, 0) == false) {
             if (!r.isPlayer(cs)) {
                 return;
@@ -70,7 +72,15 @@ public class CmdKill implements UltimateCommand {
             }
             Player target = r.searchPlayer(args[0]);
             if (target == null) {
-                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                //ICommand cmd = (ICommand) MinecraftServer.getServer().getCommandHandler().a().get("kill");
+                //cmd.execute(MinecraftServer.getServer(), args);
+                try {
+                    Object server = ReflectionUtil.executeStatic("getServer()", ReflectionUtil.ReflectionStatic.fromNMS("MinecraftServer")).fetch();
+                    ReflectionUtil.execute("getCommandHandler().getCommands().get({1}).execute({2}, {3})", server, "kill", server, args);
+                } catch (Exception ex) {
+                    ErrorLogger.log(ex, "Reflection failed. (/kill command)");
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                }
             } else {
                 r.sendMes(target, "killTarget", "%Player", r.getDisplayName(cs));
                 r.sendMes(cs, "killKiller", "%Player", target.getName());
@@ -83,7 +93,7 @@ public class CmdKill implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

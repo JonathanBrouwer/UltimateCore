@@ -601,7 +601,8 @@ public enum ParticleUtil {
      * @see ParticlePacket
      * @see ParticlePacket#sendTo(Location, double)
      */
-    public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws ParticleVersionException, ParticleDataException, IllegalArgumentException {
+    public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws ParticleVersionException, ParticleDataException,
+            IllegalArgumentException {
         if (!isSupported()) {
             throw new ParticleVersionException("This particle effect is not supported by your server version");
         }
@@ -632,7 +633,8 @@ public enum ParticleUtil {
      * @see ParticlePacket
      * @see ParticlePacket#sendTo(Location, List)
      */
-    public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws ParticleVersionException, ParticleDataException, IllegalArgumentException {
+    public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws ParticleVersionException, ParticleDataException,
+            IllegalArgumentException {
         if (!isSupported()) {
             throw new ParticleVersionException("This particle effect is not supported by your server version");
         }
@@ -662,7 +664,8 @@ public enum ParticleUtil {
      *                                  center location
      * @see #display(float, float, float, float, int, Location, List)
      */
-    public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, Player... players) throws ParticleVersionException, ParticleDataException, IllegalArgumentException {
+    public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, Player... players) throws ParticleVersionException, ParticleDataException,
+            IllegalArgumentException {
         display(offsetX, offsetY, offsetZ, speed, amount, center, Arrays.asList(players));
     }
 
@@ -869,7 +872,8 @@ public enum ParticleUtil {
      * @see ParticlePacket
      * @see ParticlePacket#sendTo(Location, List)
      */
-    public void display(ParticleData data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws ParticleVersionException, ParticleDataException {
+    public void display(ParticleData data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws ParticleVersionException,
+            ParticleDataException {
         if (!isSupported()) {
             throw new ParticleVersionException("This particle effect is not supported by your server version");
         }
@@ -900,7 +904,8 @@ public enum ParticleUtil {
      *                                  the data type is incorrect
      * @see #display(ParticleData, float, float, float, float, int, Location, List)
      */
-    public void display(ParticleData data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, Player... players) throws ParticleVersionException, ParticleDataException {
+    public void display(ParticleData data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, Player... players) throws ParticleVersionException,
+            ParticleDataException {
         display(data, offsetX, offsetY, offsetZ, speed, amount, center, Arrays.asList(players));
     }
 
@@ -1448,7 +1453,8 @@ public enum ParticleUtil {
          * @throws IllegalArgumentException If the speed or amount is lower than 0
          * @see #initialize()
          */
-        public ParticlePacket(bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect, float offsetX, float offsetY, float offsetZ, float speed, int amount, boolean longDistance, ParticleData data) throws IllegalArgumentException {
+        public ParticlePacket(bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect, float offsetX, float offsetY, float offsetZ, float speed, int amount, boolean longDistance,
+                              ParticleData data) throws IllegalArgumentException {
             initialize();
             if (speed < 0) {
                 throw new IllegalArgumentException("The speed is lower than 0");
@@ -1479,7 +1485,8 @@ public enum ParticleUtil {
          * @see #ParticleEffect(ParticleEffect, float, float, float, float, int, boolean,
          * ParticleData)
          */
-        public ParticlePacket(bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect, Vector direction, float speed, boolean longDistance, ParticleData data) throws IllegalArgumentException {
+        public ParticlePacket(bammerbom.ultimatecore.spongeapi.resources.utils.ParticleUtil effect, Vector direction, float speed, boolean longDistance, ParticleData data) throws
+                IllegalArgumentException {
             this(effect, (float) direction.getX(), (float) direction.getY(), (float) direction.getZ(), speed, 0, longDistance, data);
         }
 
@@ -1802,7 +1809,8 @@ final class ReflectionUtils {
      * @throws NoSuchMethodException     If the desired constructor with the specified arguments cannot
      *                                   be found
      */
-    public static Object instantiateObject(Class<?> clazz, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+    public static Object instantiateObject(Class<?> clazz, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+            NoSuchMethodException {
         return getConstructor(clazz, DataType.getPrimitive(arguments)).newInstance(arguments);
     }
 
@@ -1829,7 +1837,8 @@ final class ReflectionUtils {
      * @see #getClass(String, PackageType)
      * @see #instantiateObject(Class, Object...)
      */
-    public static Object instantiateObject(String className, PackageType packageType, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+    public static Object instantiateObject(String className, PackageType packageType, Object... arguments) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
         return instantiateObject(packageType.getClass(className), arguments);
     }
 
@@ -1895,7 +1904,8 @@ final class ReflectionUtils {
      * @see #getMethod(Class, String, Class...)
      * @see DataType#getPrimitive(Object[])
      */
-    public static Object invokeMethod(Object instance, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+    public static Object invokeMethod(Object instance, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+            NoSuchMethodException {
         return getMethod(instance.getClass(), methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
     }
 
@@ -1920,7 +1930,8 @@ final class ReflectionUtils {
      * @see #getMethod(Class, String, Class...)
      * @see DataType#getPrimitive(Object[])
      */
-    public static Object invokeMethod(Object instance, Class<?> clazz, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+    public static Object invokeMethod(Object instance, Class<?> clazz, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+            NoSuchMethodException {
         return getMethod(clazz, methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
     }
 
@@ -1948,7 +1959,8 @@ final class ReflectionUtils {
      * @see #getClass(String, PackageType)
      * @see #invokeMethod(Object, Class, String, Object...)
      */
-    public static Object invokeMethod(Object instance, String className, PackageType packageType, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+    public static Object invokeMethod(Object instance, String className, PackageType packageType, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
         return invokeMethod(instance, packageType.getClass(className), methodName, arguments);
     }
 
@@ -2000,7 +2012,8 @@ final class ReflectionUtils {
      * @throws SecurityException        If the desired field cannot be made accessible
      * @see #getField(Class, boolean, String)
      */
-    public static Object getValue(Object instance, Class<?> clazz, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+    public static Object getValue(Object instance, Class<?> clazz, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
+            SecurityException {
         return getField(clazz, declared, fieldName).get(instance);
     }
 
@@ -2021,7 +2034,8 @@ final class ReflectionUtils {
      *                                  package cannot be found
      * @see #getValue(Object, Class, boolean, String)
      */
-    public static Object getValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
+    public static Object getValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName) throws IllegalArgumentException, IllegalAccessException,
+            NoSuchFieldException, SecurityException, ClassNotFoundException {
         return getValue(instance, packageType.getClass(className), declared, fieldName);
     }
 
@@ -2060,7 +2074,8 @@ final class ReflectionUtils {
      * @throws SecurityException        If the desired field cannot be made accessible
      * @see #getField(Class, boolean, String)
      */
-    public static void setValue(Object instance, Class<?> clazz, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+    public static void setValue(Object instance, Class<?> clazz, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
+            SecurityException {
         getField(clazz, declared, fieldName).set(instance, value);
     }
 
@@ -2082,7 +2097,8 @@ final class ReflectionUtils {
      *                                  package cannot be found
      * @see #setValue(Object, Class, boolean, String, Object)
      */
-    public static void setValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
+    public static void setValue(Object instance, String className, PackageType packageType, boolean declared, String fieldName, Object value) throws IllegalArgumentException,
+            IllegalAccessException, NoSuchFieldException, SecurityException, ClassNotFoundException {
         setValue(instance, packageType.getClass(className), declared, fieldName, value);
     }
 

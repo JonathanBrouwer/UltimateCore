@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.PluginUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import com.google.common.io.Files;
@@ -32,7 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.*;
 import org.w3c.dom.Document;
@@ -70,7 +71,7 @@ public class CmdPlugin implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, final String[] args) {
+    public void run(final CommandSender cs, String label, final String[] args) {
         //help
         if (!r.checkArgs(args, 0) || args[0].equalsIgnoreCase("help")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.help", false, false)) {
@@ -320,11 +321,11 @@ public class CmdPlugin implements UltimateCommand {
             }
             String command = "plugin " + p.getName();
             String pageStr = args.length > 2 ? args[2] : null;
-            bammerbom.ultimatecore.spongeapi.commands.UText input = new bammerbom.ultimatecore.spongeapi.commands.TextInput(cs);
-            bammerbom.ultimatecore.spongeapi.commands.UText output;
+            UText input = new TextInput(cs);
+            UText output;
             if (input.getLines().isEmpty()) {
                 if ((r.isInt(pageStr)) || (pageStr == null)) {
-                    output = new bammerbom.ultimatecore.spongeapi.commands.PluginCommandsInput(cs, args[1].toLowerCase());
+                    output = new PluginCommandsInput(cs, args[1].toLowerCase());
                 } else {
                     r.sendMes(cs, "pluginCommandsPageNotNumber");
                     return;
@@ -332,7 +333,7 @@ public class CmdPlugin implements UltimateCommand {
             } else {
                 output = input;
             }
-            bammerbom.ultimatecore.spongeapi.commands.TextPager pager = new bammerbom.ultimatecore.spongeapi.commands.TextPager(output);
+            TextPager pager = new TextPager(output);
             pager.showPage(pageStr, null, command, cs);
         } //update
         else if (args[0].equalsIgnoreCase("update")) {
@@ -486,7 +487,7 @@ public class CmdPlugin implements UltimateCommand {
                         r.sendMes(cs, "pluginUpdatecheckCurrent", "%Current", v + "");
                         r.sendMes(cs, "pluginUpdatecheckNew", "%New", n + "");
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        ErrorLogger.log(ex, "Update check failed.");
                         r.sendMes(cs, "pluginUpdatecheckFailed");
                     }
                 }
@@ -765,7 +766,7 @@ public class CmdPlugin implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

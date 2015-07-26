@@ -28,11 +28,19 @@ import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.listeners.AutomessageListener;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.spongeapi.resources.utils.*;
-import org.bukkit.*;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
+import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.PerformanceUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
+import org.spongepowered.api.data.manipulator.entity.InvisibilityData;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.service.ban.BanService;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.util.ban.Ban;
+import org.spongepowered.api.world.World;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -41,63 +49,69 @@ import java.util.*;
 
 public class UServer {
 
-    static HashMap<String, Location> jails = null;
+    static HashMap<String, RLocation> jails = null;
     static String motd = "";
 
     //Receiver, Sender
     static Map<UUID, UUID> tp = new HashMap<>();
     static Map<UUID, UUID> tph = new HashMap<>();
     //Warps
-    static HashMap<String, Location> warps = null;
+    static HashMap<String, RLocation> warps = null;
     //Silence
     static Boolean silence = null;
     static Long silencetime = null;
 
     public static void start() {
-        if (!StringUtil.nullOrEmpty(motd)) {
+        if (!bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil.nullOrEmpty(motd)) {
             motd = "";
         }
         try {
-            File file = new File(r.getUC().getDataFolder(), "motd.txt");
+            File file = new File(bammerbom.ultimatecore.spongeapi.r.getUC().getDataFolder(), "motd.txt");
             if (!file.exists()) {
-                r.getUC().saveResource("motd.txt", true);
+                bammerbom.ultimatecore.spongeapi.r.getUC().saveResource("motd.txt", true);
             }
-            ArrayList<String> lines = FileUtil.getLines(file);
+            ArrayList<String> lines = bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil.getLines(file);
             for (String str : lines) {
-                motd = motd + ChatColor.translateAlternateColorCodes('&', str) + "\n";
+                motd = motd + r.translateAlternateColorCodes('&', str) + "\n";
             }
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to load MOTD");
+            bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger.log(ex, "Failed to load MOTD");
         }
 
     }
 
     //Ban
-    public List<OfflinePlayer> getBannedOnlinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        BanList bans = Bukkit.getBanList(BanList.Type.NAME);
-        for (BanEntry en : bans.getBanEntries()) {
-            OfflinePlayer p = r.searchOfflinePlayer(en.getTarget());
+    public List<Player> getBannedOnlinePlayers() {
+        List<Player> pls = new ArrayList<>();
+        for (Ban en : r.getGame().getServiceManager().provide(BanService.class).get().getBans()) {
+            if (!(en instanceof Ban.User)) {
+                continue;
+            }
+            Ban.User ban = (Ban.User) en;
+            User p = ban.getUser();
             if (p.isOnline()) {
-                pls.add(p);
+                pls.add((Player) p);
             }
         }
         return pls;
     }
 
-    public List<OfflinePlayer> getBannedOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        BanList bans = Bukkit.getBanList(BanList.Type.NAME);
-        for (BanEntry en : bans.getBanEntries()) {
-            pls.add(r.searchOfflinePlayer(en.getTarget()));
+    public List<User> getBannedOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (Ban en : r.getGame().getServiceManager().provide(BanService.class).get().getBans()) {
+            if (!(en instanceof Ban.User)) {
+                continue;
+            }
+            Ban.User ban = (Ban.User) en;
+            pls.add(ban.getUser());
         }
         return pls;
     }
 
     //Deaf
-    public List<OfflinePlayer> getDeafOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getDeafOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : bammerbom.ultimatecore.spongeapi.r.getOfflinePlayers()) {
             if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isDeaf()) {
                 pls.add(pl);
             }
@@ -116,9 +130,9 @@ public class UServer {
     }
 
     //Mutes
-    public List<OfflinePlayer> getMutedOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getMutedOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isMuted()) {
                 pls.add(pl);
             }
@@ -137,9 +151,9 @@ public class UServer {
     }
 
     //Jails
-    public List<OfflinePlayer> getJailedOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getJailedOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
@@ -158,9 +172,9 @@ public class UServer {
     }
 
     //Enchantingtable
-    public List<OfflinePlayer> getInCommandEnchantingtablePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getInCommandEnchantingtablePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isInCommandEnchantingtable()) {
                 pls.add(pl);
             }
@@ -179,9 +193,9 @@ public class UServer {
     }
 
     //Freeze
-    public List<OfflinePlayer> getFrozenOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getFrozenOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isFrozen()) {
                 pls.add(pl);
             }
@@ -200,9 +214,9 @@ public class UServer {
     }
 
     //God
-    public List<OfflinePlayer> getGodOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getGodOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isGod()) {
                 pls.add(pl);
             }
@@ -242,11 +256,11 @@ public class UServer {
     }
 
     //Jails
-    public HashMap<String, Location> getJails() {
+    public HashMap<String, RLocation> getJails() {
         if (jails == null) {
             jails = new HashMap<>();
             for (String s : new Config(UltimateFileLoader.Djails).getKeys(true)) {
-                Location loc = LocationUtil.convertStringToLocation(new Config(UltimateFileLoader.Djails).getString(s));
+                RLocation loc = LocationUtil.convertStringToLocation(new Config(UltimateFileLoader.Djails).getString(s));
                 jails.put(s, loc);
             }
         }
@@ -257,7 +271,7 @@ public class UServer {
         return new ArrayList<>(getJails().keySet());
     }
 
-    public void addJail(String n, Location l) {
+    public void addJail(String n, RLocation l) {
         if (getJails().containsKey(n)) {
             jails.remove(n);
         }
@@ -267,7 +281,7 @@ public class UServer {
         c.save();
     }
 
-    public Location getJail(String n) {
+    public RLocation getJail(String n) {
         if (!getJails().containsKey(n)) {
             return null;
         }
@@ -292,9 +306,9 @@ public class UServer {
         return pls;
     }
 
-    public ArrayList<OfflinePlayer> getOfflineJailed() {
-        ArrayList<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public ArrayList<User> getOfflineJailed() {
+        ArrayList<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
@@ -320,30 +334,30 @@ public class UServer {
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
-        mt = mt.replace("{UPTIME}", ChatColor.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        mt = mt.replace("{UPTIME}", r.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (PluginContainer pl : r.getGame().getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {
                 pb.append(", ");
             }
-            pb.append(pl.getDescription().getName());
+            pb.append(pl.getName());
         }
         mt = mt.replace("{PLAYERCOUNT}", i + "");
         mt = mt.replace("{PLUGINS}", pb.toString());
-        mt = mt.replace("{VERSION}", Bukkit.getServer().getVersion());
-        mt = mt.replace("{WORLD}", ChatColor.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{WORLDNAME}", ChatColor.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{COORDS}", ChatColor.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{PLAYER}", ChatColor.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{NAME}", ChatColor.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{RAWNAME}", ChatColor.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{VERSION}", r.getGame().getPlatform().getVersion() + "-" + r.getGame().getPlatform().getApiVersion());
+        mt = mt.replace("{WORLD}", Texts.toPlain(r.mes("notAvailable")));
+        mt = mt.replace("{WORLDNAME}", Texts.toPlain(r.mes("notAvailable")));
+        mt = mt.replace("{COORDS}", Texts.toPlain(r.mes("notAvailable")));
+        mt = mt.replace("{PLAYER}", Texts.toPlain(r.mes("notAvailable")));
+        mt = mt.replace("{NAME}", Texts.toPlain(r.mes("notAvailable")));
+        mt = mt.replace("{RAWNAME}", Texts.toPlain(r.mes("notAvailable")));
         return mt;
     }
 
     public String getMotd(Player p) {
         String mt = motd;
-        mt = mt.replace("{PLAYER}", bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).getDisplayName());
-        mt = mt.replace("{NAME}", bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).getDisplayName());
+        mt = mt.replace("{PLAYER}", UC.getPlayer(p).getDisplayName().getContent());
+        mt = mt.replace("{NAME}", UC.getPlayer(p).getDisplayName().getContent());
         mt = mt.replace("{RAWNAME}", p.getName());
         mt = mt.replace("{WORLD}", p.getWorld().getName());
         mt = mt.replace("{WORLDNAME}", p.getWorld().getName());
@@ -352,7 +366,7 @@ public class UServer {
         StringBuilder b = new StringBuilder();
         Integer i = 0;
         for (Player pl : r.getOnlinePlayers()) {
-            if (p instanceof Player && !p.canSee(pl)) {
+            if (p instanceof Player && !pl.getOrCreate(InvisibilityData.class).get().isInvisibleTo(p)) {
                 continue;
             }
             i++;
@@ -368,22 +382,22 @@ public class UServer {
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()).replace("-", " "));
         mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
-        mt = mt.replace("{UPTIME}", ChatColor.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        mt = mt.replace("{UPTIME}", r.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (PluginContainer pl : r.getGame().getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {
                 pb.append(", ");
             }
-            pb.append(pl.getDescription().getName());
+            pb.append(pl.getName());
         }
         mt = mt.replace("{PLUGINS}", pb.toString());
-        mt = mt.replace("{VERSION}", Bukkit.getServer().getVersion());
+        mt = mt.replace("{VERSION}", r.getGame().getPlatform().getVersion() + "-" + r.getGame().getPlatform().getApiVersion());
         return mt;
     }
 
-    public List<OfflinePlayer> getInTeleportMenuOffline() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getInTeleportMenuOffline() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isInTeleportMenu()) {
                 pls.add(pl);
             }
@@ -427,9 +441,9 @@ public class UServer {
 
     //Vanish
     //Deaf
-    public List<OfflinePlayer> getVanishOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<User> getVanishOfflinePlayers() {
+        List<User> pls = new ArrayList<>();
+        for (User pl : r.getOfflinePlayers()) {
             if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(pl).isVanish()) {
                 pls.add(pl);
             }
@@ -447,7 +461,7 @@ public class UServer {
         return pls;
     }
 
-    public HashMap<String, Location> getWarps() {
+    public HashMap<String, RLocation> getWarps() {
         if (warps != null) {
             return warps;
         }
@@ -462,12 +476,16 @@ public class UServer {
         return warps;
     }
 
-    public void setWarps(HashMap<String, Location> nh) {
+    public void setWarps(HashMap<String, RLocation> nh) {
         warps = nh;
         JsonConfig conf = new JsonConfig(UltimateFileLoader.Dwarps);
         conf.set("warps", null);
         for (String s : nh.keySet()) {
-            conf.set("warps." + s, LocationUtil.convertLocationToString(nh.get(s.toLowerCase())));
+            try {
+                conf.set("warps." + s, LocationUtil.convertLocationToString(nh.get(s.toLowerCase())));
+            } catch (Exception ex) {
+                r.log(r.negative + "Warp " + s + " has been removed. (Invalid location)");
+            }
         }
         conf.save();
     }
@@ -478,19 +496,19 @@ public class UServer {
         return h;
     }
 
-    public void addWarp(String s, Location l) {
-        HashMap<String, Location> h = getWarps();
+    public void addWarp(String s, RLocation l) {
+        HashMap<String, RLocation> h = getWarps();
         h.put(s.toLowerCase(), l);
         setWarps(h);
     }
 
     public void removeWarp(String s) {
-        HashMap<String, Location> h = getWarps();
+        HashMap<String, RLocation> h = getWarps();
         h.remove(s.toLowerCase());
         setWarps(h);
     }
 
-    public Location getWarp(String s) {
+    public RLocation getWarp(String s) {
         for (String w : getWarps().keySet()) {
             if (w.equalsIgnoreCase(s)) {
                 return getWarps().get(w);
@@ -500,7 +518,7 @@ public class UServer {
     }
 
     public void clearWarps() {
-        setWarps(new HashMap<String, Location>());
+        setWarps(new HashMap<String, RLocation>());
     }
 
     public List<Player> getAfkPlayers() {
@@ -521,13 +539,13 @@ public class UServer {
         return AutomessageListener.currentmessage;
     }
 
-    public UKit getKit(String s) {
-        return new UKit(s);
+    public bammerbom.ultimatecore.spongeapi.api.UKit getKit(String s) {
+        return new bammerbom.ultimatecore.spongeapi.api.UKit(s);
     }
 
-    public List<UKit> getKits() {
+    public List<bammerbom.ultimatecore.spongeapi.api.UKit> getKits() {
         ArrayList<String> kitnames = new ArrayList<>(new Config(UltimateFileLoader.Dkits).getKeys(false));
-        ArrayList<UKit> kits = new ArrayList<>();
+        ArrayList<bammerbom.ultimatecore.spongeapi.api.UKit> kits = new ArrayList<>();
         for (String s : kitnames) {
             kits.add(getKit(s));
         }
@@ -604,25 +622,25 @@ public class UServer {
         silencetime = fr ? time : -1L;
     }
 
-    public Location getGlobalSpawn() {
+    public RLocation getGlobalSpawn() {
         if (!new JsonConfig(UltimateFileLoader.Dspawns).contains("global")) {
             return null;
         }
         String s = new JsonConfig(UltimateFileLoader.Dspawns).getString("global");
-        Location loc = LocationUtil.convertStringToLocation(s);
+        RLocation loc = LocationUtil.convertStringToLocation(s);
         return loc;
     }
 
-    public void setSpawn(Location loc, Boolean world, String group, Boolean firstjoin) {
+    public void setSpawn(RLocation loc, Boolean world, String group, Boolean firstjoin) {
         String path = "global";
         if (firstjoin) {
             path = "global.firstjoin";
         } else if (world && StringUtil.nullOrEmpty(group)) {
-            path = "worlds.world." + loc.getWorld().getName() + ".global";
+            path = "worlds.world." + ((World) loc.getLocation().getExtent()).getName() + ".global";
         } else if (!StringUtil.nullOrEmpty(group) && !world) {
             path = "global.group." + group;
         } else if (!StringUtil.nullOrEmpty(group) && world) {
-            path = "worlds.world." + loc.getWorld().getName() + ".group." + group;
+            path = "worlds.world." + ((World) loc.getLocation().getExtent()).getName() + ".group." + group;
         }
         String s = LocationUtil.convertLocationToString(loc);
         JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);

@@ -23,16 +23,14 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
-import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdSethealth implements UltimateCommand {
+public class CmdSethealth implements bammerbom.ultimatecore.spongeapi.UltimateCommand {
 
     @Override
     public String getName() {
@@ -50,73 +48,73 @@ public class CmdSethealth implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.sethealth", false, true)) {
+    public void run(final CommandSender cs, String label, String[] args) {
+        if (!bammerbom.ultimatecore.spongeapi.r.perm(cs, "uc.sethealth", false, true)) {
             return;
         }
-        if (!r.checkArgs(args, 0)) {
-            if (!r.isPlayer(cs)) {
+        if (!bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 0)) {
+            if (!bammerbom.ultimatecore.spongeapi.r.isPlayer(cs)) {
                 return;
             }
             Player p = (Player) cs;
             p.setHealth(20.0);
-            r.sendMes(cs, "sethealthMessage", "%Player", r.getDisplayName(p), "%Health", "20.0");
-        } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
-            if (!r.isPlayer(cs)) {
+            bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "sethealthMessage", "%Player", bammerbom.ultimatecore.spongeapi.r.getDisplayName(p), "%Health", "20.0");
+        } else if (bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 0) && !bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 1)) {
+            if (!bammerbom.ultimatecore.spongeapi.r.isPlayer(cs)) {
                 return;
             }
-            if (r.isDouble(args[0])) {
+            if (bammerbom.ultimatecore.spongeapi.r.isDouble(args[0])) {
                 Double d = Double.parseDouble(args[0]);
-                d = r.normalize(d, 0.0, 2048.0);
+                d = bammerbom.ultimatecore.spongeapi.r.normalize(d, 0.0, 2048.0);
                 Player p = (Player) cs;
                 if (p.getMaxHealth() < d) {
                     p.setMaxHealth(d);
                 }
                 p.setHealth(d);
-                r.sendMes(cs, "sethealthMessage", "%Player", r.getDisplayName(p), "%Health", d);
+                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "sethealthMessage", "%Player", bammerbom.ultimatecore.spongeapi.r.getDisplayName(p), "%Health", d);
             } else {
-                r.sendMes(cs, "numberFormat", "%Number", args[0]);
+                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
-        } else if (r.checkArgs(args, 1)) {
-            if (!r.perm(cs, "uc.sethealth.others", false, true)) {
+        } else if (bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 1)) {
+            if (!bammerbom.ultimatecore.spongeapi.r.perm(cs, "uc.sethealth.others", false, true)) {
                 return;
             }
-            if (r.isDouble(args[0])) {
+            if (bammerbom.ultimatecore.spongeapi.r.isDouble(args[0])) {
                 Double d = Double.parseDouble(args[0]);
-                d = r.normalize(d, 0.0, 2048.0);
-                Player t = r.searchPlayer(args[1]);
+                d = bammerbom.ultimatecore.spongeapi.r.normalize(d, 0.0, 2048.0);
+                Player t = bammerbom.ultimatecore.spongeapi.r.searchPlayer(args[1]);
                 if (t == null) {
-                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
+                    bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
                 if (t.getMaxHealth() < d) {
                     t.setMaxHealth(d);
                 }
                 t.setHealth(d);
-                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Healh", d);
-                r.sendMes(t, "sethealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
-            } else if (r.isDouble(args[1])) {
+                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Healh", d);
+                bammerbom.ultimatecore.spongeapi.r.sendMes(t, "sethealthOthers", "%Player", bammerbom.ultimatecore.spongeapi.r.getDisplayName(cs), "%Health", d);
+            } else if (bammerbom.ultimatecore.spongeapi.r.isDouble(args[1])) {
                 Double d = Double.parseDouble(args[1]);
-                d = r.normalize(d, 0.0, 999999.0);
-                Player t = r.searchPlayer(args[0]);
+                d = bammerbom.ultimatecore.spongeapi.r.normalize(d, 0.0, 999999.0);
+                Player t = bammerbom.ultimatecore.spongeapi.r.searchPlayer(args[0]);
                 if (t == null) {
-                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                    bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
                 }
                 if (t.getMaxHealth() < d) {
                     t.setMaxHealth(d);
                 }
                 t.setHealth(d);
-                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Health", d);
-                r.sendMes(t, "sethealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
+                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Health", d);
+                bammerbom.ultimatecore.spongeapi.r.sendMes(t, "sethealthOthers", "%Player", bammerbom.ultimatecore.spongeapi.r.getDisplayName(cs), "%Health", d);
             } else {
-                r.sendMes(cs, "numberFormat", "%Number", args[0]);
+                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
         }
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

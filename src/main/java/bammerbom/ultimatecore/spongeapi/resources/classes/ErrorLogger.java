@@ -23,28 +23,30 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.classes;
 
-import bammerbom.ultimatecore.spongeapi.UltimateCore;
-import bammerbom.ultimatecore.spongeapi.r;
+import com.goebl.david.Webb;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.spongepowered.api.text.format.TextColors;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 
 public class ErrorLogger {
 
-    public static void log(Throwable t, String s) {
-        String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(Calendar.getInstance().getTime());
-        File dir = new File(r.getUC().getDataFolder() + "/Errors");
+    static StringWriter writer = null;
+    static Long countdown = null;
+
+    public static void log(final Throwable t, final String s) {
+        //FILE
+        final String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(Calendar.getInstance().getTime());
+        File dir = new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + "/Errors");
         if (!dir.exists()) {
             dir.mkdir();
         }
-        File file = new File(r.getUC().getDataFolder() + "/Errors", time + ".txt");
+        File file = new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + "/Errors", time + ".txt");
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -63,13 +65,13 @@ public class ErrorLogger {
         out.println("=======================================");
         out.println("UltimateCore has run into an error ");
         out.println("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
-        out.println("Sponge version: " + r.getGame().getPlatform().getName() + "-" + r.getGame().getPlatform().getVersion());
-        out.println("UltimateCore version: " + UltimateCore.version);
-        out.println("Plugins loaded (" + r.getGame().getPluginManager().getPlugins().size() + "): " + Arrays.asList(r.getGame().getPluginManager().getPlugins()));
+        out.println("Bukkit version: " + Bukkit.getServer().getVersion());
+        out.println("UltimateCore version: " + r.getUC().getDescription().getVersion());
+        out.println("Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()));
         out.println("Java version: " + System.getProperty("java.version"));
         out.println("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " +
                 System.getProperty("os.version"));
-        out.println("Online mode: " + r.getGame().getServer().getOnlineMode());
+        out.println("Online mode: " + Bukkit.getServer().getOnlineMode());
         out.println("Time: " + time);
         out.println("Error message: " + t.getMessage());
         out.println("UltimateCore message: " + s);
@@ -82,30 +84,102 @@ public class ErrorLogger {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //
-        r.log(" ");
-        r.log(TextColors.DARK_RED + "=========================================================");
-        r.log(TextColors.RED + "UltimateCore has run into an error ");
-        r.log(TextColors.RED + "Please report your error on ");
-        r.log(TextColors.YELLOW + "http://dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
-        r.log(TextColors.RED + "Include the file: ");
-        r.log(TextColors.YELLOW + "plugins/UltimateCore/Errors/" + time + ".txt ");
-        /*r.log(TextColors.RED + "Bukkit version: " + Bukkit.getServer().getVersion());
-         r.log(TextColors.RED + "UltimateCore version: " + Bukkit.getPluginManager().getPlugin("UltimateCore")
+        //CONSOLE
+        Bukkit.getConsoleSender().sendMessage(" ");
+        r.log(ChatColor.DARK_RED + "=========================================================");
+        r.log(ChatColor.RED + "UltimateCore has run into an error ");
+        r.log(ChatColor.RED + "Please report your error on ");
+        r.log(ChatColor.YELLOW + "http://dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
+        r.log(ChatColor.RED + "Include the file: ");
+        r.log(ChatColor.YELLOW + "plugins/UltimateCore/Errors/" + time + ".txt ");
+        /*r.log(ChatColor.RED + "Bukkit version: " + Bukkit.getServer().getVersion());
+         r.log(ChatColor.RED + "UltimateCore version: " + Bukkit.getPluginManager().getPlugin("UltimateCore")
          .getDescription().getVersion());
-         r.log(TextColors.RED + "Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays
+         r.log(ChatColor.RED + "Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays
          .asList(Bukkit.getPluginManager().getPlugins()));
-         r.log(TextColors.RED + "Java version: " + System.getProperty("java.version"));
-         r.log(TextColors.RED + "OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") +
+         r.log(ChatColor.RED + "Java version: " + System.getProperty("java.version"));
+         r.log(ChatColor.RED + "OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") +
          ", " + System.getProperty("os.version"));
-         r.log(TextColors.RED + "Error message: " + t.getMessage());
-         r.log(TextColors.RED + "UltimateCore message: " + s);*/
-        r.log(TextColors.DARK_RED + "=========================================================");
+         r.log(ChatColor.RED + "Error message: " + t.getMessage());
+         r.log(ChatColor.RED + "UltimateCore message: " + s);*/
+        r.log(ChatColor.DARK_RED + "=========================================================");
         if (t instanceof Exception) {
-            r.log(TextColors.RED + "Stacktrace: ");
+            r.log(ChatColor.RED + "Stacktrace: ");
             t.printStackTrace();
-            r.log(TextColors.DARK_RED + "=========================================================");
+            r.log(ChatColor.DARK_RED + "=========================================================");
         }
-        r.log(" ");
+        Bukkit.getConsoleSender().sendMessage(" ");
+        //SEND TO UC
+        if (writer != null) {
+            writer.append("\n");
+            writer.append("=======================================\n");
+            writer.append("UltimateCore has run into an error \n");
+            writer.append("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket\n");
+            writer.append("Bukkit version: " + Bukkit.getServer().getVersion() + "\n");
+            writer.append("UltimateCore version: " + r.getUC().getDescription().getVersion() + "\n");
+            writer.append("Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()) + "\n");
+            writer.append("Java version: " + System.getProperty("java.version") + "\n");
+            writer.append("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " +
+                    System.getProperty("os.version") + "\n");
+            writer.append("Online mode: " + Bukkit.getServer().getOnlineMode() + "\n");
+            writer.append("Time: " + time + "\n");
+            writer.append("Error message: " + t.getMessage() + "\n");
+            writer.append("UltimateCore message: " + s + "\n");
+            writer.append("=======================================\n");
+            writer.append("Stacktrace: \n" + ExceptionUtils.getStackTrace(t) + "\n");
+            writer.append("=======================================\n");
+            countdown = System.currentTimeMillis();
+        } else {
+            Thread tr = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String test = "test";
+                    synchronized (test) {
+                        if (writer == null) {
+                            writer = new StringWriter();
+                        }
+                        writer.append("=======================================\n");
+                        writer.append("UltimateCore has run into an error \n");
+                        writer.append("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket\n");
+                        writer.append("Bukkit version: " + Bukkit.getServer().getVersion() + "\n");
+                        writer.append("UltimateCore version: " + r.getUC().getDescription().getVersion() + "\n");
+                        writer.append("Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()) + "\n");
+                        writer.append("Java version: " + System.getProperty("java.version") + "\n");
+                        writer.append("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " +
+                                System.getProperty("os.version") + "\n");
+                        writer.append("Online mode: " + Bukkit.getServer().getOnlineMode() + "\n");
+                        writer.append("Time: " + time + "\n");
+                        writer.append("Error message: " + t.getMessage() + "\n");
+                        writer.append("UltimateCore message: " + s + "\n");
+                        writer.append("=======================================\n");
+                        writer.append("Stacktrace: \n" + ExceptionUtils.getStackTrace(t) + "\n");
+                        writer.append("=======================================\n");
+                        countdown = System.currentTimeMillis();
+                        while (System.currentTimeMillis() < countdown + 3000) {
+                            try {
+                                test.wait(1000L);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                                return;
+                            }
+                        }
+
+                        String msg = writer.toString().replace("\n", "<br>");
+                        Webb webb = Webb.create();
+                        String rtrn = webb.get("http://ultimatecore.ga/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg)).asString().getBody();
+
+                        if (rtrn != null && rtrn.equalsIgnoreCase("true")) {
+                            r.log("SEND ERROR SUCCESSFULLY");
+                        } else {
+                            r.log("SENDING ERROR FAILED (" + rtrn + ")");
+                        }
+
+                        countdown = null;
+                        writer = null;
+                    }
+                }
+            });
+            tr.start();
+        }
     }
 }

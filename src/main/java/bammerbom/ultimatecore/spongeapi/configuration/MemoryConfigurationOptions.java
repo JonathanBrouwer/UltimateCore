@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.spongeapi.configuration;
 
 /**
  * Various settings for controlling the input and output of a {@link
- * MemoryConfiguration}
+ * bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration}
  */
 class MemoryConfigurationOptions {
 

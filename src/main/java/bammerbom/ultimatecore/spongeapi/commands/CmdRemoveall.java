@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class CmdRemoveall implements UltimateCommand {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return;
         }
@@ -103,7 +103,7 @@ public class CmdRemoveall implements UltimateCommand {
 
     @SuppressWarnings("deprecation")
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             ArrayList<String> s = new ArrayList<>();
             for (EntityType t : EntityType.values()) {

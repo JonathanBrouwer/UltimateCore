@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -54,7 +54,7 @@ public class CmdWeather implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public void run(final CommandSender cs, String label, String[] args) {
         if (label.equalsIgnoreCase("sun")) {
             if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.sun", false, false) == false) {
                 r.sendMes(cs, "noPermissions");
@@ -214,7 +214,7 @@ public class CmdWeather implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return Arrays.asList("sun", "rain", "thunder");
     }
 }

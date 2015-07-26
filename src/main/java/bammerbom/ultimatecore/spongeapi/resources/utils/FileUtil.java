@@ -64,7 +64,7 @@ public class FileUtil {
         try {
             IOUtils.copy(stream, writer);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to read file.");
         }
         String list = writer.toString();
         return Arrays.asList(list.split("\n"));
