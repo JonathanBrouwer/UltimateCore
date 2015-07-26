@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
 import org.bukkit.entity.Player;
@@ -52,7 +53,7 @@ public class TabUtil {
             ReflectionUtil.execute("getHandle().playerConnection.sendPacket({1})", p, ob);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to set tab titles.");
         }
 
     }

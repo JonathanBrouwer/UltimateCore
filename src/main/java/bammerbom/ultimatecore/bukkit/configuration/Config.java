@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit.configuration;
 
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.StreamUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 
@@ -44,7 +45,7 @@ public class Config extends YamlConfiguration implements Cloneable {
         try {
             loadFromStream(new FileInputStream(file));
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load yaml file.");
         }
     }
 
@@ -208,7 +209,7 @@ public class Config extends YamlConfiguration implements Cloneable {
                 writer.close();
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to save yalm file.");
         }
     }
 

@@ -23,18 +23,34 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
-import org.bukkit.entity.Player;
+import bammerbom.ultimatecore.bukkit.r;
 
-public class PingUtil {
+import java.io.File;
+import java.util.Arrays;
+import java.util.UUID;
 
-    public static int getPing(Player p) {
+public class ServerIDUtil {
+
+    static UUID uuid;
+
+    public static void start() {
         try {
-            Integer ping = (Integer) ReflectionUtil.execute("getHandle().ping", p).fetch();
-            return ping;
-        } catch (Exception e) {
-            ErrorLogger.log(e, "Failed to get player ping.");
-            return 0;
+            File file = new File(r.getUC().getDataFolder() + File.separator + "Data", "UUID.id");
+            if (!file.exists()) {
+                file.createNewFile();
+                UUID u = UUID.randomUUID();
+                FileUtil.writeLargerTextFile(file, Arrays.asList(u.toString()));
+                uuid = u;
+            } else {
+                String s = FileUtil.getLines(file).get(0);
+                uuid = UUID.fromString(s);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
+    }
+
+    public static UUID getUUID() {
+        return uuid;
     }
 }

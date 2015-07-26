@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -73,7 +74,7 @@ public class TitleUtil {
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                ErrorLogger.log(ex, "Failed to send action bar.");
             }
 
     }
@@ -230,7 +231,7 @@ class Title {
                     sendPacket.invoke(connection, new Object[]{packet});
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to send title.");
             }
         }
     }
@@ -254,7 +255,7 @@ class Title {
                 Object packet = this.packetTitle.getConstructor(new Class[]{this.packetActions}).newInstance(new Object[]{actions[3]});
                 sendPacket.invoke(connection, new Object[]{packet});
             } catch (Exception e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to clear title.");
             }
         }
     }
@@ -272,7 +273,7 @@ class Title {
                 Object packet = this.packetTitle.getConstructor(new Class[]{this.packetActions}).newInstance(new Object[]{actions[4]});
                 sendPacket.invoke(connection, new Object[]{packet});
             } catch (Exception e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to reset title.");
             }
         }
     }
@@ -287,7 +288,7 @@ class Title {
             Object networkManager = getValue("networkManager", connection);
             return ((Integer) getMethod("getVersion", networkManager.getClass(), new Class[0]).invoke(networkManager, new Object[0])).intValue();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to get protocol version.");
         }
         return version;
     }
@@ -334,7 +335,7 @@ class Title {
         try {
             return getMethod("getHandle", obj.getClass(), new Class[0]).invoke(obj, new Object[0]);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to get handle.");
         }
         return null;
     }
@@ -362,7 +363,7 @@ class Title {
         try {
             clazz = Class.forName(fullName);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to get NMS class." + className);
         }
         return clazz;
     }
@@ -373,7 +374,7 @@ class Title {
             field.setAccessible(true);
             return field;
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to get field.");
         }
         return null;
     }

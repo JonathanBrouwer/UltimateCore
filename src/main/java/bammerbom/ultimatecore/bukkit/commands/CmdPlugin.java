@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.PluginUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import com.google.common.io.Files;
@@ -486,7 +487,7 @@ public class CmdPlugin implements UltimateCommand {
                         r.sendMes(cs, "pluginUpdatecheckCurrent", "%Current", v + "");
                         r.sendMes(cs, "pluginUpdatecheckNew", "%New", n + "");
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        ErrorLogger.log(ex, "Update check failed.");
                         r.sendMes(cs, "pluginUpdatecheckFailed");
                     }
                 }

@@ -23,6 +23,8 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.*;
@@ -115,7 +117,7 @@ public class StreamUtil {
             copyFile(sourceLocation, targetLocation);
             return true;
         } catch (IOException ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to copy file.");
         }
         return false;
     }

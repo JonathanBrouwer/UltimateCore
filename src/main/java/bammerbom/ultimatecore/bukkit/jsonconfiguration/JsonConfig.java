@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit.jsonconfiguration;
 
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import org.json.simple.JSONArray;
@@ -172,7 +173,7 @@ public class JsonConfig implements Cloneable {
         try {
             FileUtil.writeLargerTextFile(fi, Arrays.asList(JSONValue.toJSONString(map).split("\n", -1)));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to write file.");
         }
     }
 

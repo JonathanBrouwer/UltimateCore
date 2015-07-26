@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -556,7 +557,7 @@ public class MessageUtil implements JsonRepresentedObject, Cloneable, Iterable<M
             return itemTooltip(Reflection.getMethod(Reflection.getNMSClass("ItemStack"), "save", Reflection.getNMSClass("NBTTagCompound"))
                     .invoke(nmsItem, Reflection.getNMSClass("NBTTagCompound").newInstance()).toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to set item tooltip.");
             return this;
         }
     }
@@ -1643,7 +1644,7 @@ final class Reflection {
         try {
             clazz = Class.forName(fullName);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to find NMS class. " + className);
             _loadedNMSClasses.put(className, null);
             return null;
         }
@@ -1672,7 +1673,7 @@ final class Reflection {
         try {
             clazz = Class.forName(fullName);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to get OBC class. " + className);
             _loadedOBCClasses.put(className, null);
             return null;
         }
@@ -1695,7 +1696,7 @@ final class Reflection {
         try {
             return getMethod(obj.getClass(), "getHandle").invoke(obj);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "getHandle() failed.");
             return null;
         }
     }
@@ -1739,7 +1740,7 @@ final class Reflection {
             return field;
         } catch (Exception e) {
             // Error loading
-            e.printStackTrace();
+            ErrorLogger.log(e, "getField() failed.");
             // Cache field as not existing
             loaded.put(name, null);
             return null;

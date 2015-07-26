@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 
@@ -49,7 +50,7 @@ public class VillagerUtil {
             ReflectionUtil.ReflectionObject list = ReflectionUtil.ReflectionObject.fromNMS("MerchantRecipeList");
             recipes.set(entityVillager, list.fetch());
         } catch (Exception exc) {
-            exc.printStackTrace();
+            ErrorLogger.log(exc, "Failed to clear trade.");
         }
 
         //
@@ -99,7 +100,7 @@ public class VillagerUtil {
             }
             recipes.set(entityVillager, list);
         } catch (Exception exc) {
-            exc.printStackTrace();
+            ErrorLogger.log(exc, "Failed to add villager trade.");
         }
     }
 
@@ -133,7 +134,7 @@ public class VillagerUtil {
             }
             return rtrn;
         } catch (Exception exc) {
-            exc.printStackTrace();
+            ErrorLogger.log(exc, "Failed to list villager trades.");
             return null;
         }
     }

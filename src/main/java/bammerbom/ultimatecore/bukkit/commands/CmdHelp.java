@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -237,7 +238,7 @@ class PluginCommandsInput implements UText {
                             }
                         }
                     } catch (NullPointerException ex) {
-                        ex.printStackTrace();
+                        ErrorLogger.log(ex, "Failed to get permission key");
                     }
                 }
 

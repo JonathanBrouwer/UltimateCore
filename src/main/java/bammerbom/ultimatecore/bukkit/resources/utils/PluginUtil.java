@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -116,7 +117,7 @@ public class PluginUtil {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to unregister plugin commands.");
         }
     }
 
@@ -134,7 +135,7 @@ public class PluginUtil {
             }
             plugins.remove(p);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to unregister plugin.");
         }
     }
 
@@ -186,7 +187,7 @@ public class PluginUtil {
             }
             zipfile.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to decompress zip file.");
         } finally {
             try {
                 if (dest != null) {

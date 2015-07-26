@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
 import net.milkbowl.vault.item.Items;
@@ -74,7 +75,7 @@ public class ItemUtil {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to read item uuids.");
         }
     }
 
@@ -182,7 +183,7 @@ class EnchantGlow extends EnchantmentWrapper {
             f.setAccessible(true);
             f.set(null, true);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to create glow enchantment.");
         }
 
         glow = new EnchantGlow(255);

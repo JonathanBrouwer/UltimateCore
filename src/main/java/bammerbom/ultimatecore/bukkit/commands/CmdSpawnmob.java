@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobData;
 import bammerbom.ultimatecore.bukkit.resources.classes.MobType;
 import org.bukkit.Location;
@@ -236,7 +237,7 @@ public class CmdSpawnmob implements UltimateCommand {
                     utilize(args, mob, (LivingEntity) en, p);
                 }
             } catch (ClassCastException ex) {
-                ex.printStackTrace();
+                ErrorLogger.log(ex, "Mob spawning failed. (Invalid mob?)");
             }
         }
     }

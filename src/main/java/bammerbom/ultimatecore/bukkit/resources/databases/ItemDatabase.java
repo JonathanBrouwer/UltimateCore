@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.resources.databases;
 
 import bammerbom.ultimatecore.bukkit.UltimateCore;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -68,7 +69,7 @@ public class ItemDatabase {
                 lines.add(lineC);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load item database.");
         }
         try {
             re.close();
@@ -183,7 +184,7 @@ class ManagedFile {
                     throw new IOException("Could not delete file " + this.file.toString());
                 }
             } catch (IOException ex) {
-                ex.printStackTrace();
+                ErrorLogger.log(ex, "Failed to delete managed file.");
             }
         }
 
@@ -316,7 +317,7 @@ class ManagedFile {
                 reader.close();
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to read item database file.");
         }
         return Collections.emptyList();
     }

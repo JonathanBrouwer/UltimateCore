@@ -101,7 +101,7 @@ public class MobData {
             attributes.set("f", speed);
             attributes.invoke("f");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to apply horse speed data.");
         }
     }
 
@@ -247,7 +247,7 @@ public class MobData {
                     cen.invoke("f", tag.fetch());
                     return true;
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    ErrorLogger.log(ex, "Failed to apply mob data.");
                 }
             }
         } else if (data.equalsIgnoreCase("invisible")) {

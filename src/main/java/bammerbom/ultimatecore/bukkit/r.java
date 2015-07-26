@@ -138,7 +138,7 @@ public class r {
             metrics = new UltimateMetrics(getUC());
             metrics.start();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to start metrics.");
         }
     }
 

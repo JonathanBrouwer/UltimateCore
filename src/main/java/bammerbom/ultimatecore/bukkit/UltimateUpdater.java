@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.bukkit;
 
+import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONArray;
@@ -490,7 +491,7 @@ public class UltimateUpdater {
             }
             return l3 < r3 && !(l2 > r2) && !(l1 > r1);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Version comparing failed.");
             return false;
         }
     }

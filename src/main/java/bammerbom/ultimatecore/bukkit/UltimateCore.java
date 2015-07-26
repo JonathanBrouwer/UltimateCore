@@ -31,10 +31,7 @@ import bammerbom.ultimatecore.bukkit.listeners.*;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
-import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.PerformanceUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.UuidUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -54,7 +51,7 @@ public class UltimateCore extends JavaPlugin {
         try {
             r.log("Prestarted Succesfully.");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Prestarting failed.");
         }
     }
 
@@ -78,6 +75,7 @@ public class UltimateCore extends JavaPlugin {
             //
             file = getFile();
             UltimateFileLoader.Enable();
+            ServerIDUtil.start();
             r.enableMES();
             UltimateFileLoader.addConfig();
             r.setColors();
