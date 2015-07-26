@@ -157,7 +157,7 @@ public class ErrorLogger {
                         writer.append("Stacktrace: \n" + ExceptionUtils.getStackTrace(t) + "\n");
                         writer.append("=======================================\n");
                         countdown = System.currentTimeMillis();
-                        while (System.currentTimeMillis() < countdown + 3000) {
+                        while (System.currentTimeMillis() < countdown + 10000) {
                             try {
                                 test.wait(1000L);
                             } catch (InterruptedException e) {

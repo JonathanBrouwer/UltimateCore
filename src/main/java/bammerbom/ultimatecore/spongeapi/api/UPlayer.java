@@ -27,10 +27,12 @@ import bammerbom.ultimatecore.spongeapi.UltimateFileLoader;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
+import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
 import org.spongepowered.api.data.manipulator.catalog.CatalogEntityData;
 import org.spongepowered.api.data.manipulator.entity.BanData;
+import org.spongepowered.api.data.manipulator.entity.InvisibilityData;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.entity.player.User;
 import org.spongepowered.api.item.ItemType;
@@ -862,7 +864,7 @@ public class UPlayer {
     }
 
     public void clearAllPowertools() {
-        for (Material mat : pts.keySet()) {
+        for (ItemType mat : pts.keySet()) {
             clearPowertool(mat);
         }
         if (pts != null) {
@@ -871,14 +873,14 @@ public class UPlayer {
         save();
     }
 
-    public void clearPowertool(Material mat) {
+    public void clearPowertool(ItemType mat) {
         if (pts == null) {
             JsonConfig data = getPlayerConfig();
             pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
-                    pts.put(Material.getMaterial(s), l);
+                    pts.put(ItemDatabase.getItem(s).getItem(), l);
                 }
             }
         }
@@ -889,8 +891,8 @@ public class UPlayer {
         save();
     }
 
-    public List<String> getPowertools(Material mat) {
-        if (mat == null || mat == Material.AIR) {
+    public List<String> getPowertools(ItemType mat) {
+        if (mat == null) {
             return null;
         }
         if (pts == null) {
@@ -899,7 +901,7 @@ public class UPlayer {
             if (data.contains("powertool")) {
                 for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
-                    pts.put(Material.getMaterial(s), l);
+                    pts.put(ItemDatabase.getItem(s).getItem(), l);
                 }
             }
         }
@@ -917,7 +919,7 @@ public class UPlayer {
             if (data.contains("powertool")) {
                 for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
-                    pts.put(Material.getMaterial(s), l);
+                    pts.put(ItemDatabase.getItem(s).getItem(), l);
                 }
             }
             save();
@@ -925,14 +927,14 @@ public class UPlayer {
         return !pts.isEmpty();
     }
 
-    public boolean hasPowertool(Material mat) {
+    public boolean hasPowertool(ItemType mat) {
         if (pts == null) {
             JsonConfig data = getPlayerConfig();
             pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
-                    pts.put(Material.getMaterial(s), l);
+                    pts.put(ItemDatabase.getItem(s).getItem(), l);
                 }
             }
             save();
@@ -940,14 +942,14 @@ public class UPlayer {
         return pts.containsKey(mat);
     }
 
-    public void setPowertool(Material mat, List<String> cmds) {
+    public void setPowertool(ItemType mat, List<String> cmds) {
         JsonConfig data = getPlayerConfig();
         if (pts == null) {
             pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
-                    pts.put(Material.getMaterial(s), l);
+                    pts.put(ItemDatabase.getItem(s).getItem(), l);
                 }
             }
         }
@@ -957,13 +959,13 @@ public class UPlayer {
         save();
     }
 
-    public void addPowertool(Material mat, String c) {
+    public void addPowertool(ItemType mat, String c) {
         List<String> ps = getPowertools(mat);
         ps.add(c);
         setPowertool(mat, ps);
     }
 
-    public void removePowertool(Material mat, String c) {
+    public void removePowertool(ItemType mat, String c) {
         List<String> ps = getPowertools(mat);
         if (!ps.contains(c)) {
             return;
@@ -1078,11 +1080,7 @@ public class UPlayer {
         vanishtime = fr ? time : 0L;
         if (getOnlinePlayer() != null) {
             for (Player pl : r.getOnlinePlayers()) {
-                if (fr) {
-                    pl.hidePlayer(getOnlinePlayer());
-                } else {
-                    pl.showPlayer(getOnlinePlayer());
-                }
+                getOnlinePlayer().offer(getOnlinePlayer().getOrCreate(InvisibilityData.class).get().setInvisibleTo(pl, fr));
             }
         }
         save();
@@ -1147,7 +1145,7 @@ public class UPlayer {
         } else {
             return null;
         }
-        return RLocationUtil.convertStringToRLocation(loc);
+        return LocationUtil.convertStringToLocation(loc);
     }
 
 

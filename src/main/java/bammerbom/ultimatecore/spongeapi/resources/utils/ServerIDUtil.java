@@ -23,8 +23,7 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
-import bammerbom.ultimatecore.bukkit.r;
-import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
+import bammerbom.ultimatecore.spongeapi.r;
 
 import java.io.File;
 import java.util.Arrays;
@@ -43,7 +42,7 @@ public class ServerIDUtil {
             if (!file.exists()) {
                 file.createNewFile();
                 UUID u = UUID.randomUUID();
-                bammerbom.ultimatecore.bukkit.resources.utils.FileUtil.writeLargerTextFile(file, Arrays.asList(u.toString()));
+                bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil.writeLargerTextFile(file, Arrays.asList(u.toString()));
                 uuid = u;
             } else {
                 String s = FileUtil.getLines(file).get(0);

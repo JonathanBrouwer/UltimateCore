@@ -221,7 +221,7 @@ public class UKit {
      * @return Timestamp in milliseconds
      */
     public long getLastUsed(final Player p) {
-        Long l = bammerbom.ultimatecore.spongeapi_old2.api.UC.getPlayer(p).getPlayerConfig().getLong("kits." + this.getName() + ".lastused");
+        Long l = bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).getPlayerConfig().getLong("kits." + this.getName() + ".lastused");
         return l == null ? 0L : l;
     }
 

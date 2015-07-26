@@ -27,41 +27,41 @@ import org.apache.commons.lang.Validate;
 
 /**
  * Various settings for controlling the input and output of a {@link
- * YamlConfiguration}
+ * bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration}
  */
 class YamlConfigurationOptions extends FileConfigurationOptions {
 
     private int indent = 2;
 
-    protected YamlConfigurationOptions(bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration configuration) {
+    protected YamlConfigurationOptions(YamlConfiguration configuration) {
         super(configuration);
     }
 
     @Override
-    public bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration configuration() {
-        return (bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration) super.configuration();
+    public YamlConfiguration configuration() {
+        return (YamlConfiguration) super.configuration();
     }
 
     @Override
-    public bammerbom.ultimatecore.spongeapi.configuration.YamlConfigurationOptions copyDefaults(boolean value) {
+    public YamlConfigurationOptions copyDefaults(boolean value) {
         super.copyDefaults(value);
         return this;
     }
 
     @Override
-    public bammerbom.ultimatecore.spongeapi.configuration.YamlConfigurationOptions pathSeparator(char value) {
+    public YamlConfigurationOptions pathSeparator(char value) {
         super.pathSeparator(value);
         return this;
     }
 
     @Override
-    public bammerbom.ultimatecore.spongeapi.configuration.YamlConfigurationOptions header(String value) {
+    public YamlConfigurationOptions header(String value) {
         super.header(value);
         return this;
     }
 
     @Override
-    public bammerbom.ultimatecore.spongeapi.configuration.YamlConfigurationOptions copyHeader(boolean value) {
+    public YamlConfigurationOptions copyHeader(boolean value) {
         super.copyHeader(value);
         return this;
     }
@@ -85,7 +85,7 @@ class YamlConfigurationOptions extends FileConfigurationOptions {
      * @param value New indent
      * @return This object, for chaining
      */
-    public bammerbom.ultimatecore.spongeapi.configuration.YamlConfigurationOptions indent(int value) {
+    public YamlConfigurationOptions indent(int value) {
         Validate.isTrue(value >= 2, "Indent must be at least 2 characters");
         Validate.isTrue(value <= 9, "Indent cannot be greater than 9 characters");
 

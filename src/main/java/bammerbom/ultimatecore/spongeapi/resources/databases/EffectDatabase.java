@@ -24,7 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.resources.databases;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.potion.PotionEffectType;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.potion.PotionEffectType;
+import org.spongepowered.api.potion.PotionEffectTypes;
 
 import java.util.HashMap;
 
@@ -35,21 +37,21 @@ public class EffectDatabase {
     @SuppressWarnings("deprecation")
     public static PotionEffectType getByName(String str) {
         if (pf.isEmpty()) {
-            pf.put("swiftness", PotionEffectType.SPEED);
-            pf.put("slowness", PotionEffectType.SLOW);
-            pf.put("haste", PotionEffectType.FAST_DIGGING);
-            pf.put("miningfatigue", PotionEffectType.SLOW_DIGGING);
-            pf.put("strength", PotionEffectType.INCREASE_DAMAGE);
-            pf.put("instanthealth", PotionEffectType.HEAL);
-            pf.put("instantdamage", PotionEffectType.HARM);
-            pf.put("jumpboost", PotionEffectType.JUMP);
-            pf.put("nausea", PotionEffectType.CONFUSION);
-            pf.put("regen", PotionEffectType.REGENERATION);
-            pf.put("resistance", PotionEffectType.DAMAGE_RESISTANCE);
-            pf.put("invis", PotionEffectType.INVISIBILITY);
-            pf.put("blind", PotionEffectType.BLINDNESS);
-            for (PotionEffectType type : PotionEffectType.values()) {
-                if (type == null || type.getName() == null) {
+            pf.put("swiftness", PotionEffectTypes.SPEED);
+            pf.put("slowness", PotionEffectTypes.SLOWNESS);
+            pf.put("haste", PotionEffectTypes.HASTE);
+            pf.put("miningfatigue", PotionEffectTypes.MINING_FATIGUE);
+            pf.put("strength", PotionEffectTypes.STRENGTH);
+            pf.put("instanthealth", PotionEffectTypes.INSTANT_HEALTH);
+            pf.put("instantdamage", PotionEffectTypes.INSTANT_DAMAGE);
+            pf.put("jumpboost", PotionEffectTypes.JUMP_BOOST);
+            pf.put("nausea", PotionEffectTypes.NAUSEA);
+            pf.put("regen", PotionEffectTypes.REGENERATION);
+            pf.put("resistance", PotionEffectTypes.RESISTANCE);
+            pf.put("invis", PotionEffectTypes.INVISIBILITY);
+            pf.put("blind", PotionEffectTypes.BLINDNESS);
+            for (PotionEffectType type : r.getRegistry().getAllOf(CatalogTypes.POTION_EFFECT_TYPE)) {
+                if (type == null) {
                     continue;
                 }
                 if (type.getName().contains("_")) {
@@ -60,13 +62,7 @@ public class EffectDatabase {
                 }
             }
         }
-        if (str.contains(":")) {
-            str = str.split(":")[1];
-        }
-        return !r.isInt(str) ? pf.get(str.toLowerCase()) : PotionEffectType.getById(Integer.parseInt(str));
+        return pf.get(str.toLowerCase());
     }
 
-    public static PotionEffectType[] values() {
-        return PotionEffectType.values();
-    }
 }

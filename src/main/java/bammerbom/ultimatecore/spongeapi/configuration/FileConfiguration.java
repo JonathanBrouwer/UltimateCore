@@ -33,9 +33,9 @@ import java.nio.charset.Charset;
 
 /**
  * This is a base class for all File based implementations of {@link
- * Configuration}
+ * Config}
  */
-abstract class FileConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration {
+abstract class FileConfiguration extends MemoryConfiguration {
 
     protected static final boolean UTF8_OVERRIDE;
     protected static final boolean UTF_BIG;
@@ -61,11 +61,11 @@ abstract class FileConfiguration extends bammerbom.ultimatecore.spongeapi.config
 
     /**
      * Creates an empty {@link bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration} using the specified {@link
-     * Configuration} as a source for all default values.
+     * Config} as a source for all default values.
      *
      * @param defaults Default value provider
      */
-    public FileConfiguration(bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults) {
+    public FileConfiguration(MemoryConfiguration defaults) {
         super(defaults);
     }
 
@@ -134,13 +134,13 @@ abstract class FileConfiguration extends bammerbom.ultimatecore.spongeapi.config
      * {@link #UTF8_OVERRIDE} but not {@link #UTF_BIG} is specified.
      *
      * @param file File to load from.
-     * @throws FileNotFoundException         Thrown when the given file cannot be opened.
-     * @throws IOException                   Thrown when the given file cannot be read.
-     * @throws InvalidConfigurationException Thrown when the given file is not a valid
-     *                                       Configuration.
-     * @throws IllegalArgumentException      Thrown when file is null.
+     * @throws FileNotFoundException                                                             Thrown when the given file cannot be opened.
+     * @throws IOException                                                                       Thrown when the given file cannot be read.
+     * @throws bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException Thrown when the given file is not a valid
+     *                                                                                           Configuration.
+     * @throws IllegalArgumentException                                                          Thrown when file is null.
      */
-    public void load(File file) throws FileNotFoundException, IOException, InvalidConfigurationException {
+    public void load(File file) throws FileNotFoundException, IOException, bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException {
         Validate.notNull(file, "File cannot be null");
 
         final FileInputStream stream = new FileInputStream(file);
@@ -158,15 +158,15 @@ abstract class FileConfiguration extends bammerbom.ultimatecore.spongeapi.config
      * or {@link #UTF_BIG} is specified.
      *
      * @param stream Stream to load from
-     * @throws IOException                   Thrown when the given file cannot be read.
-     * @throws InvalidConfigurationException Thrown when the given file is not a valid
-     *                                       Configuration.
-     * @throws IllegalArgumentException      Thrown when stream is null.
+     * @throws IOException                                                                       Thrown when the given file cannot be read.
+     * @throws bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException Thrown when the given file is not a valid
+     *                                                                                           Configuration.
+     * @throws IllegalArgumentException                                                          Thrown when stream is null.
      * @see #load(Reader)
      * @deprecated This does not consider encoding
      */
     @Deprecated
-    public void load(InputStream stream) throws IOException, InvalidConfigurationException {
+    public void load(InputStream stream) throws IOException, bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException {
         Validate.notNull(stream, "Stream cannot be null");
 
         load(new InputStreamReader(stream, UTF8_OVERRIDE ? Charsets.UTF_8 : Charset.defaultCharset()));
@@ -179,12 +179,12 @@ abstract class FileConfiguration extends bammerbom.ultimatecore.spongeapi.config
      * and defaults, and the new values will be loaded from the given stream.
      *
      * @param reader the reader to load from
-     * @throws IOException                   thrown when underlying reader throws an IOException
-     * @throws InvalidConfigurationException thrown when the reader does not represent a valid
-     *                                       Configuration
-     * @throws IllegalArgumentException      thrown when reader is null
+     * @throws IOException                                                                       thrown when underlying reader throws an IOException
+     * @throws bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException thrown when the reader does not represent a valid
+     *                                                                                           Configuration
+     * @throws IllegalArgumentException                                                          thrown when reader is null
      */
-    public void load(Reader reader) throws IOException, InvalidConfigurationException {
+    public void load(Reader reader) throws IOException, bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException {
         BufferedReader input = reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
 
         StringBuilder builder = new StringBuilder();
@@ -212,13 +212,13 @@ abstract class FileConfiguration extends bammerbom.ultimatecore.spongeapi.config
      * If the file cannot be loaded for any reason, an exception will be thrown.
      *
      * @param file File to load from.
-     * @throws FileNotFoundException         Thrown when the given file cannot be opened.
-     * @throws IOException                   Thrown when the given file cannot be read.
-     * @throws InvalidConfigurationException Thrown when the given file is not a valid
-     *                                       Configuration.
-     * @throws IllegalArgumentException      Thrown when file is null.
+     * @throws FileNotFoundException                                                             Thrown when the given file cannot be opened.
+     * @throws IOException                                                                       Thrown when the given file cannot be read.
+     * @throws bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException Thrown when the given file is not a valid
+     *                                                                                           Configuration.
+     * @throws IllegalArgumentException                                                          Thrown when file is null.
      */
-    public void load(String file) throws FileNotFoundException, IOException, InvalidConfigurationException {
+    public void load(String file) throws FileNotFoundException, IOException, bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException {
         Validate.notNull(file, "File cannot be null");
 
         load(new File(file));
@@ -233,10 +233,10 @@ abstract class FileConfiguration extends bammerbom.ultimatecore.spongeapi.config
      * If the string is invalid in any way, an exception will be thrown.
      *
      * @param contents Contents of a Configuration to load.
-     * @throws InvalidConfigurationException Thrown if the specified string is invalid.
-     * @throws IllegalArgumentException      Thrown if contents is null.
+     * @throws bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException Thrown if the specified string is invalid.
+     * @throws IllegalArgumentException                                                          Thrown if contents is null.
      */
-    protected abstract void loadFromString(String contents) throws InvalidConfigurationException;
+    protected abstract void loadFromString(String contents) throws bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException;
 
     /**
      * Compiles the header for this {@link bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration} and returns the result.

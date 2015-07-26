@@ -25,12 +25,8 @@ package bammerbom.ultimatecore.spongeapi.resources.databases;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCore;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -69,7 +65,7 @@ public class ItemDatabase {
                 lines.add(lineC);
             }
         } catch (IOException e) {
-            ErrorLogger.log(e, "Failed to load item database.");
+            e.printStackTrace();
         }
         try {
             re.close();
@@ -184,7 +180,7 @@ class ManagedFile {
                     throw new IOException("Could not delete file " + this.file.toString());
                 }
             } catch (IOException ex) {
-                ErrorLogger.log(ex, "Failed to delete managed file.");
+                ex.printStackTrace();
             }
         }
 
@@ -317,7 +313,7 @@ class ManagedFile {
                 reader.close();
             }
         } catch (IOException ex) {
-            ErrorLogger.log(ex, "Failed to read item database file.");
+            ex.printStackTrace();
         }
         return Collections.emptyList();
     }

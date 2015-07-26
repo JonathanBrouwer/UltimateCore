@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.spongeapi.configuration;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StreamUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 
@@ -45,7 +44,7 @@ public class Config extends YamlConfiguration implements Cloneable {
         try {
             loadFromStream(new FileInputStream(file));
         } catch (IOException e) {
-            ErrorLogger.log(e, "Failed to load yaml file.");
+            e.printStackTrace();
         }
     }
 
@@ -55,8 +54,8 @@ public class Config extends YamlConfiguration implements Cloneable {
             StringBuilder builder = new StringBuilder();
             BufferedReader input = new BufferedReader(reader);
             try {
-                bammerbom.ultimatecore.spongeapi.configuration.HeaderBuilder header = new bammerbom.ultimatecore.spongeapi.configuration.HeaderBuilder();
-                bammerbom.ultimatecore.spongeapi.configuration.NodeBuilder node = new bammerbom.ultimatecore.spongeapi.configuration.NodeBuilder(getIndent());
+                HeaderBuilder header = new HeaderBuilder();
+                NodeBuilder node = new NodeBuilder(getIndent());
                 StringBuilder mainHeader = new StringBuilder();
                 String line;
                 while ((line = input.readLine()) != null) {
@@ -131,7 +130,7 @@ public class Config extends YamlConfiguration implements Cloneable {
                 int anchIndent = 0;
 
                 StringBuilder refData = new StringBuilder();
-                bammerbom.ultimatecore.spongeapi.configuration.NodeBuilder node = new bammerbom.ultimatecore.spongeapi.configuration.NodeBuilder(getIndent());
+                NodeBuilder node = new NodeBuilder(getIndent());
                 for (String line : saveToString().split("\n", -1)) {
                     if (line.startsWith("#")) {
                         continue;
@@ -209,7 +208,7 @@ public class Config extends YamlConfiguration implements Cloneable {
                 writer.close();
             }
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to save yalm file.");
+            ex.printStackTrace();
         }
     }
 

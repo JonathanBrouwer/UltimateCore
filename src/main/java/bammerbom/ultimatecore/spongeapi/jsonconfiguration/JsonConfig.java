@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.spongeapi.jsonconfiguration;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.json.simple.JSONArray;
@@ -173,7 +172,7 @@ public class JsonConfig implements Cloneable {
         try {
             FileUtil.writeLargerTextFile(fi, Arrays.asList(JSONValue.toJSONString(map).split("\n", -1)));
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to write file.");
+            ex.printStackTrace();
         }
     }
 

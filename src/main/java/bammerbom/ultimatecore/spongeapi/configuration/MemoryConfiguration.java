@@ -34,7 +34,7 @@ import java.util.Map;
  */
 class MemoryConfiguration extends ConfigSection {
 
-    protected bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults;
+    protected MemoryConfiguration defaults;
     protected MemoryConfigurationOptions options;
 
     /**
@@ -45,12 +45,12 @@ class MemoryConfiguration extends ConfigSection {
 
     /**
      * Creates an empty {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} using the specified {@link
-     * Configuration} as a source for all default values.
+     * Config} as a source for all default values.
      *
      * @param defaults Default value provider
      * @throws IllegalArgumentException Thrown if defaults is null
      */
-    public MemoryConfiguration(bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults) {
+    public MemoryConfiguration(MemoryConfiguration defaults) {
         this.defaults = defaults;
     }
 
@@ -59,7 +59,7 @@ class MemoryConfiguration extends ConfigSection {
         Validate.notNull(path, "Path may not be null");
 
         if (defaults == null) {
-            defaults = new bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration();
+            defaults = new MemoryConfiguration();
         }
 
         defaults.set(path, value);
@@ -73,17 +73,17 @@ class MemoryConfiguration extends ConfigSection {
         }
     }
 
-    public void addDefaults(bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults) {
+    public void addDefaults(MemoryConfiguration defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         addDefaults(defaults.getValues(true));
     }
 
-    public bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration getDefaults() {
+    public MemoryConfiguration getDefaults() {
         return defaults;
     }
 
-    public void setDefaults(bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration defaults) {
+    public void setDefaults(MemoryConfiguration defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         this.defaults = defaults;

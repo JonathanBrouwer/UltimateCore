@@ -23,16 +23,16 @@
  */
 package bammerbom.ultimatecore.spongeapi.configuration;
 
+import bammerbom.ultimatecore.spongeapi.r;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * An implementation of {@link Configuration} which saves all files in Yaml. Note that this
@@ -43,8 +43,8 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
     protected static final String COMMENT_PREFIX = "# ";
     protected static final String BLANK_CONFIG = "{}\n";
     private final DumperOptions yamlOptions = new DumperOptions();
-    private final Representer yamlRepresenter = new bammerbom.ultimatecore.spongeapi.configuration.YamlRepresenter();
-    private final Yaml yaml = new Yaml(new bammerbom.ultimatecore.spongeapi.configuration.YamlConstructor(), yamlRepresenter, yamlOptions);
+    private final Representer yamlRepresenter = new Representer();
+    private final Yaml yaml = new Yaml(new Constructor(), yamlRepresenter, yamlOptions);
 
     /**
      * Creates a new {@link bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration}, loading from the given file.
@@ -58,18 +58,18 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
      * @return Resulting configuration
      * @throws IllegalArgumentException Thrown if file is null
      */
-    protected static bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration loadConfiguration(File file) {
+    protected static YamlConfiguration loadConfiguration(File file) {
         Validate.notNull(file, "File cannot be null");
 
-        bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration config = new bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration();
+        YamlConfiguration config = new YamlConfiguration();
 
         try {
             config.load(file);
         } catch (FileNotFoundException ex) {
         } catch (IOException ex) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
-        } catch (bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException ex) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
+            r.log("Cannot load " + file + "\n" + ex);
+        } catch (InvalidConfigurationException ex) {
+            r.log("Cannot load " + file + "\n" + ex);
         }
 
         return config;
@@ -89,17 +89,17 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
      * @deprecated does not properly consider encoding
      */
     @Deprecated
-    protected static bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration loadConfiguration(InputStream stream) {
+    protected static YamlConfiguration loadConfiguration(InputStream stream) {
         Validate.notNull(stream, "Stream cannot be null");
 
-        bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration config = new bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration();
+        YamlConfiguration config = new YamlConfiguration();
 
         try {
             config.load(stream);
         } catch (IOException ex) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
-        } catch (bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException ex) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
+            r.log("Cannot load stream\n" + ex);
+        } catch (InvalidConfigurationException ex) {
+            r.log("Cannot load stream\n" + ex);
         }
 
         return config;
@@ -115,17 +115,17 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
      * @return resulting configuration
      * @throws IllegalArgumentException Thrown if stream is null
      */
-    protected static bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration loadConfiguration(Reader reader) {
+    protected static YamlConfiguration loadConfiguration(Reader reader) {
         Validate.notNull(reader, "Stream cannot be null");
 
-        bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration config = new bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration();
+        YamlConfiguration config = new YamlConfiguration();
 
         try {
             config.load(reader);
         } catch (IOException ex) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
-        } catch (bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException ex) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
+            r.log("Cannot load stream\n" + ex);
+        } catch (InvalidConfigurationException ex) {
+            r.log("Cannot load stream\n" + ex);
         }
 
         return config;
@@ -156,9 +156,9 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
         try {
             input = (Map<?, ?>) yaml.load(contents);
         } catch (YAMLException e) {
-            throw new bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException(e);
+            throw new InvalidConfigurationException(e);
         } catch (ClassCastException e) {
-            throw new bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException("Top level is not a Map.");
+            throw new InvalidConfigurationException("Top level is not a Map.");
         }
 
         String header = parseHeader(contents);
@@ -220,10 +220,10 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
         String header = options().header();
 
         if (options().copyHeader()) {
-            bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration def = getDefaults();
+            MemoryConfiguration def = getDefaults();
 
-            if ((def != null) && (def instanceof bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration)) {
-                bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration filedefaults = (bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration) def;
+            if ((def != null) && (def instanceof FileConfiguration)) {
+                FileConfiguration filedefaults = (FileConfiguration) def;
                 String defaultsHeader = filedefaults.buildHeader();
 
                 if ((defaultsHeader != null) && (defaultsHeader.length() > 0)) {
@@ -256,12 +256,12 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
     }
 
     @Override
-    public bammerbom.ultimatecore.spongeapi.configuration.YamlConfigurationOptions options() {
+    public YamlConfigurationOptions options() {
         if (options == null) {
-            options = new bammerbom.ultimatecore.spongeapi.configuration.YamlConfigurationOptions(this);
+            options = new YamlConfigurationOptions(this);
         }
 
-        return (bammerbom.ultimatecore.spongeapi.configuration.YamlConfigurationOptions) options;
+        return (YamlConfigurationOptions) options;
     }
 
 }
