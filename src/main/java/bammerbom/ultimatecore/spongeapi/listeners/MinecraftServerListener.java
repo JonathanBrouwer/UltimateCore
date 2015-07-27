@@ -71,7 +71,7 @@ public class MinecraftServerListener {
                     }
                 }
             }
-        }, 20 * 30L, 20 * 30L);
+        }, 20 * 60L, 20 * 60L);
     }
 
     private static MinecraftServerUtil.Status getStatus(ArrayList<MinecraftServerUtil.MinecraftServer> offline, ArrayList<MinecraftServerUtil.MinecraftServer> unknown, ArrayList<MinecraftServerUtil
