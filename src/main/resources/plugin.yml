@@ -294,7 +294,7 @@ commands:
     usage: /<command>
     description: A list of online players.
     permissions: uc.list
-    aliases: [players online, who]
+    aliases: [players, online, who]
   me:
     usage: /<command> <Message>
     description: Message in me format.
