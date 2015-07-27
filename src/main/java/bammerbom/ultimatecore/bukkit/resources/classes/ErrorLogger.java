@@ -112,6 +112,9 @@ public class ErrorLogger {
         }
         Bukkit.getConsoleSender().sendMessage(" ");
         //SEND TO UC
+        if (!r.getCnfg().getBoolean("ErrorSend")) {
+            return;
+        }
         if (writer != null) {
             writer.append("\n");
             writer.append("=======================================\n");

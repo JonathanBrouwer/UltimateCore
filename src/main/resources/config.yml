@@ -8,6 +8,8 @@ Updater:
 Metrics: true
 #Allow this plugin to connect to the mojang servers?
 Mojang: true
+#When UC runs into an error, do you want it to automatically send it to the ultimatecore team?
+ErrorSend: true
 #Language of the plugin (See Messages folder)
 #You can add a custom one by creating a new file and put the name of the file here.
 Language: EN
