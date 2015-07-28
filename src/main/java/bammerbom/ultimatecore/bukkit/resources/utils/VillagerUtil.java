@@ -111,6 +111,9 @@ public class VillagerUtil {
             Field recipes = entityVillager.getClass().getDeclaredField(ReflectionUtil.NMS_PATH.contains("v1_8_R1") ? "bp" : "br");
             recipes.setAccessible(true);
             List list = (List) recipes.get(entityVillager);
+            if (list == null) {
+                return new ArrayList<>();
+            }
             for (Object recipe : list) {
                 ReflectionUtil.ReflectionObject reflObj = new ReflectionUtil.ReflectionObject(recipe);
                 ItemStack buyingItem1 = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("buyingItem1"))
