@@ -102,8 +102,8 @@ public class CmdWorld implements UltimateCommand {
                     } else if (r.isInt(args[na])) {
                         settings.seed(Long.parseLong(args[na]));
                     } else if (args[na].startsWith("s:")) {
-                        if (StringUtil.isAlphaNumeric(args[na])) {
-                            if (r.isInt(args[na])) {
+                        if (StringUtil.isAlphaNumeric(args[na].replaceFirst("s:", ""))) {
+                            if (r.isInt(args[na].replaceFirst("s:", ""))) {
                                 String seed1 = args[na].replaceFirst("s:", "");
                                 settings.seed(Long.parseLong(seed1));
                             } else {
@@ -172,9 +172,14 @@ public class CmdWorld implements UltimateCommand {
                     } else if (r.isInt(args[na])) {
                         settings.seed(Long.parseLong(args[na]));
                     } else if (args[na].startsWith("s:")) {
-                        if (StringUtil.isAlphaNumeric(args[na])) {
-                            String seed1 = args[na].replaceFirst("s:", "");
-                            settings.seed(seed1.hashCode());
+                        if (StringUtil.isAlphaNumeric(args[na].replaceFirst("s:", ""))) {
+                            if (r.isInt(args[na].replaceFirst("s:", ""))) {
+                                String seed1 = args[na].replaceFirst("s:", "");
+                                settings.seed(Long.parseLong(seed1));
+                            } else {
+                                String seed1 = args[na].replaceFirst("s:", "");
+                                settings.seed(seed1.hashCode());
+                            }
                         }
                     } else if (args[na].startsWith("g:")) {
                         String generator = args[na].replaceFirst("g:", "");
