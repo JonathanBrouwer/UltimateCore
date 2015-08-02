@@ -21,11 +21,9 @@
     <orderEntry type="library" name="Maven: net.md-5:bungeecord-chat:1.8-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.spigotmc:spigot:1.7.10-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.spongepowered:spongeapi:2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-hocon:2.0" level="project" />
-    <orderEntry type="library" name="Maven: com.typesafe:config:1.2.1" level="project" />
-    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-core:2.0" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm:5.0.3" level="project" />
     <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-gson:2.0" level="project" />
+    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-core:2.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.inject:guice:4.0" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
@@ -50,9 +48,11 @@
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: jfxrt:jfxrt:jre7" level="project" />
-    <orderEntry type="library" name="Maven: com.comphenix.protocol:ProtocolLib:3.6.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.comphenix.protocol:ProtocolLib:3.6.4" level="project" />
     <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.2.2" level="project" />
     <orderEntry type="library" name="Maven: com.comphenix.executors:BukkitExecutors:1.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.goebl:david-webb:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.json:json:20080701" level="project" />
     <orderEntry type="library" name="Maven: com.palmergames:Towny:custom" level="project" />
     <orderEntry type="library" name="Maven: com.massivecraft:Factions:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: com.massivecraft:MassiveCore:2.7.5" level="project" />
