@@ -178,7 +178,7 @@ commands:
     permissions: uc.fireball
     aliases: [fireskull]
   firework:
-    usage: /<command> [clear] [power:<amount>] [color:<COLOR[,COLOR]]>] [fade:<COLOR[,COLOR]]>] [shape:<star/ball/large/creeper/burst>] [effect:<trail/twinkle>[,trail/twinkle]]
+    usage: /<command> [clear] [random] [power:<amount>] [color:<COLOR[,COLOR]]>] [fade:<COLOR[,COLOR]]>] [shape:<star/ball/large/creeper/burst>] [effect:<trail/twinkle>[,trail/twinkle]]
     description: Spawn in or modify firework.
     permissions: uc.firework
   fly:
