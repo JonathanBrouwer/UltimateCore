@@ -71,7 +71,7 @@ public class MinecraftServerListener {
                     }
                 }
             }
-        }, 20 * 60L, 20 * 60L);
+        }, 20L * r.getCnfg().getLong("MojangServersDelay"), 20L * r.getCnfg().getLong("MojangServersDelay"));
     }
 
     private static MinecraftServerUtil.Status getStatus(ArrayList<MinecraftServerUtil.MinecraftServer> offline, ArrayList<MinecraftServerUtil.MinecraftServer> unknown, ArrayList<MinecraftServerUtil

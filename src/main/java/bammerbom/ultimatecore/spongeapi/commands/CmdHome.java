@@ -69,6 +69,21 @@ public class CmdHome implements UltimateCommand {
             }
             Player p = (Player) cs;
             ArrayList<String> homes = UC.getPlayer(p).getHomeNames();
+
+            if (homes.size() == 1) {
+                String home = homes.get(0);
+                try {
+                    //Teleport
+                    Location location = UC.getPlayer(p).getHome(home.toLowerCase());
+                    LocationUtil.teleport(p, location, TeleportCause.COMMAND, true, true);
+                    r.sendMes(cs, "homeTeleport", "%Home", home);
+                } catch (Exception ex) {
+                    r.sendMes(cs, "homeInvalid", "%Home", home);
+                    ErrorLogger.log(ex, "Failed to load home: " + home);
+                }
+                return;
+            }
+
             String a = StringUtil.joinList(homes);
             //
             Set<String> multihomes = r.getCnfg().getConfigurationSection("Command.HomeLimits").getKeys(false);

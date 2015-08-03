@@ -56,6 +56,7 @@ Economy:
   startingBalance: 10.0
   #Round balances on a certain number of decimals. (-1 for no rounding)
   roundBalance: 3
+
 Explode:
   #Disable explosions? (True = disabled)
   Creeper: false
@@ -104,6 +105,10 @@ Weather:
 
 #Enable broadcasting when the mojang servers are offline?
 MojangServersBroadcasting: true
+
+#How much delay should the mojang server checker have?
+#Recommended between 30 seconds and 120 seconds
+MojangServersDelay: 90
 
 #Chat customization
 Chat:
