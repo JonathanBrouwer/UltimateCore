@@ -204,7 +204,7 @@ public class UltimateCore {
             game.getScheduler().getTaskBuilder().interval(20L).delay(20L).execute(new UltimateTick()).name("UltimateCore TICK").submit(this);
             //
             time = System.currentTimeMillis() - time;
-            r.log(TextColors.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
+            r.log(TextColors.GREEN + "Enabled UltimateCore! (" + time + "ms)");
 
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to enable UltimateCore");
@@ -223,7 +223,7 @@ public class UltimateCore {
             DynmapListener.stop();
             //
             time = System.currentTimeMillis() - time;
-            r.log(TextColors.GREEN + "Disabled Ultimate Core! (" + time + "ms)");
+            r.log(TextColors.GREEN + "Disabled UltimateCore! (" + time + "ms)");
             //
 
         } catch (Exception ex) {

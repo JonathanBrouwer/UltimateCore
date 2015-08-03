@@ -137,7 +137,7 @@ public class UltimateCore extends JavaPlugin {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new UltimateTick(), 20L, 20L);
             //
             time = System.currentTimeMillis() - time;
-            r.log(ChatColor.GREEN + "Enabled Ultimate Core! (" + time + "ms)");
+            r.log(ChatColor.GREEN + "Enabled UltimateCore! (" + time + "ms)");
 
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to enable UltimateCore");
@@ -158,7 +158,7 @@ public class UltimateCore extends JavaPlugin {
             DynmapListener.stop();
             //
             time = System.currentTimeMillis() - time;
-            r.log(ChatColor.GREEN + "Disabled Ultimate Core! (" + time + "ms)");
+            r.log(ChatColor.GREEN + "Disabled UltimateCore! (" + time + "ms)");
             //
 
         } catch (Exception ex) {
