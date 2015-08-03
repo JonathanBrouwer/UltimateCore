@@ -13,6 +13,11 @@ commands:
     usage: /<command> <Player>
     permisssions: uc.accountstatus
     aliases: [acstatus]
+  adminchat:
+    description: Private chat for admins.
+    usage: /<command> <Message>
+    permissions: uc.adminchat
+    aliases: [ac]
   afk:
     description: Marks you as away-from-keyboard.
     usage: /<command> [Player]

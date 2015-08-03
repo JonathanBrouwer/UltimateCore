@@ -45,6 +45,7 @@ public class UltimateCommands implements TabCompleter {
     public static void load() {
         disabled = r.getCnfg().getStringList("Command.DisabledCommands");
         cmds.add(new CmdAccountstatus());
+        cmds.add(new CmdAdminchat());
         cmds.add(new CmdAfk());
         cmds.add(new CmdAlert());
         cmds.add(new CmdAnswer());

@@ -128,6 +128,8 @@ Chat:
   AskFormat: "@1%Player asked: &e%Message"
   #How is the /answer command displayed?
   AnswerFormat: "@1%Player answered: &e%Message"
+  #How is the /adminchat command displayed?
+  AdminchatFormat: "&4[&cAdminChat&4] &1@1%Player: &e%Message"
 
   #The UltimateCore message colors
   #A link of all chatcolors, enter them without the '&':
