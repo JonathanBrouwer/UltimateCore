@@ -2,7 +2,7 @@ name: UltimateCore
 version: ${project.version}
 description: UltimateCore is all you need to setup a server and more!
 author: Bammerbom
-authors: [Bammerbom, KoffieMeister, Coolechriz]
+authors: [Bammerbom, Coolechriz, KoffieMeister, TheAsher]
 website: dev.bukkit.org/bukkit-plugins/ultimate_core
 main: bammerbom.ultimatecore.bukkit.UltimateCore
 prefix: UltimateCore
