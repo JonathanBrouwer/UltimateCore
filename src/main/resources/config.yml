@@ -143,6 +143,8 @@ Chat:
 
   #Enable the custom chat of UltimateCore? If false Filters are still enabled!
   EnableCustomChat: true
+  #Disable/enable Ultimatecore deathmessages. true = enabled, false = disabled.
+  DeathmessagesListenerDisable: true
 
   #What is the format?
   #+Group = Group name (If vault installed, else empty)
