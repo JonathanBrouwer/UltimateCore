@@ -57,6 +57,9 @@ public class CmdPing implements UltimateCommand {
         }
         Player pl;
         if (r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.ping.others", false, true)) {
+                return;
+            }
             pl = r.searchPlayer(args[0]);
         } else {
             if (!r.isPlayer(cs)) {
