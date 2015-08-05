@@ -23,6 +23,11 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
+import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -32,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdPowertool implements bammerbom.ultimatecore.spongeapi.UltimateCommand {
+public class CmdPowertool implements UltimateCommand {
 
     @Override
     public String getName() {
@@ -51,81 +56,73 @@ public class CmdPowertool implements bammerbom.ultimatecore.spongeapi.UltimateCo
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!bammerbom.ultimatecore.spongeapi.r.perm(cs, "uc.powertool", false, true)) {
+        if (!r.perm(cs, "uc.powertool", false, true)) {
             return;
         }
-        if (!bammerbom.ultimatecore.spongeapi.r.isPlayer(cs)) {
+        if (!r.isPlayer(cs)) {
             return;
         }
         Player p = (Player) cs;
-        if (!bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 0) || args[0].equalsIgnoreCase("clear")) {
+        if (!r.checkArgs(args, 0) || args[0].equalsIgnoreCase("clear")) {
             if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolSomethingInHand");
+                r.sendMes(cs, "powertoolSomethingInHand");
                 return;
             }
-            if (!bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolNothingAssigned");
+            if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
+                r.sendMes(cs, "powertoolNothingAssigned");
                 return;
             }
-            bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).clearPowertool(p.getItemInHand().getType());
-            bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolClear");
+            UC.getPlayer(p).clearPowertool(p.getItemInHand().getType());
+            r.sendMes(cs, "powertoolClear");
         } else if (args[0].equalsIgnoreCase("clearall")) {
-            bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).clearAllPowertools();
-            bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolClearall");
+            UC.getPlayer(p).clearAllPowertools();
+            r.sendMes(cs, "powertoolClearall");
         } else if (args[0].equalsIgnoreCase("add")) {
-            if (!bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 1)) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolAddUsage");
+            if (!r.checkArgs(args, 1)) {
+                r.sendMes(cs, "powertoolAddUsage");
                 return;
             }
             if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolSomethingInHand");
+                r.sendMes(cs, "powertoolSomethingInHand");
                 return;
             }
-            bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).addPowertool(p.getItemInHand().getType(), bammerbom.ultimatecore.spongeapi.r.getFinalArg(args, 1));
-            bammerbom.ultimatecore.spongeapi.r
-                    .sendMes(cs, "powertoolAdd", "%Command", bammerbom.ultimatecore.spongeapi.r.getFinalArg(args, 1), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil
-                            .getName(p.getItemInHand()));
+            UC.getPlayer(p).addPowertool(p.getItemInHand().getType(), r.getFinalArg(args, 1));
+            r.sendMes(cs, "powertoolAdd", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
         } else if (args[0].equalsIgnoreCase("remove")) {
-            if (!bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 1)) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolUsageRemove");
+            if (!r.checkArgs(args, 1)) {
+                r.sendMes(cs, "powertoolUsageRemove");
                 return;
             }
             if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolSomethingInHand");
+                r.sendMes(cs, "powertoolSomethingInHand");
                 return;
             }
-            if (!bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolNothingAssigned");
+            if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
+                r.sendMes(cs, "powertoolNothingAssigned");
                 return;
             }
-            if (!bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).getPowertools(p.getItemInHand().getType()).contains(bammerbom.ultimatecore.spongeapi.r.getFinalArg(args, 1))) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolNoSuchCommandAssigned");
+            if (!UC.getPlayer(p).getPowertools(p.getItemInHand().getType()).contains(r.getFinalArg(args, 1))) {
+                r.sendMes(cs, "powertoolNoSuchCommandAssigned");
             }
-            bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).removePowertool(p.getItemInHand().getType(), bammerbom.ultimatecore.spongeapi.r.getFinalArg(args, 1));
-            bammerbom.ultimatecore.spongeapi.r
-                    .sendMes(cs, "powertoolRemove", "%Command", bammerbom.ultimatecore.spongeapi.r.getFinalArg(args, 1), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil
-                            .getName(p.getItemInHand()));
+            UC.getPlayer(p).removePowertool(p.getItemInHand().getType(), r.getFinalArg(args, 1));
+            r.sendMes(cs, "powertoolRemove", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
         } else if (args[0].equalsIgnoreCase("list")) {
             if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolSomethingInHand");
+                r.sendMes(cs, "powertoolSomethingInHand");
                 return;
             }
-            if (!bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolList", "%List", bammerbom.ultimatecore.spongeapi.r.mes("powertoolNone"));
+            if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
+                r.sendMes(cs, "powertoolList", "%List", r.mes("powertoolNone"));
                 return;
             }
-            String s = bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil.joinList(bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).getPowertools(p.getItemInHand().getType()));
-            bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "powertoolList", "%List", s);
+            String s = StringUtil.joinList(UC.getPlayer(p).getPowertools(p.getItemInHand().getType()));
+            r.sendMes(cs, "powertoolList", "%List", s);
         } else if (args[0].equalsIgnoreCase("set")) {
-            bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).setPowertool(p.getItemInHand().getType(), Arrays.asList(bammerbom.ultimatecore.spongeapi.r.getFinalArg(args, 1)));
-            bammerbom.ultimatecore.spongeapi.r
-                    .sendMes(cs, "powertoolSet", "%Command", bammerbom.ultimatecore.spongeapi.r.getFinalArg(args, 1), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil
-                            .getName(p.getItemInHand()));
+            UC.getPlayer(p).setPowertool(p.getItemInHand().getType(), Arrays.asList(r.getFinalArg(args, 1)));
+            r.sendMes(cs, "powertoolSet", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
         } else {
-            bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).setPowertool(p.getItemInHand().getType(), Arrays.asList(bammerbom.ultimatecore.spongeapi.r.getFinalArg(args, 0)));
-            bammerbom.ultimatecore.spongeapi.r
-                    .sendMes(cs, "powertoolSet", "%Command", bammerbom.ultimatecore.spongeapi.r.getFinalArg(args, 0), "%Item", bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil
-                            .getName(p.getItemInHand()));
+            UC.getPlayer(p).setPowertool(p.getItemInHand().getType(), Arrays.asList(r.getFinalArg(args, 0)));
+            r.sendMes(cs, "powertoolSet", "%Command", r.getFinalArg(args, 0), "%Item", ItemUtil.getName(p.getItemInHand()));
         }
     }
 

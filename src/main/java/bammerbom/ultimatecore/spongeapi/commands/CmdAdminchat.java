@@ -25,60 +25,55 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.PingUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdPing implements UltimateCommand {
+public class CmdAdminchat implements UltimateCommand {
+    static String format = ChatColor
+            .translateAlternateColorCodes('&', r.getCnfg().getString("Chat.AdminchatFormat").replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + ""));
 
     @Override
     public String getName() {
-        return "ping";
+        return "adminchat";
     }
 
     @Override
     public String getPermission() {
-        return "uc.ping";
+        return "uc.adminchat";
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("pong");
+        return Arrays.asList("ac");
     }
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.ping", false, true)) {
+        if (!r.perm(cs, "uc.adminchat", false, true)) {
             return;
         }
-        Player pl;
-        if (r.checkArgs(args, 0)) {
-            if (!r.perm(cs, "uc.ping.others", false, true)) {
-                return;
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "adminchatUsage");
+            return;
+        }
+        String msg = r.getFinalArg(args, 0);
+        for (Player p : r.getOnlinePlayers()) {
+            if (r.perm(p, "uc.adminchat", false, false)) {
+                p.sendMessage(format.replace("%Player", cs.getName()).replace("%Message", msg));
             }
-            pl = r.searchPlayer(args[0]);
-        } else {
-            if (!r.isPlayer(cs)) {
-                return;
-            }
-            pl = (Player) cs;
         }
-        if (pl == null) {
-            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
-        }
-        if (r.checkArgs(args, 0) && !r.perm(cs, "uc.ping.others", false, true)) {
-            return;
-        }
-        r.sendMes(cs, "pingMessage", "%Player", pl.getName(), "%Ping", PingUtil.getPing(pl));
+        Bukkit.getServer().getConsoleSender().sendMessage(format.replace("%Player", cs.getName()).replace("%Message", msg));
     }
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
 }

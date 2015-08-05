@@ -166,7 +166,7 @@ public class CmdSpawnmob implements UltimateCommand {
                 return;
             }
             //Stacked
-            ArrayList<bammerbom.ultimatecore.spongeapi.commands.SpawnKit> kits = new ArrayList<>();
+            ArrayList<SpawnKit> kits = new ArrayList<>();
             for (String string : args[0].split(",")) {
                 MobType mo1 = MobType.fromName(string);
                 if (mo1 == null || mo1.name == null || mo1.name.equals("") || mo1.getType() == null) {
@@ -175,17 +175,17 @@ public class CmdSpawnmob implements UltimateCommand {
                         r.sendMes(cs, "spawnmobNotFound", "%Mob", string);
                         return;
                     } else {
-                        kits.add(new bammerbom.ultimatecore.spongeapi.commands.SpawnKit(mo1, string.split(":")[1]));
+                        kits.add(new SpawnKit(mo1, string.split(":")[1]));
                     }
                 } else {
-                    kits.add(new bammerbom.ultimatecore.spongeapi.commands.SpawnKit(mo1, ""));
+                    kits.add(new SpawnKit(mo1, ""));
                 }
             }
             for (int i = 0;
                  i < amount;
                  i++) {
                 LivingEntity lastmob = null;
-                for (bammerbom.ultimatecore.spongeapi.commands.SpawnKit kit : kits) {
+                for (SpawnKit kit : kits) {
                     EntityType type = kit.a().getType();
                     LivingEntity en = (LivingEntity) loc.getWorld().spawnEntity(loc, type);
                     if (kit.a().name().equals("witherskeleton")) {

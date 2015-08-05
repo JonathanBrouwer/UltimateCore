@@ -23,6 +23,9 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
+import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -32,7 +35,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdRepair implements bammerbom.ultimatecore.spongeapi.UltimateCommand {
+public class CmdRepair implements UltimateCommand {
 
     @Override
     public String getName() {
@@ -51,61 +54,64 @@ public class CmdRepair implements bammerbom.ultimatecore.spongeapi.UltimateComma
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!bammerbom.ultimatecore.spongeapi.r.perm(cs, "uc.repair", false, true)) {
-            return;
-        }
-        if (!bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 0)) {
+        if (!r.checkArgs(args, 0)) {
             //repair
-            if (!bammerbom.ultimatecore.spongeapi.r.isPlayer(cs)) {
+            if (!r.perm(cs, "uc.repair", false, true)) {
+                return;
+            }
+            if (!r.isPlayer(cs)) {
                 return;
             }
             Player p = (Player) cs;
             ItemStack stack = p.getItemInHand();
             if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "repairNoItemInHand");
+                r.sendMes(cs, "repairNoItemInHand");
                 return;
             }
-            if (!bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.isRepairable(stack)) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "repairNotRepairable");
+            if (!ItemUtil.isRepairable(stack)) {
+                r.sendMes(cs, "repairNotRepairable");
                 return;
             }
             stack.setDurability((short) 0);
-            bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "repairSelfHand");
+            r.sendMes(cs, "repairSelfHand");
         } else if (!args[0].equalsIgnoreCase("all")) {
             //repair <Player>
-            Player p = bammerbom.ultimatecore.spongeapi.r.searchPlayer(args[0]);
+            if (!r.perm(cs, "uc.repair.others", false, true)) {
+                return;
+            }
+            Player p = r.searchPlayer(args[0]);
             if (p == null) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "playerNotFound", "%Player", args[1]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                 return;
             }
             ItemStack stack = p.getItemInHand();
             if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "repairNoItemInHand");
+                r.sendMes(cs, "repairNoItemInHand");
                 return;
             }
-            if (!bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.isRepairable(stack)) {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "repairNotRepairable");
+            if (!ItemUtil.isRepairable(stack)) {
+                r.sendMes(cs, "repairNotRepairable");
                 return;
             }
             stack.setDurability((short) 0);
-            bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "repairOtherSelfHand", "%Player", bammerbom.ultimatecore.spongeapi.r.getDisplayName(p));
-            bammerbom.ultimatecore.spongeapi.r.sendMes(p, "repairOtherOtherHand", "%Player", bammerbom.ultimatecore.spongeapi.r.getDisplayName(cs));
+            r.sendMes(cs, "repairOtherSelfHand", "%Player", r.getDisplayName(p));
+            r.sendMes(p, "repairOtherOtherHand", "%Player", r.getDisplayName(cs));
         } else if (args[0].equalsIgnoreCase("all")) {
             //repair all <Player>
-            if (!bammerbom.ultimatecore.spongeapi.r.perm(cs, "uc.repair.all", false, true)) {
+            if (!r.perm(cs, "uc.repair.others.all", false, true)) {
                 return;
             }
-            if (bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 1)) {
-                Player p = bammerbom.ultimatecore.spongeapi.r.searchPlayer(args[1]);
+            if (r.checkArgs(args, 1)) {
+                Player p = r.searchPlayer(args[1]);
                 if (p == null) {
-                    bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "playerNotFound", "%Player", args[1]);
+                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return;
                 }
                 for (ItemStack stack : p.getInventory().getContents()) {
                     if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
                         continue;
                     }
-                    if (!bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.isRepairable(stack)) {
+                    if (!ItemUtil.isRepairable(stack)) {
                         continue;
                     }
                     stack.setDurability((short) 0);
@@ -114,16 +120,19 @@ public class CmdRepair implements bammerbom.ultimatecore.spongeapi.UltimateComma
                     if (stack == null) {
                         continue;
                     }
-                    if (!bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.isRepairable(stack)) {
+                    if (!ItemUtil.isRepairable(stack)) {
                         continue;
                     }
                     stack.setDurability((short) 0);
                 }
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "repairOtherSelfAll", "%Player", bammerbom.ultimatecore.spongeapi.r.getDisplayName(p));
-                bammerbom.ultimatecore.spongeapi.r.sendMes(p, "repairOtherOtherAll", "%Player", bammerbom.ultimatecore.spongeapi.r.getDisplayName(cs));
+                r.sendMes(cs, "repairOtherSelfAll", "%Player", r.getDisplayName(p));
+                r.sendMes(p, "repairOtherOtherAll", "%Player", r.getDisplayName(cs));
             } else {
                 //repair all
-                if (!bammerbom.ultimatecore.spongeapi.r.isPlayer(cs)) {
+                if (!r.perm(cs, "uc.repair.all", false, true)) {
+                    return;
+                }
+                if (!r.isPlayer(cs)) {
                     return;
                 }
                 Player p = (Player) cs;
@@ -131,7 +140,7 @@ public class CmdRepair implements bammerbom.ultimatecore.spongeapi.UltimateComma
                     if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
                         continue;
                     }
-                    if (!bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.isRepairable(stack)) {
+                    if (!ItemUtil.isRepairable(stack)) {
                         continue;
                     }
                     stack.setDurability((short) 0);
@@ -140,12 +149,12 @@ public class CmdRepair implements bammerbom.ultimatecore.spongeapi.UltimateComma
                     if (stack == null) {
                         continue;
                     }
-                    if (!bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil.isRepairable(stack)) {
+                    if (!ItemUtil.isRepairable(stack)) {
                         continue;
                     }
                     stack.setDurability((short) 0);
                 }
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "repairSelfAll");
+                r.sendMes(cs, "repairSelfAll");
             }
         }
     }

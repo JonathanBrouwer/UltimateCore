@@ -23,6 +23,8 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
+import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdBurn implements bammerbom.ultimatecore.spongeapi.UltimateCommand {
+public class CmdBurn implements UltimateCommand {
 
     @Override
     public String getName() {
@@ -50,30 +52,30 @@ public class CmdBurn implements bammerbom.ultimatecore.spongeapi.UltimateCommand
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!bammerbom.ultimatecore.spongeapi.r.isPlayer(cs)) {
+        if (!r.isPlayer(cs)) {
             return;
         }
-        if (!bammerbom.ultimatecore.spongeapi.r.perm(cs, "uc.burn", false, true)) {
+        if (!r.perm(cs, "uc.burn", false, true)) {
             return;
         }
-        if (!bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 0)) {
-            bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "burnUsage");
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "burnUsage");
             return;
         }
         Double time = 10.0;
         Player t;
-        if (bammerbom.ultimatecore.spongeapi.r.searchPlayer(args[0]) != null) {
-            t = bammerbom.ultimatecore.spongeapi.r.searchPlayer(args[0]);
+        if (r.searchPlayer(args[0]) != null) {
+            t = r.searchPlayer(args[0]);
         } else {
-            bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
-        if (bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 1) && bammerbom.ultimatecore.spongeapi.r.isDouble(args[1])) {
+        if (r.checkArgs(args, 1) && r.isDouble(args[1])) {
             time = Double.parseDouble(args[1]);
         }
         time = time * 20;
         t.setFireTicks(time.intValue());
-        bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "burnMessage", "%Player", t.getName(), "%Time", time / 20);
+        r.sendMes(cs, "burnMessage", "%Player", t.getName(), "%Time", time / 20);
     }
 
     @Override

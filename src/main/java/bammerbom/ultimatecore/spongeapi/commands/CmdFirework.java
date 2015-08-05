@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
+import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -34,10 +35,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class CmdFirework implements UltimateCommand {
+    public static Random ran = new Random();
 
     @Override
     public String getName() {
@@ -76,6 +80,46 @@ public class CmdFirework implements UltimateCommand {
             r.sendMes(cs, "fireworkClear");
             return;
         }
+
+        if (args[0].equalsIgnoreCase("random")) {
+            List<FireworkEffect.Type> effecttype = Arrays.asList(FireworkEffect.Type.values());
+            ArrayList<Color> effectcolor = new ArrayList<>();
+            effectcolor.add(Color.WHITE);
+            effectcolor.add(Color.SILVER);
+            effectcolor.add(Color.GRAY);
+            effectcolor.add(Color.BLACK);
+            effectcolor.add(Color.RED);
+            effectcolor.add(Color.MAROON);
+            effectcolor.add(Color.YELLOW);
+            effectcolor.add(Color.OLIVE);
+            effectcolor.add(Color.LIME);
+            effectcolor.add(Color.GREEN);
+            effectcolor.add(Color.AQUA);
+            effectcolor.add(Color.TEAL);
+            effectcolor.add(Color.BLUE);
+            effectcolor.add(Color.NAVY);
+            effectcolor.add(Color.FUCHSIA);
+            effectcolor.add(Color.PURPLE);
+            effectcolor.add(Color.ORANGE);
+
+            FireworkMeta fm = (FireworkMeta) stack.getItemMeta();
+            fm.clearEffects();
+            fm.addEffect(FireworkEffect.builder().flicker(ran.nextBoolean()).trail(ran.nextBoolean()).with(effecttype.get(ran.nextInt(effecttype.size())))
+                    .withColor(effectcolor.get(ran.nextInt(effectcolor.size()))).withFade(effectcolor.get(ran.nextInt(effectcolor.size()))).build());
+            int number = ran.nextInt(3);
+            number++;
+            fm.setPower(number);
+
+            stack.setItemMeta(fm);
+            if (spawnin) {
+                r.sendMes(cs, "fireworkSpawnin");
+                p.getInventory().addItem(stack);
+            } else {
+                r.sendMes(cs, "fireworkModify");
+            }
+            return;
+        }
+
         MetaItemStack mStack = new MetaItemStack(stack);
         for (String arg : args) {
             if (arg.equalsIgnoreCase("power") || arg.equalsIgnoreCase("p")) {

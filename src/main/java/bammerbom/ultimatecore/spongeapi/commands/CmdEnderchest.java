@@ -23,6 +23,8 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
+import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,7 +32,7 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdEnderchest implements bammerbom.ultimatecore.spongeapi.UltimateCommand {
+public class CmdEnderchest implements UltimateCommand {
 
     @Override
     public String getName() {
@@ -49,24 +51,24 @@ public class CmdEnderchest implements bammerbom.ultimatecore.spongeapi.UltimateC
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!(bammerbom.ultimatecore.spongeapi.r.isPlayer(cs))) {
+        if (!(r.isPlayer(cs))) {
             return;
         }
         Player p = (Player) cs;
-        if (bammerbom.ultimatecore.spongeapi.r.checkArgs(args, 0) == false) {
-            if (!bammerbom.ultimatecore.spongeapi.r.perm(cs, "uc.enderchest", false, true)) {
+        if (r.checkArgs(args, 0) == false) {
+            if (!r.perm(cs, "uc.enderchest", false, true)) {
                 return;
             }
             p.openInventory(p.getEnderChest());
         } else {
-            if (!bammerbom.ultimatecore.spongeapi.r.perm(cs, "uc.enderchest.others", false, true)) {
+            if (!r.perm(cs, "uc.enderchest.others", false, true)) {
                 return;
             }
-            Player target = bammerbom.ultimatecore.spongeapi.r.searchPlayer(args[0]);
+            Player target = r.searchPlayer(args[0]);
             if (target != null) {
                 p.openInventory(target.getEnderChest());
             } else {
-                bammerbom.ultimatecore.spongeapi.r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             }
         }
     }

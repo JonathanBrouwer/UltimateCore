@@ -328,7 +328,7 @@ public class UEconomy implements Economy {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "This player has no account");
         }
         if (getBalance(playerName) - amount < 0) {
-            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw more than " + "the player has");
+            amount = getBalance(playerName);
         }
         getData().set(playerName, getBalance(playerName) - amount);
         getData().save();

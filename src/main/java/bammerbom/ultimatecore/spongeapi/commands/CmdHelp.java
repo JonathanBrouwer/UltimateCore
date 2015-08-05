@@ -69,13 +69,13 @@ public class CmdHelp implements UltimateCommand {
         String command = label;
         String pageStr = args.length > 0 ? args[0] : null;
         String chapterPageStr = args.length > 1 ? args[1] : null;
-        bammerbom.ultimatecore.spongeapi.commands.UText input = new bammerbom.ultimatecore.spongeapi.commands.TextInput(cs);
-        bammerbom.ultimatecore.spongeapi.commands.UText output;
+        UText input = new TextInput(cs);
+        UText output;
         if (input.getLines().isEmpty()) {
             if ((r.isInt(pageStr)) || (pageStr == null)) {
-                output = new bammerbom.ultimatecore.spongeapi.commands.HelpInput(cs, "");
+                output = new HelpInput(cs, "");
             } else {
-                output = new bammerbom.ultimatecore.spongeapi.commands.HelpInput(cs, pageStr.toLowerCase(Locale.ENGLISH));
+                output = new HelpInput(cs, pageStr.toLowerCase(Locale.ENGLISH));
                 command = command.concat(" ").concat(pageStr);
                 pageStr = chapterPageStr;
             }
@@ -83,7 +83,7 @@ public class CmdHelp implements UltimateCommand {
         } else {
             output = input;
         }
-        bammerbom.ultimatecore.spongeapi.commands.TextPager pager = new bammerbom.ultimatecore.spongeapi.commands.TextPager(output);
+        TextPager pager = new TextPager(output);
         pager.showPage(pageStr, chapterPageStr, command, cs);
     }
 
@@ -277,14 +277,14 @@ class PluginCommandsInput implements bammerbom.ultimatecore.spongeapi.commands.U
 
 class TextPager {
 
-    private final transient bammerbom.ultimatecore.spongeapi.commands.UText text;
+    private final transient UText text;
     private final transient boolean onePage;
 
-    public TextPager(bammerbom.ultimatecore.spongeapi.commands.UText text) {
+    public TextPager(UText text) {
         this(text, false);
     }
 
-    public TextPager(bammerbom.ultimatecore.spongeapi.commands.UText text, boolean onePage) {
+    public TextPager(UText text, boolean onePage) {
         this.text = text;
         this.onePage = onePage;
     }
