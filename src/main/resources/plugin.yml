@@ -99,6 +99,11 @@ commands:
     description: Get the location of a certain player.
     permissions: uc.coordinates
     aliases: [coords, location, loc]
+  custommessages:
+    usage: /<command> <Message> [Var...]
+    description: Get a custom message from the custommessages.yml file.
+    permissions: uc.custommessages
+    aliases: [cm]
   damage:
     usage: /<command> [Player] [Damage]
     description: Damage someone for a certain amount of damage.
