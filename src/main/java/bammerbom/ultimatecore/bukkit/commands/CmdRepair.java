@@ -54,11 +54,11 @@ public class CmdRepair implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.repair", false, true)) {
-            return;
-        }
         if (!r.checkArgs(args, 0)) {
             //repair
+            if (!r.perm(cs, "uc.repair", false, true)) {
+                return;
+            }
             if (!r.isPlayer(cs)) {
                 return;
             }
@@ -76,6 +76,9 @@ public class CmdRepair implements UltimateCommand {
             r.sendMes(cs, "repairSelfHand");
         } else if (!args[0].equalsIgnoreCase("all")) {
             //repair <Player>
+            if (!r.perm(cs, "uc.repair.others", false, true)) {
+                return;
+            }
             Player p = r.searchPlayer(args[0]);
             if (p == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[1]);
@@ -95,7 +98,7 @@ public class CmdRepair implements UltimateCommand {
             r.sendMes(p, "repairOtherOtherHand", "%Player", r.getDisplayName(cs));
         } else if (args[0].equalsIgnoreCase("all")) {
             //repair all <Player>
-            if (!r.perm(cs, "uc.repair.all", false, true)) {
+            if (!r.perm(cs, "uc.repair.others.all", false, true)) {
                 return;
             }
             if (r.checkArgs(args, 1)) {
@@ -126,6 +129,9 @@ public class CmdRepair implements UltimateCommand {
                 r.sendMes(p, "repairOtherOtherAll", "%Player", r.getDisplayName(cs));
             } else {
                 //repair all
+                if (!r.perm(cs, "uc.repair.all", false, true)) {
+                    return;
+                }
                 if (!r.isPlayer(cs)) {
                     return;
                 }
