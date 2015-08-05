@@ -97,11 +97,11 @@ public class CmdSethome implements UltimateCommand {
             limit = 999999;
         }
         List<String> homes = UC.getPlayer(p).getHomeNames();
-        if (homes.size() >= limit) {
+        String name = r.checkArgs(args, 0) ? args[0] : "home";
+        if (homes.size() >= limit && !homes.contains(name.toLowerCase())) {
             r.sendMes(cs, "sethomeMax", "%Limit", limit);
             return;
         }
-        String name = r.checkArgs(args, 0) ? args[0] : "home";
         if (homes.contains(name)) {
             r.sendMes(cs, "sethomeMoved", "%Home", name);
         } else {
