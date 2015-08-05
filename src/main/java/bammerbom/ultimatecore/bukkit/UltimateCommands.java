@@ -234,6 +234,9 @@ public class UltimateCommands implements TabCompleter {
                     }
                 }
                 try {
+                    if (!r.perm(sender, cmdr.getPermission(), false, true)) {
+                        return new ArrayList<>();
+                    }
                     rtrn = cmdr.onTabComplete(sender, cmd, label, args, args[args.length - 1], args.length - 1);
                 } catch (Exception ex) {
                     ErrorLogger.log(ex, "Failed tabcompleting for " + label);
