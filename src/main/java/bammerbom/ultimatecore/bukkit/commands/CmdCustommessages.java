@@ -62,7 +62,10 @@ public class CmdCustommessages implements UltimateCommand {
             r.sendMes(cs, "custommessagesUsage");
             return;
         }
-
+        if (!new Config(UltimateFileLoader.Dcustommes).contains("Messages." + args[0])) {
+            r.sendMes(cs, "custommessagesUsage");
+            return;
+        }
         String message = ChatColor.translateAlternateColorCodes('&', StringUtil.join("\n", new Config(UltimateFileLoader.Dcustommes).getStringList("Messages." + args[0])))
                 .replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "");  Integer count = 1;
         for (String s : r.getFinalArg(args, 1).split(" ")) {
@@ -76,7 +79,7 @@ public class CmdCustommessages implements UltimateCommand {
         }
 
         for (Player p : r.getOnlinePlayers()) {
-            if (r.perm(p, "uc.custommessages.receive", true, true)) {
+            if (r.perm(p, "uc.custommessages.receive", true, false)) {
                 p.sendMessage(message);
             }
         }
