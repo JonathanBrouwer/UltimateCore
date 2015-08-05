@@ -107,7 +107,7 @@ Weather:
 MojangServersBroadcasting: false
 
 #How much delay should the mojang server checker have?
-#Recommended between 30 seconds and 120 seconds
+#Recommended between 30 seconds and 150 seconds
 MojangServersDelay: 90
 
 #Chat customization
