@@ -27,16 +27,22 @@ import bammerbom.ultimatecore.spongeapi.UltimateUpdater.UpdateResult;
 import bammerbom.ultimatecore.spongeapi.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
+import com.google.common.base.Predicate;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.GameRegistry;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.service.permission.PermissionService;
+import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.service.permission.SubjectData;
+import org.spongepowered.api.service.permission.option.OptionSubject;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.Tristate;
 import org.spongepowered.api.util.command.CommandSource;
 import org.spongepowered.api.world.Location;
 
@@ -88,6 +94,17 @@ public class r {
         /*if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
             prom = com.comphenix.protocol.ProtocolLibrary.getProtocolManager();
         }*/
+        r.getGame().getServiceManager().potentiallyProvide(PermissionService.class).executeWhenPresent(new Predicate<PermissionService>() {
+            @Override
+            public boolean apply(PermissionService input) {
+                final SubjectData defaultData = input.getDefaultData();
+                for (String perm : defperms) {
+                    //TODO set default permissions
+                    defaultData.setPermission(SubjectData.GLOBAL_CONTEXT, perm, Tristate.TRUE);
+                }
+                return true;
+            }
+        });
         if (r.getCnfg().contains("Debug")) {
             setDebug(r.getCnfg().getBoolean("Debug"));
         }
@@ -204,16 +221,13 @@ public class r {
         return hasperm;
     }
 
+    static ArrayList<String> defperms = new ArrayList<>();
+
     private static boolean perm(Player p, String perm, Boolean def) {
-        if (p.isOp()) { //TODO is op
-            r.debug("Checked " + p.getName() + " for " + perm + ", returned true. (1)");
-            return true;
-        }
-        /*if (r.getVault() != null && r.getVault().getPermission() != null && !r.getVault().getPermission().getName().equals("SuperPerms")) {
-            r.debug("Checked " + p.getName() + " for " + perm + ", returned " + r.getVault().getPermission().has(p, perm) + ". (2)");
-            return r.getVault().getPermission().has(p, perm);
-        } else {*/
         if (def == true) {
+            if (!defperms.contains(perm)) {
+                defperms.add(perm);
+            }
             r.debug("Checked " + p.getName() + " for " + perm + ", returned true. (3)");
             return true;
         }
@@ -369,6 +383,11 @@ public class r {
         }
     }
 
+    public static String mesRaw(String padMessage, Object... repl) {
+        Text.Literal text = (Text.Literal) mes(padMessage, repl);
+        return text.getContent();
+    }
+
     public static Text mes(String padMessage, Object... repl) {
         if (cu.map.containsKey(padMessage)) {
             Text a = Texts.of(r.positive + translateAlternateColorCodes('&', cu.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
@@ -378,7 +397,9 @@ public class r {
                 if (repA == null) {
                     repA = s.toString();
                 } else {
-                    a = a.replace(repA, s.toString()); //TODO replace
+                    Map<String, Object> map = new HashMap<>();
+                    map.put(repA, s.toString());
+                    a = Texts.formatNoChecks(a, map); //TODO replace
                     repA = null;
                 }
             }
@@ -392,7 +413,9 @@ public class r {
                 if (repA == null) {
                     repA = s.toString();
                 } else {
-                    a = a.replace(repA, s.toString()); //TODO replace
+                    Map<String, Object> map = new HashMap<>();
+                    map.put(repA, s.toString());
+                    a = Texts.formatNoChecks(a, map); //TODO replace
                     repA = null;
                 }
             }
@@ -438,7 +461,7 @@ public class r {
 
     @SuppressWarnings("deprecation")
     public static Player[] getOnlinePlayers() {
-        List<Player> plz = (List<Player>) getGame().getOnlinePlayers();
+        List<Player> plz = (List<Player>) getGame().getServer().getOnlinePlayers();
         return plz.toArray(new Player[plz.size()]);
     }
 
@@ -622,6 +645,30 @@ public class r {
             return null;
         }*/ //TODO
         return null;
+    }
+
+    public static String getPrefix(Player player) {
+        Subject subject = player.getContainingCollection().get(player.getIdentifier());
+        if (subject instanceof OptionSubject) {
+            OptionSubject optionSubject = (OptionSubject) subject;
+            String prefix = optionSubject.getOption("prefix").or("");
+            prefix.replaceAll("&", "\u00A7");
+            return prefix;
+        } else {
+            return "";
+        }
+    }
+
+    public static String getSuffix(Player player) {
+        Subject subject = player.getContainingCollection().get(player.getIdentifier());
+        if (subject instanceof OptionSubject) {
+            OptionSubject optionSubject = (OptionSubject) subject;
+            String suffix = optionSubject.getOption("suffix").or("");
+            suffix.replaceAll("&", "\u00A7");
+            return suffix;
+        } else {
+            return "";
+        }
     }
 
     public static String getFaction(Player p) {

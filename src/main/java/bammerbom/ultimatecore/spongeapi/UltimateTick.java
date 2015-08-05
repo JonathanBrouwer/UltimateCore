@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.spongeapi;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UPlayer;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.entity.player.Player;
 
 public class UltimateTick implements Runnable {
 

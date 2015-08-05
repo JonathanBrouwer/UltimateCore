@@ -106,7 +106,7 @@ public class DateUtil {
     public static String formatDateDiff(Calendar fromDate, Calendar toDate) {
         boolean future = false;
         if (toDate.equals(fromDate)) {
-            return r.mes("now");
+            return r.mesRaw("now");
         }
         if (toDate.after(fromDate)) {
             future = true;
@@ -114,8 +114,8 @@ public class DateUtil {
         StringBuilder sb = new StringBuilder();
         int[] types = {1, 2, 5, 11, 12, 13};
 
-        String[] names = {r.mes("years"), r.mes("year"), r.mes("months"), r.mes("month"), r.mes("days"), r.mes("day"), r.mes("hours"), r.mes("hour"), r.mes("minutes"), r.mes("minute"), r
-                .mes("seconds"), r.mes("second")};
+        String[] names = {r.mesRaw("years"), r.mesRaw("year"), r.mesRaw("months"), r.mesRaw("month"), r.mesRaw("days"), r.mesRaw("day"), r.mesRaw("hours"), r.mesRaw("hour"), r.mesRaw("minutes"), r
+                .mesRaw("minute"), r.mesRaw("seconds"), r.mesRaw("second")};
 
         int accuracy = 0;
         for (int i = 0;
