@@ -46,17 +46,14 @@ public class UltimateCore extends JavaPlugin {
     public static File file;
     private static UltimateCore instance = null;
 
-    static {
-        r.prestart();
+    public UltimateCore() {
+        instance = this;
         try {
+            r.prestart();
             r.log("Prestarted Succesfully.");
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Prestarting failed.");
         }
-    }
-
-    public UltimateCore() {
-        instance = this;
     }
 
     public static UltimateCore getInstance() {

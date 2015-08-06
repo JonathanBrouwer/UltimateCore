@@ -44,11 +44,11 @@ public class ErrorLogger {
     public static void log(final Throwable t, final String s) {
         //FILE
         final String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(Calendar.getInstance().getTime());
-        File dir = new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + "/Errors");
+        File dir = new File(r.getUC().getDataFolder() + "/Errors");
         if (!dir.exists()) {
             dir.mkdir();
         }
-        File file = new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + "/Errors", time + ".txt");
+        File file = new File(r.getUC().getDataFolder() + "/Errors", time + ".txt");
         if (!file.exists()) {
             try {
                 file.createNewFile();
