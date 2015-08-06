@@ -71,6 +71,10 @@ public class RLocation {
         return rot.getY();
     }
 
+    public Double getRoll() {
+        return rot.getZ();
+    }
+
     public Double getX() {
         return location.getX();
     }

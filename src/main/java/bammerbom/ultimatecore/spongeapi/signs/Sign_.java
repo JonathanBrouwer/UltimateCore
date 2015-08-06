@@ -25,65 +25,47 @@ package bammerbom.ultimatecore.spongeapi.signs;
 
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
 import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
-import org.spongepowered.api.item.inventory.Inventories;
-import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.custom.CustomInventory;
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
 
-public class SignFree implements UltimateSign {
+public class Sign_ implements UltimateSign {
 
     @Override
     public String getName() {
-        return "free";
+        return "balance";
     }
 
     @Override
     public String getPermission() {
-        return "uc.sign.free";
+        return "uc.sign.balance";
     }
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.free", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.balance", true, true) && !r.perm(p, "uc.sign", true, true)) {
             return;
         }
-        ItemStack item = ItemUtil.searchItem(((Text.Literal) sign.getData().get().getLine(1)).getContent());
-        item.setQuantity(item.getMaxStackQuantity());
-        CustomInventory inv = Inventories.customInventoryBuilder().name(ItemUtil.getName(item)).size(36);
-        for (int i = 0;
-             i < 36;
-             i++) {
-            inv.offer(item);
-        }
-        p.openInventory(inv);
+        //onClick
     }
 
     @Override
     public void onCreate(SignChangeEvent event, Player p) {
-        if (!r.perm(p, "uc.sign.free.create", false, true)) {
+        if (!r.perm(p, "uc.sign.balance.create", false, true)) {
             event.setCancelled(true);
             event.getTile().getBlock().removeBlock();
             return;
         }
-        if (ItemUtil.searchItem(((Text.Literal) event.getNewData().getLine(1)).getContent()) == null) {
-            r.sendMes(p, "giveItemNotFound", "%Item", event.getNewData().getLine(1));
-            event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.RED + "[Free]")));
-            return;
-        }
-        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Free]")));
+        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Balance]")));
         r.sendMes(p, "signCreated");
     }
 
     @Override
     public void onDestroy(PlayerBreakBlockEvent event) {
-        if (!r.perm(event.getUser(), "uc.sign.free.destroy", false, true)) {
+        if (!r.perm(event.getUser(), "uc.sign.balance.destroy", false, true)) {
             event.setCancelled(true);
             return;
         }

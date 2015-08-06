@@ -25,12 +25,14 @@ package bammerbom.ultimatecore.spongeapi.signs;
 
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.SignChangeEvent;
+import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
+import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
+import org.spongepowered.api.item.inventory.Inventories;
+import org.spongepowered.api.item.inventory.custom.CustomInventory;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.format.TextColors;
 
 public class SignDisposal implements UltimateSign {
 
@@ -49,26 +51,27 @@ public class SignDisposal implements UltimateSign {
         if (!r.perm(p, "uc.sign.disposal", true, true) && !r.perm(p, "uc.sign", true, true)) {
             return;
         }
-        p.openInventory(Bukkit.createInventory(p, 36, r.mes("signDisposalTitle")));
+        CustomInventory inv = Inventories.customInventoryBuilder().name(r.mes("signDisposalTitle")).size(36).build();
+        p.openInventory(inv);
     }
 
     @Override
-    public void onCreate(SignChangeEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.disposal.create", false, true)) {
+    public void onCreate(SignChangeEvent event, Player p) {
+        if (!r.perm(p, "uc.sign.disposal.create", false, true)) {
             event.setCancelled(true);
-            event.getBlock().breakNaturally();
+            event.getTile().getBlock().removeBlock();
             return;
         }
-        event.setLine(0, ChatColor.DARK_BLUE + "[Disposal]");
-        r.sendMes(event.getPlayer(), "signCreated");
+        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Disposal]")));
+        r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(BlockBreakEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.disposal.destroy", false, true)) {
+    public void onDestroy(PlayerBreakBlockEvent event) {
+        if (!r.perm(event.getUser(), "uc.sign.balance.destroy", false, true)) {
             event.setCancelled(true);
             return;
         }
-        r.sendMes(event.getPlayer(), "signDestroyed");
+        r.sendMes(event.getUser(), "signDestroyed");
     }
 }

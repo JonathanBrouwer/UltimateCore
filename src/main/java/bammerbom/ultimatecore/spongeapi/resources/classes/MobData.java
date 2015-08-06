@@ -34,6 +34,10 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Colorable;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.data.type.HorseColor;
+import org.spongepowered.api.data.type.HorseStyle;
+import org.spongepowered.api.data.type.HorseStyles;
 
 import java.util.Locale;
 import java.util.Random;
@@ -44,8 +48,8 @@ public class MobData {
 
     //Methods
     static boolean isHorseColor(String str) {
-        for (Horse.Color color : Horse.Color.values()) {
-            String colors = color.name().toLowerCase().replaceAll("_", "");
+        for (HorseColor color : r.getRegistry().getAllOf(CatalogTypes.HORSE_COLOR)) {
+            String colors = color.getId().toLowerCase().replaceAll("_", "");
             String inputs = str.toLowerCase().replaceAll("_", "");
             if (colors.equals(inputs)) {
                 return true;
@@ -54,9 +58,9 @@ public class MobData {
         return false;
     }
 
-    static Horse.Color getHorseColor(String str) {
-        for (Horse.Color color : Horse.Color.values()) {
-            String colors = color.name().toLowerCase().replaceAll("_", "");
+    static HorseColor getHorseColor(String str) {
+        for (HorseColor color : r.getRegistry().getAllOf(CatalogTypes.HORSE_COLOR)) {
+            String colors = color.getId().toLowerCase().replaceAll("_", "");
             String inputs = str.toLowerCase().replaceAll("_", "");
             if (colors.equals(inputs)) {
                 return color;
@@ -69,8 +73,8 @@ public class MobData {
         if (str.equalsIgnoreCase("whitelegs")) {
             return true;
         }
-        for (Horse.Style style : Horse.Style.values()) {
-            String styles = style.name().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
+        for (HorseStyle style : r.getRegistry().getAllOf(CatalogTypes.HORSE_STYLE)) {
+            String styles = style.getId().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
             String inputs = str.toLowerCase().replaceAll("white_", "").replaceAll("_", "").replaceAll("whitelegs", "white");
             if (styles.equals(inputs)) {
                 return true;
@@ -79,12 +83,12 @@ public class MobData {
         return false;
     }
 
-    static Horse.Style getHorseStyle(String str) {
+    static HorseStyle getHorseStyle(String str) {
         if (str.equalsIgnoreCase("whitelegs")) {
-            return Horse.Style.WHITE;
+            return HorseStyles.WHITE;
         }
-        for (Horse.Style style : Horse.Style.values()) {
-            String styles = style.name().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
+        for (HorseStyle style : r.getRegistry().getAllOf(CatalogTypes.HORSE_STYLE)) {
+            String styles = style.getId().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
             String inputs = str.toLowerCase().replaceAll("white_", "").replaceAll("_", "").replaceAll("whitelegs", "white");
             if (styles.equals(inputs)) {
                 return style;

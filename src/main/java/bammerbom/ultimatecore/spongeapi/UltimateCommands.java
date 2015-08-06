@@ -57,6 +57,7 @@ public class UltimateCommands {
         cmds.add(new CmdCompact());
         cmds.add(new CmdCompass());
         cmds.add(new CmdCoordinates());
+        cmds.add(new CmdCustommessages());
         cmds.add(new CmdDamage());
         cmds.add(new CmdDeaf());
         cmds.add(new CmdDeaflist());

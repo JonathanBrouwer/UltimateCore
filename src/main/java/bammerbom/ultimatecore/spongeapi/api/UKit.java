@@ -36,6 +36,7 @@ import org.spongepowered.api.data.manipulator.catalog.CatalogItemData;
 import org.spongepowered.api.data.manipulator.item.EnchantmentData;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.item.Enchantment;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -135,7 +136,7 @@ public class UKit {
             return ism.getItemStack();
         } catch (Exception ex) {
             r.log("Kit " + name + " has an invalid item: " + item);
-            return new ItemStack(Material.AIR);
+            return r.getGame().getRegistry().getItemBuilder().itemType(ItemTypes.COOKIE).build();
         }
     }
 
