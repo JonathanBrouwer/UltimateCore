@@ -34,6 +34,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CmdCustommessages implements UltimateCommand {
@@ -67,16 +68,21 @@ public class CmdCustommessages implements UltimateCommand {
             r.sendMes(cs, "custommessagesUsage");
             return;
         }
+
+        Integer count = args.length - 1;
         String message = ChatColor.translateAlternateColorCodes('&', StringUtil.join("\n", new Config(UltimateFileLoader.Dcustommes).getStringList("Messages." + args[0])))
-                .replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "");  Integer count = 1;
-        for (String s : r.getFinalArg(args, 1).split(" ")) {
+                .replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "");
+        List<String> c = Arrays.asList(r.getFinalArg(args, 1).split(" "));
+        Collections.reverse(c);
+
+        for (String s : c) {
             s = ChatColor.translateAlternateColorCodes('&', s).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("_", " ");
             if(s.isEmpty()){
                 continue;
             }
             message = message.replace("%var" + count, s);
             message = message.replace("%Var" + count, s);
-            count++;
+            count--;
         }
 
         for (Player p : r.getOnlinePlayers()) {

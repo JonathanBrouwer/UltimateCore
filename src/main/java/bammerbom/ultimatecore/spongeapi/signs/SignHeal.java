@@ -25,11 +25,12 @@ package bammerbom.ultimatecore.spongeapi.signs;
 
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.SignChangeEvent;
+import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
+import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.format.TextColors;
 
 public class SignHeal implements UltimateSign {
 
@@ -49,26 +50,26 @@ public class SignHeal implements UltimateSign {
             return;
         }
         r.sendMes(p, "healSelf");
-        p.setHealth(p.getMaxHealth());
+        p.offer(p.getHealthData().setHealth(p.getHealthData().getMaxHealth()));
     }
 
     @Override
-    public void onCreate(SignChangeEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.heal.create", false, true)) {
+    public void onCreate(SignChangeEvent event, Player p) {
+        if (!r.perm(p, "uc.sign.balance.create", false, true)) {
             event.setCancelled(true);
-            event.getBlock().breakNaturally();
+            event.getTile().getBlock().removeBlock();
             return;
         }
-        event.setLine(0, ChatColor.DARK_BLUE + "[Heal]");
-        r.sendMes(event.getPlayer(), "signCreated");
+        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Balance]")));
+        r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(BlockBreakEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.heal.destroy", false, true)) {
+    public void onDestroy(PlayerBreakBlockEvent event) {
+        if (!r.perm(event.getUser(), "uc.sign.balance.destroy", false, true)) {
             event.setCancelled(true);
             return;
         }
-        r.sendMes(event.getPlayer(), "signDestroyed");
+        r.sendMes(event.getUser(), "signDestroyed");
     }
 }

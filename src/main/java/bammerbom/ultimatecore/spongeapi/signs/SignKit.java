@@ -31,15 +31,18 @@ import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.Item;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
+import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.format.TextColors;
 
 import java.util.List;
-import java.util.Map;
 
 public class SignKit implements UltimateSign {
 
@@ -54,6 +57,66 @@ public class SignKit implements UltimateSign {
     }
 
     @Override
+    public void onClick(Player p, Sign sign) {
+        if (!r.perm(p, "uc.sign.kit", true, true) && !r.perm(p, "uc.sign", true, true)) {
+            return;
+        }
+        final Config config = new Config(UltimateFileLoader.Dkits);
+        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) sign.getData().get().getLine(1)).getContent());
+        if (kitNode == null) {
+            r.sendMes(p, "kitNotFound", "%Kit", ((Text.Literal) sign.getData().get().getLine(1)).getContent());
+            sign.setRawData(sign.getData().get().setLine(0, Texts.of(TextColors.RED + "[Kit]")).toContainer());
+            return;
+        }
+        final UKit kit = UC.getServer().getKit(((Text.Literal) sign.getData().get().getLine(1)).getContent());
+        if (!kit.hasCooldownPassedFor(p)) {
+            if (kit.getCooldown() == -1L) {
+                r.sendMes(p, "kitOnlyOnce");
+            } else {
+                r.sendMes(p, "kitTime", "%Time", DateUtil.formatDateDiff(kit.getCooldownFor(p)));
+            }
+            return;
+        }
+        final List<ItemStack> items = kit.getItems();
+        for (ItemStack item : items) {
+            if (!p.getInventory().offer(item)) {
+                Item en = (Item) p.getWorld().createEntity(EntityTypes.DROPPED_ITEM, p.getLocation().getPosition()).get();
+                en.offer(en.getItemData().setValue(item));
+                p.getWorld().spawnEntity(en);
+            }
+        }
+        kit.setLastUsed(p, System.currentTimeMillis());
+        r.sendMes(p, "kitGive", "%Kit", ((Text.Literal) sign.getData().get().getLine(1)).getContent());
+    }
+
+    @Override
+    public void onCreate(SignChangeEvent event, Player p) {
+        if (!r.perm(p, "uc.sign.kit", false, true)) {
+            event.setCancelled(true);
+            event.getTile().getBlock().removeBlock();
+            return;
+        }
+        final Config config = new Config(UltimateFileLoader.Dkits);
+        final ConfigSection kitNode = config.getConfigurationSection(event.getLine(1));
+        if (kitNode == null) {
+            r.sendMes(event.getPlayer(), "kitNotFound", "%Kit", event.getLine(1));
+            event.setLine(0, ChatColor.RED + "[Kit]");
+            return;
+        }
+        event.setLine(0, ChatColor.DARK_BLUE + "[Kit]");
+        r.sendMes(event.getPlayer(), "signCreated");
+    }
+
+    @Override
+    public void onDestroy(PlayerBreakBlockEvent event) {
+        if (!r.perm(event.getUser(), "uc.sign.kit.destroy", false, true)) {
+            event.setCancelled(true);
+            return;
+        }
+        r.sendMes(event.getUser(), "signDestroyed");
+    }
+
+    /*@Override
     public void onClick(Player p, Sign sign) {
         if (!r.perm(p, "uc.sign.kit", true, true) && !r.perm(p, "uc.sign", true, true)) {
             return;
@@ -108,5 +171,5 @@ public class SignKit implements UltimateSign {
             return;
         }
         r.sendMes(event.getPlayer(), "signDestroyed");
-    }
+    }*/
 }

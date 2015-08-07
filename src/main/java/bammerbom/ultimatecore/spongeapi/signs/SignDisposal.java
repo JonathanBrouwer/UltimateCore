@@ -68,7 +68,7 @@ public class SignDisposal implements UltimateSign {
 
     @Override
     public void onDestroy(PlayerBreakBlockEvent event) {
-        if (!r.perm(event.getUser(), "uc.sign.balance.destroy", false, true)) {
+        if (!r.perm(event.getUser(), "uc.sign.disposal.destroy", false, true)) {
             event.setCancelled(true);
             return;
         }
