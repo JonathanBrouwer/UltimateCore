@@ -40,6 +40,9 @@ public class UC {
 
     public static UPlayer getPlayer(UUID u) {
         for (UPlayer p : uplayers) {
+            if (p.uuid == null) {
+                continue;
+            }
             if (p.uuid.equals(u)) {
                 return p;
             }
@@ -53,6 +56,9 @@ public class UC {
 
     public static UPlayer getPlayer(OfflinePlayer p) {
         for (UPlayer pl : uplayers) {
+            if (pl.uuid == null) {
+                continue;
+            }
             if (pl.uuid.equals(p.getUniqueId())) {
                 return pl;
             }
@@ -66,6 +72,9 @@ public class UC {
 
     public static UPlayer getPlayer(String n) {
         for (UPlayer pl : uplayers) {
+            if (pl.name == null) {
+                continue;
+            }
             if (pl.name.equals(n)) {
                 return pl;
             }
