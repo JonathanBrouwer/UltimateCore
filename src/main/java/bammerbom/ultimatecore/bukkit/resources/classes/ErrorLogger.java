@@ -44,48 +44,6 @@ public class ErrorLogger {
     public static void log(final Throwable t, final String s) {
         //FILE
         final String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(Calendar.getInstance().getTime());
-        File dir = new File(r.getUC().getDataFolder() + "/Errors");
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
-        File file = new File(r.getUC().getDataFolder() + "/Errors", time + ".txt");
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        FileWriter outFile;
-        try {
-            outFile = new FileWriter(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        PrintWriter out = new PrintWriter(outFile);
-        out.println("=======================================");
-        out.println("UltimateCore has run into an error ");
-        out.println("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket");
-        out.println("Bukkit version: " + Bukkit.getServer().getVersion());
-        out.println("UltimateCore version: " + r.getUC().getDescription().getVersion());
-        out.println("Plugins loaded (" + Bukkit.getPluginManager().getPlugins().length + "): " + Arrays.asList(Bukkit.getPluginManager().getPlugins()));
-        out.println("Java version: " + System.getProperty("java.version"));
-        out.println("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " +
-                System.getProperty("os.version"));
-        out.println("Online mode: " + Bukkit.getServer().getOnlineMode());
-        out.println("Time: " + time);
-        out.println("Error message: " + t.getMessage());
-        out.println("UltimateCore message: " + s);
-        out.println("=======================================");
-        out.println("Stacktrace: \n" + ExceptionUtils.getStackTrace(t));
-        out.println("=======================================");
-        out.close();
-        try {
-            outFile.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         //CONSOLE
         Bukkit.getConsoleSender().sendMessage(" ");
         r.log(ChatColor.DARK_RED + "=========================================================");
@@ -160,6 +118,7 @@ public class ErrorLogger {
                         writer.append("Stacktrace: \n" + ExceptionUtils.getStackTrace(t) + "\n");
                         writer.append("=======================================\n");
                         countdown = System.currentTimeMillis();
+
                         while (System.currentTimeMillis() < countdown + 10000) {
                             try {
                                 test.wait(1000L);
@@ -169,9 +128,39 @@ public class ErrorLogger {
                             }
                         }
 
-                        String msg = writer.toString().replace("\n", "<br>");
+                        //File
+                        String msg = writer.toString();
+                        File dir = new File(r.getUC().getDataFolder() + "/Errors");
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File file = new File(r.getUC().getDataFolder() + "/Errors", time + ".txt");
+                        if (!file.exists()) {
+                            try {
+                                file.createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        FileWriter outFile;
+                        try {
+                            outFile = new FileWriter(file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            return;
+                        }
+                        PrintWriter out = new PrintWriter(outFile);
+                        out.write(msg);
+                        try {
+                            outFile.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        //
                         Webb webb = Webb.create();
-                        String rtrn = webb.get("http://ultimatecore.ga/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg)).asString().getBody();
+                        String rtrn = webb.get("http://ultimatecore.ga/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg.replace("\n", "<br>"))).asString()
+                                .getBody();
 
                         if (rtrn != null && rtrn.equalsIgnoreCase("true")) {
                             r.log("SEND ERROR SUCCESSFULLY");
