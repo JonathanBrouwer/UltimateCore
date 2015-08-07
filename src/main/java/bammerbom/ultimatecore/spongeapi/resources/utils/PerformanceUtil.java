@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
 
 public class PerformanceUtil {
 
@@ -32,7 +31,8 @@ public class PerformanceUtil {
     private static long lastPoll = System.currentTimeMillis() - 3000L;
 
     static {
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+        //TODO get tps
+        r.getGame().getScheduler().getTaskBuilder().delay(20L).interval(20L).name("TPS Thread").execute(new Runnable() {
             @Override
             public void run() {
                 long now = System.currentTimeMillis();
@@ -44,7 +44,7 @@ public class PerformanceUtil {
                 tps = (Math.round(tpsn * 10.0F) / 10.0F);
                 lastPoll = now;
             }
-        }, 20, 20);
+        }).submit(r.getUC());
     }
 
     public static float getTps() {

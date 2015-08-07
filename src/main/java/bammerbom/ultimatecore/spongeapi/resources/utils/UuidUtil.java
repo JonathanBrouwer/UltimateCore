@@ -27,11 +27,11 @@ import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import com.google.common.collect.ImmutableList;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.util.command.CommandSource;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,99 +46,6 @@ import java.util.concurrent.Callable;
 
 public class UuidUtil {
 
-    static JSONArray uuids = null;
-
-    public static UUID requestUuid(OfflinePlayer p) {
-        return p.getUniqueId();
-        //This code was written as test code, don't use it.
-        /*//long time = System.currentTimeMillis();
-         //Try 1: UltimateCore data file
-         JSONParser parser = new JSONParser();
-         try {
-         if (uuids == null) {
-         BufferedReader br = new BufferedReader(new FileReader(UltimateFileLoader.DFuuid));
-         uuids = br.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil.joinList(FileUtil
-         .getLines(UltimateFileLoader.DFuuid))));
-         }
-         for (Object ob : uuids) {
-         JSONObject job = (JSONObject) ob;
-         if (job.get("name").equals(p.getName())) {
-         //r.debug("Requesting uuid took " + (System.currentTimeMillis() - time));
-         return UUID.fromString(job.get("uuid").toString());
-         }
-         }
-         } catch (ParseException ex) {
-         ErrorLogger.log(ex, "Failed to parse JSON.");
-         } catch (IOException ex) {
-         ErrorLogger.log(ex, "Failed to read UltimateCore data file.");
-         }
-         //Try 2: Server data file
-         try {
-         File file = new File(r.getUC().getDataFolder().getParentFile().getParentFile(), "usercache.json");
-         BufferedReader br = new BufferedReader(new FileReader(file));
-         JSONArray serveruuids = br.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil
-         .joinList(FileUtil.getLines(file))));
-         for (Object ob : serveruuids) {
-         JSONObject job = (JSONObject) ob;
-         if (job.get("name").equals(p.getName())) {
-         //Save to UC file
-         if (uuids == null) {
-         //JSONParser parser2 = new JSONParser();
-         BufferedReader br2 = new BufferedReader(new FileReader(UltimateFileLoader.DFuuid));
-         uuids = br2.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil.joinList(FileUtil
-         .getLines(UltimateFileLoader.DFuuid))));
-         }
-         UUID u = UUID.fromString(job.get("uuid").toString());
-         JSONObject obj = new JSONObject();
-         obj.put("name", job.get("name"));
-         obj.put("uuid", u.toString());
-         uuids.add(obj);
-         r.debug("Added " + job.get("name") + " | " + u.toString());
-         FileUtil.writeLargerTextFile(UltimateFileLoader.DFuuid, Arrays.asList(uuids.toJSONString()));
-         //r.debug("Requesting uuid took " + (System.currentTimeMillis() - time));
-         return u;
-         }
-         }
-         } catch (ParseException ex) {
-         ErrorLogger.log(ex, "Failed to parse JSON.");
-         } catch (IOException ex) {
-         ErrorLogger.log(ex, "Failed to read UltimateCore data file.");
-         }
-         //Try 3: Bukkit / Mojang API
-         r.debug("Contacting Mojang servers for UUID of " + p.getName() + "...");
-         UUID u = p.getUniqueId();
-         if (u == null) {
-         NameToUuid ntu = new NameToUuid(Arrays.asList(p.getName()));
-         try {
-         u = ntu.call().get(p.getName());
-         } catch (Exception ex) {
-         r.log("Requesting uuid failed: " + p.getName());
-         return null;
-         }
-         }
-         //Save to UC file
-         try {
-         if (uuids == null) {
-         //JSONParser parser2 = new JSONParser();
-         BufferedReader br = new BufferedReader(new FileReader(UltimateFileLoader.DFuuid));
-         uuids = br.readLine() == null ? new JSONArray() : ((JSONArray) parser.parse(StringUtil.joinList(FileUtil
-         .getLines(UltimateFileLoader.DFuuid))));
-         }
-         JSONObject obj = new JSONObject();
-         obj.put("name", p.getName());
-         obj.put("uuid", u.toString());
-         uuids.add(obj);
-         r.debug("Added " + p.getName() + " | " + u.toString());
-         FileUtil.writeLargerTextFile(UltimateFileLoader.DFuuid, Arrays.asList(uuids.toJSONString()));
-         } catch (ParseException ex) {
-         ErrorLogger.log(ex, "Failed to parse JSON.");
-         } catch (IOException ex) {
-         ErrorLogger.log(ex, "Failed to read UltimateCore data file.");
-         }
-         //r.debug("Requesting uuid took " + (System.currentTimeMillis() - time));
-         return u;*/
-    }
-
     //
     public static void loadPlayers() {
         File directory = new File(r.getUC().getDataFolder() + File.separator + "Players");
@@ -146,7 +53,7 @@ public class UuidUtil {
             directory.mkdirs();
         }
         ArrayList<UUID> request = null;
-        for (OfflinePlayer p : r.getOfflinePlayers()) {
+        for (User p : r.getOfflinePlayers()) {
             if (p.getUniqueId() == null) {
                 continue;
             }
@@ -202,7 +109,7 @@ public class UuidUtil {
                         conf.set("names", names);
                         conf.set("name", p.getName());
                         if (p.isOnline()) {
-                            r.sendMes((CommandSender) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
+                            r.sendMes((CommandSource) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
                         } else {
                             conf.set("oldname", oldname);
                         }

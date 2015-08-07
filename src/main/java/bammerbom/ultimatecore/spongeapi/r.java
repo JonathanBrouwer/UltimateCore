@@ -38,6 +38,7 @@ import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.service.permission.SubjectData;
 import org.spongepowered.api.service.permission.option.OptionSubject;
+import org.spongepowered.api.service.user.UserStorage;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColor;
@@ -308,35 +309,81 @@ public class r {
         if (str.startsWith("&") || str.startsWith("§")) {
             str = str.substring(1);
         }
-        switch (str) {
+        switch (str.toLowerCase()) {
             case "0":
-                return TextColors.DARK_BLUE;
+                return TextColors.BLACK;
             case "1":
-                return TextColors.DARK_GREEN;
+                return TextColors.DARK_BLUE;
             case "2":
-                return TextColors.DARK_AQUA;
+                return TextColors.DARK_GREEN;
             case "3":
-                return TextColors.DARK_RED;
+                return TextColors.DARK_AQUA;
             case "4":
-                return TextColors.DARK_PURPLE;
+                return TextColors.DARK_RED;
             case "5":
-                return TextColors.GOLD;
+                return TextColors.DARK_PURPLE;
             case "6":
-                return TextColors.GRAY;
+                return TextColors.GOLD;
             case "7":
-                return TextColors.DARK_GRAY;
+                return TextColors.GRAY;
             case "8":
+                return TextColors.DARK_GRAY;
+            case "9":
                 return TextColors.BLUE;
             case "a":
-                return TextColors.AQUA;
+                return TextColors.GREEN;
             case "b":
-                return TextColors.RED;
+                return TextColors.AQUA;
             case "c":
-                return TextColors.LIGHT_PURPLE;
+                return TextColors.RED;
             case "d":
-                return TextColors.YELLOW;
+                return TextColors.LIGHT_PURPLE;
             case "e":
+                return TextColors.YELLOW;
+            case "f":
                 return TextColors.WHITE;
+            case "r":
+                return TextColors.RESET;
+            default:
+                return null;
+        }
+    }
+
+    public static Character textColorToChar(TextColor color) {
+        if (color.equals(TextColors.BLACK)) {
+            return '0';
+        } else if (color.equals(TextColors.DARK_BLUE)) {
+            return '1';
+        } else if (color.equals(TextColors.DARK_GREEN)) {
+            return '2';
+        } else if (color.equals(TextColors.DARK_AQUA)) {
+            return '3';
+        } else if (color.equals(TextColors.DARK_RED)) {
+            return '4';
+        } else if (color.equals(TextColors.DARK_PURPLE)) {
+            return '5';
+        } else if (color.equals(TextColors.GOLD)) {
+            return '6';
+        } else if (color.equals(TextColors.GRAY)) {
+            return '7';
+        } else if (color.equals(TextColors.DARK_GRAY)) {
+            return '8';
+        } else if (color.equals(TextColors.BLUE)) {
+            return '9';
+        } else if (color.equals(TextColors.GREEN)) {
+            return 'a';
+        } else if (color.equals(TextColors.AQUA)) {
+            return 'b';
+        } else if (color.equals(TextColors.RED)) {
+            return 'c';
+        } else if (color.equals(TextColors.LIGHT_PURPLE)) {
+            return 'd';
+        } else if (color.equals(TextColors.YELLOW)) {
+            return 'e';
+        } else if (color.equals(TextColors.WHITE)) {
+            return 'f';
+        } else if (color.equals(TextColors.RESET)) {
+            return 'r';
         }
         return null;
     }
@@ -469,14 +516,19 @@ public class r {
         return (List<Player>) getGame().getServer().getOnlinePlayers();
     }
 
-    public static User[] getOfflinePlayers() {
+    /*public static User[] getOfflinePlayers() {
         List<User> plz = Arrays.asList(getGame().getServer().); //TODO
         return plz.toArray(new User[plz.size()]);
     }
 
     public static List<User> getOfflinePlayersL() {
+        List<User> users = new ArrayList<>();
+        for (GameProfile f : r.getGame().getServiceManager().provide(UserStorage.class).get().getAll()) {
+
+        }
+
         return Arrays.asList(Bukkit.getOfflinePlayers()); //TODO
-    }
+    }*/
 
     public static Player searchPlayer(String s) {
         return r.getGame().getServer().getPlayer(s).orNull();
@@ -484,7 +536,7 @@ public class r {
 
     @SuppressWarnings("deprecation")
     public static User searchOfflinePlayer(String s) {
-        return Bukkit.getOfflinePlayer(s); //TODO
+        return r.getGame().getServiceManager().provide(UserStorage.class).get().get(s).get();
     }
 
     public static Player searchPlayer(UUID u) {
@@ -492,7 +544,7 @@ public class r {
     }
 
     public static User searchOfflinePlayer(UUID u) {
-        return Bukkit.getOfflinePlayer(u); //TODO
+        return r.getGame().getServiceManager().provide(UserStorage.class).get().get(u).get();
     }
 
     //

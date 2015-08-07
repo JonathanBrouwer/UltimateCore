@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil.ReflectionStatic;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 @SuppressWarnings({"deprecation", "unchecked"})
@@ -40,19 +39,7 @@ public class ItemUtil {
     }
 
     public static String getName(ItemStack stack) {
-        try {
-            return bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil
-                    .execute("getName()", ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionStatic.fromOBC("inventory.CraftItemStack"), stack).fetch()).fetch().toString();
-        } catch (Exception ex) {
-            return getTypeName(stack);
-        }
-    }
-
-    public static String getTypeName(ItemStack stack) {
-        if (stack == null || stack.getItem() == null) {
-            return "hand";
-        }
-        return stack.getItem().getName();
+        return stack.getName();
     }
 
 }
