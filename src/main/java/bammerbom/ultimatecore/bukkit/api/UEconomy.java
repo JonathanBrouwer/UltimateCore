@@ -144,7 +144,7 @@ public class UEconomy implements Economy {
         r.debug("hasAccount - " + playerName + " - " + getData().contains(playerName));
         if (!r.isUUID(playerName)) {
             OfflinePlayer player = r.searchOfflinePlayer(playerName);
-            if (player.getUniqueId() != null) {
+            if (player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) {
                 playerName = player.getUniqueId().toString();
             }
         }
@@ -198,7 +198,7 @@ public class UEconomy implements Economy {
         Long time = System.currentTimeMillis();
         if (!r.isUUID(playerName)) {
             OfflinePlayer player = r.searchOfflinePlayer(playerName);
-            if (player.getUniqueId() != null) {
+            if (player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) {
                 playerName = player.getUniqueId().toString();
             }
         }
@@ -256,7 +256,7 @@ public class UEconomy implements Economy {
         Long time = System.currentTimeMillis();
         if (!r.isUUID(playerName)) {
             OfflinePlayer player = r.searchOfflinePlayer(playerName);
-            if (player.getUniqueId() != null) {
+            if (player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) {
                 playerName = player.getUniqueId().toString();
             }
         }
@@ -312,7 +312,7 @@ public class UEconomy implements Economy {
 
         if (!r.isUUID(playerName)) {
             OfflinePlayer player = r.searchOfflinePlayer(playerName);
-            if (player.getUniqueId() != null) {
+            if (player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) {
                 playerName = player.getUniqueId().toString();
             }
         }
@@ -382,7 +382,7 @@ public class UEconomy implements Economy {
 
         if (!r.isUUID(playerName)) {
             OfflinePlayer player = r.searchOfflinePlayer(playerName);
-            if (player.getUniqueId() != null) {
+            if (player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) {
                 playerName = player.getUniqueId().toString();
             }
         }
@@ -581,7 +581,7 @@ public class UEconomy implements Economy {
 
         if (!r.isUUID(playerName)) {
             OfflinePlayer player = r.searchOfflinePlayer(playerName);
-            if (player.getUniqueId() != null) {
+            if (player.getUniqueId() != null && (player.hasPlayedBefore() || player.isOnline())) {
                 playerName = player.getUniqueId().toString();
             }
         }
