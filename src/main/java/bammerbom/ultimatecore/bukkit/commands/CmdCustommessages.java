@@ -55,11 +55,12 @@ public class CmdCustommessages implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.custommessages", false, true)) {
-            return;
-        }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "custommessagesUsage");
+            return;
+        }
+        if (!r.perm(cs, "uc.custommessages", false, false) && !r.perm(cs, "uc.custommessages." + args[0], false, false)) {
+            r.sendMes(cs, "noPermissions");
             return;
         }
         if (!new Config(UltimateFileLoader.Dcustommes).contains("Messages." + args[0])) {
