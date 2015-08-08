@@ -32,7 +32,7 @@ public class PerformanceUtil {
 
     static {
         //TODO get tps
-        r.getGame().getScheduler().getTaskBuilder().delay(20L).interval(20L).name("TPS Thread").execute(new Runnable() {
+        r.getGame().getScheduler().getTaskBuilder().delay(20L).interval(20L).name("UC: TPS Thread").execute(new Runnable() {
             @Override
             public void run() {
                 long now = System.currentTimeMillis();

@@ -284,13 +284,13 @@ public class LocationUtil {
             final Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
             l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;
             final Location to = l;
-            r.getGame().getScheduler().getTaskBuilder().execute(new Runnable() {
+            r.getGame().getScheduler().getTaskBuilder().name("UC: Teleportation delay task #1").execute(new Runnable() {
                 @Override
                 public void run() {
                     r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
                 }
             }).delay(2L).submit(r.getUC());
-            r.getGame().getScheduler().getTaskBuilder().execute(new Runnable() {
+            r.getGame().getScheduler().getTaskBuilder().name("UC: Teleportation delay task #2").execute(new Runnable() {
 
                 @Override
                 public void run() {

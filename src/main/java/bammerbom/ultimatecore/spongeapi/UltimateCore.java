@@ -31,7 +31,10 @@ import bammerbom.ultimatecore.spongeapi.listeners.*;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.*;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.PerformanceUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ServerIDUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
@@ -201,7 +204,7 @@ public class UltimateCore {
             UnknownCommandListener.start();
             WeatherListener.start();
             //
-            game.getScheduler().getTaskBuilder().interval(20L).delay(20L).execute(new UltimateTick()).name("UltimateCore TICK").submit(this);
+            game.getScheduler().getTaskBuilder().interval(20L).delay(20L).execute(new UltimateTick()).name("UC: Tick task").submit(this);
             //
             time = System.currentTimeMillis() - time;
             r.log(TextColors.GREEN + "Enabled UltimateCore! (" + time + "ms)");

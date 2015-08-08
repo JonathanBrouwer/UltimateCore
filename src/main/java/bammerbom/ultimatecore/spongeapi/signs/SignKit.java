@@ -65,7 +65,7 @@ public class SignKit implements UltimateSign {
         final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) sign.getData().get().getLine(1)).getContent());
         if (kitNode == null) {
             r.sendMes(p, "kitNotFound", "%Kit", ((Text.Literal) sign.getData().get().getLine(1)).getContent());
-            sign.setRawData(sign.getData().get().setLine(0, Texts.of(TextColors.RED + "[Kit]")).toContainer());
+            sign.offer(sign.getData().get().setLine(0, Texts.of(TextColors.RED + "[Kit]")));
             return;
         }
         final UKit kit = UC.getServer().getKit(((Text.Literal) sign.getData().get().getLine(1)).getContent());
@@ -97,14 +97,14 @@ public class SignKit implements UltimateSign {
             return;
         }
         final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(event.getLine(1));
+        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) event.getNewData().getLine(1)).getContent());
         if (kitNode == null) {
-            r.sendMes(event.getPlayer(), "kitNotFound", "%Kit", event.getLine(1));
-            event.setLine(0, ChatColor.RED + "[Kit]");
+            r.sendMes(p, "kitNotFound", "%Kit", event.getNewData().getLine(1));
+            event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.RED + "[Kit]")));
             return;
         }
-        event.setLine(0, ChatColor.DARK_BLUE + "[Kit]");
-        r.sendMes(event.getPlayer(), "signCreated");
+        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Kit]")));
+        r.sendMes(p, "signCreated");
     }
 
     @Override
@@ -116,60 +116,4 @@ public class SignKit implements UltimateSign {
         r.sendMes(event.getUser(), "signDestroyed");
     }
 
-    /*@Override
-    public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.kit", true, true) && !r.perm(p, "uc.sign", true, true)) {
-            return;
-        }
-        final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(sign.getLine(1));
-        if (kitNode == null) {
-            r.sendMes(p, "kitNotFound", "%Kit", sign.getLine(1));
-            sign.setLine(0, ChatColor.RED + "[Kit]");
-            return;
-        }
-        final UKit kit = UC.getServer().getKit(sign.getLine(1));
-        if (!kit.hasCooldownPassedFor(p)) {
-            if (kit.getCooldown() == -1L) {
-                r.sendMes(p, "kitOnlyOnce");
-            } else {
-                r.sendMes(p, "kitTime", "%Time", DateUtil.formatDateDiff(kit.getCooldownFor(p)));
-            }
-            return;
-        }
-        final List<ItemStack> items = kit.getItems();
-        final Map<Integer, ItemStack> leftOver = p.getInventory().addItem(items.toArray(new ItemStack[items.size()]));
-        for (final ItemStack is : leftOver.values()) {
-            p.getWorld().dropItemNaturally(p.getLocation(), is);
-        }
-        kit.setLastUsed(p, System.currentTimeMillis());
-        r.sendMes(p, "kitGive", "%Kit", sign.getLine(1));
-    }
-
-    @Override
-    public void onCreate(SignChangeEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.kit", false, true)) {
-            event.setCancelled(true);
-            event.getBlock().breakNaturally();
-            return;
-        }
-        final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(event.getLine(1));
-        if (kitNode == null) {
-            r.sendMes(event.getPlayer(), "kitNotFound", "%Kit", event.getLine(1));
-            event.setLine(0, ChatColor.RED + "[Kit]");
-            return;
-        }
-        event.setLine(0, ChatColor.DARK_BLUE + "[Kit]");
-        r.sendMes(event.getPlayer(), "signCreated");
-    }
-
-    @Override
-    public void onDestroy(BlockBreakEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.kit.destroy", false, true)) {
-            event.setCancelled(true);
-            return;
-        }
-        r.sendMes(event.getPlayer(), "signDestroyed");
-    }*/
 }

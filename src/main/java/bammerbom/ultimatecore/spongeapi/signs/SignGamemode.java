@@ -81,7 +81,7 @@ public class SignGamemode implements UltimateSign {
                 break;
             default:
                 r.sendMes(p, "signGamemodeNotFound");
-                sign.setRawData(sign.getData().get().setLine(0, Texts.of(TextColors.RED + "[Gamemode]")).toContainer());
+                sign.offer(sign.getData().get().setLine(0, Texts.of(TextColors.RED + "[Gamemode]")));
                 return;
         }
         p.offer(p.getGameModeData().setGameMode(mode));
@@ -146,112 +146,4 @@ public class SignGamemode implements UltimateSign {
         r.sendMes(event.getUser(), "signDestroyed");
     }
 
-    /*@Override
-    public String getName() {
-        return "gamemode";
-    }
-
-    @Override
-    public String getPermission() {
-        return "uc.sign.gamemode";
-    }
-
-    @Override
-    public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.gamemode", true, true) && !r.perm(p, "uc.sign", true, true)) {
-            return;
-        }
-        GameMode mode;
-        switch (sign.getLine(1).toLowerCase()) {
-            case "survival":
-            case "s":
-            case "surv":
-            case "0":
-                mode = GameMode.SURVIVAL;
-                break;
-            case "creative":
-            case "c":
-            case "crea":
-            case "1":
-                mode = GameMode.CREATIVE;
-                break;
-            case "adventure:":
-            case "a":
-            case "adven":
-            case "2":
-                mode = GameMode.ADVENTURE;
-                break;
-            case "sp":
-            case "spec":
-            case "spectate":
-            case "spectator":
-            case "3":
-                mode = GameMode.SPECTATOR;
-                break;
-            default:
-                r.sendMes(p, "signGamemodeNotFound");
-                sign.setLine(0, ChatColor.RED + "[Gamemode]");
-                return;
-        }
-        p.setGameMode(mode);
-        r.sendMes(p, "gamemodeSelf", "%Gamemode", mode.toString().toLowerCase());
-    }
-
-    @Override
-    public void onCreate(SignChangeEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.gamemode.create", false, true)) {
-            event.setCancelled(true);
-            event.getBlock().breakNaturally();
-            return;
-        }
-        try {
-            GameMode mode;
-            switch (event.getLine(1).toLowerCase()) {
-                case "survival":
-                case "s":
-                case "surv":
-                case "0":
-                    mode = GameMode.SURVIVAL;
-                    break;
-                case "creative":
-                case "c":
-                case "crea":
-                case "1":
-                    mode = GameMode.CREATIVE;
-                    break;
-                case "adventure:":
-                case "a":
-                case "adven":
-                case "2":
-                    mode = GameMode.ADVENTURE;
-                    break;
-                case "sp":
-                case "spec":
-                case "spectate":
-                case "spectator":
-                case "3":
-                    mode = GameMode.SPECTATOR;
-                    break;
-                default:
-                    r.sendMes(event.getPlayer(), "signGamemodeNotFound");
-                    event.setLine(0, ChatColor.RED + "[Gamemode]");
-                    return;
-            }
-        } catch (Exception ex) {
-            r.sendMes(event.getPlayer(), "signGamemodeNotFound");
-            event.setLine(0, ChatColor.RED + "[Gamemode]");
-            return;
-        }
-        event.setLine(0, ChatColor.DARK_BLUE + "[Gamemode]");
-        r.sendMes(event.getPlayer(), "signCreated");
-    }
-
-    @Override
-    public void onDestroy(BlockBreakEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.gamemode.destroy", false, true)) {
-            event.setCancelled(true);
-            return;
-        }
-        r.sendMes(event.getPlayer(), "signDestroyed");
-    }*/
 }

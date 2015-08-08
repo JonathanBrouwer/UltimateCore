@@ -25,14 +25,17 @@ package bammerbom.ultimatecore.spongeapi.signs;
 
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.inventory.ItemStack;
+import com.google.common.base.Optional;
+import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.data.manipulator.item.DurabilityData;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
+import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.format.TextColors;
 
 public class SignRepair implements UltimateSign {
 
@@ -51,59 +54,52 @@ public class SignRepair implements UltimateSign {
         if (!r.perm(p, "uc.sign.repair", true, true) && !r.perm(p, "uc.sign", true, true)) {
             return;
         }
-        Boolean all = sign.getLine(1).equalsIgnoreCase("all") || sign.getLine(1).equalsIgnoreCase("*");
+        Boolean all = ((Text.Literal) sign.getData().get().getLine(1)).getContent().equalsIgnoreCase("all") || ((Text.Literal) sign.getData().get().getLine(1)).getContent().equalsIgnoreCase("*");
         if (all) {
-            for (ItemStack stack : p.getInventory().getContents()) {
-                if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
+            for (Inventory inv : p.getInventory()) {
+                Optional<ItemStack> stackOptional = inv.peek();
+                if (!stackOptional.isPresent()) {
                     continue;
                 }
-                if (!ItemUtil.isRepairable(stack)) {
+                ItemStack stack = stackOptional.get();
+                if (!stack.isCompatible(DurabilityData.class)) {
                     continue;
                 }
-                stack.setDurability((short) 0);
-            }
-            for (ItemStack stack : p.getInventory().getArmorContents()) {
-                if (stack == null) {
-                    continue;
-                }
-                if (!ItemUtil.isRepairable(stack)) {
-                    continue;
-                }
-                stack.setDurability((short) 0);
+                stack.offer(stack.getOrCreate(DurabilityData.class).get().setDurability(0));
             }
             r.sendMes(p, "repairSelfAll");
         } else {
-            ItemStack stack = p.getItemInHand();
-            if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
+            Optional<ItemStack> stack = p.getItemInHand();
+            if (!stack.isPresent()) {
                 r.sendMes(p, "repairNoItemInHand");
                 return;
             }
-            if (!ItemUtil.isRepairable(stack)) {
+            if (!stack.get().isCompatible(DurabilityData.class)) {
                 r.sendMes(p, "repairNotRepairable");
                 return;
             }
-            stack.setDurability((short) 0);
+            stack.get().offer(stack.get().getOrCreate(DurabilityData.class).get().setDurability(0));
             r.sendMes(p, "repairSelfHand");
         }
     }
 
     @Override
-    public void onCreate(SignChangeEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.repair", false, true)) {
+    public void onCreate(SignChangeEvent event, Player p) {
+        if (!r.perm(p, "uc.sign.repair", false, true)) {
             event.setCancelled(true);
-            event.getBlock().breakNaturally();
+            event.getTile().getBlock().removeBlock();
             return;
         }
-        event.setLine(0, ChatColor.DARK_BLUE + "[Repair]");
-        r.sendMes(event.getPlayer(), "signCreated");
+        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Repair]")));
+        r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(BlockBreakEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.repair.destroy", false, true)) {
+    public void onDestroy(PlayerBreakBlockEvent event) {
+        if (!r.perm(event.getUser(), "uc.sign.repair.destroy", false, true)) {
             event.setCancelled(true);
             return;
         }
-        r.sendMes(event.getPlayer(), "signDestroyed");
+        r.sendMes(event.getUser(), "signDestroyed");
     }
 }

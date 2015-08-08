@@ -25,14 +25,12 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.*;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.Subscribe;
+import org.spongepowered.api.event.entity.player.*;
 
-public class AfkListener implements Listener {
+public class AfkListener {
 
     static Integer afktime = r.getCnfg().getInt("Afk.AfkTime");
     static Integer kicktime = r.getCnfg().getInt("Afk.KickTime");
@@ -40,8 +38,8 @@ public class AfkListener implements Listener {
 
     public static void start() {
         if (r.getCnfg().getBoolean("Afk.Enabled")) {
-            Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.AfkListener(), r.getUC());
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+            r.getGame().getEventManager().register(r.getUC(), new AfkListener());
+            r.getGame().getScheduler().getTaskBuilder().delay(100L).interval(100L).name("UC: Afk task").execute(new Runnable() {
                 @Override
                 public void run() {
                     for (Player pl : r.getOnlinePlayers()) {
@@ -52,112 +50,47 @@ public class AfkListener implements Listener {
                         if (dif > afktime) {
                             if (!UC.getPlayer(pl).isAfk()) {
                                 UC.getPlayer(pl).setAfk(true);
-                                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
+                                r.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
                             }
                         }
                         if (dif > kicktime) {
                             if (kickenabled) {
-                                if (!r.perm(pl, "uc.afk.excempt", false, false)) {
-                                    pl.kickPlayer(r.mes("afkKick"));
+                                if (!r.perm(pl, "uc.afk.exempt", false, false)) {
+                                    pl.kick(r.mes("afkKick"));
                                 }
                             }
                         }
 
                     }
                 }
-            }, 100L, 100L);
+            }).submit(r.getUC());
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(AsyncPlayerChatEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerBedEnterEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerBedLeaveEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerChatTabCompleteEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerEditBookEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerInteractEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerInteractEntityEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerItemHeldEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerMoveEvent e) {
-        if (!e.getFrom().getBlock().equals(e.getTo().getBlock())) {
-            UC.getPlayer(e.getPlayer()).updateLastActivity();
-        }
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerRespawnEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerToggleSneakEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerVelocityEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void playerJoin(PlayerJoinEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void playerCommand(PlayerCommandPreprocessEvent e) {
-        if (e.getMessage().startsWith("/afk") || e.getMessage().startsWith("afk")) {
+    @Subscribe(order = Order.POST)
+    public void event(PlayerEvent e) {
+        if (e instanceof PlayerChangeHealthEvent || e instanceof PlayerChangeGameModeEvent || e instanceof PlayerMoveEvent || e instanceof PlayerResourcePackStatusEvent || e instanceof
+                PlayerUpdateEvent) {
             return;
         }
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
+        UC.getPlayer(e.getUser()).updateLastActivity();
+
     }
 
-    @EventHandler
+    @Subscribe(order = Order.POST)
     public void playerQuit(PlayerQuitEvent e) {
-        if (UC.getPlayer(e.getPlayer()).isAfk()) {
-            UC.getPlayer(e.getPlayer()).setAfk(false);
+        if (UC.getPlayer(e.getUser()).isAfk()) {
+            UC.getPlayer(e.getUser()).setAfk(false);
         }
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
+        UC.getPlayer(e.getUser()).updateLastActivity();
     }
 
-    @EventHandler
+    @Subscribe(order = Order.POST)
     public void playerKick(PlayerKickEvent e) {
-        if (UC.getPlayer(e.getPlayer()).isAfk()) {
-            UC.getPlayer(e.getPlayer()).setAfk(false);
+        if (UC.getPlayer(e.getUser()).isAfk()) {
+            UC.getPlayer(e.getUser()).setAfk(false);
         }
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
+        UC.getPlayer(e.getUser()).updateLastActivity();
     }
 
 }
