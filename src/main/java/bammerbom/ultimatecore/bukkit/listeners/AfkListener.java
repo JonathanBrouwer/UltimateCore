@@ -57,7 +57,7 @@ public class AfkListener implements Listener {
                         }
                         if (dif > kicktime) {
                             if (kickenabled) {
-                                if (!r.perm(pl, "uc.afk.excempt", false, false)) {
+                                if (!r.perm(pl, "uc.afk.exempt", false, false)) {
                                     pl.kickPlayer(r.mes("afkKick"));
                                 }
                             }

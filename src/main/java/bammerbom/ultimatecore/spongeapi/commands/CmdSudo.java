@@ -64,7 +64,7 @@ public class CmdSudo implements UltimateCommand {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
-        if (r.perm(t, "uc.sudo.excempt", false, false) && !r.perm(cs, "uc.sudo.exempt.override", false, false)) {
+        if (r.perm(t, "uc.sudo.exempt", false, false) && !r.perm(cs, "uc.sudo.exempt.override", false, false)) {
             r.sendMes(cs, "sudoExempt");
             return;
         }
