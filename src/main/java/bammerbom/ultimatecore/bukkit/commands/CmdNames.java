@@ -24,15 +24,14 @@
 package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.UltimateCommand;
-import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
-import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.UuidUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import java.util.Arrays;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class CmdNames implements UltimateCommand {
 
@@ -56,22 +55,36 @@ public class CmdNames implements UltimateCommand {
         if (!r.perm(cs, "uc.names", false, true)) {
             return;
         }
+        if (!r.getCnfg().getBoolean("Mojang")) {
+            r.sendMes(cs, "accountstatusDisabled");
+            return;
+        }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "namesUsage");
             return;
         }
         OfflinePlayer p = r.searchOfflinePlayer(args[0]);
-        if (p == null || (!p.isOnline() && !p.hasPlayedBefore())) {
+        if (p == null || p.getUniqueId() == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
-        JsonConfig conf = UltimateFileLoader.getPlayerConfig(p);
-        List<String> names = conf.getStringList("names");
+        Map<Long, String> names = null;
+        try {
+            names = UuidUtil.getNameHistory(p.getUniqueId());
+        } catch (Exception e) {
+            r.sendMes(cs, "namesFailed");
+            return;
+        }
         r.sendMes(cs, "namesMessage", "%Player", r.getDisplayName(p));
-        for (String name : names) {
-            String n = name.split(" - ")[0];
-            String d = name.split(" - ")[1];
-            r.sendMes(cs, "namesMessage2", "%Date", d, "%Name", n);
+        for (Long date : names.keySet()) {
+            String name = names.get(date);
+            final String time;
+            if (date == -1) {
+                time = r.mes("namesFirst");
+            } else {
+                time = new SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.US).format(new Date(date));
+            }
+            r.sendMes(cs, "namesMessage2", "%Date", time, "%Name", name);
         }
     }
 

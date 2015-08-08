@@ -26,9 +26,11 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
+import com.goebl.david.Webb;
 import com.google.common.collect.ImmutableList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.spongepowered.api.entity.player.User;
 import org.spongepowered.api.util.command.CommandSource;
@@ -40,11 +42,39 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 
 public class UuidUtil {
+
+    public static Map<Long, String> getNameHistory(UUID u) throws Exception {
+        //https://api.mojang.com/user/profiles/27d51a021cec49fa8afa4a6aff0e5b0a/names
+        String uuid = u.toString().replace("-", "");
+        Webb web = Webb.create();
+        String response = web.get("https://api.mojang.com/user/profiles/" + uuid + "/names").asString().getBody();
+        Object obj = JSONValue.parse(response);
+        if (obj instanceof JSONArray) {
+            JSONArray array = (JSONArray) obj;
+            TreeMap<Long, String> map = new TreeMap<>();
+            for (Object ob : array) {
+                if (ob instanceof JSONObject) {
+                    JSONObject job = (JSONObject) ob;
+                    String name = job.get("name").toString();
+                    Long time = job.containsKey("changedToAt") ? Long.parseLong(job.get("changedToAt").toString()) : -1L;
+                    map.put(time, name);
+                } else {
+                    r.log("Response " + ob.toString() + " was not a JSONObject.");
+                }
+            }
+           /* Map<String, Long> items = new TreeMap<String, Long>(Collections.reverseOrder());
+            items.putAll(map);
+            return items;*/
+            return map;
+        } else {
+            r.log("Response " + obj.toString() + " was not a JSONArray.");
+            return null;
+        }
+    }
 
     //
     public static void loadPlayers() {
@@ -77,36 +107,9 @@ public class UuidUtil {
                 if (!conf.contains("name")) {
                     conf.set("name", p.getName());
                     conf.save();
-                    if (!conf.contains("names")) {
-                        ArrayList<String> names = new ArrayList<>();
-                        Calendar timeCal = Calendar.getInstance();
-                        timeCal.setTimeInMillis(System.currentTimeMillis());
-                        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
-                        names.add(p.getName() + " - " + date);
-                        conf.set("names", names);
-                        conf.save();
-                    }
                 } else {
-                    if (!conf.contains("names")) {
-                        ArrayList<String> names = new ArrayList<>();
-                        Calendar timeCal = Calendar.getInstance();
-                        timeCal.setTimeInMillis(System.currentTimeMillis());
-                        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
-                        names.add(p.getName() + " - " + date);
-                        conf.set("names", names);
-                        conf.save();
-                    }
                     if (!conf.getString("name").equals(p.getName())) {
                         String oldname = conf.getString("name");
-                        Calendar timeCal = Calendar.getInstance();
-                        timeCal.setTimeInMillis(System.currentTimeMillis());
-                        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
-                        List<String> names = conf.getStringList("names");
-                        if (names == null) {
-                            names = new ArrayList<>();
-                        }
-                        names.add(p.getName() + " - " + date);
-                        conf.set("names", names);
                         conf.set("name", p.getName());
                         if (p.isOnline()) {
                             r.sendMes((CommandSource) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
@@ -130,17 +133,6 @@ public class UuidUtil {
                     JsonConfig conf = new JsonConfig(f);
                     conf.set("name", n);
                     conf.save();
-                    //
-                    if (!conf.contains("names")) {
-                        ArrayList<String> names = new ArrayList<>();
-                        Calendar timeCal = Calendar.getInstance();
-                        timeCal.setTimeInMillis(System.currentTimeMillis());
-                        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timeCal.getTime());
-                        names.add(n + " - " + date);
-                        conf.set("names", names);
-                        conf.save();
-                    }
-                    //
                 }
                 r.log("Playerfile update complete.");
             } catch (Exception e) {
