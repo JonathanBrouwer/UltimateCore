@@ -180,7 +180,7 @@ public class CmdMoney implements UltimateCommand {
             }
             LinkedHashMap<String, Double> map = sortHashMapByValuesD(mapO);
             Integer cur = 0;
-            while ((map.size() - 1) >= cur && cur <= 10) {
+            while ((map.size() - 1) >= cur && cur < 10) {
                 String player;
                 try {
                     player = r.searchOfflinePlayer(UUID.fromString(map.keySet().toArray(new String[map.size()])[cur])).getName();
