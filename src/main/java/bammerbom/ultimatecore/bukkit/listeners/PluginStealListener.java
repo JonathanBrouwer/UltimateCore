@@ -67,11 +67,16 @@ public class PluginStealListener implements Listener {
                     if (event.getPacketType() == com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE) {
                         com.comphenix.protocol.events.PacketContainer packet = event.getPacket();
                         String m = packet.getStrings().read(0).toLowerCase();
-                        if (m.contains("/")) {
-                            m = m.replaceFirst("/", "");
-                        }
                         if (m.contains(" ")) {
                             m = m.split(" ")[0];
+                        } else if (m.startsWith("/")) {
+                            if (!r.perm(event.getPlayer(), "uc.plugins", false, false)) {
+                                event.setCancelled(true);
+                                return;
+                            }
+                        }
+                        if (m.contains("/")) {
+                            m = m.replaceFirst("/", "");
                         }
                         if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins") || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl") || m.equalsIgnoreCase("about") || m
                                 .equalsIgnoreCase("bukkit:about") || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version") || m.equalsIgnoreCase("ver") || m
