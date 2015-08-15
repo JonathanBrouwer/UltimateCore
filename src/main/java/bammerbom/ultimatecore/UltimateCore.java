@@ -152,7 +152,7 @@ public class UltimateCore extends Application {
             public void handle(ActionEvent t) {
                 if (Desktop.isDesktopSupported()) {
                     try {
-                        Desktop.getDesktop().browse(new URI("http://dev.bukkit.org/bukkit-plugins/ultimate_core/pages/features/"));
+                        Desktop.getDesktop().browse(new URI("http://ultimatecore.ga/features"));
                     } catch (Exception ex) {
                         showErrorMessage("Failed to open web page.");
                     }
