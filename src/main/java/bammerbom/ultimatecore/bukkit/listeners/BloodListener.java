@@ -75,7 +75,7 @@ public class BloodListener implements Listener {
                 if (iCD.contains(p.getEntityId())) {
                     return;
                 }
-                if (((HumanEntity) e.getEntity()).getGameMode().equals(GameMode.CREATIVE)) {
+                if (((HumanEntity) e.getEntity()).getGameMode().equals(GameMode.CREATIVE) || ((HumanEntity) e.getEntity()).getGameMode().equals(GameMode.SPECTATOR)) {
                     return;
                 }
                 iCD.add(p.getEntityId());
