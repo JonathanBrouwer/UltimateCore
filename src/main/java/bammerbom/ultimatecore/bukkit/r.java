@@ -146,6 +146,8 @@ public class r {
     }
 
     //Metrics end
+
+    static Config cnfg = null;
     //Config
     public static Config getCnfg() {
         if (!new File(r.getUC().getDataFolder(), "config.yml").exists()) {
@@ -171,7 +173,10 @@ public class r {
             }
             UltimateFileLoader.Enable();
         }
-        return new Config(new File(r.getUC().getDataFolder(), "config.yml"));
+        if (cnfg == null) {
+            cnfg = new Config(new File(r.getUC().getDataFolder(), "config.yml"));
+        }
+        return cnfg;
     }
 
     public static Vault getVault() {
