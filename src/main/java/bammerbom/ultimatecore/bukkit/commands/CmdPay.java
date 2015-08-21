@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.api.UC;
+import bammerbom.ultimatecore.bukkit.api.UEconomy;
 import bammerbom.ultimatecore.bukkit.r;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -82,7 +83,27 @@ public class CmdPay implements UltimateCommand {
             return;
         }
         Double d = Double.parseDouble(args[1]);
-        d = r.normalize(d, 0.1, r.getVault().getEconomy().getBalance(p));
+        if (d < 0.1) {
+            d = 0.1;
+        }
+
+        if (r.getVault().getEconomy() instanceof UEconomy) {
+            UEconomy ue = (UEconomy) r.getVault().getEconomy();
+            if (ue.getBalance(p) - d < 0) {
+                r.sendMes(cs, "payTooLessMoney", "%Money", ue.format(d));
+                return;
+            }
+            if (ue.getMaximumMoney() != null && d + ue.getBalance(t) > ue.getMaximumMoney()) {
+                r.sendMes(cs, "moneyMaxBalance");
+                return;
+            }
+        } else {
+            if (r.getVault().getEconomy().getBalance(p) - d < 0) {
+                r.sendMes(cs, "payTooLessMoney", "%Money", r.getVault().getEconomy().format(d));
+                return;
+            }
+        }
+
         r.getVault().getEconomy().withdrawPlayer(p, d);
         r.getVault().getEconomy().depositPlayer(t, d);
         r.sendMes(cs, "payMessage", "%Player", UC.getPlayer(t).getDisplayName(), "%Amount", r.getVault().getEconomy().format(d));

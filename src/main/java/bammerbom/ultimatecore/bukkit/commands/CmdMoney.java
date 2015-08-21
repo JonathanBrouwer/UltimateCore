@@ -25,8 +25,10 @@ package bammerbom.ultimatecore.bukkit.commands;
 
 import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
+import bammerbom.ultimatecore.bukkit.api.UEconomy;
 import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -76,6 +78,58 @@ public class CmdMoney implements UltimateCommand {
                 r.getVault().getEconomy().createPlayerAccount((Player) cs);
             }
             r.sendMes(cs, "moneyStatusSelf", "%Balance", r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance((Player) cs)));
+        /*} else if (args[0].equalsIgnoreCase("check")) {
+            if (!r.perm(cs, "uc.money.check", false, true)) {
+                return;
+            }
+            if (r.checkArgs(args, 2) && r.isDouble(args[2])) {
+                OfflinePlayer t = r.searchOfflinePlayer(args[1]);
+                if (!r.getVault().getEconomy().hasAccount(t)) {
+                    r.getVault().getEconomy().createPlayerAccount(t);
+                }
+                if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                    return;
+                }
+                final boolean has = r.getVault().getEconomy().getBalance(t) >= Double.parseDouble(args[2]);
+                if (cs instanceof BlockCommandSender) {
+                    r.log("returned " + has);
+                    BlockCommandSender bcs = (BlockCommandSender) cs;
+                    /*try {
+                        ReflectionUtil.ReflectionObject ob = ReflectionUtil
+                                .execute("getTileEntityAt({1}, {2}, {3})", bcs.getBlock().getWorld(), bcs.getBlock().getX(), bcs.getBlock().getY(), bcs.getBlock().getZ());
+                        Object ob2 = ob.invoke("getCommandBlock").fetch();
+                        for (Field f : ob2.getClass().getFields()) {
+                            r.log(f.getName());
+                        }
+                        for (Method f : ob2.getClass().getDeclaredMethods()) {
+                            r.log(f.getName());
+                        }
+                        r.log(ob2.getClass().getName());
+                        Field b = ob2.getClass().getField("b");
+                        b.setAccessible(true);
+                        r.log(b.get(ob2));
+                        //ob2.set("b", has ? 0 : 15);
+                        bcs.getBlock().getState().update();
+                    } catch (Exception ex) {
+                        ErrorLogger.log(ex, "Money check reflection failed.");
+                    }*\/
+                    try {
+                        CommandBlockListenerAbstract cbla = ((CommandBlockListenerAbstract) ((TileEntityCommand) ((CraftWorld) bcs.getBlock().getWorld())
+                                .getTileEntityAt(bcs.getBlock().getX(), bcs.getBlock().getY(), bcs.getBlock().getZ())).getCommandBlock());
+                        Field f = cbla.getClass().getField("b");
+                        f.setAccessible(true);
+                        r.log(f.get(cbla));
+                    } catch (Exception ex) {
+                        ErrorLogger.log(ex, "Money check reflection failed.");
+                    }
+                } else {
+                    cs.sendMessage(has + "");
+                }
+            } else {
+                r.sendMes(cs, "moneyUsage");
+            }
+            return;*/
         } else if (args[0].equalsIgnoreCase("set")) {
             if (!r.perm(cs, "uc.money.set", false, true)) {
                 return;
@@ -89,9 +143,28 @@ public class CmdMoney implements UltimateCommand {
                 if (!r.getVault().getEconomy().hasAccount((Player) cs)) {
                     r.getVault().getEconomy().createPlayerAccount((Player) cs);
                 }
-                r.getVault().getEconomy().withdrawPlayer((Player) cs, r.getVault().getEconomy().getBalance((Player) cs));
-                r.getVault().getEconomy().depositPlayer((Player) cs, Double.parseDouble(args[1]));
-                r.sendMes(cs, "moneySetSelf", "%Balance", r.getVault().getEconomy().format(Double.parseDouble(args[1])));
+                if (r.getVault().getEconomy() instanceof UEconomy) {
+                    UEconomy ue = (UEconomy) r.getVault().getEconomy();
+                    if (ue.getMaximumMoney() != null && Double.parseDouble(args[1]) > ue.getMaximumMoney()) {
+                        r.sendMes(cs, "moneyTooHigh");
+                        return;
+                    }
+                    if (Double.parseDouble(args[1]) < ue.getMinimumMoney()) {
+                        r.sendMes(cs, "moneyTooLow");
+                        return;
+                    }
+                }
+                EconomyResponse er1 = r.getVault().getEconomy().withdrawPlayer((Player) cs, r.getVault().getEconomy().getBalance((Player) cs));
+                if (er1.transactionSuccess()) {
+                    EconomyResponse er2 = r.getVault().getEconomy().depositPlayer((Player) cs, Double.parseDouble(args[1]));
+                    if (er2.transactionSuccess()) {
+                        r.sendMes(cs, "moneySetSelf", "%Balance", r.getVault().getEconomy().format(Double.parseDouble(args[1])));
+                    } else {
+                        r.sendMes(cs, "moneyFailed", "%Error", er2.errorMessage);
+                    }
+                } else {
+                    r.sendMes(cs, "moneyFailed", "%Error", er1.errorMessage);
+                }
             } else if (!r.checkArgs(args, 2)) {
                 r.sendMes(cs, "moneyUsage");
             } else if (!r.isDouble(args[1]) && r.isDouble(args[2])) {
@@ -102,9 +175,28 @@ public class CmdMoney implements UltimateCommand {
                 if (!r.getVault().getEconomy().hasAccount(t)) {
                     r.getVault().getEconomy().createPlayerAccount(t);
                 }
-                r.getVault().getEconomy().withdrawPlayer(t, r.getVault().getEconomy().getBalance(t));
-                r.getVault().getEconomy().depositPlayer(t, Double.parseDouble(args[2]));
-                r.sendMes(cs, "moneySetOthers", "%Balance", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
+                if (r.getVault().getEconomy() instanceof UEconomy) {
+                    UEconomy ue = (UEconomy) r.getVault().getEconomy();
+                    if (ue.getMaximumMoney() != null && Double.parseDouble(args[2]) > ue.getMaximumMoney()) {
+                        r.sendMes(cs, "moneyTooHigh");
+                        return;
+                    }
+                    if (Double.parseDouble(args[2]) < ue.getMinimumMoney()) {
+                        r.sendMes(cs, "moneyTooLow");
+                        return;
+                    }
+                }
+                EconomyResponse er1 = r.getVault().getEconomy().withdrawPlayer(t, r.getVault().getEconomy().getBalance(t));
+                if (er1.transactionSuccess()) {
+                    EconomyResponse er2 = r.getVault().getEconomy().depositPlayer(t, Double.parseDouble(args[2]));
+                    if (er2.transactionSuccess()) {
+                        r.sendMes(cs, "moneySetOthers", "%Balance", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
+                    } else {
+                        r.sendMes(cs, "moneyFailed", "%Error", er2.errorMessage);
+                    }
+                } else {
+                    r.sendMes(cs, "moneyFailed", "%Error", er1.errorMessage);
+                }
             } else {
                 r.sendMes(cs, "moneyUsage");
             }
@@ -122,8 +214,27 @@ public class CmdMoney implements UltimateCommand {
                 if (!r.getVault().getEconomy().hasAccount((Player) cs)) {
                     r.getVault().getEconomy().createPlayerAccount((Player) cs);
                 }
-                r.getVault().getEconomy().depositPlayer((Player) cs, Double.parseDouble(args[1]));
-                r.sendMes(cs, "moneyAddSelf", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[1])));
+                if (r.getVault().getEconomy() instanceof UEconomy) {
+                    UEconomy ue = (UEconomy) r.getVault().getEconomy();
+                    r.log(Double.parseDouble(args[1]) + " + " + ue.getBalance((Player) cs) + " > " + ue.getMaximumMoney());
+                    if (ue.getMaximumMoney() != null && Double.parseDouble(args[1]) + ue.getBalance((Player) cs) > ue.getMaximumMoney()) {
+                        double add = ue.getMaximumMoney() - ue.getBalance((Player) cs);
+                        EconomyResponse er = r.getVault().getEconomy().depositPlayer((Player) cs, add);
+                        if (er.transactionSuccess()) {
+                            r.sendMes(cs, "moneyAddSelf", "%Amount", r.getVault().getEconomy().format(add));
+                            r.sendMes(cs, "moneyMaxBalance");
+                        } else {
+                            r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
+                        }
+                        return;
+                    }
+                }
+                EconomyResponse er = r.getVault().getEconomy().depositPlayer((Player) cs, Double.parseDouble(args[1]));
+                if (er.transactionSuccess()) {
+                    r.sendMes(cs, "moneyAddSelf", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[1])));
+                } else {
+                    r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
+                }
             } else if (!r.checkArgs(args, 2)) {
                 r.sendMes(cs, "moneyUsage");
             } else if (!r.isDouble(args[1]) && r.isDouble(args[2])) {
@@ -134,8 +245,30 @@ public class CmdMoney implements UltimateCommand {
                 if (!r.getVault().getEconomy().hasAccount(t)) {
                     r.getVault().getEconomy().createPlayerAccount(t);
                 }
-                r.getVault().getEconomy().depositPlayer(t, Double.parseDouble(args[2]));
-                r.sendMes(cs, "moneyAddOthers", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
+                if (r.getVault().getEconomy() instanceof UEconomy) {
+                    UEconomy ue = (UEconomy) r.getVault().getEconomy();
+                    if (ue.getMaximumMoney() != null && Double.parseDouble(args[2]) + ue.getBalance(t) > ue.getMaximumMoney()) {
+                        r.log(Double.parseDouble(args[1]) + " + " + ue.getBalance((Player) cs) + " > " + ue.getMaximumMoney());
+                        if (ue.getMaximumMoney() != null && Double.parseDouble(args[1]) + ue.getBalance(t) > ue.getMaximumMoney()) {
+                            double add = ue.getMaximumMoney() - ue.getBalance(t);
+                            EconomyResponse er = r.getVault().getEconomy().depositPlayer(t, add);
+                            if (er.transactionSuccess()) {
+                                r.sendMes(cs, "moneyAddOthers", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
+                                r.sendMes(cs, "moneyMaxBalance");
+                            } else {
+                                r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
+                            }
+                            return;
+                        }
+                        return;
+                    }
+                }
+                EconomyResponse er = r.getVault().getEconomy().depositPlayer(t, Double.parseDouble(args[2]));
+                if (er.transactionSuccess()) {
+                    r.sendMes(cs, "moneyAddOthers", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
+                } else {
+                    r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
+                }
             } else {
                 r.sendMes(cs, "moneyUsage");
             }
@@ -152,8 +285,26 @@ public class CmdMoney implements UltimateCommand {
                 if (!r.getVault().getEconomy().hasAccount((Player) cs)) {
                     r.getVault().getEconomy().createPlayerAccount((Player) cs);
                 }
-                r.getVault().getEconomy().withdrawPlayer((Player) cs, Double.parseDouble(args[1]));
-                r.sendMes(cs, "moneyRemoveSelf", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[1])));
+                if (r.getVault().getEconomy() instanceof UEconomy) {
+                    UEconomy ue = (UEconomy) r.getVault().getEconomy();
+                    if (ue.getMaximumMoney() != null && ue.getBalance((Player) cs) - Double.parseDouble(args[1]) < ue.getMinimumMoney()) {
+                        double remove = ue.getBalance((Player) cs) - ue.getMinimumMoney();
+                        EconomyResponse er = r.getVault().getEconomy().withdrawPlayer((Player) cs, remove);
+                        if (er.transactionSuccess()) {
+                            r.sendMes(cs, "moneyRemoveSelf", "%Amount", r.getVault().getEconomy().format(remove));
+                            r.sendMes(cs, "moneyMinBalance");
+                        } else {
+                            r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
+                        }
+                        return;
+                    }
+                }
+                EconomyResponse er = r.getVault().getEconomy().withdrawPlayer((Player) cs, Double.parseDouble(args[1]));
+                if (er.transactionSuccess()) {
+                    r.sendMes(cs, "moneyRemoveSelf", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[1])));
+                } else {
+                    r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
+                }
             } else if (!r.checkArgs(args, 2)) {
                 r.sendMes(cs, "moneyUsage");
             } else if (!r.isDouble(args[1]) && r.isDouble(args[2])) {
@@ -164,8 +315,26 @@ public class CmdMoney implements UltimateCommand {
                 if (!r.getVault().getEconomy().hasAccount(t)) {
                     r.getVault().getEconomy().createPlayerAccount(t);
                 }
-                r.getVault().getEconomy().withdrawPlayer(t, Double.parseDouble(args[2]));
-                r.sendMes(cs, "moneyRemoveOthers", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
+                if (r.getVault().getEconomy() instanceof UEconomy) {
+                    UEconomy ue = (UEconomy) r.getVault().getEconomy();
+                    if (ue.getMaximumMoney() != null && ue.getBalance(t) - Double.parseDouble(args[2]) < ue.getMinimumMoney()) {
+                        double remove = ue.getBalance(t) - ue.getMinimumMoney();
+                        EconomyResponse er = r.getVault().getEconomy().withdrawPlayer(t, remove);
+                        if (er.transactionSuccess()) {
+                            r.sendMes(cs, "moneyRemoveOthers", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
+                            r.sendMes(cs, "moneyMinBalance");
+                        } else {
+                            r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
+                        }
+                        return;
+                    }
+                }
+                EconomyResponse er = r.getVault().getEconomy().withdrawPlayer(t, Double.parseDouble(args[2]));
+                if (er.transactionSuccess()) {
+                    r.sendMes(cs, "moneyRemoveOthers", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
+                } else {
+                    r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
+                }
             } else {
                 r.sendMes(cs, "moneyUsage");
             }

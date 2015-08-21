@@ -45,6 +45,9 @@ Dynmap:
   - hiddenwarp3
 
 Economy:
+  #Enable the ultimatecore economy?
+  #When disabled, another economy plugin must be enabled or ultimatecore may have problems.
+  enabled: true
   #How is the money amount displayed?
   #Use %Amount for the value
   format: "$%Amount"
@@ -56,6 +59,11 @@ Economy:
   startingBalance: 10.0
   #Round balances on a certain number of decimals. (-1 for no rounding)
   roundBalance: 3
+  #The minimum amount of money a player can have.
+  #This value is only used in setting and withdrawing money in UltimateCore, other plugins and the pay command use 0 as minumum.
+  minimumMoney: 0
+  #The maximum amount of money a player can have. (-1 for infinite)
+  maximumMoney: -1
 
 Explode:
   #Disable explosions? (True = disabled)
