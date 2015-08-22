@@ -242,14 +242,9 @@ public class UKit {
      */
     public boolean hasCooldownPassedFor(final Player p) {
         final long lastUsed = this.getLastUsed(p);
-        r.log(getCooldown());
-        r.log(lastUsed);
         if (getCooldown() == -1L && lastUsed != 0L) {
             return false;
         }
-        r.log("1");
-        r.log(getCooldownFor(p));
-        r.log(System.currentTimeMillis());
         return (this.getCooldownFor(p) < System.currentTimeMillis());
     }
 
