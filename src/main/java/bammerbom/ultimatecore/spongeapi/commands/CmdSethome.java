@@ -65,6 +65,10 @@ public class CmdSethome implements UltimateCommand {
             if (!r.perm(p, "uc.sethome.others", true, true)) {
                 return;
             }
+            if (!r.checkArgs(args[0].split(":"), 1) || args[0].split(":")[0].isEmpty() || args[0].split(":")[1].isEmpty()) {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                return;
+            }
             OfflinePlayer t = r.searchOfflinePlayer(args[0].split(":")[0]);
             if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);

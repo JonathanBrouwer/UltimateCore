@@ -23,6 +23,10 @@
  */
 package bammerbom.ultimatecore.spongeapi.listeners;
 
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TitleUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -45,18 +49,18 @@ public class AutomessageListener implements Listener {
     public static Random random;
 
     public static void start() {
-        File file = new File(bammerbom.ultimatecore.spongeapi.r.getUC().getDataFolder(), "messages.txt");
+        File file = new File(r.getUC().getDataFolder(), "messages.txt");
         if (!file.exists()) {
-            bammerbom.ultimatecore.spongeapi.r.getUC().saveResource("messages.txt", true);
+            r.getUC().saveResource("messages.txt", true);
         }
-        messages = bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil.getLines(file);
-        decrease = bammerbom.ultimatecore.spongeapi.r.getCnfg().getBoolean("Messages.Decrease");
+        messages = FileUtil.getLines(file);
+        decrease = r.getCnfg().getBoolean("Messages.Decrease");
         random = new Random();
-        if (bammerbom.ultimatecore.spongeapi.r.getCnfg().getBoolean("Messages.Enabledchat") == false && bammerbom.ultimatecore.spongeapi.r.getCnfg()
-                .getBoolean("Messages" + ".Enabledbossbar") == false && bammerbom.ultimatecore.spongeapi.r.getCnfg().getBoolean("Messages.Enabledactionbar") == false) {
+        if (r.getCnfg().getBoolean("Messages.Enabledchat") == false && r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") == false && r.getCnfg()
+                .getBoolean("Messages.Enabledactionbar") == false) {
             return;
         }
-        Bukkit.getPluginManager().registerEvents(new AutomessageListener(), bammerbom.ultimatecore.spongeapi.r.getUC());
+        Bukkit.getPluginManager().registerEvents(new AutomessageListener(), r.getUC());
         ArrayList<String> messgs = messages;
         Integer length = messgs.size();
         if (length != 0) {
@@ -65,9 +69,9 @@ public class AutomessageListener implements Listener {
     }
 
     public static void timer(final List<String> messgs) {
-        final Integer time = bammerbom.ultimatecore.spongeapi.r.getCnfg().getInt("Messages.Time");
-        final Boolean ur = bammerbom.ultimatecore.spongeapi.r.getCnfg().getBoolean("Messages.Randomise");
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(bammerbom.ultimatecore.spongeapi.r.getUC(), new Runnable() {
+        final Integer time = r.getCnfg().getInt("Messages.Time");
+        final Boolean ur = r.getCnfg().getBoolean("Messages.Randomise");
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
             @Override
             public void run() {
                 String mess = ur ? messgs.get(random.nextInt(messgs.size())) : "";
@@ -82,18 +86,18 @@ public class AutomessageListener implements Listener {
                 }
                 mess = mess.replace("\\n", "\n");
                 currentmessage = ChatColor.translateAlternateColorCodes('&', mess);
-                for (Player p : bammerbom.ultimatecore.spongeapi.r.getOnlinePlayers()) {
-                    if (bammerbom.ultimatecore.spongeapi.r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
+                for (Player p : r.getOnlinePlayers()) {
+                    if (r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
                         if (decrease) {
-                            bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "), time);
+                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "), time);
                         } else {
-                            bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
                         }
                     }
-                    if (bammerbom.ultimatecore.spongeapi.r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
-                        bammerbom.ultimatecore.spongeapi.resources.utils.TitleUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                    if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
+                        TitleUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
                     }
-                    if (bammerbom.ultimatecore.spongeapi.r.getCnfg().getBoolean("Messages.Enabledchat") == true) {
+                    if (r.getCnfg().getBoolean("Messages.Enabledchat") == true) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', mess));
                     }
 
@@ -104,7 +108,7 @@ public class AutomessageListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(final PlayerJoinEvent e) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(bammerbom.ultimatecore.spongeapi.r.getUC(), new Runnable() {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
             @Override
             public void run() {
                 ArrayList<String> messgs = messages;
@@ -112,11 +116,11 @@ public class AutomessageListener implements Listener {
                 if (length == 0) {
                     return;
                 }
-                if (bammerbom.ultimatecore.spongeapi.r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
-                    bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
+                if (r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
+                    BossbarUtil.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
                 }
-                if (bammerbom.ultimatecore.spongeapi.r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
-                    bammerbom.ultimatecore.spongeapi.resources.utils.TitleUtil.sendActionBar(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
+                if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
+                    TitleUtil.sendActionBar(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
                 }
             }
         }, 100L);

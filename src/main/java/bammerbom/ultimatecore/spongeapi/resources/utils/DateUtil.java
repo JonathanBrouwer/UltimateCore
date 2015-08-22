@@ -33,6 +33,9 @@ import java.util.regex.Pattern;
 public class DateUtil {
 
     public static long parseDateDiff(String time) {
+        if (time.equalsIgnoreCase("-1")) {
+            return -1;
+        }
         try {
             Long mil = 999L;
             Matcher matcher = Pattern.compile("\\d+\\D+").matcher(time);

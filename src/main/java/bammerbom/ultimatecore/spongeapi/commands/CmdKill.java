@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -75,8 +75,7 @@ public class CmdKill implements UltimateCommand {
                 //ICommand cmd = (ICommand) MinecraftServer.getServer().getCommandHandler().a().get("kill");
                 //cmd.execute(MinecraftServer.getServer(), args);
                 try {
-                    Object server = ReflectionUtil.executeStatic("getServer()", ReflectionUtil.ReflectionStatic.fromNMS("MinecraftServer")).fetch();
-                    ReflectionUtil.execute("getCommandHandler().getCommands().get({1}).execute({2}, {3})", server, "kill", server, args);
+                    Bukkit.getServer().dispatchCommand(cs, "minecraft:kill " + r.getFinalArg(args, 0));
                 } catch (Exception ex) {
                     ErrorLogger.log(ex, "Reflection failed. (/kill command)");
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);

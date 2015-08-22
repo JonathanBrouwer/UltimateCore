@@ -48,7 +48,7 @@ public class BloodListener implements Listener {
 
     public static void start() {
         if (r.getCnfg().getBoolean("Blood.Enabled")) {
-            Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.BloodListener(), r.getUC());
+            Bukkit.getPluginManager().registerEvents(new BloodListener(), r.getUC());
         }
     }
 
@@ -75,7 +75,7 @@ public class BloodListener implements Listener {
                 if (iCD.contains(p.getEntityId())) {
                     return;
                 }
-                if (((HumanEntity) e.getEntity()).getGameMode().equals(GameMode.CREATIVE)) {
+                if (((HumanEntity) e.getEntity()).getGameMode().equals(GameMode.CREATIVE) || ((HumanEntity) e.getEntity()).getGameMode().equals(GameMode.SPECTATOR)) {
                     return;
                 }
                 iCD.add(p.getEntityId());

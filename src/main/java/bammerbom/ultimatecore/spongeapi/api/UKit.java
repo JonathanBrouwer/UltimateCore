@@ -244,7 +244,10 @@ public class UKit {
      */
     public boolean hasCooldownPassedFor(final Player p) {
         final long lastUsed = this.getLastUsed(p);
-        return !(this.getCooldown() == -1L && lastUsed != 0L) && lastUsed + (this.getCooldown()) < System.currentTimeMillis();
+        if (getCooldown() == -1L && lastUsed != 0L) {
+            return false;
+        }
+        return (this.getCooldownFor(p) < System.currentTimeMillis());
     }
 
     /**

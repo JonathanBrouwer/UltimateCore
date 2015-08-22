@@ -135,9 +135,27 @@ public class UEconomy implements Economy {
     }
 
     /**
+     * The minimum amount of money a player can have.
+     *
+     * @return the minimum amount
+     */
+    public double getMinimumMoney() {
+        return r.getCnfg().getDouble("Economy.minimumMoney");
+    }
+
+    /**
+     * The maximum amount of money a player can have.
+     *
+     * @return the maximum amount, or null when not available.
+     */
+    public Double getMaximumMoney() {
+        double q = r.getCnfg().getDouble("Economy.maximumMoney");
+        return q == -1.0 ? null : q;
+    }
+
+    /**
      * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer)} instead.
      */
-    @Deprecated
     @Override
     public boolean hasAccount(String playerName) {
         Long time = System.currentTimeMillis();
@@ -169,7 +187,6 @@ public class UEconomy implements Economy {
     /**
      * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer, String)} instead.
      */
-    @Deprecated
     @Override
     public boolean hasAccount(String playerName, String worldName) {
         return hasAccount(playerName);
@@ -192,7 +209,6 @@ public class UEconomy implements Economy {
     /**
      * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer)} instead.
      */
-    @Deprecated
     @Override
     public double getBalance(String playerName) {
         Long time = System.currentTimeMillis();
@@ -228,7 +244,6 @@ public class UEconomy implements Economy {
     /**
      * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer, String)} instead.
      */
-    @Deprecated
     @Override
     public double getBalance(String playerName, String world) {
         return getBalance(playerName);
@@ -250,7 +265,6 @@ public class UEconomy implements Economy {
     /**
      * @deprecated As of VaultAPI 1.4 use {@link #has(OfflinePlayer, double)} instead.
      */
-    @Deprecated
     @Override
     public boolean has(String playerName, double amount) {
         Long time = System.currentTimeMillis();
@@ -281,7 +295,6 @@ public class UEconomy implements Economy {
      * @deprecated As of VaultAPI 1.4 use @{link {@link #has(OfflinePlayer, String, double)}
      * instead.
      */
-    @Deprecated
     @Override
     public boolean has(String playerName, String worldName, double amount) {
         return getBalance(playerName) >= amount;
@@ -305,7 +318,6 @@ public class UEconomy implements Economy {
     /**
      * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(OfflinePlayer, double)} instead.
      */
-    @Deprecated
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
         Long time = System.currentTimeMillis();
@@ -326,8 +338,8 @@ public class UEconomy implements Economy {
         if (!getData().contains(playerName)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "This player has no account");
         }
-        if (getBalance(playerName) - amount < 0) {
-            amount = getBalance(playerName);
+        if (getBalance(playerName) - amount < getMinimumMoney()) {
+            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "This player has too less money");
         }
         getData().set(playerName, getBalance(playerName) - amount);
         getData().save();
@@ -351,7 +363,6 @@ public class UEconomy implements Economy {
      * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(OfflinePlayer, String, double)}
      * instead.
      */
-    @Deprecated
     @Override
     public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
         return withdrawPlayer(playerName, amount);
@@ -375,7 +386,6 @@ public class UEconomy implements Economy {
     /**
      * @deprecated As of VaultAPI 1.4 use {@link #depositPlayer(OfflinePlayer, double)} instead.
      */
-    @Deprecated
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
         Long time = System.currentTimeMillis();
@@ -391,10 +401,13 @@ public class UEconomy implements Economy {
         }
         r.debug("depositPlayer - " + playerName + " - " + amount);
         if (amount < 0.0D) {
-            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative " + "funds");
+            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot deposit negative " + "funds");
         }
         if (!getData().contains(playerName)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "This player has no account");
+        }
+        if (getMaximumMoney() != null && getBalance(playerName) + amount > getMaximumMoney()) {
+            return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "This player has too much money");
         }
         getData().set(playerName, getBalance(playerName) + amount);
         getData().save();
@@ -418,7 +431,6 @@ public class UEconomy implements Economy {
      * @deprecated As of VaultAPI 1.4 use {@link #depositPlayer(OfflinePlayer, String, double)}
      * instead.
      */
-    @Deprecated
     @Override
     public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
         return depositPlayer(playerName, amount);
@@ -441,7 +453,6 @@ public class UEconomy implements Economy {
     /**
      * @deprecated As of VaultAPI 1.4 use {{@link #createBank(String, OfflinePlayer)} instead.
      */
-    @Deprecated
     @Override
     public EconomyResponse createBank(String name, String player) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
@@ -521,7 +532,6 @@ public class UEconomy implements Economy {
     /**
      * @deprecated As of VaultAPI 1.4 use {{@link #isBankOwner(String, OfflinePlayer)} instead.
      */
-    @Deprecated
     @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
@@ -542,7 +552,6 @@ public class UEconomy implements Economy {
     /**
      * @deprecated As of VaultAPI 1.4 use {{@link #isBankMember(String, OfflinePlayer)} instead.
      */
-    @Deprecated
     @Override
     public EconomyResponse isBankMember(String name, String playerName) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "UltimateCore does not " + "support bank accounts!");
@@ -573,7 +582,6 @@ public class UEconomy implements Economy {
     /**
      * @deprecated As of VaultAPI 1.4 use {{@link #createPlayerAccount(OfflinePlayer)} instead.
      */
-    @Deprecated
     @Override
     public boolean createPlayerAccount(String playerName) {
         Long time = System.currentTimeMillis();
@@ -609,7 +617,6 @@ public class UEconomy implements Economy {
      * @deprecated As of VaultAPI 1.4 use {{@link #createPlayerAccount(OfflinePlayer, String)}
      * instead.
      */
-    @Deprecated
     @Override
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);

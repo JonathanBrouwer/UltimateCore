@@ -59,7 +59,7 @@ public class DynmapListener implements Listener {
         if (r.getCnfg().getBoolean("Dynmap.Enable") == true && Bukkit.getPluginManager().getPlugin("dynmap") != null && Bukkit.getPluginManager().isPluginEnabled("dynmap")) {
             dynmap = Bukkit.getPluginManager().getPlugin("dynmap");
             api = (DynmapAPI) dynmap;
-            Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.DynmapListener(), r.getUC());
+            Bukkit.getPluginManager().registerEvents(new DynmapListener(), r.getUC());
             markerapi = api.getMarkerAPI();
             if (markerapi == null) {
                 return;

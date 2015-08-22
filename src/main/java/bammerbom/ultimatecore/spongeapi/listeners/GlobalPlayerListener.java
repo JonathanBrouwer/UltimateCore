@@ -55,7 +55,7 @@ public class GlobalPlayerListener implements Listener {
     Boolean jailedmove = r.getCnfg().getBoolean("Command.Jail.move");
 
     public static void start() {
-        final bammerbom.ultimatecore.spongeapi.listeners.GlobalPlayerListener gpl = new bammerbom.ultimatecore.spongeapi.listeners.GlobalPlayerListener();
+        final GlobalPlayerListener gpl = new GlobalPlayerListener();
         Bukkit.getPluginManager().registerEvents(gpl, r.getUC());
         EventPriority p;
         String s = r.getCnfg().getString("Command.Spawn.Priority");
@@ -444,7 +444,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onWorldChange(PlayerChangedWorldEvent e) {
         try {
             //Gamemode

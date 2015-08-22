@@ -45,7 +45,7 @@ public class TabListener implements Listener {
         if (!r.getCnfg().getBoolean("Chat.Tab.Enabled")) {
             return;
         }
-        Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.TabListener(), r.getUC());
+        Bukkit.getPluginManager().registerEvents(new TabListener(), r.getUC());
         final String def = r.getCnfg().getString("Chat.Tab.TabDefault");
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             for (Player p : r.getOnlinePlayers()) {

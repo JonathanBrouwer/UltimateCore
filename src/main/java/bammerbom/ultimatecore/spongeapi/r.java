@@ -80,12 +80,15 @@ public class r {
     public static void prestart() {
         //TODO Register?
         r.debug("Trying to start economy...");
+        if (!r.getCnfg().getBoolean("Economy.enabled")) {
+            return;
+        }
         /*if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
             r.debug("Vault found.");
             vault = new Vault();
             UC.ueconomy = new UEconomy();
-            Bukkit.getPluginManager().getPlugin("Vault").getLogger().info("[Economy] UltimateCore found: Loaded");
             Bukkit.getServicesManager().register(Economy.class, UC.ueconomy, Bukkit.getPluginManager().getPlugin("Vault"), ServicePriority.Low);
+            Bukkit.getPluginManager().getPlugin("Vault").getLogger().info("[Economy] UltimateCore found: Loaded");
         } else {
             r.debug("Vault not found. " + Arrays.toString(Bukkit.getPluginManager().getPlugins()));
         }*/

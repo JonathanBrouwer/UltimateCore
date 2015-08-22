@@ -38,7 +38,7 @@ public class RespawnListener implements Listener {
         if (!r.getCnfg().getBoolean("InstantRespawn")) {
             return;
         }
-        Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.RespawnListener(), r.getUC());
+        Bukkit.getPluginManager().registerEvents(new RespawnListener(), r.getUC());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

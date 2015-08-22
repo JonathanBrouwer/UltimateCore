@@ -98,10 +98,10 @@ public class CmdRepair implements UltimateCommand {
             r.sendMes(p, "repairOtherOtherHand", "%Player", r.getDisplayName(cs));
         } else if (args[0].equalsIgnoreCase("all")) {
             //repair all <Player>
-            if (!r.perm(cs, "uc.repair.others.all", false, true)) {
-                return;
-            }
             if (r.checkArgs(args, 1)) {
+                if (!r.perm(cs, "uc.repair.others.all", false, true)) {
+                    return;
+                }
                 Player p = r.searchPlayer(args[1]);
                 if (p == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);

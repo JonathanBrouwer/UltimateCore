@@ -41,7 +41,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class SignListener implements Listener {
 
     public static void start() {
-        Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.SignListener(), r.getUC());
+        Bukkit.getPluginManager().registerEvents(new SignListener(), r.getUC());
     }
 
     @EventHandler(priority = EventPriority.LOW)

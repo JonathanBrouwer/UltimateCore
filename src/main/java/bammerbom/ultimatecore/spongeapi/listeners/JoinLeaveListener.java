@@ -44,7 +44,7 @@ import java.util.Map;
 public class JoinLeaveListener implements Listener {
 
     public static void start() {
-        Bukkit.getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.JoinLeaveListener(), r.getUC());
+        Bukkit.getPluginManager().registerEvents(new JoinLeaveListener(), r.getUC());
     }
 
     @EventHandler(priority = EventPriority.LOW)

@@ -168,7 +168,7 @@ public class CmdTime implements UltimateCommand {
                 } else if (r.isInt(args[0])) {
                     r.sendMes(cs, "timeMessage", "%Time", args[0]);
                 } else if (args[0].equalsIgnoreCase("query")) {
-                    if (args[1].equalsIgnoreCase("daytime")) {
+                    if (r.checkArgs(args, 1) && args[1].equalsIgnoreCase("daytime")) {
                         World w = Bukkit.getWorlds().get(0);
                         if (r.checkArgs(args, 2)) {
                             w = Bukkit.getWorld(args[2]);
@@ -179,7 +179,7 @@ public class CmdTime implements UltimateCommand {
                         }
                         Long time = w.getTime();
                         r.sendMes(cs, "timeQuery", "%Type", r.mes("timeDaytime"), "%Value", time);
-                    } else if (args[1].equalsIgnoreCase("gametime")) {
+                    } else if (r.checkArgs(args, 1) && args[1].equalsIgnoreCase("gametime")) {
                         World w = Bukkit.getWorlds().get(0);
                         if (r.checkArgs(args, 2)) {
                             w = Bukkit.getWorld(args[2]);

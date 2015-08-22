@@ -41,7 +41,7 @@ public class UnknownCommandListener implements Listener {
         if (!r.getCnfg().getBoolean("Command.UnknownCommand")) {
             return;
         }
-        Bukkit.getServer().getPluginManager().registerEvents(new bammerbom.ultimatecore.spongeapi.listeners.UnknownCommandListener(), r.getUC());
+        Bukkit.getServer().getPluginManager().registerEvents(new UnknownCommandListener(), r.getUC());
     }
 
     public boolean isCmdRegistered(String cmd) {
