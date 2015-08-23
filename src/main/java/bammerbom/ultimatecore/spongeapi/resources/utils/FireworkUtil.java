@@ -120,7 +120,7 @@ public class FireworkUtil {
              * Finally, we broadcast the entity effect then kill our fireworks object
              */
             // invoke with arguments
-            nms_world_broadcastEntityEffect.invoke(nms_world, new Object[]{nms_firework, (byte) 17});
+            nms_world_broadcastEntityEffect.invoke(nms_world, nms_firework, (byte) 17);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             ErrorLogger.log(ex, "Failed to play firework");
         }

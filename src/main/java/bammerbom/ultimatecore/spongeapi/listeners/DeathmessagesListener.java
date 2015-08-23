@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -37,7 +36,7 @@ import java.util.Map;
 public class DeathmessagesListener implements Listener {
 
     public static void start() {
-        if (r.getCnfg().getBoolean("Chat.EnableCustomDeathmessages") == false) {
+        if (!r.getCnfg().getBoolean("Chat.EnableCustomDeathmessages")) {
             return;
         }
         Bukkit.getPluginManager().registerEvents(new DeathmessagesListener(), r.getUC());

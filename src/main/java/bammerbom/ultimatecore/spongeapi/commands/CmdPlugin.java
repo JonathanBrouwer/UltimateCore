@@ -375,10 +375,7 @@ public class CmdPlugin implements UltimateCommand {
             } catch (UnknownDependencyException ex) {
                 r.sendMes(cs, "pluginLoadMissingDependendy", "%Message", ex.getMessage());
                 ex.printStackTrace();
-            } catch (InvalidDescriptionException ex) {
-                r.sendMes(cs, "pluginLoadFailed");
-                ex.printStackTrace();
-            } catch (InvalidPluginException ex) {
+            } catch (InvalidDescriptionException | InvalidPluginException ex) {
                 r.sendMes(cs, "pluginLoadFailed");
                 ex.printStackTrace();
             }

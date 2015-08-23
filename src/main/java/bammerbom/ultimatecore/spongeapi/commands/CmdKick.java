@@ -55,7 +55,7 @@ public class CmdKick implements UltimateCommand {
         if (!r.perm(cs, "uc.kick", false, true)) {
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "kickUsage");
             return;
         }
@@ -68,7 +68,7 @@ public class CmdKick implements UltimateCommand {
             r.sendMes(cs, "kickSelf");
             return;
         }
-        if (r.checkArgs(args, 1) == false) {
+        if (!r.checkArgs(args, 1)) {
             Bukkit.broadcastMessage(r.mes("kickBroadcast", "%Kicker", r.getDisplayName(cs), "%Player", target.getName()));
             Bukkit.broadcastMessage(r.mes("kickBroadcast2", "%Reason", r.mes("kickDefaultReason")));
             target.kickPlayer(r.mes("kickMessage", "%Reason", r.mes("kickDefaultReason")));

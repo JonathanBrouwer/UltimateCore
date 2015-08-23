@@ -497,7 +497,7 @@ public class ConfigSection {
                 } catch (Exception ex) {
                 }
             } else if (object instanceof Character) {
-                result.add((int) ((Character) object).charValue());
+                result.add((int) (Character) object);
             } else if (object instanceof Number) {
                 result.add(((Number) object).intValue());
             }
@@ -548,7 +548,7 @@ public class ConfigSection {
                 } catch (Exception ex) {
                 }
             } else if (object instanceof Character) {
-                result.add((double) ((Character) object).charValue());
+                result.add((double) (Character) object);
             } else if (object instanceof Number) {
                 result.add(((Number) object).doubleValue());
             }
@@ -575,7 +575,7 @@ public class ConfigSection {
                 } catch (Exception ex) {
                 }
             } else if (object instanceof Character) {
-                result.add((float) ((Character) object).charValue());
+                result.add((float) (Character) object);
             } else if (object instanceof Number) {
                 result.add(((Number) object).floatValue());
             }
@@ -602,7 +602,7 @@ public class ConfigSection {
                 } catch (Exception ex) {
                 }
             } else if (object instanceof Character) {
-                result.add((long) ((Character) object).charValue());
+                result.add((long) (Character) object);
             } else if (object instanceof Number) {
                 result.add(((Number) object).longValue());
             }
@@ -809,9 +809,8 @@ public class ConfigSection {
     }
 
     protected void mapChildrenValues(Map<String, Object> output, ConfigSection section, boolean deep) {
-        ConfigSection sec = section;
 
-        for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
+        for (Map.Entry<String, Object> entry : section.map.entrySet()) {
             output.put(createPath(section, entry.getKey(), this), entry.getValue());
 
             if (entry.getValue() instanceof ConfigSection) {
@@ -825,8 +824,7 @@ public class ConfigSection {
     @Override
     public String toString() {
         MemoryConfiguration root = getRoot();
-        return new StringBuilder().append(getClass().getSimpleName()).append("[path='").append(getCurrentPath()).append("', root='").append(root == null ? null : root.getClass().getSimpleName())
-                .append("']").toString();
+        return getClass().getSimpleName() + "[path='" + getCurrentPath() + "', root='" + (root == null ? null : root.getClass().getSimpleName()) + "']";
     }
 
 }

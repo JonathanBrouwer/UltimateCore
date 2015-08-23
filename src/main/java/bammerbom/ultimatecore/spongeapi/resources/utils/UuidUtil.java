@@ -122,10 +122,9 @@ public class UuidUtil {
             }
         }
         if (request != null) {
-            final ArrayList<UUID> req = request;
             try {
                 r.log("Starting playerfile update...");
-                HashMap<UUID, String> s = new UuidToName(req).call();
+                HashMap<UUID, String> s = new UuidToName(request).call();
                 for (UUID u : s.keySet()) {
                     String n = s.get(u);
                     File f = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + u + "" +

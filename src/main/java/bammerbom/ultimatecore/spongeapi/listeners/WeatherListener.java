@@ -45,14 +45,14 @@ public class WeatherListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void toRain(WeatherChangeEvent e) {
-        if (r.getCnfg().getBoolean("Weather.Rain") == true && enabled) {
+        if (r.getCnfg().getBoolean("Weather.Rain") && enabled) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void toThunder(ThunderChangeEvent e) {
-        if (r.getCnfg().getBoolean("Weather.Rain") == true && enabled) {
+        if (r.getCnfg().getBoolean("Weather.Rain") && enabled) {
             e.setCancelled(true);
         }
     }

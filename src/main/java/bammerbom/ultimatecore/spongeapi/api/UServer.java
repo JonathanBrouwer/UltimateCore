@@ -627,8 +627,7 @@ public class UServer {
             return null;
         }
         String s = new JsonConfig(UltimateFileLoader.Dspawns).getString("global");
-        RLocation loc = LocationUtil.convertStringToLocation(s);
-        return loc;
+        return LocationUtil.convertStringToLocation(s);
     }
 
     public void setSpawn(RLocation loc, Boolean world, String group, Boolean firstjoin) {

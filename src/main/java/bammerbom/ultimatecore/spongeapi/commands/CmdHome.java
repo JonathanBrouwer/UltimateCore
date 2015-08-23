@@ -60,7 +60,7 @@ public class CmdHome implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             if (!(r.isPlayer(cs))) {
                 return;
             }
@@ -109,7 +109,7 @@ public class CmdHome implements UltimateCommand {
             }
         } else {
             OfflinePlayer t;
-            if (r.perm(cs, "uc.home", true, true) == false) {
+            if (!r.perm(cs, "uc.home", true, true)) {
                 return;
             }
             if (args[0].contains(":")) {

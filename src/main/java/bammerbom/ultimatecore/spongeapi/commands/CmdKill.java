@@ -56,7 +56,7 @@ public class CmdKill implements UltimateCommand {
     @SuppressWarnings("deprecation")
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
                 return;
             }

@@ -53,7 +53,7 @@ public class CmdFreezelist implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.perm(cs, "uc.freezelist", true, true) == false) {
+        if (!r.perm(cs, "uc.freezelist", true, true)) {
             return;
         }
         List<OfflinePlayer> freezes = UC.getServer().getFrozenOfflinePlayers();

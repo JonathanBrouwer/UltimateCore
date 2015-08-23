@@ -247,10 +247,7 @@ public class UPlayer {
                 }
             }
         }
-        if (getPlayerConfig().getBoolean("banned")) {
-            return true;
-        }
-        return false;
+        return getPlayerConfig().getBoolean("banned");
     }
 
     public Long getBanTime() {
@@ -1118,12 +1115,12 @@ public class UPlayer {
         Player p = r.searchPlayer(uuid);
         Boolean world = conf.contains("worlds.world." + p.getWorld().getName() + ".global");
         String world_ = world ? conf.getString("worlds.world." + p.getWorld().getName() + ".global") : null;
-        Boolean group = r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null ? conf
-                .contains("global.group." + r.getVault().getPermission().getPrimaryGroup(p)) : false;
+        Boolean group = r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null && conf
+                .contains("global.group." + r.getVault().getPermission().getPrimaryGroup(p));
         String group_ = r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null ? (group ? conf
                 .getString("global.group." + r.getVault().getPermission().getPrimaryGroup(p)) : null) : null;
-        Boolean gw = r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null ? conf
-                .contains("worlds.world." + p.getWorld().getName() + ".group." + r.getVault().getPermission().getPrimaryGroup(p)) : false;
+        Boolean gw = r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null && conf
+                .contains("worlds.world." + p.getWorld().getName() + ".group." + r.getVault().getPermission().getPrimaryGroup(p));
         String gw_ = r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null ? conf
                 .getString("worlds.world." + p.getWorld().getName() + ".group." + r.getVault().getPermission().getPrimaryGroup(p)) : null;
         if (firstjoin && conf.contains("global.firstjoin")) {

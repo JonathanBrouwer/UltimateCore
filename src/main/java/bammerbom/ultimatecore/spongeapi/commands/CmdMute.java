@@ -54,7 +54,7 @@ public class CmdMute implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "muteUsage");
             return;
         }
@@ -69,7 +69,7 @@ public class CmdMute implements UltimateCommand {
         }
         Long time = 0L;
         //Info
-        if (r.checkArgs(args, 1) == false) {
+        if (!r.checkArgs(args, 1)) {
         } else if (DateUtil.parseDateDiff(args[1]) != -1) {
             time = DateUtil.parseDateDiff(args[1]);
         }

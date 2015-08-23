@@ -55,7 +55,7 @@ public class CmdEnderchest implements UltimateCommand {
             return;
         }
         Player p = (Player) cs;
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             if (!r.perm(cs, "uc.enderchest", false, true)) {
                 return;
             }

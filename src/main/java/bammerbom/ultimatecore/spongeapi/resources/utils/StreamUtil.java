@@ -76,7 +76,7 @@ public class StreamUtil {
         if (file.delete()) {
             return Collections.emptyList();
         }
-        return Collections.unmodifiableList(Arrays.asList(new File[]{file}));
+        return Collections.unmodifiableList(Arrays.asList(file));
     }
 
     private static boolean deleteFileList(File file, List<File> failFiles) {

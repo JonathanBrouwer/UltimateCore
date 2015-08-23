@@ -66,9 +66,7 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
         try {
             config.load(file);
         } catch (FileNotFoundException ex) {
-        } catch (IOException ex) {
-            r.log("Cannot load " + file + "\n" + ex);
-        } catch (InvalidConfigurationException ex) {
+        } catch (IOException | InvalidConfigurationException ex) {
             r.log("Cannot load " + file + "\n" + ex);
         }
 
@@ -96,9 +94,7 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
 
         try {
             config.load(stream);
-        } catch (IOException ex) {
-            r.log("Cannot load stream\n" + ex);
-        } catch (InvalidConfigurationException ex) {
+        } catch (IOException | InvalidConfigurationException ex) {
             r.log("Cannot load stream\n" + ex);
         }
 
@@ -122,9 +118,7 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
 
         try {
             config.load(reader);
-        } catch (IOException ex) {
-            r.log("Cannot load stream\n" + ex);
-        } catch (InvalidConfigurationException ex) {
+        } catch (IOException | InvalidConfigurationException ex) {
             r.log("Cannot load stream\n" + ex);
         }
 

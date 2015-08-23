@@ -406,7 +406,7 @@ public class CmdMoney implements UltimateCommand {
                 if (comp1.equals(comp2)) {
                     passedMap.remove(key);
                     mapKeys.remove(key);
-                    sortedMap.put((String) key, (Double) val);
+                    sortedMap.put(key, val);
                     break;
                 }
 

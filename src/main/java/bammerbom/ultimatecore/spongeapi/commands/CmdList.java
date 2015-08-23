@@ -90,12 +90,11 @@ public class CmdList implements UltimateCommand {
                     }
                 }
                 if (an) {
-                    String gn = g;
                     if (first2) {
                         first2 = false;
-                        online.append(r.positive + StringUtil.firstUpperCase(gn) + ": ");
+                        online.append(r.positive + StringUtil.firstUpperCase(g) + ": ");
                     } else {
-                        online.append("\n" + r.positive + StringUtil.firstUpperCase(gn) + ": ");
+                        online.append("\n" + r.positive + StringUtil.firstUpperCase(g) + ": ");
                     }
                     Boolean first = true;
                     Boolean any = false;
@@ -117,7 +116,7 @@ public class CmdList implements UltimateCommand {
                     }
                     plz.removeAll(remove);
                     remove.clear();
-                    if (any == false) {
+                    if (!any) {
                         online.append(r.neutral + "none");
                     }
                 }

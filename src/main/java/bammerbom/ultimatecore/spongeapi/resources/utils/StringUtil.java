@@ -46,12 +46,12 @@ public class StringUtil {
              i < styles.length;
              i++) {
             chars.add(Character.valueOf(Character.toLowerCase(r.textColorToChar(styles[i]))));
-            chars.add(Character.valueOf(Character.toUpperCase(r.textColorToChar(styles[i]))));
+            chars.add(Character.toUpperCase(r.textColorToChar(styles[i])));
         }
         CHAT_CODES = new char[chars.size()];
         int i = 0;
         for (Character c : chars) {
-            CHAT_CODES[i] = c.charValue();
+            CHAT_CODES[i] = c;
             i++;
         }
     }
@@ -342,7 +342,7 @@ public class StringUtil {
                 tmpargs.add(arg);
             }
         }
-        return tmpargs.toArray(new String[0]);
+        return tmpargs.toArray(new String[tmpargs.size()]);
     }
 
     public static boolean isChatCode(char character) {

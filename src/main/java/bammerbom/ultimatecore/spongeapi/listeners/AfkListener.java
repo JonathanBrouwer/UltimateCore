@@ -39,7 +39,7 @@ public class AfkListener {
     public static void start() {
         if (r.getCnfg().getBoolean("Afk.Enabled")) {
             r.getGame().getEventManager().register(r.getUC(), new AfkListener());
-            r.getGame().getScheduler().getTaskBuilder().delay(100L).interval(100L).name("UC: Afk task").execute(new Runnable() {
+            r.getGame().getScheduler().createTaskBuilder().delay(100L).interval(100L).name("UC: Afk task").execute(new Runnable() {
                 @Override
                 public void run() {
                     for (Player pl : r.getOnlinePlayers()) {

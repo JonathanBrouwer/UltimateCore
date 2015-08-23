@@ -56,7 +56,7 @@ public class DynmapListener implements Listener {
 
     public static void start() {
         reload = false;
-        if (r.getCnfg().getBoolean("Dynmap.Enable") == true && Bukkit.getPluginManager().getPlugin("dynmap") != null && Bukkit.getPluginManager().isPluginEnabled("dynmap")) {
+        if (r.getCnfg().getBoolean("Dynmap.Enable") && Bukkit.getPluginManager().getPlugin("dynmap") != null && Bukkit.getPluginManager().isPluginEnabled("dynmap")) {
             dynmap = Bukkit.getPluginManager().getPlugin("dynmap");
             api = (DynmapAPI) dynmap;
             Bukkit.getPluginManager().registerEvents(new DynmapListener(), r.getUC());
@@ -188,8 +188,7 @@ public class DynmapListener implements Listener {
             if (minzoom > 0) {
                 this.set.setMinZoom(minzoom);
             }
-            String icon = deficon;
-            this.deficon = markerapi.getMarkerIcon(icon);
+            this.deficon = markerapi.getMarkerIcon(deficon);
             if (this.deficon == null) {
                 this.deficon = markerapi.getMarkerIcon(deficon);
             }

@@ -25,8 +25,6 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.VillagerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -172,7 +170,6 @@ public class CmdVillager implements UltimateCommand {
             }
             inv.setItem(s1 + 2, trade.getRewardItem());
             inv.setItem(s1 + 3, barrier);
-            s1 = null;
         } else if (s2 != null) {
             inv.setItem(s2, trade.getItem1());
             if (trade.hasItem2()) {
@@ -180,7 +177,6 @@ public class CmdVillager implements UltimateCommand {
             }
             inv.setItem(s2 + 2, trade.getRewardItem());
             inv.setItem(s2 + 3, barrier);
-            s2 = null;
         } else if (s3 != null) {
             inv.setItem(s3, trade.getItem1());
             if (trade.hasItem2()) {
@@ -188,7 +184,6 @@ public class CmdVillager implements UltimateCommand {
             }
             inv.setItem(s3 + 2, trade.getRewardItem());
             inv.setItem(s3 + 3, barrier);
-            s3 = null;
         } else if (s4 != null) {
             inv.setItem(s4, trade.getItem1());
             if (trade.hasItem2()) {
@@ -196,7 +191,6 @@ public class CmdVillager implements UltimateCommand {
             }
             inv.setItem(s4 + 2, trade.getRewardItem());
             inv.setItem(s4 + 3, barrier);
-            s4 = null;
         } else if (s5 != null) {
             inv.setItem(s5, trade.getItem1());
             if (trade.hasItem2()) {
@@ -204,7 +198,6 @@ public class CmdVillager implements UltimateCommand {
             }
             inv.setItem(s5 + 2, trade.getRewardItem());
             inv.setItem(s5 + 3, barrier);
-            s5 = null;
         } else if (s6 != null) {
             inv.setItem(s6, trade.getItem1());
             if (trade.hasItem2()) {
@@ -212,7 +205,6 @@ public class CmdVillager implements UltimateCommand {
             }
             inv.setItem(s6 + 2, trade.getRewardItem());
             inv.setItem(s6 + 3, barrier);
-            s6 = null;
         } else if (s7 != null) {
             inv.setItem(s7, trade.getItem1());
             if (trade.hasItem2()) {
@@ -220,7 +212,6 @@ public class CmdVillager implements UltimateCommand {
             }
             inv.setItem(s7 + 2, trade.getRewardItem());
             inv.setItem(s7 + 3, barrier);
-            s7 = null;
         } else if (s8 != null) {
             inv.setItem(s8, trade.getItem1());
             if (trade.hasItem2()) {
@@ -228,7 +219,6 @@ public class CmdVillager implements UltimateCommand {
             }
             inv.setItem(s8 + 2, trade.getRewardItem());
             inv.setItem(s8 + 3, barrier);
-            s8 = null;
         } else if (s9 != null) {
             inv.setItem(s9, trade.getItem1());
             if (trade.hasItem2()) {
@@ -236,7 +226,6 @@ public class CmdVillager implements UltimateCommand {
             }
             inv.setItem(s9 + 2, trade.getRewardItem());
             inv.setItem(s9 + 3, barrier);
-            s9 = null;
         } else {
             return inv;
         }
@@ -682,10 +671,7 @@ public class CmdVillager implements UltimateCommand {
         if (slot >= s8 && slot <= (s8 + 2)) {
             return true;
         }
-        if (slot >= s9 && slot <= (s9 + 2)) {
-            return true;
-        }
-        return false;
+        return slot >= s9 && slot <= (s9 + 2);
     }
 
     @Override

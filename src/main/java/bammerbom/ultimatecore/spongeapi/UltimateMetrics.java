@@ -300,38 +300,37 @@ public final class UltimateMetrics {
 
             // Begin hitting the server with glorious data
             task = r.getGame().getScheduler().getTaskBuilder().async().name("UC: Metrics task").delay(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS)
-                    .interval(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS)
-                    .execute(new Runnable() {
+                    .interval(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS).execute(new Runnable() {
 
-                private boolean firstPost = true;
+                        private boolean firstPost = true;
 
-                @Override
-                public void run() {
-                    try {
-                        // This has to be synchronized or it can collide with the disable method.
-                        synchronized (optOutLock) {
-                            // Disable Task, if it is running and the server owner decided to opt-out
-                            if (isOptOut() && task != null) {
-                                task.cancel();
-                                task = null;
-                                // Tell all plotters to stop gathering information.
-                                for (Graph graph : graphs) {
-                                    graph.onOptOut();
+                        @Override
+                        public void run() {
+                            try {
+                                // This has to be synchronized or it can collide with the disable method.
+                                synchronized (optOutLock) {
+                                    // Disable Task, if it is running and the server owner decided to opt-out
+                                    if (isOptOut() && task != null) {
+                                        task.cancel();
+                                        task = null;
+                                        // Tell all plotters to stop gathering information.
+                                        for (Graph graph : graphs) {
+                                            graph.onOptOut();
+                                        }
+                                    }
                                 }
+
+                                // We use the inverse of firstPost because if it is the first time we are posting,
+                                // it is not a interval ping, so it evaluates to FALSE
+                                // Each time thereafter it will evaluate to TRUE, i.e PING!
+                                postPlugin(!firstPost);
+
+                                // After the first post we set firstPost to false
+                                // Each post thereafter will be a ping
+                                firstPost = false;
+                            } catch (IOException e) {
                             }
                         }
-
-                        // We use the inverse of firstPost because if it is the first time we are posting,
-                        // it is not a interval ping, so it evaluates to FALSE
-                        // Each time thereafter it will evaluate to TRUE, i.e PING!
-                        postPlugin(!firstPost);
-
-                        // After the first post we set firstPost to false
-                        // Each post thereafter will be a ping
-                        firstPost = false;
-                    } catch (IOException e) {
-                    }
-                }
                     }).submit(r.getUC());
 
             return true;

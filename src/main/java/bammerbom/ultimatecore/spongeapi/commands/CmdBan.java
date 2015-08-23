@@ -56,7 +56,7 @@ public class CmdBan implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "banUsage");
             return;
         }
@@ -67,12 +67,12 @@ public class CmdBan implements UltimateCommand {
         }
         Long time = 0L;
         String reason = r.mes("banDefaultReason");
-        if (r.checkArgs(args, 1) == false) {
+        if (!r.checkArgs(args, 1)) {
         } else if (DateUtil.parseDateDiff(args[1]) == -1) {
             reason = r.getFinalArg(args, 1);
         } else {
             time = DateUtil.parseDateDiff(args[1]);
-            if (r.checkArgs(args, 2) == true) {
+            if (r.checkArgs(args, 2)) {
                 reason = r.getFinalArg(args, 2);
             }
         }

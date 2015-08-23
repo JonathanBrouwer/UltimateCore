@@ -42,14 +42,12 @@ public class ItemDatabase {
 
     private final transient static Map<String, String> items = new HashMap<>();
     private final transient static Map<bammerbom.ultimatecore.spongeapi.resources.databases.ItemData, List<String>> names = new HashMap<>();
-    private final transient static Map<bammerbom.ultimatecore.spongeapi.resources.databases.ItemData, String> primaryName = new HashMap<>();
     private final transient static Map<String, Short> durabilities = new HashMap<>();
     static private UltimateCore plugin;
 
     public static void disable() {
         items.clear();
         names.clear();
-        primaryName.clear();
         durabilities.clear();
         plugin = null;
     }
@@ -75,7 +73,6 @@ public class ItemDatabase {
         durabilities.clear();
         items.clear();
         names.clear();
-        primaryName.clear();
         for (String line : lines) {
             line = line.trim().toLowerCase(Locale.ENGLISH);
             if ((line.length() <= 0) || (line.charAt(0) != '#')) {
@@ -103,7 +100,6 @@ public class ItemDatabase {
                         List<String> nameList = new ArrayList<>();
                         nameList.add(itemName);
                         names.put(itemData, nameList);
-                        primaryName.put(itemData, itemName);
                     }
                 }
             }
@@ -126,7 +122,7 @@ public class ItemDatabase {
         if (items.containsKey(itemname)) {
             itemid = items.get(itemname);
             if ((durabilities.containsKey(itemname)) && (metaData == 0)) {
-                metaData = durabilities.get(itemname).shortValue();
+                metaData = durabilities.get(itemname);
             }
         } else if (Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH)) != null) {
             Material bMaterial = Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH));
@@ -159,8 +155,7 @@ public class ItemDatabase {
 
         if (Material.matchMaterial(str) != null) {
             Material mat = Material.matchMaterial(str);
-            ItemStack stack = new ItemStack(mat);
-            return stack;
+            return new ItemStack(mat);
         }
         return get(str);
     }

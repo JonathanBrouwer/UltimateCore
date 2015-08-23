@@ -90,7 +90,7 @@ public class CmdSpeed implements UltimateCommand {
             r.sendMes(cs, "speedUsage");
             return;
         }
-        if (r.checkArgs(args, 1) == false) {
+        if (!r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
                 return;
             }

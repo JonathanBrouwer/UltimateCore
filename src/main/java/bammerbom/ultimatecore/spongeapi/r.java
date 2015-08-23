@@ -43,6 +43,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.TextMessageException;
 import org.spongepowered.api.util.Tristate;
 import org.spongepowered.api.util.command.CommandSource;
 import org.spongepowered.api.world.Location;
@@ -76,12 +77,12 @@ public class r {
     //Vault
     //private static Vault vault;
     //private static Object prom;
+    static ArrayList<String> defperms = new ArrayList<>();
 
     public static void prestart() {
         //TODO Register?
         r.debug("Trying to start economy...");
         if (!r.getCnfg().getBoolean("Economy.enabled")) {
-            return;
         }
         /*if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
             r.debug("Vault found.");
@@ -114,13 +115,13 @@ public class r {
         }
     }
 
-    public static UltimateUpdater getUpdater() {
-        return updater;
-    }
-
     /*public static Object getProtocolManager() {
         return prom;
     }*/
+
+    public static UltimateUpdater getUpdater() {
+        return updater;
+    }
 
     public static void runUpdater() {
         if (!r.getCnfg().getBoolean("Updater.check")) {
@@ -158,6 +159,10 @@ public class r {
         }
     }
 
+    /*public static Vault getVault() {
+        return vault;
+    }*/
+
     //Metrics end
     //Config
     public static Config getCnfg() {
@@ -187,10 +192,6 @@ public class r {
         return new Config(new File(r.getUC().getDataFolder(), "config.yml"));
     }
 
-    /*public static Vault getVault() {
-        return vault;
-    }*/
-
     public static UltimateCore getUC() {
         if (uc == null) {
             uc = UltimateCore.getInstance();
@@ -219,16 +220,14 @@ public class r {
         }
         Player pl = (Player) cs;
         Boolean hasperm = perm(pl, perm, def);
-        if (hasperm == false && message == true) {
+        if (!hasperm && message) {
             r.sendMes(cs, "noPermissions");
         }
         return hasperm;
     }
 
-    static ArrayList<String> defperms = new ArrayList<>();
-
     private static boolean perm(Player p, String perm, Boolean def) {
-        if (def == true) {
+        if (def) {
             if (!defperms.contains(perm)) {
                 defperms.add(perm);
             }
@@ -404,6 +403,15 @@ public class r {
         return new String(b);
     }
 
+    public static Text translateAlternateColorCodes(char altColorChar, Text text) {
+        try {
+            return Texts.legacy(altColorChar).from(translateAlternateColorCodes(altColorChar, Texts.legacy(altColorChar).to(text)));
+        } catch (TextMessageException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static String stripColor(String input) {
         if (input == null) {
             return null;
@@ -449,7 +457,7 @@ public class r {
                 } else {
                     Map<String, Object> map = new HashMap<>();
                     map.put(repA, s.toString());
-                    a = Texts.formatNoChecks(a, map); //TODO replace
+                    a = Texts.format(a, map);
                     repA = null;
                 }
             }
@@ -465,7 +473,7 @@ public class r {
                 } else {
                     Map<String, Object> map = new HashMap<>();
                     map.put(repA, s.toString());
-                    a = Texts.formatNoChecks(a, map); //TODO replace
+                    a = Texts.format(a, map);
                     repA = null;
                 }
             }
@@ -674,7 +682,7 @@ public class r {
     }
 
     public static TextColor getRandomTextColors() {
-        List<TextColor.Base> values = Arrays
+        List<TextColor> values = Arrays
                 .asList(TextColors.BLACK, TextColors.DARK_BLUE, TextColors.DARK_GREEN, TextColors.DARK_AQUA, TextColors.DARK_RED, TextColors.DARK_PURPLE, TextColors.GOLD, TextColors.GRAY,
                         TextColors.DARK_GRAY, TextColors.BLUE, TextColors.GREEN, TextColors.AQUA, TextColors.RED, TextColors.LIGHT_PURPLE, TextColors.YELLOW, TextColors.WHITE);
         return values.get(ra.nextInt(values.size()));

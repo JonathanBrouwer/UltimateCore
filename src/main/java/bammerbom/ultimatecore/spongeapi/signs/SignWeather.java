@@ -52,21 +52,17 @@ public class SignWeather implements UltimateSign {
             p.getWorld().setThundering(false);
             p.getWorld().setStorm(false);
             r.sendMes(p, "weatherSet", "%Weather", r.mes("weatherSun"));
-            return;
         } else if (sign.getLine(1).equalsIgnoreCase("rain")) {
             p.getWorld().setThundering(false);
             p.getWorld().setStorm(true);
             r.sendMes(p, "weatherSet", "%Weather", r.mes("weatherRain"));
-            return;
         } else if (sign.getLine(1).equalsIgnoreCase("thunderstorm")) {
             p.getWorld().setStorm(true);
             p.getWorld().setThundering(true);
             r.sendMes(p, "weatherSet", "%Weather", r.mes("weatherThunder"));
-            return;
         } else {
             r.sendMes(p, "signWeatherNotFound");
             sign.setLine(0, ChatColor.RED + "[Weather]");
-            return;
         }
     }
 

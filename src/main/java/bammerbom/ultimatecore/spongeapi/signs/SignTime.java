@@ -62,7 +62,6 @@ public class SignTime implements UltimateSign {
         } else {
             r.sendMes(p, "signTimeNotFound");
             sign.setLine(0, ChatColor.RED + "[Time]");
-            return;
         }
 
     }

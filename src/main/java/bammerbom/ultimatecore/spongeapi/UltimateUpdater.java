@@ -203,8 +203,7 @@ public class UltimateUpdater {
         if (versionName == null || versionName.equalsIgnoreCase("")) {
             return "";
         }
-        final String remoteVersion = versionName.split(DELIMETER)[1].split(" ")[0];
-        return remoteVersion;
+        return versionName.split(DELIMETER)[1].split(" ")[0];
     }
 
     /**

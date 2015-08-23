@@ -61,7 +61,7 @@ public class CmdRemoveall implements UltimateCommand {
             return;
         }
         Integer range = 100;
-        if (r.checkArgs(args, 0) == true && r.isInt(args[0])) {
+        if (r.checkArgs(args, 0) && r.isInt(args[0])) {
             range = Integer.parseInt(args[0]);
             if (range > 1000) {
                 range = 1000;

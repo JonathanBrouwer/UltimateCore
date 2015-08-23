@@ -184,7 +184,6 @@ public class UltimateCommands {
             }
             for (String a : cmd.getAliases()) {
                 if (disabled.contains(a)) {
-                    continue;
                 }
             }
             List<String> aliases = new ArrayList<>();

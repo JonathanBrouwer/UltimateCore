@@ -63,7 +63,7 @@ public class CmdHeal implements UltimateCommand {
         if (!r.perm(cs, "uc.heal", false, true)) {
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             if (!(r.isPlayer(cs))) {
                 return;
             }
@@ -130,6 +130,6 @@ public class CmdHeal implements UltimateCommand {
         SLOW,
         WEAKNESS,
         WITHER,
-        BLINDNESS;
+        BLINDNESS
     }
 }

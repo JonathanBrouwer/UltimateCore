@@ -398,7 +398,7 @@ public class MetaItemStack {
                 }
                 this.builder.withColor(primaryColors);
             } else if ((split[0].equalsIgnoreCase("shape")) || (split[0].equalsIgnoreCase("type")) || ((allowShortName) && ((split[0].equalsIgnoreCase("s")) || (split[0].equalsIgnoreCase("t"))))) {
-                FireworkEffect.Type finalEffect = null;
+                FireworkEffect.Type finalEffect;
                 split[1] = (split[1].equalsIgnoreCase("large") ? "BALL_LARGE" : split[1]);
                 if (fireworkShape.containsKey(split[1].toUpperCase())) {
                     finalEffect = fireworkShape.get(split[1].toUpperCase());
@@ -529,8 +529,7 @@ public class MetaItemStack {
     }
 
     public Enchantment getEnchantment(String name) throws Exception {
-        Enchantment enchantment = EnchantmentDatabase.getByName(name);
-        return enchantment;
+        return (Enchantment) EnchantmentDatabase.getByName(name);
     }
 
 }

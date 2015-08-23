@@ -51,7 +51,7 @@ public class CmdFly implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             if (!(r.isPlayer(cs))) {
                 return;
             }
@@ -59,7 +59,7 @@ public class CmdFly implements UltimateCommand {
                 return;
             }
             Player p = (Player) cs;
-            if (p.getAllowFlight() == true) {
+            if (p.getAllowFlight()) {
                 p.setAllowFlight(false);
                 r.sendMes(cs, "flySelf", "%Status", r.mes("off"));
             } else {
@@ -73,7 +73,7 @@ public class CmdFly implements UltimateCommand {
             }
             Player target = r.searchPlayer(args[0]);
             if (target != null) {
-                if (target.getAllowFlight() == true) {
+                if (target.getAllowFlight()) {
                     target.setAllowFlight(false);
                     r.sendMes(target, "flyOthersOther", "%Status", r.mes("off"), "%Player", r.getDisplayName(cs));
                     r.sendMes(cs, "flyOthersSelf", "%Status", r.mes("off"), "%Player", target.getName());

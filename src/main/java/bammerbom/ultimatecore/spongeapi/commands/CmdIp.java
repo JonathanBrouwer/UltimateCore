@@ -53,7 +53,7 @@ public class CmdIp implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             if (!r.perm(cs, "uc.ip.server", false, false) && !r.perm(cs, "uc.ip", false, false)) {
                 r.sendMes(cs, "noPermissions");
                 return;

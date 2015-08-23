@@ -155,7 +155,7 @@ public class InventoryUtil {
                     r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
                     r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
                 }
-                player.getInventory().removeItem(new ItemStack[]{stack});
+                player.getInventory().removeItem(stack);
             } else if (showExtended) {
                 r.sendMes(cs, "clearNotEnoughItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
             }

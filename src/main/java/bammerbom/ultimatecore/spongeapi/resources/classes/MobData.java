@@ -257,8 +257,7 @@ public class MobData {
                 ((LivingEntity) en).getEquipment().setItemInHand(ItemUtil.searchItem(data));
                 return true;
             }
-        }
-        if (en instanceof Horse) {
+        } if (en instanceof Horse) {
             Horse horse = (Horse) en;
             if (data.equalsIgnoreCase("donkey")) {
                 horse.setVariant(Horse.Variant.DONKEY);

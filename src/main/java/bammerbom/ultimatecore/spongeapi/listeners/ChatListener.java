@@ -187,7 +187,7 @@ public class ChatListener implements Listener {
             }
             m = set.getMessage();
             e.setMessage(m);
-            if (r.getCnfg().getBoolean("Chat.EnableCustomChat") == false) {
+            if (!r.getCnfg().getBoolean("Chat.EnableCustomChat")) {
                 e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
                 return;
             }

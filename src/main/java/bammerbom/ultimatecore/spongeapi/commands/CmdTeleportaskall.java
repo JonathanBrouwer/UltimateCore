@@ -66,7 +66,7 @@ public class CmdTeleportaskall implements UltimateCommand {
             final List<UUID> targets = new ArrayList<>();
             r.sendMes(cs, "teleportaskallSend");
             for (final Player t : Bukkit.getOnlinePlayers()) {
-                if (UC.getPlayer(t).hasTeleportEnabled() == false && !r.perm(cs, "uc.tptoggle.override", false, false)) {
+                if (!UC.getPlayer(t).hasTeleportEnabled() && !r.perm(cs, "uc.tptoggle.override", false, false)) {
                     r.sendMes(cs, "teleportDisabled");
                     return;
                 }

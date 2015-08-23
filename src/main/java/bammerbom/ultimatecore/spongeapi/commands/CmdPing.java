@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.PingUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

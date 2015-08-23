@@ -158,8 +158,7 @@ public class UltimateFileLoader {
 
     public static JsonConfig getPlayerConfig(User p) {
         File file = getPlayerFile(p);
-        JsonConfig config = new JsonConfig(file);
-        return config;
+        return new JsonConfig(file);
     }
 
     public static void addConfig() {

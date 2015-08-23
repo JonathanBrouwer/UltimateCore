@@ -35,13 +35,13 @@ import org.bukkit.plugin.PluginDescriptionFile;
 
 import java.util.*;
 
-abstract interface UText {
+interface UText {
 
-    public abstract List<String> getLines();
+    List<String> getLines();
 
-    public abstract List<String> getChapters();
+    List<String> getChapters();
 
-    public abstract Map<String, Integer> getBookmarks();
+    Map<String, Integer> getBookmarks();
 }
 
 public class CmdHelp implements UltimateCommand {
@@ -176,7 +176,6 @@ class HelpInput implements bammerbom.ultimatecore.spongeapi.commands.UText {
                 }
             } catch (NullPointerException ex) {
             } catch (Exception ex) {
-                reported = true;
             }
         }
         this.lines.addAll(newLines);
@@ -253,7 +252,6 @@ class PluginCommandsInput implements bammerbom.ultimatecore.spongeapi.commands.U
                 }
             } catch (NullPointerException ex) {
             } catch (Exception ex) {
-                reported = true;
             }
         }
         this.lines.addAll(newLines);
@@ -358,7 +356,7 @@ class TextPager {
                 if (i >= start + (this.onePage ? 20 : 9)) {
                     break;
                 }
-                sender.sendMessage(new StringBuilder().append(ChatColor.RESET).append(lines.get(i)).toString());
+                sender.sendMessage(String.valueOf(ChatColor.RESET) + lines.get(i));
             }
             if ((!this.onePage) && (page < pages) && (commandName != null)) {
                 if (commandName.startsWith("plugin")) {
@@ -388,7 +386,7 @@ class TextPager {
             return;
         }
 
-        int chapterstart = bookmarks.get(pageStr.toLowerCase(Locale.ENGLISH)).intValue() + 1;
+        int chapterstart = bookmarks.get(pageStr.toLowerCase(Locale.ENGLISH)) + 1;
 
         int chapterend;
         for (chapterend = chapterstart;
@@ -416,7 +414,7 @@ class TextPager {
             if (i >= start + (this.onePage ? 20 : 9)) {
                 break;
             }
-            sender.sendMessage(new StringBuilder().append(ChatColor.RESET).append(lines.get(i)).toString());
+            sender.sendMessage(String.valueOf(ChatColor.RESET) + lines.get(i));
         }
         if ((!this.onePage) && (page < pages) && (commandName != null)) {
             if (commandName.startsWith("plugin")) {

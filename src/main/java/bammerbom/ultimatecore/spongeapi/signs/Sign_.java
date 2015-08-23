@@ -47,7 +47,6 @@ public class Sign_ implements UltimateSign {
     @Override
     public void onClick(Player p, Sign sign) {
         if (!r.perm(p, "uc.sign.balance", true, true) && !r.perm(p, "uc.sign", true, true)) {
-            return;
         }
         //onClick
     }

@@ -23,7 +23,6 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.classes;
 
-import org.spongepowered.api.data.manipulator.entity.ElderData;
 import org.spongepowered.api.data.type.SkeletonTypes;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
@@ -102,14 +101,14 @@ public enum MobType {
     public final String suffix;
     private final EntityType bukkitType;
 
-    private MobType(String n, Enemies en, String s, EntityType type) {
+    MobType(String n, Enemies en, String s, EntityType type) {
         this.suffix = s;
         this.name = n;
         this.type = en;
         this.bukkitType = type;
     }
 
-    private MobType(String n, Enemies en, EntityType type) {
+    MobType(String n, Enemies en, EntityType type) {
         this.name = n;
         this.type = en;
         this.bukkitType = type;
@@ -160,7 +159,7 @@ public enum MobType {
 
         protected final String type;
 
-        private Enemies(String type) {
+        Enemies(String type) {
             this.type = type;
         }
 

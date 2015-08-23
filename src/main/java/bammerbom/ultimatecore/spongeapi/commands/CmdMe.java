@@ -58,7 +58,7 @@ public class CmdMe implements UltimateCommand {
         if (!r.perm(cs, "uc.me", true, true)) {
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "meUsage");
             return;
         }

@@ -121,7 +121,7 @@ public class LocationUtil {
                 return (a.x * a.x + a.y * a.y + a.z * a.z) - (b.x * b.x + b.y * b.y + b.z * b.z);
             }
         });
-        VOLUME = pos.toArray(new Vector3D[0]);
+        VOLUME = pos.toArray(new Vector3D[pos.size()]);
     }
 
     static {
@@ -202,7 +202,6 @@ public class LocationUtil {
         if (loc == null || loc.getExtent() == null) {
             return null;
         }
-        Location org = loc;
         final Extent world = loc.getExtent();
         int x = loc.getBlockX();
         int y = (int) Math.round(loc.getY());
@@ -247,7 +246,7 @@ public class LocationUtil {
                 x += 1;
                 y = getHighestBlockYAt(world, x, z);
                 if (x - 48 > loc.getBlockX()) {
-                    return org;
+                    return loc;
                 }
             }
         }

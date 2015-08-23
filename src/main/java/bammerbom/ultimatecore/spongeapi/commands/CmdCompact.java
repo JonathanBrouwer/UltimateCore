@@ -75,7 +75,7 @@ public class CmdCompact implements UltimateCommand {
                 input.setAmount(amount);
                 result.setAmount(output);
                 if (p.getInventory().containsAtLeast(input, input.getAmount())) {
-                    p.getInventory().removeItem(new ItemStack[]{input});
+                    p.getInventory().removeItem(input);
                 }
                 InventoryUtil.addItem(p.getInventory(), result);
                 return true;
