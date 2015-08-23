@@ -129,7 +129,6 @@ public class CmdSetarmor implements UltimateCommand {
             }
         } else if (r.checkArgs(args, 1)) {
             if (!r.perm(cs, "uc.setarmor.others", false, true)) {
-                ;
             }
             if (isArmor(args[0])) {
                 Player t = r.searchPlayer(args[1]);
@@ -173,6 +172,6 @@ public class CmdSetarmor implements UltimateCommand {
         GOLD,
         CHAIN,
         IRON,
-        DIAMOND;
+        DIAMOND
     }
 }

@@ -140,7 +140,7 @@ abstract class FileConfiguration extends MemoryConfiguration {
      *                                       Configuration.
      * @throws IllegalArgumentException      Thrown when file is null.
      */
-    public void load(File file) throws FileNotFoundException, IOException, InvalidConfigurationException {
+    public void load(File file) throws IOException, InvalidConfigurationException {
         Validate.notNull(file, "File cannot be null");
 
         final FileInputStream stream = new FileInputStream(file);
@@ -218,7 +218,7 @@ abstract class FileConfiguration extends MemoryConfiguration {
      *                                       Configuration.
      * @throws IllegalArgumentException      Thrown when file is null.
      */
-    public void load(String file) throws FileNotFoundException, IOException, InvalidConfigurationException {
+    public void load(String file) throws IOException, InvalidConfigurationException {
         Validate.notNull(file, "File cannot be null");
 
         load(new File(file));

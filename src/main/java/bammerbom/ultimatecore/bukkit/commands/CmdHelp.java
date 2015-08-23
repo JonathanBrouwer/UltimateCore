@@ -35,13 +35,13 @@ import org.bukkit.plugin.PluginDescriptionFile;
 
 import java.util.*;
 
-abstract interface UText {
+interface UText {
 
-    public abstract List<String> getLines();
+    List<String> getLines();
 
-    public abstract List<String> getChapters();
+    List<String> getChapters();
 
-    public abstract Map<String, Integer> getBookmarks();
+    Map<String, Integer> getBookmarks();
 }
 
 public class CmdHelp implements UltimateCommand {
@@ -176,7 +176,6 @@ class HelpInput implements UText {
                 }
             } catch (NullPointerException ex) {
             } catch (Exception ex) {
-                reported = true;
             }
         }
         this.lines.addAll(newLines);
@@ -253,7 +252,6 @@ class PluginCommandsInput implements UText {
                 }
             } catch (NullPointerException ex) {
             } catch (Exception ex) {
-                reported = true;
             }
         }
         this.lines.addAll(newLines);

@@ -164,7 +164,6 @@ public class ConfigurationSerialization {
      */
     public static void unregisterClass(Class<?> clazz) {
         while (aliases.values().remove(clazz)) {
-            ;
         }
     }
 

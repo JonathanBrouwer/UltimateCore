@@ -61,7 +61,7 @@ public class CmdUnban implements UltimateCommand {
         if (!r.perm(cs, "uc.unban", false, true)) {
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "unbanUsage");
             return;
         }

@@ -57,7 +57,7 @@ public class CmdVanish implements UltimateCommand {
         if (!r.perm(cs, "uc.vanish", false, true)) {
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
                 return;
             }

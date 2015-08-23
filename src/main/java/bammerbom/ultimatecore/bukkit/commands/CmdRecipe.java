@@ -54,7 +54,7 @@ public class CmdRecipe implements UltimateCommand {
                 for (int k = 0;
                      k < recipeShape[j].length();
                      k++) {
-                    ItemStack item = ingredientMap.get(Character.valueOf(recipeShape[j].toCharArray()[k]));
+                    ItemStack item = ingredientMap.get(recipeShape[j].toCharArray()[k]);
                     if (item != null) {
                         item.setAmount(1);
                         if (item.getDurability() == (short) 32767) {
@@ -85,7 +85,7 @@ public class CmdRecipe implements UltimateCommand {
                 for (int k = 0;
                      k < recipe.getShape()[j].length();
                      k++) {
-                    ItemStack item = recipe.getIngredientMap().get(Character.valueOf(recipe.getShape()[j].toCharArray()[k]));
+                    ItemStack item = recipe.getIngredientMap().get(recipe.getShape()[j].toCharArray()[k]);
                     materials[j][k] = (item == null ? null : item.getType());
                 }
             }

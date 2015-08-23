@@ -56,7 +56,7 @@ public class CmdUnmute implements UltimateCommand {
         if (!r.perm(cs, "uc.unmute", false, true)) {
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "unmuteUsage");
             return;
         }

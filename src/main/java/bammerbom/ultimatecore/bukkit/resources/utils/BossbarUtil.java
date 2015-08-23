@@ -305,7 +305,7 @@ class Util {
     public static FakeDragon newDragon(String message, Location loc) {
         FakeDragon fakeDragon = null;
         try {
-            fakeDragon = FakeDragon.class.getConstructor(new Class[]{String.class, Location.class}).newInstance(new Object[]{message, loc});
+            fakeDragon = FakeDragon.class.getConstructor(new Class[]{String.class, Location.class}).newInstance(message, loc);
         } catch (IllegalArgumentException e) {
             ErrorLogger.log(e, "Bossbar util failed.");
         } catch (SecurityException e) {
@@ -329,7 +329,7 @@ class Util {
             Field con_field = nmsPlayer.getClass().getField("playerConnection");
             Object con = con_field.get(nmsPlayer);
             Method packet_method = getMethod(con.getClass(), "sendPacket");
-            packet_method.invoke(con, new Object[]{packet});
+            packet_method.invoke(con, packet);
         } catch (SecurityException e) {
             ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalArgumentException e) {
@@ -358,7 +358,7 @@ class Util {
         Object nms_entity = null;
         Method entity_getHandle = getMethod(world.getClass(), "getHandle");
         try {
-            nms_entity = entity_getHandle.invoke(world, new Object[0]);
+            nms_entity = entity_getHandle.invoke(world);
         } catch (IllegalArgumentException e) {
             ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
@@ -373,7 +373,7 @@ class Util {
         Object nms_entity = null;
         Method entity_getHandle = getMethod(entity.getClass(), "getHandle");
         try {
-            nms_entity = entity_getHandle.invoke(entity, new Object[0]);
+            nms_entity = entity_getHandle.invoke(entity);
         } catch (IllegalArgumentException e) {
             ErrorLogger.log(e, "Bossbar util failed.");
         } catch (IllegalAccessException e) {
@@ -578,19 +578,19 @@ class FakeDragon {
         Class<?> EntityEnderDragon = Util.getCraftClass("EntityEnderDragon");
         Object packet = null;
         try {
-            this.dragon = EntityEnderDragon.getConstructor(new Class[]{Util.getCraftClass("World")}).newInstance(new Object[]{getWorld()});
+            this.dragon = EntityEnderDragon.getConstructor(new Class[]{Util.getCraftClass("World")}).newInstance(getWorld());
 
             Method setLocation = Util.getMethod(EntityEnderDragon, "setLocation", new Class[]{Double.TYPE, Double.TYPE, Double.TYPE, Float.TYPE, Float.TYPE});
-            setLocation.invoke(this.dragon, new Object[]{Integer.valueOf(getX()), Integer.valueOf(getY()), Integer.valueOf(getZ()), Integer.valueOf(getPitch()), Integer.valueOf(getYaw())});
+            setLocation.invoke(this.dragon, Integer.valueOf(getX()), Integer.valueOf(getY()), Integer.valueOf(getZ()), Integer.valueOf(getPitch()), Integer.valueOf(getYaw()));
 
             Method setInvisible = Util.getMethod(EntityEnderDragon, "setInvisible", new Class[]{Boolean.TYPE});
-            setInvisible.invoke(this.dragon, new Object[]{Boolean.valueOf(isVisible())});
+            setInvisible.invoke(this.dragon, Boolean.valueOf(isVisible()));
 
             Method setCustomName = Util.getMethod(EntityEnderDragon, "setCustomName", new Class[]{String.class});
-            setCustomName.invoke(this.dragon, new Object[]{this.name});
+            setCustomName.invoke(this.dragon, this.name);
 
             Method setHealth = Util.getMethod(EntityEnderDragon, "setHealth", new Class[]{Float.TYPE});
-            setHealth.invoke(this.dragon, new Object[]{Float.valueOf(this.health)});
+            setHealth.invoke(this.dragon, Float.valueOf(this.health));
 
             Field motX = Util.getField(Entity, "motX");
             motX.set(this.dragon, Byte.valueOf(getXvel()));
@@ -602,11 +602,11 @@ class FakeDragon {
             motZ.set(this.dragon, Byte.valueOf(getZvel()));
 
             Method getId = Util.getMethod(EntityEnderDragon, "getId", new Class[0]);
-            this.id = ((Number) getId.invoke(this.dragon, new Object[0])).intValue();
+            this.id = ((Number) getId.invoke(this.dragon)).intValue();
 
             Class<?> PacketPlayOutSpawnEntityLiving = Util.getCraftClass("PacketPlayOutSpawnEntityLiving");
 
-            packet = PacketPlayOutSpawnEntityLiving.getConstructor(new Class[]{EntityLiving}).newInstance(new Object[]{this.dragon});
+            packet = PacketPlayOutSpawnEntityLiving.getConstructor(new Class[]{EntityLiving}).newInstance(this.dragon);
         } catch (IllegalArgumentException e) {
             ErrorLogger.log(e, "Bossbar util failed.");
         } catch (SecurityException e) {
@@ -655,8 +655,7 @@ class FakeDragon {
 
         Object packet = null;
         try {
-            packet = PacketPlayOutEntityMetadata.getConstructor(new Class[]{Integer.TYPE, DataWatcher, Boolean.TYPE})
-                    .newInstance(new Object[]{Integer.valueOf(this.id), watcher, Boolean.valueOf(true)});
+            packet = PacketPlayOutEntityMetadata.getConstructor(new Class[]{Integer.TYPE, DataWatcher, Boolean.TYPE}).newInstance(Integer.valueOf(this.id), watcher, Boolean.valueOf(true));
         } catch (IllegalArgumentException e) {
             ErrorLogger.log(e, "Bossbar util failed.");
         } catch (SecurityException e) {
@@ -680,8 +679,8 @@ class FakeDragon {
         Object packet = null;
         try {
             packet = PacketPlayOutEntityTeleport.getConstructor(new Class[]{Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Byte.TYPE, Byte.TYPE, Boolean.TYPE})
-                    .newInstance(new Object[]{Integer.valueOf(this.id), Integer.valueOf(loc.getBlockX() * 32), Integer.valueOf(loc.getBlockY() * 32), Integer.valueOf(loc.getBlockZ() * 32), Byte
-                            .valueOf((byte) ((int) loc.getYaw() * 256 / 360)), Byte.valueOf((byte) ((int) loc.getPitch() * 256 / 360)), Boolean.valueOf(false)});
+                    .newInstance(Integer.valueOf(this.id), Integer.valueOf(loc.getBlockX() * 32), Integer.valueOf(loc.getBlockY() * 32), Integer.valueOf(loc.getBlockZ() * 32), Byte
+                            .valueOf((byte) ((int) loc.getYaw() * 256 / 360)), Byte.valueOf((byte) ((int) loc.getPitch() * 256 / 360)), Boolean.valueOf(false));
         } catch (IllegalArgumentException e) {
             ErrorLogger.log(e, "Bossbar util failed.");
         } catch (SecurityException e) {
@@ -705,15 +704,15 @@ class FakeDragon {
 
         Object watcher = null;
         try {
-            watcher = DataWatcher.getConstructor(new Class[]{Entity}).newInstance(new Object[]{this.dragon});
+            watcher = DataWatcher.getConstructor(new Class[]{Entity}).newInstance(this.dragon);
             Method a = Util.getMethod(DataWatcher, "a", new Class[]{Integer.TYPE, Object.class});
 
-            a.invoke(watcher, new Object[]{Integer.valueOf(0), Byte.valueOf(isVisible() ? (byte) 0 : (byte) 32)});
-            a.invoke(watcher, new Object[]{Integer.valueOf(6), Float.valueOf(this.health)});
-            a.invoke(watcher, new Object[]{Integer.valueOf(7), Integer.valueOf(0)});
-            a.invoke(watcher, new Object[]{Integer.valueOf(8), Byte.valueOf((byte) 0)});
-            a.invoke(watcher, new Object[]{Integer.valueOf(10), this.name});
-            a.invoke(watcher, new Object[]{Integer.valueOf(11), Byte.valueOf((byte) 1)});
+            a.invoke(watcher, Integer.valueOf(0), Byte.valueOf(isVisible() ? (byte) 0 : (byte) 32));
+            a.invoke(watcher, Integer.valueOf(6), Float.valueOf(this.health));
+            a.invoke(watcher, Integer.valueOf(7), Integer.valueOf(0));
+            a.invoke(watcher, Integer.valueOf(8), Byte.valueOf((byte) 0));
+            a.invoke(watcher, Integer.valueOf(10), this.name);
+            a.invoke(watcher, Integer.valueOf(11), Byte.valueOf((byte) 1));
         } catch (IllegalArgumentException e) {
             ErrorLogger.log(e, "Bossbar util failed.");
         } catch (SecurityException e) {

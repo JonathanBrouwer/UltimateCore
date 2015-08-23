@@ -55,8 +55,8 @@ public class CmdWarp implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.checkArgs(args, 0) == false) {
-            if (r.perm(cs, "uc.warplist", true, true) == false) {
+        if (!r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.warplist", true, true)) {
                 return;
             }
             List<String> warps = UC.getServer().getWarpNames();
@@ -82,7 +82,7 @@ public class CmdWarp implements UltimateCommand {
             }
             //Exist
             Player p = (Player) cs;
-            if (r.perm(p, "uc.warp", true, false) == false && r.perm(p, "uc.warp." + args[0], true, false) == false) {
+            if (!r.perm(p, "uc.warp", true, false) && !r.perm(p, "uc.warp." + args[0], true, false)) {
                 r.sendMes(cs, "noPermissions");
                 return;
             }

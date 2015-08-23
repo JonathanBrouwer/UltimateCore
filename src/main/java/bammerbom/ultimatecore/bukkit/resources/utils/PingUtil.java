@@ -30,8 +30,7 @@ public class PingUtil {
 
     public static int getPing(Player p) {
         try {
-            Integer ping = (Integer) ReflectionUtil.execute("getHandle().ping", p).fetch();
-            return ping;
+            return (Integer) ReflectionUtil.execute("getHandle().ping", p).fetch();
         } catch (Exception e) {
             ErrorLogger.log(e, "Failed to get player ping.");
             return 0;

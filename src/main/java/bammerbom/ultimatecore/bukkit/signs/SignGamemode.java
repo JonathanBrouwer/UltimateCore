@@ -99,26 +99,22 @@ public class SignGamemode implements UltimateSign {
                 case "s":
                 case "surv":
                 case "0":
-                    mode = GameMode.SURVIVAL;
                     break;
                 case "creative":
                 case "c":
                 case "crea":
                 case "1":
-                    mode = GameMode.CREATIVE;
                     break;
                 case "adventure:":
                 case "a":
                 case "adven":
                 case "2":
-                    mode = GameMode.ADVENTURE;
                     break;
                 case "sp":
                 case "spec":
                 case "spectate":
                 case "spectator":
                 case "3":
-                    mode = GameMode.SPECTATOR;
                     break;
                 default:
                     r.sendMes(event.getPlayer(), "signGamemodeNotFound");

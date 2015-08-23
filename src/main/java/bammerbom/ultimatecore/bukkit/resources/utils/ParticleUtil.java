@@ -443,7 +443,7 @@ public enum ParticleUtil {
      * @param requiredVersion Version which is required (1.x)
      * @param properties      Properties of this particle effect
      */
-    private ParticleUtil(String name, int id, int requiredVersion, ParticleProperty... properties) {
+    ParticleUtil(String name, int id, int requiredVersion, ParticleProperty... properties) {
         this.name = name;
         this.id = id;
         this.requiredVersion = requiredVersion;
@@ -991,7 +991,7 @@ public enum ParticleUtil {
      * @author DarkBlade12
      * @since 1.7
      */
-    public static enum ParticleProperty {
+    public enum ParticleProperty {
 
         /**
          * The particle effect requires water to be displayed
@@ -1008,7 +1008,7 @@ public enum ParticleUtil {
         /**
          * The particle effect uses the offsets as color values
          */
-        COLORABLE;
+        COLORABLE
     }
 
     /**
@@ -2142,7 +2142,7 @@ final class ReflectionUtils {
          *
          * @param path Path of the package
          */
-        private PackageType(String path) {
+        PackageType(String path) {
             this.path = path;
         }
 
@@ -2152,7 +2152,7 @@ final class ReflectionUtils {
          * @param parent Parent package of the package
          * @param path   Path of the package
          */
-        private PackageType(PackageType parent, String path) {
+        PackageType(PackageType parent, String path) {
             this(parent + "." + path);
         }
 
@@ -2231,7 +2231,7 @@ final class ReflectionUtils {
          * @param primitive Primitive class of this data type
          * @param reference Reference class of this data type
          */
-        private DataType(Class<?> primitive, Class<?> reference) {
+        DataType(Class<?> primitive, Class<?> reference) {
             this.primitive = primitive;
             this.reference = reference;
         }

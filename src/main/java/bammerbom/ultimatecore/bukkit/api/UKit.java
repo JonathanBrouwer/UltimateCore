@@ -128,7 +128,6 @@ public class UKit {
                 try {
                     ism.addStringMeta(null, true, s + ":" + item.get(s).toString().replaceAll(" ", "_"));
                 } catch (Exception ex) {
-                    continue;
                 }
             }
             return ism.getItemStack();

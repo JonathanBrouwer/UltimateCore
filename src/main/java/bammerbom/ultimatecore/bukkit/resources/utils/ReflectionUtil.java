@@ -200,7 +200,7 @@ public class ReflectionUtil {
 
     protected static Object getStaticObjByFunction(Class<?> obj, String methodName) throws Exception {
         Method m = null;
-        Class<?> c = obj;
+        Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
         for (c = obj;
              c != null;
@@ -314,10 +314,7 @@ public class ReflectionUtil {
         if ((class1 == Short.class && class2 == short.class) || (class1 == short.class && class2 == Short.class)) {
             return true;
         }
-        if ((class1 == Byte.class && class2 == byte.class) || (class1 == byte.class && class2 == Byte.class)) {
-            return true;
-        }
-        return false;
+        return (class1 == Byte.class && class2 == byte.class) || (class1 == byte.class && class2 == Byte.class);
     }
 
     /**

@@ -53,7 +53,7 @@ public class CmdBanlist implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.perm(cs, "uc.banlist", true, true) == false) {
+        if (!r.perm(cs, "uc.banlist", true, true)) {
             return;
         }
         List<OfflinePlayer> bans = UC.getServer().getBannedOfflinePlayers();

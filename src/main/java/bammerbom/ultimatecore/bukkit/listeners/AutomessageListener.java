@@ -56,8 +56,7 @@ public class AutomessageListener implements Listener {
         messages = FileUtil.getLines(file);
         decrease = r.getCnfg().getBoolean("Messages.Decrease");
         random = new Random();
-        if (r.getCnfg().getBoolean("Messages.Enabledchat") == false && r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") == false && r.getCnfg()
-                .getBoolean("Messages.Enabledactionbar") == false) {
+        if (!r.getCnfg().getBoolean("Messages.Enabledchat") && !r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") && !r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
             return;
         }
         Bukkit.getPluginManager().registerEvents(new AutomessageListener(), r.getUC());
@@ -87,17 +86,17 @@ public class AutomessageListener implements Listener {
                 mess = mess.replace("\\n", "\n");
                 currentmessage = ChatColor.translateAlternateColorCodes('&', mess);
                 for (Player p : r.getOnlinePlayers()) {
-                    if (r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
+                    if (r.getCnfg().getBoolean("Messages.Enabledbossbar")) {
                         if (decrease) {
                             BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "), time);
                         } else {
                             BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
                         }
                     }
-                    if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
+                    if (r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
                         TitleUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
                     }
-                    if (r.getCnfg().getBoolean("Messages.Enabledchat") == true) {
+                    if (r.getCnfg().getBoolean("Messages.Enabledchat")) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', mess));
                     }
 
@@ -116,10 +115,10 @@ public class AutomessageListener implements Listener {
                 if (length == 0) {
                     return;
                 }
-                if (r.getCnfg().getBoolean("Messages.Enabledbossbar") == true) {
+                if (r.getCnfg().getBoolean("Messages.Enabledbossbar")) {
                     BossbarUtil.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
                 }
-                if (r.getCnfg().getBoolean("Messages.Enabledactionbar") == true) {
+                if (r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
                     TitleUtil.sendActionBar(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
                 }
             }

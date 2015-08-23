@@ -303,7 +303,7 @@ public class UltimateConverter {
         Map<String, Object> res = new HashMap<>();
 
         for (Entry<String, Object> e : input.entrySet()) {
-            String newKey = key == "" ? e.getKey() : (key + "." + e.getKey());
+            String newKey = key.equals("") ? e.getKey() : (key + "." + e.getKey());
 
             if (e.getValue() instanceof Map) {
                 res.putAll(convert((Map) e.getValue(), newKey));  // recursive call

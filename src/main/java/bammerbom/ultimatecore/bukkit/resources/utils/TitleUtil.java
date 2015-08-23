@@ -47,30 +47,30 @@ public class TitleUtil {
             {
                 Class<?> c1 = Class.forName("org.bukkit.craftbukkit." + nmsver + ".entity.CraftPlayer");
                 Object p = c1.cast(player);
-                Object ppoc = null;
+                Object ppoc;
                 Class<?> c4 = Class.forName("net.minecraft.server." + nmsver + ".PacketPlayOutChat");
                 Class<?> c5 = Class.forName("net.minecraft.server." + nmsver + ".Packet");
                 if ((nmsver.equalsIgnoreCase("v1_8_R1")) || (!nmsver.startsWith("v1_8_")))
                 {
                     Class<?> c2 = Class.forName("net.minecraft.server." + nmsver + ".ChatSerializer");
                     Class<?> c3 = Class.forName("net.minecraft.server." + nmsver + ".IChatBaseComponent");
-                    Method m3 = c2.getDeclaredMethod("a", new Class[] { String.class });
-                    Object cbc = c3.cast(m3.invoke(c2, new Object[] { "{\"text\": \"" + message + "\"}" }));
-                    ppoc = c4.getConstructor(new Class[] { c3, Byte.TYPE }).newInstance(new Object[] { cbc, Byte.valueOf("2") });
+                    Method m3 = c2.getDeclaredMethod("a", String.class);
+                    Object cbc = c3.cast(m3.invoke(c2, "{\"text\": \"" + message + "\"}"));
+                    ppoc = c4.getConstructor(new Class[]{c3, Byte.TYPE}).newInstance(cbc, Byte.valueOf("2"));
                 }
                 else
                 {
                     Class<?> c2 = Class.forName("net.minecraft.server." + nmsver + ".ChatComponentText");
                     Class<?> c3 = Class.forName("net.minecraft.server." + nmsver + ".IChatBaseComponent");
-                    Object o = c2.getConstructor(new Class[] { String.class }).newInstance(new Object[] { message });
-                    ppoc = c4.getConstructor(new Class[] { c3, Byte.TYPE }).newInstance(new Object[] { o, Byte.valueOf("2") });
+                    Object o = c2.getConstructor(new Class[]{String.class}).newInstance(message);
+                    ppoc = c4.getConstructor(new Class[]{c3, Byte.TYPE}).newInstance(o, Byte.valueOf("2"));
                 }
-                Method m1 = c1.getDeclaredMethod("getHandle", new Class[0]);
-                Object h = m1.invoke(p, new Object[0]);
+                Method m1 = c1.getDeclaredMethod("getHandle");
+                Object h = m1.invoke(p);
                 Field f1 = h.getClass().getDeclaredField("playerConnection");
                 Object pc = f1.get(h);
-                Method m5 = pc.getClass().getDeclaredMethod("sendPacket", new Class[] { c5 });
-                m5.invoke(pc, new Object[] { ppoc });
+                Method m5 = pc.getClass().getDeclaredMethod("sendPacket", c5);
+                m5.invoke(pc, ppoc);
             }
             catch (Exception ex)
             {
@@ -198,37 +198,36 @@ class Title {
 
                 Object connection = getField(handle.getClass(), "playerConnection").get(handle);
                 Object[] actions = this.packetActions.getEnumConstants();
-                Method sendPacket = getMethod(connection.getClass(), "sendPacket", new Class[0]);
+                Method sendPacket = getMethod(connection.getClass(), "sendPacket");
 
 
                 Object packet = this.packetTitle.getConstructor(new Class[]{this.packetActions, Integer.TYPE, Integer.TYPE, Integer.TYPE})
-                        .newInstance(new Object[]{actions[2], Integer.valueOf(this.fadeInTime * (this.ticks ? 1 : 20)), Integer.valueOf(this.stayTime * (this.ticks ? 1 : 20)), Integer
-                                .valueOf(this.fadeOutTime * (this.ticks ? 1 : 20))});
+                        .newInstance(actions[2], this.fadeInTime * (this.ticks ? 1 : 20), this.stayTime * (this.ticks ? 1 : 20), this.fadeOutTime * (this.ticks ? 1 : 20));
                 if ((this.fadeInTime != -1) && (this.fadeOutTime != -1) && (this.stayTime != -1)) {
-                    sendPacket.invoke(connection, new Object[]{packet});
+                    sendPacket.invoke(connection, packet);
                 }
-                Object serialized = getMethod(this.nmsChatSerializer, "a", new Class[]{String.class}).invoke(null, new Object[]{"{text:\"" +
+                Object serialized = getMethod(this.nmsChatSerializer, "a", new Class[]{String.class}).invoke(null, "{text:\"" +
 
 
                         ChatColor.translateAlternateColorCodes('&', this.title) + "\",color:" + this.titleColor
 
-                        .name().toLowerCase() + "}"});
+                        .name().toLowerCase() + "}");
 
-                packet = this.packetTitle.getConstructor(new Class[]{this.packetActions, getNMSClass("IChatBaseComponent")}).newInstance(new Object[]{actions[0], serialized});
+                packet = this.packetTitle.getConstructor(new Class[]{this.packetActions, getNMSClass("IChatBaseComponent")}).newInstance(actions[0], serialized);
 
-                sendPacket.invoke(connection, new Object[]{packet});
+                sendPacket.invoke(connection, packet);
                 if (this.subtitle != "") {
-                    serialized = getMethod(this.nmsChatSerializer, "a", new Class[]{String.class}).invoke(null, new Object[]{"{text:\"" +
+                    serialized = getMethod(this.nmsChatSerializer, "a", new Class[]{String.class}).invoke(null, "{text:\"" +
 
 
                             ChatColor.translateAlternateColorCodes('&', this.subtitle) + "\",color:" + this.subtitleColor
 
 
-                            .name().toLowerCase() + "}"});
+                            .name().toLowerCase() + "}");
 
-                    packet = this.packetTitle.getConstructor(new Class[]{this.packetActions, getNMSClass("IChatBaseComponent")}).newInstance(new Object[]{actions[1], serialized});
+                    packet = this.packetTitle.getConstructor(new Class[]{this.packetActions, getNMSClass("IChatBaseComponent")}).newInstance(actions[1], serialized);
 
-                    sendPacket.invoke(connection, new Object[]{packet});
+                    sendPacket.invoke(connection, packet);
                 }
             } catch (Exception e) {
                 ErrorLogger.log(e, "Failed to send title.");
@@ -249,11 +248,11 @@ class Title {
 
                 Object connection = getField(handle.getClass(), "playerConnection").get(handle);
                 Object[] actions = this.packetActions.getEnumConstants();
-                Method sendPacket = getMethod(connection.getClass(), "sendPacket", new Class[0]);
+                Method sendPacket = getMethod(connection.getClass(), "sendPacket");
 
 
-                Object packet = this.packetTitle.getConstructor(new Class[]{this.packetActions}).newInstance(new Object[]{actions[3]});
-                sendPacket.invoke(connection, new Object[]{packet});
+                Object packet = this.packetTitle.getConstructor(new Class[]{this.packetActions}).newInstance(actions[3]);
+                sendPacket.invoke(connection, packet);
             } catch (Exception e) {
                 ErrorLogger.log(e, "Failed to clear title.");
             }
@@ -267,11 +266,11 @@ class Title {
 
                 Object connection = getField(handle.getClass(), "playerConnection").get(handle);
                 Object[] actions = this.packetActions.getEnumConstants();
-                Method sendPacket = getMethod(connection.getClass(), "sendPacket", new Class[0]);
+                Method sendPacket = getMethod(connection.getClass(), "sendPacket");
 
 
-                Object packet = this.packetTitle.getConstructor(new Class[]{this.packetActions}).newInstance(new Object[]{actions[4]});
-                sendPacket.invoke(connection, new Object[]{packet});
+                Object packet = this.packetTitle.getConstructor(new Class[]{this.packetActions}).newInstance(actions[4]);
+                sendPacket.invoke(connection, packet);
             } catch (Exception e) {
                 ErrorLogger.log(e, "Failed to reset title.");
             }
@@ -286,7 +285,7 @@ class Title {
 
             Object connection = getField(handle.getClass(), "playerConnection").get(handle);
             Object networkManager = getValue("networkManager", connection);
-            return ((Integer) getMethod("getVersion", networkManager.getClass(), new Class[0]).invoke(networkManager, new Object[0])).intValue();
+            return ((Integer) getMethod("getVersion", networkManager.getClass(), new Class[0]).invoke(networkManager)).intValue();
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to get protocol version.");
         }
@@ -333,7 +332,7 @@ class Title {
 
     private Object getHandle(Object obj) {
         try {
-            return getMethod("getHandle", obj.getClass(), new Class[0]).invoke(obj, new Object[0]);
+            return getMethod("getHandle", obj.getClass(), new Class[0]).invoke(obj);
         } catch (Exception e) {
             ErrorLogger.log(e, "Failed to get handle.");
         }

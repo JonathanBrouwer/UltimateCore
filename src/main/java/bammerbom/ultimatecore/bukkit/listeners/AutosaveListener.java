@@ -30,14 +30,14 @@ import org.bukkit.World;
 public class AutosaveListener {
 
     public static void start() {
-        if (r.getCnfg().getBoolean("Autosave.Enabled") == false) {
+        if (!r.getCnfg().getBoolean("Autosave.Enabled")) {
             return;
         }
         Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
 
             @Override
             public void run() {
-                if (r.getCnfg().getBoolean("Autosave.Message") == true) {
+                if (r.getCnfg().getBoolean("Autosave.Message")) {
                     Bukkit.broadcastMessage(r.mes("autosaveStart"));
                 }
                 for (World w : Bukkit.getWorlds()) {
@@ -46,7 +46,7 @@ public class AutosaveListener {
                     } catch (Exception ex) {
                     }
                 }
-                if (r.getCnfg().getBoolean("Autosave.Message") == true) {
+                if (r.getCnfg().getBoolean("Autosave.Message")) {
                     Bukkit.broadcastMessage(r.mes("autosaveDone"));
                 }
 

@@ -81,7 +81,7 @@ public class CmdEnchant implements UltimateCommand {
         }
         String name = ench.getName().replace("_", "").toLowerCase();
         Integer level = 1;
-        if (r.checkArgs(args, 1) == true && r.isInt(args[1])) {
+        if (r.checkArgs(args, 1) && r.isInt(args[1])) {
             level = Integer.parseInt(args[1]);
         }
         if (level < 0) {

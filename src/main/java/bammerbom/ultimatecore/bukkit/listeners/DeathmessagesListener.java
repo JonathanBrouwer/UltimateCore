@@ -37,7 +37,7 @@ import java.util.Map;
 public class DeathmessagesListener implements Listener {
 
     public static void start() {
-        if (r.getCnfg().getBoolean("Chat.EnableCustomDeathmessages") == false) {
+        if (!r.getCnfg().getBoolean("Chat.EnableCustomDeathmessages")) {
             return;
         }
         Bukkit.getPluginManager().registerEvents(new DeathmessagesListener(), r.getUC());

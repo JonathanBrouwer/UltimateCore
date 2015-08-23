@@ -61,11 +61,11 @@ public class CmdDelhome implements UltimateCommand {
             r.sendMes(cs, "delhomeUsage");
         } else {
             Player p = (Player) cs;
-            if (r.perm(p, "uc.delhome", true, true) == false) {
+            if (!r.perm(p, "uc.delhome", true, true)) {
                 return;
             }
             if (args[0].contains(":")) {
-                if (r.perm(p, "uc.delhome.others", true, true) == false) {
+                if (!r.perm(p, "uc.delhome.others", true, true)) {
                     return;
                 }
                 OfflinePlayer t = r.searchOfflinePlayer(args[0].split(":")[0]);

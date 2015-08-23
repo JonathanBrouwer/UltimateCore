@@ -56,7 +56,7 @@ public class CmdUndeaf implements UltimateCommand {
         if (!r.perm(cs, "uc.undeaf", false, true)) {
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "undeafUsage");
             return;
         }

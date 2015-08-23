@@ -57,16 +57,16 @@ public class BloodListener implements Listener {
         if (e.isCancelled() || e.getEntity().isDead()) {
             return;
         }
-        if (e.getEntity() == null || !(e.getEntity() instanceof LivingEntity)) {
+        if (!(e.getEntity() instanceof LivingEntity)) {
             return;
         }
-        if (r.getCnfg().getBoolean("Blood.Enabled") == false) {
+        if (!r.getCnfg().getBoolean("Blood.Enabled")) {
             return;
         }
         if (r.getOnlinePlayersL().isEmpty()) {
             return;
         }
-        if (e.getEntity() instanceof Player || r.getCnfg().getBoolean("Blood.PlayersOnly") == false) {
+        if (e.getEntity() instanceof Player || !r.getCnfg().getBoolean("Blood.PlayersOnly")) {
             if (e.getEntity() instanceof Player) {
                 final Player p = (Player) e.getEntity();
                 if (UC.getPlayer(p).isGod()) {

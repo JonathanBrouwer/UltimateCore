@@ -56,7 +56,7 @@ public class CmdTime implements UltimateCommand {
         if (!(cs instanceof Player)) {
             Boolean perm = true;
             for (World w : Bukkit.getWorlds()) {
-                if (r.checkArgs(args, 0) == false) {
+                if (!r.checkArgs(args, 0)) {
                     r.sendMes(cs, "timeUsage");
                     return;
                 } else {
@@ -151,10 +151,10 @@ public class CmdTime implements UltimateCommand {
                 }
             }
 
-            if (r.checkArgs(args, 0) == false) {
+            if (!r.checkArgs(args, 0)) {
                 r.sendMes(cs, "timeUsage");
             } else {
-                if (perm == false) {
+                if (!perm) {
                     return;
                 }
                 if ("day".equalsIgnoreCase(args[0])) {
@@ -218,7 +218,7 @@ public class CmdTime implements UltimateCommand {
         } else {
             Player p = (Player) cs;
             World world = p.getWorld();
-            if (r.checkArgs(args, 0) == false) {
+            if (!r.checkArgs(args, 0)) {
                 r.sendMes(cs, "timeUsage");
             } else {
                 if ("day".equalsIgnoreCase(args[0])) {

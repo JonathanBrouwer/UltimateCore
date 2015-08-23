@@ -53,5 +53,5 @@ import java.lang.annotation.Target;
      *
      * @return Name to serialize the class as.
      */
-    public String value();
+    String value();
 }

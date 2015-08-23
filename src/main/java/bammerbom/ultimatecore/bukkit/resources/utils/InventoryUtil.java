@@ -131,7 +131,7 @@ public class InventoryUtil {
             player.getInventory().clear(type, data);
         } else if (amount == -1) {
             ItemStack stack = new ItemStack(type, 100000, data);
-            ItemStack removedStack = player.getInventory().removeItem(new ItemStack[]{stack}).get(Integer.valueOf(0));
+            ItemStack removedStack = player.getInventory().removeItem(stack).get(Integer.valueOf(0));
             int removedAmount = 100000 - removedStack.getAmount();
             if (removedAmount == 0) {
                 r.sendMes(cs, "clearNoItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack));
@@ -155,7 +155,7 @@ public class InventoryUtil {
                     r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
                     r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
                 }
-                player.getInventory().removeItem(new ItemStack[]{stack});
+                player.getInventory().removeItem(stack);
             } else if (showExtended) {
                 r.sendMes(cs, "clearNotEnoughItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
             }

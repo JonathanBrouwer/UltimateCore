@@ -68,7 +68,7 @@ public class CmdNames implements UltimateCommand {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
-        Map<Long, String> names = null;
+        Map<Long, String> names;
         try {
             names = UuidUtil.getNameHistory(p.getUniqueId());
         } catch (Exception e) {

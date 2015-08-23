@@ -45,7 +45,7 @@ public class TreeListener implements Listener {
         if (!block.equals(Material.LOG) && !block.equals(Material.LOG_2)) {
             return;
         }
-        if (r.getCnfg().getBoolean("Timber.Enable") == false) {
+        if (!r.getCnfg().getBoolean("Timber.Enable")) {
             return;
         }
         Player player = event.getPlayer();
@@ -66,7 +66,7 @@ public class TreeListener implements Listener {
         if ((player.isSneaking())) {
             return;
         }
-        if (isTool(handItem) || r.getCnfg().getBoolean("Timber.NeedAxe") == false) {
+        if (isTool(handItem) || !r.getCnfg().getBoolean("Timber.NeedAxe")) {
             double x = brokenBlock.getBlockX();
             double x2 = brokenBlock.getBlockX() - 3;
             double x3 = brokenBlock.getBlockX() - 3;
@@ -111,13 +111,12 @@ public class TreeListener implements Listener {
                     isTree = false;
                 }
             }
-            if (isTree == true) {
+            if (isTree) {
 
                 for (int yVec = 0;
                      yVec < height + 6.0D;
                      yVec++) {
                     x2 = x3;
-                    z2 = z3;
                     for (int xVec = 0;
                          xVec < 7;
                          xVec++) {
@@ -129,7 +128,7 @@ public class TreeListener implements Listener {
                             Material surroundType = surround.getBlock().getType();
 
                             if (surroundType == Material.LEAVES || surroundType == Material.LEAVES_2) {
-                                if (r.getCnfg().getBoolean("Timber.Leaves") == true) {
+                                if (r.getCnfg().getBoolean("Timber.Leaves")) {
                                     surround.getBlock().breakNaturally();
                                 }
                             }
@@ -137,7 +136,7 @@ public class TreeListener implements Listener {
                             if (surroundType == Material.LOG || surroundType == Material.LOG_2) {
                                 surround.getBlock().breakNaturally();
                                 player.getWorld().playEffect(surround, Effect.SMOKE, 4);
-                                if (r.getCnfg().getBoolean("Timber.AllDurability") == true) {
+                                if (r.getCnfg().getBoolean("Timber.AllDurability")) {
 
                                     if (!player.getGameMode().equals(GameMode.CREATIVE)) {
                                         int enchLvl = handItem.getEnchantmentLevel(Enchantment.DURABILITY);

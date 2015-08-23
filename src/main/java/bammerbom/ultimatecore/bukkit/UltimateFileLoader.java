@@ -161,8 +161,7 @@ public class UltimateFileLoader {
 
     public static JsonConfig getPlayerConfig(OfflinePlayer p) {
         File file = getPlayerFile(p);
-        JsonConfig config = new JsonConfig(file);
-        return config;
+        return new JsonConfig(file);
     }
 
     public static void addConfig() {
@@ -221,7 +220,7 @@ public class UltimateFileLoader {
     public static long copyLarge(InputStream input, OutputStream output, byte[] buffer) throws IOException {
         try {
             long count = 0L;
-            int n = 0;
+            int n;
             while (-1 != (n = input.read(buffer))) {
                 output.write(buffer, 0, n);
                 count += n;

@@ -65,11 +65,11 @@ public class CmdWorld implements UltimateCommand {
             r.sendMes(cs, "noPermissions");
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             usage(cs);
             return;
         }
-        if (r.checkArgs(args, 1) == true) {
+        if (r.checkArgs(args, 1)) {
             if (Bukkit.getWorld(args[1]) != null) {
                 r.sendMes(cs, "worldAlreadyExist");
                 return;
@@ -85,7 +85,7 @@ public class CmdWorld implements UltimateCommand {
                  i < args.length + 3;
                  i++) {
 
-                if (r.checkArgs(args, na) == true) {
+                if (r.checkArgs(args, na)) {
                     if (args[na].equalsIgnoreCase("flat") || args[na].equalsIgnoreCase("flatland")) {
                         settings.type(WorldType.FLAT);
                     } else if (args[na].equalsIgnoreCase("large") || args[na].replaceAll("_", "").equalsIgnoreCase("largebiomes")) {
@@ -138,12 +138,12 @@ public class CmdWorld implements UltimateCommand {
             r.sendMes(cs, "noPermissions");
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             usage(cs);
             return;
         }
         //
-        if (r.checkArgs(args, 1) == true) {
+        if (r.checkArgs(args, 1)) {
             if (!new File(args[1]).exists()) {
                 r.sendMes(cs, "worldNotFound", "%World", args[1]);
                 return;
@@ -155,7 +155,7 @@ public class CmdWorld implements UltimateCommand {
                  i < args.length + 3;
                  i++) {
 
-                if (r.checkArgs(args, na) == true) {
+                if (r.checkArgs(args, na)) {
                     if (args[na].equalsIgnoreCase("flat") || args[na].equalsIgnoreCase("flatland")) {
                         settings.type(WorldType.FLAT);
                     } else if (args[na].equalsIgnoreCase("large") || args[na].replaceAll("_", "").equalsIgnoreCase("largebiomes")) {
@@ -206,7 +206,7 @@ public class CmdWorld implements UltimateCommand {
             r.sendMes(cs, "noPermissions");
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             usage(cs);
             return;
         }
@@ -237,12 +237,12 @@ public class CmdWorld implements UltimateCommand {
             r.sendMes(cs, "noPermissions");
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             usage(cs);
             return;
         }
         //
-        if (r.checkArgs(args, 1) == true) {
+        if (r.checkArgs(args, 1)) {
             World world = Bukkit.getWorld(args[1]);
             if (world == null) {
                 r.sendMes(cs, "worldNotFound", "%World", args[1]);
@@ -295,12 +295,12 @@ public class CmdWorld implements UltimateCommand {
             r.sendMes(cs, "noPermissions");
             return;
         }
-        if (r.checkArgs(args, 1) == false) {
+        if (!r.checkArgs(args, 1)) {
             usage(cs);
             return;
         }
         //
-        if (r.checkArgs(args, 1) == true) {
+        if (r.checkArgs(args, 1)) {
             World world = Bukkit.getWorld(args[1]);
             if (world == null) {
                 r.sendMes(cs, "worldNotFound", "%World", args[1]);
@@ -320,7 +320,7 @@ public class CmdWorld implements UltimateCommand {
             r.sendMes(cs, "noPermissions");
             return;
         }
-        if (r.checkArgs(args, 3) == false) {
+        if (!r.checkArgs(args, 3)) {
             usage(cs);
             return;
         }
@@ -328,7 +328,7 @@ public class CmdWorld implements UltimateCommand {
         //true = allow, false = deny
         //monster, animal, pvp
 
-        if (r.checkArgs(args, 3) == true) {
+        if (r.checkArgs(args, 3)) {
             UWorld world = new UWorld(Bukkit.getWorld(args[1]));
             String flag = args[2];
             String value = args[3];
@@ -433,7 +433,7 @@ public class CmdWorld implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             usage(cs);
         } else if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("add")) {
             create(cs, args);

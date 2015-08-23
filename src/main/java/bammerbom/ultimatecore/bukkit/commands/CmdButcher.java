@@ -69,7 +69,7 @@ public class CmdButcher implements UltimateCommand {
         MobType filter = null;
         Boolean all = false;
         Integer amount = 0;
-        if (r.checkArgs(args, 0) == true) {
+        if (r.checkArgs(args, 0)) {
             if (r.isInt(args[0])) {
                 range = Integer.parseInt(args[0]);
                 if (range > 1000) {

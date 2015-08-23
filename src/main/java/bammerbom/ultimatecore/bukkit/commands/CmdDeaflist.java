@@ -53,7 +53,7 @@ public class CmdDeaflist implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (r.perm(cs, "uc.deaflist", true, true) == false) {
+        if (!r.perm(cs, "uc.deaflist", true, true)) {
             return;
         }
         List<OfflinePlayer> deafs = UC.getServer().getDeafOfflinePlayers();

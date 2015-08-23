@@ -130,6 +130,6 @@ public class CmdHeal implements UltimateCommand {
         SLOW,
         WEAKNESS,
         WITHER,
-        BLINDNESS;
+        BLINDNESS
     }
 }

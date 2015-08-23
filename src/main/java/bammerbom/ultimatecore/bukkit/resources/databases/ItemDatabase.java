@@ -46,14 +46,12 @@ public class ItemDatabase {
 
     private final transient static Map<String, String> items = new HashMap<>();
     private final transient static Map<ItemData, List<String>> names = new HashMap<>();
-    private final transient static Map<ItemData, String> primaryName = new HashMap<>();
     private final transient static Map<String, Short> durabilities = new HashMap<>();
     static private UltimateCore plugin;
 
     public static void disable() {
         items.clear();
         names.clear();
-        primaryName.clear();
         durabilities.clear();
         plugin = null;
     }
@@ -79,7 +77,6 @@ public class ItemDatabase {
         durabilities.clear();
         items.clear();
         names.clear();
-        primaryName.clear();
         for (String line : lines) {
             line = line.trim().toLowerCase(Locale.ENGLISH);
             if ((line.length() <= 0) || (line.charAt(0) != '#')) {
@@ -107,7 +104,6 @@ public class ItemDatabase {
                         List<String> nameList = new ArrayList<>();
                         nameList.add(itemName);
                         names.put(itemData, nameList);
-                        primaryName.put(itemData, itemName);
                     }
                 }
             }
