@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
 import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
@@ -54,7 +55,7 @@ public class SignFree implements UltimateSign {
         if (!r.perm(p, "uc.sign.free", true, true) && !r.perm(p, "uc.sign", true, true)) {
             return;
         }
-        ItemStack item = ItemUtil.searchItem(((Text.Literal) sign.getData().get().getLine(1)).getContent());
+        ItemStack item = ItemUtil.searchItem(((Text.Literal) sign.getData().get().lines().get(1)).getContent());
         item.setQuantity(item.getMaxStackQuantity());
         CustomInventory inv = Inventories.customInventoryBuilder().name(ItemUtil.getName(item)).size(36);
         for (int i = 0;
@@ -69,15 +70,15 @@ public class SignFree implements UltimateSign {
     public void onCreate(SignChangeEvent event, Player p) {
         if (!r.perm(p, "uc.sign.free.create", false, true)) {
             event.setCancelled(true);
-            event.getTile().getBlock().removeBlock();
+            event.getTile().getLocation().digBlock();
             return;
         }
-        if (ItemUtil.searchItem(((Text.Literal) event.getNewData().getLine(1)).getContent()) == null) {
-            r.sendMes(p, "giveItemNotFound", "%Item", event.getNewData().getLine(1));
-            event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.RED + "[Free]")));
+        if (ItemUtil.searchItem(((Text.Literal) event.getNewData().lines().get(1)).getContent()) == null) {
+            r.sendMes(p, "giveItemNotFound", "%Item", event.getNewData().lines().get(1));
+            event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.RED + "[Free]")).get()));
             return;
         }
-        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Free]")));
+        event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Free]")).get()));
         r.sendMes(p, "signCreated");
     }
 

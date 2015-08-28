@@ -31,8 +31,6 @@ import bammerbom.ultimatecore.spongeapi.listeners.*;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.PerformanceUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ServerIDUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
 import com.google.inject.Inject;
@@ -62,15 +60,6 @@ public class UltimateCore {
     public static Logger logger;
     public static String version;
     private static UltimateCore instance = null;
-
-    static {
-        r.prestart();
-        try {
-            r.log("Prestarted Succesfully.");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     private UltimateCore() {
     }
@@ -158,8 +147,6 @@ public class UltimateCore {
             UuidUtil.loadPlayers();
             UltimateCommands.load();
             UltimateSigns.start();
-            PerformanceUtil.getTps();
-            BossbarUtil.enable();
             ItemDatabase.enable();
             //
             UEconomy.start();
@@ -168,13 +155,12 @@ public class UltimateCore {
             CmdHeal.start();
             CmdRules.start();
             MetaItemStack.start();
-            ItemUtil.start();
             MinecraftServerListener.start();
             //
             if (!ev.getGame().getPlatform().getMinecraftVersion().getName().startsWith("1.8")) {
                 logger.info(" ");
                 r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                r.log(TextColors.YELLOW + "Warning! Version " + ev.getGame().getPlatform().getMinecraftVersion().getName() + " of spongeapi_old is not supported!");
+                r.log(TextColors.YELLOW + "Warning! Version " + ev.getGame().getPlatform().getMinecraftVersion().getName() + " of spongeapi is not supported!");
                 r.log(TextColors.YELLOW + "Use UltimateCore at your own risk!");
                 r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 logger.info(" ");

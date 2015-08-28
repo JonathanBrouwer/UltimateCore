@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.spongeapi.signs;
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.entity.player.gamemode.GameMode;
 import org.spongepowered.api.entity.player.gamemode.GameModes;
@@ -53,7 +54,7 @@ public class SignGamemode implements UltimateSign {
             return;
         }
         GameMode mode;
-        switch (((Text.Literal) sign.getData().get().getLine(1)).getContent().toLowerCase()) {
+        switch (((Text.Literal) sign.getData().get().lines().get(1)).getContent().toLowerCase()) {
             case "survival":
             case "s":
             case "surv":
@@ -81,10 +82,10 @@ public class SignGamemode implements UltimateSign {
                 break;
             default:
                 r.sendMes(p, "signGamemodeNotFound");
-                sign.offer(sign.getData().get().setLine(0, Texts.of(TextColors.RED + "[Gamemode]")));
+                sign.offer(sign.getData().get().lines().set(0, Texts.of(TextColors.RED + "[Gamemode]")));
                 return;
         }
-        p.offer(p.getGameModeData().setGameMode(mode));
+        p.offer(Keys.GAME_MODE, mode);
         r.sendMes(p, "gamemodeSelf", "%Gamemode", mode.toString().toLowerCase());
     }
 
@@ -92,12 +93,12 @@ public class SignGamemode implements UltimateSign {
     public void onCreate(SignChangeEvent event, Player p) {
         if (!r.perm(p, "uc.sign.gamemode.create", false, true)) {
             event.setCancelled(true);
-            event.getTile().getBlock().removeBlock();
+            event.getTile().getLocation().digBlock();
             return;
         }
         try {
             GameMode mode;
-            switch (((Text.Literal) event.getNewData().getLine(1)).getContent().toLowerCase()) {
+            switch (((Text.Literal) event.getNewData().lines().get(1)).getContent().toLowerCase()) {
                 case "survival":
                 case "s":
                 case "surv":
@@ -125,15 +126,15 @@ public class SignGamemode implements UltimateSign {
                     break;
                 default:
                     r.sendMes(p, "signGamemodeNotFound");
-                    event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.RED + "[Gamemode]")));
+                    event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.RED + "[Gamemode]")).get()));
                     return;
             }
         } catch (Exception ex) {
             r.sendMes(p, "signGamemodeNotFound");
-            event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.RED + "[Gamemode]")));
+            event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.RED + "[Gamemode]")).get()));
             return;
         }
-        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Balance]")));
+        event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Gamemode]")).get()));
         r.sendMes(p, "signCreated");
     }
 

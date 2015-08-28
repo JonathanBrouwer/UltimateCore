@@ -28,9 +28,8 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
-import org.spongepowered.api.data.manipulator.entity.FlyingData;
-import org.spongepowered.api.data.manipulator.entity.InvisibilityData;
-import org.spongepowered.api.data.manipulator.entity.PassengerData;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.manipulator.mutable.entity.InvisibilityData;
 import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.effect.sound.SoundTypes;
 import org.spongepowered.api.entity.Entity;
@@ -146,7 +145,7 @@ public class LocationUtil {
     }
 
     public static boolean isBlockUnsafeForUser(final Player user, final Extent world, final int x, final int y, final int z) {
-        if (world.equals(user.getWorld()) && user.getGameModeData().getGameMode() == GameModes.CREATIVE || user.getGameModeData().getGameMode() == GameModes.SPECTATOR || UC.getPlayer(user).isGod())&&
+        if (world.equals(user.getWorld()) && user.get(Keys.GAME_MODE) == GameModes.CREATIVE || user.get(Keys.GAME_MODE) == GameModes.SPECTATOR || UC.getPlayer(user).isGod())&&
         user.mayFly()){
             return false;
         }
@@ -189,9 +188,9 @@ public class LocationUtil {
     }
 
     public static Location searchSafeLocation(final Player user, final Location loc) {
-        if (loc.getExtent().equals(user.getWorld()) && (user.getGameModeData().getGameMode() == GameModes.CREATIVE || UC.getPlayer(user).isGod()) && user.getAllowFlight()) {
+        if (loc.getExtent().equals(user.getWorld()) && (user.get(Keys.GAME_MODE).equals(GameModes.CREATIVE) || UC.getPlayer(user).isGod()) && user.getAllowFlight()) {
             if (shouldFly(loc)) {
-                user.getOrCreate(FlyingData.class);
+                user.offer(Keys.IS_FLYING, true);
             }
             return getRoundedDestination(loc);
         }
@@ -278,23 +277,23 @@ public class LocationUtil {
         return y < 0;
     }
 
-    public static void teleport(final Player p, Location l, final TeleportCause c, final boolean safe, boolean delay) {
+    public static void teleport(final Player p, Location l, final boolean safe, boolean delay) {
         if (delay && delay2 > 0 && !r.perm(p, "uc.teleport.bypasstimer", false, false)) {
             final Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
             l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;
             final Location to = l;
-            r.getGame().getScheduler().getTaskBuilder().name("UC: Teleportation delay task #1").execute(new Runnable() {
+            r.getGame().getScheduler().createTaskBuilder().name("UC: Teleportation delay task #1").execute(new Runnable() {
                 @Override
                 public void run() {
                     r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
                 }
             }).delay(2L).submit(r.getUC());
-            r.getGame().getScheduler().getTaskBuilder().name("UC: Teleportation delay task #2").execute(new Runnable() {
+            r.getGame().getScheduler().createTaskBuilder().name("UC: Teleportation delay task #2").execute(new Runnable() {
 
                 @Override
                 public void run() {
                     if (p.getLocation().getBlock().equals(loc)) {
-                        teleport(p, to, c, safe, false);
+                        teleport(p, to, safe, false);
                         r.sendMes(p, "teleportDelaySucces");
                     } else {
                         r.sendMes(p, "teleportDelayFailedMove");
@@ -304,30 +303,27 @@ public class LocationUtil {
 
             return;
         }
-        if (p.getData(PassengerData.class).isPresent()) {
-            p.remove(PassengerData.class);
-        }
         if (!safe) {
-            p.setLocation(getRoundedDestination(l), c);
+            p.setLocation(getRoundedDestination(l));
             playEffect(p, l);
             return;
         }
 
-        if (bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil.isBlockUnsafeForUser(p, l.getExtent(), l.getBlockX(), l.getBlockY(), l.getBlockZ())) {
-            p.setLocation(searchSafeLocation(p, l), c);
+        if (LocationUtil.isBlockUnsafeForUser(p, l.getExtent(), l.getBlockX(), l.getBlockY(), l.getBlockZ())) {
+            p.setLocation(searchSafeLocation(p, l));
             playEffect(p, l);
         } else {
-            p.setLocation(getRoundedDestination(l), c);
+            p.setLocation(getRoundedDestination(l));
             playEffect(p, l);
         }
     }
 
-    public static void teleport(Player p, Entity e, final TeleportCause c, final boolean safe, boolean delay) {
-        teleport(p, e.getLocation(), c, safe, delay);
+    public static void teleport(Player p, Entity e, final boolean safe, boolean delay) {
+        teleport(p, e.getLocation(), safe, delay);
     }
 
-    public static void teleportUnsafe(Player p, Location loc, TeleportCause c, boolean delay) {
-        teleport(p, loc, c, false, delay);
+    public static void teleportUnsafe(Player p, Location loc, boolean delay) {
+        teleport(p, loc, false, delay);
     }
 
     /**
@@ -341,10 +337,10 @@ public class LocationUtil {
             return;
         }
         for (Player pl : r.getOnlinePlayers()) {
-            if (p != null && !p.getOrCreate(InvisibilityData.class).get().isInvisibleTo(pl)) {
+            if (p != null && !p.get(InvisibilityData.class).get().invisibleToPlayerIds().contains(pl.getUniqueId())) {
                 continue;
             }
-            r.getRegistry().getParticleEffectBuilder(ParticleTypes.MOB_APPEARANCE).build();
+            r.getRegistry().createParticleEffectBuilder(ParticleTypes.MOB_APPEARANCE).build();
             ((World) loc.getExtent()).playSound(SoundTypes.ENDERMAN_TELEPORT, loc.getPosition(), 10);
         }
     }

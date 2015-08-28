@@ -135,7 +135,7 @@ public class ChatListener implements Listener {
             if (r.getCnfg().get("Chat.CapsFilter") == null || r.getCnfg().getBoolean("Chat.CapsFilter")) {
                 double msglength = set.getMessage().toCharArray().length;
                 double capsCountt = 0.0D;
-                if (msglength > 3.0) {
+                if (msglength > 9.0) {
                     for (char c : set.getMessage().toCharArray()) {
                         if (Character.isUpperCase(c)) {
                             capsCountt += 1.0D;

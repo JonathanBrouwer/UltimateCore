@@ -32,6 +32,7 @@ import bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.Item;
 import org.spongepowered.api.entity.player.Player;
@@ -62,13 +63,13 @@ public class SignKit implements UltimateSign {
             return;
         }
         final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) sign.getData().get().getLine(1)).getContent());
+        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) sign.getData().get().lines().get(1)).getContent());
         if (kitNode == null) {
-            r.sendMes(p, "kitNotFound", "%Kit", ((Text.Literal) sign.getData().get().getLine(1)).getContent());
-            sign.offer(sign.getData().get().setLine(0, Texts.of(TextColors.RED + "[Kit]")));
+            r.sendMes(p, "kitNotFound", "%Kit", ((Text.Literal) sign.getData().get().lines().get(1)).getContent());
+            sign.offer(sign.getData().get().lines().set(0, Texts.of(TextColors.RED + "[Kit]")));
             return;
         }
-        final UKit kit = UC.getServer().getKit(((Text.Literal) sign.getData().get().getLine(1)).getContent());
+        final UKit kit = UC.getServer().getKit(((Text.Literal) sign.getData().get().lines().get(1)).getContent());
         if (!kit.hasCooldownPassedFor(p)) {
             if (kit.getCooldown() == -1L) {
                 r.sendMes(p, "kitOnlyOnce");
@@ -81,29 +82,29 @@ public class SignKit implements UltimateSign {
         for (ItemStack item : items) {
             if (!p.getInventory().offer(item)) {
                 Item en = (Item) p.getWorld().createEntity(EntityTypes.DROPPED_ITEM, p.getLocation().getPosition()).get();
-                en.offer(en.getItemData().setValue(item));
+                en.offer(en.getItemData().set(Keys.REPRESENTED_ITEM, item));
                 p.getWorld().spawnEntity(en);
             }
         }
         kit.setLastUsed(p, System.currentTimeMillis());
-        r.sendMes(p, "kitGive", "%Kit", ((Text.Literal) sign.getData().get().getLine(1)).getContent());
+        r.sendMes(p, "kitGive", "%Kit", ((Text.Literal) sign.getData().get().lines().get(1)).getContent());
     }
 
     @Override
     public void onCreate(SignChangeEvent event, Player p) {
         if (!r.perm(p, "uc.sign.kit", false, true)) {
             event.setCancelled(true);
-            event.getTile().getBlock().removeBlock();
+            event.getTile().getLocation().digBlock();
             return;
         }
         final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) event.getNewData().getLine(1)).getContent());
+        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) event.getNewData().lines().get(1)).getContent());
         if (kitNode == null) {
-            r.sendMes(p, "kitNotFound", "%Kit", event.getNewData().getLine(1));
-            event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.RED + "[Kit]")));
+            r.sendMes(p, "kitNotFound", "%Kit", event.getNewData().lines().get(1));
+            event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.RED + "[Kit]")).get()));
             return;
         }
-        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Kit]")));
+        event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Kit]")).get()));
         r.sendMes(p, "signCreated");
     }
 

@@ -27,12 +27,13 @@ import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
+import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.format.TextColors;
 
 public class SignWarp implements UltimateSign {
 
@@ -51,36 +52,36 @@ public class SignWarp implements UltimateSign {
         if (!r.perm(p, "uc.sign.warp", true, true) && !r.perm(p, "uc.sign", true, true)) {
             return;
         }
-        if (!UC.getServer().getWarpNames().contains(sign.getLine(1))) {
-            r.sendMes(p, "warpNotExist", "%Warp", sign.getLine(1));
-            sign.setLine(0, ChatColor.RED + "[Warp]");
+        if (!UC.getServer().getWarpNames().contains(sign.getData().get().lines().get(1))) {
+            r.sendMes(p, "warpNotExist", "%Warp", sign.getData().get().lines().get(1));
+            sign.offer(sign.getData().get().lines().set(0, Texts.of(TextColors.RED + "[Warp]")));
             return;
         }
-        LocationUtil.teleport(p, UC.getServer().getWarp(sign.getLine(1)), PlayerTeleportEvent.TeleportCause.COMMAND, false, true);
+        LocationUtil.teleport(p, p, false, true);
     }
 
     @Override
-    public void onCreate(SignChangeEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.warp.create", false, true)) {
+    public void onCreate(SignChangeEvent event, Player p) {
+        if (!r.perm(p, "uc.sign.warp.create", false, true)) {
             event.setCancelled(true);
-            event.getBlock().breakNaturally();
+            event.getTile().getLocation().digBlock();
             return;
         }
-        if (!UC.getServer().getWarpNames().contains(event.getLine(1))) {
-            r.sendMes(event.getPlayer(), "warpNotExist", "%Warp", event.getLine(1));
-            event.setLine(0, ChatColor.RED + "[Warp]");
+        if (!UC.getServer().getWarpNames().contains(event.getNewData().lines().get(1))) {
+            r.sendMes(p, "warpNotExist", "%Warp", event.getNewData().lines().get(1));
+            event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.RED + "[Warp]")).get()));
             return;
         }
-        event.setLine(0, ChatColor.DARK_BLUE + "[Warp]");
-        r.sendMes(event.getPlayer(), "signCreated");
+        event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Warp]")).get()));
+        r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(BlockBreakEvent event) {
-        if (!r.perm(event.getPlayer(), "uc.sign.warp.destroy", false, true)) {
+    public void onDestroy(PlayerBreakBlockEvent event) {
+        if (!r.perm(event.getUser(), "uc.sign.warp.destroy", false, true)) {
             event.setCancelled(true);
             return;
         }
-        r.sendMes(event.getPlayer(), "signDestroyed");
+        r.sendMes(event.getUser(), "signDestroyed");
     }
 }

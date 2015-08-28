@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.spongeapi.signs;
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
 import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
@@ -55,10 +56,10 @@ public class Sign_ implements UltimateSign {
     public void onCreate(SignChangeEvent event, Player p) {
         if (!r.perm(p, "uc.sign.balance.create", false, true)) {
             event.setCancelled(true);
-            event.getTile().getBlock().removeBlock();
+            event.getTile().getLocation().digBlock();
             return;
         }
-        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Balance]")));
+        event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Balance]")).get()));
         r.sendMes(p, "signCreated");
     }
 

@@ -26,6 +26,8 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
 import org.spongepowered.api.item.inventory.ItemStack;
 
+import java.util.Locale;
+
 @SuppressWarnings({"deprecation", "unchecked"})
 public class ItemUtil {
 
@@ -39,7 +41,7 @@ public class ItemUtil {
     }
 
     public static String getName(ItemStack stack) {
-        return stack.getName();
+        return stack.getTranslation().get(Locale.ENGLISH);
     }
 
 }

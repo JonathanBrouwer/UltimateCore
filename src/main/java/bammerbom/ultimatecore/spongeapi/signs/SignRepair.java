@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
 import com.google.common.base.Optional;
 import org.spongepowered.api.block.tileentity.Sign;
-import org.spongepowered.api.data.manipulator.item.DurabilityData;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
 import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
@@ -54,7 +54,8 @@ public class SignRepair implements UltimateSign {
         if (!r.perm(p, "uc.sign.repair", true, true) && !r.perm(p, "uc.sign", true, true)) {
             return;
         }
-        Boolean all = ((Text.Literal) sign.getData().get().getLine(1)).getContent().equalsIgnoreCase("all") || ((Text.Literal) sign.getData().get().getLine(1)).getContent().equalsIgnoreCase("*");
+        Boolean all = ((Text.Literal) sign.getData().get().lines().get(1)).getContent().equalsIgnoreCase("all") || ((Text.Literal) sign.getData().get().lines().get(1)).getContent()
+                .equalsIgnoreCase("*");
         if (all) {
             for (Inventory inv : p.getInventory()) {
                 Optional<ItemStack> stackOptional = inv.peek();
@@ -62,10 +63,10 @@ public class SignRepair implements UltimateSign {
                     continue;
                 }
                 ItemStack stack = stackOptional.get();
-                if (!stack.isCompatible(DurabilityData.class)) {
+                if (!stack.supports(Keys.ITEM_DURABILITY)) {
                     continue;
                 }
-                stack.offer(stack.getOrCreate(DurabilityData.class).get().setDurability(0));
+                stack.offer(Keys.ITEM_DURABILITY, 0);
             }
             r.sendMes(p, "repairSelfAll");
         } else {
@@ -74,11 +75,11 @@ public class SignRepair implements UltimateSign {
                 r.sendMes(p, "repairNoItemInHand");
                 return;
             }
-            if (!stack.get().isCompatible(DurabilityData.class)) {
+            if (!stack.get().supports(Keys.ITEM_DURABILITY)) {
                 r.sendMes(p, "repairNotRepairable");
                 return;
             }
-            stack.get().offer(stack.get().getOrCreate(DurabilityData.class).get().setDurability(0));
+            stack.get().offer(Keys.ITEM_DURABILITY, 0);
             r.sendMes(p, "repairSelfHand");
         }
     }
@@ -87,10 +88,10 @@ public class SignRepair implements UltimateSign {
     public void onCreate(SignChangeEvent event, Player p) {
         if (!r.perm(p, "uc.sign.repair", false, true)) {
             event.setCancelled(true);
-            event.getTile().getBlock().removeBlock();
+            event.getTile().getLocation().digBlock();
             return;
         }
-        event.setNewData(event.getNewData().setLine(0, Texts.of(TextColors.DARK_BLUE + "[Repair]")));
+        event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Repair]")).get()));
         r.sendMes(p, "signCreated");
     }
 

@@ -26,22 +26,21 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.Subscribe;
+import org.spongepowered.api.event.entity.player.PlayerChatEvent;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-public class ChatListener implements Listener {
+public class ChatListener {
 
-    static HashMap<String, String> lastChatMessage = new HashMap<>();
+    static HashMap<String, Text.Literal> lastChatMessage = new HashMap<>();
     static HashMap<String, Integer> lastChatMessageTimes = new HashMap<>();
     static HashMap<String, Integer> spamTime = new HashMap<>();
     static HashMap<String, Integer> swearAmount = new HashMap<>();
@@ -49,10 +48,10 @@ public class ChatListener implements Listener {
     public static void start() {
         ChatListener list = new ChatListener();
         list.spamTask();
-        Bukkit.getPluginManager().registerEvents(list, r.getUC());
+        r.getGame().getEventManager().register(r.getUC(), new ChatListener());
     }
 
-    private static ChatSet testMessage(String mr, Player p) {
+    private static ChatSet testMessage(Text.Literal mr, Player p) {
         ChatSet set = new ChatSet(mr);
         if (r.perm(p, "uc.chat", false, false)) {
             return set;
@@ -60,7 +59,7 @@ public class ChatListener implements Listener {
         //Anti REPEAT
         if (!r.perm(p, "uc.chat.repeat", false, false)) {
             if (r.getCnfg().getBoolean("Chat.RepeatFilter")) {
-                String lastmessage = "";
+                Text.Literal lastmessage = Texts.of("");
                 Integer lastmessageTimes = 0;
                 if (lastChatMessage.get(p.getName()) != null) {
                     lastmessage = lastChatMessage.get(p.getName());
@@ -68,7 +67,7 @@ public class ChatListener implements Listener {
                 }
                 lastChatMessage.put(p.getName(), mr);
                 lastChatMessageTimes.put(p.getName(), lastmessageTimes + 1);
-                if (lastmessage.equalsIgnoreCase(mr)) {
+                if (lastmessage.getContent().equalsIgnoreCase(mr.getContent())) {
                     if (lastmessageTimes + 1 == 3) {
                         r.sendMes(p, "chatRepeat");
                         set.setCancelled(true);
@@ -93,7 +92,7 @@ public class ChatListener implements Listener {
                     Integer amount = spamTime.get(p.getName());
                     spamTime.put(p.getName(), amount + 1);
                     if (amount >= 4) {
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mute " + p.getName() + " 5m");
+                        r.getGame().getCommandDispatcher().process(r.getGame().getServer().getConsole(), "mute " + p.getName() + " 5m");
                         set.setCancelled(true);
                     } else if (amount >= 3) {
                         r.sendMes(p, "chatSpam");
@@ -108,7 +107,7 @@ public class ChatListener implements Listener {
             if (r.getCnfg().getBoolean("Chat.SwearFilter") || r.getCnfg().getBoolean("Chat.SwearFiler")) {
                 Boolean stop = false;
                 for (String sw : r.getCnfg().getStringList("SwearWords")) {
-                    if (mr.toLowerCase().contains(sw.toLowerCase())) {
+                    if (mr.getContent().toLowerCase().contains(sw.toLowerCase())) {
                         //set.setCancelled(true);
                         if (!stop) {
                             stop = true;
@@ -120,12 +119,11 @@ public class ChatListener implements Listener {
                             swearAmount.put(p.getName(), s);
                             r.sendMes(p, "chatSwear");
                             if (s >= 3) {
-                                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mute " + p.getName() +
-                                        " 5m");
+                                r.getGame().getCommandDispatcher().process(r.getGame().getServer().getConsole(), "mute " + p.getName() + " 5m");
                                 set.setCancelled(true);
                             }
                         }
-                        set.setMessage(set.getMessage().replaceAll("(?i)" + sw, "****"));
+                        set.setMessage(set.getMessage(). ("(?i)" + sw, "****"));
                     }
                 }
             }
@@ -135,7 +133,7 @@ public class ChatListener implements Listener {
             if (r.getCnfg().get("Chat.CapsFilter") == null || r.getCnfg().getBoolean("Chat.CapsFilter")) {
                 double msglength = set.getMessage().toCharArray().length;
                 double capsCountt = 0.0D;
-                if (msglength > 3.0) {
+                if (msglength > 8.0) {
                     for (char c : set.getMessage().toCharArray()) {
                         if (Character.isUpperCase(c)) {
                             capsCountt += 1.0D;
@@ -173,14 +171,14 @@ public class ChatListener implements Listener {
         return set;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void ChatListener(AsyncPlayerChatEvent e) {
+    @Subscribe(order = Order.LATE)
+    public void ChatListener(PlayerChatEvent e) {
         if (!e.isCancelled() && !UC.getPlayer(e.getPlayer()).isMuted()) {
-            String m = e.getMessage();
-            if (r.perm(e.getPlayer(), "uc.coloredchat", false, false)) {
-                m = ChatColor.translateAlternateColorCodes('&', m);
+            Text.Literal m = e.getMessage();
+            if (r.perm(e.getUser(), "uc.coloredchat", false, false)) {
+                m = r.translateAlternateColorCodes('&', m);
             }
-            ChatSet set = testMessage(m, e.getPlayer());
+            ChatSet set = testMessage(m, e.getUser());
             if (set.isCancelled()) {
                 e.setCancelled(true);
                 return;
@@ -345,9 +343,9 @@ public class ChatListener implements Listener {
 class ChatSet {
 
     Boolean cancelled;
-    String message;
+    Text.Literal message;
 
-    public ChatSet(String mes) {
+    public ChatSet(Text.Literal mes) {
         cancelled = false;
         message = mes;
     }
@@ -360,11 +358,11 @@ class ChatSet {
         cancelled = can;
     }
 
-    public String getMessage() {
+    public Text.Literal getMessage() {
         return message;
     }
 
-    public void setMessage(String msg) {
+    public void setMessage(Text.Literal msg) {
         message = msg;
     }
 }
