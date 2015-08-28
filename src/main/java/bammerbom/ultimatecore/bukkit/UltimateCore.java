@@ -52,7 +52,7 @@ public class UltimateCore extends JavaPlugin {
             r.prestart();
             r.log("Prestarted Succesfully.");
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Prestarting failed.");
+            ex.printStackTrace();
         }
     }
 
