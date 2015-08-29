@@ -69,11 +69,8 @@ public class PluginStealListener implements Listener {
                         String m = packet.getStrings().read(0).toLowerCase();
                         if (m.contains(" ")) {
                             m = m.split(" ")[0];
-                        } else if (m.startsWith("/")) {
-                            if (!r.perm(event.getPlayer(), "uc.plugins", false, false)) {
-                                event.setCancelled(true);
-                                return;
-                            }
+                        } else if (!m.startsWith("/")) {
+                            return;
                         }
                         if (m.contains("/")) {
                             m = m.replaceFirst("/", "");

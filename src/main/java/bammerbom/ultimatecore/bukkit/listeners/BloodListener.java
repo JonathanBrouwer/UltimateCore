@@ -156,7 +156,7 @@ public class BloodListener implements Listener {
                         break;
                     case WITCH:
                         ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.1F, 20, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.1F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
                         break;
                     case ENDERMITE:
                         ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.ENDER_CHEST, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation(), r.getOnlinePlayersL());
@@ -178,7 +178,7 @@ public class BloodListener implements Listener {
                         break;
                     case CHICKEN:
                         ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 0.6, 0), r.getOnlinePlayersL());
                         break;
                     case SQUID:
                         ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.COAL_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());

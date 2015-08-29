@@ -57,7 +57,7 @@ public class SignFree implements UltimateSign {
         }
         ItemStack item = ItemUtil.searchItem(((Text.Literal) sign.getData().get().lines().get(1)).getContent());
         item.setQuantity(item.getMaxStackQuantity());
-        CustomInventory inv = Inventories.customInventoryBuilder().name(ItemUtil.getName(item)).size(36);
+        CustomInventory inv = Inventories.customInventoryBuilder().name(Texts.of(ItemUtil.getName(item))).size(36);
         for (int i = 0;
              i < 36;
              i++) {
