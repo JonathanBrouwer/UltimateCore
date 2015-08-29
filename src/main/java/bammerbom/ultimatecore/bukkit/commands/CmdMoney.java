@@ -289,7 +289,7 @@ public class CmdMoney implements UltimateCommand {
                     UEconomy ue = (UEconomy) r.getVault().getEconomy();
                     if (ue.getMaximumMoney() != null && ue.getBalance((Player) cs) - Double.parseDouble(args[1]) < ue.getMinimumMoney()) {
                         double remove = ue.getBalance((Player) cs) - ue.getMinimumMoney();
-                        EconomyResponse er = r.getVault().getEconomy().withdrawPlayer((Player) cs, remove);
+                        EconomyResponse er = ue.withdrawPlayer((Player) cs, remove, true);
                         if (er.transactionSuccess()) {
                             r.sendMes(cs, "moneyRemoveSelf", "%Amount", r.getVault().getEconomy().format(remove));
                             r.sendMes(cs, "moneyMinBalance");
@@ -319,7 +319,7 @@ public class CmdMoney implements UltimateCommand {
                     UEconomy ue = (UEconomy) r.getVault().getEconomy();
                     if (ue.getMaximumMoney() != null && ue.getBalance(t) - Double.parseDouble(args[2]) < ue.getMinimumMoney()) {
                         double remove = ue.getBalance(t) - ue.getMinimumMoney();
-                        EconomyResponse er = r.getVault().getEconomy().withdrawPlayer(t, remove);
+                        EconomyResponse er = ue.withdrawPlayer(t, remove, true);
                         if (er.transactionSuccess()) {
                             r.sendMes(cs, "moneyRemoveOthers", "%Amount", r.getVault().getEconomy().format(Double.parseDouble(args[2])), "%Player", t.getName());
                             r.sendMes(cs, "moneyMinBalance");
