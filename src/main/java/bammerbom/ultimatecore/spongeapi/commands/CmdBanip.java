@@ -24,19 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.FormatUtil;
-import org.bukkit.BanList;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.util.command.CommandSource;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class CmdBanip implements UltimateCommand {
@@ -52,6 +42,31 @@ public class CmdBanip implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <IP/Player> [Time] [Reason]";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Bans the target ip.";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList();
+    }
+
+    @Override
+    public void run(CommandSource cs, String label, String[] args) {
+
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
+        return null;
+    }
+
+    /*@Override
     public List<String> getAliases() {
         return Arrays.asList("ipban");
     }
@@ -123,5 +138,5 @@ public class CmdBanip implements UltimateCommand {
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
-    }
+    }*/
 }

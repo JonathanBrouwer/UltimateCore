@@ -25,9 +25,9 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.util.command.CommandSource;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,12 +53,22 @@ public class CmdAccountstatus implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player>";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Checks if an account is premium or not.";
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("acstatus");
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.accountstatus", false, true)) {
             return;
         }
@@ -70,7 +80,7 @@ public class CmdAccountstatus implements UltimateCommand {
             r.sendMes(cs, "accountstatusUsage");
             return;
         }
-        final OfflinePlayer pl = r.searchOfflinePlayer(args[0]);
+        final User pl = r.searchOfflinePlayer(args[0]);
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -89,7 +99,7 @@ public class CmdAccountstatus implements UltimateCommand {
                     r.sendMes(cs, "accountstatusFailedConnect");
                     return;
                 }
-                String status = premium ? r.mes("accountstatusPremium") : r.mes("accountstatusNotPremium");
+                Text status = premium ? r.mes("accountstatusPremium") : r.mes("accountstatusNotPremium");
                 r.sendMes(cs, "accountstatusMessage", "%Player", pl.getName(), "%Status", status);
             }
         });
@@ -98,7 +108,7 @@ public class CmdAccountstatus implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
         if (curn == 0) {
             return null;
         }

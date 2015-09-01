@@ -25,11 +25,9 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.Subscribe;
+import org.spongepowered.api.event.entity.player.PlayerDeathEvent;
 
 import java.util.Map;
 
@@ -39,7 +37,7 @@ public class DeathmessagesListener implements Listener {
         if (!r.getCnfg().getBoolean("Chat.EnableCustomDeathmessages")) {
             return;
         }
-        Bukkit.getPluginManager().registerEvents(new DeathmessagesListener(), r.getUC());
+        r.getGame().getEventManager().register(r.getUC(), new DeathmessagesListener());
         //Set deathmessages
         try {
             ReflectionUtil.ReflectionObject localeI18n = ReflectionUtil.executeStatic("a", ReflectionUtil.ReflectionStatic.fromNMS("LocaleI18n"));
@@ -96,10 +94,11 @@ public class DeathmessagesListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Subscribe(order = Order.EARLY)
     public void death(PlayerDeathEvent e) {
         //TODO find a better way to do this
         //This is needed so minecraft doenst take the old deathmessage
+        e.get
         e.setDeathMessage(e.getDeathMessage() + " ");
     }
 }

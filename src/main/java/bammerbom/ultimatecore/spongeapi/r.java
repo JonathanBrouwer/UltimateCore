@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.spongeapi;
 
 import bammerbom.ultimatecore.spongeapi.UltimateUpdater.UpdateResult;
 import bammerbom.ultimatecore.spongeapi.UltimateUpdater.UpdateType;
+import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import com.google.common.base.Predicate;
@@ -291,6 +292,22 @@ public class r {
         return getGame().getRegistry();
     }
 
+    public static PermissionService getPermission() {
+        return getGame().getServiceManager().provide(PermissionService.class).orNull();
+    }
+
+    public static Text.Literal getDisplayName(Object cs) {
+        if (cs instanceof Player) {
+            return UC.getPlayer((Player) cs).getDisplayName();
+        } else if (cs instanceof User) {
+            return Texts.of(((User) cs).getName());
+        } else if (cs instanceof CommandSource) {
+            return Texts.of(((CommandSource) cs).getName());
+        } else {
+            return Texts.of(cs.toString());
+        }
+    }
+
     public static TextColor charToTextColor(String str) {
         if (str.startsWith("&") || str.startsWith("§")) {
             str = str.substring(1);
@@ -426,13 +443,14 @@ public class r {
     }
 
     public static String mesRaw(String padMessage, Object... repl) {
-        Text.Literal text = (Text.Literal) mes(padMessage, repl);
+        Text.Literal text = mes(padMessage, repl);
         return text.getContent();
     }
 
-    public static Text mes(String padMessage, Object... repl) {
+    public static Text.Literal mes(String padMessage, Object... repl) {
         if (cu.map.containsKey(padMessage)) {
-            Text a = Texts.of(r.positive + translateAlternateColorCodes('&', cu.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
+            Text.Literal a = Texts
+                    .of(r.positive + translateAlternateColorCodes('&', cu.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
                     .replace("\\\\n", "\n")));
             String repA = null;
             for (Object s : repl) {
@@ -441,14 +459,15 @@ public class r {
                 } else {
                     Map<String, Object> map = new HashMap<>();
                     map.put(repA, s.toString());
-                    a = Texts.format(a, map);
+                    a = (Text.Literal) Texts.format(a, map);
                     repA = null;
                 }
             }
             return a;
         }
         if (en.map.containsKey(padMessage)) {
-            Text a = Texts.of(r.positive + translateAlternateColorCodes('&', en.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
+            Text.Literal a = Texts
+                    .of(r.positive + translateAlternateColorCodes('&', en.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
                     .replace("\\\\n", "\n")));
             String repA = null;
             for (Object s : repl) {
@@ -457,14 +476,14 @@ public class r {
                 } else {
                     Map<String, Object> map = new HashMap<>();
                     map.put(repA, s.toString());
-                    a = Texts.format(a, map);
+                    a = (Text.Literal) Texts.format(a, map);
                     repA = null;
                 }
             }
             return a;
         }
         r.log(r.negative + "Failed to find " + padMessage + " in Messages file.");
-        return Texts.of();
+        return Texts.of("");
     }
 
     public static void sendMes(CommandSource cs, String padMessage, Object... repl) {
@@ -665,7 +684,7 @@ public class r {
         return a;
     }
 
-    public static TextColor getRandomTextColors() {
+    public static TextColor getRandomTextColor() {
         List<TextColor> values = Arrays
                 .asList(TextColors.BLACK, TextColors.DARK_BLUE, TextColors.DARK_GREEN, TextColors.DARK_AQUA, TextColors.DARK_RED, TextColors.DARK_PURPLE, TextColors.GOLD, TextColors.GRAY,
                         TextColors.DARK_GRAY, TextColors.BLUE, TextColors.GREEN, TextColors.AQUA, TextColors.RED, TextColors.LIGHT_PURPLE, TextColors.YELLOW, TextColors.WHITE);

@@ -26,8 +26,8 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.util.command.CommandSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,12 +49,22 @@ public class CmdAnswer implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player> <Message>";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Answer a question send with /ask";
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("ans", "askr", "askreply");
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.answer", true, true)) {
             return;
         }
@@ -62,14 +72,15 @@ public class CmdAnswer implements UltimateCommand {
             r.sendMes(cs, "answerUsage");
             return;
         }
-        cs.sendMessage(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 1)));
+        cs.sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", r.getFinalArg(args, 1))));
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
         if (curn == 0) {
             return null;
         }
         return new ArrayList<>();
     }
+
 }

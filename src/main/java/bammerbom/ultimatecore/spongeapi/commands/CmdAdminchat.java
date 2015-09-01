@@ -25,18 +25,15 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.util.command.CommandSource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CmdAdminchat implements UltimateCommand {
-    static String format = ChatColor
+    static String format = r
             .translateAlternateColorCodes('&', r.getCnfg().getString("Chat.AdminchatFormat").replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + ""));
 
     @Override
@@ -50,11 +47,44 @@ public class CmdAdminchat implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Message>";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Private chat for admins.";
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("ac");
     }
 
     @Override
+    public void run(CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.adminchat", false, true)) {
+            return;
+        }
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "adminchatUsage");
+            return;
+        }
+        String msg = r.getFinalArg(args, 0);
+        for (Player p : r.getOnlinePlayers()) {
+            if (r.perm(p, "uc.adminchat", false, false)) {
+                p.sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", msg)));
+            }
+        }
+        r.getGame().getServer().getBroadcastSink().sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", msg)));
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
+        return null;
+    }
+
+    /*@Override
     public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.adminchat", false, true)) {
             return;
@@ -75,5 +105,5 @@ public class CmdAdminchat implements UltimateCommand {
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
-    }
+    }*/
 }

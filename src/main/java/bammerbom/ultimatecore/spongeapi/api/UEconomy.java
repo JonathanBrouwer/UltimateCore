@@ -320,6 +320,13 @@ public class UEconomy implements Economy {
      */
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
+        return withdrawPlayer(playerName, amount, false);
+    }
+
+    /**
+     * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(OfflinePlayer, double)} instead.
+     */
+    public EconomyResponse withdrawPlayer(String playerName, double amount, boolean force) {
         Long time = System.currentTimeMillis();
 
         if (!r.isUUID(playerName)) {
@@ -338,7 +345,7 @@ public class UEconomy implements Economy {
         if (!getData().contains(playerName)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "This player has no account");
         }
-        if (getBalance(playerName) - amount < getMinimumMoney()) {
+        if (getBalance(playerName) - amount < (force ? getMinimumMoney() : 0)) {
             return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "This player has too less money");
         }
         getData().set(playerName, getBalance(playerName) - amount);
@@ -357,6 +364,17 @@ public class UEconomy implements Economy {
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
         return withdrawPlayer(player.getUniqueId().toString(), amount);
+    }
+
+    /**
+     * Withdraw an amount from a player - DO NOT USE NEGATIVE AMOUNTS
+     *
+     * @param player to withdraw from
+     * @param amount Amount to withdraw
+     * @return Detailed response of transaction
+     */
+    public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount, boolean force) {
+        return withdrawPlayer(player.getUniqueId().toString(), amount, force);
     }
 
     /**

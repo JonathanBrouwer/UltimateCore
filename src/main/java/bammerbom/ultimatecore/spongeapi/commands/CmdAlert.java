@@ -25,10 +25,8 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.util.command.CommandSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,12 +47,22 @@ public class CmdAlert implements UltimateCommand {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("");
+    public String getUsage() {
+        return "/<command> <Message>";
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public String getDescription() {
+        return "Sends everyone on the server an alert message.";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList();
+    }
+
+    @Override
+    public void run(CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.alert", false, true)) {
             return;
         }
@@ -64,12 +72,13 @@ public class CmdAlert implements UltimateCommand {
         }
         String message = r.getFinalArg(args, 0);
         message = format.replace("%Message", message);
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
-                .replace("\\\\n", "\n"));
+        r.getGame().getServer().getBroadcastSink()
+                .sendMessage(Texts.of(r.translateAlternateColorCodes('&', message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n")));
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
         return new ArrayList<>();
     }
+
 }

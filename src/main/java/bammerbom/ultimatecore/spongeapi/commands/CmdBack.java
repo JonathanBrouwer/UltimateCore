@@ -26,12 +26,10 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.util.command.CommandSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,12 +48,22 @@ public class CmdBack implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command>";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Teleports you to your location prior to tp/spawn/warp.";
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("return");
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.back", true, true)) {
             return;
         }
@@ -63,17 +71,18 @@ public class CmdBack implements UltimateCommand {
             return;
         }
         Player p = (Player) cs;
-        Location loc = UC.getPlayer(p).getLastLocation();
+        RLocation loc = UC.getPlayer(p).getLastLocation();
         if (loc == null) {
             r.sendMes(cs, "backNotFound");
             return;
         }
-        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true, true);
+        LocationUtil.teleport(p, loc, true, true);
         r.sendMes(cs, "backMessage");
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
         return new ArrayList<>();
     }
+
 }
