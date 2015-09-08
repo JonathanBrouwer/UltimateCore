@@ -43,6 +43,7 @@ public class CmdRules implements UltimateCommand {
         if (!file.exists()) {
             r.getUC().saveResource("rules.txt", true);
         }
+        message = "";
         for (String r : FileUtil.getLines(file)) {
             message = message + ChatColor.translateAlternateColorCodes('&', r) + ChatColor.RESET + "\n";
         }
