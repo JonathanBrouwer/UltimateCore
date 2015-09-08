@@ -25,9 +25,9 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.util.command.CommandSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,12 +46,22 @@ public class CmdBurn implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player> [Time]";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Set someone on fire.";
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("ignite", "fire");
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return;
         }
@@ -74,16 +84,17 @@ public class CmdBurn implements UltimateCommand {
             time = Double.parseDouble(args[1]);
         }
         time = time * 20;
-        t.setFireTicks(time.intValue());
+        t.offer(Keys.FIRE_TICKS, time.intValue());
         r.sendMes(cs, "burnMessage", "%Player", t.getName(), "%Time", time / 20);
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
         if (curn == 1) {
             return null;
         } else {
             return new ArrayList<>();
         }
     }
+    
 }

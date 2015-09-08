@@ -118,6 +118,9 @@ MojangServersBroadcasting: false
 #Recommended between 30 seconds and 150 seconds
 MojangServersDelay: 90
 
+#Are join and leave messages visible?
+JoinLeaveVisible: true
+
 #Chat customization
 Chat:
   #How is the /alert command displayed?

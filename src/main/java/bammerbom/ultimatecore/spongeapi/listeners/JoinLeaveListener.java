@@ -67,7 +67,7 @@ public class JoinLeaveListener implements Listener {
             LocationUtil.teleportUnsafe(e.getPlayer(), UC.getPlayer(e.getPlayer()).getSpawn(true) != null ? UC.getPlayer(e.getPlayer()).getSpawn(true) : e.getPlayer().getWorld()
                     .getSpawnLocation(), TeleportCause.PLUGIN, false);
         }
-        if (UC.getPlayer(e.getPlayer()).isBanned()) {
+        if (UC.getPlayer(e.getPlayer()).isBanned() || !r.getCnfg().getBoolean("JoinLeaveVisible")) {
             e.setJoinMessage(null);
             return;
         }
@@ -76,7 +76,7 @@ public class JoinLeaveListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void QuitMessage(PlayerQuitEvent e) {
-        if (UC.getPlayer(e.getPlayer()).isBanned()) {
+        if (UC.getPlayer(e.getPlayer()).isBanned() || !r.getCnfg().getBoolean("JoinLeaveVisible")) {
             e.setQuitMessage(null);
             return;
         }

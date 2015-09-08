@@ -26,9 +26,8 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.util.command.CommandSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,16 +46,26 @@ public class CmdBanlist implements UltimateCommand {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("bans");
+    public String getUsage() {
+        return "/<command>";
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public String getDescription() {
+        return "View a list of all current bans.";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList();
+    }
+
+    @Override
+    public void run(CommandSource cs, String label, String[] args) {
         if (r.perm(cs, "uc.banlist", true, true) == false) {
             return;
         }
-        List<OfflinePlayer> bans = UC.getServer().getBannedOfflinePlayers();
+        List<User> bans = UC.getServer().getBannedOfflinePlayers();
         if (bans == null || bans.isEmpty()) {
             r.sendMes(cs, "banlistNoBansFound");
             return;
@@ -76,11 +85,12 @@ public class CmdBanlist implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
         List<String> bans = new ArrayList<>();
-        for (OfflinePlayer pl : UC.getServer().getBannedOfflinePlayers()) {
+        for (User pl : UC.getServer().getBannedOfflinePlayers()) {
             bans.add(pl.getName());
         }
         return bans;
     }
+
 }
