@@ -97,7 +97,8 @@ public class CmdTeleport implements UltimateCommand {
                 return;
             }
             p.openInventory(inv);
-        } else if ((r.isDouble(args[0].replace("~", "")) || args[0].replace("~", "").isEmpty()) && (r.isDouble(args[1].replace("~", "")) || args[1].replace("~", "").isEmpty())) {
+        } else if (r.checkArgs(args, 1) && (r.isDouble(args[0].replace("~", "")) || args[0].replace("~", "").isEmpty()) && (r.isDouble(args[1].replace("~", "")) || args[1].replace("~", "")
+                .isEmpty())) {
             if (!r.isPlayer(cs)) {
                 return;
             }
@@ -118,7 +119,7 @@ public class CmdTeleport implements UltimateCommand {
             }
             LocationUtil.teleport(p, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND, true, true);
             r.sendMes(cs, "teleportMessage3", "%x", x, "%y", y, "%z", z);
-        } else if (r.checkArgs(args, 1) == true && (r.isDouble(args[1].replace("~", "")) || args[1].replace("~", "").isEmpty()) && (!r.isDouble(args[0].replace("~", "")) && !args[0].replace("~", "")
+        } else if (r.checkArgs(args, 2) == true && (r.isDouble(args[1].replace("~", "")) || args[1].replace("~", "").isEmpty()) && (!r.isDouble(args[0].replace("~", "")) && !args[0].replace("~", "")
                 .isEmpty())) {
             if (!r.perm(cs, "uc.teleport.coords.others", false, true)) {
                 return;
