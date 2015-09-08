@@ -97,7 +97,7 @@ public class CmdTeleport implements UltimateCommand {
                 return;
             }
             p.openInventory(inv);
-        } else if (r.isDouble(args[0].replace("~", "")) || args[0].replace("~", "").isEmpty()) {
+        } else if ((r.isDouble(args[0].replace("~", "")) || args[0].replace("~", "").isEmpty()) && (r.isDouble(args[1].replace("~", "")) || args[1].replace("~", "").isEmpty())) {
             if (!r.isPlayer(cs)) {
                 return;
             }
