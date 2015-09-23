@@ -46,7 +46,7 @@ public class UltimateCore extends JavaPlugin {
     public static File file;
     private static UltimateCore instance = null;
 
-    public UltimateCore() {
+    public void onLoad() {
         instance = this;
         try {
             r.prestart();
