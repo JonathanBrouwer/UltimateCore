@@ -481,22 +481,22 @@ commands:
     usage: /<command> <Warp>
     description: Set a new warp, or move a warp.
     permissions: uc.setwarp
-  skull:
-    usage: /<command> [Player]
-    description: Get the head of a player.
-    permissions: uc.skull
-    aliases: [head]
   silence:
     usage: /<command>
     description: Disable the chat for the entire server.
     permissions: uc.silence
     aliases: [disablechat]
+  skull:
+    usage: /<command> [Player]
+    description: Get the head of a player.
+    permissions: uc.skull
+    aliases: [head]
   smite:
     usage: /<command> [Player]
     description: Throw lightning at a player.
     permissions: uc.smite
   spawn:
-    usage: /<command>
+    usage: /<command> [Player]
     description: Teleport to the spawn.
     permissions: uc.spawn
   spawner:
@@ -510,7 +510,7 @@ commands:
     aliases: [mob, spawnentity]
   speed:
     usage: /<command> <0-10> [Player]
-    description: Set your fly and walkspeed.
+    description: Set your fly and walk speed.
     permissions: uc.speed
   spy:
     usage: /<command>
