@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.spongeapi.resources.databases;
 import bammerbom.ultimatecore.spongeapi.UltimateCore;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
+import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.io.*;
@@ -149,6 +150,18 @@ public class ItemDatabase {
     }
 
     public static ItemStack getItem(String str) {
+        if (str.contains(":") && !r.isInt(str.split(":")[1])) {
+            str = str.split(":")[1];
+        }
+
+        if (Material.matchMaterial(str) != null) {
+            Material mat = Material.matchMaterial(str);
+            return new ItemStack(mat);
+        }
+        return get(str);
+    }
+
+    public static BlockType getBlock(String str) {
         if (str.contains(":") && !r.isInt(str.split(":")[1])) {
             str = str.split(":")[1];
         }

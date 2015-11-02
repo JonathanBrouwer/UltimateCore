@@ -190,7 +190,7 @@ public class UltimateCore {
             UnknownCommandListener.start();
             WeatherListener.start();
             //
-            game.getScheduler().getTaskBuilder().interval(20L).delay(20L).execute(new UltimateTick()).name("UC: Tick task").submit(this);
+            game.getScheduler().createTaskBuilder().interval(20L).delay(20L).execute(new UltimateTick()).name("UC: Tick task").submit(this);
             //
             time = System.currentTimeMillis() - time;
             r.log(TextColors.GREEN + "Enabled UltimateCore! (" + time + "ms)");

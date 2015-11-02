@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import com.google.common.base.Predicate;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.GameProfile;
 import org.spongepowered.api.GameRegistry;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.player.Player;
@@ -530,19 +531,21 @@ public class r {
         return (List<Player>) getGame().getServer().getOnlinePlayers();
     }
 
-    /*public static User[] getOfflinePlayers() {
-        List<User> plz = Arrays.asList(getGame().getServer().); //TODO
-        return plz.toArray(new User[plz.size()]);
+    public static User[] getOfflinePlayers() {
+        List<User> users = new ArrayList<>();
+        for (GameProfile f : r.getGame().getServiceManager().provide(UserStorage.class).get().getAll()) {
+            users.add((User) f);
+        }
+        return (User[]) users.toArray();
     }
 
     public static List<User> getOfflinePlayersL() {
         List<User> users = new ArrayList<>();
         for (GameProfile f : r.getGame().getServiceManager().provide(UserStorage.class).get().getAll()) {
-
+            users.add((User) f);
         }
-
-        return Arrays.asList(Bukkit.getOfflinePlayers()); //TODO
-    }*/
+        return users;
+    }
 
     public static Player searchPlayer(String s) {
         return r.getGame().getServer().getPlayer(s).orNull();

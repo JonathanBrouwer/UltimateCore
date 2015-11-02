@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
+import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.util.Locale;
@@ -38,6 +39,10 @@ public class ItemUtil {
 
     public static ItemStack searchItem(String str) {
         return ItemDatabase.getItem(str);
+    }
+
+    public static BlockType searchBlock(String str) {
+        return ItemDatabase.getBlock(str);
     }
 
     public static String getName(ItemStack stack) {
