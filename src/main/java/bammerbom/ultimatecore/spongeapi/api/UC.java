@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.api;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;

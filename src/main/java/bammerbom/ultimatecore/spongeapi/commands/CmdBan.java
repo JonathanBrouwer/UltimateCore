@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.util.command.CommandSource;

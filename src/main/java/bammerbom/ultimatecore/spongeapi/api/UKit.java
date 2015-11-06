@@ -32,9 +32,9 @@ import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.databases.EnchantmentDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.spongepowered.api.data.manipulator.catalog.CatalogItemData;
-import org.spongepowered.api.data.manipulator.item.EnchantmentData;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.meta.ItemEnchantment;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.Enchantment;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -88,8 +88,9 @@ public class UKit {
             if (realEnchantment == null) {
                 continue;
             }
-            EnchantmentData d = is.getOrCreate(CatalogItemData.ENCHANTMENT_DATA).get().setUnsafe(realEnchantment, enchantment.getInt("level", 1));
-            is.offer(d);
+            List<ItemEnchantment> enchs = is.get(Keys.ITEM_ENCHANTMENTS).get();
+            enchs.add(new ItemEnchantment(realEnchantment, enchantment.getInt("level", 1)));
+            is.offer(Keys.ITEM_ENCHANTMENTS, enchs);
         }
         return is;
     }
@@ -134,8 +135,8 @@ public class UKit {
             }
             return ism.getItemStack();
         } catch (Exception ex) {
-            r.log("Kit " + name + " has an invalid item: " + item);
-            return r.getGame().getRegistry().getItemBuilder().itemType(ItemTypes.COOKIE).build();
+            r.log("Kit " + name + " has an invalid item: " + item + ", replaced with a cookie.");
+            return r.getGame().getRegistry().createItemBuilder().itemType(ItemTypes.COOKIE).build();
         }
     }
 

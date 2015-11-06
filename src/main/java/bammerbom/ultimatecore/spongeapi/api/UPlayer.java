@@ -30,11 +30,12 @@ import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.catalog.CatalogEntityData;
-import org.spongepowered.api.data.manipulator.entity.BanData;
-import org.spongepowered.api.data.manipulator.entity.InvisibilityData;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.data.manipulator.mutable.entity.BanData;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.service.ban.BanService;
@@ -118,9 +119,9 @@ public class UPlayer {
             save();
             return lastconnect;
         } else {
-            lastconnect = getPlayer().getOrCreate(CatalogEntityData.JOIN_DATA).get().getLastPlayed().getTime();
+            lastconnect = getPlayer().getOrCreate(CatalogEntityData.JOIN_DATA).get().lastPlayed().get().getTime();
             save();
-            return getPlayer().getOrCreate(CatalogEntityData.JOIN_DATA).get().getLastPlayed().getTime();
+            return getPlayer().getOrCreate(CatalogEntityData.JOIN_DATA).get().lastPlayed().get().getTime();
         }
     }
 
@@ -237,7 +238,7 @@ public class UPlayer {
         if (getPlayer() == null || getPlayer().getName() == null) {
             return false;
         }
-        if (!getOnlinePlayer().getBanData().getBans().isEmpty()) {
+        if (!getOnlinePlayer().getBanData().bans().get().isEmpty()) {
             return true;
         }
         if (getLastIp() != null) {
@@ -252,7 +253,7 @@ public class UPlayer {
 
     public Long getBanTime() {
         if (!getPlayerConfig().contains("bantime")) {
-            for (Ban.User b : getPlayer().getBanData().getBans()) {
+            for (Ban.User b : getPlayer().getBanData().bans().get()) {
                 if (b.getExpirationDate().isPresent()) {
                     return b.getExpirationDate().get().getTime();
                 }
@@ -272,7 +273,7 @@ public class UPlayer {
 
     public String getBanReason() {
         if (!getPlayerConfig().contains("banreason")) {
-            for (Ban.User b : getPlayer().getBanData().getBans()) {
+            for (Ban.User b : getPlayer().getBanData().bans().get()) {
                 return b.getReason().getContent();
             }
             return "";
@@ -289,8 +290,8 @@ public class UPlayer {
         conf.set("banreason", null);
         conf.save();
         BanData d = getPlayer().getBanData();
-        while (!d.getBans().isEmpty()) {
-            d.remove(0);
+        while (!d.bans().get().isEmpty()) {
+            d.bans().get().remove(0);
         }
         getPlayer().offer(d);
     }
@@ -313,9 +314,9 @@ public class UPlayer {
         BanData d = getPlayer().getBanData();
 
         if (time != -1L) {
-            d.ban((Ban.User) Bans.builder().user(getPlayer()).expirationDate(new Date(time)).reason(reason).source(source).build());
+            d.bans().get().add((Ban.User) Bans.builder().user(getPlayer()).expirationDate(new Date(time)).reason(reason).source(source).build());
         } else {
-            d.ban((Ban.User) Bans.builder().user(getPlayer()).reason(reason).source(source).build());
+            d.bans().get().add((Ban.User) Bans.builder().user(getPlayer()).reason(reason).source(source).build());
         }
         save();
     }
@@ -656,9 +657,9 @@ public class UPlayer {
         save();
         if (tpspawn && getOnlinePlayer() != null) {
             if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(getPlayer()).getSpawn(false) == null) {
-                LocationUtil.teleport(getOnlinePlayer(), getOnlinePlayer().getWorld().getSpawnLocation(), PlayerTeleportEvent.TeleportCause.COMMAND, false, false);
+                LocationUtil.teleport(getOnlinePlayer(), getOnlinePlayer().getWorld().getSpawnLocation(), Cause.of("unjail"), false, false);
             } else {
-                LocationUtil.teleport(getOnlinePlayer(), bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(getPlayer()).getSpawn(false), PlayerTeleportEvent.TeleportCause.COMMAND, false, false);
+                LocationUtil.teleport(getOnlinePlayer(), bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(getPlayer()).getSpawn(false), Cause.of("unjail"), false, false);
             }
         }
     }
@@ -816,8 +817,8 @@ public class UPlayer {
             return getNick();
         }
         if (getPlayer().isOnline()) {
-            if (getOnlinePlayer().getDisplayNameData().getDisplayName() != null) {
-                return getOnlinePlayer().getDisplayNameData().getDisplayName().toLiteral();
+            if (getOnlinePlayer().get(Keys.DISPLAY_NAME).isPresent()) {
+                return (Text.Literal) getOnlinePlayer().get(Keys.DISPLAY_NAME).get();
             }
         }
         return getPlayer().getName();
@@ -1076,9 +1077,7 @@ public class UPlayer {
         vanish = fr;
         vanishtime = fr ? time : 0L;
         if (getOnlinePlayer() != null) {
-            for (Player pl : r.getOnlinePlayers()) {
-                getOnlinePlayer().offer(getOnlinePlayer().getOrCreate(InvisibilityData.class).get().setInvisibleTo(pl, fr));
-            }
+            getOnlinePlayer().offer(Keys.INVISIBLE, true);
         }
         save();
     }

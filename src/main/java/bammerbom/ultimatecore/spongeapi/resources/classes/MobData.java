@@ -38,7 +38,7 @@ import org.spongepowered.api.data.type.*;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.ArmorStand;
 import org.spongepowered.api.entity.living.animal.Horse;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.text.Texts;
 
@@ -141,7 +141,7 @@ public class MobData {
             }
         } else if (data.equalsIgnoreCase("agelock")) {
             if (en.isCompatible(AgeableData.class)) {
-                en.offer(en.getOrCreate(AgeableData.class).get()) //TODO agelock
+                en.offer(en.getOrCreate(AgeableData.class).get()); //TODO agelock
                 return true;
             }
         } else if (data.equalsIgnoreCase("tame") || data.equalsIgnoreCase("tameable")) {

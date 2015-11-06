@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -39,12 +38,12 @@ public class MotdListener implements Listener {
         Bukkit.getPluginManager().registerEvents(new MotdListener(), r.getUC());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @Listener(priority = EventPriority.LOWEST)
     public void ColoredMotdMaker(ServerListPingEvent e) {
         e.setMotd(ChatColor.translateAlternateColorCodes('&', (e.getMotd())));
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @Listener(priority = EventPriority.MONITOR)
     public void joinMSG(final PlayerJoinEvent e) {
         Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
             @Override

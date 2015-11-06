@@ -25,10 +25,10 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.entity.player.PlayerJoinEvent;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.chat.ChatTypes;
 
@@ -56,7 +56,7 @@ public class AutomessageListener {
         if (!r.getCnfg().getBoolean("Messages.Enabledchat") && !r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") && !r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
             return;
         }
-        r.getGame().getEventManager().register(r.getUC(), new AutomessageListener());
+        r.getGame().getEventManager().registerListeners(r.getUC(), new AutomessageListener());
         ArrayList<String> messgs = messages;
         Integer length = messgs.size();
         if (length != 0) {
@@ -67,7 +67,7 @@ public class AutomessageListener {
     public static void timer(final List<String> messgs) {
         final Integer time = r.getCnfg().getInt("Messages.Time");
         final Boolean ur = r.getCnfg().getBoolean("Messages.Randomise");
-        r.getGame().getScheduler().createTaskBuilder().interval(time * 20).name("UC: Automessage task").execute(new Runnable() {
+        r.getGame().getScheduler().createTaskBuilder().intervalTicks(time * 20).name("UC: Automessage task").execute(new Runnable() {
             @Override
             public void run() {
                 String mess = ur ? messgs.get(random.nextInt(messgs.size())) : "";
@@ -91,7 +91,7 @@ public class AutomessageListener {
                         }
                     }*/
                     if (r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
-                        p.sendMessage(ChatTypes.ACTION_BAR, r.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                        p.sendMessage(ChatTypes.ACTION_BAR, Texts.of(r.translateAlternateColorCodes('&', mess).replace("\n", " ")));
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledchat")) {
                         p.sendMessage(Texts.of(r.translateAlternateColorCodes('&', mess)));
@@ -102,9 +102,9 @@ public class AutomessageListener {
         }).submit(r.getUC());
     }
 
-    @Subscribe(order = Order.LATE)
-    public void onJoin(final PlayerJoinEvent e) {
-        r.getGame().getScheduler().createTaskBuilder().delay(100L).name("UC: Automessage join task").execute(new Runnable() {
+    @Listener(order = Order.LATE)
+    public void onJoin(final ClientConnectionEvent.Join e) {
+        r.getGame().getScheduler().createTaskBuilder().delayTicks(100L).name("UC: Automessage join task").execute(new Runnable() {
             @Override
             public void run() {
                 ArrayList<String> messgs = messages;
@@ -113,7 +113,7 @@ public class AutomessageListener {
                     return;
                 }
                 if (r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
-                    e.getUser().sendMessage(ChatTypes.ACTION_BAR, r.translateAlternateColorCodes('&', currentmessage).replace("\n", " "));
+                    e.getTargetEntity().sendMessage(ChatTypes.ACTION_BAR, Texts.of(r.translateAlternateColorCodes('&', currentmessage).replace("\n", " ")));
                 }
             }
         }).submit(r.getUC());

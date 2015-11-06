@@ -28,14 +28,13 @@ import bammerbom.ultimatecore.spongeapi.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import com.google.common.base.Predicate;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.GameProfile;
 import org.spongepowered.api.GameRegistry;
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.service.permission.SubjectData;
@@ -54,6 +53,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 public class r {
@@ -294,7 +294,7 @@ public class r {
     }
 
     public static PermissionService getPermission() {
-        return getGame().getServiceManager().provide(PermissionService.class).orNull();
+        return getGame().getServiceManager().provide(PermissionService.class).orElse(null);
     }
 
     public static Text.Literal getDisplayName(Object cs) {
@@ -452,7 +452,7 @@ public class r {
         if (cu.map.containsKey(padMessage)) {
             Text.Literal a = Texts
                     .of(r.positive + translateAlternateColorCodes('&', cu.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
-                    .replace("\\\\n", "\n")));
+                            .replace("\\\\n", "\n")));
             String repA = null;
             for (Object s : repl) {
                 if (repA == null) {
@@ -469,7 +469,7 @@ public class r {
         if (en.map.containsKey(padMessage)) {
             Text.Literal a = Texts
                     .of(r.positive + translateAlternateColorCodes('&', en.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
-                    .replace("\\\\n", "\n")));
+                            .replace("\\\\n", "\n")));
             String repA = null;
             for (Object s : repl) {
                 if (repA == null) {
@@ -548,7 +548,7 @@ public class r {
     }
 
     public static Player searchPlayer(String s) {
-        return r.getGame().getServer().getPlayer(s).orNull();
+        return r.getGame().getServer().getPlayer(s).orElse(null);
     }
 
     @SuppressWarnings("deprecation")
@@ -557,7 +557,7 @@ public class r {
     }
 
     public static Player searchPlayer(UUID u) {
-        return r.getGame().getServer().getPlayer(u).orNull();
+        return r.getGame().getServer().getPlayer(u).orElse(null);
     }
 
     public static User searchOfflinePlayer(UUID u) {
@@ -720,7 +720,7 @@ public class r {
         Subject subject = player.getContainingCollection().get(player.getIdentifier());
         if (subject instanceof OptionSubject) {
             OptionSubject optionSubject = (OptionSubject) subject;
-            String prefix = optionSubject.getOption("prefix").or("");
+            String prefix = optionSubject.getOption("prefix").orElse("");
             prefix.replaceAll("&", "\u00A7");
             return prefix;
         } else {
@@ -732,7 +732,7 @@ public class r {
         Subject subject = player.getContainingCollection().get(player.getIdentifier());
         if (subject instanceof OptionSubject) {
             OptionSubject optionSubject = (OptionSubject) subject;
-            String suffix = optionSubject.getOption("suffix").or("");
+            String suffix = optionSubject.getOption("suffix").orElse("");
             suffix.replaceAll("&", "\u00A7");
             return suffix;
         } else {

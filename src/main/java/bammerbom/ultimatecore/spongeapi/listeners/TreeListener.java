@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -39,7 +38,7 @@ public class TreeListener implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new TreeListener(), r.getUC());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @Listener(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent event) {
         Material block = event.getBlock().getType();
         if (!block.equals(Material.LOG) && !block.equals(Material.LOG_2)) {

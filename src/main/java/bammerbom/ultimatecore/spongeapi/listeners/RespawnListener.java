@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -41,7 +40,7 @@ public class RespawnListener implements Listener {
         Bukkit.getPluginManager().registerEvents(new RespawnListener(), r.getUC());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @Listener(priority = EventPriority.MONITOR)
     public void onDeath(final PlayerDeathEvent e) {
         if (!r.perm(e.getEntity(), "uc.instantrespawn", true, false)) {
             return;

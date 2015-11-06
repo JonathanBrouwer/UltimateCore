@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.configuration;
 
 import org.apache.commons.lang.Validate;
-import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.awt.*;

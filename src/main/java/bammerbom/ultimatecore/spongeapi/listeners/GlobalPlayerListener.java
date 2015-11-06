@@ -35,7 +35,10 @@ import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
-import org.bukkit.event.*;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventException;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -77,7 +80,7 @@ public class GlobalPlayerListener implements Listener {
         }, r.getUC());
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onTeleport(PlayerTeleportEvent e) {
         try {
             //Back
@@ -100,7 +103,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent e) {
         try {
             //Inventory
@@ -130,7 +133,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onQuit(PlayerQuitEvent e) {
         try {
             //Inventory
@@ -151,7 +154,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onLogin(PlayerLoginEvent e) {
         try {
             //Ban
@@ -187,7 +190,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onChat(AsyncPlayerChatEvent e) {
         try {
             //Deaf
@@ -222,7 +225,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onPrepareItemEnchant(PrepareItemEnchantEvent e) {
         try {
             //EnchantingTable
@@ -238,7 +241,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onInventoryClose(InventoryCloseEvent e) {
         try {
             //EnchantingTable
@@ -271,7 +274,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onInventoryClick(final InventoryClickEvent e) {
         try {
             //Inventory
@@ -311,7 +314,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onMove(PlayerMoveEvent e) {
         if (e.getFrom().getBlock().getLocation().equals(e.getTo().getBlock().getLocation())) {
             return;
@@ -340,7 +343,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onDeath(PlayerDeathEvent e) {
         try {
             //Back
@@ -357,7 +360,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onDamage(EntityDamageEvent e) {
         try {
             //God
@@ -376,7 +379,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onFoodLevelChange(FoodLevelChangeEvent e) {
         try {
             //God
@@ -393,7 +396,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         try {
             //Jail
@@ -407,7 +410,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onInteract(PlayerInteractEvent e) {
         try {
             //Mobtp
@@ -428,7 +431,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onInteractEntity(PlayerInteractEntityEvent e) {
         try {
             //Mobtp
@@ -444,7 +447,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @Listener(priority = EventPriority.LOWEST)
     public void onWorldChange(PlayerChangedWorldEvent e) {
         try {
             //Gamemode

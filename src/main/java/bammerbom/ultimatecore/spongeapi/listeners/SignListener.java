@@ -29,23 +29,19 @@ import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.EntityInteractionTypes;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
-import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
-import org.spongepowered.api.event.entity.player.PlayerInteractBlockEvent;
+import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
 import org.spongepowered.api.text.Text;
 
 public class SignListener {
 
     public static void start() {
-        r.getGame().getEventManager().register(r.getUC(), new SignListener());
+        r.getGame().getEventManager().registerListeners(r.getUC(), new SignListener());
     }
 
-    @Subscribe(order = Order.LATE)
-    public void onSignChange(SignChangeEvent e) {
+    @Listener(order = Order.LATE)
+    public void onSignChange(ChangeSignEvent e) {
         //Signs
         Player p;
         if (e.getCause().isPresent() && e.getCause().get().getCause() instanceof Player) {
@@ -68,7 +64,7 @@ public class SignListener {
         e.setNewData(e.getNewData().set(Keys.SIGN_LINES, e.getNewData().lines().set(3, r.translateAlternateColorCodes('&', e.getNewData().lines().get(3))).get()));
     }
 
-    @Subscribe(order = Order.LATE)
+    @Listener(order = Order.LATE)
     public void onSignInteract(PlayerInteractBlockEvent e) {
         //Signs
         if (!e.getInteractionType().equals(EntityInteractionTypes.USE)) {
@@ -82,14 +78,14 @@ public class SignListener {
         }
         Sign sign = (Sign) e.getLocation().getTileEntity().get();
         for (UltimateSign s : UltimateSigns.signs) {
-            if (r.stripColor(((Text.Literal) sign.getData().get().lines().get(0)).getContent()).equalsIgnoreCase("[" + s.getName() + "]")) {
+            if (r.stripColor(((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(0)).getContent()).equalsIgnoreCase("[" + s.getName() + "]")) {
                 s.onClick(e.getUser(), sign);
             }
         }
     }
 
-    @Subscribe(order = Order.LATE)
-    public void onSignDestroy(PlayerBreakBlockEvent e) {
+    @Listener(order = Order.LATE)
+    public void onSignDestroy(ChangeBlockEvent.Break e) {
         //Signs
         if (e.getLocation() == null || e.getLocation().getBlockType().equals(BlockTypes.AIR)) {
             return;
@@ -99,7 +95,7 @@ public class SignListener {
         }
         Sign sign = (Sign) e.getLocation().getTileEntity().get();
         for (UltimateSign s : UltimateSigns.signs) {
-            if (r.stripColor(((Text.Literal) sign.getData().get().lines().get(0)).getContent()).equalsIgnoreCase("[" + s.getName() + "]")) {
+            if (r.stripColor(((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(0)).getContent()).equalsIgnoreCase("[" + s.getName() + "]")) {
                 s.onDestroy(e);
             }
         }

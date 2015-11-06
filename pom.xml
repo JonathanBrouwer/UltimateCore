@@ -88,7 +88,7 @@
                     <source>1.7</source>
                     <target>1.7</target>
                     <excludes>
-                        <exclude>bammerbom/ultimatecore/spongeapi/**</exclude>
+                        <!--<exclude>bammerbom/ultimatecore/spongeapi/**</exclude>-->
                         <exclude>bammerbom/ultimatecore/spongeapi_old/**</exclude>
                         <exclude>bammerbom/ultimatecore/spongeapi_old2/**</exclude>
                     </excludes>
@@ -115,7 +115,7 @@
                         </manifest>
                     </archive>
                     <excludes>
-                        <exclude>bammerbom/ultimatecore/spongeapi/**</exclude>
+                        <!--<exclude>bammerbom/ultimatecore/spongeapi/**</exclude>-->
                         <exclude>bammerbom/ultimatecore/spongeapi_old/**</exclude>
                         <exclude>bammerbom/ultimatecore/spongeapi_old2/**</exclude>
                     </excludes>

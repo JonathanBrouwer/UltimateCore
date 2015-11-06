@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -146,7 +145,7 @@ public class TabListener implements Listener {
         }, 100L, 100L);
     }
 
-    @EventHandler
+    @Listener
     public void onJoin(PlayerJoinEvent e) {
         final String def = r.getCnfg().getString("Chat.Tab.TabDefault");
         if (r.getVault() == null || r.getVault().getPermission() == null) {

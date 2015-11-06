@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.spongeapi;
 
 import org.spongepowered.api.block.tileentity.Sign;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
-import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
 
 public interface UltimateSign {
 
@@ -36,7 +36,7 @@ public interface UltimateSign {
 
     void onClick(Player p, Sign sign);
 
-    void onCreate(SignChangeEvent event, Player p);
+    void onCreate(ChangeSignEvent event, Player p);
 
-    void onDestroy(PlayerBreakBlockEvent event);
+    void onDestroy(ChangeBlockEvent.Break event, Player p);
 }

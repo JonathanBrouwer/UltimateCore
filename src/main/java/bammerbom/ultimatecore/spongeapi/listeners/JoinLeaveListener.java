@@ -27,27 +27,17 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UKit;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
 
-public class JoinLeaveListener implements Listener {
+public class JoinLeaveListener {
 
     public static void start() {
-        Bukkit.getPluginManager().registerEvents(new JoinLeaveListener(), r.getUC());
+        r.getGame().getEventManager().registerListeners(r.getUC(), new JoinLeaveListener());
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void JoinMessage(PlayerJoinEvent e) {
         if (!e.getPlayer().hasPlayedBefore()) {
             //Message
@@ -74,7 +64,7 @@ public class JoinLeaveListener implements Listener {
         e.setJoinMessage(r.mes("joinMessage", "%Player", UC.getPlayer(e.getPlayer()).getDisplayName()));
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void QuitMessage(PlayerQuitEvent e) {
         if (UC.getPlayer(e.getPlayer()).isBanned() || !r.getCnfg().getBoolean("JoinLeaveVisible")) {
             e.setQuitMessage(null);
@@ -83,12 +73,12 @@ public class JoinLeaveListener implements Listener {
         e.setQuitMessage(r.mes("quitMessage", "%Player", UC.getPlayer(e.getPlayer()).getDisplayName()));
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void KickMessage(PlayerKickEvent e) {
         e.setLeaveMessage(r.mes("quitMessage", "%Player", UC.getPlayer(e.getPlayer()).getDisplayName()));
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void JoinFail(PlayerLoginEvent e) {
         switch (e.getResult()) {
             case ALLOWED:

@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
@@ -38,7 +37,7 @@ public class PluginStealListener implements Listener {
         }
     }
 
-    @EventHandler
+    @Listener
     public void onCommandPreprocess(PlayerCommandPreprocessEvent e) {
         String m = e.getMessage().startsWith("/") ? e.getMessage().replaceFirst("/", "") : e.getMessage();
         if (m.contains(" ")) {

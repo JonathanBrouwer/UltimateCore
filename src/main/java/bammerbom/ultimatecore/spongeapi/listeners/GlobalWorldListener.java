@@ -32,7 +32,6 @@ import org.bukkit.entity.Animals;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -41,7 +40,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class GlobalWorldListener implements Listener {
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
         try {
             if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
@@ -54,7 +53,7 @@ public class GlobalWorldListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @Listener(priority = EventPriority.LOW)
     public void onCreatureSpawn(CreatureSpawnEvent e) {
         try {
             if (e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG) || e.getSpawnReason().equals(SpawnReason.CUSTOM)) {

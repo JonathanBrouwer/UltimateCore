@@ -42,7 +42,7 @@ public class ServerIDUtil {
             if (!file.exists()) {
                 file.createNewFile();
                 UUID u = UUID.randomUUID();
-                bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil.writeLargerTextFile(file, Arrays.asList(u.toString()));
+                FileUtil.writeLargerTextFile(file, Arrays.asList(u.toString()));
                 uuid = u;
             } else {
                 String s = FileUtil.getLines(file).get(0);

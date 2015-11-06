@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.classes;
 
+import com.flowpowered.math.vector.Vector3d;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.extent.Extent;

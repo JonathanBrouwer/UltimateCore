@@ -36,9 +36,9 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.state.InitializationEvent;
-import org.spongepowered.api.event.state.ServerStoppingEvent;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.config.ConfigDir;
 import org.spongepowered.api.service.event.EventManager;
@@ -129,8 +129,8 @@ public class UltimateCore {
         }
     }
 
-    @Subscribe
-    public void onEnable(InitializationEvent ev) {
+    @Listener
+    public void onEnable(GameInitializationEvent ev) {
         try {
             //
             Long time = System.currentTimeMillis();
@@ -171,7 +171,7 @@ public class UltimateCore {
             //
             EventManager em = ev.getGame().getEventManager();
             GlobalPlayerListener.start();
-            em.register(this, new GlobalWorldListener());
+            em.registerListeners(this, new GlobalWorldListener());
             AfkListener.start();
             AutomessageListener.start();
             AutosaveListener.start();
@@ -190,7 +190,7 @@ public class UltimateCore {
             UnknownCommandListener.start();
             WeatherListener.start();
             //
-            game.getScheduler().createTaskBuilder().interval(20L).delay(20L).execute(new UltimateTick()).name("UC: Tick task").submit(this);
+            game.getScheduler().createTaskBuilder().intervalTicks(20L).delayTicks(20L).execute(new UltimateTick()).name("UC: Tick task").submit(this);
             //
             time = System.currentTimeMillis() - time;
             r.log(TextColors.GREEN + "Enabled UltimateCore! (" + time + "ms)");
@@ -201,8 +201,8 @@ public class UltimateCore {
         test();
     }
 
-    @Subscribe
-    public void onDisable(ServerStoppingEvent e) {
+    @Listener
+    public void onDisable(GameStoppingServerEvent e) {
         try {
             //
             Long time = System.currentTimeMillis();

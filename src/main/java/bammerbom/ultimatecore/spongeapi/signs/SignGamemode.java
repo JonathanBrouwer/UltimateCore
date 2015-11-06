@@ -27,14 +27,16 @@ import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.entity.player.gamemode.GameMode;
-import org.spongepowered.api.entity.player.gamemode.GameModes;
-import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
-import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.gamemode.GameMode;
+import org.spongepowered.api.entity.living.player.gamemode.GameModes;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
+
+import java.util.List;
 
 public class SignGamemode implements UltimateSign {
 
@@ -54,7 +56,7 @@ public class SignGamemode implements UltimateSign {
             return;
         }
         GameMode mode;
-        switch (((Text.Literal) sign.getData().get().lines().get(1)).getContent().toLowerCase()) {
+        switch (((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent().toLowerCase()) {
             case "survival":
             case "s":
             case "surv":
@@ -82,7 +84,9 @@ public class SignGamemode implements UltimateSign {
                 break;
             default:
                 r.sendMes(p, "signGamemodeNotFound");
-                sign.offer(sign.getData().get().lines().set(0, Texts.of(TextColors.RED + "[Gamemode]")));
+                List<Text> lines = sign.get(Keys.SIGN_LINES).get();
+                lines.set(0, Texts.of(TextColors.RED + "[Gamemode]"));
+                sign.offer(Keys.SIGN_LINES, lines);
                 return;
         }
         p.offer(Keys.GAME_MODE, mode);
@@ -90,15 +94,15 @@ public class SignGamemode implements UltimateSign {
     }
 
     @Override
-    public void onCreate(SignChangeEvent event, Player p) {
+    public void onCreate(ChangeSignEvent event, Player p) {
         if (!r.perm(p, "uc.sign.gamemode.create", false, true)) {
             event.setCancelled(true);
-            event.getTile().getLocation().digBlock();
+            event.getTargetTile().getLocation().removeBlock();
             return;
         }
         try {
             GameMode mode;
-            switch (((Text.Literal) event.getNewData().lines().get(1)).getContent().toLowerCase()) {
+            switch (((Text.Literal) event.getText().lines().get(1)).getContent().toLowerCase()) {
                 case "survival":
                 case "s":
                 case "surv":
@@ -126,25 +130,25 @@ public class SignGamemode implements UltimateSign {
                     break;
                 default:
                     r.sendMes(p, "signGamemodeNotFound");
-                    event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.RED + "[Gamemode]")).get()));
+                    event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.RED + "[Gamemode]")).get());
                     return;
             }
         } catch (Exception ex) {
             r.sendMes(p, "signGamemodeNotFound");
-            event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.RED + "[Gamemode]")).get()));
+            event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.RED + "[Gamemode]")).get());
             return;
         }
-        event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Gamemode]")).get()));
+        event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Gamemode]")).get());
         r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(PlayerBreakBlockEvent event) {
-        if (!r.perm(event.getUser(), "uc.sign.gamemode.destroy", false, true)) {
+    public void onDestroy(ChangeBlockEvent.Break event, Player p) {
+        if (!r.perm(p, "uc.sign.gamemode.destroy", false, true)) {
             event.setCancelled(true);
             return;
         }
-        r.sendMes(event.getUser(), "signDestroyed");
+        r.sendMes(p, "signDestroyed");
     }
 
 }

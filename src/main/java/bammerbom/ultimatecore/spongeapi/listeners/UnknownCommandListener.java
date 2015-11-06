@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -68,7 +67,7 @@ public class UnknownCommandListener implements Listener {
         return null;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @Listener(priority = EventPriority.MONITOR)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
         if (event.isCancelled()) {
             return;

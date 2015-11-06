@@ -32,11 +32,9 @@ import org.spongepowered.api.data.type.SkeletonTypes;
 import org.spongepowered.api.effect.particle.ParticleEffectBuilder;
 import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.EntityTypes;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.entity.player.gamemode.GameModes;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.entity.living.LivingChangeHealthEvent;
+import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 
@@ -49,12 +47,12 @@ public class BloodListener {
 
     public static void start() {
         if (r.getCnfg().getBoolean("Blood.Enabled")) {
-            r.getGame().getEventManager().register(r.getUC(), new BloodListener());
+            r.getGame().getEventManager().registerListeners(r.getUC(), new BloodListener());
         }
     }
 
-    @Subscribe(order = Order.POST)
-    public void bleed(final LivingChangeHealthEvent e) {
+    @Listener(order = Order.POST)
+    public void bleed(final DamageEntityEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -83,7 +81,7 @@ public class BloodListener {
                     return;
                 }
                 iCD.add(p.getUniqueId());
-                r.getGame().getScheduler().createTaskBuilder().name("UC: Blood task").delay(5L).execute(new Runnable() {
+                r.getGame().getScheduler().createTaskBuilder().name("UC: Blood task").delayTicks(5L).execute(new Runnable() {
                     @Override
                     public void run() {
                         iCD.remove(p.getUniqueId());
@@ -203,7 +201,7 @@ public class BloodListener {
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 }
 
-                r.getGame().getScheduler().createTaskBuilder().name("UC: Blood task").delay(5L).execute(new Runnable() {
+                r.getGame().getScheduler().createTaskBuilder().name("UC: Blood task").delayTicks(5L).execute(new Runnable() {
                     @Override
                     public void run() {
                         iCD.remove(e.getEntity().getUniqueId());

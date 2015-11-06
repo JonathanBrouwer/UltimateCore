@@ -29,7 +29,6 @@ import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -121,7 +120,7 @@ public class DynmapListener implements Listener {
     }
 
     //Listeners
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    @Listener(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDynmapWebChat(DynmapWebChatEvent e) {
         String name = e.getName();
         if (name != null) {
@@ -135,7 +134,7 @@ public class DynmapListener implements Listener {
         }
     }
 
-    @EventHandler
+    @Listener
     public void onJoin(PlayerJoinEvent e) {
         HashSet<UUID> newasserts = new HashSet<>();
         for (Player pl : r.getOnlinePlayers()) {

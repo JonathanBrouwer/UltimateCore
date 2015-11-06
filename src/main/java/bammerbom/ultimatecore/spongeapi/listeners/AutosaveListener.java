@@ -32,7 +32,7 @@ public class AutosaveListener {
         if (!r.getCnfg().getBoolean("Autosave.Enabled")) {
             return;
         }
-        r.getGame().getScheduler().createTaskBuilder().delay(r.getCnfg().getInt("Autosave.Time") * 20).interval(r.getCnfg().getInt("Autosave.Time") * 20).name("UC: Autosave task")
+        r.getGame().getScheduler().createTaskBuilder().delayTicks(r.getCnfg().getInt("Autosave.Time") * 20).intervalTicks(r.getCnfg().getInt("Autosave.Time") * 20).name("UC: Autosave task")
                 .execute(new Runnable() {
             @Override
             public void run() {

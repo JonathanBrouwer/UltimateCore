@@ -1,7 +1,6 @@
 package bammerbom.ultimatecore.spongeapi;
 
-import com.google.common.base.Optional;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.util.command.CommandMapping;
@@ -15,6 +14,7 @@ import org.spongepowered.api.util.command.dispatcher.SimpleDispatcher;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UltimateCommandElement extends CommandElement {
 

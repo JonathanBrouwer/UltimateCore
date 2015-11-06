@@ -31,11 +31,10 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.PerformanceUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
-import org.spongepowered.api.data.manipulator.entity.InvisibilityData;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.entity.player.User;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.ban.BanService;
 import org.spongepowered.api.text.Texts;
@@ -333,7 +332,7 @@ public class UServer {
         mt = mt.replace("{PLAYERLIST}", b.toString());
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()));
-        mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
+        mt = mt.replace("{TPS}", r.getGame().getServer().getTicksPerSecond() + "");
         mt = mt.replace("{UPTIME}", r.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
         for (PluginContainer pl : r.getGame().getPluginManager().getPlugins()) {
@@ -366,7 +365,7 @@ public class UServer {
         StringBuilder b = new StringBuilder();
         Integer i = 0;
         for (Player pl : r.getOnlinePlayers()) {
-            if (p instanceof Player && !pl.getOrCreate(InvisibilityData.class).get().isInvisibleTo(p)) {
+            if (p instanceof Player && !pl.get(Keys.INVISIBLE_TO_PLAYER_IDS).get().contains(p.getUniqueId())) {
                 continue;
             }
             i++;
@@ -381,7 +380,7 @@ public class UServer {
         mt = mt.replace("{PLAYERLIST}", b.toString());
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()).replace("-", " "));
-        mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
+        mt = mt.replace("{TPS}", r.getGame().getServer().getTicksPerSecond() + "");
         mt = mt.replace("{UPTIME}", r.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
         for (PluginContainer pl : r.getGame().getPluginManager().getPlugins()) {

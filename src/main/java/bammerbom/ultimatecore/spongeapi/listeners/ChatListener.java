@@ -27,10 +27,9 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.entity.player.PlayerChatEvent;
+import org.spongepowered.api.event.entity.living.player.PlayerChatEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 
@@ -50,7 +49,7 @@ public class ChatListener {
     public static void start() {
         ChatListener list = new ChatListener();
         list.spamTask();
-        r.getGame().getEventManager().register(r.getUC(), new ChatListener());
+        r.getGame().getEventManager().registerListeners(r.getUC(), new ChatListener());
     }
 
     private static ChatSet testMessage(Text.Literal mr, Player p) {
@@ -173,7 +172,7 @@ public class ChatListener {
         return set;
     }
 
-    @Subscribe(order = Order.EARLY)
+    @Listener(order = Order.EARLY)
     public void ChatListener(PlayerChatEvent e) {
         if (!e.isCancelled() && !UC.getPlayer(e.getEntity()).isMuted()) {
             Player p = e.getEntity();
@@ -258,7 +257,7 @@ public class ChatListener {
     }
 
     private void spamTask() {
-        r.getGame().getScheduler().createTaskBuilder().delay(70L).interval(70L).name("UC: Spam task").execute(new Runnable() {
+        r.getGame().getScheduler().createTaskBuilder().delayTicks(70L).intervalTicks(70L).name("UC: Spam task").execute(new Runnable() {
             @Override
             public void run() {
                 ArrayList<String> spamtime_remove = new ArrayList<>();
@@ -278,7 +277,7 @@ public class ChatListener {
                 }
             }
         }).submit(r.getUC());
-        r.getGame().getScheduler().createTaskBuilder().delay(140L).interval(140L).name("UC: Swear task").execute(new Runnable() {
+        r.getGame().getScheduler().createTaskBuilder().delayTicks(140L).intervalTicks(140L).name("UC: Swear task").execute(new Runnable() {
             @Override
             public void run() {
                 ArrayList<String> spamtime_remove = new ArrayList<>();

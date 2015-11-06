@@ -24,6 +24,8 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 
 public class ExplosionListener {
 
@@ -35,10 +37,10 @@ public class ExplosionListener {
     Boolean lightning = r.getCnfg().getBoolean("Explode.Lightning");
 
     public static void start() {
-        r.getGame().getEventManager().register(r.getUC(), new ExplosionListener());
+        r.getGame().getEventManager().registerListeners(r.getUC(), new ExplosionListener());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @Listener(order = Order.LATE)
     public void explosionListener(EntityExplodeEvent e) {
         try {
             if (e.getEntityType() != null) {

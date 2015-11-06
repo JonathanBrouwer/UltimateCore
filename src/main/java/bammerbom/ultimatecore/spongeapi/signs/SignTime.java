@@ -27,12 +27,14 @@ import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
-import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
+
+import java.util.List;
 
 public class SignTime implements UltimateSign {
 
@@ -52,44 +54,46 @@ public class SignTime implements UltimateSign {
         }
         long time = p.getWorld().getProperties().getWorldTime();
         time -= time % 24000L;
-        if (((Text.Literal) sign.getData().get().lines().get(1)).getContent().equalsIgnoreCase("day")) {
+        if (((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent().equalsIgnoreCase("day")) {
             p.getWorld().getProperties().setWorldTime(time + 24000L);
             r.sendMes(p, "timeMessage", "%Time", r.mes("timeDay"));
-        } else if (((Text.Literal) sign.getData().get().lines().get(1)).getContent().equalsIgnoreCase("night")) {
+        } else if (((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent().equalsIgnoreCase("night")) {
             p.getWorld().getProperties().setWorldTime(time + 37700L);
             r.sendMes(p, "timeMessage", "%Time", r.mes("timeNight"));
-        } else if (r.isInt(((Text.Literal) sign.getData().get().lines().get(1)).getContent())) {
-            p.getWorld().getProperties().setWorldTime(time + Integer.parseInt(((Text.Literal) sign.getData().get().lines().get(1)).getContent()));
-            r.sendMes(p, "timeMessage", "%Time", ((Text.Literal) sign.getData().get().lines().get(1)).getContent());
+        } else if (r.isInt(((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent())) {
+            p.getWorld().getProperties().setWorldTime(time + Integer.parseInt(((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent()));
+            r.sendMes(p, "timeMessage", "%Time", ((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent());
         } else {
             r.sendMes(p, "signTimeNotFound");
-            sign.offer(sign.getData().get().lines().set(0, Texts.of(TextColors.RED + "[Time]")));
+            List<Text> lines = sign.get(Keys.SIGN_LINES).get();
+            lines.set(0, Texts.of(TextColors.RED + "[Time]"));
+            sign.offer(Keys.SIGN_LINES, lines);
         }
     }
 
     @Override
-    public void onCreate(SignChangeEvent event, Player p) {
+    public void onCreate(ChangeSignEvent event, Player p) {
         if (!r.perm(p, "uc.sign.time.create", false, true)) {
             event.setCancelled(true);
-            event.getTile().getLocation().digBlock();
+            event.getTargetTile().getLocation().removeBlock();
             return;
         }
-        if (!((Text.Literal) event.getNewData().lines().get(1)).getContent().equalsIgnoreCase("day") && !((Text.Literal) event.getNewData().lines().get(1)).getContent().equalsIgnoreCase("night") && !r
-                .isInt(((Text.Literal) event.getNewData().lines().get(1)).getContent())) {
+        if (!((Text.Literal) event.getText().lines().get(1)).getContent().equalsIgnoreCase("day") && !((Text.Literal) event.getText().lines().get(1)).getContent().equalsIgnoreCase("night") && !r
+                .isInt(((Text.Literal) event.getText().lines().get(1)).getContent())) {
             r.sendMes(p, "signTimeNotFound");
-            event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.RED + "[Time]")).get()));
+            event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.RED + "[Time]")).get());
             return;
         }
-        event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Time]")).get()));
+        event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Time]")).get());
         r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(PlayerBreakBlockEvent event) {
-        if (!r.perm(event.getUser(), "uc.sign.time.destroy", false, true)) {
+    public void onDestroy(ChangeBlockEvent.Break event, Player p) {
+        if (!r.perm(p, "uc.sign.time.destroy", false, true)) {
             event.setCancelled(true);
             return;
         }
-        r.sendMes(event.getUser(), "signDestroyed");
+        r.sendMes(p, "signDestroyed");
     }
 }

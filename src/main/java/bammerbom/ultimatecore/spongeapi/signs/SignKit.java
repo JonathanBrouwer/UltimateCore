@@ -35,9 +35,10 @@ import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.Item;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
-import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
@@ -63,13 +64,15 @@ public class SignKit implements UltimateSign {
             return;
         }
         final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) sign.getData().get().lines().get(1)).getContent());
+        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent());
         if (kitNode == null) {
-            r.sendMes(p, "kitNotFound", "%Kit", ((Text.Literal) sign.getData().get().lines().get(1)).getContent());
-            sign.offer(sign.getData().get().lines().set(0, Texts.of(TextColors.RED + "[Kit]")));
+            r.sendMes(p, "kitNotFound", "%Kit", ((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent());
+            List<Text> lines = sign.get(Keys.SIGN_LINES).get();
+            lines.set(0, Texts.of(TextColors.RED + "[Kit]"));
+            sign.offer(Keys.SIGN_LINES, lines);
             return;
         }
-        final UKit kit = UC.getServer().getKit(((Text.Literal) sign.getData().get().lines().get(1)).getContent());
+        final UKit kit = UC.getServer().getKit(((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent());
         if (!kit.hasCooldownPassedFor(p)) {
             if (kit.getCooldown() == -1L) {
                 r.sendMes(p, "kitOnlyOnce");
@@ -80,41 +83,41 @@ public class SignKit implements UltimateSign {
         }
         final List<ItemStack> items = kit.getItems();
         for (ItemStack item : items) {
-            if (!p.getInventory().offer(item)) {
-                Item en = (Item) p.getWorld().createEntity(EntityTypes.DROPPED_ITEM, p.getLocation().getPosition()).get();
-                en.offer(en.getItemData().set(Keys.REPRESENTED_ITEM, item));
-                p.getWorld().spawnEntity(en);
+            if (p.getInventory().offer(item).getRejectedItems().isPresent()) {
+                Item en = (Item) p.getWorld().createEntity(EntityTypes.ITEM, p.getLocation().getPosition()).get();
+                en.offer(Keys.REPRESENTED_ITEM, item.createSnapshot());
+                p.getWorld().spawnEntity(en, Cause.of(p));
             }
         }
         kit.setLastUsed(p, System.currentTimeMillis());
-        r.sendMes(p, "kitGive", "%Kit", ((Text.Literal) sign.getData().get().lines().get(1)).getContent());
+        r.sendMes(p, "kitGive", "%Kit", ((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent());
     }
 
     @Override
-    public void onCreate(SignChangeEvent event, Player p) {
+    public void onCreate(ChangeSignEvent event, Player p) {
         if (!r.perm(p, "uc.sign.kit", false, true)) {
             event.setCancelled(true);
-            event.getTile().getLocation().digBlock();
+            event.getTargetTile().getLocation().removeBlock();
             return;
         }
         final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) event.getNewData().lines().get(1)).getContent());
+        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) event.getText().lines().get(1)).getContent());
         if (kitNode == null) {
-            r.sendMes(p, "kitNotFound", "%Kit", event.getNewData().lines().get(1));
-            event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.RED + "[Kit]")).get()));
+            r.sendMes(p, "kitNotFound", "%Kit", event.getText().lines().get(1));
+            event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.RED + "[Kit]")).get());
             return;
         }
-        event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Kit]")).get()));
+        event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Kit]")).get());
         r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(PlayerBreakBlockEvent event) {
-        if (!r.perm(event.getUser(), "uc.sign.kit.destroy", false, true)) {
+    public void onDestroy(ChangeBlockEvent.Break event, Player p) {
+        if (!r.perm(p, "uc.sign.kit.destroy", false, true)) {
             event.setCancelled(true);
             return;
         }
-        r.sendMes(event.getUser(), "signDestroyed");
+        r.sendMes(p, "signDestroyed");
     }
 
 }

@@ -31,7 +31,7 @@ import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.effect.sound.SoundTypes;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
@@ -73,7 +73,7 @@ public class LocationUtil {
                 public void run() {
                     r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
                 }
-            }).delay(2L).submit(r.getUC());
+            }).delayTicks(2L).submit(r.getUC());
             r.getGame().getScheduler().createTaskBuilder().name("UC: Teleportation delay task #2").execute(new Runnable() {
 
                 @Override
@@ -85,7 +85,7 @@ public class LocationUtil {
                         r.sendMes(p, "teleportDelayFailedMove");
                     }
                 }
-            }).delay(20L * delay2).submit(r.getUC());
+            }).delayTicks(20L * delay2).submit(r.getUC());
 
             return;
         }

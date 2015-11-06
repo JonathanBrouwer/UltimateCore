@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.spongeapi.api;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FireworkUtil;
-import org.spongepowered.api.entity.player.gamemode.GameMode;
+import org.spongepowered.api.entity.living.player.gamemode.GameMode;
 import org.spongepowered.api.item.FireworkEffect;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -121,7 +121,7 @@ public class UWorld {
         JsonConfig conf = new JsonConfig(file);
         String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
         try {
-            return r.getGame().get
+            return r.getGame().getServer().getDefaultWorld().get().getGameMode();
         } catch (IllegalArgumentException ex) {
             return null;
         }
@@ -132,6 +132,7 @@ public class UWorld {
         JsonConfig conf = new JsonConfig(file);
         conf.set(getWorld().getName() + ".flags.gamemode", gm.getId());
         conf.save(file);
+        r.getGame().getServer().getDefaultWorld().get().setGameMode(gm);
     }
 
     //World

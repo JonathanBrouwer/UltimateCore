@@ -299,8 +299,8 @@ public final class UltimateMetrics {
             }
 
             // Begin hitting the server with glorious data
-            task = r.getGame().getScheduler().createTaskBuilder().async().name("UC: Metrics task").delay(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS)
-                    .interval(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS).execute(new Runnable() {
+            task = r.getGame().getScheduler().createTaskBuilder().async().name("UC: Metrics task").delayTicks(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS)
+                    .intervalTicks(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS).execute(new Runnable() {
 
                         private boolean firstPost = true;
 

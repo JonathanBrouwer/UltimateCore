@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.ThunderChangeEvent;
@@ -43,14 +42,14 @@ public class WeatherListener implements Listener {
         enabled = b;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @Listener(priority = EventPriority.LOWEST)
     public void toRain(WeatherChangeEvent e) {
         if (r.getCnfg().getBoolean("Weather.Rain") && enabled) {
             e.setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @Listener(priority = EventPriority.LOWEST)
     public void toThunder(ThunderChangeEvent e) {
         if (r.getCnfg().getBoolean("Weather.Rain") && enabled) {
             e.setCancelled(true);

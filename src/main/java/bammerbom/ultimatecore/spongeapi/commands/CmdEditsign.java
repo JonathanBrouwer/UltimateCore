@@ -34,7 +34,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.block.ChangeSignEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -99,7 +99,7 @@ public class CmdEditsign implements UltimateCommand {
         String l2 = lineNumber == 1 ? text : s.getLine(1);
         String l3 = lineNumber == 2 ? text : s.getLine(2);
         String l4 = lineNumber == 3 ? text : s.getLine(3);
-        SignChangeEvent ev = new SignChangeEvent(b, p, new String[]{l1, l2, l3, l4});
+        ChangeSignEvent ev = new ChangeSignEvent(b, p, new String[]{l1, l2, l3, l4});
         Bukkit.getPluginManager().callEvent(ev);
         if (ev.isCancelled()) {
             r.sendMes(cs, "editsignNoAccess");

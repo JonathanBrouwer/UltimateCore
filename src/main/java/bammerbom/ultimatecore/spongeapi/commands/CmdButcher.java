@@ -26,16 +26,15 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
-import bammerbom.ultimatecore.spongeapi.resources.classes.MobType.Enemies;
-import org.bukkit.EntityEffect;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.living.monster.Monster;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.item.inventory.DropItemEvent;
+import org.spongepowered.api.util.command.CommandSource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,12 +51,22 @@ public class CmdButcher implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> [Type] [Range]";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Kill all monsters in a certain area.";
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("killmonsters");
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return;
         }
@@ -98,12 +107,12 @@ public class CmdButcher implements UltimateCommand {
                 if (filter != null && !filter.getType().equals(en.getType())) {
                     continue;
                 }
-                if (en instanceof LivingEntity && !(en instanceof Player)) {
+                if (en instanceof Living && !(en instanceof Player)) {
                     MobType mob = MobType.fromBukkitType(en.getType());
-                    if ((mob != null && mob.type.equals(Enemies.ENEMY)) || en instanceof Monster) {
+                    if ((mob != null && mob.type.equals(MobType.Enemies.ENEMY)) || en instanceof Monster) {
                         en.remove();
                         amount++;
-                        en.playEffect(EntityEffect.DEATH);
+                        en.offer(Keys.HEALTH, 0.0);
                     }
                 }
             }
@@ -115,9 +124,9 @@ public class CmdButcher implements UltimateCommand {
                 if (filter != null && !filter.equals(MobType.fromBukkitType(en.getType()))) {
                     continue;
                 }
-                if (en instanceof LivingEntity && !(en instanceof Player)) {
+                if (en instanceof Living && !(en instanceof Player)) {
                     MobType mob = MobType.fromBukkitType(en.getType());
-                    if (mob.type.equals(Enemies.ENEMY) || en instanceof Monster) {
+                    if (mob.type.equals(MobType.Enemies.ENEMY) || en instanceof Monster) {
                         en.remove();
                         amount++;
                         en.playEffect(EntityEffect.DEATH);
@@ -129,17 +138,31 @@ public class CmdButcher implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (curn == 0) {
-            ArrayList<String> types = new ArrayList<>();
-            for (MobType type : MobType.values()) {
-                if (type.type.equals(Enemies.ENEMY)) {
-                    types.add(type.name);
-                }
-            }
-            return types;
-        } else {
-            return new ArrayList<>();
-        }
+    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
+        return null;
     }
+
+    @Listener
+    public void onItemDestruct(DropItemEvent.Destruct event) {
+
+    }
+    //
+    //    @Override
+    //    public void run(final CommandSender cs, String label, String[] args) {
+    //    }
+    //
+    //    @Override
+    //    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    //        if (curn == 0) {
+    //            ArrayList<String> types = new ArrayList<>();
+    //            for (MobType type : MobType.values()) {
+    //                if (type.type.equals(Enemies.ENEMY)) {
+    //                    types.add(type.name);
+    //                }
+    //            }
+    //            return types;
+    //        } else {
+    //            return new ArrayList<>();
+    //        }
+    //    }
 }

@@ -25,17 +25,18 @@ package bammerbom.ultimatecore.spongeapi.signs;
 
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
-import com.google.common.base.Optional;
 import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.event.block.tileentity.SignChangeEvent;
-import org.spongepowered.api.event.entity.player.PlayerBreakBlockEvent;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
+
+import java.util.Optional;
 
 public class SignRepair implements UltimateSign {
 
@@ -54,15 +55,11 @@ public class SignRepair implements UltimateSign {
         if (!r.perm(p, "uc.sign.repair", true, true) && !r.perm(p, "uc.sign", true, true)) {
             return;
         }
-        Boolean all = ((Text.Literal) sign.getData().get().lines().get(1)).getContent().equalsIgnoreCase("all") || ((Text.Literal) sign.getData().get().lines().get(1)).getContent()
+        Boolean all = ((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent().equalsIgnoreCase("all") || ((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent()
                 .equalsIgnoreCase("*");
         if (all) {
             for (Inventory inv : p.getInventory()) {
-                Optional<ItemStack> stackOptional = inv.peek();
-                if (!stackOptional.isPresent()) {
-                    continue;
-                }
-                ItemStack stack = stackOptional.get();
+                ItemStack stack = inv.peek();
                 if (!stack.supports(Keys.ITEM_DURABILITY)) {
                     continue;
                 }
@@ -85,22 +82,22 @@ public class SignRepair implements UltimateSign {
     }
 
     @Override
-    public void onCreate(SignChangeEvent event, Player p) {
+    public void onCreate(ChangeSignEvent event, Player p) {
         if (!r.perm(p, "uc.sign.repair", false, true)) {
             event.setCancelled(true);
-            event.getTile().getLocation().digBlock();
+            event.getTargetTile().getLocation().removeBlock();
             return;
         }
-        event.setNewData(event.getNewData().set(Keys.SIGN_LINES, event.getNewData().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Repair]")).get()));
+        event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Repair]")).get());
         r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(PlayerBreakBlockEvent event) {
-        if (!r.perm(event.getUser(), "uc.sign.repair.destroy", false, true)) {
+    public void onDestroy(ChangeBlockEvent.Break event, Player p) {
+        if (!r.perm(p, "uc.sign.repair.destroy", false, true)) {
             event.setCancelled(true);
             return;
         }
-        r.sendMes(event.getUser(), "signDestroyed");
+        r.sendMes(p, "signDestroyed");
     }
 }

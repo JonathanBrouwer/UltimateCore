@@ -25,10 +25,8 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.entity.player.*;
 
 public class AfkListener {
 
@@ -38,8 +36,8 @@ public class AfkListener {
 
     public static void start() {
         if (r.getCnfg().getBoolean("Afk.Enabled")) {
-            r.getGame().getEventManager().register(r.getUC(), new AfkListener());
-            r.getGame().getScheduler().createTaskBuilder().delay(100L).interval(100L).name("UC: Afk task").execute(new Runnable() {
+            r.getGame().getEventManager().registerListeners(r.getUC(), new AfkListener());
+            r.getGame().getScheduler().createTaskBuilder().delayTicks(100L).intervalTicks(100L).name("UC: Afk task").execute(new Runnable() {
                 @Override
                 public void run() {
                     for (Player pl : r.getOnlinePlayers()) {
@@ -67,7 +65,7 @@ public class AfkListener {
         }
     }
 
-    @Subscribe(order = Order.POST)
+    @Listener(order = Order.POST)
     public void event(PlayerEvent e) {
         if (e instanceof PlayerChangeHealthEvent || e instanceof PlayerChangeGameModeEvent || e instanceof PlayerMoveEvent || e instanceof PlayerResourcePackStatusEvent || e instanceof
                 PlayerUpdateEvent) {
@@ -77,7 +75,7 @@ public class AfkListener {
 
     }
 
-    @Subscribe(order = Order.POST)
+    @Listener(order = Order.POST)
     public void playerQuit(PlayerQuitEvent e) {
         if (UC.getPlayer(e.getUser()).isAfk()) {
             UC.getPlayer(e.getUser()).setAfk(false);
@@ -85,7 +83,7 @@ public class AfkListener {
         UC.getPlayer(e.getUser()).updateLastActivity();
     }
 
-    @Subscribe(order = Order.POST)
+    @Listener(order = Order.POST)
     public void playerKick(PlayerKickEvent e) {
         if (UC.getPlayer(e.getUser()).isAfk()) {
             UC.getPlayer(e.getUser()).setAfk(false);

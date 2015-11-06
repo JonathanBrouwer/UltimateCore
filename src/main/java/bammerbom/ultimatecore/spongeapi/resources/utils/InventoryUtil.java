@@ -24,15 +24,8 @@
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.service.persistence.SerializationService;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -193,7 +186,9 @@ public class InventoryUtil {
     }
 
     @SuppressWarnings("deprecation")
-    public static String convertInventoryToString(Inventory invInventory) {
+    public static String convertInventoryToString(Inventory inv) {
+        SerializationService service = r.getGame().getServiceManager().provide(SerializationService.class).get();
+        service.getBuilder(Inventory.class).get().build(inv);
         String serialization = invInventory.getSize() + ";";
         for (int i = 0;
              i < invInventory.getSize();
