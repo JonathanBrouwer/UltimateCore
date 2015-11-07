@@ -193,7 +193,7 @@ public class ChatListener implements Listener {
         return set;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void ChatListener(AsyncPlayerChatEvent e) {
         if (!e.isCancelled() && !UC.getPlayer(e.getPlayer()).isMuted()) {
             String m = e.getMessage();
