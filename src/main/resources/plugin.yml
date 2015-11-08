@@ -138,6 +138,10 @@ commands:
     description: Remove a warp.
     permissions: uc.delwarp
     aliases: [remwarp, removewarp]
+  editbook:
+    usage: /<command>
+    description: Converts te book in your hand to an editable book.
+    permissions: uc.editbook
   editsign:
     usage: /<command> <1-4> [Text]
     description: Edit a sign.

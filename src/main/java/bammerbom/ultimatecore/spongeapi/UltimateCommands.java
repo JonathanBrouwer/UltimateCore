@@ -65,6 +65,7 @@ public class UltimateCommands {
         cmds.add(new CmdDeljail());
         cmds.add(new CmdDelspawn());
         cmds.add(new CmdDelwarp());
+        cmds.add(new CmdEditbook());
         cmds.add(new CmdEditsign());
         cmds.add(new CmdEffect());
         cmds.add(new CmdEnchant());
