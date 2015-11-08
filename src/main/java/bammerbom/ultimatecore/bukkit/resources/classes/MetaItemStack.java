@@ -139,6 +139,8 @@ public class MetaItemStack {
             ItemMeta meta = this.stack.getItemMeta();
             meta.setDisplayName(displayName);
             this.stack.setItemMeta(meta);
+        } else if ((split.length > 1) && split[0].equalsIgnoreCase("durability") && r.isInt(split[1])) {
+            stack.setDurability(Short.parseShort(split[1]));
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("maxhealth") || split[0].equalsIgnoreCase("health"))) {
             if (r.isDouble(split[1])) {
                 Double max = Double.parseDouble(split[1]);

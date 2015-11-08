@@ -137,6 +137,8 @@ public class MetaItemStack {
 
         if ((split.length > 1) && (split[0].equalsIgnoreCase("name"))) {
             stack.offer(Keys.DISPLAY_NAME, r.translateAlternateColorCodes('&', Texts.of(split[1])));
+        } else if ((split.length > 1) && split[0].equalsIgnoreCase("durability") && r.isInt(split[1]) && stack.supports(Keys.ITEM_DURABILITY))){
+            stack.offer(Keys.ITEM_DURABILITY, Integer.parseInt(split[1]));
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("maxhealth") || split[0].equalsIgnoreCase("health"))) {
             if (r.isDouble(split[1])) {
                 Double max = Double.parseDouble(split[1]);
