@@ -938,18 +938,18 @@ public class r {
 
         public Permission getPermission() {
             RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-            return permissionProvider.getProvider();
+            return permissionProvider != null ? permissionProvider.getProvider() : null;
 
         }
 
         public Chat getChat() {
             RegisteredServiceProvider<Chat> chatProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
-            return chatProvider.getProvider();
+            return chatProvider != null ? chatProvider.getProvider() : null;
         }
 
         public Economy getEconomy() {
             RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-            return economyProvider.getProvider();
+            return economyProvider != null ? economyProvider.getProvider() : null;
         }
 
     }
