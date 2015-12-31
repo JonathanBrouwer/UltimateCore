@@ -63,11 +63,10 @@ public class CmdHat implements UltimateCommand {
         ItemStack InHandItem = p.getItemInHand();
         if (p.getInventory().getHelmet() == null || p.getInventory().getHelmet().getType().equals(Material.AIR)) {
             p.getInventory().setHelmet(InHandItem);
-            p.getInventory().remove(InHandItem);
+            p.getInventory().setItemInHand(null);
         } else {
             ItemStack tohand = p.getInventory().getHelmet();
             p.getInventory().setHelmet(InHandItem);
-            p.getInventory().remove(InHandItem);
             p.getInventory().setItemInHand(tohand);
         }
         r.sendMes(p, "hatMessage");
