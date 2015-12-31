@@ -32,6 +32,7 @@ import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.*;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -52,6 +53,9 @@ public class UltimateCore extends JavaPlugin {
             r.prestart();
             r.log("Prestarted Succesfully.");
         } catch (Exception ex) {
+            if (ExceptionUtils.getFullStackTrace(ex).contains("at bammerbom.ultimatecore.bukkit.r.log")) {
+                return;
+            }
             ex.printStackTrace();
         }
     }

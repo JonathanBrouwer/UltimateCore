@@ -12,7 +12,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: com.flowpowered:flow-math:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.15" level="project" />
-    <orderEntry type="library" name="Maven: org.spigotmc:spigot-api:1.8.4-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
@@ -23,20 +23,20 @@
     <orderEntry type="library" name="Maven: net.md-5:bungeecord-chat:1.8-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.spigotmc:spigot:1.7.10-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.spongepowered:spongeapi:2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-hocon:2.0" level="project" />
-    <orderEntry type="library" name="Maven: com.typesafe:config:1.2.1" level="project" />
-    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-core:2.0" level="project" />
     <orderEntry type="library" name="Maven: com.flowpowered:flow-math:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm:5.0.3" level="project" />
-    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-gson:2.0" level="project" />
+    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-yaml:3.1" level="project" />
+    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-core:3.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.inject:guice:4.0" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.spongepowered:event-gen-core:0.9-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.12" level="project" />
+    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-gson:3.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.13" level="project" />
     <orderEntry type="library" name="Maven: com.flowpowered:flow-noise:1.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.spongepowered:event-gen-core:0.10-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.3.2" level="project" />
-    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-yaml:2.0" level="project" />
+    <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-hocon:3.1" level="project" />
+    <orderEntry type="library" name="Maven: com.typesafe:config:1.3.0" level="project" />
     <orderEntry type="library" name="Maven: net.milkbowl.vault:VaultAPI:1.5" level="project" />
     <orderEntry type="library" name="Maven: org.bukkit:bukkit:1.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: net.ess3:Essentials:2.13.1" level="project" />
