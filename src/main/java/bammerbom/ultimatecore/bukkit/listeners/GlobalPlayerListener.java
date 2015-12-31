@@ -151,6 +151,7 @@ public class GlobalPlayerListener implements Listener {
             //Fly
             if (e.getPlayer().isFlying()) {
                 LocationUtil.teleport(e.getPlayer(), e.getPlayer().getLocation(), TeleportCause.PLUGIN, true, false);
+                e.getPlayer().setFallDistance(0.0F);
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerQuitEvent");

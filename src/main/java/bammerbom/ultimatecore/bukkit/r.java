@@ -606,7 +606,7 @@ public class r {
 
     public static String getPrimaryGroup(Player p) {
         try {
-            return r.getPrimaryGroup(p);
+            return r.getVault().getPermission().getPrimaryGroup(p);
         } catch (Exception ex) {
             return null;
         }
