@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -146,6 +147,10 @@ public class GlobalPlayerListener implements Listener {
                 for (Player p : r.getOnlinePlayers()) {
                     p.showPlayer(e.getPlayer());
                 }
+            }
+            //Fly
+            if (e.getPlayer().isFlying()) {
+                LocationUtil.teleport(e.getPlayer(), e.getPlayer().getLocation(), TeleportCause.PLUGIN, true, false);
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerQuitEvent");
