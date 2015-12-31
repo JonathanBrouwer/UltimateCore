@@ -1114,14 +1114,12 @@ public class UPlayer {
         Player p = r.searchPlayer(uuid);
         Boolean world = conf.contains("worlds.world." + p.getWorld().getName() + ".global");
         String world_ = world ? conf.getString("worlds.world." + p.getWorld().getName() + ".global") : null;
-        Boolean group = r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null && conf
-                .contains("global.group." + r.getVault().getPermission().getPrimaryGroup(p));
-        String group_ = r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null ? (group ? conf
-                .getString("global.group." + r.getVault().getPermission().getPrimaryGroup(p)) : null) : null;
-        Boolean gw = r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null && conf
-                .contains("worlds.world." + p.getWorld().getName() + ".group." + r.getVault().getPermission().getPrimaryGroup(p));
-        String gw_ = r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null ? conf
-                .getString("worlds.world." + p.getWorld().getName() + ".group." + r.getVault().getPermission().getPrimaryGroup(p)) : null;
+        Boolean group = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null && conf.contains("global.group." + r.getPrimaryGroup(p));
+        String group_ = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null ? (group ? conf.getString("global.group." + r.getPrimaryGroup(p)) : null) : null;
+        Boolean gw = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null && conf
+                .contains("worlds.world." + p.getWorld().getName() + ".group." + r.getPrimaryGroup(p));
+        String gw_ = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null ? conf
+                .getString("worlds.world." + p.getWorld().getName() + ".group." + r.getPrimaryGroup(p)) : null;
         if (firstjoin && conf.contains("global.firstjoin")) {
             loc = conf.getString("global.firstjoin");
         } else if (gw) {

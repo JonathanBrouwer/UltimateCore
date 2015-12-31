@@ -42,6 +42,13 @@ public class ErrorLogger {
     static Long countdown = null;
 
     public static void log(final Throwable t, final String s) {
+        //Special exceptions
+        String error = ExceptionUtils.getFullStackTrace(t);
+        if (error.contains("java.lang.UnsupportedOperationException: SuperPerms no group permissions.")) {
+            r.log("ERROR: Your permissions plugin '" + r.getVault().getPermission().getName() + "' does not support group permissions.");
+            return;
+        }
+
         //FILE
         final String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(Calendar.getInstance().getTime());
         //CONSOLE

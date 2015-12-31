@@ -82,10 +82,10 @@ public class CmdList implements UltimateCommand {
             for (String g : r.getVault().getPermission().getGroups()) {
                 Boolean an = false;
                 for (Player p : r.getOnlinePlayers()) {
-                    if (r.getVault().getPermission().getPrimaryGroup(p) == null) {
+                    if (r.getPrimaryGroup(p) == null) {
                         continue;
                     }
-                    if (r.getVault().getPermission().getPrimaryGroup(p).equalsIgnoreCase(g)) {
+                    if (r.getPrimaryGroup(p).equalsIgnoreCase(g)) {
                         an = true;
                     }
                 }
@@ -102,7 +102,7 @@ public class CmdList implements UltimateCommand {
                     for (Player pl : plz) {
                         Player p = r.searchPlayer(cs.getName());
                         if (p == null || p.canSee(pl)) {
-                            if (r.getVault().getPermission().getPrimaryGroup(pl) != null && r.getVault().getPermission().getPrimaryGroup(pl).equalsIgnoreCase(g)) {
+                            if (r.getPrimaryGroup(pl) != null && r.getPrimaryGroup(pl).equalsIgnoreCase(g)) {
                                 if (!first) {
                                     online.append(", ");
                                 }

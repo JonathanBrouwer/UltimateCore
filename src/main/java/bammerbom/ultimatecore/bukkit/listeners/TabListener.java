@@ -60,7 +60,7 @@ public class TabListener implements Listener {
                     }
                     continue;
                 }
-                String group = r.getVault().getPermission().getPrimaryGroup(p);
+                String group = r.getPrimaryGroup(p);
                 if (group == null || group.equalsIgnoreCase("")) {
                     String name = def + UC.getPlayer(p).getDisplayName();
                     name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
@@ -109,7 +109,7 @@ public class TabListener implements Listener {
                         }
                         continue;
                     }
-                    String group = r.getVault().getPermission().getPrimaryGroup(p);
+                    String group = r.getPrimaryGroup(p);
                     if (group == null || group.equalsIgnoreCase("")) {
                         String name = def + UC.getPlayer(p).getDisplayName();
                         name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
@@ -158,7 +158,7 @@ public class TabListener implements Listener {
             e.getPlayer().setPlayerListName(name);
             return;
         }
-        String group = r.getVault().getPermission().getPrimaryGroup(e.getPlayer());
+        String group = r.getPrimaryGroup(e.getPlayer());
         if (group == null || group.equalsIgnoreCase("")) {
             String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
             name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");

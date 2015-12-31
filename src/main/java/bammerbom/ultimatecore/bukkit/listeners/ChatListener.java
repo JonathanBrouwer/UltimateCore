@@ -220,14 +220,14 @@ public class ChatListener implements Listener {
             }
             if (r.getCnfg().getBoolean("Chat.Groups.Enabled")) {
                 if (r.getVault() != null && r.getVault().getPermission() != null) {
-                    String group = r.getVault().getPermission().getPrimaryGroup(e.getPlayer());
+                    String group = r.getPrimaryGroup(e.getPlayer());
                     if (!(group == null) && !group.equalsIgnoreCase("") && r.getCnfg().get("Chat.Groups." + group) != null) {
                         String f = r.getCnfg().getString("Chat.Groups." + group);
                         String prefix = "";
                         String suffix = "";
                         if (r.getVault().getChat() != null) {
-                            prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
-                            suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
+                            prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getPrimaryGroup(e.getPlayer()));
+                            suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getPrimaryGroup(e.getPlayer()));
                             if ((r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer()).isEmpty()) {
                                 prefix = r.getVault().getChat().getPlayerPrefix(e.getPlayer());
                             }
@@ -267,9 +267,9 @@ public class ChatListener implements Listener {
             String prefix = "";
             String suffix = "";
             if (r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getChat() != null) {
-                group = r.getVault().getPermission().getPrimaryGroup(e.getPlayer());
-                prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
-                suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getVault().getPermission().getPrimaryGroup(e.getPlayer()));
+                group = r.getPrimaryGroup(e.getPlayer());
+                prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getPrimaryGroup(e.getPlayer()));
+                suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getPrimaryGroup(e.getPlayer()));
             }
             if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer())
                     .equalsIgnoreCase("")) {

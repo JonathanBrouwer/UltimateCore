@@ -604,6 +604,14 @@ public class r {
         }
     }
 
+    public static String getPrimaryGroup(Player p) {
+        try {
+            return r.getPrimaryGroup(p);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
     public static class ExtendedProperties {
 
         private static final String keyValueSeparators = "=: \t\r\n\f";
