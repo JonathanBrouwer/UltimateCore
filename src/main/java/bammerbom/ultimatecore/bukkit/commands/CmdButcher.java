@@ -30,10 +30,7 @@ import bammerbom.ultimatecore.bukkit.resources.classes.MobType.Enemies;
 import org.bukkit.EntityEffect;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,7 +95,7 @@ public class CmdButcher implements UltimateCommand {
                 if (filter != null && !filter.getType().equals(en.getType())) {
                     continue;
                 }
-                if (en instanceof LivingEntity && !(en instanceof Player)) {
+                if (en instanceof LivingEntity && !(en instanceof Player) && !(en instanceof ArmorStand)) {
                     MobType mob = MobType.fromBukkitType(en.getType());
                     if ((mob != null && mob.type.equals(MobType.Enemies.ENEMY)) || en instanceof Monster) {
                         en.remove();
@@ -115,7 +112,7 @@ public class CmdButcher implements UltimateCommand {
                 if (filter != null && !filter.equals(MobType.fromBukkitType(en.getType()))) {
                     continue;
                 }
-                if (en instanceof LivingEntity && !(en instanceof Player)) {
+                if (en instanceof LivingEntity && !(en instanceof Player) && !(en instanceof ArmorStand)) {
                     MobType mob = MobType.fromBukkitType(en.getType());
                     if (mob.type.equals(MobType.Enemies.ENEMY) || en instanceof Monster) {
                         en.remove();
