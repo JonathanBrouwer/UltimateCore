@@ -121,6 +121,9 @@ public class UltimateFileLoader {
         if (!new File(plugin.getDataFolder() + File.separator + "Messages" + File.separator + "NL.properties").exists()) {
             plugin.saveResource("Messages" + File.separator + "NL.properties", true);
         }
+        if (!new File(plugin.getDataFolder() + File.separator + "Messages" + File.separator + "DE.properties").exists()) {
+            plugin.saveResource("Messages" + File.separator + "DE.properties", true);
+        }
         //
         File file = new File(plugin.getDataFolder() + File.separator + "Messages", r.getCnfg().getString("Language") + ".properties");
         if (file.exists()) {

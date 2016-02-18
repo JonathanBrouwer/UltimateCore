@@ -380,6 +380,30 @@ public class GlobalPlayerListener implements Listener {
     }
 
     @Listener(priority = EventPriority.LOW)
+    public void onDamageByEntity(EntityDamageByEntityEvent e) {
+        try {
+            //Jailed
+            if (e.getEntity().getType().equals(EntityType.PLAYER)) {
+                Player p = (Player) e.getEntity();
+                if (UC.getPlayer(p).isJailed()) {
+                    p.setFireTicks(0);
+                    e.setCancelled(true);
+                }
+            }
+            if (e.getDamager().getType().equals(EntityType.PLAYER)) {
+                Player p = (Player) e.getDamager();
+                if (UC.getPlayer(p).isJailed()) {
+                    p.setFireTicks(0);
+                    e.setCancelled(true);
+                }
+            }
+            //
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to handle event: EntityDamageByEntityEvent");
+        }
+    }
+
+    @Listener(priority = EventPriority.LOW)
     public void onFoodLevelChange(FoodLevelChangeEvent e) {
         try {
             //God
