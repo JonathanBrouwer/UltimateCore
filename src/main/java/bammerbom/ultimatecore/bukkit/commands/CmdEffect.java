@@ -83,14 +83,14 @@ public class CmdEffect implements UltimateCommand {
         Integer lev = 1;
         if (r.checkArgs(args, 2)) {
             if (!r.isInt(args[2])) {
-                r.sendMes(cs, "numberFormat", args[2]);
+                r.sendMes(cs, "numberFormat", "%Number", args[2]);
                 return;
             }
             dur = Integer.parseInt(args[2]);
         }
         if (r.checkArgs(args, 3)) {
             if (!r.isInt(args[3])) {
-                r.sendMes(cs, "numberFormat", args[3]);
+                r.sendMes(cs, "numberFormat", "%Number", args[3]);
                 return;
             }
             lev = Integer.parseInt(args[3]);
