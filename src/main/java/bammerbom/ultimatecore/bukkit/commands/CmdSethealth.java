@@ -93,7 +93,7 @@ public class CmdSethealth implements UltimateCommand {
                     t.setMaxHealth(d);
                 }
                 t.setHealth(d);
-                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Healh", d);
+                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Health", d);
                 r.sendMes(t, "sethealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
             } else if (r.isDouble(args[1])) {
                 Double d = Double.parseDouble(args[1]);
