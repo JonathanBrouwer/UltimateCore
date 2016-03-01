@@ -26,9 +26,6 @@ package bammerbom.ultimatecore.bukkit.resources.classes;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.databases.EffectDatabase;
 import bammerbom.ultimatecore.bukkit.resources.databases.EnchantmentDatabase;
-import bammerbom.ultimatecore.bukkit.resources.utils.AttributeUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.AttributeUtil.Attribute;
-import bammerbom.ultimatecore.bukkit.resources.utils.AttributeUtil.AttributeType;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
@@ -142,38 +139,37 @@ public class MetaItemStack {
         } else if ((split.length > 1) && split[0].equalsIgnoreCase("durability") && r.isInt(split[1])) {
             stack.setDurability(Short.parseShort(split[1]));
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("maxhealth") || split[0].equalsIgnoreCase("health"))) {
-            if (r.isDouble(split[1])) {
-                Double max = Double.parseDouble(split[1]);
-                max = r.normalize(max, 0.0, 2147483647.0);
-                AttributeUtil attributes = new AttributeUtil(stack);
-                attributes.add(Attribute.newBuilder().name("Health").type(AttributeType.GENERIC_MAX_HEALTH).amount(max).build());
-                stack = attributes.getStack();
-            }
+            //            if (r.isDouble(split[1])) {
+            //                Double max = Double.parseDouble(split[1]);
+            //                max = r.normalize(max, 0.0, 2147483647.0);
+            //                AttributeModifier mod = new AttributeModifier("Health", max, AttributeModifier.Operation.ADD_SCALAR);
+            //            }
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("damage") || split[0].equalsIgnoreCase("attack") || split[0].equalsIgnoreCase("attackdamage"))) {
             if (r.isDouble(split[1])) {
-                Double max = Double.parseDouble(split[1]);
-                max = r.normalize(max, 0.0, Double.MAX_VALUE);
-                AttributeUtil attributes = new AttributeUtil(stack);
-                attributes.add(Attribute.newBuilder().name("Attack Damage").type(AttributeType.GENERIC_ATTACK_DAMAGE).amount(max).build());
-                stack = attributes.getStack();
+                //                Double max = Double.parseDouble(split[1]);
+                //                max = r.normalize(max, 0.0, Double.MAX_VALUE);
+                //                AttributeUtil attributes = new AttributeUtil(stack);
+                //                attributes.add(Attribute.newBuilder().name("Attack Damage").type(AttributeType.GENERIC_ATTACK_DAMAGE).amount(max).build());
+                //                stack = attributes.getStack();
+                //                stack.get
             }
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("speed") || split[0].equalsIgnoreCase("movementspeed") || split[0].equalsIgnoreCase("swiftness"))) {
             if (r.isDouble(split[1])) {
-                Double max = Double.parseDouble(split[1]);
-                max = max / 50;
-                max = r.normalize(max, 0.0, Double.MAX_VALUE);
-                AttributeUtil attributes = new AttributeUtil(stack);
-                attributes.add(Attribute.newBuilder().name("Speed").type(AttributeType.GENERIC_MOVEMENT_SPEED).amount(max).build());
-                stack = attributes.getStack();
+                //                Double max = Double.parseDouble(split[1]);
+                //                max = max / 50;
+                //                max = r.normalize(max, 0.0, Double.MAX_VALUE);
+                //                AttributeUtil attributes = new AttributeUtil(stack);
+                //                attributes.add(Attribute.newBuilder().name("Speed").type(AttributeType.GENERIC_MOVEMENT_SPEED).amount(max).build());
+                //                stack = attributes.getStack();
             }
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("knockbackres") || split[0].equalsIgnoreCase("knockbackresistance") || split[0].equalsIgnoreCase("kres"))) {
             if (r.isDouble(split[1])) {
-                Double max = Double.parseDouble(split[1]);
-                max = r.normalize(max, 0.0, 100.0);
-                max = max / 100.0;
-                AttributeUtil attributes = new AttributeUtil(stack);
-                attributes.add(Attribute.newBuilder().name("Knockback Resistance").type(AttributeType.GENERIC_KNOCKBACK_RESISTANCE).amount(max).build());
-                stack = attributes.getStack();
+                //                Double max = Double.parseDouble(split[1]);
+                //                max = r.normalize(max, 0.0, 100.0);
+                //                max = max / 100.0;
+                //                AttributeUtil attributes = new AttributeUtil(stack);
+                //                attributes.add(Attribute.newBuilder().name("Knockback Resistance").type(AttributeType.GENERIC_KNOCKBACK_RESISTANCE).amount(max).build());
+                //                stack = attributes.getStack();
             }
         } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("lore")) || (split[0].equalsIgnoreCase("desc")))) {
             List<String> lore = new ArrayList<>();
@@ -368,7 +364,6 @@ public class MetaItemStack {
         } else {
             parseEnchantmentStrings(cs, allowUnsafe, split);
         }
-
     }
 
     public void addFireworkMeta(boolean allowShortName, String string) throws Exception {
