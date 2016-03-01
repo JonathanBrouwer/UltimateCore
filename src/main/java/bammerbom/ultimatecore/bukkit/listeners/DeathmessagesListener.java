@@ -90,6 +90,8 @@ public class DeathmessagesListener implements Listener {
             keys.put("death.attack.thorns", r.mes("deathAttackThorns", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.fall", r.mes("deathAttackFall", "%Player", "%1$s"));
             keys.put("death.attack.outOfWorld", r.mes("deathAttackOutOfWorld", "%Player", "%1$s"));
+            keys.put("death.attack.dragonBreath", r.mes("deathAttackDragonBreath", "%Player", "%1$s"));
+            keys.put("death.attack.flyIntoWall", r.mes("deathAttackFlyIntoWall", "%Player", "%1$s"));
 
             localeI18n.set("d", keys);
         } catch (Exception ex) {
