@@ -410,7 +410,7 @@ public class LocationUtil {
                 continue;
             }
             pl.playEffect(loc, Effect.ENDER_SIGNAL, 10);
-            pl.playSound(loc, Sound.ENDERMAN_TELEPORT, 1, 1);
+            pl.playSound(loc, Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
         }
     }
 
