@@ -148,6 +148,9 @@ public class CmdPotion implements UltimateCommand {
             if (str.equalsIgnoreCase("splash")) {
                 potion.setSplash(true);
             }
+            if (str.equalsIgnoreCase("lingering")) {
+                //TODO lingering
+            }
         }
         potion.apply(stack);
         Potion potion2 = new Potion(PotionType.getByEffect(ef));
