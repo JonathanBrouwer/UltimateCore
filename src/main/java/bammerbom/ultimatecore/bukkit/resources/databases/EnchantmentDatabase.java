@@ -209,7 +209,7 @@ public class EnchantmentDatabase {
             ench.put("depthstrider", Enchantment.DEPTH_STRIDER);
             ench.put("depth", Enchantment.DEPTH_STRIDER);
             ench.put("ds", Enchantment.DEPTH_STRIDER);
-
+            
             for (Enchantment enc : Enchantment.values()) {
                 if (!ench.containsKey(enc.getName().toLowerCase())) {
                     ench.put(enc.getName().toLowerCase(), enc);
