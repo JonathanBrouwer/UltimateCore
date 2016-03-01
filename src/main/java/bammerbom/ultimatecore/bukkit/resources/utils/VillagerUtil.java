@@ -26,116 +26,38 @@ package bammerbom.ultimatecore.bukkit.resources.utils;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MerchantRecipe;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VillagerUtil {
 
     public static void clearTrades(Villager villager) {
-        /*try {
-            EntityVillager entityVillager = ((CraftVillager) villager).getHandle();
-            Field recipes = entityVillager.getClass().getDeclaredField("br");
-            recipes.setAccessible(true);
-            MerchantRecipeList list = new MerchantRecipeList();
-            recipes.set(entityVillager, list);
-        } catch (Exception exc) {
-            exc.printStackTrace();
-        }*/
-        try {
-            Object entityVillager = ReflectionUtil.execute("getHandle()", villager).fetch();
-            Field recipes = entityVillager.getClass().getDeclaredField(ReflectionUtil.NMS_PATH.contains("v1_8_R1") ? "bp" : "br");
-            recipes.setAccessible(true);
-            ReflectionUtil.ReflectionObject list = ReflectionUtil.ReflectionObject.fromNMS("MerchantRecipeList");
-            recipes.set(entityVillager, list.fetch());
-        } catch (Exception exc) {
-            ErrorLogger.log(exc, "Failed to clear trade.");
-        }
-
-        //
-
+        villager.getRecipes().clear();
     }
 
     public static void addTrade(Villager villager, VillagerTrade villagerTrade) {
-        /*EntityVillager entityVillager = ((CraftVillager) villager).getHandle();
-        try {
-            Field recipes = entityVillager.getClass().getDeclaredField("br");
-            recipes.setAccessible(true);
-            MerchantRecipeList list = (MerchantRecipeList) recipes.get(entityVillager);
-            if (VillagerTrade.hasItem2(villagerTrade)) {
-                ItemStack item1 = CraftItemStack.asNMSCopy(VillagerTrade.getItem1(villagerTrade));
-                ItemStack item2 = CraftItemStack.asNMSCopy(VillagerTrade.getItem2(villagerTrade));
-                ItemStack rewardItem = CraftItemStack.asNMSCopy(VillagerTrade.getRewardItem(villagerTrade));
-                list.a(new MerchantRecipe(item1, item2, rewardItem));
-            } else {
-                ItemStack item1 = CraftItemStack.asNMSCopy(VillagerTrade.getItem1(villagerTrade));
-                ItemStack rewardItem = CraftItemStack.asNMSCopy(VillagerTrade.getRewardItem(villagerTrade));
-                list.a(new MerchantRecipe(item1, rewardItem));
-            }
-            recipes.set(entityVillager, list);
-        } catch (Exception exc) {
-            exc.printStackTrace();
-        }*/
-        try {
-            Object entityVillager = ReflectionUtil.execute("getHandle()", villager).fetch();
-            Field recipes = entityVillager.getClass().getDeclaredField(ReflectionUtil.NMS_PATH.contains("v1_8_R1") ? "bp" : "br");
-            recipes.setAccessible(true);
-            List list = (List) recipes.get(entityVillager);
-            if (villagerTrade.hasItem2()) {
-                Object item1 = ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getItem1()).fetch();
-                Object item2 = ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getItem2()).fetch();
-                Object reward = ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getRewardItem()).fetch();
-                ReflectionUtil.ReflectionObject recipe = ReflectionUtil.ReflectionObject.fromNMS("MerchantRecipe", item1, item2, reward, villagerTrade.getUses(), villagerTrade.getMaxUses());
-                recipe.set("rewardExp", villagerTrade.getRewardExp());
-                list.add(recipe.fetch());
-            } else {
-                Object item1 = ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getItem1()).fetch();
-                Object reward = ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), villagerTrade.getRewardItem()).fetch();
-                ReflectionUtil.ReflectionObject recipe = ReflectionUtil.ReflectionObject.fromNMS("MerchantRecipe", item1, reward);
-                recipe.set("rewardExp", villagerTrade.getRewardExp());
-                recipe.set("uses", villagerTrade.getUses());
-                recipe.set("maxUses", villagerTrade.getMaxUses());
-                list.add(recipe.fetch());
-            }
-            recipes.set(entityVillager, list);
-        } catch (Exception exc) {
-            ErrorLogger.log(exc, "Failed to add villager trade.");
-        }
+        MerchantRecipe recipe = new MerchantRecipe(villagerTrade.getRewardItem(), villagerTrade.getUses(), villagerTrade.getMaxUses(), villagerTrade.getRewardExp());
+        recipe.addIngredient(villagerTrade.getItem1());
+        recipe.addIngredient(villagerTrade.getItem2());
+        villager.setRecipe(villager.getRecipeCount(), recipe);
     }
 
     public static List<VillagerTrade> listTrades(Villager villager) {
         try {
-            Object entityVillager = ReflectionUtil.execute("getHandle()", villager).fetch();
-            List<VillagerTrade> rtrn = new ArrayList<>();
-            Field recipes = entityVillager.getClass().getDeclaredField(ReflectionUtil.NMS_PATH.contains("v1_8_R1") ? "bp" : "br");
-            recipes.setAccessible(true);
-            List list = (List) recipes.get(entityVillager);
-            if (list == null) {
-                return new ArrayList<>();
-            }
-            for (Object recipe : list) {
-                ReflectionUtil.ReflectionObject reflObj = new ReflectionUtil.ReflectionObject(recipe);
-                ItemStack buyingItem1 = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("buyingItem1"))
-                        .fetch();
-                ItemStack buyingItem2 = null;
-                if (reflObj.get("buyingItem2") != null) {
-                    buyingItem2 = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("buyingItem2"))
-                            .fetch();
-                }
-                ItemStack sellingItem = (ItemStack) ReflectionUtil.executeStatic("asBukkitCopy({1})", ReflectionUtil.ReflectionStatic.fromOBC("inventory.CraftItemStack"), reflObj.get("sellingItem"))
-                        .fetch();
-                Integer maxUses = (Integer) ReflectionUtil.execute("maxUses", recipe).fetch();
-                Integer uses = (Integer) ReflectionUtil.execute("uses", recipe).fetch();
-                Boolean rewardxp = (Boolean) ReflectionUtil.execute("rewardExp", recipe).fetch();
-
-                if (buyingItem2 != null) {
-                    rtrn.add(new VillagerTrade(buyingItem1, buyingItem2, sellingItem, maxUses, uses, rewardxp));
-                } else {
-                    rtrn.add(new VillagerTrade(buyingItem1, sellingItem, maxUses, uses, rewardxp));
+            List<VillagerTrade> trades = new ArrayList();
+            for (MerchantRecipe trade : villager.getRecipes()) {
+                if (trade.getIngredients().size() == 1) {
+                    VillagerTrade t = new VillagerTrade(trade.getIngredients().get(0), trade.getResult(), trade.getMaxUses(), trade.getUses(), trade.hasExperienceReward());
+                    trades.add(t);
+                } else if (trade.getIngredients().size() == 2) {
+                    VillagerTrade t = new VillagerTrade(trade.getIngredients().get(0), trade.getIngredients().get(1), trade.getResult(), trade.getMaxUses(), trade.getUses(), trade
+                            .hasExperienceReward());
+                    trades.add(t);
                 }
             }
-            return rtrn;
+            return trades;
         } catch (Exception exc) {
             ErrorLogger.log(exc, "Failed to list villager trades.");
             return null;
