@@ -359,7 +359,7 @@ public class MetaItemStack {
             ReflectionObject ro = new ReflectionObject(meta);
             ro.set("unhandledTags", m);
             stack.setItemMeta(ro.fetchAs(ItemMeta.class));
-        } else if (split[0].equalsIgnoreCase("size") && split.length > 1 && r.isInt(split[1])) {
+        } else if ((split[0].equalsIgnoreCase("size") || split[0].equalsIgnoreCase("quantity") || split[0].equalsIgnoreCase("amount")) && split.length > 1 && r.isInt(split[1])) {
             stack.setAmount(Integer.parseInt(split[1]));
         } else {
             parseEnchantmentStrings(cs, allowUnsafe, split);
