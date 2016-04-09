@@ -128,7 +128,6 @@ class HelpInput implements UText {
     private final transient List<String> chapters = new ArrayList<>();
     private final transient Map<String, Integer> bookmarks = new HashMap<>();
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public HelpInput(CommandSender user, String match) {
         boolean reported = false;
         List newLines = new ArrayList();
@@ -203,8 +202,10 @@ class PluginCommandsInput implements UText {
     private final transient List<String> chapters = new ArrayList<>();
     private final transient Map<String, Integer> bookmarks = new HashMap<>();
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public PluginCommandsInput(CommandSender user, String match) {
+        if (!r.perm(user, "uc.plugins", false, false)) {
+            return;
+        }
         boolean reported = false;
         List newLines = new ArrayList();
         String pluginName;
