@@ -237,14 +237,7 @@ public class MobData {
         } else if (data.equalsIgnoreCase("noai")) {
             if (en instanceof LivingEntity) {
                 try {
-                    ReflectionUtil.ReflectionObject cen = ReflectionUtil.execute("getHandle()", en);
-                    ReflectionUtil.ReflectionObject tag = cen.invoke("getNBTTag");
-                    if (tag == null) {
-                        tag = ReflectionUtil.ReflectionObject.fromNMS("NBTTagCompound");
-                    }
-                    cen.invoke("c", tag.fetch());
-                    tag.invoke("setInt", "NoAI", 1);
-                    cen.invoke("f", tag.fetch());
+                    ((LivingEntity) en).setAI(false);
                     return true;
                 } catch (Exception ex) {
                     ErrorLogger.log(ex, "Failed to apply mob data.");
