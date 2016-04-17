@@ -290,6 +290,11 @@
             <version>2.7.5</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.gmail.de.surreal.plugins.chatrangedbo</groupId>
+            <artifactId>ChatRange</artifactId>
+            <version>1.1.0</version>
+        </dependency>
         <!-- End of hosted on GitHub -->
     </dependencies>
     <repositories>

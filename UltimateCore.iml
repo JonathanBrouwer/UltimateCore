@@ -59,5 +59,6 @@
     <orderEntry type="library" name="Maven: com.palmergames:Towny:custom" level="project" />
     <orderEntry type="library" name="Maven: com.massivecraft:Factions:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: com.massivecraft:MassiveCore:2.7.5" level="project" />
+    <orderEntry type="library" name="Maven: com.gmail.de.surreal.plugins.chatrangedbo:ChatRange:1.1.0" level="project" />
   </component>
 </module>
