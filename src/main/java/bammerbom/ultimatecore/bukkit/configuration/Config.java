@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.StreamUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
+import org.bukkit.ChatColor;
 
 import java.io.*;
 import java.util.*;
@@ -89,13 +90,19 @@ public class Config extends YamlConfiguration implements Cloneable {
             try {
                 loadFromString(builder.toString());
             } catch (InvalidConfigurationException e) {
-                String filename = "config_CORRUPT.yml";
-                Integer i = 1;
-                while (new File(r.getUC().getDataFolder(), filename).exists()) {
-                    i++;
-                    filename = "config_CORRUPT" + i + ".yml";
+                if (file.getName().equalsIgnoreCase("config.yml")) {
+                    String filename = "config_CORRUPT.yml";
+                    Integer i = 1;
+                    while (new File(r.getUC().getDataFolder(), filename).exists()) {
+                        i++;
+                        filename = "config_CORRUPT" + i + ".yml";
+                    }
+                    file.renameTo(new File(r.getUC().getDataFolder(), filename));
+                    r.log(ChatColor.GOLD + "---------------------------------------------------");
+                    r.log(ChatColor.AQUA + "Config file failed to load, creating a new file...");
+                    r.log(ChatColor.AQUA + "Corrupt file saved as " + ChatColor.YELLOW + filename);
+                    r.log(ChatColor.GOLD + "----------------------------------------------------");
                 }
-                file.renameTo(new File(r.getUC().getDataFolder(), filename));
                 throw new IOException("YAML file is corrupt", e);
             }
         } catch (FileNotFoundException ex) {
@@ -328,7 +335,7 @@ public class Config extends YamlConfiguration implements Cloneable {
     @Override
     public List<String> getStringList(String path) {
         List<String> list = super.getStringList(path);
-        return list == null ? new ArrayList<String>() : list;
+        return list;
     }
 
     //set
