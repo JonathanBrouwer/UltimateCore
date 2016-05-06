@@ -90,15 +90,19 @@ public class TreeListener implements Listener {
                 Material blockAboveType = blockAbove.getBlock().getType();
 
                 if (blockAboveType == Material.LOG || blockAboveType == Material.LOG_2) {
-                    blockAbove.getBlock().breakNaturally();
-                    player.getWorld().playEffect(blockAbove, Effect.SMOKE, 4);
+                    BlockBreakEvent ev = new BlockBreakEvent(blockAbove.getBlock(), player);
+                    Bukkit.getPluginManager().callEvent(ev);
+                    if (!ev.isCancelled()) {
+                        blockAbove.getBlock().breakNaturally();
+                        player.getWorld().playEffect(blockAbove, Effect.SMOKE, 4);
 
-                    if ((!player.getGameMode().equals(GameMode.CREATIVE))) {
-                        int enchLvl = handItem.getEnchantmentLevel(Enchantment.DURABILITY);
-                        long random = Math.round(Math.random() * enchLvl);
+                        if ((!player.getGameMode().equals(GameMode.CREATIVE))) {
+                            int enchLvl = handItem.getEnchantmentLevel(Enchantment.DURABILITY);
+                            long random = Math.round(Math.random() * enchLvl);
 
-                        if ((random == 0L) && (handItem.getType().getMaxDurability() > handItem.getDurability())) {
-                            handItem.setDurability((short) (handItem.getDurability() + 1));
+                            if ((random == 0L) && (handItem.getType().getMaxDurability() > handItem.getDurability())) {
+                                handItem.setDurability((short) (handItem.getDurability() + 1));
+                            }
                         }
                     }
 
