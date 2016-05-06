@@ -57,6 +57,9 @@ public class CmdBan implements UltimateCommand {
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
         if (r.checkArgs(args, 0) == false) {
+            if (!r.perm(cs, "uc.ban", false, true)) {
+                return;
+            }
             r.sendMes(cs, "banUsage");
             return;
         }
