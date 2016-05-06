@@ -47,7 +47,7 @@ public class BloodListener {
 
     public static void start() {
         if (r.getCnfg().getBoolean("Blood.Enabled")) {
-            r.getGame().getEventManager().registerListeners(r.getUC(), new BloodListener());
+            Sponge.getGame().getEventManager().registerListeners(r.getUC(), new BloodListener());
         }
     }
 
@@ -81,13 +81,13 @@ public class BloodListener {
                     return;
                 }
                 iCD.add(p.getUniqueId());
-                r.getGame().getScheduler().createTaskBuilder().name("UC: Blood task").delayTicks(5L).execute(new Runnable() {
+                Sponge.getGame().getScheduler().createTaskBuilder().name("UC: Blood task").delayTicks(5L).execute(new Runnable() {
                     @Override
                     public void run() {
                         iCD.remove(p.getUniqueId());
                     }
                 }).submit(r.getUC());
-                p.getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                p.getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                         .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), p.getLocation().getPosition().add(0, 1, 0));
             } else {
                 if (iCD.contains(e.getEntity().getUniqueId())) {
@@ -96,112 +96,112 @@ public class BloodListener {
                 iCD.add(e.getEntity().getUniqueId());
                 if (e.getEntity().getType().equals(EntityTypes.SKELETON)) {
                     if (e.getEntity().get(Keys.SKELETON_TYPE).get().equals(SkeletonTypes.NORMAL)) {
-                        e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                        e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                                 .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.WOOL).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                     } else {
-                        e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                        e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                                 .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.COAL_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                     }
                 } else if (e.getEntity().getType().equals(EntityTypes.CREEPER)) {
-                    ItemStack green = r.getGame().getRegistry().createItemBuilder().itemType(ItemTypes.WOOL).build();
+                    ItemStack green = Sponge.getGame().getRegistry().createItemBuilder().itemType(ItemTypes.WOOL).build();
                     green.offer(Keys.DYE_COLOR, DyeColors.GREEN);
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).item(green).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.SPIDER)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 0.6, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.GIANT)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.ZOMBIE)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.SLIME)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.SLIME).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.GHAST)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.QUARTZ_ORE).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.PIG_ZOMBIE)) {
-                    ItemStack purple = r.getGame().getRegistry().createItemBuilder().itemType(ItemTypes.STAINED_HARDENED_CLAY).build();
+                    ItemStack purple = Sponge.getGame().getRegistry().createItemBuilder().itemType(ItemTypes.STAINED_HARDENED_CLAY).build();
                     purple.offer(Keys.DYE_COLOR, DyeColors.PURPLE);
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).item(purple).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.ENDERMAN)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.ENDER_CHEST).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.CAVE_SPIDER)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 0.6, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.SILVERFISH)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.STONE).build(), e.getEntity().getLocation().getPosition());
                 } else if (e.getEntity().getType().equals(EntityTypes.BLAZE)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.LAVA).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.MAGMA_CUBE)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.LAVA).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.WITHER)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.BAT)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(20)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(20)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.WITCH)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.ENDERMITE)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.ENDER_CHEST).build(), e.getEntity().getLocation().getPosition());
                 } else if (e.getEntity().getType().equals(EntityTypes.GUARDIAN)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.SEA_LANTERN).build(), e.getEntity().getLocation().getPosition().add(0, 0.8, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.PIG)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.SHEEP)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.COW)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.CHICKEN)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 0.6, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.SQUID)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.COAL_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.WOLF)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.MUSHROOM_COW)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.SNOWMAN)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.SNOW).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.OCELOT)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 0.2, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.IRON_GOLEM)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.IRON_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.HORSE)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.RABBIT)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 0.3, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.VILLAGER)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 } else if (e.getEntity().getType().equals(EntityTypes.PLAYER)) {
-                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) r.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
+                    e.getEntity().getWorld().spawnParticles(((ParticleEffectBuilder.Material) Sponge.getGame().getRegistry().createParticleEffectBuilder(ParticleTypes.BLOCK_CRACK)).count(50)
                             .offset(new Vector3d(0.3, 0.3, 0.3)).itemType(ItemTypes.REDSTONE_BLOCK).build(), e.getEntity().getLocation().getPosition().add(0, 1, 0));
                 }
 
-                r.getGame().getScheduler().createTaskBuilder().name("UC: Blood task").delayTicks(5L).execute(new Runnable() {
+                Sponge.getGame().getScheduler().createTaskBuilder().name("UC: Blood task").delayTicks(5L).execute(new Runnable() {
                     @Override
                     public void run() {
                         iCD.remove(e.getEntity().getUniqueId());

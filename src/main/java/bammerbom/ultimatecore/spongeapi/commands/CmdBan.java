@@ -105,7 +105,7 @@ public class CmdBan implements UltimateCommand {
         UPlayer pl = UC.getPlayer(banp);
         pl.ban(time, reason, cs);
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-            r.getGame().getServer().getBroadcastSink().sendMessage(r.mes("banBroadcast", "%Banner", r.getDisplayName(cs), "%Banned", r
+            Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("banBroadcast", "%Banner", r.getDisplayName(cs), "%Banned", r
                     .getDisplayName(banp), "%Time", timen, "%Reason", reason));
         } else {
             r.sendMes(cs, "banBroadcast", "%Banner", r.getDisplayName(cs), "%Banned", r

@@ -43,10 +43,10 @@ public class UWorld {
 
     public UWorld(String world) {
         try {
-            if (world == null || !r.getGame().getServer().getWorld(world).isPresent()) {
+            if (world == null || !Sponge.getGame().getServer().getWorld(world).isPresent()) {
                 throw new NullPointerException("World not found");
             }
-            base = r.getGame().getServer().getWorld(world).get();
+            base = Sponge.getGame().getServer().getWorld(world).get();
         } catch (NullPointerException ex) {
             throw new NullPointerException("World not found");
         }
@@ -121,7 +121,7 @@ public class UWorld {
         JsonConfig conf = new JsonConfig(file);
         String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
         try {
-            return r.getGame().getServer().getDefaultWorld().get().getGameMode();
+            return Sponge.getGame().getServer().getDefaultWorld().get().getGameMode();
         } catch (IllegalArgumentException ex) {
             return null;
         }
@@ -132,7 +132,7 @@ public class UWorld {
         JsonConfig conf = new JsonConfig(file);
         conf.set(getWorld().getName() + ".flags.gamemode", gm.getId());
         conf.save(file);
-        r.getGame().getServer().getDefaultWorld().get().setGameMode(gm);
+        Sponge.getGame().getServer().getDefaultWorld().get().setGameMode(gm);
     }
 
     //World

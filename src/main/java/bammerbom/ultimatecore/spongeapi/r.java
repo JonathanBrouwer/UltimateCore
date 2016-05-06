@@ -32,6 +32,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.GameProfile;
 import org.spongepowered.api.GameRegistry;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
@@ -85,7 +86,7 @@ public class r {
         /*if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
             prom = com.comphenix.protocol.ProtocolLibrary.getProtocolManager();
         }*/
-        r.getGame().getServiceManager().potentiallyProvide(PermissionService.class).executeWhenPresent(new Predicate<PermissionService>() {
+        Sponge.getGame().getServiceManager().potentiallyProvide(PermissionService.class).executeWhenPresent(new Predicate<PermissionService>() {
             @Override
             public boolean apply(PermissionService input) {
                 final SubjectData defaultData = input.getDefaultData();
@@ -521,7 +522,6 @@ public class r {
         debug = value;
     }
 
-    @SuppressWarnings("deprecation")
     public static Player[] getOnlinePlayers() {
         List<Player> plz = (List<Player>) getGame().getServer().getOnlinePlayers();
         return plz.toArray(new Player[plz.size()]);
@@ -533,7 +533,7 @@ public class r {
 
     public static User[] getOfflinePlayers() {
         List<User> users = new ArrayList<>();
-        for (GameProfile f : r.getGame().getServiceManager().provide(UserStorage.class).get().getAll()) {
+        for (GameProfile f : Sponge.getGame().getServiceManager().provide(UserStorage.class).get().getAll()) {
             users.add((User) f);
         }
         return (User[]) users.toArray();
@@ -541,27 +541,26 @@ public class r {
 
     public static List<User> getOfflinePlayersL() {
         List<User> users = new ArrayList<>();
-        for (GameProfile f : r.getGame().getServiceManager().provide(UserStorage.class).get().getAll()) {
+        for (GameProfile f : Sponge.getGame().getServiceManager().provide(UserStorage.class).get().getAll()) {
             users.add((User) f);
         }
         return users;
     }
 
     public static Player searchPlayer(String s) {
-        return r.getGame().getServer().getPlayer(s).orElse(null);
+        return Sponge.getGame().getServer().getPlayer(s).orElse(null);
     }
 
-    @SuppressWarnings("deprecation")
     public static User searchOfflinePlayer(String s) {
-        return r.getGame().getServiceManager().provide(UserStorage.class).get().get(s).get();
+        return Sponge.getGame().getServiceManager().provide(UserStorage.class).get().get(s).get();
     }
 
     public static Player searchPlayer(UUID u) {
-        return r.getGame().getServer().getPlayer(u).orElse(null);
+        return Sponge.getGame().getServer().getPlayer(u).orElse(null);
     }
 
     public static User searchOfflinePlayer(UUID u) {
-        return r.getGame().getServiceManager().provide(UserStorage.class).get().get(u).get();
+        return Sponge.getGame().getServiceManager().provide(UserStorage.class).get().get(u).get();
     }
 
     //

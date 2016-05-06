@@ -35,7 +35,7 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.ServerIDUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
-import org.spongepowered.api.Game;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
@@ -55,7 +55,6 @@ public class UltimateCore {
     @ConfigDir(sharedRoot = false)
     public static File cfile;
     public static File file;
-    public static Game game;
     @Inject
     public static Logger logger;
     public static String version;
@@ -137,8 +136,7 @@ public class UltimateCore {
             //
             instance = this;
             file = cfile.getParentFile();
-            game = ev.getGame();
-            version = ev.getGame().getPluginManager().getPlugin("UltimateCore").get().getVersion();
+            version = Sponge.getGame().getPluginManager().getPlugin("UltimateCore").get().getVersion().get();
             UltimateFileLoader.Enable();
             ServerIDUtil.start();
             r.enableMES();
@@ -157,10 +155,10 @@ public class UltimateCore {
             MetaItemStack.start();
             MinecraftServerListener.start();
             //
-            if (!ev.getGame().getPlatform().getMinecraftVersion().getName().startsWith("1.8")) {
+            if (!Sponge.getGame().getPlatform().getMinecraftVersion().getName().startsWith("1.8")) {
                 logger.info(" ");
                 r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                r.log(TextColors.YELLOW + "Warning! Version " + ev.getGame().getPlatform().getMinecraftVersion().getName() + " of spongeapi is not supported!");
+                r.log(TextColors.YELLOW + "Warning! Version " + Sponge.getGame().getPlatform().getMinecraftVersion().getName() + " of spongeapi is not supported!");
                 r.log(TextColors.YELLOW + "Use UltimateCore at your own risk!");
                 r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 logger.info(" ");
@@ -169,7 +167,7 @@ public class UltimateCore {
             r.runUpdater();
             r.runMetrics();
             //
-            EventManager em = ev.getGame().getEventManager();
+            EventManager em = Sponge.getGame().getEventManager();
             GlobalPlayerListener.start();
             em.registerListeners(this, new GlobalWorldListener());
             AfkListener.start();

@@ -242,7 +242,7 @@ public class UPlayer {
             return true;
         }
         if (getLastIp() != null) {
-            for (Ban.Ip ip : r.getGame().getServiceManager().provide(BanService.class).get().getIpBans()) {
+            for (Ban.Ip ip : Sponge.getGame().getServiceManager().provide(BanService.class).get().getIpBans()) {
                 if (ip.getAddress().toString().split("/")[1].split(":")[0].equalsIgnoreCase(getLastIp())) {
                     return true;
                 }
@@ -1104,7 +1104,7 @@ public class UPlayer {
         setLastActivity(System.currentTimeMillis());
         if (isAfk()) {
             setAfk(false);
-            r.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getDisplayName()));
+            Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getDisplayName()));
         }
     }
 

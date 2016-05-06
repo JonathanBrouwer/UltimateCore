@@ -82,7 +82,7 @@ public class UServer {
     //Ban
     public List<Player> getBannedOnlinePlayers() {
         List<Player> pls = new ArrayList<>();
-        for (Ban en : r.getGame().getServiceManager().provide(BanService.class).get().getBans()) {
+        for (Ban en : Sponge.getGame().getServiceManager().provide(BanService.class).get().getBans()) {
             if (!(en instanceof Ban.User)) {
                 continue;
             }
@@ -97,7 +97,7 @@ public class UServer {
 
     public List<User> getBannedOfflinePlayers() {
         List<User> pls = new ArrayList<>();
-        for (Ban en : r.getGame().getServiceManager().provide(BanService.class).get().getBans()) {
+        for (Ban en : Sponge.getGame().getServiceManager().provide(BanService.class).get().getBans()) {
             if (!(en instanceof Ban.User)) {
                 continue;
             }
@@ -332,10 +332,10 @@ public class UServer {
         mt = mt.replace("{PLAYERLIST}", b.toString());
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()));
-        mt = mt.replace("{TPS}", r.getGame().getServer().getTicksPerSecond() + "");
+        mt = mt.replace("{TPS}", Sponge.getGame().getServer().getTicksPerSecond() + "");
         mt = mt.replace("{UPTIME}", r.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
-        for (PluginContainer pl : r.getGame().getPluginManager().getPlugins()) {
+        for (PluginContainer pl : Sponge.getGame().getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {
                 pb.append(", ");
             }
@@ -343,7 +343,7 @@ public class UServer {
         }
         mt = mt.replace("{PLAYERCOUNT}", i + "");
         mt = mt.replace("{PLUGINS}", pb.toString());
-        mt = mt.replace("{VERSION}", r.getGame().getPlatform().getVersion() + "-" + r.getGame().getPlatform().getApiVersion());
+        mt = mt.replace("{VERSION}", Sponge.getGame().getPlatform().getVersion() + "-" + Sponge.getGame().getPlatform().getApiVersion());
         mt = mt.replace("{WORLD}", Texts.toPlain(r.mes("notAvailable")));
         mt = mt.replace("{WORLDNAME}", Texts.toPlain(r.mes("notAvailable")));
         mt = mt.replace("{COORDS}", Texts.toPlain(r.mes("notAvailable")));
@@ -380,17 +380,17 @@ public class UServer {
         mt = mt.replace("{PLAYERLIST}", b.toString());
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()).replace("-", " "));
-        mt = mt.replace("{TPS}", r.getGame().getServer().getTicksPerSecond() + "");
+        mt = mt.replace("{TPS}", Sponge.getGame().getServer().getTicksPerSecond() + "");
         mt = mt.replace("{UPTIME}", r.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
-        for (PluginContainer pl : r.getGame().getPluginManager().getPlugins()) {
+        for (PluginContainer pl : Sponge.getGame().getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {
                 pb.append(", ");
             }
             pb.append(pl.getName());
         }
         mt = mt.replace("{PLUGINS}", pb.toString());
-        mt = mt.replace("{VERSION}", r.getGame().getPlatform().getVersion() + "-" + r.getGame().getPlatform().getApiVersion());
+        mt = mt.replace("{VERSION}", Sponge.getGame().getPlatform().getVersion() + "-" + Sponge.getGame().getPlatform().getApiVersion());
         return mt;
     }
 

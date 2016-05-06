@@ -187,7 +187,7 @@ public class InventoryUtil {
 
     @SuppressWarnings("deprecation")
     public static String convertInventoryToString(Inventory inv) {
-        SerializationService service = r.getGame().getServiceManager().provide(SerializationService.class).get();
+        SerializationService service = Sponge.getGame().getServiceManager().provide(SerializationService.class).get();
         service.getBuilder(Inventory.class).get().build(inv);
         String serialization = invInventory.getSize() + ";";
         for (int i = 0;

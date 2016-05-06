@@ -136,7 +136,7 @@ public class UKit {
             return ism.getItemStack();
         } catch (Exception ex) {
             r.log("Kit " + name + " has an invalid item: " + item + ", replaced with a cookie.");
-            return r.getGame().getRegistry().createItemBuilder().itemType(ItemTypes.COOKIE).build();
+            return Sponge.getGame().getRegistry().createItemBuilder().itemType(ItemTypes.COOKIE).build();
         }
     }
 

@@ -56,7 +56,7 @@ public class AutomessageListener {
         if (!r.getCnfg().getBoolean("Messages.Enabledchat") && !r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") && !r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
             return;
         }
-        r.getGame().getEventManager().registerListeners(r.getUC(), new AutomessageListener());
+        Sponge.getGame().getEventManager().registerListeners(r.getUC(), new AutomessageListener());
         ArrayList<String> messgs = messages;
         Integer length = messgs.size();
         if (length != 0) {
@@ -67,7 +67,7 @@ public class AutomessageListener {
     public static void timer(final List<String> messgs) {
         final Integer time = r.getCnfg().getInt("Messages.Time");
         final Boolean ur = r.getCnfg().getBoolean("Messages.Randomise");
-        r.getGame().getScheduler().createTaskBuilder().intervalTicks(time * 20).name("UC: Automessage task").execute(new Runnable() {
+        Sponge.getGame().getScheduler().createTaskBuilder().intervalTicks(time * 20).name("UC: Automessage task").execute(new Runnable() {
             @Override
             public void run() {
                 String mess = ur ? messgs.get(random.nextInt(messgs.size())) : "";
@@ -104,7 +104,7 @@ public class AutomessageListener {
 
     @Listener(order = Order.LATE)
     public void onJoin(final ClientConnectionEvent.Join e) {
-        r.getGame().getScheduler().createTaskBuilder().delayTicks(100L).name("UC: Automessage join task").execute(new Runnable() {
+        Sponge.getGame().getScheduler().createTaskBuilder().delayTicks(100L).name("UC: Automessage join task").execute(new Runnable() {
             @Override
             public void run() {
                 ArrayList<String> messgs = messages;

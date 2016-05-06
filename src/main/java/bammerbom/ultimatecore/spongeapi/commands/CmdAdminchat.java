@@ -76,7 +76,7 @@ public class CmdAdminchat implements UltimateCommand {
                 p.sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", msg)));
             }
         }
-        r.getGame().getServer().getBroadcastSink().sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", msg)));
+        Sponge.getGame().getServer().getBroadcastSink().sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", msg)));
     }
 
     @Override

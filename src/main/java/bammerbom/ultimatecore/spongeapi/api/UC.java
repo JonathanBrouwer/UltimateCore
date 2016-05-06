@@ -95,10 +95,10 @@ public class UC {
     }
 
     public static UWorld getWorld(String world) {
-        if (!r.getGame().getServer().getWorld(world).isPresent()) {
+        if (!Sponge.getGame().getServer().getWorld(world).isPresent()) {
             return null;
         }
-        return getWorld(r.getGame().getServer().getWorld(world).get());
+        return getWorld(Sponge.getGame().getServer().getWorld(world).get());
     }
 
     public static UServer getServer() {

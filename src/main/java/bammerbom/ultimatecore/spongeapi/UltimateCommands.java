@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.spongeapi;
 
 import bammerbom.ultimatecore.spongeapi.commands.*;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.util.command.args.CommandContext;
 import org.spongepowered.api.util.command.spec.CommandSpec;
@@ -192,7 +193,7 @@ public class UltimateCommands {
             aliases.addAll(cmd.getAliases());
 
             for (String label : aliases) {
-                r.getGame().getCommandDispatcher().register(r.getUC(), CommandSpec.builder().description(Texts.of(cmd.getDescription())).executor(new UltimateCommandExecutor(cmd, label))
+                Sponge.getGame().getCommandDispatcher().register(r.getUC(), CommandSpec.builder().description(Texts.of(cmd.getDescription())).executor(new UltimateCommandExecutor(cmd, label))
                         .arguments(new UltimateCommandElement(null, cmd, label)).build(), label);
             }
 

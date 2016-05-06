@@ -182,7 +182,7 @@ public class MetaItemStack {
         } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("player")) || (split[0].equalsIgnoreCase("owner"))) && (this.stack.getItem() == ItemTypes.SKULL)) {
             if (stack.get(Keys.SKULL_TYPE).get().equals(SkullTypes.PLAYER)) {
                 String owner = split[1];
-                stack.offer(Keys.REPRESENTED_PLAYER, r.getGame().getServiceManager().provide(GameProfileResolver.class).get().get(UUID.fromString(owner)).get());
+                stack.offer(Keys.REPRESENTED_PLAYER, Sponge.getGame().getServiceManager().provide(GameProfileResolver.class).get().get(UUID.fromString(owner)).get());
             }
 
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("author")) && (this.stack.getItem().equals(ItemTypes.WRITTEN_BOOK))) {

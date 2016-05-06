@@ -68,13 +68,13 @@ public class LocationUtil {
     public static void teleport(final Player p, Location l, final boolean safe, boolean delay) {
         if (delay && delay2 > 0 && !r.perm(p, "uc.teleport.bypasstimer", false, false)) {
             final Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
-            r.getGame().getScheduler().createTaskBuilder().name("UC: Teleportation delay task #1").execute(new Runnable() {
+            Sponge.getGame().getScheduler().createTaskBuilder().name("UC: Teleportation delay task #1").execute(new Runnable() {
                 @Override
                 public void run() {
                     r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
                 }
             }).delayTicks(2L).submit(r.getUC());
-            r.getGame().getScheduler().createTaskBuilder().name("UC: Teleportation delay task #2").execute(new Runnable() {
+            Sponge.getGame().getScheduler().createTaskBuilder().name("UC: Teleportation delay task #2").execute(new Runnable() {
 
                 @Override
                 public void run() {
@@ -94,7 +94,7 @@ public class LocationUtil {
             playEffect(p, l);
             return;
         }
-        l = r.getGame().getTeleportHelper().getSafeLocation(l).isPresent() ? r.getGame().getTeleportHelper().getSafeLocation(l).get() : l;
+        l = Sponge.getGame().getTeleportHelper().getSafeLocation(l).isPresent() ? Sponge.getGame().getTeleportHelper().getSafeLocation(l).get() : l;
         p.setLocation(getRoundedDestination(l));
         playEffect(p, l);
     }
@@ -136,11 +136,11 @@ public class LocationUtil {
         }
         if (s.contains(",")) {
             String[] split = s.split(",");
-            return new RLocation(new Location(r.getGame().getServer().getWorld(split[0]).get(), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3])), Double
+            return new RLocation(new Location(Sponge.getGame().getServer().getWorld(split[0]).get(), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3])), Double
                     .parseDouble(split[5]), Double.parseDouble(split[4]));
         }
         String[] split = s.split("\\|");
-        return new RLocation(new Location(r.getGame().getServer().getWorld(split[0]).get(), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3])), Double
+        return new RLocation(new Location(Sponge.getGame().getServer().getWorld(split[0]).get(), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3])), Double
                 .parseDouble(split[5]), Double.parseDouble(split[4]));
     }
 

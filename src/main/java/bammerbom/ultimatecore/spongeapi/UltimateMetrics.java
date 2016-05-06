@@ -299,7 +299,7 @@ public final class UltimateMetrics {
             }
 
             // Begin hitting the server with glorious data
-            task = r.getGame().getScheduler().createTaskBuilder().async().name("UC: Metrics task").delayTicks(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS)
+            task = Sponge.getGame().getScheduler().createTaskBuilder().async().name("UC: Metrics task").delayTicks(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS)
                     .intervalTicks(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS).execute(new Runnable() {
 
                         private boolean firstPost = true;
@@ -418,11 +418,11 @@ public final class UltimateMetrics {
      */
     private void postPlugin(final boolean isPing) throws IOException {
         // Server software specific section
-        PluginContainer description = r.getGame().getPluginManager().getPlugin("UltimateCore").get();
+        PluginContainer description = Sponge.getGame().getPluginManager().getPlugin("UltimateCore").get();
         String pluginName = description.getName();
-        boolean onlineMode = r.getGame().getServer().getOnlineMode(); // TRUE if online mode is enabled
+        boolean onlineMode = Sponge.getGame().getServer().getOnlineMode(); // TRUE if online mode is enabled
         String pluginVersion = description.getVersion();
-        String serverVersion = "git-Sponge_" + r.getGame().getPlatform().getName() + "-1d14d5f-ba32592 (MC: " + r.getGame().getPlatform().getMinecraftVersion().getName() + ")";
+        String serverVersion = "git-Sponge_" + Sponge.getGame().getPlatform().getName() + "-1d14d5f-ba32592 (MC: " + Sponge.getGame().getPlatform().getMinecraftVersion().getName() + ")";
         int playersOnline = r.getOnlinePlayers().length;
 
         // END server software specific section -- all code below does not use any code outside of this class / Java

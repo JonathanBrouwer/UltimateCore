@@ -37,7 +37,7 @@ public class ExplosionListener {
     Boolean lightning = r.getCnfg().getBoolean("Explode.Lightning");
 
     public static void start() {
-        r.getGame().getEventManager().registerListeners(r.getUC(), new ExplosionListener());
+        Sponge.getGame().getEventManager().registerListeners(r.getUC(), new ExplosionListener());
     }
 
     @Listener(order = Order.LATE)

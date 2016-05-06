@@ -49,7 +49,7 @@ public class ChatListener {
     public static void start() {
         ChatListener list = new ChatListener();
         list.spamTask();
-        r.getGame().getEventManager().registerListeners(r.getUC(), new ChatListener());
+        Sponge.getGame().getEventManager().registerListeners(r.getUC(), new ChatListener());
     }
 
     private static ChatSet testMessage(Text.Literal mr, Player p) {
@@ -93,7 +93,7 @@ public class ChatListener {
                     Integer amount = spamTime.get(p.getName());
                     spamTime.put(p.getName(), amount + 1);
                     if (amount >= 4) {
-                        r.getGame().getCommandDispatcher().process(r.getGame().getServer().getConsole(), "mute " + p.getName() + " 5m");
+                        Sponge.getGame().getCommandDispatcher().process(Sponge.getGame().getServer().getConsole(), "mute " + p.getName() + " 5m");
                         set.setCancelled(true);
                     } else if (amount >= 3) {
                         r.sendMes(p, "chatSpam");
@@ -120,7 +120,7 @@ public class ChatListener {
                             swearAmount.put(p.getName(), s);
                             r.sendMes(p, "chatSwear");
                             if (s >= 3) {
-                                r.getGame().getCommandDispatcher().process(r.getGame().getServer().getConsole(), "mute " + p.getName() + " 5m");
+                                Sponge.getGame().getCommandDispatcher().process(Sponge.getGame().getServer().getConsole(), "mute " + p.getName() + " 5m");
                                 set.setCancelled(true);
                             }
                         }
@@ -257,7 +257,7 @@ public class ChatListener {
     }
 
     private void spamTask() {
-        r.getGame().getScheduler().createTaskBuilder().delayTicks(70L).intervalTicks(70L).name("UC: Spam task").execute(new Runnable() {
+        Sponge.getGame().getScheduler().createTaskBuilder().delayTicks(70L).intervalTicks(70L).name("UC: Spam task").execute(new Runnable() {
             @Override
             public void run() {
                 ArrayList<String> spamtime_remove = new ArrayList<>();
@@ -277,7 +277,7 @@ public class ChatListener {
                 }
             }
         }).submit(r.getUC());
-        r.getGame().getScheduler().createTaskBuilder().delayTicks(140L).intervalTicks(140L).name("UC: Swear task").execute(new Runnable() {
+        Sponge.getGame().getScheduler().createTaskBuilder().delayTicks(140L).intervalTicks(140L).name("UC: Swear task").execute(new Runnable() {
             @Override
             public void run() {
                 ArrayList<String> spamtime_remove = new ArrayList<>();

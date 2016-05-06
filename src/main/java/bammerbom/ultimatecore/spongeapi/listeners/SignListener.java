@@ -37,7 +37,7 @@ import org.spongepowered.api.text.Text;
 public class SignListener {
 
     public static void start() {
-        r.getGame().getEventManager().registerListeners(r.getUC(), new SignListener());
+        Sponge.getGame().getEventManager().registerListeners(r.getUC(), new SignListener());
     }
 
     @Listener(order = Order.LATE)

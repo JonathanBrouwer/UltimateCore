@@ -121,14 +121,14 @@ public class CmdBanip implements UltimateCommand {
             t.getPlayer().get().kick(msg);
         }
         Date date = time == 0 ? null : new Date(time + System.currentTimeMillis());
-        BanService serv = r.getGame().getServiceManager().provide(BanService.class).get();
+        BanService serv = Sponge.getGame().getServiceManager().provide(BanService.class).get();
         try {
             serv.ban(Bans.builder().type(BanType.IP_BAN).address(InetAddress.getByName(args[0])).source(cs).expirationDate(date).reason(msg).build());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-            r.getGame().getServer().getBroadcastSink()
+            Sponge.getGame().getServer().getBroadcastSink()
                     .sendMessage(r.mes("banBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs)), "%Banned", ip, "%Time", timen, "%Reason", reason));
         } else {
             r.sendMes(cs, "banipBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs)), "%Banned", ip, "%Time", timen, "%Reason", reason);

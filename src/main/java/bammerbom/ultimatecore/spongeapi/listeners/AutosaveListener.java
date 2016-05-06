@@ -32,21 +32,21 @@ public class AutosaveListener {
         if (!r.getCnfg().getBoolean("Autosave.Enabled")) {
             return;
         }
-        r.getGame().getScheduler().createTaskBuilder().delayTicks(r.getCnfg().getInt("Autosave.Time") * 20).intervalTicks(r.getCnfg().getInt("Autosave.Time") * 20).name("UC: Autosave task")
+        Sponge.getGame().getScheduler().createTaskBuilder().delayTicks(r.getCnfg().getInt("Autosave.Time") * 20).intervalTicks(r.getCnfg().getInt("Autosave.Time") * 20).name("UC: Autosave task")
                 .execute(new Runnable() {
             @Override
             public void run() {
                 if (r.getCnfg().getBoolean("Autosave.Message")) {
-                    r.getGame().getServer().getBroadcastSink().sendMessage(r.mes("autosaveStart"));
+                    Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("autosaveStart"));
                 }
-                for (World w : r.getGame().getServer().getWorlds()) {
+                for (World w : Sponge.getGame().getServer().getWorlds()) {
                     try {
-                        r.getGame().getServer().saveWorldProperties(w.getProperties());
+                        Sponge.getGame().getServer().saveWorldProperties(w.getProperties());
                     } catch (Exception ex) {
                     }
                 }
                 if (r.getCnfg().getBoolean("Autosave.Message")) {
-                    r.getGame().getServer().getBroadcastSink().sendMessage(r.mes("autosaveDone"));
+                    Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("autosaveDone"));
                 }
             }
                 }).submit(r.getUC());

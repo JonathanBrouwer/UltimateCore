@@ -36,8 +36,8 @@ public class AfkListener {
 
     public static void start() {
         if (r.getCnfg().getBoolean("Afk.Enabled")) {
-            r.getGame().getEventManager().registerListeners(r.getUC(), new AfkListener());
-            r.getGame().getScheduler().createTaskBuilder().delayTicks(100L).intervalTicks(100L).name("UC: Afk task").execute(new Runnable() {
+            Sponge.getGame().getEventManager().registerListeners(r.getUC(), new AfkListener());
+            Sponge.getGame().getScheduler().createTaskBuilder().delayTicks(100L).intervalTicks(100L).name("UC: Afk task").execute(new Runnable() {
                 @Override
                 public void run() {
                     for (Player pl : r.getOnlinePlayers()) {
@@ -48,7 +48,7 @@ public class AfkListener {
                         if (dif > afktime) {
                             if (!UC.getPlayer(pl).isAfk()) {
                                 UC.getPlayer(pl).setAfk(true);
-                                r.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
+                                Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
                             }
                         }
                         if (dif > kicktime) {

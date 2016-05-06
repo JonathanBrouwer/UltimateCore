@@ -34,7 +34,7 @@ import java.util.Map;
 public class JoinLeaveListener {
 
     public static void start() {
-        r.getGame().getEventManager().registerListeners(r.getUC(), new JoinLeaveListener());
+        Sponge.getGame().getEventManager().registerListeners(r.getUC(), new JoinLeaveListener());
     }
 
     @Listener(priority = EventPriority.LOW)

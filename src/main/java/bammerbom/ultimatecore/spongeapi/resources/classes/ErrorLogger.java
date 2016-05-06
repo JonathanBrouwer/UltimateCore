@@ -46,7 +46,7 @@ public class ErrorLogger {
         //FILE
         final String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(Calendar.getInstance().getTime());
         //CONSOLE
-        r.getGame().getServer().getConsole().sendMessage(Texts.of(" "));
+        Sponge.getGame().getServer().getConsole().sendMessage(Texts.of(" "));
         r.log(TextColors.DARK_RED + "=========================================================");
         r.log(TextColors.RED + "UltimateCore has run into an error ");
         r.log(TextColors.RED + "Please report your error on ");
@@ -69,7 +69,7 @@ public class ErrorLogger {
             t.printStackTrace();
             r.log(TextColors.DARK_RED + "=========================================================");
         }
-        r.getGame().getServer().getConsole().sendMessage(Texts.of(" "));
+        Sponge.getGame().getServer().getConsole().sendMessage(Texts.of(" "));
         //SEND TO UC
         if (!r.getCnfg().getBoolean("ErrorSend")) {
             return;
@@ -79,13 +79,13 @@ public class ErrorLogger {
             writer.append("=======================================\n");
             writer.append("UltimateCore has run into an error \n");
             writer.append("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket\n");
-            writer.append("Sponge version: " + r.getGame().getPlatform().getVersion() + "\n");
+            writer.append("Sponge version: " + Sponge.getGame().getPlatform().getVersion() + "\n");
             writer.append("UltimateCore version: " + UltimateCore.version + "\n");
-            writer.append("Plugins loaded (" + r.getGame().getPluginManager().getPlugins().size() + "): " + Arrays.asList(r.getGame().getPluginManager().getPlugins()) + "\n");
+            writer.append("Plugins loaded (" + Sponge.getGame().getPluginManager().getPlugins().size() + "): " + Arrays.asList(Sponge.getGame().getPluginManager().getPlugins()) + "\n");
             writer.append("Java version: " + System.getProperty("java.version") + "\n");
             writer.append("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " +
                     System.getProperty("os.version") + "\n");
-            writer.append("Online mode: " + r.getGame().getServer().getOnlineMode() + "\n");
+            writer.append("Online mode: " + Sponge.getGame().getServer().getOnlineMode() + "\n");
             writer.append("Time: " + time + "\n");
             writer.append("Error message: " + t.getMessage() + "\n");
             writer.append("UltimateCore message: " + s + "\n");
@@ -105,13 +105,13 @@ public class ErrorLogger {
                         writer.append("=======================================\n");
                         writer.append("UltimateCore has run into an error \n");
                         writer.append("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket\n");
-                        writer.append("Sponge version: " + r.getGame().getPlatform().getVersion() + "\n");
+                        writer.append("Sponge version: " + Sponge.getGame().getPlatform().getVersion() + "\n");
                         writer.append("UltimateCore version: " + UltimateCore.version + "\n");
-                        writer.append("Plugins loaded (" + r.getGame().getPluginManager().getPlugins().size() + "): " + Arrays.asList(r.getGame().getPluginManager().getPlugins()) + "\n");
+                        writer.append("Plugins loaded (" + Sponge.getGame().getPluginManager().getPlugins().size() + "): " + Arrays.asList(Sponge.getGame().getPluginManager().getPlugins()) + "\n");
                         writer.append("Java version: " + System.getProperty("java.version") + "\n");
                         writer.append("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " +
                                 System.getProperty("os.version") + "\n");
-                        writer.append("Online mode: " + r.getGame().getServer().getOnlineMode() + "\n");
+                        writer.append("Online mode: " + Sponge.getGame().getServer().getOnlineMode() + "\n");
                         writer.append("Time: " + time + "\n");
                         writer.append("Error message: " + t.getMessage() + "\n");
                         writer.append("UltimateCore message: " + s + "\n");

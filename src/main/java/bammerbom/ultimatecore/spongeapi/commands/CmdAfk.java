@@ -70,10 +70,10 @@ public class CmdAfk implements UltimateCommand {
                 return;
             }
             if (!UC.getPlayer(p).isAfk()) {
-                r.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkAfk", "%Player", UC.getPlayer(p).getDisplayName()));
+                Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkAfk", "%Player", UC.getPlayer(p).getDisplayName()));
                 UC.getPlayer(p).setAfk(true);
             } else {
-                r.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getDisplayName()));
+                Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getDisplayName()));
                 UC.getPlayer(p).setAfk(false);
             }
         } else {
@@ -83,10 +83,10 @@ public class CmdAfk implements UltimateCommand {
             if (r.searchPlayer(args[0]) != null) {
                 Player t = r.searchPlayer(args[0]);
                 if (!UC.getPlayer(t).isAfk()) {
-                    r.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkAfk", "%Player", UC.getPlayer(t).getDisplayName()));
+                    Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkAfk", "%Player", UC.getPlayer(t).getDisplayName()));
                     UC.getPlayer(t).setAfk(true);
                 } else {
-                    r.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getDisplayName()));
+                    Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getDisplayName()));
                     UC.getPlayer(t).setAfk(false);
                 }
             } else {

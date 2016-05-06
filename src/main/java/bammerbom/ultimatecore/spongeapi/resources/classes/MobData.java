@@ -160,7 +160,7 @@ public class MobData {
         } else if (data.startsWith("color:")) {
             if (en.isCompatible(ColoredData.class)) {
                 String color = data.toUpperCase(Locale.ENGLISH);
-                en.offer(en.getOrCreate(ColoredData.class).get().setColor(r.getGame().getRegistry().getType(CatalogTypes.DYE_COLOR, color).get().getColor()));
+                en.offer(en.getOrCreate(ColoredData.class).get().setColor(Sponge.getGame().getRegistry().getType(CatalogTypes.DYE_COLOR, color).get().getColor()));
                 return true;
             }
         } else if (data.equalsIgnoreCase("zombie") || data.equalsIgnoreCase("zombievillager")) {
