@@ -186,7 +186,7 @@
     <dependency>
       <groupId>org.spongepowered</groupId>
       <artifactId>spongeapi</artifactId>
-      <version>3.1.0-SNAPSHOT</version>
+      <version>6.0.0-SNAPSHOT</version>
       <scope>compile</scope>
       <optional>true</optional>
     </dependency>
@@ -270,6 +270,12 @@
       <groupId>com.massivecraft</groupId>
       <artifactId>MassiveCore</artifactId>
       <version>2.7.5</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.gmail.de.surreal.plugins.chatrangedbo</groupId>
+      <artifactId>ChatRange</artifactId>
+      <version>1.1.0</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
