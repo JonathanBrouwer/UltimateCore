@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UEconomy;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import com.gmail.cle.surreal.plugins.chatrangedbo.ChatRangeMain;
 import com.massivecraft.factions.entity.MPlayer;
 import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.object.Resident;
@@ -71,6 +72,7 @@ public class r {
     //Methods
     static UltimateCore uc = UltimateCore.getInstance();
     static boolean debug = false;
+    static Config cnfg = null;
     //Config end
     //Vault
     private static Vault vault;
@@ -133,6 +135,8 @@ public class r {
         thr.start();
     }
 
+    //Metrics end
+
     public static void runMetrics() {
         if (!r.getCnfg().getBoolean("Metrics")) {
             return;
@@ -145,9 +149,6 @@ public class r {
         }
     }
 
-    //Metrics end
-
-    static Config cnfg = null;
     //Config
     public static Config getCnfg() {
         if (!new File(r.getUC().getDataFolder(), "config.yml").exists()) {
@@ -397,7 +398,6 @@ public class r {
         debug = value;
     }
 
-    @SuppressWarnings("deprecation")
     public static Player[] getOnlinePlayers() {
         List<Player> plz = (List<Player>) Bukkit.getOnlinePlayers();
         return plz.toArray(new Player[plz.size()]);
@@ -437,7 +437,6 @@ public class r {
         return found;
     }
 
-    @SuppressWarnings("deprecation")
     public static OfflinePlayer searchOfflinePlayer(String s) {
         return Bukkit.getOfflinePlayer(s);
     }
@@ -578,6 +577,30 @@ public class r {
         }
         try {
             return r.getTown().getName();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static String getChatRangePrefix(OfflinePlayer p) {
+        try {
+            if (!Bukkit.getPluginManager().isPluginEnabled("ChatRange")) {
+                return null;
+            }
+            ChatRangeMain cr = (ChatRangeMain) Bukkit.getPluginManager().getPlugin("ChatRange");
+            return ChatColor.translateAlternateColorCodes('&', cr.getChatRange().getPlayerRange(p.getUniqueId()).getPrefix());
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static String getChatRangeColour(OfflinePlayer p) {
+        try {
+            if (!Bukkit.getPluginManager().isPluginEnabled("ChatRange")) {
+                return null;
+            }
+            ChatRangeMain cr = (ChatRangeMain) Bukkit.getPluginManager().getPlugin("ChatRange");
+            return ChatColor.translateAlternateColorCodes('&', cr.getChatRange().getPlayerRange(p.getUniqueId()).getColour());
         } catch (Exception ex) {
             return null;
         }

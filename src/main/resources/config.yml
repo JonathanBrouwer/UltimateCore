@@ -168,6 +168,8 @@ Chat:
   #+Message = Message the player is trying to send
   #+Town = The town the player is in (Towny)
   #+Faction = The faction the player is in (Factions)
+  #+ChatRangePrefix = The prefix of your chat group (ChatRange)
+  #+ChatRangeColour = The colour of your chat group (ChatRange)
   #Color codes supported!
   Format: '&6+Prefix&6+Displayname: &r+Suffix+Message'
 
@@ -185,6 +187,8 @@ Chat:
     #+Message = Message the player is trying to send
     #+Town = The town the player is in (Towny)
     #+Faction = The faction the player is in (Factions)
+    #+ChatRangePrefix = The prefix of your chat group (ChatRange)
+    #+ChatRangeColour = The colour of your chat group (ChatRange)
     #Color codes supported!
     #GROUP NAMES ARE CASE SENSITIVE!!!
     Player: '&9[&6Player&9] &6+Displayname: &f+Message'
