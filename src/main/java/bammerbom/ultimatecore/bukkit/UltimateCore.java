@@ -100,7 +100,7 @@ public class UltimateCore extends JavaPlugin {
             //
             String c = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
             Integer v = Integer.parseInt(c.replace(".", ""));
-            if (v < 18) {
+            if (v < 19) {
                 Bukkit.getConsoleSender().sendMessage(" ");
                 r.log(ChatColor.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 r.log(ChatColor.YELLOW + "Warning! Version " + c + " of craftbukkit is not supported!");
