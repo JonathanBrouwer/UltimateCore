@@ -47,6 +47,14 @@ public class UltimateCore extends JavaPlugin {
     public static File file;
     private static UltimateCore instance = null;
 
+    public static UltimateCore getInstance() {
+        return instance;
+    }
+
+    public static File getPluginFile() {
+        return file;
+    }
+
     public void onLoad() {
         instance = this;
         try {
@@ -58,14 +66,6 @@ public class UltimateCore extends JavaPlugin {
             }
             ex.printStackTrace();
         }
-    }
-
-    public static UltimateCore getInstance() {
-        return instance;
-    }
-
-    public static File getPluginFile() {
-        return file;
     }
 
     @Override
@@ -181,5 +181,4 @@ public class UltimateCore extends JavaPlugin {
     public void test() {
 
     }
-
 }

@@ -489,7 +489,9 @@ public class GlobalPlayerListener implements Listener {
 
     public void onRespawn(PlayerRespawnEvent e) {
         try {
-            if (UC.getPlayer(e.getPlayer()).getSpawn(false) != null) {
+            if (e.getPlayer().getBedSpawnLocation() != null) {
+                e.setRespawnLocation(e.getPlayer().getBedSpawnLocation());
+            } else if (UC.getPlayer(e.getPlayer()).getSpawn(false) != null) {
                 e.setRespawnLocation(UC.getPlayer(e.getPlayer()).getSpawn(false));
             }
         } catch (Exception ex) {
