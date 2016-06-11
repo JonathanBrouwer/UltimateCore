@@ -213,6 +213,7 @@ public class GlobalPlayerListener implements Listener {
                 } else {
                     r.sendMes(e.getPlayer(), "muteChatTime", "%Time", DateUtil.format(UC.getPlayer(e.getPlayer()).getMuteTimeLeft()));
                 }
+                r.sendMes(e.getPlayer(), "muteReason", "%Reason", UC.getPlayer(e.getPlayer()).getMuteReason());
             }
             //Silence
             if (UC.getServer().isSilenced() && !r.perm(e.getPlayer(), "uc.silence.bypass", false, false)) {

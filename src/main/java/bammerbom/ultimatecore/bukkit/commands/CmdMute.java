@@ -68,10 +68,16 @@ public class CmdMute implements UltimateCommand {
             return;
         }
         Long time = 0L;
+        String reason = r.mes("muteDefaultReason");
         //Info
         if (!r.checkArgs(args, 1)) {
         } else if (DateUtil.parseDateDiff(args[1]) != -1) {
             time = DateUtil.parseDateDiff(args[1]);
+            if (r.checkArgs(args, 2)) {
+                reason = r.getFinalArg(args, 2);
+            }
+        } else if (DateUtil.parseDateDiff(args[1]) == -1) {
+            reason = r.getFinalArg(args, 1);
         }
         //Permcheck
         if (!r.perm(cs, "uc.mute.time", false, false) && !r.perm(cs, "uc.mute", false, false) && time == 0L) {
@@ -82,11 +88,15 @@ public class CmdMute implements UltimateCommand {
             r.sendMes(cs, "noPermissions");
             return;
         }
-        UC.getPlayer(banp).setMuted(true, time);
+        UC.getPlayer(banp).setMuted(true, time, reason);
         r.sendMes(cs, "muteMessage", "%Player", r.getDisplayName(banp));
         if (banp.isOnline()) {
             Player banp2 = (Player) banp;
             r.sendMes(banp2, "muteTarget");
+            if (time > 0L) {
+                r.sendMes(banp2, "muteTime", "%Time", DateUtil.format(UC.getPlayer(banp).getMuteTimeLeft()));
+            }
+            r.sendMes(banp2, "muteReason", "%Reason", reason);
         }
     }
 

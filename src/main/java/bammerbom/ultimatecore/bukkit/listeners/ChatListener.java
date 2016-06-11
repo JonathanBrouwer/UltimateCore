@@ -100,7 +100,7 @@ public class ChatListener implements Listener {
                         set.setCancelled(true);
                     }
                     if (lastmessageTimes + 1 == 5) {
-                        UC.getPlayer(p).setMuted(true, 60000L);
+                        UC.getPlayer(p).setMuted(true, 60000L, r.mes("chatRepeat"));
                         set.setCancelled(true);
                     }
                 } else {
@@ -115,7 +115,7 @@ public class ChatListener implements Listener {
                     Integer amount = spamTime.get(p.getName());
                     spamTime.put(p.getName(), amount + 1);
                     if (amount >= 4) {
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mute " + p.getName() + " 5m");
+                        UC.getPlayer(p).setMuted(true, 60000L, r.mes("chatSpam"));
                         set.setCancelled(true);
                     } else if (amount >= 3) {
                         r.sendMes(p, "chatSpam");
@@ -142,8 +142,7 @@ public class ChatListener implements Listener {
                             swearAmount.put(p.getName(), s);
                             r.sendMes(p, "chatSwear");
                             if (s >= 3) {
-                                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mute " + p.getName() +
-                                        " 5m");
+                                UC.getPlayer(p).setMuted(true, 60000L, r.mes("chatSwear"));
                                 set.setCancelled(true);
                             }
                         }

@@ -186,7 +186,7 @@ public class CmdUltimatecore implements UltimateCommand {
                     }
                     up.setNick(u2.getNickname());
                     up.setGod(u2.isGodModeEnabled());
-                    up.setMuted(u2.getMuted(), u2.getMuteTimeout());
+                    up.setMuted(u2.getMuted(), u2.getMuteTimeout(), r.mes("muteDefaultReason"));
                     up.setSpy(u2.isSocialSpyEnabled());
                     up.setLastLocation(u2.getLastLocation());
                 }

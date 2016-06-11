@@ -351,7 +351,7 @@ commands:
     permissions: uc.msg
     aliases: [w, m, pm, tell, whisper, message]
   mute:
-    usage: /<command> <Player> [Time]
+    usage: /<command> <Player> [Time] [Reason]
     description: Make someone not able to chat.
     permissions: uc.mute
   mutelist:
