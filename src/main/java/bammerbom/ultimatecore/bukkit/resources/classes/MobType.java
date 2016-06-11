@@ -79,7 +79,8 @@ public enum MobType {
     ENDERMITE("Endermite", Enemies.ENEMY, EntityType.ENDERMITE),
     GUARDIAN("Guardian", Enemies.ENEMY, EntityType.GUARDIAN),
     ELDERGUARDIAN("ElderGuardian", Enemies.ENEMY, EntityType.GUARDIAN),
-    RABBIT("Rabbit", Enemies.FRIENDLY, EntityType.RABBIT);
+    RABBIT("Rabbit", Enemies.FRIENDLY, EntityType.RABBIT),
+    POLAR_BEAR("PolarBear", Enemies.FRIENDLY, EntityType.POLAR_BEAR);
 
     private static final Map<String, MobType> hashMap;
     private static final Map<EntityType, MobType> bukkitMap;

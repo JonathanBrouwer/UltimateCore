@@ -194,6 +194,9 @@ public class BloodListener implements Listener {
                     case SNOWMAN:
                         ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.SNOW_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
                         break;
+                    case POLAR_BEAR:
+                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.SNOW_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        break;
                     case OCELOT:
                         ParticleUtil.BLOCK_CRACK
                                 .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 0.2, 0), r.getOnlinePlayersL());
@@ -216,6 +219,10 @@ public class BloodListener implements Listener {
                     case PLAYER:
                         ParticleUtil.BLOCK_CRACK
                                 .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        break;
+                    case ARMOR_STAND:
+                        ParticleUtil.BLOCK_CRACK
+                                .display(new BlockData(Material.WOOD, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
                         break;
                     default:
                         ParticleUtil.BLOCK_CRACK

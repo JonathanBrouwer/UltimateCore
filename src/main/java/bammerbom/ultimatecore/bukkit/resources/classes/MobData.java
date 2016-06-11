@@ -166,9 +166,20 @@ public class MobData {
                 ((Zombie) en).setVillager(true);
                 return true;
             }
+        } else if (data.equalsIgnoreCase("husk") || data.equalsIgnoreCase("huskzombie")) {
+            if (en instanceof Zombie) {
+                ((Zombie) en).setVillager(true);
+                ((Zombie) en).setVillagerProfession(Villager.Profession.HUSK);
+                return true;
+            }
         } else if (data.equalsIgnoreCase("wither") || data.equalsIgnoreCase("witherskeleton")) {
             if (en instanceof Skeleton) {
                 ((Skeleton) en).setSkeletonType(Skeleton.SkeletonType.WITHER);
+                return true;
+            }
+        } else if (data.equalsIgnoreCase("stray")) {
+            if (en instanceof Skeleton) {
+                ((Skeleton) en).setSkeletonType(Skeleton.SkeletonType.STRAY);
                 return true;
             }
         } else if (data.equalsIgnoreCase("powered") || data.equalsIgnoreCase("electrified") || data.equalsIgnoreCase("charged")) {
