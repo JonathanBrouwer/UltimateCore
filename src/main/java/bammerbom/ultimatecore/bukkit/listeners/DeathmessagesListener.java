@@ -25,12 +25,15 @@ package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
@@ -52,9 +55,9 @@ public class DeathmessagesListener implements Listener {
             keys.put("death.fell.accident.generic", r.mes("deathFellAccidentGeneric", "%Player", "%1$s"));
             keys.put("death.fell.killer", r.mes("deathFellKiller", "%Player", "%1$s"));
             keys.put("death.fell.assist", r.mes("deathFellAssist", "%Player", "%1$s", "%Killer", "%2$s"));
-            keys.put("death.fell.assist.item", r.mes("deathFellAssistItem", "%Player", "%1$s", "%Killer", "%2$s", "%Weapon", "%3$s"));
+            keys.put("death.fell.assist.item", r.mes("deathFellAssistItem", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.fell.finish", r.mes("deathFellFinish", "%Player", "%1$s", "%Killer", "%2$s"));
-            keys.put("death.fell.finish.item", r.mes("deathFellFinishItem", "%Player", "%1$s", "%Killer", "%2$s", "%Weapon", "%3$s"));
+            keys.put("death.fell.finish.item", r.mes("deathFellFinishItem", "%Player", "%1$s", "%Killer", "%2$s"));
 
             keys.put("death.attack.lightningBolt", r.mes("deathAttackLightningBolt", "%Player", "%1$s"));
             keys.put("death.attack.inFire", r.mes("deathAttackInFire", "%Player", "%1$s"));
@@ -78,20 +81,22 @@ public class DeathmessagesListener implements Listener {
             keys.put("death.attack.fallingBlock", r.mes("deathAttackFallingBlock", "%Player", "%1$s"));
             keys.put("death.attack.mob", r.mes("deathAttackMob", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.player", r.mes("deathAttackPlayer", "%Player", "%1$s", "%Killer", "%2$s"));
-            keys.put("death.attack.player.item", r.mes("deathAttackPlayerItem", "%Player", "%1$s", "%Killer", "%2$s", "%Weapon", "%3$s"));
+            keys.put("death.attack.player.item", r.mes("deathAttackPlayerItem", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.arrow", r.mes("deathAttackArrow", "%Player", "%1$s", "%Killer", "%2$s"));
-            keys.put("death.attack.arrow.item", r.mes("deathAttackArrowItem", "%Player", "%1$s", "%Killer", "%2$s", "%Weapon", "%3$s"));
+            keys.put("death.attack.arrow.item", r.mes("deathAttackArrowItem", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.fireball", r.mes("deathAttackFireball", "%Player", "%1$s", "%Killer", "%2$s"));
-            keys.put("death.attack.fireball.item", r.mes("deathAttackFireballItem", "%Player", "%1$s", "%Killer", "%2$s", "%Weapon", "%3$s"));
+            keys.put("death.attack.fireball.item", r.mes("deathAttackFireballItem", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.thrown", r.mes("deathAttackThrown", "%Player", "%1$s", "%Killer", "%2$s"));
-            keys.put("death.attack.thrown.item", r.mes("deathAttackThrownItem", "%Player", "%1$s", "%Killer", "%2$s", "%Weapon", "%3$s"));
+            keys.put("death.attack.thrown.item", r.mes("deathAttackThrownItem", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.indirectMagic", r.mes("deathAttackIndirectMagic", "%Player", "%1$s", "%Killer", "%2$s"));
-            keys.put("death.attack.indirectMagic.item", r.mes("deathAttackIndirectMagicItem", "%Player", "%1$s", "%Killer", "%2$s", "%Weapon", "%3$s"));
+            keys.put("death.attack.indirectMagic.item", r.mes("deathAttackIndirectMagicItem", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.thorns", r.mes("deathAttackThorns", "%Player", "%1$s", "%Killer", "%2$s"));
             keys.put("death.attack.fall", r.mes("deathAttackFall", "%Player", "%1$s"));
             keys.put("death.attack.outOfWorld", r.mes("deathAttackOutOfWorld", "%Player", "%1$s"));
             keys.put("death.attack.dragonBreath", r.mes("deathAttackDragonBreath", "%Player", "%1$s"));
             keys.put("death.attack.flyIntoWall", r.mes("deathAttackFlyIntoWall", "%Player", "%1$s"));
+            keys.put("death.attack.hotFloor", r.mes("deathAttackHotFloor", "%Player", "%1$s"));
+            keys.put("death.attack.hotFloor.player", r.mes("deathAttackHotFloorPlayer", "%Player", "%1$s", "%Killer", "%2$s"));
 
             localeI18n.set("d", keys);
         } catch (Exception ex) {
@@ -104,5 +109,15 @@ public class DeathmessagesListener implements Listener {
         //TODO find a better way to do this
         //This is needed so minecraft doenst take the old deathmessage
         e.setDeathMessage(e.getDeathMessage() + " ");
+        if (e.getEntity().getKiller() != null) {
+            Player k = e.getEntity().getKiller();
+            ItemStack stack = k.getInventory().getItemInMainHand();
+            String name = ItemUtil.getName(stack);
+            if (stack.getItemMeta().getDisplayName() != null) {
+                name = stack.getItemMeta().getDisplayName();
+            }
+            e.setDeathMessage(e.getDeathMessage().replace("%Weapon", name));
+        }
+
     }
 }
