@@ -1,2 +1,2 @@
 &bWelcome to my server\n&6I hope you enjoy!
-&5This are default messages. You can change them in messages.txt
+&5These are default messages. You can change them in messages.txt

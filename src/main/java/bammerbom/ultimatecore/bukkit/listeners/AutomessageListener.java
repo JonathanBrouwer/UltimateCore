@@ -24,16 +24,15 @@
 package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.ActionBarUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.FileUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.TitleUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -69,7 +68,10 @@ public class AutomessageListener implements Listener {
 
     public static void timer(final List<String> messgs) {
         final Integer time = r.getCnfg().getInt("Messages.Time");
+        final Integer timestay = r.getCnfg().getInt("Messages.Stay");
         final Boolean ur = r.getCnfg().getBoolean("Messages.Randomise");
+        final BarColor color = BarColor.valueOf(r.getCnfg().getString("Messages.Color").toUpperCase());
+        final BarStyle style = BarStyle.valueOf(r.getCnfg().getString("Messages.Style").toUpperCase());
         Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
             @Override
             public void run() {
@@ -88,13 +90,13 @@ public class AutomessageListener implements Listener {
                 for (Player p : r.getOnlinePlayers()) {
                     if (r.getCnfg().getBoolean("Messages.Enabledbossbar")) {
                         if (decrease) {
-                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "), time);
+                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "), timestay, color, style);
                         } else {
-                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "), color, style);
                         }
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
-                        TitleUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                        ActionBarUtil.sendActionBar(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "), timestay * 20);
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledchat")) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', mess));
@@ -103,25 +105,5 @@ public class AutomessageListener implements Listener {
                 }
             }
         }, 0, time * 20);
-    }
-
-    @EventHandler(priority = EventPriority.LOW)
-    public void onJoin(final PlayerJoinEvent e) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<String> messgs = messages;
-                Integer length = messgs.size();
-                if (length == 0) {
-                    return;
-                }
-                if (r.getCnfg().getBoolean("Messages.Enabledbossbar")) {
-                    BossbarUtil.setMessage(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
-                }
-                if (r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
-                    TitleUtil.sendActionBar(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', currentmessage.replace("\n", " ")));
-                }
-            }
-        }, 100L);
     }
 }
