@@ -84,7 +84,6 @@ public class UltimateCore extends JavaPlugin {
             UltimateCommands.load();
             UltimateSigns.start();
             PerformanceUtil.getTps();
-            BossbarUtil.enable();
             ItemDatabase.enable();
             //
             if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
@@ -155,8 +154,8 @@ public class UltimateCore extends JavaPlugin {
             //
             r.removeUC();
             ItemDatabase.disable();
-            BossbarUtil.disable();
             DynmapListener.stop();
+            BossbarUtil.stop();
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Disabled UltimateCore! (" + time + "ms)");

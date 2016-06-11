@@ -61,6 +61,7 @@ public class UPlayer {
     Boolean spy = null;
     Boolean mute = null;
     Long mutetime = null;
+    String mutereason = null;
     String nickname = null;
     HashMap<Material, List<String>> pts = null;
     Boolean inRecipeView = false;
@@ -549,7 +550,7 @@ public class UPlayer {
         }
         for (String hname : conf.listKeys("homes", false)) {
             try {
-            homes.put(hname, LocationUtil.convertStringToLocation(conf.getString("homes." + hname)));
+                homes.put(hname, LocationUtil.convertStringToLocation(conf.getString("homes." + hname)));
             } catch (Exception ex) {
                 r.log(r.negative + "Home " + getPlayer().getName() + ":" + hname + " has been removed. (Invalid location)");
             }
@@ -784,7 +785,7 @@ public class UPlayer {
     }
 
     public void setMuted(Boolean fr) {
-        setMuted(fr, -1L);
+        setMuted(fr, -1L, null);
     }
 
     public Long getMuteTime() {
@@ -801,11 +802,25 @@ public class UPlayer {
 
     }
 
+    public String getMuteReason() {
+        if (mutereason != null) {
+            return mutereason;
+        }
+        if (!getPlayerConfig().contains("mutereason")) {
+            mutereason = null;
+            return null;
+        }
+        mutereason = getPlayerConfig().getString("mutereason");
+        save();
+        return getPlayerConfig().getString("mutereason");
+
+    }
+
     public Long getMuteTimeLeft() {
         return getMuteTime() - System.currentTimeMillis();
     }
 
-    public void setMuted(Boolean fr, Long time) {
+    public void setMuted(Boolean fr, Long time, String reason) {
         JsonConfig conf = getPlayerConfig();
         if (mutetime == null || mutetime == 0L) {
             mutetime = -1L;
@@ -813,11 +828,16 @@ public class UPlayer {
         if (time >= 1) {
             time = time + System.currentTimeMillis();
         }
+        if ((reason == null || reason == "") && fr) {
+            reason = r.mes("muteDefaultReason");
+        }
         conf.set("mute", fr);
         conf.set("mutetime", time);
+        conf.set("mutereason", reason);
         conf.save();
         mute = fr;
         mutetime = fr ? time : -1L;
+        mutereason = reason;
         save();
     }
 
@@ -1129,10 +1149,10 @@ public class UPlayer {
         Player p = r.searchPlayer(uuid);
         Boolean world = conf.contains("worlds.world." + p.getWorld().getName() + ".global");
         String world_ = world ? conf.getString("worlds.world." + p.getWorld().getName() + ".global") : null;
-        Boolean group = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null ? conf.contains("global.group." + r.getPrimaryGroup(p)) : false;
+        Boolean group = (r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null) && conf.contains("global.group." + r.getPrimaryGroup(p));
         String group_ = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null ? (group ? conf.getString("global.group." + r.getPrimaryGroup(p)) : null) : null;
-        Boolean gw = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null ? conf
-                .contains("worlds.world." + p.getWorld().getName() + ".group." + r.getPrimaryGroup(p)) : false;
+        Boolean gw = (r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null) && conf
+                .contains("worlds.world." + p.getWorld().getName() + ".group." + r.getPrimaryGroup(p));
         String gw_ = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null ? conf
                 .getString("worlds.world." + p.getWorld().getName() + ".group." + r.getPrimaryGroup(p)) : null;
         if (firstjoin && conf.contains("global.firstjoin")) {

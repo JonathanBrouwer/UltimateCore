@@ -1034,7 +1034,6 @@ public enum ParticleUtil {
          * @param material Material of the item/block
          * @param data     Data value of the item/block
          */
-        @SuppressWarnings("deprecation")
         public ParticleData(Material material, byte data) {
             this.material = material;
             this.data = data;
@@ -1513,7 +1512,7 @@ public enum ParticleUtil {
                 return;
             }
             try {
-                version = Integer.parseInt(Character.toString(PackageType.getServerVersion().charAt(3)));
+                version = Integer.parseInt(PackageType.getServerVersion().split("_")[1]);
                 if (version > 7) {
                     enumParticle = PackageType.MINECRAFT_SERVER.getClass("EnumParticle");
                 }
@@ -1630,15 +1629,14 @@ public enum ParticleUtil {
          * @throws IllegalArgumentException If the range is lower than 1
          * @see #sendTo(Location center, Player player)
          */
-        @SuppressWarnings("deprecation")
         public void sendTo(Location center, double range) throws IllegalArgumentException {
             if (range < 1) {
                 throw new IllegalArgumentException("The range is lower than 1");
             }
             String worldName = center.getWorld().getName();
             double squared = range * range;
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (!player.getWorld().getName().equals(worldName) || player.getLocation().distanceSquared(center) > squared) {
+            for (Player player : center.getWorld().getPlayers()) {
+                if (player.getLocation().distanceSquared(center) > squared) {
                     continue;
                 }
                 sendTo(center, player);

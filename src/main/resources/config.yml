@@ -87,6 +87,14 @@ Messages:
   Time: 120
   #(Only for the bossbar) Let the bossbar decrease until the next message?
   Decrease: true
+  #(Only for the bossbar) How long should the message stay?
+  Stay: 30
+  #(Only for the bossbar) The color of the bar under the message?
+  #Options: YELLOW, BLUE, GREEN, PINK, PURPLE, RED, WHITE
+  Color: GREEN
+  #(Only for the bossbar) The style of the bar under the message?
+  #Options: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+  Style: SOLID
   #Use messages.txt to change the messages.
 
 Autosave:
