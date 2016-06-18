@@ -98,11 +98,11 @@ public class UltimateCore extends JavaPlugin {
             MinecraftServerListener.start();
             //
             String c = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
-            Integer v = Integer.parseInt(c.replace(".", ""));
-            if (v < 19) {
+            Integer v = Integer.parseInt(c.split("\\.")[1]);
+            if (v < 10) {
                 Bukkit.getConsoleSender().sendMessage(" ");
                 r.log(ChatColor.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                r.log(ChatColor.YELLOW + "Warning! Version " + c + " of craftbukkit is not supported!");
+                r.log(ChatColor.YELLOW + "Warning! Version " + c + " of Bukkit is not supported!");
                 r.log(ChatColor.YELLOW + "Use UltimateCore at your own risk!");
                 r.log(ChatColor.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 Bukkit.getConsoleSender().sendMessage(" ");
@@ -134,7 +134,7 @@ public class UltimateCore extends JavaPlugin {
             UnknownCommandListener.start();
             WeatherListener.start();
             //
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new UltimateTick(), 20L, 20L);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new UltimateTick(), 40L, 40L);
             //
             time = System.currentTimeMillis() - time;
             r.log(ChatColor.GREEN + "Enabled UltimateCore! (" + time + "ms)");

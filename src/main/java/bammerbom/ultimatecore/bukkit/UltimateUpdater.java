@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.bukkit;
 
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONArray;
@@ -90,11 +91,12 @@ public class UltimateUpdater {
     private static String versionName;
     // Updater thread
     private static Thread thread;
+    /* Update process variables */
+    private static String versionGameVersion;
     // Type of update check to run
     private final UpdateType type;
     // Whether to announce file downloads
     private final boolean announce;
-
     /* Collected from Curse API */
     // The plugin file (jar)
     private final File file;
@@ -102,9 +104,6 @@ public class UltimateUpdater {
     private final File updateFolder;
     private String versionLink;
     private String versionType;
-
-    /* Update process variables */
-    private String versionGameVersion;
     // Connection to RSS
     private URL url;
     // Used for determining the outcome of the update process
@@ -174,7 +173,7 @@ public class UltimateUpdater {
      */
     public String getLatestGameVersion() {
         waitForThread();
-        return this.versionGameVersion;
+        return versionGameVersion;
     }
 
     /**
@@ -415,12 +414,18 @@ public class UltimateUpdater {
      * @param title the plugin's title.
      * @return true if the version was located and is not the same as the remote's newest.
      */
-    private boolean versionCheck(String title) {
+    private boolean versionCheck(String title, String mcver) {
         if (this.type != UpdateType.NO_VERSION_CHECK) {
             final String localVersion = UltimateUpdater.plugin.getDescription().getVersion();
             if (title.split(DELIMETER).length == 2) {
                 // Get the newest file's version number
                 final String remoteVersion = title.split(DELIMETER)[1].split(" ")[0];
+
+                String localver = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
+                if (!localver.equalsIgnoreCase(mcver) && shouldUpdate(localver, mcver)) {
+                    r.log("Update available, but your server is outdated. (" + mcver + " > " + localver + ")");
+                    return false;
+                }
 
                 if (this.hasTag(localVersion) || !this.shouldUpdate(localVersion, remoteVersion)) {
                     // We already have the latest version, or this build is tagged for no-update
@@ -430,6 +435,7 @@ public class UltimateUpdater {
                 }
             } else {
                 // The file's name did not contain the string 'vVersion'
+                r.log("UltimateCore version number is invalid.");
                 this.result = UltimateUpdater.UpdateResult.FAIL_NOVERSION;
                 return false;
             }
@@ -448,7 +454,7 @@ public class UltimateUpdater {
      * complicated.
      * </p>
      * <p>
-     * Updater will call this method from {@link #versionCheck(String)} before deciding whether the
+     * Updater will call this method from {@link #versionCheck(String, String)} before deciding whether the
      * remote version is actually an update. If you have a specific versioning scheme with which a
      * mathematical determination can be reliably made to decide whether one version is higher than
      * another, you may revise this method, using the local and remote version parameters, to
@@ -540,7 +546,7 @@ public class UltimateUpdater {
             UltimateUpdater.versionName = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.TITLE_VALUE);
             this.versionLink = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.LINK_VALUE);
             this.versionType = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.TYPE_VALUE);
-            this.versionGameVersion = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.VERSION_VALUE);
+            versionGameVersion = (String) ((Map) array.get(array.size() - 1)).get(UltimateUpdater.VERSION_VALUE);
 
             return true;
         } catch (final IOException e) {
@@ -660,7 +666,7 @@ public class UltimateUpdater {
 
         @Override
         public void run() {
-            if (UltimateUpdater.this.url != null && (UltimateUpdater.this.read() && UltimateUpdater.this.versionCheck(UltimateUpdater.versionName))) {
+            if (UltimateUpdater.this.url != null && (UltimateUpdater.this.read() && UltimateUpdater.this.versionCheck(UltimateUpdater.versionName, UltimateUpdater.versionGameVersion))) {
                 // Obtain the results of the project's file feed
                 if ((UltimateUpdater.this.versionLink != null) && (UltimateUpdater.this.type != UpdateType.NO_DOWNLOAD)) {
                     String name = UltimateUpdater.this.file.getName();
