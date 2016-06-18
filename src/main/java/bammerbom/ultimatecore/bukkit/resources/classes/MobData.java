@@ -239,6 +239,7 @@ public class MobData {
                 if (r.isInt(data.split(":")[1])) {
                     Integer i = Integer.parseInt(data.split(":")[1]);
                     ((LivingEntity) en).addPotionEffect(EffectDatabase.getByName(data.split(":")[0]).createEffect(999999, i));
+                    return true;
                 }
             }
         } else if (data.startsWith("name:")) {
