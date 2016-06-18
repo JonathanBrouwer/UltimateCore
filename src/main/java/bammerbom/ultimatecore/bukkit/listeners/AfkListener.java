@@ -25,7 +25,10 @@ package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.TitleUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -61,6 +64,10 @@ public class AfkListener implements Listener {
                                     pl.kickPlayer(r.mes("afkKick"));
                                 }
                             }
+                        }
+                        if (UC.getPlayer(pl).isAfk()) {
+                            String sub = (kickenabled && !r.perm(pl, "uc.afk.exempt", false, false) && dif > 1) ? r.mes("afkWarning2", "%Time", ChatColor.stripColor(DateUtil.formatDateDiff(((kicktime - dif) * 1000) + System.currentTimeMillis()))) : null;
+                            TitleUtil.sendTitle(pl, 0, 120, 20, r.mes("afkWarning"), sub);
                         }
 
                     }

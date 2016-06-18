@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.TitleUtil;
 import org.bukkit.*;
 import org.bukkit.BanList.Type;
 import org.bukkit.command.CommandSender;
@@ -1122,6 +1123,9 @@ public class UPlayer {
     }
 
     public void setAfk(boolean news) {
+        if (news == false && getPlayer().isOnline()) {
+            TitleUtil.clearTitle(getOnlinePlayer());
+        }
         afk = news;
         save();
     }
