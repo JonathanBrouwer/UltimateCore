@@ -58,8 +58,8 @@ public class CmdLag implements UltimateCommand {
             return;
         }
         r.sendMes(cs, "lagTps", "%Tps", PerformanceUtil.getTps());
-        r.sendMes(cs, "lagMem", "%Mem", (PerformanceUtil.usedRam() + "/" + PerformanceUtil.totalRam() + "/" +
-                PerformanceUtil.maxRam()), "%Per", PerformanceUtil.percentageUsed());
+        r.sendMes(cs, "lagMem", "%Mem", (Math.round(PerformanceUtil.usedRam()) + "/" + Math.round(PerformanceUtil.totalRam()) + "/" +
+                Math.round(PerformanceUtil.maxRam())), "%Per", PerformanceUtil.percentageUsed());
         int ws = 0;
         for (World w : Bukkit.getWorlds()) {
             if (r.checkArgs(args, 0) && !args[0].equalsIgnoreCase(w.getName())) {
