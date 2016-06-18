@@ -71,7 +71,7 @@ public class CmdSetmaxhealth implements UltimateCommand {
             Player p = (Player) cs;
             if (r.isDouble(args[0])) {
                 Double d = Double.parseDouble(args[0]);
-                d = r.normalize(d, 1.0, 2048.0);
+                d = r.normalize(d, 1.0, 1024.0);
                 p.setMaxHealth(d);
                 p.setHealth(d);
                 r.sendMes(cs, "setmaxhealthMessage", "%Player", UC.getPlayer(p).getDisplayName(), "%Health", d);
@@ -84,7 +84,7 @@ public class CmdSetmaxhealth implements UltimateCommand {
             if (r.perm(cs, "uc.setmaxhealth.others", false, true)) {
                 if (r.isDouble(args[0])) {
                     Double d = Double.parseDouble(args[0]);
-                    d = r.normalize(d, 1.0, 2048.0);
+                    d = r.normalize(d, 1.0, 1024.0);
                     Player t = r.searchPlayer(args[1]);
                     if (t == null) {
                         r.sendMes(cs, "playerNotFound", "%Player", args[1]);
@@ -96,7 +96,7 @@ public class CmdSetmaxhealth implements UltimateCommand {
                     r.sendMes(t, "setmaxhealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
                 } else if (r.isDouble(args[1])) {
                     Double d = Double.parseDouble(args[1]);
-                    d = r.normalize(d, 1.0, 999999.0);
+                    d = r.normalize(d, 1.0, 1024.0);
                     Player t = r.searchPlayer(args[0]);
                     if (t == null) {
                         r.sendMes(cs, "playerNotFound", "%Player", args[0]);
