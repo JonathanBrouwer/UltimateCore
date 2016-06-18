@@ -214,6 +214,9 @@ public class LocationUtil {
     }
 
     public static boolean isBlockUnsafeForUser(final Player user, final World world, final int x, final int y, final int z) {
+        if (world == null || world == null) {
+            return false;
+        }
         if (world.equals(user.getWorld()) && (user.getGameMode() == GameMode.CREATIVE || UC.getPlayer(user).isGod()) && user.getAllowFlight()) {
             return false;
         }
