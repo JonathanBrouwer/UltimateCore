@@ -28,6 +28,9 @@ import bammerbom.ultimatecore.bukkit.r;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,16 +79,31 @@ public class CmdAccountstatus implements UltimateCommand {
             public void run() {
                 URL u;
                 try {
-                    u = new URL("https://minecraft.net/haspaid.jsp?user=" + URLEncoder.encode(pl.getName(), "UTF-8"));
+                    u = new URL("https://api.mojang.com/users/profiles/minecraft/" + URLEncoder.encode(pl.getName(), "UTF-8"));
                 } catch (MalformedURLException | UnsupportedEncodingException ex) {
                     r.sendMes(cs, "accountstatusFailedSupport");
                     return;
                 }
+                JSONObject json;
                 boolean premium;
                 try {
                     BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream()));
-                    premium = br.readLine().equalsIgnoreCase("true");
+                    String jsonstring = br.readLine();
+                    if (jsonstring == null || jsonstring.isEmpty()) {
+                        premium = false;
+                    } else {
+                        JSONParser parser = new JSONParser();
+                        try {
+                            json = (JSONObject) parser.parse(jsonstring);
+                            premium = json.get("id").toString().length() == 32;
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            r.sendMes(cs, "accountstatusFailedConnect");
+                            return;
+                        }
+                    }
                 } catch (IOException ex) {
+                    ex.printStackTrace();
                     r.sendMes(cs, "accountstatusFailedConnect");
                     return;
                 }
