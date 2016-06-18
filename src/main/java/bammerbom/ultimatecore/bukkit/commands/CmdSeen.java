@@ -85,6 +85,7 @@ public class CmdSeen implements UltimateCommand {
         r.sendMes(cs, "seenMuted", "%Muted", pl.isMuted() ? r.mes("yes") : r.mes("no"));
         if (pl.isMuted()) {
             r.sendMes(cs, "seenMutetime", "%Mutetime", pl.getMuteTimeLeft() >= 0 ? DateUtil.format(pl.getMuteTimeLeft()) : r.mes("banForever"));
+            r.sendMes(cs, "seenMutereason", "%Reason", pl.getMuteReason());
         }
         //Deaf
         r.sendMes(cs, "seenDeaf", "%Deaf", pl.isDeaf() ? r.mes("yes") : r.mes("no"));
