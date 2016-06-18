@@ -99,7 +99,7 @@ Messages:
 
 Autosave:
   #Enable autosaving?
-  Enabled: true
+  Enabled: false
   #Show a message each autosave?
   Message: false
   #The time between each autosave. (In seconds)
