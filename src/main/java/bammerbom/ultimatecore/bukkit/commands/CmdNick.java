@@ -84,6 +84,7 @@ public class CmdNick implements UltimateCommand {
             if (o) {
                 r.sendMes(t, "nickMessageOthers", "%Player", r.getDisplayName(cs), "%Name", r.mes("nickOff"));
             }
+            t.setDisplayName(t.getName());
             UC.getPlayer(t).setNick(null);
             return;
         }
