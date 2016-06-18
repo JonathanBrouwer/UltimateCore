@@ -65,7 +65,7 @@ public class CmdAdminchat implements UltimateCommand {
         String msg = r.getFinalArg(args, 0);
         for (Player p : r.getOnlinePlayers()) {
             if (r.perm(p, "uc.adminchat", false, false)) {
-               p.sendMessage(format.replace("%Player", cs.getName()).replace("%Message", msg));
+                p.sendMessage(format.replace("%Player", cs.getName()).replace("%Message", msg));
             }
         }
         Bukkit.getServer().getConsoleSender().sendMessage(format.replace("%Player", cs.getName()).replace("%Message", msg));

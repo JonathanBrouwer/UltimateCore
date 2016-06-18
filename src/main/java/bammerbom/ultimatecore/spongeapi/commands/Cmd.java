@@ -40,7 +40,7 @@ public class Cmd implements UltimateCommand {
     public String getPermission() {
         return "uc.";
     }
-    
+
     @Override
     public String getUsage() {
         return "";
@@ -50,6 +50,7 @@ public class Cmd implements UltimateCommand {
     public String getDescription() {
         return "";
     }
+
     @Override
     public List<String> getAliases() {
         return Arrays.asList();

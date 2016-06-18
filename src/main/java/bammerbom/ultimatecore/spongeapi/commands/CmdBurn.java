@@ -96,5 +96,5 @@ public class CmdBurn implements UltimateCommand {
             return new ArrayList<>();
         }
     }
-    
+
 }

@@ -36,6 +36,7 @@ import java.util.Map;
 public class DeathmessagesListener {
 
     static Map<String, Text> keys = new HashMap<>();
+
     public static void start() {
         if (!r.getCnfg().getBoolean("Chat.EnableCustomDeathmessages")) {
             return;

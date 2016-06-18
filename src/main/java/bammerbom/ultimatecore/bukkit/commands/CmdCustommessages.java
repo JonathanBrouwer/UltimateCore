@@ -77,7 +77,7 @@ public class CmdCustommessages implements UltimateCommand {
 
         for (String s : c) {
             s = ChatColor.translateAlternateColorCodes('&', s).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("_", " ");
-            if(s.isEmpty()){
+            if (s.isEmpty()) {
                 continue;
             }
             message = message.replace("%var" + count, s);

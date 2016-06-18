@@ -42,6 +42,7 @@ import java.util.Random;
 
 public class CmdFirework implements UltimateCommand {
     public static Random ran = new Random();
+
     @Override
     public String getName() {
         return "firework";
@@ -80,7 +81,7 @@ public class CmdFirework implements UltimateCommand {
             return;
         }
 
-        if(args[0].equalsIgnoreCase("random")){
+        if (args[0].equalsIgnoreCase("random")) {
             List<FireworkEffect.Type> effecttype = Arrays.asList(FireworkEffect.Type.values());
             ArrayList<Color> effectcolor = new ArrayList<>();
             effectcolor.add(Color.WHITE);

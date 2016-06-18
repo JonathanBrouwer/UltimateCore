@@ -34,7 +34,10 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.meta.ItemEnchantment;
 import org.spongepowered.api.data.type.DyeColor;
 import org.spongepowered.api.data.type.SkullTypes;
-import org.spongepowered.api.item.*;
+import org.spongepowered.api.item.Enchantment;
+import org.spongepowered.api.item.FireworkEffect;
+import org.spongepowered.api.item.FireworkShape;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.potion.PotionEffect;
 import org.spongepowered.api.potion.PotionEffectType;
@@ -111,7 +114,6 @@ public class MetaItemStack {
         this.completePotion = true;
     }
 
-    @SuppressWarnings("deprecation")
     public void parseStringMeta(CommandSource sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception {
         if (string[fromArg].startsWith("{")) {
             this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length))); //TODO
@@ -128,7 +130,6 @@ public class MetaItemStack {
         }
     }
 
-    @SuppressWarnings({"unchecked"})
     public void addStringMeta(CommandSource cs, boolean allowUnsafe, String string) throws Exception {
         String[] split = this.splitPattern.split(string, 2);
         if (split.length < 1) {
@@ -137,9 +138,11 @@ public class MetaItemStack {
 
         if ((split.length > 1) && (split[0].equalsIgnoreCase("name"))) {
             stack.offer(Keys.DISPLAY_NAME, r.translateAlternateColorCodes('&', Texts.of(split[1])));
-        } else if ((split.length > 1) && split[0].equalsIgnoreCase("durability") && r.isInt(split[1]) && stack.supports(Keys.ITEM_DURABILITY))){
+        } else if ((split.length > 1) && split[0].equalsIgnoreCase("durability") && r.isInt(split[1]) && stack.supports(Keys.ITEM_DURABILITY)))
+        {
             stack.offer(Keys.ITEM_DURABILITY, Integer.parseInt(split[1]));
-        } else if ((split.length > 1) && (split[0].equalsIgnoreCase("maxhealth") || split[0].equalsIgnoreCase("health"))) {
+        }else
+        if ((split.length > 1) && (split[0].equalsIgnoreCase("maxhealth") || split[0].equalsIgnoreCase("health"))) {
             if (r.isDouble(split[1])) {
                 Double max = Double.parseDouble(split[1]);
                 max = r.normalize(max, 0.0, 2147483647.0);
