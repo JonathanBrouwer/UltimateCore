@@ -173,7 +173,6 @@ public class InventoryUtil {
         return true;
     }
 
-    @SuppressWarnings("deprecation")
     public static boolean isEmptyInventory(PlayerInventory inv) {
         ItemStack[] inventory = inv.getContents();
         ItemStack[] armor = inv.getArmorContents();
@@ -192,7 +191,6 @@ public class InventoryUtil {
         return true;
     }
 
-    @SuppressWarnings("deprecation")
     public static String convertInventoryToString(Inventory invInventory) {
         String serialization = invInventory.getSize() + ";";
         for (int i = 0;
@@ -232,11 +230,10 @@ public class InventoryUtil {
         return serialization;
     }
 
-    @SuppressWarnings("deprecation")
     public static Inventory convertStringToInventory(String invString, String name) {
         String[] serializedBlocks = invString.split(";");
         String invInfo = serializedBlocks[0];
-        Inventory deserializedInventory = Bukkit.getServer().createInventory(null, Integer.valueOf(invInfo), (name.length() >= 32) ? name.substring(0, 31) : name);
+        Inventory deserializedInventory = Bukkit.getServer().createInventory(null, Integer.valueOf(invInfo) % 9 == 0 ? Integer.valueOf(invInfo) : Integer.valueOf(invInfo) + (9 - (Integer.valueOf(invInfo) % 9)), (name.length() >= 32) ? name.substring(0, 31) : name);
 
         for (int i = 1;
              i < serializedBlocks.length;
