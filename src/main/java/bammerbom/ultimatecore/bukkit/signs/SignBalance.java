@@ -52,7 +52,7 @@ public class SignBalance implements UltimateSign {
             r.sendMes(p, "moneyNoVault");
             return;
         }
-        r.sendMes(p, "moneyStatusSelf", "%Balance", r.getVault().getEconomy().getBalance(p));
+        r.sendMes(p, "moneyStatusSelf", "%Balance", r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance(p)));
     }
 
     @Override
