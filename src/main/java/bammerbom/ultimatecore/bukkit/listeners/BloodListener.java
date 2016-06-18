@@ -25,11 +25,7 @@ package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
-import bammerbom.ultimatecore.bukkit.resources.utils.ParticleUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.ParticleUtil.BlockData;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -39,6 +35,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 
@@ -85,148 +82,126 @@ public class BloodListener implements Listener {
                         iCD.remove((Object) p.getEntityId());
                     }
                 }, 5L);
-                ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                e.getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getEntity().getLocation().add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
             } else {
                 if (iCD.contains(e.getEntity().getEntityId())) {
                     return;
                 }
                 iCD.add(e.getEntity().getEntityId());
+                World w = e.getEntity().getWorld();
+                Location l = e.getEntity().getLocation();
                 switch (e.getEntityType()) {
                     case SKELETON:
                         if (((Skeleton) e.getEntity()).getSkeletonType().equals(SkeletonType.NORMAL)) {
-                            ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.WOOL, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                            w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.BONE_BLOCK, (byte) 0));
                         } else {
-                            ParticleUtil.BLOCK_CRACK
-                                    .display(new BlockData(Material.COAL_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                            w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.COAL_BLOCK, (byte) 0));
                         }
                         break;
                     case CREEPER:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.WOOL, (byte) 13), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.STAINED_CLAY, (byte) 5));
                         break;
                     case SPIDER:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 0.6, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case GIANT:
-                        //TODO
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case ZOMBIE:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case SLIME:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.SLIME_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.SLIME_BLOCK, (byte) 0));
                         break;
                     case GHAST:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.QUARTZ_ORE, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 1.5F, 1.5F, 1.5F, new MaterialData(Material.BONE_BLOCK, (byte) 0));
                         break;
                     case PIG_ZOMBIE:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.STAINED_CLAY, (byte) 10), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.STAINED_CLAY, (byte) 10));
                         break;
                     case ENDERMAN:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.ENDER_CHEST, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.ENDER_CHEST, (byte) 0));
                         break;
                     case CAVE_SPIDER:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 0.6, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case SILVERFISH:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.STONE, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation(), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.1, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.STONE, (byte) 0));
                         break;
                     case BLAZE:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.LAVA, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 0.7, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.7, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.LAVA, (byte) 0));
                         break;
                     case MAGMA_CUBE:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.LAVA, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.LAVA, (byte) 0));
                         break;
                     case ENDER_DRAGON:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case WITHER:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.8F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 1.5F, 1.5F, 1.5F, new MaterialData(Material.SOUL_SAND, (byte) 0));
                         break;
                     case BAT:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.1F, 20, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 20, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case WITCH:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.1F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case ENDERMITE:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.ENDER_CHEST, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation(), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.1, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.ENDER_CHEST, (byte) 0));
                         break;
                     case GUARDIAN:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.LAVA, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 0.8, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.8, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.LAVA, (byte) 0));
                         break;
                     case PIG:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case SHEEP:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case COW:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case CHICKEN:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 0.6, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case SQUID:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.COAL_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.COAL_BLOCK, (byte) 0));
                         break;
                     case WOLF:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case MUSHROOM_COW:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case SNOWMAN:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.SNOW_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.SNOW_BLOCK, (byte) 0));
                         break;
                     case POLAR_BEAR:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.SNOW_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.SNOW_BLOCK, (byte) 0));
                         break;
                     case OCELOT:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 0.2, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.2, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case IRON_GOLEM:
-                        ParticleUtil.BLOCK_CRACK.display(new BlockData(Material.IRON_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.IRON_BLOCK, (byte) 0));
                         break;
                     case HORSE:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case RABBIT:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 0.3, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.2, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case VILLAGER:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case PLAYER:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case ARMOR_STAND:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.WOOD, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.WOOD, (byte) 0));
                         break;
                     default:
-                        ParticleUtil.BLOCK_CRACK
-                                .display(new BlockData(Material.REDSTONE_BLOCK, (byte) 0), 0.3F, 0.3F, 0.3F, 0.3F, 50, e.getEntity().getLocation().add(0, 1.0, 0), r.getOnlinePlayersL());
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                 }
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
