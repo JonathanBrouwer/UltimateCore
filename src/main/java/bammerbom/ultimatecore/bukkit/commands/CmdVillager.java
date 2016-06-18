@@ -576,18 +576,42 @@ public class CmdVillager implements UltimateCommand {
         return true;
     }
 
-    public static void closeInv(HumanEntity p, Inventory inv) {
+    public static void closeInv(HumanEntity p, Inventory oinv) {
         if (blockClose) {
             return;
         }
         if (!currentVillager.containsKey(p.getUniqueId())) {
             return;
         }
-        if (inv.getTitle().equalsIgnoreCase("Villager Editor (Settings)")) {
-            //closeInv(p, editInv.get(p.getUniqueId()));
+        if (oinv.getTitle().equalsIgnoreCase("Villager Editor (Settings)")) {
+            Inventory inv = editInv.get(p.getUniqueId());
+            Integer iedit = editing.get(p.getUniqueId());
+
+            ItemStack stack_uses = oinv.getItem(28);
+            Integer uses = Integer.parseInt(ChatColor.stripColor(stack_uses.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
+
+            ItemStack stack_max_uses = oinv.getItem(34);
+            Integer max_uses = Integer.parseInt(ChatColor.stripColor(stack_max_uses.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
+
+            ItemStack stack_generateExp = oinv.getItem(22);
+            Boolean generateExp = stack_generateExp.getDurability() == (short) 13;
+
+            ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
+            ItemMeta barrier_meta = barrier.getItemMeta();
+            barrier_meta.setDisplayName(ChatColor.DARK_AQUA + "Edit");
+            barrier_meta.setLore(Arrays
+                    .asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + uses, ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + max_uses, ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA + generateExp));
+            barrier.setItemMeta(barrier_meta);
+
+            inv.setItem(iedit, barrier);
+
+            editInv.remove(p.getUniqueId());
+            editing.remove(p.getUniqueId());
+
+            savePage(p, inv, pages.get(p.getUniqueId()));
             return;
         }
-        savePage(p, inv, pages.get(p.getUniqueId()));
+        savePage(p, oinv, pages.get(p.getUniqueId()));
     }
 
     static void savePage(HumanEntity p, Inventory inv, Integer page) {

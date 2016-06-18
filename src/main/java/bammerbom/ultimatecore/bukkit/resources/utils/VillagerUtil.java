@@ -34,14 +34,18 @@ import java.util.List;
 public class VillagerUtil {
 
     public static void clearTrades(Villager villager) {
-        villager.getRecipes().clear();
+        villager.setRecipes(new ArrayList<MerchantRecipe>());
     }
 
-    public static void addTrade(Villager villager, VillagerTrade villagerTrade) {
+    public static MerchantRecipe convertTrade(VillagerTrade villagerTrade) {
         MerchantRecipe recipe = new MerchantRecipe(villagerTrade.getRewardItem(), villagerTrade.getUses(), villagerTrade.getMaxUses(), villagerTrade.getRewardExp());
-        recipe.addIngredient(villagerTrade.getItem1());
-        recipe.addIngredient(villagerTrade.getItem2());
-        villager.setRecipe(villager.getRecipeCount(), recipe);
+        if (villagerTrade.getItem1() != null) {
+            recipe.addIngredient(villagerTrade.getItem1());
+        }
+        if (villagerTrade.getItem2() != null) {
+            recipe.addIngredient(villagerTrade.getItem2());
+        }
+        return recipe;
     }
 
     public static List<VillagerTrade> listTrades(Villager villager) {
@@ -66,9 +70,11 @@ public class VillagerUtil {
 
     public static void setTrades(Villager villager, List<VillagerTrade> trades) {
         clearTrades(villager);
+        ArrayList<MerchantRecipe> recipes = new ArrayList<>();
         for (VillagerTrade trade : trades) {
-            addTrade(villager, trade);
+            recipes.add(convertTrade(trade));
         }
+        villager.setRecipes(recipes);
     }
 
     public static final class VillagerTrade {
