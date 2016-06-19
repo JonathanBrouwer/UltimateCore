@@ -105,12 +105,13 @@ public class ItemDatabase {
                         nameList.add(itemName);
                         names.put(itemData, nameList);
                     }
+                } else {
+                    r.log("Invalid item in items.csv: " + line);
                 }
             }
         }
     }
 
-    @SuppressWarnings("deprecation")
     private static ItemStack get(String id) {
         String itemid;
         String itemname;
@@ -292,7 +293,6 @@ class ManagedFile {
         }
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public List<String> getLines() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(this.file));
