@@ -154,6 +154,15 @@ public class UEconomy implements Economy {
     }
 
     /**
+     * The amount of money a player starts with
+     *
+     * @return the starting amount
+     */
+    public Double getStartingMoney() {
+        return r.getCnfg().getDouble("Economy.startingBalance");
+    }
+
+    /**
      * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer)} instead.
      */
     @Override
