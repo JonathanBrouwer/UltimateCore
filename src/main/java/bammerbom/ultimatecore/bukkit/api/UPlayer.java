@@ -53,8 +53,8 @@ public class UPlayer {
     Boolean god = null;
     Long godtime = null;
     HashMap<String, Location> homes = null;
-    boolean onlineInv = false;
-    boolean offlineInv = false;
+    UUID onlineInv = null;
+    UUID offlineInv = null;
     Boolean jailed = null;
     Long jailtime = null;
     String jail = null;
@@ -598,20 +598,35 @@ public class UPlayer {
     }
 
     public boolean isInOnlineInventory() {
-        return onlineInv;
+        return onlineInv != null;
     }
 
-    public void setInOnlineInventory(Boolean b) {
-        onlineInv = b;
+    public Player getInOnlineInventory() {
+        if (onlineInv == null) {
+            return null;
+        }
+        return r.searchPlayer(onlineInv);
+    }
+
+    public void setInOnlineInventory(Player p) {
+        onlineInv = p.getUniqueId();
         save();
     }
 
     public boolean isInOfflineInventory() {
-        return offlineInv;
+        return offlineInv != null;
     }
 
-    public void setInOfflineInventory(Boolean b) {
-        offlineInv = b;
+    public OfflinePlayer getInOfflineInventory() {
+        if (offlineInv == null) {
+            return null;
+        }
+        return r.searchOfflinePlayer(offlineInv);
+    }
+
+
+    public void setInOfflineInventory(OfflinePlayer p) {
+        offlineInv = p.getUniqueId();
         save();
     }
 

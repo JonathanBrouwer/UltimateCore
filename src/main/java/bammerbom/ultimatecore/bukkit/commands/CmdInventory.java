@@ -38,11 +38,11 @@ public class CmdInventory implements UltimateCommand {
 
     public static void disable() {
         for (Player pl : UC.getServer().getInOnlineInventoryOnlinePlayers()) {
-            UC.getPlayer(pl).setInOnlineInventory(false);
+            UC.getPlayer(pl).setInOnlineInventory(null);
             pl.closeInventory();
         }
         for (Player pl : UC.getServer().getInOfflineInventoryOnlinePlayers()) {
-            UC.getPlayer(pl).setInOfflineInventory(false);
+            UC.getPlayer(pl).setInOfflineInventory(null);
             pl.closeInventory();
         }
     }
@@ -75,7 +75,7 @@ public class CmdInventory implements UltimateCommand {
             Player t = r.searchPlayer(args[0]);
             if (t != null) {
                 p.openInventory(t.getInventory());
-                UC.getPlayer(p).setInOnlineInventory(true);
+                UC.getPlayer(p).setInOnlineInventory(t);
             } else {
                 OfflinePlayer t2 = r.searchOfflinePlayer(args[0]);
                 if (t2 == null || (!t2.hasPlayedBefore() && !t2.isOnline())) {
@@ -88,7 +88,7 @@ public class CmdInventory implements UltimateCommand {
                 }
 
                 p.openInventory(UC.getPlayer(t2).getLastInventory());
-                UC.getPlayer(p).setInOfflineInventory(true);
+                UC.getPlayer(p).setInOfflineInventory(t2);
             }
         } else {
             r.sendMes(cs, "inventoryUsage");

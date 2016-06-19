@@ -136,6 +136,18 @@ public class GlobalPlayerListener implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         try {
             //Inventory
+            if (UC.getPlayer(e.getPlayer()).isInOfflineInventory()) {
+                UC.getPlayer(e.getPlayer()).setInOfflineInventory(null);
+            }
+            if (UC.getPlayer(e.getPlayer()).isInOnlineInventory()) {
+                UC.getPlayer(e.getPlayer()).setInOnlineInventory(null);
+            }
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (UC.getPlayer(p).getInOnlineInventory() != null && UC.getPlayer(p).getInOnlineInventory().equals(e.getPlayer().getUniqueId())) {
+                    p.closeInventory();
+                    UC.getPlayer(p).setInOnlineInventory(null);
+                }
+            }
             UC.getPlayer(e.getPlayer()).updateLastInventory();
             //Last connect
             UC.getPlayer(e.getPlayer()).updateLastConnectMillis();
@@ -255,10 +267,12 @@ public class GlobalPlayerListener implements Listener {
             }
             //Inventory
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOfflineInventory()) {
-                UC.getPlayer(e.getPlayer().getUniqueId()).setInOfflineInventory(false);
+                e.getPlayer().closeInventory();
+                UC.getPlayer(e.getPlayer().getUniqueId()).setInOfflineInventory(null);
             }
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOnlineInventory()) {
-                UC.getPlayer(e.getPlayer().getUniqueId()).setInOnlineInventory(false);
+                e.getPlayer().closeInventory();
+                UC.getPlayer(e.getPlayer().getUniqueId()).setInOnlineInventory(null);
             }
             //Recipe
             if (UC.getPlayer((OfflinePlayer) e.getPlayer()).isInRecipeView()) {
