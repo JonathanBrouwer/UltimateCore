@@ -75,8 +75,8 @@ public class r {
     static Config cnfg = null;
     //Config end
     //Vault
-    private static Vault vault;
-    private static Object prom;
+    private static Vault vault = null;
+    private static Object prom = null;
 
     public static void prestart() {
         r.debug("Trying to start economy...");

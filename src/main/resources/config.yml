@@ -119,6 +119,31 @@ Weather:
   #Disable rain and thunder? (True = Disabled)
   Rain: false
 
+#To change the motd, just use the motd in the server.properties
+Motd:
+  #Enable replacing color codes like &6 by their color
+  EnableColors: true
+  #Enable replacing variables like +Player
+  #All variables:
+  # +Player        (Player's name)
+  # +Ip            (Player's ip)
+  # +Money         (The amount of money the player has)
+  # +Version       (Minecraft version)
+  # +Maxplayers    (Max players for the server)
+  # +Onlineplayers (Amount of players online on the server)
+  # +Servername    (The name of the server set in the server.properties)
+  EnableVariables: true
+  #Enable ban motds?
+  #This will show a custom motd to the player if the player is banned.
+  EnableBanMotd: true
+  #This is the custom motd which is shown if a player is banned.
+  #Use /n for new line
+  #All variables:
+  # +Bantime     (How long until the player is unbanned)
+  # +Banreason   (Why the player was banned)
+  # +All the variables named at EnableVariables
+  BanMotd: "&4&lYou are banned! &c(+Bantime remaining)\n&4&lReason: &c+Banreason"
+
 #Enable broadcasting when the mojang servers are offline?
 MojangServersBroadcasting: true
 
