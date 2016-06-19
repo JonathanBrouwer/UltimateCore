@@ -120,7 +120,7 @@ Weather:
   Rain: false
 
 #Enable broadcasting when the mojang servers are offline?
-MojangServersBroadcasting: false
+MojangServersBroadcasting: true
 
 #How much delay should the mojang server checker have?
 #Recommended between 30 seconds and 150 seconds
