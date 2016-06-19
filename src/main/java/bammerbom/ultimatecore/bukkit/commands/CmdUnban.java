@@ -82,7 +82,7 @@ public class CmdUnban implements UltimateCommand {
             return;
         }
         OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
-        if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
+        if (banp == null || banp.getUniqueId() == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }

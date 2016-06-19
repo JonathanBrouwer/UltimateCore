@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UPlayer;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -64,12 +65,12 @@ public class CmdBan implements UltimateCommand {
             return;
         }
         OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
-        if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
+        if (banp == null || banp.getUniqueId() == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
         Long time = 0L;
-        String reason = r.mes("banDefaultReason");
+        String reason = ChatColor.stripColor(r.mes("banDefaultReason"));
         if (r.checkArgs(args, 1) == false) {
         } else if (DateUtil.parseDateDiff(args[1]) == -1) {
             reason = r.getFinalArg(args, 1);
