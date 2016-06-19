@@ -49,7 +49,8 @@ public class SignFree implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.free", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.free", true, false) && !r.perm(p, "uc.sign", true, false)) {
+            r.sendMes(p, "noPermissions");
             return;
         }
         ItemStack item = ItemUtil.searchItem(sign.getLine(1));

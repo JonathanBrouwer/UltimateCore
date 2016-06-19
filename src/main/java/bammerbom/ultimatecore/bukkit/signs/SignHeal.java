@@ -45,7 +45,8 @@ public class SignHeal implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.heal", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.heal", true, false) && !r.perm(p, "uc.sign", true, false)) {
+            r.sendMes(p, "noPermissions");
             return;
         }
         r.sendMes(p, "healSelf");

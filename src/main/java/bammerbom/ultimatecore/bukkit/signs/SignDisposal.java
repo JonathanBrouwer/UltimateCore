@@ -46,7 +46,8 @@ public class SignDisposal implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.disposal", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.disposal", true, false) && !r.perm(p, "uc.sign", true, false)) {
+            r.sendMes(p, "noPermissions");
             return;
         }
         p.openInventory(Bukkit.createInventory(p, 36, r.mes("signDisposalTitle")));

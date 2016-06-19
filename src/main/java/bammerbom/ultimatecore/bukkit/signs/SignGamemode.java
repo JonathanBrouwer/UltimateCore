@@ -46,7 +46,8 @@ public class SignGamemode implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.gamemode", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.gamemode", true, false) && !r.perm(p, "uc.sign", true, false)) {
+            r.sendMes(p, "noPermissions");
             return;
         }
         GameMode mode;

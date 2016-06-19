@@ -45,7 +45,8 @@ public class SignWeather implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.weather", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.weather", true, false) && !r.perm(p, "uc.sign", true, false)) {
+            r.sendMes(p, "noPermissions");
             return;
         }
         if (sign.getLine(1).equalsIgnoreCase("sun")) {

@@ -48,7 +48,8 @@ public class SignRepair implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.repair", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.repair", true, false) && !r.perm(p, "uc.sign", true, false)) {
+            r.sendMes(p, "noPermissions");
             return;
         }
         Boolean all = sign.getLine(1).equalsIgnoreCase("all") || sign.getLine(1).equalsIgnoreCase("*");
