@@ -142,7 +142,7 @@ Motd:
   # +Bantime     (How long until the player is unbanned)
   # +Banreason   (Why the player was banned)
   # +All the variables named at EnableVariables
-  BanMotd: "&4&lYou are banned! &c(+Bantime remaining)\n&4&lReason: &c+Banreason"
+  BanMotd: "&4&lYou are banned! &c(+Bantime left)\n&4&lReason: &c+Banreason"
 
 #Enable broadcasting when the mojang servers are offline?
 MojangServersBroadcasting: true

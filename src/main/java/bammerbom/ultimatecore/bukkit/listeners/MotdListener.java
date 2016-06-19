@@ -41,7 +41,7 @@ public class MotdListener implements Listener {
     static boolean enableColors = true;
     static boolean enableVariables = true;
     static boolean enableBanMotd = true;
-    static String banMotd = "&4&lYou are banned! &c(+Bantime remaining)\n&4&lReason: &c+Banreason";
+    static String banMotd = "&4&lYou are banned! &c(+Bantime left)\n&4&lReason: &c+Banreason";
 
     public static void start() {
         enableColors = r.getCnfg().getBoolean("Motd.EnableColors");
@@ -123,7 +123,7 @@ public class MotdListener implements Listener {
                 int onlineplayers = e.getNumPlayers();
                 String servername = Bukkit.getServerName();
 
-                String bantime = ChatColor.stripColor(DateUtil.formatDateDiff(UC.getPlayer(p).getBanTime()));
+                String bantime = ChatColor.stripColor(DateUtil.formatDateDiff(UC.getPlayer(p).getBanTime(), 2));
                 String banreason = UC.getPlayer(p).getBanReason();
 
                 String motd = banMotd;
