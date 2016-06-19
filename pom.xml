@@ -257,11 +257,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>4.0.1</version>
-        </dependency>
-        <dependency>
             <groupId>com.goebl</groupId>
             <artifactId>david-webb</artifactId>
             <version>1.3.0</version>
@@ -270,6 +265,11 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20160212</version>
+        </dependency>
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib-API</artifactId>
+            <version>4.0-SNAPSHOT</version>
         </dependency>
         <!-- Hosted on GitHub -->
         <dependency>
