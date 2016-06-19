@@ -23,13 +23,14 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MinecraftServerUtil {
     private static final JSONParser parser = new JSONParser();
@@ -37,6 +38,7 @@ public class MinecraftServerUtil {
     public static ArrayList<MinecraftServer> unknown = new ArrayList<>();
     public static ArrayList<MinecraftServer> problems = new ArrayList<>();
     public static ArrayList<MinecraftServer> online = new ArrayList<>();
+    private static JSONArray lastjson;
 
     public static void runcheck() {
         //
@@ -44,6 +46,7 @@ public class MinecraftServerUtil {
         unknown.clear();
         problems.clear();
         online.clear();
+        refresh();
         for (MinecraftServer serv : MinecraftServer.values()) {
             Status status = getStatus(serv);
 
@@ -59,21 +62,30 @@ public class MinecraftServerUtil {
         }
     }
 
-    public static Status getStatus(MinecraftServer service) {
-        String status;
-
+    public static void refresh() {
         try {
-            URL url = new URL("http://status.mojang.com/check?service=" + service.getURL());
+            URL url = new URL("http://status.mojang.com/check");
             BufferedReader input = new BufferedReader(new InputStreamReader(url.openStream()));
-            Object object = parser.parse(input);
-            JSONObject jsonObject = (JSONObject) object;
-
-            status = (String) jsonObject.get(service.getURL());
+            lastjson = (JSONArray) parser.parse(input);
         } catch (Exception e) {
+            e.printStackTrace();
+            lastjson = null;
+        }
+    }
+
+    public static Status getStatus(MinecraftServer service) {
+        try {
+            for (Object mapo : lastjson) {
+                HashMap<String, String> map = (HashMap<String, String>) mapo;
+                if (map.containsKey(service.getURL())) {
+                    return status(map.get(service.getURL()));
+                }
+            }
+            return Status.UNKNOWN;
+        } catch (Exception ex) {
+            ex.printStackTrace();
             return Status.UNKNOWN;
         }
-
-        return status(status);
     }
 
     private static Status status(String status) {
@@ -96,7 +108,7 @@ public class MinecraftServerUtil {
     public static String getTip(Status status, MinecraftServer server) {
         switch (server) {
             //Skin
-            case SKIN:
+            case SKINS:
                 switch (status) {
                     case ONLINE:
                         return "minecraftserversTipSkinOnline";
@@ -120,7 +132,7 @@ public class MinecraftServerUtil {
                 break;
             //Session
             case SESSION:
-            case MOJANGSESSION:
+            case SESSIONSERVER:
                 switch (status) {
                     case ONLINE:
                         return "minecraftserversTipSessionOnline";
@@ -138,13 +150,15 @@ public class MinecraftServerUtil {
 
         //Minecraft
         WEBSITE("minecraft.net"),
-        SKIN("skins.minecraft.net"),
         SESSION("session.minecraft.net"),
-        //Mojang
         ACCOUNT("account.mojang.com"),
         AUTH("auth.mojang.com"),
+        SKINS("skins.minecraft.net"),
         AUTHSERVER("authserver.mojang.com"),
-        MOJANGSESSION("sessionserver.mojang.com");
+        SESSIONSERVER("sessionserver.mojang.com"),
+        API("api.mojang.com"),
+        TEXTURES("textures.minecraft.net"),
+        MOJANG("mojang.com");
 
         private final String url;
 
