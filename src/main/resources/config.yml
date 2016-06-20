@@ -154,6 +154,9 @@ MojangServersDelay: 90
 #Are join and leave messages visible?
 JoinLeaveVisible: true
 
+#Teleport all players to the spawn after they join?
+SpawnOnJoin: false
+
 #Chat customization
 Chat:
   #How is the /alert command displayed?

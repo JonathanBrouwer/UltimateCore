@@ -53,6 +53,7 @@ import org.bukkit.plugin.EventExecutor;
 
 public class GlobalPlayerListener implements Listener {
 
+    static boolean spawnOnJoin = r.getCnfg().getBoolean("SpawnOnJoin", false);
     Boolean jailChat = r.getCnfg().getBoolean("Command.Jail.talk");
     Boolean jailedmove = r.getCnfg().getBoolean("Command.Jail.move");
 
@@ -105,6 +106,10 @@ public class GlobalPlayerListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent e) {
         try {
+            //Spawn on join
+            if (spawnOnJoin) {
+                LocationUtil.teleportUnsafe(e.getPlayer(), UC.getPlayer(e.getPlayer()).getSpawn(false), TeleportCause.PLUGIN, false);
+            }
             //Inventory
             UC.getPlayer(e.getPlayer()).updateLastInventory();
             //Jail
