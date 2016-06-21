@@ -526,14 +526,14 @@ public class UServer {
     }
 
     public UKit getKit(String s) {
-        return new UKit(s);
+        return new UKit(s.toLowerCase());
     }
 
     public List<UKit> getKits() {
         ArrayList<String> kitnames = new ArrayList<>(new Config(UltimateFileLoader.Dkits).getKeys(false));
         ArrayList<UKit> kits = new ArrayList<>();
         for (String s : kitnames) {
-            kits.add(getKit(s));
+            kits.add(getKit(s.toLowerCase()));
         }
         return kits;
     }

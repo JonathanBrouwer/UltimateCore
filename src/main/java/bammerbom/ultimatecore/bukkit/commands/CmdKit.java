@@ -97,12 +97,12 @@ public class CmdKit implements UltimateCommand {
         }
         final Player p = (Player) cs;
         final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(args[0]);
+        final ConfigSection kitNode = config.getConfigurationSection(args[0].toLowerCase());
         if (kitNode == null) {
-            r.sendMes(cs, "kitNotFound", "%Kit", args[0]);
+            r.sendMes(cs, "kitNotFound", "%Kit", args[0].toLowerCase());
             return;
         }
-        final UKit kit = UC.getServer().getKit(args[0]);
+        final UKit kit = UC.getServer().getKit(args[0].toLowerCase());
         if (!kit.hasCooldownPassedFor(p)) {
             if (kit.getCooldown() == -1L) {
                 r.sendMes(cs, "kitOnlyOnce");
@@ -117,7 +117,7 @@ public class CmdKit implements UltimateCommand {
             p.getWorld().dropItemNaturally(p.getLocation(), is);
         }
         kit.setLastUsed(p, System.currentTimeMillis());
-        r.sendMes(cs, "kitGive", "%Kit", args[0]);
+        r.sendMes(cs, "kitGive", "%Kit", args[0].toLowerCase());
     }
 
     @Override
