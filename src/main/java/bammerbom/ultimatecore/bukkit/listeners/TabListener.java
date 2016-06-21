@@ -39,9 +39,6 @@ public class TabListener implements Listener {
     static HashMap<String, String> tabPrefixes = new HashMap<>();
 
     public static void start() {
-        if (!r.getCnfg().contains("Chat.Tab.Enabled")) {
-            return;
-        }
         if (!r.getCnfg().getBoolean("Chat.Tab.Enabled")) {
             return;
         }
@@ -52,9 +49,6 @@ public class TabListener implements Listener {
                 if (r.getVault() == null || r.getVault().getPermission() == null) {
                     String name = def + UC.getPlayer(p).getDisplayName();
                     name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (name.length() > 15) {
-                        name = name.substring(0, 14);
-                    }
                     if (!p.getPlayerListName().equals(name)) {
                         p.setPlayerListName(name);
                     }
@@ -64,9 +58,6 @@ public class TabListener implements Listener {
                 if (group == null || group.equalsIgnoreCase("")) {
                     String name = def + UC.getPlayer(p).getDisplayName();
                     name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (name.length() > 15) {
-                        name = name.substring(0, 14);
-                    }
                     if (!p.getPlayerListName().equals(name)) {
                         p.setPlayerListName(name);
                     }
@@ -76,9 +67,6 @@ public class TabListener implements Listener {
                 if (prefix == null || prefix.equalsIgnoreCase("")) {
                     String name = def + UC.getPlayer(p).getDisplayName();
                     name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (name.length() > 15) {
-                        name = name.substring(0, 14);
-                    }
                     if (!p.getPlayerListName().equals(name)) {
                         p.setPlayerListName(name);
                     }
@@ -86,9 +74,6 @@ public class TabListener implements Listener {
                 }
                 String name = prefix + UC.getPlayer(p).getDisplayName();
                 name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                if (name.length() > 15) {
-                    name = name.substring(0, 14);
-                }
                 if (!p.getPlayerListName().equals(name)) {
                     p.setPlayerListName(name);
                 }
@@ -101,9 +86,6 @@ public class TabListener implements Listener {
                     if (r.getVault() == null || r.getVault().getPermission() == null) {
                         String name = def + UC.getPlayer(p).getDisplayName();
                         name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                        if (name.length() > 15) {
-                            name = name.substring(0, 14);
-                        }
                         if (!p.getPlayerListName().equals(name)) {
                             p.setPlayerListName(name);
                         }
@@ -113,9 +95,6 @@ public class TabListener implements Listener {
                     if (group == null || group.equalsIgnoreCase("")) {
                         String name = def + UC.getPlayer(p).getDisplayName();
                         name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                        if (name.length() > 15) {
-                            name = name.substring(0, 14);
-                        }
                         if (!p.getPlayerListName().equals(name)) {
                             p.setPlayerListName(name);
                         }
@@ -125,9 +104,6 @@ public class TabListener implements Listener {
                     if (prefix == null || prefix.equalsIgnoreCase("")) {
                         String name = def + UC.getPlayer(p).getDisplayName();
                         name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                        if (name.length() > 15) {
-                            name = name.substring(0, 14);
-                        }
                         if (!p.getPlayerListName().equals(name)) {
                             p.setPlayerListName(name);
                         }
@@ -135,9 +111,6 @@ public class TabListener implements Listener {
                     }
                     String name = prefix + UC.getPlayer(p).getDisplayName();
                     name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (name.length() > 15) {
-                        name = name.substring(0, 14);
-                    }
                     if (!p.getPlayerListName().equals(name)) {
                         p.setPlayerListName(name);
                     }
@@ -152,9 +125,6 @@ public class TabListener implements Listener {
         if (r.getVault() == null || r.getVault().getPermission() == null) {
             String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
             name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-            if (name.length() > 15) {
-                name = name.substring(0, 14);
-            }
             e.getPlayer().setPlayerListName(name);
             return;
         }
@@ -162,9 +132,6 @@ public class TabListener implements Listener {
         if (group == null || group.equalsIgnoreCase("")) {
             String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
             name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-            if (name.length() > 15) {
-                name = name.substring(0, 14);
-            }
             e.getPlayer().setPlayerListName(name);
             return;
         }
@@ -172,17 +139,11 @@ public class TabListener implements Listener {
         if (prefix == null || prefix.equalsIgnoreCase("")) {
             String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
             name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-            if (name.length() > 15) {
-                name = name.substring(0, 14);
-            }
             e.getPlayer().setPlayerListName(name);
             return;
         }
         String name = prefix + UC.getPlayer(e.getPlayer()).getDisplayName();
         name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-        if (name.length() > 15) {
-            name = name.substring(0, 14);
-        }
         e.getPlayer().setPlayerListName(name);
     }
 }

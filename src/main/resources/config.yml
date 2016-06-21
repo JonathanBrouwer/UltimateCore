@@ -235,7 +235,6 @@ Chat:
     #The default tab prefix
     TabDefault: '&e'
     #Groups tab prefixes
-    #Watchout! Too long prefixes can short player names for some characters
     #GROUP NAMES ARE CASE SENSITIVE!!!
     Player: '&6'
     Admin: '&4'
