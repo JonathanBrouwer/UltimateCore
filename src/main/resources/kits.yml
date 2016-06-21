@@ -19,3 +19,7 @@ tools:
       unbreakable: 1
       name: "&bStone axe"
       lore: "&eStarters kit."
+    - type: STEAK
+      name: "&bSteak"
+      lore: "&eStarters kit."
+      quantity: 8
