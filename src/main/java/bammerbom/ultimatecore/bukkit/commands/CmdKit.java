@@ -31,14 +31,11 @@ import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.configuration.ConfigSection;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
-import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -73,18 +70,18 @@ public class CmdKit implements UltimateCommand {
             r.sendMes(cs, "kitList1");
             for (UKit kit : UC.getServer().getKits()) {
                 r.sendMes(cs, "kitList2", "%Kit", kit.getName(), "%Description", kit.getDescription());
-                if (kit.getCooldown() == 0) {
-                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
-                } else if (kit.getCooldown() == -1) {
-                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitOnlyOnce"));
-                } else {
-                    r.sendMes(cs, "kitList3", "%Cooldown", DateUtil.format(kit.getCooldown()));
-                }
-                List<String> items = new ArrayList<>();
-                for (ItemStack item : kit.getItems()) {
-                    items.add(ItemUtil.getName(item));
-                }
-                r.sendMes(cs, "kitList4", "%Items", StringUtil.joinList(items));
+//                if (kit.getCooldown() == 0) {
+//                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
+//                } else if (kit.getCooldown() == -1) {
+//                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitOnlyOnce"));
+//                } else {
+//                    r.sendMes(cs, "kitList3", "%Cooldown", DateUtil.format(kit.getCooldown()));
+//                }
+//                List<String> items = new ArrayList<>();
+//                for (ItemStack item : kit.getItems()) {
+//                    items.add(ItemUtil.getName(item));
+//                }
+//                r.sendMes(cs, "kitList4", "%Items", StringUtil.joinList(items));
             }
             return;
         }

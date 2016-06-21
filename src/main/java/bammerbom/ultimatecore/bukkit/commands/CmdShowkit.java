@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.api.UKit;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
@@ -69,6 +70,13 @@ public class CmdShowkit implements UltimateCommand {
         }
         UKit kit = UC.getServer().getKit(args[0]);
         r.sendMes(cs, "showkitContains", "%Kit", kit.getName());
+        if (kit.getCooldown() == 0) {
+            r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
+        } else if (kit.getCooldown() == -1) {
+            r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitOnlyOnce"));
+        } else {
+            r.sendMes(cs, "kitList3", "%Cooldown", DateUtil.format(kit.getCooldown()));
+        }
         for (ItemStack stack : kit.getItems()) {
             HashMap<String, Object> map = ItemUtil.serialize(stack);
             StringBuilder sb = new StringBuilder();
