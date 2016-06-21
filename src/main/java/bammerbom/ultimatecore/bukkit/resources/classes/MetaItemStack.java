@@ -198,9 +198,7 @@ public class MetaItemStack {
             this.stack.setItemMeta(meta);
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("book")) && (this.stack.getType() == Material.WRITTEN_BOOK)) {
             String title = split[1];
-            r.log(title.toLowerCase());
             List<String> pages = BookUtil.readBook(title.toLowerCase());
-            r.log(pages);
             BookMeta meta = (BookMeta) this.stack.getItemMeta();
             meta.setPages(pages);
             this.stack.setItemMeta(meta);
