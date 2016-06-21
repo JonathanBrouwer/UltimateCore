@@ -49,20 +49,45 @@ import java.util.Map;
 public class UKit {
 
     private static final Config kits = new Config(UltimateFileLoader.Dkits);
-    private final ConfigSection kit;
     private final String name;
     private final String description;
     private final List<ItemStack> items;
     private final long cooldown;
+    private final String cooldowns;
     private final boolean firstjoin;
+    private ConfigSection kit;
 
     public UKit(final String name) {
         this.name = name;
         this.kit = kits.getConfigurationSection(name);
         this.items = getItemStacks(kit.getMapList("items"));
         this.cooldown = DateUtil.parseDateDiff(kit.getString("cooldown", "0"));
+        this.cooldowns = kit.getString("cooldown", "0");
         this.description = ChatColor.translateAlternateColorCodes('&', kit.getString("description", ""));
         this.firstjoin = kit.getBoolean("firstjoin", false);
+    }
+
+    public UKit(final String name, final String cooldown, final boolean firstjoin, final String description, final List<ItemStack> items) {
+        this.name = name;
+        this.kit = null;
+        this.items = items;
+        this.cooldown = DateUtil.parseDateDiff(cooldown);
+        this.cooldowns = cooldown;
+        this.description = ChatColor.translateAlternateColorCodes('&', description);
+        this.firstjoin = firstjoin;
+    }
+
+    /**
+     * Saves this kit to the config file
+     */
+    public void save() {
+        List<HashMap<String, Object>> itemstrings = ItemUtil.serialize(items);
+        kits.set(name + ".description", description);
+        kits.set(name + ".cooldown", cooldowns);
+        kits.set(name + ".firstjoin", firstjoin);
+        kits.set(name + ".items", itemstrings);
+        kits.save();
+        this.kit = kits.getConfigurationSection(name);
     }
 
     /**
@@ -143,11 +168,11 @@ public class UKit {
      * @param items List of nodes representing items
      * @return List of ItemStacks, never null
      */
-    private List<ItemStack> getItemStacks(final List<Map<?, ?>> items) {
+    private List<ItemStack> getItemStacks(List<Map<?, ?>> items) {
         final List<ItemStack> itemStacks = new ArrayList<>();
         for (final Map<?, ?> item : items) {
             HashMap<String, Object> itemc = new HashMap<>();
-            itemc.putAll((Map<? extends String, ? extends Object>) item);
+            itemc.putAll((Map<String, Object>) item);
             final ItemStack is = this.getItemStack(itemc);
             if (is == null) {
                 continue;

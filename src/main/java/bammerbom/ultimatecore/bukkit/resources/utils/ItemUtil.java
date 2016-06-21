@@ -29,21 +29,22 @@ import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
 import net.milkbowl.vault.item.Items;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.enchantments.EnchantmentWrapper;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.*;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
-@SuppressWarnings({"deprecation", "unchecked"})
 public class ItemUtil {
 
     static HashMap<Material, String> ids = new HashMap<>();
@@ -160,6 +161,153 @@ public class ItemUtil {
         }
         return null;
     }
+
+    public static List<HashMap<String, Object>> serialize(List<ItemStack> is) {
+        List<HashMap<String, Object>> items = new ArrayList<>();
+        for (ItemStack stack : is) {
+            items.add(serialize(stack));
+        }
+        return items;
+    }
+
+    public static HashMap<String, Object> serialize(ItemStack is) {
+        HashMap<String, Object> item = new HashMap<>();
+        String mat = ItemUtil.getID(is.getType());
+        if (is.getData().getData() != 0) {
+            mat = mat + ":" + is.getData().getData();
+        }
+        item.put("type", mat);
+
+        int quantity = is.getAmount();
+        item.put("quantity", quantity);
+
+        if (is.hasItemMeta()) {
+            ItemMeta meta = is.getItemMeta();
+            if (meta.hasDisplayName()) {
+                item.put("name", meta.getDisplayName().replaceAll(" ", "_"));
+            }
+
+            if (meta.hasLore()) {
+                StringBuilder lore = new StringBuilder();
+                boolean first = true;
+                for (String s : meta.getLore()) {
+                    if (!first) {
+                        lore.append("|");
+                    }
+                    first = false;
+                    lore.append(s.replaceAll(" ", "_"));
+                }
+                item.put("lore", lore);
+            }
+
+            if (meta.hasEnchants()) {
+                for (Enchantment e : meta.getEnchants().keySet()) {
+                    item.put(e.getName().toLowerCase(), meta.getEnchantLevel(e));
+                }
+            }
+
+            ArrayList<String> flags = new ArrayList<>();
+            for (ItemFlag flag : meta.getItemFlags()) {
+                flags.add(flag.name().toLowerCase().replace("_", ""));
+            }
+            if (!flags.isEmpty()) {
+                String flagstring = StringUtil.joinList(",", flags.toArray(new String[flags.size()]));
+                item.put("hideflags", flagstring);
+            }
+            //TODO canplaceon and candestroy
+
+        }
+
+        switch (is.getType()) {
+            case WRITTEN_BOOK:
+                BookMeta bookMeta = (BookMeta) is.getItemMeta();
+                if (bookMeta.hasTitle()) {
+                    item.put("title", bookMeta.getTitle());
+                }
+                if (bookMeta.hasAuthor()) {
+                    item.put("author", bookMeta.getAuthor());
+                }
+                break;
+            case ENCHANTED_BOOK:
+                EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) is.getItemMeta();
+                for (Enchantment e : enchantmentStorageMeta.getStoredEnchants().keySet()) {
+                    item.put(e.getName().toLowerCase(), enchantmentStorageMeta.getStoredEnchantLevel(e));
+                }
+                break;
+            case FIREWORK:
+                FireworkMeta fireworkMeta = (FireworkMeta) is.getItemMeta();
+                if (fireworkMeta.hasEffects()) {
+                    for (FireworkEffect effect : fireworkMeta.getEffects()) {
+                        if (effect.getColors() != null && !effect.getColors().isEmpty()) {
+                            StringBuilder colors = new StringBuilder();
+                            boolean first = true;
+                            for (Color c : effect.getColors()) {
+                                if (!first) {
+                                    colors.append(",");
+                                }
+                                colors.append(c.toString());
+                                first = false;
+                            }
+                            item.put("color", colors);
+                        }
+
+                        item.put("shape", effect.getType().name());
+                        if (effect.getFadeColors() != null && !effect.getFadeColors().isEmpty()) {
+                            StringBuilder fade = new StringBuilder();
+                            boolean first = true;
+                            for (Color c : effect.getFadeColors()) {
+                                if (!first) {
+                                    fade.append(",");
+                                }
+                                fade.append(c.toString());
+                                first = false;
+                            }
+                            item.put("fade", fade);
+                        }
+                    }
+                    item.put("power", fireworkMeta.getPower());
+                }
+                break;
+            case POTION:
+                Potion potion = Potion.fromItemStack(is);
+                for (PotionEffect e : potion.getEffects()) {
+                    item.put("splash", potion.isSplash());
+                    item.put("effect", e.getType().getName().toLowerCase());
+                    item.put("power", e.getAmplifier());
+                    item.put("duration", e.getDuration() / 20);
+                }
+                break;
+            case SKULL_ITEM:
+                SkullMeta skullMeta = (SkullMeta) is.getItemMeta();
+                if (skullMeta != null && skullMeta.hasOwner()) {
+                    item.put("player", skullMeta.getOwner());
+                }
+                break;
+            case LEATHER_HELMET:
+            case LEATHER_CHESTPLATE:
+            case LEATHER_LEGGINGS:
+            case LEATHER_BOOTS:
+                LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) is.getItemMeta();
+                int rgb = leatherArmorMeta.getColor().asRGB();
+                item.put("color", rgb);
+                break;
+            case BANNER:
+                BannerMeta bannerMeta = (BannerMeta) is.getItemMeta();
+                if (bannerMeta != null) {
+                    int basecolor = bannerMeta.getBaseColor().getColor().asRGB();
+                    item.put("basecolor", basecolor);
+                    for (org.bukkit.block.banner.Pattern p : bannerMeta.getPatterns()) {
+                        String type = p.getPattern().getIdentifier();
+                        int color = p.getColor().getColor().asRGB();
+                        item.put(type, color);
+                    }
+                }
+                break;
+        }
+
+        return item;
+    }
+
 }
 
 class EnchantGlow extends EnchantmentWrapper {

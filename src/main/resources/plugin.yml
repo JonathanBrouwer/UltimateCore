@@ -99,6 +99,10 @@ commands:
     description: Get the location of a certain player.
     permissions: uc.coordinates
     aliases: [coords, location, loc]
+  createkit:
+    usage: /<command> <Name> <Time> <Description...>
+    description: Create a new kit with the items in your inventory.
+    permissions: uc.createkit
   custommessages:
     usage: /<command> <Message> [Var...]
     description: Get a custom message from the custommessages.yml file.
@@ -485,6 +489,10 @@ commands:
     usage: /<command> <Warp>
     description: Set a new warp, or move a warp.
     permissions: uc.setwarp
+  showkit:
+    usage: /<command> <Kit>
+    description: Shows which items a kit contains
+    permissions: uc.showkit
   silence:
     usage: /<command>
     description: Disable the chat for the entire server.

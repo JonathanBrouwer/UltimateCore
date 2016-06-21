@@ -105,7 +105,6 @@ public class MetaItemStack {
         this.completePotion = true;
     }
 
-    @SuppressWarnings("deprecation")
     public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception {
         if (string[fromArg].startsWith("{")) {
             this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
@@ -124,7 +123,6 @@ public class MetaItemStack {
         }
     }
 
-    @SuppressWarnings({"unchecked"})
     public void addStringMeta(CommandSender cs, boolean allowUnsafe, String string) throws Exception {
         String[] split = this.splitPattern.split(string, 2);
         if (split.length < 1) {
@@ -319,17 +317,17 @@ public class MetaItemStack {
             Integer i = 0;
             if (split[1].contains(",")) {
                 for (String s : split[1].split(",")) {
-                    if (s.equalsIgnoreCase("1") || s.equalsIgnoreCase("enchants") || s.equalsIgnoreCase("enchantments")) {
+                    if (s.equalsIgnoreCase("1") || s.equalsIgnoreCase("enchants") || s.equalsIgnoreCase("enchantments") || s.equalsIgnoreCase("hideenchants")) {
                         i += 1;
-                    } else if (s.equalsIgnoreCase("2") || s.equalsIgnoreCase("attributes") || s.equalsIgnoreCase("attributemodifiers")) {
+                    } else if (s.equalsIgnoreCase("2") || s.equalsIgnoreCase("attributes") || s.equalsIgnoreCase("attributemodifiers") || s.equalsIgnoreCase("hideattributes")) {
                         i += 2;
-                    } else if (s.equalsIgnoreCase("4") || s.equalsIgnoreCase("unbreakable")) {
+                    } else if (s.equalsIgnoreCase("4") || s.equalsIgnoreCase("unbreakable") || s.equalsIgnoreCase("hideunbreakable")) {
                         i += 4;
-                    } else if (s.equalsIgnoreCase("8") || s.equalsIgnoreCase("candestroy")) {
+                    } else if (s.equalsIgnoreCase("8") || s.equalsIgnoreCase("candestroy") || s.equalsIgnoreCase("hidedestroys")) {
                         i += 8;
-                    } else if (s.equalsIgnoreCase("16") || s.equalsIgnoreCase("canplaceon")) {
+                    } else if (s.equalsIgnoreCase("16") || s.equalsIgnoreCase("canplaceon") || s.equalsIgnoreCase("hideplacedon")) {
                         i += 16;
-                    } else if (s.equalsIgnoreCase("32") || s.equalsIgnoreCase("other") || s.equalsIgnoreCase("others")) {
+                    } else if (s.equalsIgnoreCase("32") || s.equalsIgnoreCase("other") || s.equalsIgnoreCase("others") || s.equalsIgnoreCase("hidepotioneffects")) {
                         i += 32;
                     } else if (r.isInt(s)) {
                         i += Integer.parseInt(s);

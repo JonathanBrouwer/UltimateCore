@@ -63,6 +63,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdCompact());
         cmds.add(new CmdCompass());
         cmds.add(new CmdCoordinates());
+        cmds.add(new CmdCreatekit());
         cmds.add(new CmdCustommessages());
         cmds.add(new CmdDamage());
         cmds.add(new CmdDeaf());
@@ -147,6 +148,7 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdSetlevel());
         cmds.add(new CmdSetspawn());
         cmds.add(new CmdSetwarp());
+        cmds.add(new CmdShowkit());
         cmds.add(new CmdSkull());
         cmds.add(new CmdSilence());
         cmds.add(new CmdSmite());
