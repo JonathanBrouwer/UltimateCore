@@ -55,6 +55,9 @@ public class UC {
     }
 
     public static UPlayer getPlayer(OfflinePlayer p) {
+        if (p == null || p.getUniqueId() == null) {
+            return null;
+        }
         for (UPlayer pl : uplayers) {
             if (pl.uuid == null) {
                 continue;
