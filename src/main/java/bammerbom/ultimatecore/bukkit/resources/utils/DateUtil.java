@@ -77,9 +77,6 @@ public class DateUtil {
             if (r.isInt(time)) {
                 mil = mil + (Long.parseLong(time) * 1000 * 60 * 60);
             }
-            if (mil == 999) {
-                return -1L;
-            }
             return mil;
         } catch (Exception ex) {
             return -1L;
