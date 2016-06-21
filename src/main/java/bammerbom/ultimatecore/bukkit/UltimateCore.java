@@ -73,7 +73,7 @@ public class UltimateCore extends JavaPlugin {
         try {
             //
             Long time = System.currentTimeMillis();
-            //
+            //UTIL STARTUP
             file = getFile();
             UltimateFileLoader.Enable();
             ServerIDUtil.start();
@@ -95,8 +95,7 @@ public class UltimateCore extends JavaPlugin {
             CmdRules.start();
             MetaItemStack.start();
             ItemUtil.start();
-            MinecraftServerListener.start();
-            //
+            //UTIL STARTUP END
             String c = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
             Integer v = Integer.parseInt(c.split("\\.")[1]);
             if (v < 10) {
@@ -112,7 +111,7 @@ public class UltimateCore extends JavaPlugin {
             //
             r.runUpdater();
             r.runMetrics();
-            //
+            //LISTENER STARTUP
             PluginManager pm = Bukkit.getPluginManager();
             GlobalPlayerListener.start();
             pm.registerEvents(new GlobalWorldListener(), this);
@@ -133,7 +132,8 @@ public class UltimateCore extends JavaPlugin {
             TreeListener.start();
             UnknownCommandListener.start();
             WeatherListener.start();
-            //
+            MinecraftServerListener.start();
+            //LISTENER STARTUP END
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new UltimateTick(), 40L, 40L);
             //
             time = System.currentTimeMillis() - time;
