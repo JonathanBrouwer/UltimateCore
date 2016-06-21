@@ -103,7 +103,7 @@ public class CmdKit implements UltimateCommand {
             return;
         }
         final UKit kit = UC.getServer().getKit(args[0].toLowerCase());
-        if (!kit.hasCooldownPassedFor(p)) {
+        if (!kit.hasCooldownPassedFor(p) && !r.perm(p, "uc.kit.cooldownexempt", false, false)) {
             if (kit.getCooldown() == -1L) {
                 r.sendMes(cs, "kitOnlyOnce");
             } else {
