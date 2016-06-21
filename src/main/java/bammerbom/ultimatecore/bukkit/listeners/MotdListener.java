@@ -60,6 +60,9 @@ public class MotdListener implements Listener {
             String playerip = e.getAddress().toString().split("/")[1].split(":")[0];
             OfflinePlayer p = null;
             for (OfflinePlayer pl : r.getOfflinePlayers()) {
+                if (UC.getPlayer(pl).getLastIp() == null) {
+                    continue;
+                }
                 if (UC.getPlayer(pl).getLastIp().equalsIgnoreCase(playerip)) {
                     p = pl;
                 }
@@ -104,6 +107,9 @@ public class MotdListener implements Listener {
             String playerip = e.getAddress().toString().split("/")[1].split(":")[0];
             OfflinePlayer p = null;
             for (OfflinePlayer pl : r.getOfflinePlayers()) {
+                if (UC.getPlayer(pl) == null || UC.getPlayer(pl).getLastIp() == null) {
+                    continue;
+                }
                 if (UC.getPlayer(pl).getLastIp().equalsIgnoreCase(playerip)) {
                     p = pl;
                 }
