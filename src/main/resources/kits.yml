@@ -23,3 +23,12 @@ tools:
       name: "&bSteak"
       lore: "&eStarters kit."
       quantity: 8
+colors:
+  description: A book with all the minecraft color codes
+  cooldown: "1d"
+  firstjoin: false
+  items:
+    - type: WRITTEN_BOOK
+      book: "colors"
+      name: "&bBook &2of &4Colors"
+      lore: "&eColors kit."

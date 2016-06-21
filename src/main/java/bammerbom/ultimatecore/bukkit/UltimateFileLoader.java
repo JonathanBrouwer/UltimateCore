@@ -49,6 +49,7 @@ public class UltimateFileLoader {
     public static File Dworlds;
     public static File Djails;
     public static File Dkits;
+    public static File Dbooks;
     public static File Dcustommes;
     public static File Deconomy;
     //DIS public static File DFuuid;
@@ -79,6 +80,7 @@ public class UltimateFileLoader {
         Dworlds = new File(plugin.getDataFolder() + File.separator + "Data", "worlds.json");
         Djails = new File(plugin.getDataFolder() + File.separator + "Data", "jails.json");
         Dkits = new File(plugin.getDataFolder(), "kits.yml");
+        Dbooks = new File(plugin.getDataFolder(), "books.txt");
         Dcustommes = new File(plugin.getDataFolder(), "custommessages.yml");
         Deconomy = new File(plugin.getDataFolder() + File.separator + "Data", "economy.json");
         //DIS DFuuid = new File(plugin.getDataFolder() + File.separator + "Data", "uuids.json");
@@ -101,6 +103,9 @@ public class UltimateFileLoader {
             }
             if (!Dkits.exists()) {
                 plugin.saveResource("kits.yml", true);
+            }
+            if (!Dbooks.exists()) {
+                plugin.saveResource("books.txt", true);
             }
             if (!Dcustommes.exists()) {
                 plugin.saveResource("custommessages.yml", true);

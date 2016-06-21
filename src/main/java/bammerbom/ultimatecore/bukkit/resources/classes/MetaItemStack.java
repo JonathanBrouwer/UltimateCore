@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.bukkit.resources.classes;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.databases.EffectDatabase;
 import bammerbom.ultimatecore.bukkit.resources.databases.EnchantmentDatabase;
+import bammerbom.ultimatecore.bukkit.resources.utils.BookUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
@@ -194,6 +195,14 @@ public class MetaItemStack {
             String title = ChatColor.translateAlternateColorCodes('&', split[1].replace('_', ' '));
             BookMeta meta = (BookMeta) this.stack.getItemMeta();
             meta.setTitle(title);
+            this.stack.setItemMeta(meta);
+        } else if ((split.length > 1) && (split[0].equalsIgnoreCase("book")) && (this.stack.getType() == Material.WRITTEN_BOOK)) {
+            String title = split[1];
+            r.log(title.toLowerCase());
+            List<String> pages = BookUtil.readBook(title.toLowerCase());
+            r.log(pages);
+            BookMeta meta = (BookMeta) this.stack.getItemMeta();
+            meta.setPages(pages);
             this.stack.setItemMeta(meta);
         } else if ((split.length > 1) && (split[0].equalsIgnoreCase("power")) && (this.stack.getType() == Material.FIREWORK)) {
             int power = r.isInt(split[1]) ? Integer.parseInt(split[1]) : 0;
