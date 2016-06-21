@@ -33,6 +33,7 @@ import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionOb
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
 import com.google.common.base.Joiner;
 import org.bukkit.*;
+import org.bukkit.block.banner.PatternType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -211,6 +212,8 @@ public class MetaItemStack {
             addFireworkMeta(false, string);
         } else if (this.stack.getType() == Material.POTION) {
             addPotionMeta(false, string);
+        } else if (this.stack.getItemMeta() instanceof BannerMeta) { //WARNING - Meta for banners will be ignored after this point.
+            addBannerMeta(cs, false, string);
         } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour"))) && ((this.stack.getType() == Material.LEATHER_BOOTS) || (this.stack
                 .getType() == Material.LEATHER_CHESTPLATE) || (this.stack.getType() == Material.LEATHER_HELMET) || (this.stack.getType() == Material.LEATHER_LEGGINGS))) {
             String[] color = split[1].split("(\\||,)");
@@ -484,6 +487,29 @@ public class MetaItemStack {
                 this.stack.setItemMeta(pmeta);
                 resetPotionMeta();
             }
+        }
+    }
+
+    public void addBannerMeta(final CommandSender sender, final boolean allowShortName, final String string) throws Exception {
+        if (stack.getType() == Material.BANNER && string != null) {
+            final String[] split = splitPattern.split(string, 2);
+
+            if (split.length < 2) {
+                throw new Exception("");
+            }
+
+            final BannerMeta meta = (BannerMeta) stack.getItemMeta();
+            if (split[0].equalsIgnoreCase("basecolor")) {
+                Color color = Color.fromRGB(Integer.valueOf(split[1]));
+                meta.setBaseColor(DyeColor.getByColor(color));
+            } else if (PatternType.valueOf(split[0]) != null) {
+                PatternType type = PatternType.valueOf(split[0]);
+                DyeColor color = DyeColor.getByColor(Color.fromRGB(Integer.valueOf(split[1])));
+                org.bukkit.block.banner.Pattern pattern = new org.bukkit.block.banner.Pattern(color, type);
+                meta.addPattern(pattern);
+            }
+
+            stack.setItemMeta(meta);
         }
     }
 

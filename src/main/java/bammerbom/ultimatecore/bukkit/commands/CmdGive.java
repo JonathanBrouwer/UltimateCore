@@ -55,7 +55,6 @@ public class CmdGive implements UltimateCommand {
         return Arrays.asList();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.give", false, true)) {
@@ -113,6 +112,8 @@ public class CmdGive implements UltimateCommand {
                             if (ex.getMessage() != null && (ex.getMessage().contains("Enchantment level is either too" + " low or too high") || ex.getMessage()
                                     .contains("Specified enchantment cannot be " + "applied"))) {
                                 r.sendMes(cs, "enchantUnsafe");
+                            } else {
+                                r.sendMes(cs, "giveMetadataFailed");
                             }
                             return;
                         }

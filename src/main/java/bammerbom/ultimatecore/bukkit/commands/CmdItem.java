@@ -55,7 +55,6 @@ public class CmdItem implements UltimateCommand {
         return Arrays.asList("i");
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
         if (!r.perm(cs, "uc.item", false, true)) {
@@ -113,6 +112,8 @@ public class CmdItem implements UltimateCommand {
                             if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too " + "low or too high")) {
                                 r.sendMes(cs, "enchantUnsafe");
                                 return;
+                            } else {
+                                r.sendMes(cs, "itemMetadataFailed");
                             }
                             return;
                         }
