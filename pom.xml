@@ -157,7 +157,7 @@
                     <finalName>UltimateCore</finalName>
                     <artifactSet>
                         <includes>
-                            <include>com.google.code.gson:gson</include>
+                            <!--<include>com.google.code.gson:gson</include>-->
                             <include>com.goebl:david-webb</include>
                             <include>org.json:json</include>
                         </includes>
@@ -226,12 +226,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.6.2</version>
-            <scope>compile</scope>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>com.google.code.gson</groupId>-->
+        <!--<artifactId>gson</artifactId>-->
+        <!--<version>2.7</version>-->
+        <!--<scope>compile</scope>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>

@@ -136,7 +136,6 @@
           <finalName>UltimateCore</finalName>
           <artifactSet>
             <includes>
-              <include>com.google.code.gson:gson</include>
               <include>com.goebl:david-webb</include>
               <include>org.json:json</include>
             </includes>
