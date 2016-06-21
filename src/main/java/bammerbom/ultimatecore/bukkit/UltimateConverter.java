@@ -130,7 +130,7 @@ public class UltimateConverter {
                         json = "{}";
                     }
 
-                    FileUtil.writeLargerTextFile(newf, Arrays.asList(json));
+                    FileUtil.writeFile(newf, Arrays.asList(json));
                     oldf.delete();
                 } catch (Exception ex) {
                     r.log("FAILED: Convert economy.yml");
@@ -154,7 +154,7 @@ public class UltimateConverter {
                     if (json.equalsIgnoreCase("null")) {
                         json = "{}";
                     }
-                    FileUtil.writeLargerTextFile(newf, Arrays.asList(json));
+                    FileUtil.writeFile(newf, Arrays.asList(json));
                     oldf.delete();
                 } catch (Exception ex) {
                     r.log("FAILED: Convert global.yml");
@@ -178,7 +178,7 @@ public class UltimateConverter {
                     if (json.equalsIgnoreCase("null")) {
                         json = "{}";
                     }
-                    FileUtil.writeLargerTextFile(newf, Arrays.asList(json));
+                    FileUtil.writeFile(newf, Arrays.asList(json));
                     oldf.delete();
                 } catch (Exception ex) {
                     r.log("FAILED: Convert jails.yml");
@@ -202,7 +202,7 @@ public class UltimateConverter {
                     if (json.equalsIgnoreCase("null")) {
                         json = "{}";
                     }
-                    FileUtil.writeLargerTextFile(newf, Arrays.asList(json));
+                    FileUtil.writeFile(newf, Arrays.asList(json));
                     oldf.delete();
                 } catch (Exception ex) {
                     r.log("FAILED: Convert spawns.yml");
@@ -226,7 +226,7 @@ public class UltimateConverter {
                     if (json.equalsIgnoreCase("null")) {
                         json = "{}";
                     }
-                    FileUtil.writeLargerTextFile(newf, Arrays.asList(json));
+                    FileUtil.writeFile(newf, Arrays.asList(json));
                     oldf.delete();
                 } catch (Exception ex) {
                     r.log("FAILED: Convert warps.yml");
@@ -250,7 +250,7 @@ public class UltimateConverter {
                     if (json.equalsIgnoreCase("null")) {
                         json = "{}";
                     }
-                    FileUtil.writeLargerTextFile(newf, Arrays.asList(json));
+                    FileUtil.writeFile(newf, Arrays.asList(json));
                     oldf.delete();
                 } catch (Exception ex) {
                     r.log("FAILED: Convert worlds.yml");
@@ -275,7 +275,7 @@ public class UltimateConverter {
                         if (json.equalsIgnoreCase("null")) {
                             json = "{}";
                         }
-                        FileUtil.writeLargerTextFile(newf, Arrays.asList(json));
+                        FileUtil.writeFile(newf, Arrays.asList(json));
                         oldf.delete();
                     }
                 }

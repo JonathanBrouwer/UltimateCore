@@ -39,7 +39,7 @@ public class ServerIDUtil {
             if (!file.exists()) {
                 file.createNewFile();
                 UUID u = UUID.randomUUID();
-                FileUtil.writeLargerTextFile(file, Arrays.asList(u.toString()));
+                FileUtil.writeFile(file, Arrays.asList(u.toString()));
                 uuid = u;
             } else {
                 String s = FileUtil.getLines(file).get(0);

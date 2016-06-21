@@ -171,7 +171,7 @@ public class JsonConfig implements Cloneable {
 
     public void save(File fi) {
         try {
-            FileUtil.writeLargerTextFile(fi, Arrays.asList(JSONValue.toJSONString(map).split("\n", -1)));
+            FileUtil.writeFile(fi, Arrays.asList(JSONValue.toJSONString(map).split("\n", -1)));
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to write file.");
         }
