@@ -273,23 +273,7 @@ public class CmdWorld implements UltimateCommand {
             file.delete();
         }
     }
-
-    private static void resetAll(World world) {
-        world.save();
-        Bukkit.unloadWorld(world, true);
-        File dir = world.getWorldFolder();
-        clear(dir);
-        WorldCreator creator = new WorldCreator(world.getName());
-        creator.seed(world.getSeed());
-        creator.environment(world.getEnvironment());
-        creator.generator(world.getGenerator());
-        creator.generateStructures(world.canGenerateStructures());
-        creator.type(world.getWorldType());
-        World world2 = Bukkit.createWorld(creator);
-        world2.save();
-
-    }
-
+    
     public static void tp(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.tp", false, false)) {
             r.sendMes(cs, "noPermissions");
