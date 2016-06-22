@@ -238,6 +238,13 @@ Chat:
     #GROUP NAMES ARE CASE SENSITIVE!!!
     Player: '&6'
     Admin: '&4'
+    #Will be added after the name of an afk player
+    AfkSuffix: ' &c[AFK]'
+    #Custom header and footer
+    HeaderFooterEnabled: true
+    Header: "&bWelcome in this server!\n&eMulti-Line supported!"
+    Footer: "&cChange this message in the UltimateCore config.yml"
+
   #Enable spam/swear/etc filter?
   SpamFilter: true
   SwearFilter: false

@@ -23,38 +23,56 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionObject;
-import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
 public class TabUtil {
 
-    public static void sendTabTitle(Player p, String header, String footer) {
+    public static void sendTabTitle(Player player, String header, String footer) {
+        if (header == null) header = "";
+        header = ChatColor.translateAlternateColorCodes('&', header);
+
+        if (footer == null) footer = "";
+        footer = ChatColor.translateAlternateColorCodes('&', footer);
+        
+        header = header.replaceAll("%player%", player.getDisplayName());
+        footer = footer.replaceAll("%player%", player.getDisplayName());
         try {
-
-            if (header == null) {
-                header = "";
-            }
-            if (footer == null) {
-                footer = "";
-            }
-
-            Object hc = ReflectionUtil.executeStatic("a({1})", ReflectionStatic.fromNMS("ChatSerializer"), "{\"text\": \"" + header + "\"}").fetch();
-            Object fc = ReflectionUtil.executeStatic("a({1})", ReflectionStatic.fromNMS("ChatSerializer"), "{\"text\": \"" + footer + "\"}").fetch();
-            Object ob = ReflectionObject.fromNMS("PacketPlayOutPlayerListHeaderFooter", hc).fetch();
-
-            Field field = ob.getClass().getDeclaredField("b");
+            Object tabHeader = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", new Class[]{String.class}).invoke(null, new Object[]{"{\"text\":\"" + header + "\"}"});
+            Object tabFooter = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", new Class[]{String.class}).invoke(null, new Object[]{"{\"text\":\"" + footer + "\"}"});
+            Constructor<?> titleConstructor = getNMSClass("PacketPlayOutPlayerListHeaderFooter").getConstructor(new Class[]{getNMSClass("IChatBaseComponent")});
+            Object packet = titleConstructor.newInstance(new Object[]{tabHeader});
+            Field field = packet.getClass().getDeclaredField("b");
             field.setAccessible(true);
-            field.set(ob, fc);
-
-            ReflectionUtil.execute("getHandle().playerConnection.sendPacket({1})", p, ob);
-
-        } catch (Exception e) {
-            ErrorLogger.log(e, "Failed to set tab titles.");
+            field.set(packet, tabFooter);
+            sendPacket(player, packet);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-
     }
+
+    public static void sendPacket(Player player, Object packet) {
+        try {
+            Object handle = player.getClass().getMethod("getHandle", new Class[0]).invoke(player, new Object[0]);
+            Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+            playerConnection.getClass().getMethod("sendPacket", new Class[]{getNMSClass("Packet")}).invoke(playerConnection, new Object[]{packet});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Class<?> getNMSClass(String name) {
+        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+        try {
+            return Class.forName("net.minecraft.server." + version + "." + name);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

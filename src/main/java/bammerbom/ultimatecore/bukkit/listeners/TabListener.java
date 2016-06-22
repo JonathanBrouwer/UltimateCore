@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.TabUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -37,11 +38,22 @@ import java.util.HashMap;
 public class TabListener implements Listener {
 
     static HashMap<String, String> tabPrefixes = new HashMap<>();
+    static String afkSuffix = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.AfkSuffix"));
+    static String header = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.Header"));
+    static String footer = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.Footer"));
 
     public static void start() {
         if (!r.getCnfg().getBoolean("Chat.Tab.Enabled")) {
             return;
         }
+        //Format
+        if (r.getCnfg().getBoolean("Chat.Tab.HeaderFooterEnabled")) {
+            for (Player p : r.getOnlinePlayers()) {
+                TabUtil.sendTabTitle(p, header, footer);
+            }
+        }
+
+        //Player names
         Bukkit.getPluginManager().registerEvents(new TabListener(), r.getUC());
         final String def = r.getCnfg().getString("Chat.Tab.TabDefault");
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
@@ -86,6 +98,9 @@ public class TabListener implements Listener {
                     if (r.getVault() == null || r.getVault().getPermission() == null) {
                         String name = def + UC.getPlayer(p).getDisplayName();
                         name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
+                        if (UC.getPlayer(p).isAfk()) {
+                            name = name + afkSuffix;
+                        }
                         if (!p.getPlayerListName().equals(name)) {
                             p.setPlayerListName(name);
                         }
@@ -95,6 +110,9 @@ public class TabListener implements Listener {
                     if (group == null || group.equalsIgnoreCase("")) {
                         String name = def + UC.getPlayer(p).getDisplayName();
                         name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
+                        if (UC.getPlayer(p).isAfk()) {
+                            name = name + afkSuffix;
+                        }
                         if (!p.getPlayerListName().equals(name)) {
                             p.setPlayerListName(name);
                         }
@@ -104,6 +122,9 @@ public class TabListener implements Listener {
                     if (prefix == null || prefix.equalsIgnoreCase("")) {
                         String name = def + UC.getPlayer(p).getDisplayName();
                         name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
+                        if (UC.getPlayer(p).isAfk()) {
+                            name = name + afkSuffix;
+                        }
                         if (!p.getPlayerListName().equals(name)) {
                             p.setPlayerListName(name);
                         }
@@ -111,6 +132,9 @@ public class TabListener implements Listener {
                     }
                     String name = prefix + UC.getPlayer(p).getDisplayName();
                     name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
+                    if (UC.getPlayer(p).isAfk()) {
+                        name = name + afkSuffix;
+                    }
                     if (!p.getPlayerListName().equals(name)) {
                         p.setPlayerListName(name);
                     }
@@ -121,6 +145,12 @@ public class TabListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
+        //Format
+        if (r.getCnfg().getBoolean("Chat.Tab.HeaderFooterEnabled")) {
+            TabUtil.sendTabTitle(e.getPlayer(), header, footer);
+        }
+
+        //Player name
         final String def = r.getCnfg().getString("Chat.Tab.TabDefault");
         if (r.getVault() == null || r.getVault().getPermission() == null) {
             String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
