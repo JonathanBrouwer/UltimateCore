@@ -53,7 +53,7 @@ public class CmdAfk implements UltimateCommand {
 
     @Override
     public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.checkArgs(args, 0)) {
+        if (!(r.checkArgs(args, 0) && r.searchPlayer(args[0]) != null)) {
             if (!r.isPlayer(cs)) {
                 return;
             }
@@ -61,12 +61,19 @@ public class CmdAfk implements UltimateCommand {
             if (!r.perm(cs, "uc.afk", true, true)) {
                 return;
             }
+            String message = r.checkArgs(args, 0) ? r.getFinalArg(args, 0) : null;
             if (!UC.getPlayer(p).isAfk()) {
-                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(p).getDisplayName()));
+                if (message != null) {
+                    Bukkit.broadcastMessage(r.mes("afkAfkReason", "%Player", UC.getPlayer(p).getDisplayName(), "%Message", message));
+                } else {
+                    Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(p).getDisplayName()));
+                }
                 UC.getPlayer(p).setAfk(true);
+                UC.getPlayer(p).setAfkMessage(message);
             } else {
                 Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getDisplayName()));
                 UC.getPlayer(p).setAfk(false);
+                UC.getPlayer(p).setAfkMessage(null);
             }
         } else {
             if (!r.perm(cs, "uc.afk.others", false, true)) {
@@ -74,12 +81,19 @@ public class CmdAfk implements UltimateCommand {
             }
             if (r.searchPlayer(args[0]) != null) {
                 Player t = r.searchPlayer(args[0]);
+                String message = r.checkArgs(args, 1) ? r.getFinalArg(args, 1) : null;
                 if (!UC.getPlayer(t).isAfk()) {
-                    Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(t).getDisplayName()));
+                    if (message != null) {
+                        Bukkit.broadcastMessage(r.mes("afkAfkReason", "%Player", UC.getPlayer(t).getDisplayName(), "%Message", message));
+                    } else {
+                        Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(t).getDisplayName()));
+                    }
                     UC.getPlayer(t).setAfk(true);
+                    UC.getPlayer(t).setAfkMessage(message);
                 } else {
                     Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getDisplayName()));
                     UC.getPlayer(t).setAfk(false);
+                    UC.getPlayer(t).setAfkMessage(null);
                 }
             } else {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);

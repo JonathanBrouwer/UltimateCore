@@ -20,7 +20,7 @@ commands:
     aliases: [ac]
   afk:
     description: Marks you as away-from-keyboard.
-    usage: /<command> [Player]
+    usage: /<command> [Player] [Message]
     permissions: uc.afk
     aliases: [away]
   alert:

@@ -76,6 +76,7 @@ public class UPlayer {
     long lastaction = System.currentTimeMillis();
     String lastip;
     String lasthostname = null;
+    String afkmessage = null;
 
     public UPlayer(OfflinePlayer p) {
         name = p.getName();
@@ -99,6 +100,14 @@ public class UPlayer {
 
     public Player getOnlinePlayer() {
         return Bukkit.getPlayer(uuid);
+    }
+
+    public String getAfkMessage() {
+        return afkmessage;
+    }
+
+    public void setAfkMessage(String mes) {
+        afkmessage = mes;
     }
 
     public long getLastConnectMillis() {
