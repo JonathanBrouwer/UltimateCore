@@ -3,7 +3,7 @@ version: ${project.version}
 description: UltimateCore is all you need to setup a server and more!
 author: Bammerbom
 authors: [Bammerbom, Coolechriz, KoffieMeister, TheAsher]
-website: dev.bukkit.org/bukkit-plugins/ultimate_core
+website: dev.bukkit.org/bukkit-plugins/ultimatecore
 main: bammerbom.ultimatecore.bukkit.UltimateCore
 prefix: UltimateCore
 softdepend: [Vault, ProtocolLib]
