@@ -609,7 +609,11 @@ public class UPlayer {
     }
 
     public void setInOnlineInventory(Player p) {
-        onlineInv = p.getUniqueId();
+        if (p == null) {
+            onlineInv = null;
+        } else {
+            onlineInv = p.getUniqueId();
+        }
         save();
     }
 
@@ -626,7 +630,11 @@ public class UPlayer {
 
 
     public void setInOfflineInventory(OfflinePlayer p) {
-        offlineInv = p.getUniqueId();
+        if (p == null) {
+            offlineInv = null;
+        } else {
+            offlineInv = p.getUniqueId();
+        }
         save();
     }
 

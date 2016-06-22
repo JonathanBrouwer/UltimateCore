@@ -26,10 +26,12 @@ package bammerbom.ultimatecore.bukkit.commands;
 import bammerbom.ultimatecore.bukkit.UltimateCommand;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -74,8 +76,15 @@ public class CmdInventory implements UltimateCommand {
         if (r.checkArgs(args, 0)) {
             Player t = r.searchPlayer(args[0]);
             if (t != null) {
-                p.openInventory(t.getInventory());
-                UC.getPlayer(p).setInOnlineInventory(t);
+                if (r.checkArgs(args, 1) && args[1].equalsIgnoreCase("armor")) {
+                    Inventory inv = Bukkit.getServer().createInventory(p, 9, "Equipped");
+                    inv.setContents(t.getInventory().getArmorContents());
+                    p.openInventory(inv);
+                    UC.getPlayer(p).setInOfflineInventory(t);
+                } else {
+                    p.openInventory(t.getInventory());
+                    UC.getPlayer(p).setInOnlineInventory(t);
+                }
             } else {
                 OfflinePlayer t2 = r.searchOfflinePlayer(args[0]);
                 if (t2 == null || (!t2.hasPlayedBefore() && !t2.isOnline())) {

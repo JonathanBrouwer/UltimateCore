@@ -272,11 +272,9 @@ public class GlobalPlayerListener implements Listener {
             }
             //Inventory
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOfflineInventory()) {
-                e.getPlayer().closeInventory();
                 UC.getPlayer(e.getPlayer().getUniqueId()).setInOfflineInventory(null);
             }
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOnlineInventory()) {
-                e.getPlayer().closeInventory();
                 UC.getPlayer(e.getPlayer().getUniqueId()).setInOnlineInventory(null);
             }
             //Recipe
