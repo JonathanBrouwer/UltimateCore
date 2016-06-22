@@ -36,6 +36,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -80,6 +81,8 @@ public class UltimateUpdater {
     private static final String USER_AGENT = "Updater (by Gravity)";
     // Used for locating version numbers in file names
     private static final String DELIMETER = "^v|[\\s_-]v";
+    // Used for locating minecraft versions in file names
+    private static final String MDELIMETER = "[\\s_-]m";
     // If the version number contains one of these, don't update.
     private static final String[] NO_UPDATE_TAG = {"-DEV", "-PRE", "-SNAPSHOT"};
     // Used for downloading files
@@ -421,9 +424,20 @@ public class UltimateUpdater {
                 // Get the newest file's version number
                 final String remoteVersion = title.split(DELIMETER)[1].split(" ")[0];
 
-                String localver = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
-                if (!localver.equalsIgnoreCase(mcver) && shouldUpdate(localver, mcver)) {
-                    r.log("Update available, but your server is outdated. (" + mcver + " > " + localver + ")");
+                //Override
+                boolean matches = false;
+                for (String s : title.split(" ")) {
+                    if (Pattern.matches("m(\\d)+\\.(\\d)+", s)) {
+                        matches = true;
+                    }
+                }
+                if (matches) {
+                    mcver = title.split(MDELIMETER)[1].split(" ")[0];
+                }
+
+                String mclocal = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
+                if (shouldUpdate(localVersion, remoteVersion) && shouldUpdate(mclocal, mcver)) {
+                    r.log("Update available, but your server is outdated. (" + mcver + " > " + mclocal + ")");
                     return false;
                 }
 
