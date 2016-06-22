@@ -80,6 +80,7 @@ public enum MobType {
     GUARDIAN("Guardian", Enemies.ENEMY, EntityType.GUARDIAN),
     ELDERGUARDIAN("ElderGuardian", Enemies.ENEMY, EntityType.GUARDIAN),
     RABBIT("Rabbit", Enemies.FRIENDLY, EntityType.RABBIT),
+    SHULKER("Shulker", Enemies.ENEMY, EntityType.SHULKER),
     POLAR_BEAR("PolarBear", Enemies.NEUTRAL, EntityType.POLAR_BEAR);
 
     private static final Map<String, MobType> hashMap;
