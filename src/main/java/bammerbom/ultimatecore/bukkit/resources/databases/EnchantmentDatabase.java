@@ -210,6 +210,13 @@ public class EnchantmentDatabase {
             ench.put("depth", Enchantment.DEPTH_STRIDER);
             ench.put("ds", Enchantment.DEPTH_STRIDER);
 
+            ench.put("frost", Enchantment.FROST_WALKER);
+            ench.put("walker", Enchantment.FROST_WALKER);
+            ench.put("frozenwalker", Enchantment.FROST_WALKER);
+
+            ench.put("mend", Enchantment.MENDING);
+            ench.put("xprepair", Enchantment.MENDING);
+
             for (Enchantment enc : Enchantment.values()) {
                 if (!ench.containsKey(enc.getName().toLowerCase())) {
                     ench.put(enc.getName().toLowerCase(), enc);
