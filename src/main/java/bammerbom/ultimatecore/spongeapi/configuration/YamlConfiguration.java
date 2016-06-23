@@ -23,31 +23,33 @@
  */
 package bammerbom.ultimatecore.spongeapi.configuration;
 
-import bammerbom.ultimatecore.spongeapi.r;
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConstructor;
+import org.bukkit.configuration.file.YamlRepresenter;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
- * An implementation of {@link Configuration} which saves all files in Yaml. Note that this
+ * An implementation of {@link Config} which saves all files in Yaml. Note that this
  * implementation is not synchronized.
  */
-class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.FileConfiguration {
+class YamlConfiguration extends FileConfiguration {
 
     protected static final String COMMENT_PREFIX = "# ";
     protected static final String BLANK_CONFIG = "{}\n";
     private final DumperOptions yamlOptions = new DumperOptions();
-    private final Representer yamlRepresenter = new Representer();
-    private final Yaml yaml = new Yaml(new Constructor(), yamlRepresenter, yamlOptions);
+    private final Representer yamlRepresenter = new YamlRepresenter();
+    private final Yaml yaml = new Yaml(new YamlConstructor(), yamlRepresenter, yamlOptions);
 
     /**
-     * Creates a new {@link bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration}, loading from the given file.
+     * Creates a new {@link YamlConfiguration}, loading from the given file.
      * <p/>
      * Any errors loading the Configuration will be logged and then ignored. If the specified input
      * is not a valid config, a blank config will be returned.
@@ -66,15 +68,17 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
         try {
             config.load(file);
         } catch (FileNotFoundException ex) {
-        } catch (IOException | InvalidConfigurationException ex) {
-            r.log("Cannot load " + file + "\n" + ex);
+        } catch (IOException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
+        } catch (InvalidConfigurationException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
         }
 
         return config;
     }
 
     /**
-     * Creates a new {@link bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration}, loading from the given stream.
+     * Creates a new {@link YamlConfiguration}, loading from the given stream.
      * <p/>
      * Any errors loading the Configuration will be logged and then ignored. If the specified input
      * is not a valid config, a blank config will be returned.
@@ -94,15 +98,17 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
 
         try {
             config.load(stream);
-        } catch (IOException | InvalidConfigurationException ex) {
-            r.log("Cannot load stream\n" + ex);
+        } catch (IOException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
+        } catch (InvalidConfigurationException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
         }
 
         return config;
     }
 
     /**
-     * Creates a new {@link bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration}, loading from the given reader.
+     * Creates a new {@link YamlConfiguration}, loading from the given reader.
      * <p/>
      * Any errors loading the Configuration will be logged and then ignored. If the specified input
      * is not a valid config, a blank config will be returned.
@@ -118,8 +124,10 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
 
         try {
             config.load(reader);
-        } catch (IOException | InvalidConfigurationException ex) {
-            r.log("Cannot load stream\n" + ex);
+        } catch (IOException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
+        } catch (InvalidConfigurationException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
         }
 
         return config;
@@ -143,7 +151,7 @@ class YamlConfiguration extends bammerbom.ultimatecore.spongeapi.configuration.F
     }
 
     @Override
-    protected void loadFromString(String contents) throws bammerbom.ultimatecore.spongeapi.configuration.InvalidConfigurationException {
+    protected void loadFromString(String contents) throws InvalidConfigurationException {
         Validate.notNull(contents, "Contents cannot be null");
 
         Map<?, ?> input;

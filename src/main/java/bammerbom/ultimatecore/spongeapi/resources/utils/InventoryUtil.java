@@ -24,8 +24,15 @@
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.item.inventory.Inventory;
-import org.spongepowered.api.service.persistence.SerializationService;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.command.CommandSource;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -75,7 +82,7 @@ public class InventoryUtil {
         }, 1L);
     }
 
-    public static void clearHandler(CommandSender cs, Player player, String[] args, int offset, boolean showExtended) {
+    public static void clearHandler(CommandSource cs, Player player, String[] args, int offset, boolean showExtended) {
         short data = -1;
         int type = -1;
         int amount = -1;
@@ -124,7 +131,7 @@ public class InventoryUtil {
             player.getInventory().clear(type, data);
         } else if (amount == -1) {
             ItemStack stack = new ItemStack(type, 100000, data);
-            ItemStack removedStack = player.getInventory().removeItem(new ItemStack[]{stack}).get(Integer.valueOf(0));
+            ItemStack removedStack = player.getInventory().removeItem(stack).get(Integer.valueOf(0));
             int removedAmount = 100000 - removedStack.getAmount();
             if (removedAmount == 0) {
                 r.sendMes(cs, "clearNoItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack));
@@ -166,7 +173,6 @@ public class InventoryUtil {
         return true;
     }
 
-    @SuppressWarnings("deprecation")
     public static boolean isEmptyInventory(PlayerInventory inv) {
         ItemStack[] inventory = inv.getContents();
         ItemStack[] armor = inv.getArmorContents();
@@ -185,10 +191,7 @@ public class InventoryUtil {
         return true;
     }
 
-    @SuppressWarnings("deprecation")
-    public static String convertInventoryToString(Inventory inv) {
-        SerializationService service = Sponge.getGame().getServiceManager().provide(SerializationService.class).get();
-        service.getBuilder(Inventory.class).get().build(inv);
+    public static String convertInventoryToString(Inventory invInventory) {
         String serialization = invInventory.getSize() + ";";
         for (int i = 0;
              i < invInventory.getSize();
@@ -227,11 +230,10 @@ public class InventoryUtil {
         return serialization;
     }
 
-    @SuppressWarnings("deprecation")
     public static Inventory convertStringToInventory(String invString, String name) {
         String[] serializedBlocks = invString.split(";");
         String invInfo = serializedBlocks[0];
-        Inventory deserializedInventory = Bukkit.getServer().createInventory(null, Integer.valueOf(invInfo), (name.length() >= 32) ? name.substring(0, 31) : name);
+        Inventory deserializedInventory = Bukkit.getServer().createInventory(null, Integer.valueOf(invInfo) % 9 == 0 ? Integer.valueOf(invInfo) : Integer.valueOf(invInfo) + (9 - (Integer.valueOf(invInfo) % 9)), (name.length() >= 32) ? name.substring(0, 31) : name);
 
         for (int i = 1;
              i < serializedBlocks.length;

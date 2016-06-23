@@ -29,13 +29,10 @@ import bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
-import bammerbom.ultimatecore.spongeapi.resources.databases.EnchantmentDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.meta.ItemEnchantment;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.item.Enchantment;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 
@@ -50,20 +47,45 @@ import java.util.Map;
 public class UKit {
 
     private static final Config kits = new Config(UltimateFileLoader.Dkits);
-    private final ConfigSection kit;
     private final String name;
     private final String description;
     private final List<ItemStack> items;
     private final long cooldown;
+    private final String cooldowns;
     private final boolean firstjoin;
+    private ConfigSection kit;
 
     public UKit(final String name) {
         this.name = name;
         this.kit = kits.getConfigurationSection(name);
         this.items = getItemStacks(kit.getMapList("items"));
         this.cooldown = DateUtil.parseDateDiff(kit.getString("cooldown", "0"));
-        this.description = r.translateAlternateColorCodes('&', kit.getString("description", ""));
+        this.cooldowns = kit.getString("cooldown", "0");
+        this.description = TextColorUtil.translateAlternate(kit.getString("description", ""));
         this.firstjoin = kit.getBoolean("firstjoin", false);
+    }
+
+    public UKit(final String name, final String cooldown, final boolean firstjoin, final String description, final List<ItemStack> items) {
+        this.name = name;
+        this.kit = null;
+        this.items = items;
+        this.cooldown = DateUtil.parseDateDiff(cooldown);
+        this.cooldowns = cooldown;
+        this.description = TextColorUtil.translateAlternate(description);
+        this.firstjoin = firstjoin;
+    }
+
+    /**
+     * Saves this kit to the config file
+     */
+    public void save() {
+        List<HashMap<String, Object>> itemstrings = ItemUtil.serialize(items);
+        kits.set(name + ".description", description);
+        kits.set(name + ".cooldown", cooldowns);
+        kits.set(name + ".firstjoin", firstjoin);
+        kits.set(name + ".items", itemstrings);
+        kits.save();
+        this.kit = kits.getConfigurationSection(name);
     }
 
     /**
@@ -73,36 +95,6 @@ public class UKit {
      */
     public boolean firstJoin() {
         return firstjoin;
-    }
-
-    /**
-     * Adds a list of represented enchantments to an ItemStack.
-     *
-     * @param is           ItemStack to add enchantments to
-     * @param enchantments List of nodes representing enchantments
-     * @return ItemStack with enchantments applied
-     */
-    private ItemStack addEnchantments(final ItemStack is, final List<ConfigSection> enchantments) {
-        for (final ConfigSection enchantment : enchantments) {
-            final Enchantment realEnchantment = this.getEnchantment(enchantment);
-            if (realEnchantment == null) {
-                continue;
-            }
-            List<ItemEnchantment> enchs = is.get(Keys.ITEM_ENCHANTMENTS).get();
-            enchs.add(new ItemEnchantment(realEnchantment, enchantment.getInt("level", 1)));
-            is.offer(Keys.ITEM_ENCHANTMENTS, enchs);
-        }
-        return is;
-    }
-
-    /**
-     * Gets an enchantment from a node representing it.
-     *
-     * @param enchantment Node
-     * @return Enchantment (may be null)
-     */
-    private Enchantment getEnchantment(final ConfigSection enchantment) {
-        return EnchantmentDatabase.getByName(enchantment.getString("type", "").toUpperCase());
     }
 
     /**
@@ -135,8 +127,8 @@ public class UKit {
             }
             return ism.getItemStack();
         } catch (Exception ex) {
-            r.log("Kit " + name + " has an invalid item: " + item + ", replaced with a cookie.");
-            return Sponge.getGame().getRegistry().createItemBuilder().itemType(ItemTypes.COOKIE).build();
+            r.log("Kit " + name + " has an invalid item: " + item);
+            return ItemStack.builder().itemType(ItemTypes.NONE).build();
         }
     }
 
@@ -146,11 +138,11 @@ public class UKit {
      * @param items List of nodes representing items
      * @return List of ItemStacks, never null
      */
-    private List<ItemStack> getItemStacks(final List<Map<?, ?>> items) {
+    private List<ItemStack> getItemStacks(List<Map<?, ?>> items) {
         final List<ItemStack> itemStacks = new ArrayList<>();
         for (final Map<?, ?> item : items) {
             HashMap<String, Object> itemc = new HashMap<>();
-            itemc.putAll((Map<? extends String, ? extends Object>) item);
+            itemc.putAll((Map<String, Object>) item);
             final ItemStack is = this.getItemStack(itemc);
             if (is == null) {
                 continue;
@@ -172,7 +164,7 @@ public class UKit {
             return lore;
         }
         for (final String loreItem : item.getStringList("lore")) {
-            lore.add(r.translateAlternateColorCodes('&', loreItem));
+            lore.add(TextColorUtil.translateAlternate(loreItem));
         }
         return lore;
     }
@@ -222,7 +214,7 @@ public class UKit {
      * @return Timestamp in milliseconds
      */
     public long getLastUsed(final Player p) {
-        Long l = bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(p).getPlayerConfig().getLong("kits." + this.getName() + ".lastused");
+        Long l = UC.getPlayer(p).getPlayerConfig().getLong("kits." + this.getName() + ".lastused");
         return l == null ? 0L : l;
     }
 

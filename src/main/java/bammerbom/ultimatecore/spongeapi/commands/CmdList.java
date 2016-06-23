@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class CmdList implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.list", true, true)) {
             return;
         }
@@ -90,11 +90,12 @@ public class CmdList implements UltimateCommand {
                     }
                 }
                 if (an) {
+                    String gn = g;
                     if (first2) {
                         first2 = false;
-                        online.append(r.positive + StringUtil.firstUpperCase(g) + ": ");
+                        online.append(r.positive + StringUtil.firstUpperCase(gn) + ": ");
                     } else {
-                        online.append("\n" + r.positive + StringUtil.firstUpperCase(g) + ": ");
+                        online.append("\n" + r.positive + StringUtil.firstUpperCase(gn) + ": ");
                     }
                     Boolean first = true;
                     Boolean any = false;
@@ -116,7 +117,7 @@ public class CmdList implements UltimateCommand {
                     }
                     plz.removeAll(remove);
                     remove.clear();
-                    if (!any) {
+                    if (any == false) {
                         online.append(r.neutral + "none");
                     }
                 }
@@ -132,7 +133,7 @@ public class CmdList implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

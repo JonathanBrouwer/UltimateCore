@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
@@ -37,7 +38,7 @@ public class PluginStealListener implements Listener {
         }
     }
 
-    @Listener
+    @EventHandler
     public void onCommandPreprocess(PlayerCommandPreprocessEvent e) {
         String m = e.getMessage().startsWith("/") ? e.getMessage().replaceFirst("/", "") : e.getMessage();
         if (m.contains(" ")) {
@@ -60,7 +61,7 @@ public class PluginStealListener implements Listener {
 
         public static void start() {
             ((com.comphenix.protocol.ProtocolManager) r.getProtocolManager()).addPacketListener(new com.comphenix.protocol.events.PacketAdapter(r
-                    .getUC(), com.comphenix.protocol.events.ListenerPriority.NORMAL, new com.comphenix.protocol.PacketType[]{com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE}) {
+                    .getUC(), com.comphenix.protocol.events.ListenerPriority.NORMAL, com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE) {
                 @Override
                 public void onPacketReceiving(com.comphenix.protocol.events.PacketEvent event) {
                     if (event.getPacketType() == com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE) {
@@ -68,11 +69,8 @@ public class PluginStealListener implements Listener {
                         String m = packet.getStrings().read(0).toLowerCase();
                         if (m.contains(" ")) {
                             m = m.split(" ")[0];
-                        } else if (m.startsWith("/")) {
-                            if (!r.perm(event.getPlayer(), "uc.plugins", false, false)) {
-                                event.setCancelled(true);
-                                return;
-                            }
+                        } else if (!m.startsWith("/")) {
+                            return;
                         }
                         if (m.contains("/")) {
                             m = m.replaceFirst("/", "");

@@ -24,12 +24,12 @@
 package bammerbom.ultimatecore.spongeapi.configuration;
 
 import org.apache.commons.lang.Validate;
-import org.spongepowered.api.entity.living.player.User;
-import org.spongepowered.api.item.inventory.ItemStack;
+import org.bukkit.Color;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
 
-import java.awt.*;
+import java.math.BigDecimal;
 import java.util.*;
-import java.util.List;
 
 import static org.bukkit.util.NumberConversions.*;
 
@@ -45,13 +45,13 @@ public class ConfigSection {
     private final String fullPath;
 
     /**
-     * Creates an empty MemorySection for use as a root {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} section.
+     * Creates an empty MemorySection for use as a root {@link MemoryConfiguration} section.
      * <p/>
-     * Note that calling this without being yourself a {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} will throw an
+     * Note that calling this without being yourself a {@link MemoryConfiguration} will throw an
      * exception!
      *
      * @throws IllegalStateException Thrown if this is not a {@link
-     *                               bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} root.
+     *                               MemoryConfiguration} root.
      */
     protected ConfigSection() {
         if (!(this instanceof MemoryConfiguration)) {
@@ -69,7 +69,7 @@ public class ConfigSection {
      *
      * @param parent Parent section that contains this own section.
      * @param path   Path that you may access this section from via the root
-     *               {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration}.
+     *               {@link MemoryConfiguration}.
      * @throws IllegalArgumentException Thrown is parent or path is null, or if parent contains no
      *                                  root MemoryConfiguration.
      */
@@ -88,10 +88,9 @@ public class ConfigSection {
 
     /**
      * Creates a full path to the given {@link ConfigSection} from its root
-     * {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration}.
+     * {@link MemoryConfiguration}.
      * <p/>
-     * You may use this method for any given {@link ConfigSection}, not only {@link bammerbom.ultimatecore.spongeapi.configuration
-     * .ConfigSection}.
+     * You may use this method for any given {@link ConfigSection}, not only {@link ConfigSection}.
      *
      * @param section Section to create a path for.
      * @param key     Name of the specified section.
@@ -104,8 +103,7 @@ public class ConfigSection {
     /**
      * Creates a relative path to the given {@link ConfigSection} from the given relative section.
      * <p/>
-     * You may use this method for any given {@link ConfigSection}, not only {@link bammerbom.ultimatecore.spongeapi.configuration
-     * .ConfigSection}.
+     * You may use this method for any given {@link ConfigSection}, not only {@link ConfigSection}.
      *
      * @param section    Section to create a path for.
      * @param key        Name of the specified section.
@@ -415,6 +413,16 @@ public class ConfigSection {
         return (val instanceof Number) ? toDouble(val) : def;
     }
 
+    public BigDecimal getBigDecimal(String path) {
+        Object def = getDefault(path);
+        return getBigDecimal(path, (def instanceof BigDecimal) ? (BigDecimal) def : null);
+    }
+
+    public BigDecimal getBigDecimal(String path, BigDecimal def) {
+        Object val = get(path, def);
+        return (BigDecimal) ((val instanceof BigDecimal) ? val : def);
+    }
+
     public boolean isDouble(String path) {
         Object val = get(path);
         return val instanceof Double;
@@ -497,7 +505,7 @@ public class ConfigSection {
                 } catch (Exception ex) {
                 }
             } else if (object instanceof Character) {
-                result.add((int) (Character) object);
+                result.add((int) ((Character) object).charValue());
             } else if (object instanceof Number) {
                 result.add(((Number) object).intValue());
             }
@@ -548,7 +556,7 @@ public class ConfigSection {
                 } catch (Exception ex) {
                 }
             } else if (object instanceof Character) {
-                result.add((double) (Character) object);
+                result.add((double) ((Character) object).charValue());
             } else if (object instanceof Number) {
                 result.add(((Number) object).doubleValue());
             }
@@ -575,7 +583,7 @@ public class ConfigSection {
                 } catch (Exception ex) {
                 }
             } else if (object instanceof Character) {
-                result.add((float) (Character) object);
+                result.add((float) ((Character) object).charValue());
             } else if (object instanceof Number) {
                 result.add(((Number) object).floatValue());
             }
@@ -602,7 +610,7 @@ public class ConfigSection {
                 } catch (Exception ex) {
                 }
             } else if (object instanceof Character) {
-                result.add((long) (Character) object);
+                result.add((long) ((Character) object).charValue());
             } else if (object instanceof Number) {
                 result.add(((Number) object).longValue());
             }
@@ -724,19 +732,19 @@ public class ConfigSection {
         return val instanceof Vector;
     }
 
-    public User getUser(String path) {
+    public OfflinePlayer getOfflinePlayer(String path) {
         Object def = getDefault(path);
-        return getUser(path, (def instanceof User) ? (User) def : null);
+        return getOfflinePlayer(path, (def instanceof OfflinePlayer) ? (OfflinePlayer) def : null);
     }
 
-    public User getUser(String path, User def) {
+    public OfflinePlayer getOfflinePlayer(String path, OfflinePlayer def) {
         Object val = get(path, def);
-        return (val instanceof User) ? (User) val : def;
+        return (val instanceof OfflinePlayer) ? (OfflinePlayer) val : def;
     }
 
-    public boolean isUser(String path) {
+    public boolean isOfflinePlayer(String path) {
         Object val = get(path);
-        return val instanceof User;
+        return val instanceof OfflinePlayer;
     }
 
     public ItemStack getItemStack(String path) {
@@ -785,8 +793,7 @@ public class ConfigSection {
     }
 
     protected boolean isPrimitiveWrapper(Object input) {
-        return input instanceof Integer || input instanceof Boolean || input instanceof Character || input instanceof Byte || input instanceof Short || input instanceof Double || input instanceof
-                Long || input instanceof Float;
+        return input instanceof Integer || input instanceof Boolean || input instanceof Character || input instanceof Byte || input instanceof Short || input instanceof Double || input instanceof Long || input instanceof Float;
     }
 
     protected Object getDefault(String path) {
@@ -809,8 +816,9 @@ public class ConfigSection {
     }
 
     protected void mapChildrenValues(Map<String, Object> output, ConfigSection section, boolean deep) {
+        ConfigSection sec = section;
 
-        for (Map.Entry<String, Object> entry : section.map.entrySet()) {
+        for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
             output.put(createPath(section, entry.getKey(), this), entry.getValue());
 
             if (entry.getValue() instanceof ConfigSection) {
@@ -824,7 +832,8 @@ public class ConfigSection {
     @Override
     public String toString() {
         MemoryConfiguration root = getRoot();
-        return getClass().getSimpleName() + "[path='" + getCurrentPath() + "', root='" + (root == null ? null : root.getClass().getSimpleName()) + "']";
+        return new StringBuilder().append(getClass().getSimpleName()).append("[path='").append(getCurrentPath()).append("', root='").append(root == null ? null : root.getClass().getSimpleName())
+                .append("']").toString();
     }
 
 }

@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -51,7 +51,7 @@ public class CmdTeleporttoggle implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.teleporttoggle", true, true)) {
             return;
         }
@@ -65,15 +65,16 @@ public class CmdTeleporttoggle implements UltimateCommand {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
-            UC.getPlayer(t).setTeleportEnabled(!UC.getPlayer(t).hasTeleportEnabled());
-            r.sendMes(cs, "teleporttoggleOthersSelf", "%Player", t.getName(), "%Enabled", UC.getPlayer(t).hasTeleportEnabled() ? r.mes("enabled") : r.mes("disabled"));
-            r.sendMes(t, "teleporttoggleOthersOthers", "%Player", r.getDisplayName(cs), "%Enabled", UC.getPlayer(t).hasTeleportEnabled() ? r.mes("enabled") : r.mes("disabled"));
+            if (!r.perm(cs, "uc.teleporttoggle.others", false, true)) {
+                UC.getPlayer(t).setTeleportEnabled(!UC.getPlayer(t).hasTeleportEnabled());
+                r.sendMes(cs, "teleporttoggleOthersSelf", "%Player", t.getName(), "%Enabled", UC.getPlayer(t).hasTeleportEnabled() ? r.mes("enabled") : r.mes("disabled"));
+                r.sendMes(t, "teleporttoggleOthersOthers", "%Player", r.getDisplayName(cs), "%Enabled", UC.getPlayer(t).hasTeleportEnabled() ? r.mes("enabled") : r.mes("disabled"));
+            }
         }
-
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

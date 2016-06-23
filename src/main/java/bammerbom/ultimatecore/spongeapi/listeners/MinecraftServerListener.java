@@ -49,16 +49,22 @@ public class MinecraftServerListener {
                 final ArrayList<MinecraftServerUtil.MinecraftServer> nproblems = MinecraftServerUtil.problems;
                 final ArrayList<MinecraftServerUtil.MinecraftServer> nonline = MinecraftServerUtil.online;
                 for (MinecraftServerUtil.MinecraftServer server : MinecraftServerUtil.MinecraftServer.values()) {
-                    if (server.equals(MinecraftServerUtil.MinecraftServer.WEBSITE) || server.equals(MinecraftServerUtil.MinecraftServer.ACCOUNT)) {
+                    if (server.equals(MinecraftServerUtil.MinecraftServer.WEBSITE) || server.equals(MinecraftServerUtil.MinecraftServer.MOJANG) || server.equals(MinecraftServerUtil.MinecraftServer.API)) {
+                        continue;
+                    }
+                    if (server.equals(MinecraftServerUtil.MinecraftServer.AUTHSERVER) && MinecraftServerUtil.getStatus(MinecraftServerUtil.MinecraftServer.AUTH) == MinecraftServerUtil.Status.OFFLINE) {
+                        continue;
+                    }
+                    if (server.equals(MinecraftServerUtil.MinecraftServer.SESSIONSERVER) && MinecraftServerUtil.getStatus(MinecraftServerUtil.MinecraftServer.SESSION) == MinecraftServerUtil.Status.OFFLINE) {
                         continue;
                     }
                     MinecraftServerUtil.Status old = getStatus(offline, unknown, problems, online, server);
                     MinecraftServerUtil.Status new_ = getStatus(noffline, nunknown, nproblems, nonline, server);
                     if (!old.equals(new_)) {
-                        if (old.equals(MinecraftServerUtil.Status.UNKNOWN) || new_.equals(MinecraftServerUtil.Status.UNKNOWN)) {
+                        if (old.equals(MinecraftServerUtil.Status.UNKNOWN)) {
                             continue;
                         }
-                        if (new_.equals(MinecraftServerUtil.Status.OFFLINE)) {
+                        if (new_.equals(MinecraftServerUtil.Status.OFFLINE) || new_.equals(MinecraftServerUtil.Status.UNKNOWN)) {
                             Bukkit.broadcastMessage(r.mes("minecraftserversOffline", "%Service", server.toString().toLowerCase(), "%Tip", MinecraftServerUtil
                                     .getTip(MinecraftServerUtil.Status.OFFLINE, server) != null ? r.mes(MinecraftServerUtil.getTip(MinecraftServerUtil.Status.OFFLINE, server)) : ""));
                         } else if (new_.equals(MinecraftServerUtil.Status.EXPERIENCE)) {

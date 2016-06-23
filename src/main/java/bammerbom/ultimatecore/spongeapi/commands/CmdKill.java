@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -53,10 +53,9 @@ public class CmdKill implements UltimateCommand {
         return Arrays.asList("suicide");
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.checkArgs(args, 0)) {
+    public void run(final CommandSource cs, String label, String[] args) {
+        if (r.checkArgs(args, 0) == false) {
             if (!r.isPlayer(cs)) {
                 return;
             }
@@ -92,7 +91,7 @@ public class CmdKill implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

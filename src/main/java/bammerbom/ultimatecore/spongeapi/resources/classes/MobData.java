@@ -27,20 +27,12 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.databases.EffectDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
-import org.spongepowered.api.CatalogTypes;
-import org.spongepowered.api.attribute.Attributes;
-import org.spongepowered.api.data.manipulator.AttributeData;
-import org.spongepowered.api.data.manipulator.ColoredData;
-import org.spongepowered.api.data.manipulator.DisplayNameData;
-import org.spongepowered.api.data.manipulator.PotionEffectData;
-import org.spongepowered.api.data.manipulator.entity.*;
-import org.spongepowered.api.data.type.*;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.living.ArmorStand;
-import org.spongepowered.api.entity.living.animal.Horse;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.item.ItemTypes;
-import org.spongepowered.api.text.Texts;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Colorable;
 
 import java.util.Locale;
 import java.util.Random;
@@ -51,8 +43,8 @@ public class MobData {
 
     //Methods
     static boolean isHorseColor(String str) {
-        for (HorseColor color : r.getRegistry().getAllOf(CatalogTypes.HORSE_COLOR)) {
-            String colors = color.getId().toLowerCase().replaceAll("_", "");
+        for (Horse.Color color : Horse.Color.values()) {
+            String colors = color.name().toLowerCase().replaceAll("_", "");
             String inputs = str.toLowerCase().replaceAll("_", "");
             if (colors.equals(inputs)) {
                 return true;
@@ -61,9 +53,9 @@ public class MobData {
         return false;
     }
 
-    static HorseColor getHorseColor(String str) {
-        for (HorseColor color : r.getRegistry().getAllOf(CatalogTypes.HORSE_COLOR)) {
-            String colors = color.getId().toLowerCase().replaceAll("_", "");
+    static Horse.Color getHorseColor(String str) {
+        for (Horse.Color color : Horse.Color.values()) {
+            String colors = color.name().toLowerCase().replaceAll("_", "");
             String inputs = str.toLowerCase().replaceAll("_", "");
             if (colors.equals(inputs)) {
                 return color;
@@ -76,8 +68,8 @@ public class MobData {
         if (str.equalsIgnoreCase("whitelegs")) {
             return true;
         }
-        for (HorseStyle style : r.getRegistry().getAllOf(CatalogTypes.HORSE_STYLE)) {
-            String styles = style.getId().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
+        for (Horse.Style style : Horse.Style.values()) {
+            String styles = style.name().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
             String inputs = str.toLowerCase().replaceAll("white_", "").replaceAll("_", "").replaceAll("whitelegs", "white");
             if (styles.equals(inputs)) {
                 return true;
@@ -86,12 +78,12 @@ public class MobData {
         return false;
     }
 
-    static HorseStyle getHorseStyle(String str) {
+    static Horse.Style getHorseStyle(String str) {
         if (str.equalsIgnoreCase("whitelegs")) {
-            return HorseStyles.WHITE;
+            return Horse.Style.WHITE;
         }
-        for (HorseStyle style : r.getRegistry().getAllOf(CatalogTypes.HORSE_STYLE)) {
-            String styles = style.getId().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
+        for (Horse.Style style : Horse.Style.values()) {
+            String styles = style.name().toLowerCase().replaceAll("white_", "").replaceAll("_", "");
             String inputs = str.toLowerCase().replaceAll("white_", "").replaceAll("_", "").replaceAll("whitelegs", "white");
             if (styles.equals(inputs)) {
                 return style;
@@ -102,9 +94,11 @@ public class MobData {
 
     static void setHorseSpeed(Horse h, double speed) {
         try {
-            AttributeData d = h.getOrCreate(AttributeData.class).get();
-            d.setBase(Attributes.GENERIC_MOVEMENT_SPEED, speed);
-            h.offer(d);
+            ReflectionUtil.ReflectionObject attributes = ReflectionUtil.execute("getHandle().getAttributeInstance({1})", h, ReflectionUtil
+                    .executeStatic(ReflectionUtil.NMS_PATH.equalsIgnoreCase("net.minecraft.server.1_8_R1") || ReflectionUtil.NMS_PATH
+                            .equalsIgnoreCase("net.minecraft.server.1_8_R2") ? "d" : "MOVEMENT_SPEED", ReflectionUtil.ReflectionStatic.fromNMS("GenericAttributes")).fetch());
+            attributes.set("f", speed);
+            attributes.invoke("f");
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to apply horse speed data.");
         }
@@ -125,124 +119,136 @@ public class MobData {
 
     public static boolean setData(Entity en, String data, Player p) {
         if (data.equalsIgnoreCase("baby") || data.equalsIgnoreCase("small")) {
-            if (en.isCompatible(AgeableData.class)) {
-                en.offer(en.getOrCreate(AgeableData.class).get().setBaby());
+            if (en instanceof Ageable) {
+                ((Ageable) en).setBaby();
+                return true;
+            } else if (en instanceof Zombie) {
+                ((Zombie) en).setBaby(true);
                 return true;
             } else if (en instanceof ArmorStand) {
                 ((ArmorStand) en).setSmall(true);
                 return true;
             }
         } else if (data.startsWith("age:")) {
-            if (en.isCompatible(AgeableData.class)) {
+            if (en instanceof Ageable) {
                 if (r.isInt(data.split(":")[1])) {
-                    en.offer(en.getOrCreate(AgeableData.class).get().setAge(Integer.parseInt(data.split(":")[1])));
+                    ((Ageable) en).setAge(Integer.parseInt(data.split(":")[1]));
                     return true;
                 }
             }
         } else if (data.equalsIgnoreCase("agelock")) {
-            if (en.isCompatible(AgeableData.class)) {
-                en.offer(en.getOrCreate(AgeableData.class).get()); //TODO agelock
+            if (en instanceof Ageable) {
+                ((Ageable) en).setAgeLock(true);
                 return true;
             }
         } else if (data.equalsIgnoreCase("tame") || data.equalsIgnoreCase("tameable")) {
-            if (en.isCompatible(TameableData.class)) {
+            if (en instanceof Tameable) {
+                ((Tameable) en).setTamed(true);
                 if (p != null) {
-                    en.offer(en.getOrCreate(TameableData.class).get().setOwner(p));
+                    ((Tameable) en).setOwner(p);
                 }
                 return true;
             }
         } else if (data.equalsIgnoreCase("random")) {
-            if (en.isCompatible(ColoredData.class)) {
-                en.offer(en.getOrCreate(ColoredData.class).get()
-                        .setColor(((DyeColor) r.getRegistry().getAllOf(CatalogTypes.DYE_COLOR).toArray()[random.nextInt(r.getRegistry().getAllOf(CatalogTypes.DYE_COLOR).size())]).getColor()));
+            if (en instanceof Colorable) {
+                ((Colorable) en).setColor(DyeColor.values()[random.nextInt(DyeColor.values().length)]);
                 return true;
             }
         } else if (data.startsWith("color:")) {
-            if (en.isCompatible(ColoredData.class)) {
+            if (en instanceof Colorable) {
                 String color = data.toUpperCase(Locale.ENGLISH);
-                en.offer(en.getOrCreate(ColoredData.class).get().setColor(Sponge.getGame().getRegistry().getType(CatalogTypes.DYE_COLOR, color).get().getColor()));
+                ((Colorable) en).setColor(DyeColor.valueOf(color.split(":")[1]));
                 return true;
             }
         } else if (data.equalsIgnoreCase("zombie") || data.equalsIgnoreCase("zombievillager")) {
-            if (en.isCompatible(VillagerZombieData.class)) {
-                en.getOrCreate(VillagerZombieData.class);
+            if (en instanceof Zombie) {
+                ((Zombie) en).setVillager(true);
+                return true;
+            }
+        } else if (data.equalsIgnoreCase("husk") || data.equalsIgnoreCase("huskzombie")) {
+            if (en instanceof Zombie) {
+                ((Zombie) en).setVillager(true);
+                ((Zombie) en).setVillagerProfession(Villager.Profession.HUSK);
                 return true;
             }
         } else if (data.equalsIgnoreCase("wither") || data.equalsIgnoreCase("witherskeleton")) {
-            if (en.isCompatible(SkeletonData.class)) {
-                en.offer(en.getOrCreate(SkeletonData.class).get().setValue(SkeletonTypes.WITHER));
+            if (en instanceof Skeleton) {
+                ((Skeleton) en).setSkeletonType(Skeleton.SkeletonType.WITHER);
+                return true;
+            }
+        } else if (data.equalsIgnoreCase("stray")) {
+            if (en instanceof Skeleton) {
+                ((Skeleton) en).setSkeletonType(Skeleton.SkeletonType.STRAY);
                 return true;
             }
         } else if (data.equalsIgnoreCase("powered") || data.equalsIgnoreCase("electrified") || data.equalsIgnoreCase("charged")) {
-            if (en.isCompatible(ChargedData.class)) {
-                en.getOrCreate(ChargedData.class);
+            if (en instanceof Creeper) {
+                ((Creeper) en).setPowered(true);
                 return true;
             }
         } else if (data.equalsIgnoreCase("saddle") || data.equalsIgnoreCase("saddled")) {
-            if (en.isCompatible(SaddleData.class)) {
-                en.offer(en.getOrCreate(SaddleData.class).get().setSaddle(r.getRegistry().getItemBuilder().itemType(ItemTypes.SADDLE).build()));
+            if (en instanceof Pig) {
+                ((Pig) en).setSaddle(true);
+                return true;
+            } else if (en instanceof Horse) {
+                ((Horse) en).setTamed(true);
+                ((Horse) en).getInventory().setSaddle(new ItemStack(Material.SADDLE));
                 return true;
             }
         } else if (data.equalsIgnoreCase("angry") || data.equalsIgnoreCase("rabid")) {
-            if (en.isCompatible(AngerableData.class)) {
-                en.offer(en.getOrCreate(AngerableData.class).get().setAngerLevel(999999));
+            if (en instanceof Wolf) {
+                ((Wolf) en).setAngry(true);
                 return true;
             }
         } else if (data.startsWith("size:")) {
             if (r.isInt(data.split(":")[1])) {
-                if (en.isCompatible(SlimeData.class)) {
-                    en.offer(en.getOrCreate(SlimeData.class).get().setSize(Integer.parseInt(data.split(":")[1])));
+                if (en instanceof Slime) {
+                    ((Slime) en).setSize(Integer.parseInt(data.split(":")[1]));
+                    return true;
+                } else if (en instanceof MagmaCube) {
+                    ((MagmaCube) en).setSize(Integer.parseInt(data.split(":")[1]));
                     return true;
                 }
             }
         } else if (data.equalsIgnoreCase("elder") || data.equalsIgnoreCase("elderguardian")) {
-            if (en.isCompatible(ElderData.class)) {
-                en.getOrCreate(ElderData.class).get();
+            if (en instanceof Guardian) {
+                ((Guardian) en).setElder(true);
                 return true;
             }
         } else if (data.startsWith("exp:") || data.startsWith("xp:") || data.startsWith("experience:") || data.startsWith("amount:")) {
-            if (r.isInt(data.split(":")[1]) && en.isCompatible(ExperienceHolderData.class)) {
+            if (r.isInt(data.split(":")[1]) && en instanceof ExperienceOrb) {
                 Integer amount = r.normalize(Integer.parseInt(data.split(":")[1]), 1, 2000000000);
-                en.offer(en.getOrCreate(ExperienceHolderData.class).get().setTotalExperience(amount));
+                ((ExperienceOrb) en).setExperience(amount);
                 return true;
             }
         } else if (data.startsWith("maxhealth:")) {
-            if (r.isDouble(data.split(":")[1]) && en.isCompatible(HealthData.class)) {
+            if (r.isDouble(data.split(":")[1]) && en instanceof LivingEntity) {
                 Double amount = r.normalize(Double.parseDouble(data.split(":")[1]), 1.0, 999999.0);
-                en.offer(en.getOrCreate(HealthData.class).get().setMaxHealth(amount));
+                ((LivingEntity) en).setMaxHealth(amount);
                 return true;
             }
         } else if (data.startsWith("health:")) {
-            if (r.isDouble(data.split(":")[1]) && en.isCompatible(HealthData.class)) {
-                Double amount = r.normalize(Double.parseDouble(data.split(":")[1]), 1.0, en.getOrCreate(HealthData.class).get().getMaxHealth());
-                en.offer(en.getOrCreate(HealthData.class).get().setHealth(amount));
+            if (r.isDouble(data.split(":")[1]) && en instanceof LivingEntity) {
+                Double amount = r.normalize(Double.parseDouble(data.split(":")[1]), 1.0, ((LivingEntity) en).getMaxHealth());
+                ((LivingEntity) en).setHealth(amount);
                 return true;
             }
         } else if (data.contains(":") && EffectDatabase.getByName(data.split(":")[0]) != null) {
-            if (en.isCompatible(PotionEffectData.class)) {
+            if (en instanceof LivingEntity) {
                 if (r.isInt(data.split(":")[1])) {
                     Integer i = Integer.parseInt(data.split(":")[1]);
-                    PotionEffectData ped = en.getOrCreate(PotionEffectData.class).get();
-                    ped.addPotionEffect(r.getRegistry().getPotionEffectBuilder().potionType(EffectDatabase.getByName(data.split(":")[0])).duration(999999).amplifier(i).build(), true);
-                    en.offer(ped);
+                    ((LivingEntity) en).addPotionEffect(EffectDatabase.getByName(data.split(":")[0]).createEffect(999999, i));
+                    return true;
                 }
             }
         } else if (data.startsWith("name:")) {
-            DisplayNameData dnd = en.getOrCreate(DisplayNameData.class).get();
-            dnd.setCustomNameVisible(true);
-            dnd.setDisplayName(Texts.of(r.translateAlternateColorCodes('&', data.split(":")[1]).replace("_", " ")));
+            en.setCustomNameVisible(true);
+            en.setCustomName(TextColorUtil.translateAlternate(data.split(":")[1]).replace("_", " "));
             return true;
         } else if (data.equalsIgnoreCase("noai")) {
             if (en instanceof LivingEntity) {
                 try {
-                    ReflectionUtil.ReflectionObject cen = ReflectionUtil.execute("getHandle()", en);
-                    ReflectionUtil.ReflectionObject tag = cen.invoke("getNBTTag");
-                    if (tag == null) {
-                        tag = ReflectionUtil.ReflectionObject.fromNMS("NBTTagCompound");
-                    }
-                    cen.invoke("c", tag.fetch());
-                    tag.invoke("setInt", "NoAI", 1);
-                    cen.invoke("f", tag.fetch());
+                    ((LivingEntity) en).setAI(false);
                     return true;
                 } catch (Exception ex) {
                     ErrorLogger.log(ex, "Failed to apply mob data.");

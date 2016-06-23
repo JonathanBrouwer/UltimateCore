@@ -24,20 +24,21 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ActionBarUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.network.ClientConnectionEvent;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.text.chat.ChatTypes;
+import org.bukkit.Bukkit;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class AutomessageListener {
+public class AutomessageListener implements Listener {
 
     public static ArrayList<String> messages = new ArrayList<>();
     public static String currentmessage = "";
@@ -56,7 +57,7 @@ public class AutomessageListener {
         if (!r.getCnfg().getBoolean("Messages.Enabledchat") && !r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") && !r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
             return;
         }
-        Sponge.getGame().getEventManager().registerListeners(r.getUC(), new AutomessageListener());
+        Bukkit.getPluginManager().registerEvents(new AutomessageListener(), r.getUC());
         ArrayList<String> messgs = messages;
         Integer length = messgs.size();
         if (length != 0) {
@@ -66,8 +67,11 @@ public class AutomessageListener {
 
     public static void timer(final List<String> messgs) {
         final Integer time = r.getCnfg().getInt("Messages.Time");
+        final Integer timestay = r.getCnfg().getInt("Messages.Stay");
         final Boolean ur = r.getCnfg().getBoolean("Messages.Randomise");
-        Sponge.getGame().getScheduler().createTaskBuilder().intervalTicks(time * 20).name("UC: Automessage task").execute(new Runnable() {
+        final BarColor color = BarColor.valueOf(r.getCnfg().getString("Messages.Color").toUpperCase());
+        final BarStyle style = BarStyle.valueOf(r.getCnfg().getString("Messages.Style").toUpperCase());
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
             @Override
             public void run() {
                 String mess = ur ? messgs.get(random.nextInt(messgs.size())) : "";
@@ -81,41 +85,24 @@ public class AutomessageListener {
                     }
                 }
                 mess = mess.replace("\\n", "\n");
-                currentmessage = r.translateAlternateColorCodes('&', mess);
+                currentmessage = TextColorUtil.translateAlternate(mess);
                 for (Player p : r.getOnlinePlayers()) {
-                    /*if (r.getCnfg().getBoolean("Messages.Enabledbossbar")) {
+                    if (r.getCnfg().getBoolean("Messages.Enabledbossbar")) {
                         if (decrease) {
-                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "), time);
+                            BossbarUtil.setMessage(p, TextColorUtil.translateAlternate(mess).replace("\n", " "), timestay, color, style);
                         } else {
-                            BossbarUtil.setMessage(p, ChatColor.translateAlternateColorCodes('&', mess).replace("\n", " "));
+                            BossbarUtil.setMessage(p, TextColorUtil.translateAlternate(mess).replace("\n", " "), color, style);
                         }
-                    }*/
+                    }
                     if (r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
-                        p.sendMessage(ChatTypes.ACTION_BAR, Texts.of(r.translateAlternateColorCodes('&', mess).replace("\n", " ")));
+                        ActionBarUtil.sendActionBar(p, TextColorUtil.translateAlternate(mess).replace("\n", " "), timestay * 20);
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledchat")) {
-                        p.sendMessage(Texts.of(r.translateAlternateColorCodes('&', mess)));
+                        p.sendMessage(TextColorUtil.translateAlternate(mess));
                     }
 
                 }
             }
-        }).submit(r.getUC());
-    }
-
-    @Listener(order = Order.LATE)
-    public void onJoin(final ClientConnectionEvent.Join e) {
-        Sponge.getGame().getScheduler().createTaskBuilder().delayTicks(100L).name("UC: Automessage join task").execute(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<String> messgs = messages;
-                Integer length = messgs.size();
-                if (length == 0) {
-                    return;
-                }
-                if (r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
-                    e.getTargetEntity().sendMessage(ChatTypes.ACTION_BAR, Texts.of(r.translateAlternateColorCodes('&', currentmessage).replace("\n", " ")));
-                }
-            }
-        }).submit(r.getUC());
+        }, 0, time * 20);
     }
 }

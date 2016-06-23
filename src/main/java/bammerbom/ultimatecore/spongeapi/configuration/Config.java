@@ -24,8 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.configuration;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StreamUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
+import org.spongepowered.api.text.format.TextColors;
 
 import java.io.*;
 import java.util.*;
@@ -44,7 +46,7 @@ public class Config extends YamlConfiguration implements Cloneable {
         try {
             loadFromStream(new FileInputStream(file));
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load yaml file.");
         }
     }
 
@@ -88,13 +90,19 @@ public class Config extends YamlConfiguration implements Cloneable {
             try {
                 loadFromString(builder.toString());
             } catch (InvalidConfigurationException e) {
-                String filename = "config_CORRUPT.yml";
-                Integer i = 1;
-                while (new File(r.getUC().getDataFolder(), filename).exists()) {
-                    i++;
-                    filename = "config_CORRUPT" + i + ".yml";
+                if (file.getName().equalsIgnoreCase("config.yml")) {
+                    String filename = "config_CORRUPT.yml";
+                    Integer i = 1;
+                    while (new File(r.getUC().getDataFolder(), filename).exists()) {
+                        i++;
+                        filename = "config_CORRUPT" + i + ".yml";
+                    }
+                    file.renameTo(new File(r.getUC().getDataFolder(), filename));
+                    r.log(TextColors.GOLD + "---------------------------------------------------");
+                    r.log(TextColors.AQUA + "Config file failed to load, creating a new file...");
+                    r.log(TextColors.AQUA + "Corrupt file saved as " + TextColors.YELLOW + filename);
+                    r.log(TextColors.GOLD + "----------------------------------------------------");
                 }
-                file.renameTo(new File(r.getUC().getDataFolder(), filename));
                 throw new IOException("YAML file is corrupt", e);
             }
         } catch (FileNotFoundException ex) {
@@ -208,7 +216,7 @@ public class Config extends YamlConfiguration implements Cloneable {
                 writer.close();
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to save yalm file.");
         }
     }
 
@@ -327,7 +335,7 @@ public class Config extends YamlConfiguration implements Cloneable {
     @Override
     public List<String> getStringList(String path) {
         List<String> list = super.getStringList(path);
-        return list == null ? new ArrayList<String>() : list;
+        return list;
     }
 
     //set

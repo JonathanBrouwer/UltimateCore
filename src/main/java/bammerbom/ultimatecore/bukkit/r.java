@@ -321,11 +321,11 @@ public class r {
             positive = ChatColor.DARK_AQUA;
         }
         if (neutral == null) {
-            r.log("Failed to find color: " + c1);
+            r.log("Failed to find color: " + c2);
             positive = ChatColor.AQUA;
         }
         if (negative == null) {
-            r.log("Failed to find color: " + c1);
+            r.log("Failed to find color: " + c3);
             positive = ChatColor.RED;
         }
     }

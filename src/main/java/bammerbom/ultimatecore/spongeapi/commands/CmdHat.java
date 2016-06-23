@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -52,7 +52,7 @@ public class CmdHat implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return;
         }
@@ -63,18 +63,17 @@ public class CmdHat implements UltimateCommand {
         ItemStack InHandItem = p.getItemInHand();
         if (p.getInventory().getHelmet() == null || p.getInventory().getHelmet().getType().equals(Material.AIR)) {
             p.getInventory().setHelmet(InHandItem);
-            p.getInventory().remove(InHandItem);
+            p.getInventory().setItemInHand(null);
         } else {
             ItemStack tohand = p.getInventory().getHelmet();
             p.getInventory().setHelmet(InHandItem);
-            p.getInventory().remove(InHandItem);
             p.getInventory().setItemInHand(tohand);
         }
         r.sendMes(p, "hatMessage");
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

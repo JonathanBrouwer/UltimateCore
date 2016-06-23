@@ -435,7 +435,7 @@ public class LocationUtil {
         return loc.getWorld().getName() + "|" + loc.getX() + "|" + loc.getY() + "|" + loc.getZ() + "|" + loc.getPitch() + "|" + loc.getYaw();
     }
 
-    public static double getCoordinate(String input, double current) {
+    public static Double getCoordinate(String input, double current) {
         boolean relative = input.startsWith("~");
         double result = relative ? current : 0.0D;
         if ((!relative) || (input.length() > 1)) {

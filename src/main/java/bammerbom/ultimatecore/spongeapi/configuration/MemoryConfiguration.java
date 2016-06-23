@@ -38,13 +38,13 @@ class MemoryConfiguration extends ConfigSection {
     protected MemoryConfigurationOptions options;
 
     /**
-     * Creates an empty {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} with no default values.
+     * Creates an empty {@link MemoryConfiguration} with no default values.
      */
     public MemoryConfiguration() {
     }
 
     /**
-     * Creates an empty {@link bammerbom.ultimatecore.spongeapi.configuration.MemoryConfiguration} using the specified {@link
+     * Creates an empty {@link MemoryConfiguration} using the specified {@link
      * Config} as a source for all default values.
      *
      * @param defaults Default value provider

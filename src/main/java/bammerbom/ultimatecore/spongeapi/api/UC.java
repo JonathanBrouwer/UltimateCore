@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.api;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.world.World;
 
@@ -54,6 +55,9 @@ public class UC {
     }
 
     public static UPlayer getPlayer(User p) {
+        if (p == null || p.getUniqueId() == null) {
+            return null;
+        }
         for (UPlayer pl : uplayers) {
             if (pl.uuid == null) {
                 continue;
@@ -78,7 +82,7 @@ public class UC {
                 return pl;
             }
         }
-        UPlayer pl = new UPlayer(r.searchOfflinePlayer(n));
+        UPlayer pl = new UPlayer(r.searchGameProfile(n));
         uplayers.add(pl);
         return pl;
     }
@@ -95,10 +99,10 @@ public class UC {
     }
 
     public static UWorld getWorld(String world) {
-        if (!Sponge.getGame().getServer().getWorld(world).isPresent()) {
+        if (!Sponge.getServer().getWorld(world).isPresent()) {
             return null;
         }
-        return getWorld(Sponge.getGame().getServer().getWorld(world).get());
+        return getWorld(Sponge.getServer().getWorld(world).get());
     }
 
     public static UServer getServer() {

@@ -25,17 +25,16 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.util.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CmdAsk implements UltimateCommand {
 
-    String format = r.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.AskFormat")).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
+    String format = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.AskFormat")).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
             .replace("\\\\n", "\n");
 
     @Override
@@ -50,39 +49,53 @@ public class CmdAsk implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> <Message>";
+        return "/<command> ";
     }
 
     @Override
-    public String getDescription() {
-        return "Ask a question to players with the uc.support permission.";
+    public Text getDescription() {
+        return Text.of("Description");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("helpop");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.ask", true, true)) {
-            return;
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "askUsage");
-            return;
-        }
-        for (Player pl : r.getOnlinePlayers()) {
-            if (r.perm(pl, "uc.support", false, false) && !pl.equals(cs)) {
-                pl.sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", r.getFinalArg(args, 0))));
-                r.sendMes(pl, "askTip", "%Player", r.getDisplayName(cs));
-            }
-        }
-        cs.sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", r.getFinalArg(args, 0))));
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("helpop");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.ask", true, true)) {
+//            return;
+//        }
+//        if (!r.checkArgs(args, 0)) {
+//            r.sendMes(cs, "askUsage");
+//            return;
+//        }
+//        for (Player pl : r.getOnlinePlayers()) {
+//            if (r.perm(pl, "uc.support", false, false) && !pl.equals(cs)) {
+//                pl.sendMessage(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 0)));
+//                r.sendMes(pl, "askTip", "%Player", r.getDisplayName(cs));
+//            }
+//        }
+//        cs.sendMessage(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 0)));
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return new ArrayList<>();
+//    }
 }

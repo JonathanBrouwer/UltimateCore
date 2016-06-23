@@ -25,11 +25,12 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.VillagerUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -65,21 +66,21 @@ public class CmdVillager implements UltimateCommand {
 
         ItemStack paper_buying1 = new ItemStack(Material.PAPER);
         ItemMeta paper_buying1_meta = paper_buying1.getItemMeta();
-        paper_buying1_meta.setDisplayName(ChatColor.AQUA + "Buying item 1");
+        paper_buying1_meta.setDisplayName(TextColors.AQUA + "Buying item 1");
         paper_buying1.setItemMeta(paper_buying1_meta);
         inv.setItem(0, paper_buying1);
         inv.setItem(5, paper_buying1);
 
         ItemStack paper_buying2 = new ItemStack(Material.PAPER);
         ItemMeta paper_buying2_meta = paper_buying2.getItemMeta();
-        paper_buying2_meta.setDisplayName(ChatColor.AQUA + "Buying item 2");
+        paper_buying2_meta.setDisplayName(TextColors.AQUA + "Buying item 2");
         paper_buying2.setItemMeta(paper_buying2_meta);
         inv.setItem(1, paper_buying2);
         inv.setItem(6, paper_buying2);
 
         ItemStack paper_selling = new ItemStack(Material.PAPER);
         ItemMeta paper_selling_meta = paper_selling.getItemMeta();
-        paper_selling_meta.setDisplayName(ChatColor.AQUA + "Selling item");
+        paper_selling_meta.setDisplayName(TextColors.AQUA + "Selling item");
         paper_selling.setItemMeta(paper_selling_meta);
         inv.setItem(2, paper_selling);
         inv.setItem(7, paper_selling);
@@ -130,19 +131,19 @@ public class CmdVillager implements UltimateCommand {
 
         ItemStack feather_previous = new ItemStack(Material.FEATHER);
         ItemMeta feather_previous_meta = feather_previous.getItemMeta();
-        feather_previous_meta.setDisplayName(ChatColor.DARK_RED + "Previous page");
+        feather_previous_meta.setDisplayName(TextColors.DARK_RED + "Previous page");
         if (opage == 1) {
-            feather_previous_meta.setLore(Arrays.asList(ChatColor.RED + "Not available"));
+            feather_previous_meta.setLore(Arrays.asList(TextColors.RED + "Not available"));
         }
         feather_previous.setItemMeta(feather_previous_meta);
         inv.setItem(50, feather_previous);
 
         ItemStack feather_next = new ItemStack(Material.FEATHER);
         ItemMeta feather_next_meta = feather_next.getItemMeta();
-        feather_next_meta.setDisplayName(ChatColor.GREEN + "Next page");
+        feather_next_meta.setDisplayName(TextColors.GREEN + "Next page");
         r.debug(opage + " " + opages);
         if (opages <= opage) {
-            feather_next_meta.setLore(Arrays.asList(ChatColor.RED + "Not available"));
+            feather_next_meta.setLore(Arrays.asList(TextColors.RED + "Not available"));
         }
         feather_next.setItemMeta(feather_next_meta);
         inv.setItem(51, feather_next);
@@ -158,9 +159,9 @@ public class CmdVillager implements UltimateCommand {
     static Inventory addTradeToInv(Inventory inv, VillagerUtil.VillagerTrade trade, List<Integer> s, HumanEntity p) {
         ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
         ItemMeta barrier_meta = barrier.getItemMeta();
-        barrier_meta.setDisplayName(ChatColor.DARK_AQUA + "Edit");
-        barrier_meta.setLore(Arrays.asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + trade.getUses(), ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + trade
-                .getMaxUses(), ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA + trade.getRewardExp()));
+        barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
+        barrier_meta.setLore(Arrays.asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + trade.getUses(), TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + trade
+                .getMaxUses(), TextColors.DARK_AQUA + "Reward exp: " + TextColors.AQUA + trade.getRewardExp()));
         barrier.setItemMeta(barrier_meta);
         Integer s1 = s.get(0), s2 = s.get(1), s3 = s.get(2), s4 = s.get(3), s5 = s.get(4), s6 = s.get(5), s7 = s.get(6), s8 = s.get(7), s9 = s.get(8);
         if (s1 != null) {
@@ -240,46 +241,46 @@ public class CmdVillager implements UltimateCommand {
             if (e.getSlot() % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 14) {
                 ItemStack s = e.getClickedInventory().getItem(e.getSlot());
                 ItemStack paper = e.getClickedInventory().getItem(28);
-                Integer cur = Integer.parseInt(ChatColor.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
+                Integer cur = Integer.parseInt(TextColors.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
                 cur = cur - s.getAmount();
                 if (cur <= 0) {
                     cur = 0;
                 }
                 ItemMeta meta = paper.getItemMeta();
-                meta.setDisplayName(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + cur);
+                meta.setDisplayName(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + cur);
                 paper.setItemMeta(meta);
                 e.getInventory().setItem(28, paper);
             }
             if ((e.getSlot() - 2) % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 13) {
                 ItemStack s = e.getClickedInventory().getItem(e.getSlot());
                 ItemStack paper = e.getClickedInventory().getItem(28);
-                Integer cur = Integer.parseInt(ChatColor.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
+                Integer cur = Integer.parseInt(TextColors.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
                 cur = cur + s.getAmount();
                 ItemMeta meta = paper.getItemMeta();
-                meta.setDisplayName(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + cur);
+                meta.setDisplayName(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + cur);
                 paper.setItemMeta(meta);
                 e.getInventory().setItem(28, paper);
             }
             if ((e.getSlot() - 6) % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 14) {
                 ItemStack s = e.getClickedInventory().getItem(e.getSlot());
                 ItemStack paper = e.getClickedInventory().getItem(34);
-                Integer cur = Integer.parseInt(ChatColor.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
+                Integer cur = Integer.parseInt(TextColors.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
                 cur = cur - s.getAmount();
                 if (cur <= 0) {
                     cur = 0;
                 }
                 ItemMeta meta = paper.getItemMeta();
-                meta.setDisplayName(ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + cur);
+                meta.setDisplayName(TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + cur);
                 paper.setItemMeta(meta);
                 e.getInventory().setItem(34, paper);
             }
             if ((e.getSlot() - 8) % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 13) {
                 ItemStack s = e.getClickedInventory().getItem(e.getSlot());
                 ItemStack paper = e.getClickedInventory().getItem(34);
-                Integer cur = Integer.parseInt(ChatColor.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
+                Integer cur = Integer.parseInt(TextColors.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
                 cur = cur + s.getAmount();
                 ItemMeta meta = paper.getItemMeta();
-                meta.setDisplayName(ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + cur);
+                meta.setDisplayName(TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + cur);
                 paper.setItemMeta(meta);
                 e.getInventory().setItem(34, paper);
             }
@@ -287,7 +288,7 @@ public class CmdVillager implements UltimateCommand {
                 Boolean rewardExp = e.getInventory().getItem(22).getDurability() == (short) 13;
                 ItemStack clay = new ItemStack(Material.STAINED_CLAY, 1, rewardExp ? (byte) 14 : (byte) 13);
                 ItemMeta clay_meta = clay.getItemMeta();
-                clay_meta.setDisplayName(ChatColor.DARK_AQUA + "Generate exp: " + ChatColor.AQUA + !rewardExp);
+                clay_meta.setDisplayName(TextColors.DARK_AQUA + "Generate exp: " + TextColors.AQUA + !rewardExp);
                 clay.setItemMeta(clay_meta);
                 e.getInventory().setItem(22, clay);
             }
@@ -297,20 +298,19 @@ public class CmdVillager implements UltimateCommand {
                 Integer iedit = editing.get(e.getWhoClicked().getUniqueId());
 
                 ItemStack stack_uses = oinv.getItem(28);
-                Integer uses = Integer.parseInt(ChatColor.stripColor(stack_uses.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
+                Integer uses = Integer.parseInt(TextColors.stripColor(stack_uses.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
 
                 ItemStack stack_max_uses = oinv.getItem(34);
-                Integer max_uses = Integer.parseInt(ChatColor.stripColor(stack_max_uses.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
+                Integer max_uses = Integer.parseInt(TextColors.stripColor(stack_max_uses.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
 
                 ItemStack stack_generateExp = oinv.getItem(22);
                 Boolean generateExp = stack_generateExp.getDurability() == (short) 13;
 
                 ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
                 ItemMeta barrier_meta = barrier.getItemMeta();
-                barrier_meta.setDisplayName(ChatColor.DARK_AQUA + "Edit");
+                barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
                 barrier_meta.setLore(Arrays
-                        .asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + uses, ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + max_uses, ChatColor.DARK_AQUA + "Reward exp: " +
-                                ChatColor.AQUA + generateExp));
+                        .asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + uses, TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + max_uses, TextColors.DARK_AQUA + "Reward exp: " + TextColors.AQUA + generateExp));
                 barrier.setItemMeta(barrier_meta);
 
                 inv.setItem(iedit, barrier);
@@ -341,16 +341,15 @@ public class CmdVillager implements UltimateCommand {
         }
         final ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
         ItemMeta barrier_meta = barrier.getItemMeta();
-        barrier_meta.setDisplayName(ChatColor.DARK_AQUA + "Edit");
+        barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
         barrier_meta.setLore(Arrays
-                .asList(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + "0", ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + "7", ChatColor.DARK_AQUA + "Reward exp: " + ChatColor.AQUA +
-                        "true"));
+                .asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + "0", TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + "7", TextColors.DARK_AQUA + "Reward exp: " + TextColors.AQUA + "true"));
         barrier.setItemMeta(barrier_meta);
 
         final ItemStack redglass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 11);
         ItemMeta redglass_meta = redglass.getItemMeta();
-        redglass_meta.setDisplayName(ChatColor.DARK_AQUA + "Edit");
-        redglass_meta.setLore(Arrays.asList(ChatColor.RED + "Invalid trade"));
+        redglass_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
+        redglass_meta.setLore(Arrays.asList(TextColors.RED + "Invalid trade"));
         redglass.setItemMeta(redglass_meta);
 
         final Inventory inv = e.getClickedInventory();
@@ -384,16 +383,16 @@ public class CmdVillager implements UltimateCommand {
                 if (all) {
                     ItemStack feather_previous = new ItemStack(Material.FEATHER);
                     ItemMeta feather_previous_meta = feather_previous.getItemMeta();
-                    feather_previous_meta.setDisplayName(ChatColor.DARK_RED + "Previous page");
+                    feather_previous_meta.setDisplayName(TextColors.DARK_RED + "Previous page");
                     if (pages.get(e.getWhoClicked().getUniqueId()) == 1) {
-                        feather_previous_meta.setLore(Arrays.asList(ChatColor.RED + "Not available"));
+                        feather_previous_meta.setLore(Arrays.asList(TextColors.RED + "Not available"));
                     }
                     feather_previous.setItemMeta(feather_previous_meta);
                     inv.setItem(50, feather_previous);
 
                     ItemStack feather_next = new ItemStack(Material.FEATHER);
                     ItemMeta feather_next_meta = feather_next.getItemMeta();
-                    feather_next_meta.setDisplayName(ChatColor.GREEN + "Next page");
+                    feather_next_meta.setDisplayName(TextColors.GREEN + "Next page");
                     feather_next.setItemMeta(feather_next_meta);
                     inv.setItem(51, feather_next);
                 }
@@ -466,12 +465,12 @@ public class CmdVillager implements UltimateCommand {
                         ItemStack lapis = e.getInventory().getItem(fslot + 3);
                         if (lapis != null && lapis.getType().equals(Material.LAPIS_BLOCK)) {
                             for (String s : lapis.getItemMeta().getLore()) {
-                                if (ChatColor.stripColor(s).startsWith("Uses: ")) {
-                                    uses = Integer.parseInt(ChatColor.stripColor(s).replaceFirst("Uses: ", ""));
-                                } else if (ChatColor.stripColor(s).startsWith("Max uses: ")) {
-                                    maxUses = Integer.parseInt(ChatColor.stripColor(s).replaceFirst("Max uses: ", ""));
-                                } else if (ChatColor.stripColor(s).startsWith("Reward exp: ")) {
-                                    rewardExp = Boolean.parseBoolean(ChatColor.stripColor(s).replaceFirst("Reward exp: ", ""));
+                                if (TextColors.stripColor(s).startsWith("Uses: ")) {
+                                    uses = Integer.parseInt(TextColors.stripColor(s).replaceFirst("Uses: ", ""));
+                                } else if (TextColors.stripColor(s).startsWith("Max uses: ")) {
+                                    maxUses = Integer.parseInt(TextColors.stripColor(s).replaceFirst("Max uses: ", ""));
+                                } else if (TextColors.stripColor(s).startsWith("Reward exp: ")) {
+                                    rewardExp = Boolean.parseBoolean(TextColors.stripColor(s).replaceFirst("Reward exp: ", ""));
                                 } else {
                                     r.debug("Failed to parse info String: " + s);
                                 }
@@ -480,17 +479,17 @@ public class CmdVillager implements UltimateCommand {
                         ItemStack paper = new ItemStack(Material.PAPER);
                         ItemMeta paper_meta = paper.getItemMeta();
 
-                        paper_meta.setDisplayName(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + uses);
+                        paper_meta.setDisplayName(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + uses);
                         paper.setItemMeta(paper_meta);
                         settings.setItem(28, paper);
 
                         ItemStack clay = new ItemStack(Material.STAINED_CLAY, 1, rewardExp ? (byte) 13 : (byte) 14);
                         ItemMeta clay_meta = clay.getItemMeta();
-                        clay_meta.setDisplayName(ChatColor.DARK_AQUA + "Generate exp: " + ChatColor.AQUA + rewardExp);
+                        clay_meta.setDisplayName(TextColors.DARK_AQUA + "Generate exp: " + TextColors.AQUA + rewardExp);
                         clay.setItemMeta(clay_meta);
                         settings.setItem(22, clay);
 
-                        paper_meta.setDisplayName(ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + maxUses);
+                        paper_meta.setDisplayName(TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + maxUses);
                         paper.setItemMeta(paper_meta);
                         settings.setItem(34, paper);
 
@@ -498,31 +497,31 @@ public class CmdVillager implements UltimateCommand {
                         ItemMeta plus_meta = plus.getItemMeta();
 
                         plus.setAmount(1);
-                        plus_meta.setDisplayName(ChatColor.DARK_GREEN + "Add 1");
+                        plus_meta.setDisplayName(TextColors.DARK_GREEN + "Add 1");
                         plus.setItemMeta(plus_meta);
                         settings.setItem(47, plus);
                         settings.setItem(53, plus);
 
                         plus.setAmount(5);
-                        plus_meta.setDisplayName(ChatColor.DARK_GREEN + "Add 5");
+                        plus_meta.setDisplayName(TextColors.DARK_GREEN + "Add 5");
                         plus.setItemMeta(plus_meta);
                         settings.setItem(38, plus);
                         settings.setItem(44, plus);
 
                         plus.setAmount(10);
-                        plus_meta.setDisplayName(ChatColor.DARK_GREEN + "Add 10");
+                        plus_meta.setDisplayName(TextColors.DARK_GREEN + "Add 10");
                         plus.setItemMeta(plus_meta);
                         settings.setItem(29, plus);
                         settings.setItem(35, plus);
 
                         plus.setAmount(20);
-                        plus_meta.setDisplayName(ChatColor.DARK_GREEN + "Add 20");
+                        plus_meta.setDisplayName(TextColors.DARK_GREEN + "Add 20");
                         plus.setItemMeta(plus_meta);
                         settings.setItem(20, plus);
                         settings.setItem(26, plus);
 
                         plus.setAmount(50);
-                        plus_meta.setDisplayName(ChatColor.DARK_GREEN + "Add 50");
+                        plus_meta.setDisplayName(TextColors.DARK_GREEN + "Add 50");
                         plus.setItemMeta(plus_meta);
                         settings.setItem(11, plus);
                         settings.setItem(17, plus);
@@ -531,38 +530,38 @@ public class CmdVillager implements UltimateCommand {
                         ItemMeta min_meta = plus.getItemMeta();
 
                         min.setAmount(1);
-                        min_meta.setDisplayName(ChatColor.DARK_RED + "Remove 1");
+                        min_meta.setDisplayName(TextColors.DARK_RED + "Remove 1");
                         min.setItemMeta(min_meta);
                         settings.setItem(45, min);
                         settings.setItem(51, min);
 
                         min.setAmount(5);
-                        min_meta.setDisplayName(ChatColor.DARK_RED + "Remove 5");
+                        min_meta.setDisplayName(TextColors.DARK_RED + "Remove 5");
                         min.setItemMeta(min_meta);
                         settings.setItem(36, min);
                         settings.setItem(42, min);
 
                         min.setAmount(10);
-                        min_meta.setDisplayName(ChatColor.DARK_RED + "Remove 10");
+                        min_meta.setDisplayName(TextColors.DARK_RED + "Remove 10");
                         min.setItemMeta(min_meta);
                         settings.setItem(27, min);
                         settings.setItem(33, min);
 
                         min.setAmount(20);
-                        min_meta.setDisplayName(ChatColor.DARK_RED + "Remove 20");
+                        min_meta.setDisplayName(TextColors.DARK_RED + "Remove 20");
                         min.setItemMeta(min_meta);
                         settings.setItem(18, min);
                         settings.setItem(24, min);
 
                         min.setAmount(50);
-                        min_meta.setDisplayName(ChatColor.DARK_RED + "Remove 50");
+                        min_meta.setDisplayName(TextColors.DARK_RED + "Remove 50");
                         min.setItemMeta(min_meta);
                         settings.setItem(9, min);
                         settings.setItem(15, min);
 
                         ItemStack close = new ItemStack(Material.BARRIER);
                         ItemMeta close_meta = close.getItemMeta();
-                        close_meta.setDisplayName(ChatColor.DARK_RED + "Close");
+                        close_meta.setDisplayName(TextColors.DARK_RED + "Close");
                         close.setItemMeta(close_meta);
                         settings.setItem(40, close);
 
@@ -576,18 +575,42 @@ public class CmdVillager implements UltimateCommand {
         return true;
     }
 
-    public static void closeInv(HumanEntity p, Inventory inv) {
+    public static void closeInv(HumanEntity p, Inventory oinv) {
         if (blockClose) {
             return;
         }
         if (!currentVillager.containsKey(p.getUniqueId())) {
             return;
         }
-        if (inv.getTitle().equalsIgnoreCase("Villager Editor (Settings)")) {
-            //closeInv(p, editInv.get(p.getUniqueId()));
+        if (oinv.getTitle().equalsIgnoreCase("Villager Editor (Settings)")) {
+            Inventory inv = editInv.get(p.getUniqueId());
+            Integer iedit = editing.get(p.getUniqueId());
+
+            ItemStack stack_uses = oinv.getItem(28);
+            Integer uses = Integer.parseInt(TextColors.stripColor(stack_uses.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
+
+            ItemStack stack_max_uses = oinv.getItem(34);
+            Integer max_uses = Integer.parseInt(TextColors.stripColor(stack_max_uses.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
+
+            ItemStack stack_generateExp = oinv.getItem(22);
+            Boolean generateExp = stack_generateExp.getDurability() == (short) 13;
+
+            ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
+            ItemMeta barrier_meta = barrier.getItemMeta();
+            barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
+            barrier_meta.setLore(Arrays
+                    .asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + uses, TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + max_uses, TextColors.DARK_AQUA + "Reward exp: " + TextColors.AQUA + generateExp));
+            barrier.setItemMeta(barrier_meta);
+
+            inv.setItem(iedit, barrier);
+
+            editInv.remove(p.getUniqueId());
+            editing.remove(p.getUniqueId());
+
+            savePage(p, inv, pages.get(p.getUniqueId()));
             return;
         }
-        savePage(p, inv, pages.get(p.getUniqueId()));
+        savePage(p, oinv, pages.get(p.getUniqueId()));
     }
 
     static void savePage(HumanEntity p, Inventory inv, Integer page) {
@@ -617,12 +640,12 @@ public class CmdVillager implements UltimateCommand {
                 Integer uses = 0;
                 Boolean rewardExp = true;
                 for (String s : lapis.getItemMeta().getLore()) {
-                    if (ChatColor.stripColor(s).startsWith("Uses: ")) {
-                        uses = Integer.parseInt(ChatColor.stripColor(s).replaceFirst("Uses: ", ""));
-                    } else if (ChatColor.stripColor(s).startsWith("Max uses: ")) {
-                        maxUses = Integer.parseInt(ChatColor.stripColor(s).replaceFirst("Max uses: ", ""));
-                    } else if (ChatColor.stripColor(s).startsWith("Reward exp: ")) {
-                        rewardExp = Boolean.parseBoolean(ChatColor.stripColor(s).replaceFirst("Reward exp: ", ""));
+                    if (TextColors.stripColor(s).startsWith("Uses: ")) {
+                        uses = Integer.parseInt(TextColors.stripColor(s).replaceFirst("Uses: ", ""));
+                    } else if (TextColors.stripColor(s).startsWith("Max uses: ")) {
+                        maxUses = Integer.parseInt(TextColors.stripColor(s).replaceFirst("Max uses: ", ""));
+                    } else if (TextColors.stripColor(s).startsWith("Reward exp: ")) {
+                        rewardExp = Boolean.parseBoolean(TextColors.stripColor(s).replaceFirst("Reward exp: ", ""));
                     } else {
                         r.debug("Failed to parse info String: " + s);
                     }
@@ -690,7 +713,7 @@ public class CmdVillager implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.villager", false, true)) {
             return;
         }
@@ -703,7 +726,7 @@ public class CmdVillager implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

@@ -70,7 +70,7 @@ public class FileUtil {
         return Arrays.asList(list.split("\n"));
     }
 
-    public static void writeLargerTextFile(File file, List<String> aLines) throws IOException {
+    public static void writeFile(File file, List<String> aLines) throws IOException {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(file.getPath()), StandardCharsets.UTF_8)) {
             for (String line : aLines) {
                 writer.write(line);

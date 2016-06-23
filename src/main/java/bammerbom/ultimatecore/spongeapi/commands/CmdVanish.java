@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -53,11 +53,11 @@ public class CmdVanish implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.vanish", false, true)) {
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
                 return;
             }
@@ -84,7 +84,7 @@ public class CmdVanish implements UltimateCommand {
         if (!r.perm(cs, "uc.vanish.others", false, true)) {
             return;
         }
-        OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
+        OfflinePlayer banp = r.searchGameProfile(args[0]);
         if (banp == null || !(banp.isOnline() || banp.hasPlayedBefore())) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
@@ -106,19 +106,19 @@ public class CmdVanish implements UltimateCommand {
         if (time == 0L) {
             r.sendMes(cs, "vanishOthersSelfMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")));
             if (banp.isOnline()) {
-                r.sendMes((CommandSender) banp, "vanishOthersOtherMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")));
+                r.sendMes((CommandSource) banp, "vanishOthersOtherMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")));
             }
         } else {
             r.sendMes(cs, "vanishOthersSelfMessageT", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
             if (banp.isOnline()) {
-                r.sendMes((CommandSender) banp, "vanishOthersOtherMessageT", "%Player", r.getDisplayName(cs), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil
+                r.sendMes((CommandSource) banp, "vanishOthersOtherMessageT", "%Player", r.getDisplayName(cs), "%Status", (UC.getPlayer(banp).isVanish() ? r.mes("on") : r.mes("off")), "%Time", DateUtil
                         .format(time));
             }
         }
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

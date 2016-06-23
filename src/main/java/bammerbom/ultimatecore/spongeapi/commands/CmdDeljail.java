@@ -24,10 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,26 +44,50 @@ public class CmdDeljail implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("removejail", "remjail");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.deljail", false, true)) {
-            return;
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "deljailUsage");
-            return;
-        }
-        UC.getServer().removeJail(args[0]);
-        r.sendMes(cs, "deljailMessage", "%Name", args[0]);
-
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return UC.getServer().getJailsL();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("removejail", "remjail");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.deljail", false, true)) {
+//            return;
+//        }
+//        if (!r.checkArgs(args, 0)) {
+//            r.sendMes(cs, "deljailUsage");
+//            return;
+//        }
+//        UC.getServer().removeJail(args[0]);
+//        r.sendMes(cs, "deljailMessage", "%Name", args[0]);
+//
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return UC.getServer().getJailsL();
+//    }
 }

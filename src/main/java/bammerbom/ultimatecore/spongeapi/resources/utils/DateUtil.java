@@ -77,9 +77,6 @@ public class DateUtil {
             if (r.isInt(time)) {
                 mil = mil + (Long.parseLong(time) * 1000 * 60 * 60);
             }
-            if (mil == 999) {
-                return -1L;
-            }
             return mil;
         } catch (Exception ex) {
             return -1L;
@@ -100,16 +97,24 @@ public class DateUtil {
     }
 
     public static String formatDateDiff(long date) {
+        return formatDateDiff(date, 3);
+    }
+
+    public static String formatDateDiff(long date, int maxacc) {
         Calendar c = new GregorianCalendar();
         c.setTimeInMillis(date);
         Calendar now = new GregorianCalendar();
-        return formatDateDiff(now, c);
+        return formatDateDiff(now, c, maxacc);
     }
 
     public static String formatDateDiff(Calendar fromDate, Calendar toDate) {
+        return formatDateDiff(fromDate, toDate, 3);
+    }
+
+    public static String formatDateDiff(Calendar fromDate, Calendar toDate, int maxacc) {
         boolean future = false;
         if (toDate.equals(fromDate)) {
-            return r.mesRaw("now");
+            return r.mes("now");
         }
         if (toDate.after(fromDate)) {
             future = true;
@@ -117,14 +122,14 @@ public class DateUtil {
         StringBuilder sb = new StringBuilder();
         int[] types = {1, 2, 5, 11, 12, 13};
 
-        String[] names = {r.mesRaw("years"), r.mesRaw("year"), r.mesRaw("months"), r.mesRaw("month"), r.mesRaw("days"), r.mesRaw("day"), r.mesRaw("hours"), r.mesRaw("hour"), r.mesRaw("minutes"), r
-                .mesRaw("minute"), r.mesRaw("seconds"), r.mesRaw("second")};
+        String[] names = {r.mes("years"), r.mes("year"), r.mes("months"), r.mes("month"), r.mes("days"), r.mes("day"), r.mes("hours"), r.mes("hour"), r.mes("minutes"), r.mes("minute"), r
+                .mes("seconds"), r.mes("second")};
 
         int accuracy = 0;
         for (int i = 0;
              i < types.length;
              i++) {
-            if (accuracy > 2) {
+            if (accuracy >= maxacc) {
                 break;
             }
             int diff = dateDiff(types[i], fromDate, toDate, future);
@@ -140,10 +145,14 @@ public class DateUtil {
     }
 
     public static String format(long date) {
+        return format(date, 3);
+    }
+
+    public static String format(long date, int maxacc) {
         Calendar c = new GregorianCalendar();
         c.setTimeInMillis(date + System.currentTimeMillis());
         Calendar now = new GregorianCalendar();
-        return formatDateDiff(now, c);
+        return formatDateDiff(now, c, maxacc);
     }
 
 }

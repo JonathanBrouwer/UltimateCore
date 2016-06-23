@@ -27,16 +27,11 @@ import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.spongepowered.api.block.tileentity.Sign;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.block.ChangeBlockEvent;
-import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.text.format.TextColors;
-
-import java.util.List;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class SignWarp implements UltimateSign {
 
@@ -52,37 +47,36 @@ public class SignWarp implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.warp", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.warp", true, false) && !r.perm(p, "uc.sign", true, false)) {
+            r.sendMes(p, "noPermissions");
             return;
         }
-        if (!UC.getServer().getWarpNames().contains(sign.get(Keys.SIGN_LINES).get().get(1))) {
-            r.sendMes(p, "warpNotExist", "%Warp", sign.get(Keys.SIGN_LINES).get().get(1));
-            r.sendMes(p, "signTimeNotFound");
-            List<Text> lines = sign.get(Keys.SIGN_LINES).get();
-            lines.set(0, Texts.of(TextColors.RED + "[Warp]"));
+        if (!UC.getServer().getWarpNames().contains(sign.getLine(1))) {
+            r.sendMes(p, "warpNotExist", "%Warp", sign.getLine(1));
+            sign.setLine(0, TextColors.RED + "[Warp]");
             return;
         }
-        LocationUtil.teleport(p, p, false, true);
+        LocationUtil.teleport(p, UC.getServer().getWarp(sign.getLine(1)), PlayerTeleportEvent.TeleportCause.COMMAND, false, true);
     }
 
     @Override
-    public void onCreate(ChangeSignEvent event, Player p) {
+    public void onCreate(SignChangeEvent event) {
         if (!r.perm(p, "uc.sign.warp.create", false, true)) {
             event.setCancelled(true);
-            event.getTargetTile().getLocation().removeBlock();
+            event.getBlock().breakNaturally();
             return;
         }
-        if (!UC.getServer().getWarpNames().contains(event.getText().lines().get(1))) {
-            r.sendMes(p, "warpNotExist", "%Warp", event.getText().lines().get(1));
-            event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.RED + "[Warp]")).get());
+        if (!UC.getServer().getWarpNames().contains(event.getLine(1))) {
+            r.sendMes(p, "warpNotExist", "%Warp", event.getLine(1));
+            event.setLine(0, TextColors.RED + "[Warp]");
             return;
         }
-        event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Warp]")).get());
+        event.setLine(0, TextColors.DARK_BLUE + "[Warp]");
         r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(ChangeBlockEvent.Break event, Player p) {
+    public void onDestroy(BlockBreakEvent event) {
         if (!r.perm(p, "uc.sign.warp.destroy", false, true)) {
             event.setCancelled(true);
             return;

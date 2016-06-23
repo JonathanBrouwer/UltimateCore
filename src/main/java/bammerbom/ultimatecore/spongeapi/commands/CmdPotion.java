@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.resources.databases.EffectDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -59,9 +59,8 @@ public class CmdPotion implements UltimateCommand {
         return Arrays.asList();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return;
         }
@@ -148,6 +147,9 @@ public class CmdPotion implements UltimateCommand {
             if (str.equalsIgnoreCase("splash")) {
                 potion.setSplash(true);
             }
+            if (str.equalsIgnoreCase("lingering")) {
+                //TODO lingering
+            }
         }
         potion.apply(stack);
         Potion potion2 = new Potion(PotionType.getByEffect(ef));
@@ -170,7 +172,7 @@ public class CmdPotion implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             List<String> l = new ArrayList<>();
             for (PotionEffectType t : PotionEffectType.values()) {

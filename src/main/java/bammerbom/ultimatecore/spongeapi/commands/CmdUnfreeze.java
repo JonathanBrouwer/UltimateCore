@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class CmdUnfreeze implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.unfreeze", false, true)) {
             return;
         }
@@ -61,7 +61,7 @@ public class CmdUnfreeze implements UltimateCommand {
             r.sendMes(cs, "unfreezeUsage");
             return;
         }
-        OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
+        OfflinePlayer banp = r.searchGameProfile(args[0]);
         if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
@@ -79,7 +79,7 @@ public class CmdUnfreeze implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         ArrayList<String> rtrn = new ArrayList<>();
         for (Player pl : UC.getServer().getFrozenOnlinePlayers()) {
             rtrn.add(pl.getName());

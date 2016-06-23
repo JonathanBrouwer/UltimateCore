@@ -26,9 +26,8 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 
 import java.io.File;
 import java.util.Arrays;
@@ -45,7 +44,7 @@ public class CmdRules implements UltimateCommand {
         }
         message = "";
         for (String r : FileUtil.getLines(file)) {
-            message = message + ChatColor.translateAlternateColorCodes('&', r) + ChatColor.RESET + "\n";
+            message = message + TextColorUtil.translateAlternate(r) + TextColors.RESET + "\n";
         }
     }
 
@@ -65,7 +64,7 @@ public class CmdRules implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.rules", true, true)) {
             return;
         }
@@ -73,7 +72,7 @@ public class CmdRules implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

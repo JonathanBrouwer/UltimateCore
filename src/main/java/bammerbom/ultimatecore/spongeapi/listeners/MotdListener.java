@@ -24,9 +24,12 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.api.UEconomy;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -34,16 +37,117 @@ import org.bukkit.event.server.ServerListPingEvent;
 
 public class MotdListener implements Listener {
 
+    static boolean enableColors = true;
+    static boolean enableVariables = true;
+    static boolean enableBanMotd = true;
+    static String banMotd = "&4&lYou are banned! &c(+Bantime left)\n&4&lReason: &c+Banreason";
+
     public static void start() {
+        enableColors = r.getCnfg().getBoolean("Motd.EnableColors");
+        enableVariables = r.getCnfg().getBoolean("Motd.EnableVariables");
+        enableBanMotd = r.getCnfg().getBoolean("Motd.EnableBanMotd");
+        banMotd = r.getCnfg().getString("Motd.BanMotd");
         Bukkit.getPluginManager().registerEvents(new MotdListener(), r.getUC());
     }
 
-    @Listener(priority = EventPriority.LOWEST)
-    public void ColoredMotdMaker(ServerListPingEvent e) {
-        e.setMotd(ChatColor.translateAlternateColorCodes('&', (e.getMotd())));
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void motdHandler(ServerListPingEvent e) {
+        if (enableColors) {
+            e.setMotd(TextColorUtil.translateAlternate((e.getMotd())));
+        }
+        if (enableVariables) {
+            String playerip = e.getAddress().toString().split("/")[1].split(":")[0];
+            OfflinePlayer p = null;
+            for (OfflinePlayer pl : r.getOfflinePlayers()) {
+                if (UC.getPlayer(pl).getLastIp() == null) {
+                    continue;
+                }
+                if (UC.getPlayer(pl).getLastIp().equalsIgnoreCase(playerip)) {
+                    p = pl;
+                }
+            }
+            String name = "";
+            String money = "";
+            if (p != null) {
+                name = p.getName();
+                if (r.getVault() != null) {
+                    if (r.getVault().getEconomy() != null) {
+                        money = r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance(p));
+                    }
+                }
+            } else {
+                name = TextColors.stripColor(r.mes("motdDefaultName"));
+                if (r.getVault() != null) {
+                    if (r.getVault().getEconomy() != null) {
+                        if (r.getVault().getEconomy() instanceof UEconomy) {
+                            UEconomy ec = (UEconomy) r.getVault().getEconomy();
+                            money = ec.format(ec.getStartingMoney());
+                        }
+                    }
+                }
+            }
+            String ip = playerip;
+            String version = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
+            int maxplayers = e.getMaxPlayers();
+            int onlineplayers = e.getNumPlayers();
+            String servername = Bukkit.getServerName();
+
+            String motd = e.getMotd();
+            motd = motd.replace("+Player", name);
+            motd = motd.replace("+Ip", ip);
+            motd = motd.replace("+Money", money);
+            motd = motd.replace("+Version", version);
+            motd = motd.replace("+Maxplayers", maxplayers + "");
+            motd = motd.replace("+Onlineplayers", onlineplayers + "");
+            motd = motd.replace("+Servername", servername);
+            e.setMotd(motd);
+        }
+        if (enableBanMotd) {
+            String playerip = e.getAddress().toString().split("/")[1].split(":")[0];
+            OfflinePlayer p = null;
+            for (OfflinePlayer pl : r.getOfflinePlayers()) {
+                if (UC.getPlayer(pl) == null || UC.getPlayer(pl).getLastIp() == null) {
+                    continue;
+                }
+                if (UC.getPlayer(pl).getLastIp().equalsIgnoreCase(playerip)) {
+                    p = pl;
+                }
+            }
+            if (p != null && UC.getPlayer(p).isBanned()) {
+                String name = p.getName();
+                String money = "";
+                if (r.getVault() != null) {
+                    if (r.getVault().getEconomy() != null) {
+                        money = r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance(p));
+                    }
+                }
+
+                String ip = playerip;
+                String version = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
+                int maxplayers = e.getMaxPlayers();
+                int onlineplayers = e.getNumPlayers();
+                String servername = Bukkit.getServerName();
+
+                String bantime = TextColors.stripColor(DateUtil.formatDateDiff(UC.getPlayer(p).getBanTime(), 2));
+                String banreason = UC.getPlayer(p).getBanReason();
+
+                String motd = banMotd;
+                motd = TextColorUtil.translateAlternate(motd);
+                motd = motd.replace("+Name", name);
+                motd = motd.replace("+Ip", ip);
+                motd = motd.replace("+Money", money);
+                motd = motd.replace("+Version", version);
+                motd = motd.replace("+Maxplayers", maxplayers + "");
+                motd = motd.replace("+Onlineplayers", onlineplayers + "");
+                motd = motd.replace("+Servername", servername);
+                motd = motd.replace("+Bantime", bantime);
+                motd = motd.replace("+Banreason", banreason);
+                e.setMotd(motd);
+            }
+        }
     }
 
-    @Listener(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void joinMSG(final PlayerJoinEvent e) {
         Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
             @Override

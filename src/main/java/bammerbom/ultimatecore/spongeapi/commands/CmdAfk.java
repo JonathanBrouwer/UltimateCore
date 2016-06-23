@@ -26,8 +26,11 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.util.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,12 +49,12 @@ public class CmdAfk implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> [Player]";
+        return "/<command> [Player]/[Reason]";
     }
 
     @Override
-    public String getDescription() {
-        return "Marks you as away-from-keyboard.";
+    public Text getDescription() {
+        return Text.of("Marks you as away-from-keyboard.");
     }
 
     @Override
@@ -60,44 +63,59 @@ public class CmdAfk implements UltimateCommand {
     }
 
     @Override
-    public void run(CommandSource cs, String label, String[] args) {
-        if (!r.checkArgs(args, 0)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!(r.checkArgs(args, 0) && r.searchPlayer(args[0]) != null)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
-            if (!r.perm(cs, "uc.afk", true, true)) {
-                return;
+            if (!r.perm(cs, "uc.afk", true)) {
+                return CommandResult.empty();
             }
+            String message = r.checkArgs(args, 0) ? r.getFinalArg(args, 0) : null;
             if (!UC.getPlayer(p).isAfk()) {
-                Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkAfk", "%Player", UC.getPlayer(p).getDisplayName()));
-                UC.getPlayer(p).setAfk(true);
-            } else {
-                Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getDisplayName()));
-                UC.getPlayer(p).setAfk(false);
-            }
-        } else {
-            if (!r.perm(cs, "uc.afk.others", false, true)) {
-                return;
-            }
-            if (r.searchPlayer(args[0]) != null) {
-                Player t = r.searchPlayer(args[0]);
-                if (!UC.getPlayer(t).isAfk()) {
-                    Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkAfk", "%Player", UC.getPlayer(t).getDisplayName()));
-                    UC.getPlayer(t).setAfk(true);
+                if (message != null) {
+                    Sponge.getServer().getBroadcastChannel().send(r.mes("afkAfkReason", "%Player", UC.getPlayer(p).getDisplayName(), "%Message", message));
                 } else {
-                    Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getDisplayName()));
+                    Sponge.getServer().getBroadcastChannel().send(r.mes("afkAfk", "%Player", UC.getPlayer(p).getDisplayName()));
+                }
+                UC.getPlayer(p).setAfk(true);
+                UC.getPlayer(p).setAfkMessage(message);
+            } else {
+                Sponge.getServer().getBroadcastChannel().send(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getDisplayName()));
+                UC.getPlayer(p).setAfk(false);
+                UC.getPlayer(p).setAfkMessage(null);
+            }
+            return CommandResult.success();
+        } else {
+            if (!r.perm(cs, "uc.afk.others", true)) {
+                return CommandResult.empty();
+            }
+            if (r.searchPlayer(args[0]).isPresent()) {
+                Player t = r.searchPlayer(args[0]).get();
+                String message = r.checkArgs(args, 1) ? r.getFinalArg(args, 1) : null;
+                if (!UC.getPlayer(t).isAfk()) {
+                    if (message != null) {
+                        Sponge.getServer().getBroadcastChannel().send(r.mes("afkAfkReason", "%Player", UC.getPlayer(t).getDisplayName(), "%Message", message));
+                    } else {
+                        Sponge.getServer().getBroadcastChannel().send(r.mes("afkAfk", "%Player", UC.getPlayer(t).getDisplayName()));
+                    }
+                    UC.getPlayer(t).setAfk(true);
+                    UC.getPlayer(t).setAfkMessage(message);
+                } else {
+                    Sponge.getServer().getBroadcastChannel().send(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getDisplayName()));
                     UC.getPlayer(t).setAfk(false);
+                    UC.getPlayer(t).setAfkMessage(null);
                 }
             } else {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             }
+            return CommandResult.success();
         }
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-
 }

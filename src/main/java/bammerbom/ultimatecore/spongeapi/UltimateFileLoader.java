@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.profile.GameProfile;
 
 import java.io.*;
 import java.util.UUID;
@@ -59,7 +60,7 @@ public class UltimateFileLoader {
         }
         conf = new File(plugin.getDataFolder() + File.separator + "config.yml");
         if (!conf.exists()) {
-            plugin.saveResource("config.yml", true);
+            r.saveResource("config.yml", true);
         }
 
         messages = new File(plugin.getDataFolder(), "Messages");
@@ -71,13 +72,14 @@ public class UltimateFileLoader {
             messages.mkdir();
         }
         //
+
         Dglobal = new File(plugin.getDataFolder() + File.separator + "Data", "global.json");
         Dspawns = new File(plugin.getDataFolder() + File.separator + "Data", "spawns.json");
         Dwarps = new File(plugin.getDataFolder() + File.separator + "Data", "warps.json");
         Dworlds = new File(plugin.getDataFolder() + File.separator + "Data", "worlds.json");
         Djails = new File(plugin.getDataFolder() + File.separator + "Data", "jails.json");
         Dkits = new File(plugin.getDataFolder(), "kits.yml");
-        Dbooks = new File(plugin.getDataFolder(), "books.yml");
+        Dbooks = new File(plugin.getDataFolder(), "books.txt");
         Dcustommes = new File(plugin.getDataFolder(), "custommessages.yml");
         Deconomy = new File(plugin.getDataFolder() + File.separator + "Data", "economy.json");
         //DIS DFuuid = new File(plugin.getDataFolder() + File.separator + "Data", "uuids.json");
@@ -99,13 +101,13 @@ public class UltimateFileLoader {
                 Djails.createNewFile();
             }
             if (!Dkits.exists()) {
-                plugin.saveResource("kits.yml", true);
+                r.saveResource("kits.yml", true);
             }
             if (!Dbooks.exists()) {
-                plugin.saveResource("books.yml", true);
+                r.saveResource("books.txt", true);
             }
             if (!Dcustommes.exists()) {
-                plugin.saveResource("custommessages.yml", true);
+                r.saveResource("custommessages.yml", true);
             }
             if (!Deconomy.exists()) {
                 Deconomy.createNewFile();
@@ -118,10 +120,13 @@ public class UltimateFileLoader {
         }
         //
         if (!new File(plugin.getDataFolder() + File.separator + "Messages" + File.separator + "EN.properties").exists()) {
-            plugin.saveResource("Messages" + File.separator + "EN.properties", true);
+            r.saveResource("Messages" + File.separator + "EN.properties", true);
         }
         if (!new File(plugin.getDataFolder() + File.separator + "Messages" + File.separator + "NL.properties").exists()) {
-            plugin.saveResource("Messages" + File.separator + "NL.properties", true);
+            r.saveResource("Messages" + File.separator + "NL.properties", true);
+        }
+        if (!new File(plugin.getDataFolder() + File.separator + "Messages" + File.separator + "DE.properties").exists()) {
+            r.saveResource("Messages" + File.separator + "DE.properties", true);
         }
         //
         File file = new File(plugin.getDataFolder() + File.separator + "Messages", r.getCnfg().getString("Language") + ".properties");
@@ -132,7 +137,7 @@ public class UltimateFileLoader {
         }
         ENf = new File(plugin.getDataFolder() + File.separator + "Messages", "EN.properties");
         //
-        for (User pl : r.getOfflinePlayers()) {
+        for (GameProfile pl : r.getOfflinePlayers()) {
             try {
                 getPlayerFile(pl);
             } catch (Exception ex) {
@@ -143,7 +148,7 @@ public class UltimateFileLoader {
 
     }
 
-    public static File getPlayerFile(final User p) {
+    public static File getPlayerFile(final GameProfile p) {
         UUID id = p.getUniqueId();
         final File file = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + id.toString() + ".json");
         File directory = new File(r.getUC().getDataFolder() + File.separator + "Players");
@@ -162,7 +167,7 @@ public class UltimateFileLoader {
     }
 
     public static JsonConfig getPlayerConfig(User p) {
-        File file = getPlayerFile(p);
+        File file = getPlayerFile(p.getProfile());
         return new JsonConfig(file);
     }
 
@@ -178,7 +183,7 @@ public class UltimateFileLoader {
             }
             try (FileOutputStream out = new FileOutputStream(tempFile)) {
                 tempFile.deleteOnExit();
-                copy(r.getUC().getResource("config.yml"), out);
+                copy(r.getResource("config.yml"), out);
                 out.close();
             } catch (IOException ex) {
                 ErrorLogger.log(ex, "Failed to complete config.yml");
@@ -222,7 +227,7 @@ public class UltimateFileLoader {
     public static long copyLarge(InputStream input, OutputStream output, byte[] buffer) throws IOException {
         try {
             long count = 0L;
-            int n = 0;
+            int n;
             while (-1 != (n = input.read(buffer))) {
                 output.write(buffer, 0, n);
                 count += n;

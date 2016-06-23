@@ -28,9 +28,8 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -39,8 +38,8 @@ import java.util.List;
 
 public class CmdReply implements UltimateCommand {
 
-    static String format = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.MsgFormat"));
-    static String formatSpy = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.MsgFormatSpy"));
+    static String format = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.MsgFormat"));
+    static String formatSpy = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.MsgFormatSpy"));
 
     @Override
     public String getName() {
@@ -58,7 +57,7 @@ public class CmdReply implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.reply", false, true)) {
             return;
         }
@@ -84,7 +83,7 @@ public class CmdReply implements UltimateCommand {
             return;
         }
         UC.getPlayer(pl).setReply((Player) cs);
-        String message = r.perm(cs, "uc.coloredchat", false, false) ? ChatColor.translateAlternateColorCodes('&', r.getFinalArg(args, 0)) : r.getFinalArg(args, 0);
+        String message = r.perm(cs, "uc.coloredchat", false, false) ? TextColorUtil.translateAlternate(r.getFinalArg(args, 0)) : r.getFinalArg(args, 0);
         //Spy
         for (Player ps : r.getOnlinePlayers()) {
             UPlayer up = UC.getPlayer(ps);
@@ -100,7 +99,7 @@ public class CmdReply implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
     }
 }

@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
 import org.bukkit.EntityEffect;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -54,9 +54,8 @@ public class CmdKillall implements UltimateCommand {
         return Arrays.asList();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return;
         }
@@ -64,7 +63,7 @@ public class CmdKillall implements UltimateCommand {
             return;
         }
         Integer range = 100;
-        if (r.checkArgs(args, 0) == true && r.isInt(args[0])) {
+        if (r.checkArgs(args, 0) && r.isInt(args[0])) {
             range = Integer.parseInt(args[0]);
             if (range > 1000) {
                 range = 1000;
@@ -104,7 +103,7 @@ public class CmdKillall implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

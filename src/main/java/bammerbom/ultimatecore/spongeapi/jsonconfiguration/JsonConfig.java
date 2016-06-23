@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.jsonconfiguration;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.json.simple.JSONArray;
@@ -31,6 +32,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class JsonConfig implements Cloneable {
@@ -72,6 +74,13 @@ public class JsonConfig implements Cloneable {
     }
 
     public Object get(String s) {
+        return map.get(s);
+    }
+
+    public Object get(String s, Object def) {
+        if (!map.containsKey(s)) {
+            return def;
+        }
         return map.get(s);
     }
 
@@ -128,6 +137,15 @@ public class JsonConfig implements Cloneable {
         return (Double) get(s);
     }
 
+    public BigDecimal getBigDecimal(String path) {
+        return getBigDecimal(path, new BigDecimal(0));
+    }
+
+    public BigDecimal getBigDecimal(String path, BigDecimal def) {
+        Object val = get(path, def);
+        return (BigDecimal) ((val instanceof BigDecimal) ? val : def);
+    }
+
     public Integer getInteger(String s) {
         return getInteger(s, 0);
     }
@@ -170,9 +188,9 @@ public class JsonConfig implements Cloneable {
 
     public void save(File fi) {
         try {
-            FileUtil.writeLargerTextFile(fi, Arrays.asList(JSONValue.toJSONString(map).split("\n", -1)));
+            FileUtil.writeFile(fi, Arrays.asList(JSONValue.toJSONString(map).split("\n", -1)));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to write file.");
         }
     }
 

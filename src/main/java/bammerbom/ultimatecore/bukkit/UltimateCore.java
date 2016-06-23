@@ -71,6 +71,7 @@ public class UltimateCore extends JavaPlugin {
     @Override
     public void onEnable() {
         try {
+            SET JAVA TO 1.7;
             //
             Long time = System.currentTimeMillis();
             //UTIL STARTUP
@@ -101,7 +102,7 @@ public class UltimateCore extends JavaPlugin {
             if (v < 10) {
                 Bukkit.getConsoleSender().sendMessage(" ");
                 r.log(ChatColor.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                r.log(ChatColor.YELLOW + "Warning! Version " + c + " of Bukkit is not supported!");
+                r.log(ChatColor.YELLOW + "Warning! Version " + c + " of Minecraft is not supported!");
                 r.log(ChatColor.YELLOW + "Use UltimateCore at your own risk!");
                 r.log(ChatColor.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 Bukkit.getConsoleSender().sendMessage(" ");

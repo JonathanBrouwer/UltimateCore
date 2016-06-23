@@ -31,7 +31,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -54,7 +54,7 @@ public class CmdMoney implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.money", true, true)) {
             return;
         }
@@ -83,7 +83,7 @@ public class CmdMoney implements UltimateCommand {
                 return;
             }
             if (r.checkArgs(args, 2) && r.isDouble(args[2])) {
-                OfflinePlayer t = r.searchOfflinePlayer(args[1]);
+                OfflinePlayer t = r.searchGameProfile(args[1]);
                 if (!r.getVault().getEconomy().hasAccount(t)) {
                     r.getVault().getEconomy().createPlayerAccount(t);
                 }
@@ -92,9 +92,9 @@ public class CmdMoney implements UltimateCommand {
                     return;
                 }
                 final boolean has = r.getVault().getEconomy().getBalance(t) >= Double.parseDouble(args[2]);
-                if (cs instanceof BlockCommandSender) {
+                if (cs instanceof BlockCommandSource) {
                     r.log("returned " + has);
-                    BlockCommandSender bcs = (BlockCommandSender) cs;
+                    BlockCommandSource bcs = (BlockCommandSource) cs;
                     /*try {
                         ReflectionUtil.ReflectionObject ob = ReflectionUtil
                                 .execute("getTileEntityAt({1}, {2}, {3})", bcs.getBlock().getWorld(), bcs.getBlock().getX(), bcs.getBlock().getY(), bcs.getBlock().getZ());
@@ -171,7 +171,7 @@ public class CmdMoney implements UltimateCommand {
                 if (!r.perm(cs, "uc.money.set.others", false, true)) {
                     return;
                 }
-                OfflinePlayer t = r.searchOfflinePlayer(args[1]);
+                OfflinePlayer t = r.searchGameProfile(args[1]);
                 if (!r.getVault().getEconomy().hasAccount(t)) {
                     r.getVault().getEconomy().createPlayerAccount(t);
                 }
@@ -241,7 +241,7 @@ public class CmdMoney implements UltimateCommand {
                 if (!r.perm(cs, "uc.money.add.others", false, true)) {
                     return;
                 }
-                OfflinePlayer t = r.searchOfflinePlayer(args[1]);
+                OfflinePlayer t = r.searchGameProfile(args[1]);
                 if (!r.getVault().getEconomy().hasAccount(t)) {
                     r.getVault().getEconomy().createPlayerAccount(t);
                 }
@@ -311,7 +311,7 @@ public class CmdMoney implements UltimateCommand {
                 if (!r.perm(cs, "uc.money.remove.others", false, true)) {
                     return;
                 }
-                OfflinePlayer t = r.searchOfflinePlayer(args[1]);
+                OfflinePlayer t = r.searchGameProfile(args[1]);
                 if (!r.getVault().getEconomy().hasAccount(t)) {
                     r.getVault().getEconomy().createPlayerAccount(t);
                 }
@@ -352,7 +352,7 @@ public class CmdMoney implements UltimateCommand {
             while ((map.size() - 1) >= cur && cur < 10) {
                 String player;
                 try {
-                    player = r.searchOfflinePlayer(UUID.fromString(map.keySet().toArray(new String[map.size()])[cur])).getName();
+                    player = r.searchGameProfile(UUID.fromString(map.keySet().toArray(new String[map.size()])[cur])).getName();
                 } catch (IllegalArgumentException | NullPointerException ex) {
                     player = map.keySet().toArray(new String[map.size()])[cur];
                 }
@@ -367,7 +367,7 @@ public class CmdMoney implements UltimateCommand {
             if (!r.perm(cs, "uc.money.status.others", true, true)) {
                 return;
             }
-            OfflinePlayer t = r.searchOfflinePlayer(args[0]);
+            OfflinePlayer t = r.searchGameProfile(args[0]);
             if (!r.getVault().getEconomy().hasAccount(t)) {
                 r.getVault().getEconomy().createPlayerAccount(t);
             }
@@ -381,7 +381,7 @@ public class CmdMoney implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 

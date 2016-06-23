@@ -24,16 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.living.Living;
-import org.spongepowered.api.entity.living.monster.Monster;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.item.inventory.DropItemEvent;
-import org.spongepowered.api.util.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,117 +45,117 @@ public class CmdButcher implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> [Type] [Range]";
+        return "/<command> ";
     }
 
     @Override
-    public String getDescription() {
-        return "Kill all monsters in a certain area.";
+    public Text getDescription() {
+        return Text.of("Description");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("killmonsters");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(CommandSource cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
-            return;
-        }
-        if (!r.perm(cs, "uc.butcher", false, true)) {
-            return;
-        }
-        Player p = (Player) cs;
-        Integer range = 100;
-        MobType filter = null;
-        Boolean all = false;
-        Integer amount = 0;
-        if (r.checkArgs(args, 0) == true) {
-            if (r.isInt(args[0])) {
-                range = Integer.parseInt(args[0]);
-                if (range > 1000) {
-                    range = 1000;
-                }
-            } else if (args[0].equalsIgnoreCase("global")) {
-                all = true;
-            } else {
-                if (MobType.fromName(args[0]) != null) {
-                    filter = MobType.fromName(args[0]);
-                } else {
-
-                }
-                if (r.checkArgs(args, 1)) {
-                    if (r.isInt(args[1])) {
-                        range = Integer.parseInt(args[1]);
-                        if (range > 1000) {
-                            range = 1000;
-                        }
-                    }
-                }
-            }
-        }
-        if (!all) {
-            for (Entity en : r.getNearbyEntities(p, range)) {
-                if (filter != null && !filter.getType().equals(en.getType())) {
-                    continue;
-                }
-                if (en instanceof Living && !(en instanceof Player)) {
-                    MobType mob = MobType.fromBukkitType(en.getType());
-                    if ((mob != null && mob.type.equals(MobType.Enemies.ENEMY)) || en instanceof Monster) {
-                        en.remove();
-                        amount++;
-                        en.offer(Keys.HEALTH, 0.0);
-                    }
-                }
-            }
-        } else {
-            for (Entity en : p.getWorld().getEntities()) {
-                if (MobType.fromBukkitType(en.getType()) == null) {
-                    continue;
-                }
-                if (filter != null && !filter.equals(MobType.fromBukkitType(en.getType()))) {
-                    continue;
-                }
-                if (en instanceof Living && !(en instanceof Player)) {
-                    MobType mob = MobType.fromBukkitType(en.getType());
-                    if (mob.type.equals(MobType.Enemies.ENEMY) || en instanceof Monster) {
-                        en.remove();
-                        amount++;
-                        en.playEffect(EntityEffect.DEATH);
-                    }
-                }
-            }
-        }
-        r.sendMes(cs, "butcherMessage", "%Amount", amount, "%Radius", range, "%Monster", (filter == null ? r.mes("butcherMonsters") : filter.name.toLowerCase() + "s"));
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-
-    @Listener
-    public void onItemDestruct(DropItemEvent.Destruct event) {
-
-    }
-    //
-    //    @Override
-    //    public void run(final CommandSender cs, String label, String[] args) {
-    //    }
-    //
-    //    @Override
-    //    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-    //        if (curn == 0) {
-    //            ArrayList<String> types = new ArrayList<>();
-    //            for (MobType type : MobType.values()) {
-    //                if (type.type.equals(Enemies.ENEMY)) {
-    //                    types.add(type.name);
-    //                }
-    //            }
-    //            return types;
-    //        } else {
-    //            return new ArrayList<>();
-    //        }
-    //    }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("killmonsters");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.isPlayer(cs)) {
+//            return;
+//        }
+//        if (!r.perm(cs, "uc.butcher", false, true)) {
+//            return;
+//        }
+//        Player p = (Player) cs;
+//        Integer range = 100;
+//        MobType filter = null;
+//        Boolean all = false;
+//        Integer amount = 0;
+//        if (r.checkArgs(args, 0)) {
+//            if (r.isInt(args[0])) {
+//                range = Integer.parseInt(args[0]);
+//                if (range > 1000) {
+//                    range = 1000;
+//                }
+//            } else if (args[0].equalsIgnoreCase("global")) {
+//                all = true;
+//            } else {
+//                if (MobType.fromName(args[0]) != null) {
+//                    filter = MobType.fromName(args[0]);
+//                } else {
+//
+//                }
+//                if (r.checkArgs(args, 1)) {
+//                    if (r.isInt(args[1])) {
+//                        range = Integer.parseInt(args[1]);
+//                        if (range > 1000) {
+//                            range = 1000;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        if (!all) {
+//            for (Entity en : r.getNearbyEntities(p, range)) {
+//                if (filter != null && !filter.getType().equals(en.getType())) {
+//                    continue;
+//                }
+//                if (en instanceof LivingEntity && !(en instanceof Player) && !(en instanceof ArmorStand)) {
+//                    MobType mob = MobType.fromBukkitType(en.getType());
+//                    if ((mob != null && mob.type.equals(Enemies.ENEMY)) || en instanceof Monster) {
+//                        en.remove();
+//                        amount++;
+//                        en.playEffect(EntityEffect.DEATH);
+//                    }
+//                }
+//            }
+//        } else {
+//            for (Entity en : p.getWorld().getEntities()) {
+//                if (MobType.fromBukkitType(en.getType()) == null) {
+//                    continue;
+//                }
+//                if (filter != null && !filter.equals(MobType.fromBukkitType(en.getType()))) {
+//                    continue;
+//                }
+//                if (en instanceof LivingEntity && !(en instanceof Player) && !(en instanceof ArmorStand)) {
+//                    MobType mob = MobType.fromBukkitType(en.getType());
+//                    if (mob.type.equals(Enemies.ENEMY) || en instanceof Monster) {
+//                        en.remove();
+//                        amount++;
+//                        en.playEffect(EntityEffect.DEATH);
+//                    }
+//                }
+//            }
+//        }
+//        r.sendMes(cs, "butcherMessage", "%Amount", amount, "%Radius", range, "%Monster", (filter == null ? r.mes("butcherMonsters") : filter.name.toLowerCase() + "s"));
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        if (curn == 0) {
+//            ArrayList<String> types = new ArrayList<>();
+//            for (MobType type : MobType.values()) {
+//                if (type.type.equals(Enemies.ENEMY)) {
+//                    types.add(type.name);
+//                }
+//            }
+//            return types;
+//        } else {
+//            return new ArrayList<>();
+//        }
+//    }
 }

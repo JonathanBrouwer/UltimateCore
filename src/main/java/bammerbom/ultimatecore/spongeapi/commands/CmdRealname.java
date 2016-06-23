@@ -26,10 +26,9 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -53,7 +52,7 @@ public class CmdRealname implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.realname", false, true)) {
             return;
         }
@@ -69,7 +68,7 @@ public class CmdRealname implements UltimateCommand {
             if (UC.getPlayer(player).getNick() == null) {
                 continue;
             }
-            String s = ChatColor.stripColor(UC.getPlayer(player).getNick()).toLowerCase();
+            String s = TextColors.stripColor(UC.getPlayer(player).getNick()).toLowerCase();
             if (s.startsWith(lowerName)) {
                 int curDelta = s.length() - lowerName.length();
                 if (curDelta < delta) {
@@ -86,7 +85,7 @@ public class CmdRealname implements UltimateCommand {
                 if (UC.getPlayer(player).getNick() == null) {
                     continue;
                 }
-                String s = ChatColor.stripColor(UC.getPlayer(player).getNick()).toLowerCase();
+                String s = TextColors.stripColor(UC.getPlayer(player).getNick()).toLowerCase();
                 if (s.toLowerCase().startsWith(lowerName)) {
                     int curDelta = s.length() - lowerName.length();
                     if (curDelta < delta) {
@@ -107,7 +106,7 @@ public class CmdRealname implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

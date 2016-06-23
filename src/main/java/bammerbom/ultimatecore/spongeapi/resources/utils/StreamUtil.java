@@ -66,7 +66,6 @@ public class StreamUtil {
         return file.length();
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static List<File> deleteFile(File file) {
         if (file.isDirectory()) {
             List failFiles = new ArrayList();

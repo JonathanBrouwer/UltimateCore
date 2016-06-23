@@ -32,7 +32,7 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
@@ -59,8 +59,8 @@ public class CmdHome implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.checkArgs(args, 0)) {
+    public void run(final CommandSource cs, String label, String[] args) {
+        if (r.checkArgs(args, 0) == false) {
             if (!(r.isPlayer(cs))) {
                 return;
             }
@@ -109,7 +109,7 @@ public class CmdHome implements UltimateCommand {
             }
         } else {
             OfflinePlayer t;
-            if (!r.perm(cs, "uc.home", true, true)) {
+            if (r.perm(cs, "uc.home", true, true) == false) {
                 return;
             }
             if (args[0].contains(":")) {
@@ -164,7 +164,7 @@ public class CmdHome implements UltimateCommand {
                     return;
                 }
                 Player p = (Player) cs;
-                t = r.searchOfflinePlayer(args[0].split(":")[0]);
+                t = r.searchGameProfile(args[0].split(":")[0]);
                 if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
                     return;
@@ -210,7 +210,7 @@ public class CmdHome implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (!r.isPlayer(cs)) {
             return new ArrayList<>();
         }

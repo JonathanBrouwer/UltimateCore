@@ -26,19 +26,15 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import com.goebl.david.Webb;
 import com.google.common.collect.ImmutableList;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSource;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
-import org.spongepowered.api.entity.living.player.User;
-import org.spongepowered.api.util.command.CommandSource;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
@@ -50,8 +46,13 @@ public class UuidUtil {
     public static Map<Long, String> getNameHistory(UUID u) throws Exception {
         //https://api.mojang.com/user/profiles/27d51a021cec49fa8afa4a6aff0e5b0a/names
         String uuid = u.toString().replace("-", "");
-        Webb web = Webb.create();
-        String response = web.get("https://api.mojang.com/user/profiles/" + uuid + "/names").asString().getBody();
+        //Webb web = Webb.create();
+
+        URL url = new URL("https://api.mojang.com/user/profiles/" + uuid + "/names");
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        String response = in.readLine();
+        in.close();
+
         Object obj = JSONValue.parse(response);
         if (obj instanceof JSONArray) {
             JSONArray array = (JSONArray) obj;
@@ -83,7 +84,7 @@ public class UuidUtil {
             directory.mkdirs();
         }
         ArrayList<UUID> request = null;
-        for (User p : r.getOfflinePlayers()) {
+        for (OfflinePlayer p : r.getOfflinePlayers()) {
             if (p.getUniqueId() == null) {
                 continue;
             }
@@ -122,9 +123,10 @@ public class UuidUtil {
             }
         }
         if (request != null) {
+            final ArrayList<UUID> req = request;
             try {
                 r.log("Starting playerfile update...");
-                HashMap<UUID, String> s = new UuidToName(request).call();
+                HashMap<UUID, String> s = new UuidToName(req).call();
                 for (UUID u : s.keySet()) {
                     String n = s.get(u);
                     File f = new File(r.getUC().getDataFolder() + File.separator + "Players" + File.separator + u + "" +

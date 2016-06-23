@@ -24,15 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.api.UPlayer;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.util.command.CommandSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,12 +45,12 @@ public class CmdBan implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> <Player> [Time] [Reason]";
+        return "/<command> ";
     }
 
     @Override
-    public String getDescription() {
-        return "Bans the target player.";
+    public Text getDescription() {
+        return Text.of("Description");
     }
 
     @Override
@@ -65,56 +59,76 @@ public class CmdBan implements UltimateCommand {
     }
 
     @Override
-    public void run(CommandSource cs, String label, String[] args) {
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "banUsage");
-            return;
-        }
-        User banp = r.searchOfflinePlayer(args[0]);
-        if (banp == null || (!banp.get(Keys.FIRST_DATE_PLAYED).isPresent() && !banp.isOnline())) {
-            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
-        }
-        Long time = 0L;
-        Text.Literal reason = r.mes("banDefaultReason");
-        if (!r.checkArgs(args, 1)) {
-        } else if (DateUtil.parseDateDiff(args[1]) == -1) {
-            reason = Texts.of(r.getFinalArg(args, 1));
-        } else {
-            time = DateUtil.parseDateDiff(args[1]);
-            if (r.checkArgs(args, 2)) {
-                reason = Texts.of(r.getFinalArg(args, 2));
-            }
-        }
-        Text timen = Texts.of(DateUtil.format(time));
-        if (time == 0) {
-            timen = r.mes("banForever");
-        }
-        if (!r.perm(cs, "uc.ban.time", false, false) && !r.perm(cs, "uc.ban", false, false) && time <= 0L) {
-            r.sendMes(cs, "noPermissions");
-            return;
-        }
-        if (!r.perm(cs, "uc.ban.perm", false, false) && !r.perm(cs, "uc.ban", false, false) && !(time <= 0L)) {
-            r.sendMes(cs, "noPermissions");
-            return;
-        }
-        Text msg = r.mes("banFormat", "%Time", timen, "%Reason", reason);
-        if (banp.isOnline()) {
-            banp.getPlayer().get().kick(msg);
-        }
-        UPlayer pl = UC.getPlayer(banp);
-        pl.ban(time, reason, cs);
-        if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-            Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("banBroadcast", "%Banner", r.getDisplayName(cs), "%Banned", r
-                    .getDisplayName(banp), "%Time", timen, "%Reason", reason));
-        } else {
-            r.sendMes(cs, "banBroadcast", "%Banner", r.getDisplayName(cs), "%Banned", r
-                    .getDisplayName(banp), "%Time", timen, "%Reason", reason);
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList();
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (r.checkArgs(args, 0) == false) {
+//            if (!r.perm(cs, "uc.ban", false, true)) {
+//                return;
+//            }
+//            r.sendMes(cs, "banUsage");
+//            return;
+//        }
+//        OfflinePlayer banp = r.searchGameProfile(args[0]);
+//        if (banp == null || banp.getUniqueId() == null) {
+//            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+//            return;
+//        }
+//        Long time = 0L;
+//        String reason = TextColors.stripColor(r.mes("banDefaultReason"));
+//        if (r.checkArgs(args, 1) == false) {
+//        } else if (DateUtil.parseDateDiff(args[1]) == -1) {
+//            reason = r.getFinalArg(args, 1);
+//        } else {
+//            time = DateUtil.parseDateDiff(args[1]);
+//            if (r.checkArgs(args, 2) == true) {
+//                reason = r.getFinalArg(args, 2);
+//            }
+//        }
+//        String timen = DateUtil.format(time);
+//        if (time == 0) {
+//            timen = r.mes("banForever");
+//        } else {
+//            timen = "" + timen;
+//        }
+//        if (!r.perm(cs, "uc.ban.time", false, false) && !r.perm(cs, "uc.ban", false, false) && time <= 0L) {
+//            r.sendMes(cs, "noPermissions");
+//            return;
+//        }
+//        if (!r.perm(cs, "uc.ban.perm", false, false) && !r.perm(cs, "uc.ban", false, false) && !(time <= 0L)) {
+//            r.sendMes(cs, "noPermissions");
+//            return;
+//        }
+//        String msg = r.mes("banFormat").replace("%Time", timen).replace("%Reason", reason);
+//        if (banp.isOnline()) {
+//            banp.getPlayer().kickPlayer(msg);
+//        }
+//        UPlayer pl = UC.getPlayer(banp);
+//        pl.ban(time, reason, cs);
+//        if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
+//            Bukkit.broadcastMessage(r.mes("banBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Banned", r
+//                    .getDisplayName(banp), "%Time", timen, "%Reason", reason));
+//        } else {
+//            r.sendMes(cs, "banBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Banned", r
+//                    .getDisplayName(banp), "%Time", timen, "%Reason", reason);
+//        }
+//
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return null;
+//    }
 }

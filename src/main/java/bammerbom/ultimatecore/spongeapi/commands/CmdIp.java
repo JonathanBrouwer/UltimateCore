@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,8 +52,8 @@ public class CmdIp implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.checkArgs(args, 0)) {
+    public void run(final CommandSource cs, String label, String[] args) {
+        if (r.checkArgs(args, 0) == false) {
             if (!r.perm(cs, "uc.ip.server", false, false) && !r.perm(cs, "uc.ip", false, false)) {
                 r.sendMes(cs, "noPermissions");
                 return;
@@ -64,7 +64,7 @@ public class CmdIp implements UltimateCommand {
                 r.sendMes(cs, "noPermissions");
                 return;
             }
-            OfflinePlayer p = r.searchOfflinePlayer(args[0]);
+            OfflinePlayer p = r.searchGameProfile(args[0]);
             if (p == null || UC.getPlayer(p).getLastIp() == null || UC.getPlayer(p).getLastHostname() == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
@@ -75,7 +75,7 @@ public class CmdIp implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

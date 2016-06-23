@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -50,7 +50,7 @@ public class CmdSethealth implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.sethealth", false, true)) {
             return;
         }
@@ -93,7 +93,7 @@ public class CmdSethealth implements UltimateCommand {
                     t.setMaxHealth(d);
                 }
                 t.setHealth(d);
-                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Healh", d);
+                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Health", d);
                 r.sendMes(t, "sethealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
             } else if (r.isDouble(args[1])) {
                 Double d = Double.parseDouble(args[1]);
@@ -116,7 +116,7 @@ public class CmdSethealth implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

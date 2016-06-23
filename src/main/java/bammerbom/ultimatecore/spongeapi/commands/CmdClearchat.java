@@ -24,10 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,44 +44,68 @@ public class CmdClearchat implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("cleanchat");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.checkArgs(args, 0)) {
-            if (!r.perm(cs, "uc.clearchat", false, true) && !r.perm(cs, "uc.clearchat.everyone", false, true)) {
-                r.sendMes(cs, "noPermissions");
-                return;
-            }
-            for (Player p : r.getOnlinePlayers()) {
-                for (int i = 0;
-                     i < 100;
-                     i++) {
-                    p.sendMessage("");
-                }
-            }
-        } else {
-            Player pl = r.searchPlayer(args[0]);
-            if (pl == null) {
-                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
-            }
-            if (!r.perm(cs, "uc.clearchat", false, true) && !r.perm(cs, "uc.clearchat.player.others", false, true) && !(pl.equals(cs) && r.perm(cs, "uc.clearchat.player", true, true))) {
-                r.sendMes(cs, "noPermissions");
-                return;
-            }
-            for (int i = 0;
-                 i < 100;
-                 i++) {
-                pl.sendMessage("");
-            }
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("cleanchat");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.checkArgs(args, 0)) {
+//            if (!r.perm(cs, "uc.clearchat", false, true) && !r.perm(cs, "uc.clearchat.everyone", false, true)) {
+//                r.sendMes(cs, "noPermissions");
+//                return;
+//            }
+//            for (Player p : r.getOnlinePlayers()) {
+//                for (int i = 0;
+//                     i < 100;
+//                     i++) {
+//                    p.sendMessage("");
+//                }
+//            }
+//        } else {
+//            Player pl = r.searchPlayer(args[0]);
+//            if (pl == null) {
+//                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+//                return;
+//            }
+//            if (!r.perm(cs, "uc.clearchat", false, true) && !r.perm(cs, "uc.clearchat.player.others", false, true) && !(pl.equals(cs) && r.perm(cs, "uc.clearchat.player", true, true))) {
+//                r.sendMes(cs, "noPermissions");
+//                return;
+//            }
+//            for (int i = 0;
+//                 i < 100;
+//                 i++) {
+//                pl.sendMessage("");
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return null;
+//    }
 }

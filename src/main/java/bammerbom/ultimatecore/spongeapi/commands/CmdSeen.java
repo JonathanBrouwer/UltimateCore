@@ -30,7 +30,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,7 +53,7 @@ public class CmdSeen implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.seen", false, true)) {
             return;
         }
@@ -61,7 +61,7 @@ public class CmdSeen implements UltimateCommand {
             r.sendMes(cs, "seenUsage");
             return;
         }
-        OfflinePlayer p = r.searchOfflinePlayer(args[0]);
+        OfflinePlayer p = r.searchGameProfile(args[0]);
         if (p == null || (!p.hasPlayedBefore() && !p.isOnline())) {
             r.sendMes(cs, "seenNotFound", "%Player", args[0]);
             return;
@@ -85,6 +85,7 @@ public class CmdSeen implements UltimateCommand {
         r.sendMes(cs, "seenMuted", "%Muted", pl.isMuted() ? r.mes("yes") : r.mes("no"));
         if (pl.isMuted()) {
             r.sendMes(cs, "seenMutetime", "%Mutetime", pl.getMuteTimeLeft() >= 0 ? DateUtil.format(pl.getMuteTimeLeft()) : r.mes("banForever"));
+            r.sendMes(cs, "seenMutereason", "%Reason", pl.getMuteReason());
         }
         //Deaf
         r.sendMes(cs, "seenDeaf", "%Deaf", pl.isDeaf() ? r.mes("yes") : r.mes("no"));
@@ -104,7 +105,7 @@ public class CmdSeen implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

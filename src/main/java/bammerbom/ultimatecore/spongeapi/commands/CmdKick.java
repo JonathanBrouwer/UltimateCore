@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -51,11 +51,11 @@ public class CmdKick implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.kick", false, true)) {
             return;
         }
-        if (!r.checkArgs(args, 0)) {
+        if (r.checkArgs(args, 0) == false) {
             r.sendMes(cs, "kickUsage");
             return;
         }
@@ -68,7 +68,7 @@ public class CmdKick implements UltimateCommand {
             r.sendMes(cs, "kickSelf");
             return;
         }
-        if (!r.checkArgs(args, 1)) {
+        if (r.checkArgs(args, 1) == false) {
             Bukkit.broadcastMessage(r.mes("kickBroadcast", "%Kicker", r.getDisplayName(cs), "%Player", target.getName()));
             Bukkit.broadcastMessage(r.mes("kickBroadcast2", "%Reason", r.mes("kickDefaultReason")));
             target.kickPlayer(r.mes("kickMessage", "%Reason", r.mes("kickDefaultReason")));
@@ -80,7 +80,7 @@ public class CmdKick implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

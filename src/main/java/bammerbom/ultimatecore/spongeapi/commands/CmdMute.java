@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -53,12 +53,12 @@ public class CmdMute implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "muteUsage");
             return;
         }
-        OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
+        OfflinePlayer banp = r.searchGameProfile(args[0]);
         if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
@@ -68,10 +68,16 @@ public class CmdMute implements UltimateCommand {
             return;
         }
         Long time = 0L;
+        String reason = r.mes("muteDefaultReason");
         //Info
         if (!r.checkArgs(args, 1)) {
         } else if (DateUtil.parseDateDiff(args[1]) != -1) {
             time = DateUtil.parseDateDiff(args[1]);
+            if (r.checkArgs(args, 2)) {
+                reason = r.getFinalArg(args, 2);
+            }
+        } else if (DateUtil.parseDateDiff(args[1]) == -1) {
+            reason = r.getFinalArg(args, 1);
         }
         //Permcheck
         if (!r.perm(cs, "uc.mute.time", false, false) && !r.perm(cs, "uc.mute", false, false) && time == 0L) {
@@ -82,16 +88,20 @@ public class CmdMute implements UltimateCommand {
             r.sendMes(cs, "noPermissions");
             return;
         }
-        UC.getPlayer(banp).setMuted(true, time);
+        UC.getPlayer(banp).setMuted(true, time, reason);
         r.sendMes(cs, "muteMessage", "%Player", r.getDisplayName(banp));
         if (banp.isOnline()) {
             Player banp2 = (Player) banp;
             r.sendMes(banp2, "muteTarget");
+            if (time > 0L) {
+                r.sendMes(banp2, "muteTime", "%Time", DateUtil.format(UC.getPlayer(banp).getMuteTimeLeft()));
+            }
+            r.sendMes(banp2, "muteReason", "%Reason", reason);
         }
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

@@ -25,9 +25,7 @@ package bammerbom.ultimatecore.spongeapi;
 
 import bammerbom.ultimatecore.spongeapi.commands.*;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.util.command.args.CommandContext;
-import org.spongepowered.api.util.command.spec.CommandSpec;
+import org.spongepowered.api.command.CommandCallable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +39,7 @@ public class UltimateCommands {
     public static void load() {
         disabled = r.getCnfg().getStringList("Command.DisabledCommands");
         cmds.add(new CmdAccountstatus());
+        cmds.add(new CmdAdminchat());
         cmds.add(new CmdAfk());
         cmds.add(new CmdAlert());
         cmds.add(new CmdAnswer());
@@ -58,6 +57,7 @@ public class UltimateCommands {
         cmds.add(new CmdCompact());
         cmds.add(new CmdCompass());
         cmds.add(new CmdCoordinates());
+        cmds.add(new CmdCreatekit());
         cmds.add(new CmdCustommessages());
         cmds.add(new CmdDamage());
         cmds.add(new CmdDeaf());
@@ -142,6 +142,7 @@ public class UltimateCommands {
         cmds.add(new CmdSetlevel());
         cmds.add(new CmdSetspawn());
         cmds.add(new CmdSetwarp());
+        cmds.add(new CmdShowkit());
         cmds.add(new CmdSkull());
         cmds.add(new CmdSilence());
         cmds.add(new CmdSmite());
@@ -181,27 +182,12 @@ public class UltimateCommands {
         ucmds = new UltimateCommands();
         //
         for (UltimateCommand cmd : cmds) {
-            if (disabled.contains(cmd.getName())) {
-                continue;
-            }
-            for (String a : cmd.getAliases()) {
-                if (disabled.contains(a)) {
-                }
-            }
+            CommandCallable callable = new UltimateCommandCallable(cmd);
             List<String> aliases = new ArrayList<>();
             aliases.add(cmd.getName());
             aliases.addAll(cmd.getAliases());
-
-            for (String label : aliases) {
-                Sponge.getGame().getCommandDispatcher().register(r.getUC(), CommandSpec.builder().description(Texts.of(cmd.getDescription())).executor(new UltimateCommandExecutor(cmd, label))
-                        .arguments(new UltimateCommandElement(null, cmd, label)).build(), label);
-            }
-
+            Sponge.getCommandManager().register(r.getUC(), callable, aliases);
         }
-    }
-
-    public static String[] convertsArgs(CommandContext args) {
-        return (String[]) args.getAll("string").toArray();
     }
 
 }

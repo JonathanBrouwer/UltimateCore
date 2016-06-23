@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +53,7 @@ public class CmdUnjail implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.unjail", false, true)) {
             return;
         }
@@ -69,7 +69,7 @@ public class CmdUnjail implements UltimateCommand {
             }
             return;
         }
-        OfflinePlayer pl = r.searchOfflinePlayer(args[0]);
+        OfflinePlayer pl = r.searchGameProfile(args[0]);
         if (pl == null || (!pl.hasPlayedBefore() && !pl.isOnline())) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
@@ -88,7 +88,7 @@ public class CmdUnjail implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

@@ -24,14 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,55 +44,79 @@ public class CmdDelhome implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("remhome", "removehome");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
-            return;
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "delhomeUsage");
-        } else {
-            Player p = (Player) cs;
-            if (r.perm(p, "uc.delhome", true, true) == false) {
-                return;
-            }
-            if (args[0].contains(":")) {
-                if (r.perm(p, "uc.delhome.others", true, true) == false) {
-                    return;
-                }
-                OfflinePlayer t = r.searchOfflinePlayer(args[0].split(":")[0]);
-                if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
-                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                    return;
-                }
-                List<String> homes = UC.getPlayer(t).getHomeNames();
-                if (!homes.contains(args[0].toLowerCase().split(":")[1].toLowerCase())) {
-                    r.sendMes(cs, "homeNotExist", "%Home", args[0]);
-                    return;
-                }
-                UC.getPlayer(t).removeHome(args[0].toLowerCase().split(":")[1]);
-                r.sendMes(cs, "delhomeMessage", "%Home", args[0]);
-                return;
-            }
-            List<String> homes = UC.getPlayer(p).getHomeNames();
-            if (!homes.contains(args[0].toLowerCase())) {
-                r.sendMes(cs, "homeNotExist", "%Home", args[0]);
-                return;
-            }
-            UC.getPlayer(p).removeHome(args[0].toLowerCase());
-            r.sendMes(cs, "delhomeMessage", "%Home", args[0]);
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (!r.isPlayer(cs)) {
-            return new ArrayList<>();
-        }
-        return UC.getPlayer((OfflinePlayer) cs).getHomeNames();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("remhome", "removehome");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.isPlayer(cs)) {
+//            return;
+//        }
+//        if (!r.checkArgs(args, 0)) {
+//            r.sendMes(cs, "delhomeUsage");
+//        } else {
+//            Player p = (Player) cs;
+//            if (!r.perm(p, "uc.delhome", true, true)) {
+//                return;
+//            }
+//            if (args[0].contains(":")) {
+//                if (!r.perm(p, "uc.delhome.others", true, true)) {
+//                    return;
+//                }
+//                OfflinePlayer t = r.searchGameProfile(args[0].split(":")[0]);
+//                if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
+//                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+//                    return;
+//                }
+//                List<String> homes = UC.getPlayer(t).getHomeNames();
+//                if (!homes.contains(args[0].toLowerCase().split(":")[1].toLowerCase())) {
+//                    r.sendMes(cs, "homeNotExist", "%Home", args[0]);
+//                    return;
+//                }
+//                UC.getPlayer(t).removeHome(args[0].toLowerCase().split(":")[1]);
+//                r.sendMes(cs, "delhomeMessage", "%Home", args[0]);
+//                return;
+//            }
+//            List<String> homes = UC.getPlayer(p).getHomeNames();
+//            if (!homes.contains(args[0].toLowerCase())) {
+//                r.sendMes(cs, "homeNotExist", "%Home", args[0]);
+//                return;
+//            }
+//            UC.getPlayer(p).removeHome(args[0].toLowerCase());
+//            r.sendMes(cs, "delhomeMessage", "%Home", args[0]);
+//        }
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        if (!r.isPlayer(cs)) {
+//            return new ArrayList<>();
+//        }
+//        return UC.getPlayer((OfflinePlayer) cs).getHomeNames();
+//    }
 }

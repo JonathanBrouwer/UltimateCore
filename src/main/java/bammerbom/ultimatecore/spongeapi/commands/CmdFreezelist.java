@@ -24,13 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,40 +44,64 @@ public class CmdFreezelist implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("freezes");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.freezelist", true, true)) {
-            return;
-        }
-        List<OfflinePlayer> freezes = UC.getServer().getFrozenOfflinePlayers();
-        if (freezes == null || freezes.isEmpty()) {
-            r.sendMes(cs, "freezelistNoFreezesFound");
-            return;
-        }
-        StringBuilder freezelist = new StringBuilder();
-        Integer cur = 0;
-        String result;
-        for (int i = 0;
-             i < freezes.size();
-             i++) {
-            freezelist.append(freezes.get(cur).getName() + ", ");
-            cur++;
-
-        }
-        result = freezelist.substring(0, freezelist.length() - 2);
-        r.sendMes(cs, "freezelistFreezes", "%Freezelist", result);
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        List<String> freezes = new ArrayList<>();
-        for (OfflinePlayer pl : UC.getServer().getFrozenOfflinePlayers()) {
-            freezes.add(pl.getName());
-        }
-        return freezes;
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("freezes");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (r.perm(cs, "uc.freezelist", true, true) == false) {
+//            return;
+//        }
+//        List<OfflinePlayer> freezes = UC.getServer().getFrozenOfflinePlayers();
+//        if (freezes == null || freezes.isEmpty()) {
+//            r.sendMes(cs, "freezelistNoFreezesFound");
+//            return;
+//        }
+//        StringBuilder freezelist = new StringBuilder();
+//        Integer cur = 0;
+//        String result;
+//        for (int i = 0;
+//             i < freezes.size();
+//             i++) {
+//            freezelist.append(freezes.get(cur).getName() + ", ");
+//            cur++;
+//
+//        }
+//        result = freezelist.substring(0, freezelist.length() - 2);
+//        r.sendMes(cs, "freezelistFreezes", "%Freezelist", result);
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        List<String> freezes = new ArrayList<>();
+//        for (OfflinePlayer pl : UC.getServer().getFrozenOfflinePlayers()) {
+//            freezes.add(pl.getName());
+//        }
+//        return freezes;
+//    }
 }

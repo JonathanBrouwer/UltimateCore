@@ -24,15 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.databases.EffectDatabase;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,80 +44,104 @@ public class CmdEffect implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.effect", false, true)) {
-            return;
-        }
-        if (!r.checkArgs(args, 1)) {
-            r.sendMes(cs, "effectUsage");
-            return;
-        }
-        Player t = r.searchPlayer(args[0]);
-        if (t == null) {
-            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
-        }
-        PotionEffectType ef = EffectDatabase.getByName(args[1]);
-        if (ef == null) {
-            if (args[1].equalsIgnoreCase("clear")) {
-                for (PotionEffect effect : t.getActivePotionEffects()) {
-                    t.removePotionEffect(effect.getType());
-                }
-                r.sendMes(cs, "effectClear", "%Target", t.getName());
-                return;
-            }
-            r.sendMes(cs, "effectNotFound", "%Effect", args[1]);
-            return;
-        }
-        Integer dur = 120;
-        Integer lev = 1;
-        if (r.checkArgs(args, 2)) {
-            if (!r.isInt(args[2])) {
-                r.sendMes(cs, "numberFormat", args[2]);
-                return;
-            }
-            dur = Integer.parseInt(args[2]);
-        }
-        if (r.checkArgs(args, 3)) {
-            if (!r.isInt(args[3])) {
-                r.sendMes(cs, "numberFormat", args[3]);
-                return;
-            }
-            lev = Integer.parseInt(args[3]);
-        }
-        lev = r.normalize(lev, 0, 999999);
-        dur = r.normalize(dur, 0, 999999);
-        if (lev == 0 || dur == 0) {
-            t.removePotionEffect(ef);
-            r.sendMes(cs, "effectSucces", "%Effect", ef.getName().toLowerCase(), "%Target", t.getName(), "%Duration", dur, "%Level", lev);
-            return;
-        }
-        t.removePotionEffect(ef);
-        PotionEffect effect = new PotionEffect(ef, dur * 20, lev - 1);
-        t.addPotionEffect(effect, true);
-        r.sendMes(cs, "effectSucces", "%Effect", ef.getName().toLowerCase(), "%Target", t.getName(), "%Duration", dur, "%Level", lev);
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (curn == 0) {
-            return null;
-        } else if (curn == 1) {
-            ArrayList<String> s = new ArrayList<>();
-            for (PotionEffectType t : EffectDatabase.values()) {
-                if (t == null || t.getName() == null) {
-                    continue;
-                }
-                s.add(t.getName().toLowerCase().replaceAll("_", ""));
-            }
-            return s;
-        } else {
-            return new ArrayList<>();
-        }
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList();
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.effect", false, true)) {
+//            return;
+//        }
+//        if (!r.checkArgs(args, 1)) {
+//            r.sendMes(cs, "effectUsage");
+//            return;
+//        }
+//        Player t = r.searchPlayer(args[0]);
+//        if (t == null) {
+//            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+//            return;
+//        }
+//        PotionEffectType ef = EffectDatabase.getByName(args[1]);
+//        if (ef == null) {
+//            if (args[1].equalsIgnoreCase("clear")) {
+//                for (PotionEffect effect : t.getActivePotionEffects()) {
+//                    t.removePotionEffect(effect.getType());
+//                }
+//                r.sendMes(cs, "effectClear", "%Target", t.getName());
+//                return;
+//            }
+//            r.sendMes(cs, "effectNotFound", "%Effect", args[1]);
+//            return;
+//        }
+//        Integer dur = 120;
+//        Integer lev = 1;
+//        if (r.checkArgs(args, 2)) {
+//            if (!r.isInt(args[2])) {
+//                r.sendMes(cs, "numberFormat", "%Number", args[2]);
+//                return;
+//            }
+//            dur = Integer.parseInt(args[2]);
+//        }
+//        if (r.checkArgs(args, 3)) {
+//            if (!r.isInt(args[3])) {
+//                r.sendMes(cs, "numberFormat", "%Number", args[3]);
+//                return;
+//            }
+//            lev = Integer.parseInt(args[3]);
+//        }
+//        lev = r.normalize(lev, 0, 999999);
+//        dur = r.normalize(dur, 0, 999999);
+//        if (lev == 0 || dur == 0) {
+//            t.removePotionEffect(ef);
+//            r.sendMes(cs, "effectSucces", "%Effect", ef.getName().toLowerCase(), "%Target", t.getName(), "%Duration", dur, "%Level", lev);
+//            return;
+//        }
+//        t.removePotionEffect(ef);
+//        PotionEffect effect = new PotionEffect(ef, dur * 20, lev - 1);
+//        t.addPotionEffect(effect, true);
+//        r.sendMes(cs, "effectSucces", "%Effect", ef.getName().toLowerCase(), "%Target", t.getName(), "%Duration", dur, "%Level", lev);
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        if (curn == 0) {
+//            return null;
+//        } else if (curn == 1) {
+//            ArrayList<String> s = new ArrayList<>();
+//            for (PotionEffectType t : EffectDatabase.values()) {
+//                if (t == null || t.getName() == null) {
+//                    continue;
+//                }
+//                s.add(t.getName().toLowerCase().replaceAll("_", ""));
+//            }
+//            return s;
+//        } else {
+//            return new ArrayList<>();
+//        }
+//    }
 }

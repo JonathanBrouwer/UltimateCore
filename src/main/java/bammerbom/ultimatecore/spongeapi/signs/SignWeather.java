@@ -25,17 +25,10 @@ package bammerbom.ultimatecore.spongeapi.signs;
 
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.block.tileentity.Sign;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.block.ChangeBlockEvent;
-import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.world.weather.Weathers;
-
-import java.util.List;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.SignChangeEvent;
 
 public class SignWeather implements UltimateSign {
 
@@ -51,46 +44,50 @@ public class SignWeather implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.weather", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.weather", true, false) && !r.perm(p, "uc.sign", true, false)) {
+            r.sendMes(p, "noPermissions");
+            return;
         }
-        sign.get(Keys.SIGN_LINES).get().get(1);
-        sign.get(Keys.SIGN_LINES).get().get(1);
-        if (((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent().equalsIgnoreCase("sun")) {
-            p.getWorld().forecast(Weathers.CLEAR);
+        if (sign.getLine(1).equalsIgnoreCase("sun")) {
+            p.getWorld().setThundering(false);
+            p.getWorld().setStorm(false);
             r.sendMes(p, "weatherSet", "%Weather", r.mes("weatherSun"));
-        } else if (((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent().equalsIgnoreCase("rain")) {
-            p.getWorld().forecast(Weathers.RAIN);
+            return;
+        } else if (sign.getLine(1).equalsIgnoreCase("rain")) {
+            p.getWorld().setThundering(false);
+            p.getWorld().setStorm(true);
             r.sendMes(p, "weatherSet", "%Weather", r.mes("weatherRain"));
-        } else if (((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent().equalsIgnoreCase("thunderstorm")) {
-            p.getWorld().forecast(Weathers.THUNDER_STORM);
+            return;
+        } else if (sign.getLine(1).equalsIgnoreCase("thunderstorm")) {
+            p.getWorld().setStorm(true);
+            p.getWorld().setThundering(true);
             r.sendMes(p, "weatherSet", "%Weather", r.mes("weatherThunder"));
+            return;
         } else {
             r.sendMes(p, "signWeatherNotFound");
-            r.sendMes(p, "signTimeNotFound");
-            List<Text> lines = sign.get(Keys.SIGN_LINES).get();
-            lines.set(0, Texts.of(TextColors.RED + "[Weather]"));
+            sign.setLine(0, TextColors.RED + "[Weather]");
+            return;
         }
     }
 
     @Override
-    public void onCreate(ChangeSignEvent event, Player p) {
+    public void onCreate(SignChangeEvent event) {
         if (!r.perm(p, "uc.sign.weather.create", false, true)) {
             event.setCancelled(true);
-            event.getTargetTile().getLocation().removeBlock();
+            event.getBlock().breakNaturally();
             return;
         }
-        if (!((Text.Literal) event.getText().lines().get(1)).getContent().equalsIgnoreCase("sun") && !((Text.Literal) event.getText().lines().get(1)).getContent()
-                .equalsIgnoreCase("rain") && !((Text.Literal) event.getText().lines().get(1)).getContent().equalsIgnoreCase("thunderstorm")) {
+        if (!event.getLine(1).equalsIgnoreCase("sun") && !event.getLine(1).equalsIgnoreCase("rain") && !event.getLine(1).equalsIgnoreCase("thunderstorm")) {
             r.sendMes(p, "signWeatherNotFound");
-            event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.RED + "[Weather]")).get());
+            event.setLine(0, TextColors.RED + "[Weather]");
             return;
         }
-        event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Weather]")).get());
+        event.setLine(0, TextColors.DARK_BLUE + "[Weather]");
         r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(ChangeBlockEvent.Break event, Player p) {
+    public void onDestroy(BlockBreakEvent event) {
         if (!r.perm(p, "uc.sign.weather.destroy", false, true)) {
             event.setCancelled(true);
             return;

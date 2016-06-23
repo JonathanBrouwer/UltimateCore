@@ -31,100 +31,42 @@ import bammerbom.ultimatecore.spongeapi.listeners.*;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ServerIDUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.*;
 import com.google.inject.Inject;
-import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.config.ConfigDir;
+import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
+import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
-import org.spongepowered.api.service.config.ConfigDir;
-import org.spongepowered.api.service.event.EventManager;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.File;
+import java.util.logging.Logger;
 
-@Plugin(id = "UltimateCore", name = "UltimateCore", version = "${project.version}")
+@Plugin(id = "ultimatecore", name = "UltimateCore", version = "${project.version}")
 public class UltimateCore {
 
-    @Inject
     @ConfigDir(sharedRoot = false)
-    public static File cfile;
     public static File file;
-    @Inject
-    public static Logger logger;
-    public static String version;
     private static UltimateCore instance = null;
-
-    private UltimateCore() {
-    }
+    @Inject
+    private Logger logger;
 
     public static UltimateCore getInstance() {
-        if (instance == null) {
-            instance = new UltimateCore();
-        }
         return instance;
     }
 
-    public static File getPluginFile() {
-        return file;
-    }
-
-    public File getDataFolder() {
-        return file;
-    }
-
-    public InputStream getResource(String filename) {
-        if (filename == null) {
-            throw new IllegalArgumentException("Filename cannot be null");
-        }
+    @Listener
+    public void onLoad(GamePreInitializationEvent ev) {
+        instance = this;
         try {
-            URL url = this.getClass().getClassLoader().getResource(filename);
-            if (url == null) {
-                return null;
-            }
-            URLConnection connection = url.openConnection();
-            connection.setUseCaches(false);
-            return connection.getInputStream();
-        } catch (IOException localIOException) {
-        }
-        return null;
-    }
-
-    public void saveResource(String resourcePath, boolean replace) {
-        if ((resourcePath == null) || (resourcePath.equals(""))) {
-            throw new IllegalArgumentException("ResourcePath cannot be null or empty");
-        }
-        resourcePath = resourcePath.replace('\\', '/');
-        InputStream in = getResource(resourcePath);
-        if (in == null) {
-            throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found in " + file);
-        }
-        File outFile = new File(getDataFolder(), resourcePath);
-        int lastIndex = resourcePath.lastIndexOf('/');
-        File outDir = new File(getDataFolder(), resourcePath.substring(0, lastIndex >= 0 ? lastIndex : 0));
-        if (!outDir.exists()) {
-            outDir.mkdirs();
-        }
-        try {
-            if ((!outFile.exists()) || (replace)) {
-                OutputStream out = new FileOutputStream(outFile);
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-                out.close();
-                in.close();
-            } else {
-                logger.info("Could not save " + outFile.getName() + " to " + outFile + " because " + outFile.getName() + " already exists.");
-            }
-        } catch (IOException ex) {
-            logger.info("Could not save " + outFile.getName() + " to " + outFile, ex);
+            r.log("Prestarted Succesfully.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -133,10 +75,7 @@ public class UltimateCore {
         try {
             //
             Long time = System.currentTimeMillis();
-            //
-            instance = this;
-            file = cfile.getParentFile();
-            version = Sponge.getGame().getPluginManager().getPlugin("UltimateCore").get().getVersion().get();
+            //UTIL STARTUP
             UltimateFileLoader.Enable();
             ServerIDUtil.start();
             r.enableMES();
@@ -145,6 +84,7 @@ public class UltimateCore {
             UuidUtil.loadPlayers();
             UltimateCommands.load();
             UltimateSigns.start();
+            PerformanceUtil.getTps();
             ItemDatabase.enable();
             //
             UEconomy.start();
@@ -153,23 +93,25 @@ public class UltimateCore {
             CmdHeal.start();
             CmdRules.start();
             MetaItemStack.start();
-            MinecraftServerListener.start();
-            //
-            if (!Sponge.getGame().getPlatform().getMinecraftVersion().getName().startsWith("1.8")) {
-                logger.info(" ");
+            ItemUtil.start();
+            //UTIL STARTUP END
+            String c = Sponge.getPlatform().getMinecraftVersion().getName();  //Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
+            Integer v = Integer.parseInt(c.split("\\.")[1]);
+            if (v < 10) {
+                Sponge.getServer().getConsole().sendMessage(Text.of(""));
                 r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                r.log(TextColors.YELLOW + "Warning! Version " + Sponge.getGame().getPlatform().getMinecraftVersion().getName() + " of spongeapi is not supported!");
+                r.log(TextColors.YELLOW + "Warning! Version " + c + " of Minecraft is not supported!");
                 r.log(TextColors.YELLOW + "Use UltimateCore at your own risk!");
                 r.log(TextColors.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                logger.info(" ");
+                Sponge.getServer().getConsole().sendMessage(Text.of(""));
             }
             //
             r.runUpdater();
             r.runMetrics();
-            //
-            EventManager em = Sponge.getGame().getEventManager();
+            //LISTENER STARTUP
+            EventManager pm = Sponge.getEventManager();
             GlobalPlayerListener.start();
-            em.registerListeners(this, new GlobalWorldListener());
+            pm.registerListeners(this, new GlobalWorldListener());
             AfkListener.start();
             AutomessageListener.start();
             AutosaveListener.start();
@@ -187,8 +129,9 @@ public class UltimateCore {
             TreeListener.start();
             UnknownCommandListener.start();
             WeatherListener.start();
-            //
-            game.getScheduler().createTaskBuilder().intervalTicks(20L).delayTicks(20L).execute(new UltimateTick()).name("UC: Tick task").submit(this);
+            MinecraftServerListener.start();
+            //LISTENER STARTUP END
+            Sponge.getScheduler().createTaskBuilder().delayTicks(40).intervalTicks(40).name("UltimateCore Tick").execute(new UltimateTick()).submit(this);
             //
             time = System.currentTimeMillis() - time;
             r.log(TextColors.GREEN + "Enabled UltimateCore! (" + time + "ms)");
@@ -196,11 +139,12 @@ public class UltimateCore {
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to enable UltimateCore");
         }
+        UltimateWorldLoader.startWorldLoading();
         test();
     }
 
     @Listener
-    public void onDisable(GameStoppingServerEvent e) {
+    public void onDisable(GameStoppingEvent ev) {
         try {
             //
             Long time = System.currentTimeMillis();
@@ -208,6 +152,7 @@ public class UltimateCore {
             r.removeUC();
             ItemDatabase.disable();
             DynmapListener.stop();
+            BossbarUtil.stop();
             //
             time = System.currentTimeMillis() - time;
             r.log(TextColors.GREEN + "Disabled UltimateCore! (" + time + "ms)");
@@ -218,8 +163,11 @@ public class UltimateCore {
         }
     }
 
-    public void test() {
-        ErrorLogger.log(new IllegalArgumentException(), "Just a test.");
+    public File getDataFolder() {
+        return file;
     }
 
+    public void test() {
+
+    }
 }

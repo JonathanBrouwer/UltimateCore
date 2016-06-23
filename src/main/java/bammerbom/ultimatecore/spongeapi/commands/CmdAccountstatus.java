@@ -25,9 +25,12 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.entity.living.player.User;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.util.command.CommandSource;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +39,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,8 +60,8 @@ public class CmdAccountstatus implements UltimateCommand {
     }
 
     @Override
-    public String getDescription() {
-        return "Checks if an account is premium or not.";
+    public Text getDescription() {
+        return Text.of("Checks if an account is premium or not.");
     }
 
     @Override
@@ -68,50 +70,62 @@ public class CmdAccountstatus implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.accountstatus", false, true)) {
-            return;
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.accountstatus", true)) {
+            return CommandResult.empty();
         }
         if (!r.getCnfg().getBoolean("Mojang")) {
             r.sendMes(cs, "accountstatusDisabled");
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "accountstatusUsage");
-            return;
+            return CommandResult.empty();
         }
-        final User pl = r.searchOfflinePlayer(args[0]);
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 URL u;
                 try {
-                    u = new URL("https://minecraft.net/haspaid.jsp?user=" + URLEncoder.encode(pl.getName(), "UTF-8"));
+                    u = new URL("https://api.mojang.com/users/profiles/minecraft/" + URLEncoder.encode(args[0], "UTF-8"));
                 } catch (MalformedURLException | UnsupportedEncodingException ex) {
                     r.sendMes(cs, "accountstatusFailedSupport");
                     return;
                 }
+                JSONObject json;
                 boolean premium;
                 try {
                     BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream()));
-                    premium = br.readLine().equalsIgnoreCase("true");
+                    String jsonstring = br.readLine();
+                    if (jsonstring == null || jsonstring.isEmpty()) {
+                        premium = false;
+                    } else {
+                        JSONParser parser = new JSONParser();
+                        try {
+                            json = (JSONObject) parser.parse(jsonstring);
+                            premium = json.get("id").toString().length() == 32;
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            r.sendMes(cs, "accountstatusFailedConnect");
+                            return;
+                        }
+                    }
                 } catch (IOException ex) {
+                    ex.printStackTrace();
                     r.sendMes(cs, "accountstatusFailedConnect");
                     return;
                 }
                 Text status = premium ? r.mes("accountstatusPremium") : r.mes("accountstatusNotPremium");
-                r.sendMes(cs, "accountstatusMessage", "%Player", pl.getName(), "%Status", status);
+                r.sendMes(cs, "accountstatusMessage", "%Player", args[0], "%Status", status);
             }
         });
         t.setName("UltimateCore: AccountStatus thread");
         t.start();
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
-        if (curn == 0) {
-            return null;
-        }
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
 }

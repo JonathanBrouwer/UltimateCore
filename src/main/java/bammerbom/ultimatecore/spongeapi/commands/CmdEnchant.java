@@ -24,18 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
-import bammerbom.ultimatecore.spongeapi.resources.databases.EnchantmentDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,68 +44,92 @@ public class CmdEnchant implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("enchantment");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.enchant", false, true)) {
-            return;
-        }
-        if (!r.isPlayer(cs)) {
-            return;
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "enchantUsage");
-            return;
-        }
-        Player p = (Player) cs;
-        Enchantment ench = EnchantmentDatabase.getByName(args[0]);
-        if (ench == null) {
-            r.sendMes(cs, "enchantNotFound", "%Enchant", args[0]);
-            return;
-        }
-        ItemStack stack = p.getItemInHand();
-        if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
-            r.sendMes(cs, "enchantNoItemInHand");
-            return;
-        }
-        String name = ench.getName().replace("_", "").toLowerCase();
-        Integer level = 1;
-        if (r.checkArgs(args, 1) == true && r.isInt(args[1])) {
-            level = Integer.parseInt(args[1]);
-        }
-        if (level < 0) {
-            level = 0;
-        }
-        if (level == 0) {
-            stack.removeEnchantment(ench);
-            r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
-        } else {
-            try {
-                MetaItemStack stack2 = new MetaItemStack(stack);
-                stack2.addEnchantment(cs, r.perm(cs, "uc.enchant.unsafe", false, false), ench, level);
-                p.setItemInHand(stack2.getItemStack());
-                r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
-            } catch (IllegalArgumentException ex) {
-                if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or too " + "high")) {
-                    r.sendMes(cs, "enchantUnsafe");
-                }
-            }
-        }
-
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (curn == 0) {
-            List<String> sts = new ArrayList<>();
-            for (Enchantment enc : Enchantment.values()) {
-                sts.add(enc.getName().toLowerCase().replaceAll("_", ""));
-            }
-            return sts;
-        }
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("enchantment");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.enchant", false, true)) {
+//            return;
+//        }
+//        if (!r.isPlayer(cs)) {
+//            return;
+//        }
+//        if (!r.checkArgs(args, 0)) {
+//            r.sendMes(cs, "enchantUsage");
+//            return;
+//        }
+//        Player p = (Player) cs;
+//        Enchantment ench = EnchantmentDatabase.getByName(args[0]);
+//        if (ench == null) {
+//            r.sendMes(cs, "enchantNotFound", "%Enchant", args[0]);
+//            return;
+//        }
+//        ItemStack stack = p.getItemInHand();
+//        if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
+//            r.sendMes(cs, "enchantNoItemInHand");
+//            return;
+//        }
+//        String name = ench.getName().replace("_", "").toLowerCase();
+//        Integer level = 1;
+//        if (r.checkArgs(args, 1) && r.isInt(args[1])) {
+//            level = Integer.parseInt(args[1]);
+//        }
+//        if (level < 0) {
+//            level = 0;
+//        }
+//        if (level == 0) {
+//            stack.removeEnchantment(ench);
+//            r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
+//        } else {
+//            try {
+//                MetaItemStack stack2 = new MetaItemStack(stack);
+//                stack2.addEnchantment(cs, r.perm(cs, "uc.enchant.unsafe", false, false), ench, level);
+//                p.setItemInHand(stack2.getItemStack());
+//                r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
+//            } catch (IllegalArgumentException ex) {
+//                if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or too " + "high")) {
+//                    r.sendMes(cs, "enchantUnsafe");
+//                }
+//            }
+//        }
+//
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        if (curn == 0) {
+//            List<String> sts = new ArrayList<>();
+//            for (Enchantment enc : Enchantment.values()) {
+//                sts.add(enc.getName().toLowerCase().replaceAll("_", ""));
+//            }
+//            return sts;
+//        }
+//        return new ArrayList<>();
+//    }
 }

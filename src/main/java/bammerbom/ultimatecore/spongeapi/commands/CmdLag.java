@@ -30,7 +30,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,13 +53,13 @@ public class CmdLag implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.lag", true, true)) {
             return;
         }
         r.sendMes(cs, "lagTps", "%Tps", PerformanceUtil.getTps());
-        r.sendMes(cs, "lagMem", "%Mem", (PerformanceUtil.usedRam() + "/" + PerformanceUtil.totalRam() + "/" +
-                PerformanceUtil.maxRam()), "%Per", PerformanceUtil.percentageUsed());
+        r.sendMes(cs, "lagMem", "%Mem", (Math.round(PerformanceUtil.usedRam()) + "/" + Math.round(PerformanceUtil.totalRam()) + "/" +
+                Math.round(PerformanceUtil.maxRam())), "%Per", PerformanceUtil.percentageUsed());
         int ws = 0;
         for (World w : Bukkit.getWorlds()) {
             if (r.checkArgs(args, 0) && !args[0].equalsIgnoreCase(w.getName())) {
@@ -78,7 +78,7 @@ public class CmdLag implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

@@ -26,24 +26,16 @@ package bammerbom.ultimatecore.spongeapi.api;
 import bammerbom.ultimatecore.spongeapi.UltimateFileLoader;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
-import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.manipulator.catalog.CatalogEntityData;
-import org.spongepowered.api.data.manipulator.mutable.entity.BanData;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.item.ItemType;
-import org.spongepowered.api.item.inventory.Inventory;
-import org.spongepowered.api.service.ban.BanService;
-import org.spongepowered.api.text.Text;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TitleUtil;
+import org.bukkit.*;
+import org.bukkit.BanList.Type;
+import org.bukkit.command.CommandSource;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.Inventory;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.ban.Ban;
-import org.spongepowered.api.util.ban.Bans;
-import org.spongepowered.api.util.command.CommandSource;
 
 import java.io.File;
 import java.util.*;
@@ -54,16 +46,16 @@ public class UPlayer {
     static boolean tpspawn = r.getCnfg().getBoolean("Command.Jail.spawn");
     String name = null;
     UUID uuid = null;
-    RLocation lastLocation = null;
+    Location lastLocation = null;
     Boolean deaf = null;
     Long deaftime = null;
     Boolean freeze = null;
     Long freezetime = null;
     Boolean god = null;
     Long godtime = null;
-    HashMap<String, RLocation> homes = null;
-    boolean onlineInv = false;
-    boolean offlineInv = false;
+    HashMap<String, Location> homes = null;
+    UUID onlineInv = null;
+    UUID offlineInv = null;
     Boolean jailed = null;
     Long jailtime = null;
     String jail = null;
@@ -71,8 +63,9 @@ public class UPlayer {
     Boolean spy = null;
     Boolean mute = null;
     Long mutetime = null;
-    Text.Literal nickname = null;
-    HashMap<ItemType, List<String>> pts = null;
+    String mutereason = null;
+    String nickname = null;
+    HashMap<Material, List<String>> pts = null;
     Boolean inRecipeView = false;
     Boolean vanish = null;
     Long vanishtime = null;
@@ -84,29 +77,38 @@ public class UPlayer {
     long lastaction = System.currentTimeMillis();
     String lastip;
     String lasthostname = null;
+    String afkmessage = null;
 
-    public UPlayer(User p) {
+    public UPlayer(OfflinePlayer p) {
         name = p.getName();
         uuid = p.getUniqueId();
     }
 
     public UPlayer(UUID uuid) {
-        User p = r.searchOfflinePlayer(uuid);
+        OfflinePlayer p = r.searchGameProfile(uuid);
         name = p.getName();
         this.uuid = p.getUniqueId();
     }
 
     private void save() {
-        bammerbom.ultimatecore.spongeapi.api.UC.uplayers.remove(this);
-        bammerbom.ultimatecore.spongeapi.api.UC.uplayers.add(this);
+        UC.uplayers.remove(this);
+        UC.uplayers.add(this);
     }
 
-    public User getPlayer() {
-        return r.searchOfflinePlayer(uuid);
+    public OfflinePlayer getPlayer() {
+        return Bukkit.getOfflinePlayer(uuid);
     }
 
     public Player getOnlinePlayer() {
-        return r.searchPlayer(uuid);
+        return Bukkit.getPlayer(uuid);
+    }
+
+    public String getAfkMessage() {
+        return afkmessage;
+    }
+
+    public void setAfkMessage(String mes) {
+        afkmessage = mes;
     }
 
     public long getLastConnectMillis() {
@@ -119,9 +121,9 @@ public class UPlayer {
             save();
             return lastconnect;
         } else {
-            lastconnect = getPlayer().getOrCreate(CatalogEntityData.JOIN_DATA).get().lastPlayed().get().getTime();
+            lastconnect = getPlayer().getLastPlayed();
             save();
-            return getPlayer().getOrCreate(CatalogEntityData.JOIN_DATA).get().lastPlayed().get().getTime();
+            return getPlayer().getLastPlayed();
         }
     }
 
@@ -152,7 +154,7 @@ public class UPlayer {
             return lastip;
         } else {
             if (getPlayer().isOnline()) {
-                setLastIp(getOnlinePlayer().getConnection().getAddress().toString().split("/")[1].split(":")[0]);
+                setLastIp(getOnlinePlayer().getAddress().toString().split("/")[1].split(":")[0]);
                 return lastip;
             }
             return null;
@@ -178,7 +180,7 @@ public class UPlayer {
             return lastip;
         } else {
             if (getPlayer().isOnline()) {
-                setLastHostname(getOnlinePlayer().getConnection().getAddress().getHostName());
+                setLastHostname(getOnlinePlayer().getAddress().getHostName());
                 return lastip;
             }
             return null;
@@ -206,15 +208,15 @@ public class UPlayer {
         if (!getPlayer().isOnline()) {
             return;
         }
-        setLastLocation(new RLocation(getOnlinePlayer().getLocation(), getOnlinePlayer().getRotation()));
+        setLastLocation(getOnlinePlayer().getLocation());
     }
 
-    public RLocation getLastLocation() {
+    public Location getLastLocation() {
         if (lastLocation == null) {
-            if (!getPlayerConfig().contains("lastLocation")) {
+            if (!getPlayerConfig().contains("lastlocation")) {
                 return null;
             }
-            RLocation loc = LocationUtil.convertStringToLocation(getPlayerConfig().getString("lastLocation"));
+            Location loc = LocationUtil.convertStringToLocation(getPlayerConfig().getString("lastlocation"));
             lastLocation = loc;
             save();
             return loc;
@@ -222,10 +224,10 @@ public class UPlayer {
         return lastLocation;
     }
 
-    public void setLastLocation(RLocation loc) {
+    public void setLastLocation(Location loc) {
         lastLocation = loc;
         JsonConfig conf = getPlayerConfig();
-        conf.set("lastLocation", loc == null ? null : LocationUtil.convertLocationToString(loc));
+        conf.set("lastlocation", loc == null ? null : LocationUtil.convertLocationToString(loc));
         conf.save();
         save();
     }
@@ -238,26 +240,43 @@ public class UPlayer {
         if (getPlayer() == null || getPlayer().getName() == null) {
             return false;
         }
-        if (!getOnlinePlayer().getBanData().bans().get().isEmpty()) {
+        BanList list = Bukkit.getBanList(Type.NAME);
+        BanList list2 = Bukkit.getBanList(Type.IP);
+        if (getPlayerConfig().getBoolean("banned")) {
             return true;
         }
-        if (getLastIp() != null) {
-            for (Ban.Ip ip : Sponge.getGame().getServiceManager().provide(BanService.class).get().getIpBans()) {
-                if (ip.getAddress().toString().split("/")[1].split(":")[0].equalsIgnoreCase(getLastIp())) {
-                    return true;
-                }
-            }
+        if (list.isBanned(getPlayer().getName())) {
+            return true;
         }
-        return getPlayerConfig().getBoolean("banned");
+        return getLastIp() != null && list2.isBanned(getLastIp());
+    }
+
+    public Type getBanType() {
+        if (!isBanned()) {
+            return null;
+        }
+        if (getPlayer() == null || getPlayer().getName() == null) {
+            return null;
+        }
+        BanList list = Bukkit.getBanList(Type.NAME);
+        BanList list2 = Bukkit.getBanList(Type.IP);
+        if (getPlayerConfig().getBoolean("banned")) {
+            return Type.NAME;
+        }
+        if (list.isBanned(getPlayer().getName())) {
+            return Type.NAME;
+        }
+        if (getLastIp() != null && list2.isBanned(getLastIp())) {
+            return Type.IP;
+        }
+        return null;
     }
 
     public Long getBanTime() {
         if (!getPlayerConfig().contains("bantime")) {
-            for (Ban.User b : getPlayer().getBanData().bans().get()) {
-                if (b.getExpirationDate().isPresent()) {
-                    return b.getExpirationDate().get().getTime();
-                }
-                break;
+            BanList list = Bukkit.getBanList(Type.IP);
+            if (getLastIp() != null && list.isBanned(getLastIp()) && list.getBanEntry(getLastIp()).getExpiration() != null) {
+                return list.getBanEntry(getLastIp()).getExpiration().getTime();
             }
             save();
             return 0L;
@@ -273,8 +292,9 @@ public class UPlayer {
 
     public String getBanReason() {
         if (!getPlayerConfig().contains("banreason")) {
-            for (Ban.User b : getPlayer().getBanData().bans().get()) {
-                return b.getReason().getContent();
+            BanList list = Bukkit.getBanList(Type.IP);
+            if (getLastIp() != null && list.isBanned(getLastIp()) && list.getBanEntry(getLastIp()).getReason() != null) {
+                return list.getBanEntry(getLastIp()).getReason();
             }
             return "";
         }
@@ -289,14 +309,20 @@ public class UPlayer {
         conf.set("bantime", null);
         conf.set("banreason", null);
         conf.save();
-        BanData d = getPlayer().getBanData();
-        while (!d.bans().get().isEmpty()) {
-            d.bans().get().remove(0);
+        BanList list = Bukkit.getBanList(Type.NAME);
+        if (list.isBanned(getPlayer().getName())) {
+            list.pardon(getPlayer().getName());
         }
-        getPlayer().offer(d);
+        if (list.isBanned(getPlayer().getUniqueId().toString())) {
+            list.pardon(getPlayer().getUniqueId().toString());
+        }
+        BanList list2 = Bukkit.getBanList(Type.IP);
+        if (getLastIp() != null && list2.isBanned(getLastIp())) {
+            list2.pardon(getLastIp());
+        }
     }
 
-    public void ban(Long time, Text.Literal reason, CommandSource source) {
+    public void ban(Long time, String reason, CommandSource source) {
         JsonConfig conf = getPlayerConfig();
         if (time == null || time == 0L) {
             time = -1L;
@@ -311,13 +337,9 @@ public class UPlayer {
         conf.set("bantime", time);
         conf.set("banreason", reason);
         conf.save();
-        BanData d = getPlayer().getBanData();
-
-        if (time != -1L) {
-            d.bans().get().add((Ban.User) Bans.builder().user(getPlayer()).expirationDate(new Date(time)).reason(reason).source(source).build());
-        } else {
-            d.bans().get().add((Ban.User) Bans.builder().user(getPlayer()).reason(reason).source(source).build());
-        }
+        BanList list = Bukkit.getBanList(Type.NAME);
+        Date date = time == -1 ? null : new Date(time + System.currentTimeMillis());
+        list.addBan(getPlayer().getName(), reason, date, source.getName());
         save();
     }
 
@@ -325,7 +347,7 @@ public class UPlayer {
         ban(time, null, null);
     }
 
-    public void ban(Text.Literal reason) {
+    public void ban(String reason) {
         ban(null, reason, null);
     }
 
@@ -337,7 +359,7 @@ public class UPlayer {
         ban(time, null, source);
     }
 
-    public void ban(Text.Literal reason, CommandSource source) {
+    public void ban(String reason, CommandSource source) {
         ban(null, reason, source);
     }
 
@@ -345,7 +367,7 @@ public class UPlayer {
         ban(null, null, source);
     }
 
-    public void ban(Long time, Text.Literal reason) {
+    public void ban(Long time, String reason) {
         ban(time, reason, null);
     }
 
@@ -528,7 +550,7 @@ public class UPlayer {
         save();
     }
 
-    public HashMap<String, RLocation> getHomes() {
+    public HashMap<String, Location> getHomes() {
         if (homes != null) {
             return homes;
         }
@@ -548,7 +570,7 @@ public class UPlayer {
         return homes;
     }
 
-    public void setHomes(HashMap<String, RLocation> nh) {
+    public void setHomes(HashMap<String, Location> nh) {
         homes = nh;
         save();
         JsonConfig conf = getPlayerConfig();
@@ -565,41 +587,64 @@ public class UPlayer {
         return h;
     }
 
-    public void addHome(String s, RLocation l) {
-        HashMap<String, RLocation> h = getHomes();
+    public void addHome(String s, Location l) {
+        HashMap<String, Location> h = getHomes();
         h.put(s.toLowerCase(), l);
         setHomes(h);
     }
 
     public void removeHome(String s) {
-        HashMap<String, RLocation> h = getHomes();
+        HashMap<String, Location> h = getHomes();
         h.remove(s.toLowerCase());
         setHomes(h);
     }
 
-    public RLocation getHome(String s) {
+    public Location getHome(String s) {
         return getHomes().get(s.toLowerCase());
     }
 
     public void clearHomes() {
-        setHomes(new HashMap<String, RLocation>());
+        setHomes(new HashMap<>());
     }
 
     public boolean isInOnlineInventory() {
-        return onlineInv;
+        return onlineInv != null;
     }
 
-    public void setInOnlineInventory(Boolean b) {
-        onlineInv = b;
+    public Player getInOnlineInventory() {
+        if (onlineInv == null) {
+            return null;
+        }
+        return r.searchPlayer(onlineInv);
+    }
+
+    public void setInOnlineInventory(Player p) {
+        if (p == null) {
+            onlineInv = null;
+        } else {
+            onlineInv = p.getUniqueId();
+        }
         save();
     }
 
     public boolean isInOfflineInventory() {
-        return offlineInv;
+        return offlineInv != null;
     }
 
-    public void setInOfflineInventory(Boolean b) {
-        offlineInv = b;
+    public OfflinePlayer getInOfflineInventory() {
+        if (offlineInv == null) {
+            return null;
+        }
+        return r.searchGameProfile(offlineInv);
+    }
+
+
+    public void setInOfflineInventory(OfflinePlayer p) {
+        if (p == null) {
+            offlineInv = null;
+        } else {
+            offlineInv = p.getUniqueId();
+        }
         save();
     }
 
@@ -626,8 +671,7 @@ public class UPlayer {
     }
 
     public void jail(Long l) {
-        jail(new ArrayList<>(bammerbom.ultimatecore.spongeapi.api.UC.getServer().getJails().keySet())
-                .get(ra.nextInt(bammerbom.ultimatecore.spongeapi.api.UC.getServer().getJails().keySet().size())), l);
+        jail(new ArrayList<>(UC.getServer().getJails().keySet()).get(ra.nextInt(UC.getServer().getJails().keySet().size())), l);
     }
 
     public void jail(String n, Long l) {
@@ -656,10 +700,10 @@ public class UPlayer {
         conf.save();
         save();
         if (tpspawn && getOnlinePlayer() != null) {
-            if (bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(getPlayer()).getSpawn(false) == null) {
-                LocationUtil.teleport(getOnlinePlayer(), getOnlinePlayer().getWorld().getSpawnLocation(), Cause.of("unjail"), false, false);
+            if (UC.getPlayer(getPlayer()).getSpawn(false) == null) {
+                LocationUtil.teleport(getOnlinePlayer(), getOnlinePlayer().getWorld().getSpawnLocation(), PlayerTeleportEvent.TeleportCause.COMMAND, false, false);
             } else {
-                LocationUtil.teleport(getOnlinePlayer(), bammerbom.ultimatecore.spongeapi.api.UC.getPlayer(getPlayer()).getSpawn(false), Cause.of("unjail"), false, false);
+                LocationUtil.teleport(getOnlinePlayer(), UC.getPlayer(getPlayer()).getSpawn(false), PlayerTeleportEvent.TeleportCause.COMMAND, false, false);
             }
         }
     }
@@ -717,12 +761,12 @@ public class UPlayer {
 
     public Player getReply() {
         if (reply != null) {
-            return r.searchPlayer(reply);
+            return Bukkit.getPlayer(reply);
         }
         if (!getPlayerConfig().contains("reply")) {
             return null;
         }
-        return r.searchPlayer(UUID.fromString(getPlayerConfig().getString("reply")));
+        return Bukkit.getPlayer(UUID.fromString(getPlayerConfig().getString("reply")));
     }
 
     public void setReply(Player pl) {
@@ -775,7 +819,7 @@ public class UPlayer {
     }
 
     public void setMuted(Boolean fr) {
-        setMuted(fr, -1L);
+        setMuted(fr, -1L, null);
     }
 
     public Long getMuteTime() {
@@ -792,11 +836,25 @@ public class UPlayer {
 
     }
 
+    public String getMuteReason() {
+        if (mutereason != null) {
+            return mutereason;
+        }
+        if (!getPlayerConfig().contains("mutereason")) {
+            mutereason = null;
+            return null;
+        }
+        mutereason = getPlayerConfig().getString("mutereason");
+        save();
+        return getPlayerConfig().getString("mutereason");
+
+    }
+
     public Long getMuteTimeLeft() {
         return getMuteTime() - System.currentTimeMillis();
     }
 
-    public void setMuted(Boolean fr, Long time) {
+    public void setMuted(Boolean fr, Long time, String reason) {
         JsonConfig conf = getPlayerConfig();
         if (mutetime == null || mutetime == 0L) {
             mutetime = -1L;
@@ -804,27 +862,32 @@ public class UPlayer {
         if (time >= 1) {
             time = time + System.currentTimeMillis();
         }
+        if ((reason == null || reason == "") && fr) {
+            reason = r.mes("muteDefaultReason");
+        }
         conf.set("mute", fr);
         conf.set("mutetime", time);
+        conf.set("mutereason", reason);
         conf.save();
         mute = fr;
         mutetime = fr ? time : -1L;
+        mutereason = reason;
         save();
     }
 
-    public Text.Literal getDisplayName() {
+    public String getDisplayName() {
         if (getNick() != null) {
             return getNick();
         }
         if (getPlayer().isOnline()) {
-            if (getOnlinePlayer().get(Keys.DISPLAY_NAME).isPresent()) {
-                return (Text.Literal) getOnlinePlayer().get(Keys.DISPLAY_NAME).get();
+            if (getOnlinePlayer().getDisplayName() != null) {
+                return getOnlinePlayer().getDisplayName();
             }
         }
         return getPlayer().getName();
     }
 
-    public Text.Literal getNick() {
+    public String getNick() {
         if (nickname != null) {
             return nickname;
         }
@@ -832,24 +895,24 @@ public class UPlayer {
         if (data.get("nick") == null) {
             return null;
         }
-        String nick = r.translateAlternateColorCodes('&', data.getString("nick"));
+        String nick = TextColorUtil.translateAlternate(data.getString("nick"));
         if (getPlayer().isOnline()) {
-            getOnlinePlayer().offer(getOnlinePlayer().getDisplayNameData().setDisplayName(nick.replace("&y", "")));
+            getPlayer().getPlayer().setDisplayName(nick.replace("&y", ""));
         }
         if (getPlayer().isOnline() && r.perm((CommandSource) getPlayer(), "uc.chat.rainbow", false, false)) {
-            nick = nick.replaceAll("&y", r.getRandomTextColors() + "");
+            nick = nick.replaceAll("&y", r.getRandomTextColor() + "");
         }
         nickname = nick + TextColors.RESET;
         save();
         return nick + TextColors.RESET;
     }
 
-    public void setNick(Text.Literal str) {
+    public void setNick(String str) {
         nickname = str == null ? null : str + TextColors.RESET;
         save();
         if (str != null) {
             if (getPlayer().isOnline()) {
-                getOnlinePlayer().offer(getOnlinePlayer().getDisplayNameData().setDisplayName(nickname.replace("&y", "")));
+                getPlayer().getPlayer().setDisplayName(nickname.replace("&y", ""));
             }
         } else {
             if (getPlayer().isOnline()) {
@@ -862,7 +925,7 @@ public class UPlayer {
     }
 
     public void clearAllPowertools() {
-        for (ItemType mat : pts.keySet()) {
+        for (Material mat : pts.keySet()) {
             clearPowertool(mat);
         }
         if (pts != null) {
@@ -871,14 +934,14 @@ public class UPlayer {
         save();
     }
 
-    public void clearPowertool(ItemType mat) {
+    public void clearPowertool(Material mat) {
         if (pts == null) {
             JsonConfig data = getPlayerConfig();
             pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
-                    pts.put(ItemDatabase.getItem(s).getItem(), l);
+                    pts.put(Material.getMaterial(s), l);
                 }
             }
         }
@@ -889,8 +952,8 @@ public class UPlayer {
         save();
     }
 
-    public List<String> getPowertools(ItemType mat) {
-        if (mat == null) {
+    public List<String> getPowertools(Material mat) {
+        if (mat == null || mat == Material.AIR) {
             return null;
         }
         if (pts == null) {
@@ -899,7 +962,7 @@ public class UPlayer {
             if (data.contains("powertool")) {
                 for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
-                    pts.put(ItemDatabase.getItem(s).getItem(), l);
+                    pts.put(Material.getMaterial(s), l);
                 }
             }
         }
@@ -917,7 +980,7 @@ public class UPlayer {
             if (data.contains("powertool")) {
                 for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
-                    pts.put(ItemDatabase.getItem(s).getItem(), l);
+                    pts.put(Material.getMaterial(s), l);
                 }
             }
             save();
@@ -925,14 +988,14 @@ public class UPlayer {
         return !pts.isEmpty();
     }
 
-    public boolean hasPowertool(ItemType mat) {
+    public boolean hasPowertool(Material mat) {
         if (pts == null) {
             JsonConfig data = getPlayerConfig();
             pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
-                    pts.put(ItemDatabase.getItem(s).getItem(), l);
+                    pts.put(Material.getMaterial(s), l);
                 }
             }
             save();
@@ -940,14 +1003,14 @@ public class UPlayer {
         return pts.containsKey(mat);
     }
 
-    public void setPowertool(ItemType mat, List<String> cmds) {
+    public void setPowertool(Material mat, List<String> cmds) {
         JsonConfig data = getPlayerConfig();
         if (pts == null) {
             pts = new HashMap<>();
             if (data.contains("powertool")) {
                 for (String s : data.listKeys("powertool", false)) {
                     ArrayList<String> l = (ArrayList<String>) data.getStringList("powertool." + s);
-                    pts.put(ItemDatabase.getItem(s).getItem(), l);
+                    pts.put(Material.getMaterial(s), l);
                 }
             }
         }
@@ -957,13 +1020,13 @@ public class UPlayer {
         save();
     }
 
-    public void addPowertool(ItemType mat, String c) {
+    public void addPowertool(Material mat, String c) {
         List<String> ps = getPowertools(mat);
         ps.add(c);
         setPowertool(mat, ps);
     }
 
-    public void removePowertool(ItemType mat, String c) {
+    public void removePowertool(Material mat, String c) {
         List<String> ps = getPowertools(mat);
         if (!ps.contains(c)) {
             return;
@@ -1077,7 +1140,13 @@ public class UPlayer {
         vanish = fr;
         vanishtime = fr ? time : 0L;
         if (getOnlinePlayer() != null) {
-            getOnlinePlayer().offer(Keys.INVISIBLE, true);
+            for (Player pl : r.getOnlinePlayers()) {
+                if (fr) {
+                    pl.hidePlayer(getOnlinePlayer());
+                } else {
+                    pl.showPlayer(getOnlinePlayer());
+                }
+            }
         }
         save();
     }
@@ -1087,6 +1156,9 @@ public class UPlayer {
     }
 
     public void setAfk(boolean news) {
+        if (news == false && getPlayer().isOnline()) {
+            TitleUtil.clearTitle(getOnlinePlayer());
+        }
         afk = news;
         save();
     }
@@ -1104,19 +1176,19 @@ public class UPlayer {
         setLastActivity(System.currentTimeMillis());
         if (isAfk()) {
             setAfk(false);
-            Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getDisplayName()));
+            Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(getPlayer()).getDisplayName()));
         }
     }
 
-    public RLocation getSpawn(Boolean firstjoin) {
+    public Location getSpawn(Boolean firstjoin) {
         JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);
         String loc;
         Player p = r.searchPlayer(uuid);
         Boolean world = conf.contains("worlds.world." + p.getWorld().getName() + ".global");
         String world_ = world ? conf.getString("worlds.world." + p.getWorld().getName() + ".global") : null;
-        Boolean group = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null && conf.contains("global.group." + r.getPrimaryGroup(p));
+        Boolean group = (r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null) && conf.contains("global.group." + r.getPrimaryGroup(p));
         String group_ = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null ? (group ? conf.getString("global.group." + r.getPrimaryGroup(p)) : null) : null;
-        Boolean gw = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null && conf
+        Boolean gw = (r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null) && conf
                 .contains("worlds.world." + p.getWorld().getName() + ".group." + r.getPrimaryGroup(p));
         String gw_ = r.getVault() != null && r.getVault().getPermission() != null && r.getPrimaryGroup(p) != null ? conf
                 .getString("worlds.world." + p.getWorld().getName() + ".group." + r.getPrimaryGroup(p)) : null;

@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -38,7 +39,7 @@ public class TreeListener implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new TreeListener(), r.getUC());
     }
 
-    @Listener(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent event) {
         Material block = event.getBlock().getType();
         if (!block.equals(Material.LOG) && !block.equals(Material.LOG_2)) {
@@ -89,15 +90,19 @@ public class TreeListener implements Listener {
                 Material blockAboveType = blockAbove.getBlock().getType();
 
                 if (blockAboveType == Material.LOG || blockAboveType == Material.LOG_2) {
-                    blockAbove.getBlock().breakNaturally();
-                    player.getWorld().playEffect(blockAbove, Effect.SMOKE, 4);
+                    BlockBreakEvent ev = new BlockBreakEvent(blockAbove.getBlock(), player);
+                    Bukkit.getPluginManager().callEvent(ev);
+                    if (!ev.isCancelled()) {
+                        blockAbove.getBlock().breakNaturally();
+                        player.getWorld().playEffect(blockAbove, Effect.SMOKE, 4);
 
-                    if ((!player.getGameMode().equals(GameMode.CREATIVE))) {
-                        int enchLvl = handItem.getEnchantmentLevel(Enchantment.DURABILITY);
-                        long random = Math.round(Math.random() * enchLvl);
+                        if ((!player.getGameMode().equals(GameMode.CREATIVE))) {
+                            int enchLvl = handItem.getEnchantmentLevel(Enchantment.DURABILITY);
+                            long random = Math.round(Math.random() * enchLvl);
 
-                        if ((random == 0L) && (handItem.getType().getMaxDurability() > handItem.getDurability())) {
-                            handItem.setDurability((short) (handItem.getDurability() + 1));
+                            if ((random == 0L) && (handItem.getType().getMaxDurability() > handItem.getDurability())) {
+                                handItem.setDurability((short) (handItem.getDurability() + 1));
+                            }
                         }
                     }
 

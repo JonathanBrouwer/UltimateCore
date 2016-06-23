@@ -24,9 +24,8 @@
 package bammerbom.ultimatecore.spongeapi.configuration;
 
 /**
- * Exception thrown when attempting to load an invalid {@link Configuration}
+ * Exception thrown when attempting to load an invalid {@link Config}
  */
-@SuppressWarnings("serial")
 class InvalidConfigurationException extends Exception {
 
     /**

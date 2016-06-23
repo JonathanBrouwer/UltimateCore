@@ -24,18 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.EntityEffect;
-import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Monster;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,62 +44,86 @@ public class CmdClean implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.clean", false, true)) {
-            return;
-        }
-        StringBuilder s = new StringBuilder("");
-        for (World w : Bukkit.getWorlds()) {
-            if (r.checkArgs(args, 0) && !w.getName().equalsIgnoreCase(args[0])) {
-                continue;
-            }
-            Integer c = 0;
-            for (Chunk chunk : w.getLoadedChunks()) {
-                try {
-                    chunk.unload(true, true);
-                } catch (Exception ex) {
-                    r.log("Failed to unload chunk: " + chunk.getX() + " " + chunk.getZ());
-                    return;
-                }
-                c++;
-            }
-            c = c - w.getLoadedChunks().length;
-            Integer e = 0;
-            Integer d = 0;
-            for (Entity en : w.getEntities()) {
-                if (en instanceof Monster) {
-                    if (en.getTicksLived() > 200 && en.getCustomName() == null) {
-                        en.playEffect(EntityEffect.DEATH);
-                        en.remove();
-                        e++;
-                    }
-                }
-                if (en instanceof Item) {
-                    Item item = (Item) en;
-                    if (item.getTicksLived() > 200) {
-                        if (!item.isValid()) {
-                            en.remove();
-                        }
-                        d++;
-                    }
-                }
-            }
-            s.append(r.mes("cleanWorld", "%World", w.getName(), "%Chunks", c, "%Entities", e, "%Drops", d));
-        }
-        cs.sendMessage(s.toString());
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        ArrayList<String> str = new ArrayList<>();
-        for (World w : Bukkit.getWorlds()) {
-            str.add(w.getName());
-        }
-        return str;
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList();
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.clean", false, true)) {
+//            return;
+//        }
+//        StringBuilder s = new StringBuilder("");
+//        for (World w : Bukkit.getWorlds()) {
+//            if (r.checkArgs(args, 0) && !w.getName().equalsIgnoreCase(args[0])) {
+//                continue;
+//            }
+//            Integer c = 0;
+//            for (Chunk chunk : w.getLoadedChunks()) {
+//                try {
+//                    chunk.unload(true, true);
+//                } catch (Exception ex) {
+//                    r.log("Failed to unload chunk: " + chunk.getX() + " " + chunk.getZ());
+//                    return;
+//                }
+//                c++;
+//            }
+//            c = c - w.getLoadedChunks().length;
+//            Integer e = 0;
+//            Integer d = 0;
+//            for (Entity en : w.getEntities()) {
+//                if (en instanceof Monster) {
+//                    if (en.getTicksLived() > 200 && en.getCustomName() == null) {
+//                        en.playEffect(EntityEffect.DEATH);
+//                        en.remove();
+//                        e++;
+//                    }
+//                }
+//                if (en instanceof Item) {
+//                    Item item = (Item) en;
+//                    if (item.getTicksLived() > 200) {
+//                        if (!item.isValid()) {
+//                            en.remove();
+//                        }
+//                        d++;
+//                    }
+//                }
+//            }
+//            s.append(r.mes("cleanWorld", "%World", w.getName(), "%Chunks", c, "%Entities", e, "%Drops", d));
+//        }
+//        cs.sendMessage(s.toString());
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        ArrayList<String> str = new ArrayList<>();
+//        for (World w : Bukkit.getWorlds()) {
+//            str.add(w.getName());
+//        }
+//        return str;
+//    }
 }

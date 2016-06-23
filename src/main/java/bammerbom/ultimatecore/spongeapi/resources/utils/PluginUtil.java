@@ -26,19 +26,21 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredListener;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
+import java.net.URLClassLoader;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -70,73 +72,122 @@ public class PluginUtil {
         return dependedOnBy;
     }
 
-    public static void unregisterAllPluginCommands(String pluginName) {
-        try {
-            Object result;
-            {
-                Class<?> clazz = Bukkit.getPluginManager().getClass();
-                Field objectField = clazz.getDeclaredField("commandMap");
-                final boolean wasAccessible = objectField.isAccessible();
-                objectField.setAccessible(true);
-                result = objectField.get(Bukkit.getPluginManager());
-                objectField.setAccessible(wasAccessible);
+    public static List<String> getSoftDependedOnBy(String name) {
+        final List<String> dependedOnBy = new ArrayList<>();
+        for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
+            if (pl == null) {
+                continue;
             }
-            SimpleCommandMap commandMap = (SimpleCommandMap) result;
-            Object map;
-            {
-                Class<?> clazz = commandMap.getClass();
-                Field objectField = clazz.getDeclaredField("knownCommands");
-                final boolean wasAccessible = objectField.isAccessible();
-                objectField.setAccessible(true);
-                map = objectField.get(commandMap);
-                objectField.setAccessible(wasAccessible);
+            if (!pl.isEnabled()) {
+                continue;
             }
-            @SuppressWarnings("unchecked") HashMap<String, Command> knownCommands = (HashMap<String, Command>) map;
-            final List<Command> commands = new ArrayList<>(commandMap.getCommands());
-            for (Command c : commands) {
-                if (!(c instanceof PluginCommand)) {
-                    continue;
+            PluginDescriptionFile pdf = pl.getDescription();
+            if (pdf == null) {
+                continue;
+            }
+            List<String> depends = new ArrayList<>();
+            depends.addAll(pdf.getDepend());
+            depends.addAll(pdf.getSoftDepend());
+            if (depends == null) {
+                continue;
+            }
+            for (String depend : depends) {
+                if (name.equalsIgnoreCase(depend)) {
+                    dependedOnBy.add(pl.getName());
                 }
-                final PluginCommand pc = (PluginCommand) c;
-                if (!pc.getPlugin().getName().equals(pluginName)) {
-                    continue;
+            }
+        }
+        return dependedOnBy;
+    }
+
+    public static boolean unload(Plugin plugin) {
+        String name = plugin.getName();
+
+        PluginManager pluginManager = Bukkit.getPluginManager();
+
+        SimpleCommandMap commandMap = null;
+
+        List<Plugin> plugins = null;
+
+        Map<String, Plugin> names = null;
+        Map<String, Command> commands = null;
+        Map<Event, SortedSet<RegisteredListener>> listeners = null;
+
+        boolean reloadlisteners = true;
+        if (pluginManager != null) {
+            pluginManager.disablePlugin(plugin);
+            try {
+                Field pluginsField = Bukkit.getPluginManager().getClass().getDeclaredField("plugins");
+                pluginsField.setAccessible(true);
+                plugins = (List) pluginsField.get(pluginManager);
+
+                Field lookupNamesField = Bukkit.getPluginManager().getClass().getDeclaredField("lookupNames");
+                lookupNamesField.setAccessible(true);
+                names = (Map) lookupNamesField.get(pluginManager);
+                try {
+                    Field listenersField = Bukkit.getPluginManager().getClass().getDeclaredField("listeners");
+                    listenersField.setAccessible(true);
+                    listeners = (Map) listenersField.get(pluginManager);
+                } catch (Exception e) {
+                    reloadlisteners = false;
                 }
-                knownCommands.remove(pc.getName());
-                for (String alias : pc.getAliases()) {
-                    if (knownCommands.containsKey(alias)) {
-                        final Command ac = knownCommands.get(alias);
-                        if (!(ac instanceof PluginCommand)) {
-                            continue;
-                        }
-                        final PluginCommand apc = (PluginCommand) ac;
-                        if (!apc.getPlugin().getName().equals(pluginName)) {
-                            continue;
-                        }
-                        knownCommands.remove(alias);
+                Field commandMapField = Bukkit.getPluginManager().getClass().getDeclaredField("commandMap");
+                commandMapField.setAccessible(true);
+                commandMap = (SimpleCommandMap) commandMapField.get(pluginManager);
+
+                Field knownCommandsField = SimpleCommandMap.class.getDeclaredField("knownCommands");
+                knownCommandsField.setAccessible(true);
+                commands = (Map) knownCommandsField.get(commandMap);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+                return false;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        pluginManager.disablePlugin(plugin);
+        if ((plugins != null) && (plugins.contains(plugin))) {
+            plugins.remove(plugin);
+        }
+        if ((names != null) && (names.containsKey(name))) {
+            names.remove(name);
+        }
+        if ((listeners != null) && (reloadlisteners)) {
+            for (SortedSet<RegisteredListener> set : listeners.values()) {
+                for (Iterator it = set.iterator(); it.hasNext(); ) {
+                    RegisteredListener value = (RegisteredListener) it.next();
+                    if (value.getPlugin() == plugin) {
+                        it.remove();
                     }
                 }
             }
-        } catch (Exception e) {
-            ErrorLogger.log(e, "Failed to unregister plugin commands.");
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    public static void removePluginFromList(Plugin p) {
-        try {
-            final List<Plugin> plugins;
-            {
-                Class<?> clazz = Bukkit.getPluginManager().getClass();
-                Field objectField = clazz.getDeclaredField("plugins");
-                final boolean wasAccessible = objectField.isAccessible();
-                objectField.setAccessible(true);
-                plugins = (List<Plugin>) objectField.get(Bukkit.getPluginManager());
-                objectField.setAccessible(wasAccessible);
+        Iterator<Map.Entry<String, Command>> it;
+        if (commandMap != null) {
+            for (it = commands.entrySet().iterator(); it.hasNext(); ) {
+                Map.Entry<String, Command> entry = (Map.Entry) it.next();
+                if ((entry.getValue() instanceof PluginCommand)) {
+                    PluginCommand c = (PluginCommand) entry.getValue();
+                    if (c.getPlugin() == plugin) {
+                        c.unregister(commandMap);
+                        it.remove();
+                    }
+                }
             }
-            plugins.remove(p);
-        } catch (Exception e) {
-            ErrorLogger.log(e, "Failed to unregister plugin.");
         }
+        ClassLoader cl = plugin.getClass().getClassLoader();
+        if ((cl instanceof URLClassLoader)) {
+            try {
+                ((URLClassLoader) cl).close();
+            } catch (IOException ex) {
+                Logger.getLogger(PluginUtil.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        System.gc();
+
+        return true;
     }
 
     public static String getPluginList() {
@@ -149,7 +200,7 @@ public class PluginUtil {
                 pluginList.append(", ");
             }
 
-            pluginList.append(plugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED);
+            pluginList.append(plugin.isEnabled() ? TextColors.GREEN : TextColors.RED);
             pluginList.append(plugin.getDescription().getName());
         }
 
@@ -248,4 +299,30 @@ public class PluginUtil {
         return success;
     }
 
+    public static Plugin getPluginByName(String name) {
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+            if (name.equalsIgnoreCase(plugin.getName())) {
+                return plugin;
+            }
+        }
+        return null;
+    }
+
+    public static boolean isSameVersion(String version1, String version2) {
+        if (version1.contains(version2)) return true;
+        if (version2.contains(version1)) return true;
+        for (String s : version1.split("[ ;-]")) {
+            for (String s2 : version2.split("[ ;-]")) {
+                String v1 = s.replace("v", "");
+                String v2 = s.replace("v", "");
+                if (v1.contains(".") && v2.contains(".")) {
+                    if (v1.equalsIgnoreCase(v2)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }

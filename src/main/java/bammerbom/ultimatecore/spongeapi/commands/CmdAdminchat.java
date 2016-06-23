@@ -25,16 +25,19 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.util.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CmdAdminchat implements UltimateCommand {
-    static String format = r
-            .translateAlternateColorCodes('&', r.getCnfg().getString("Chat.AdminchatFormat").replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + ""));
+    static String format = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.AdminchatFormat").replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + ""));
 
     @Override
     public String getName() {
@@ -52,8 +55,8 @@ public class CmdAdminchat implements UltimateCommand {
     }
 
     @Override
-    public String getDescription() {
-        return "Private chat for admins.";
+    public Text getDescription() {
+        return Text.of("Private chat for admins.");
     }
 
     @Override
@@ -62,48 +65,27 @@ public class CmdAdminchat implements UltimateCommand {
     }
 
     @Override
-    public void run(CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.adminchat", false, true)) {
-            return;
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.adminchat", true)) {
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "adminchatUsage");
-            return;
+            return CommandResult.empty();
         }
         String msg = r.getFinalArg(args, 0);
         for (Player p : r.getOnlinePlayers()) {
-            if (r.perm(p, "uc.adminchat", false, false)) {
-                p.sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", msg)));
+            if (r.perm(p, "uc.adminchat", false)) {
+                p.sendMessage(Text.of(format.replace("%Player", cs.getName()).replace("%Message", msg)));
             }
         }
-        Sponge.getGame().getServer().getBroadcastSink().sendMessage(Texts.of(format.replace("%Player", cs.getName()).replace("%Message", msg)));
+        Sponge.getServer().getConsole().sendMessage(Text.of(format.replace("%Player", cs.getName()).replace("%Message", msg)));
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
-        return null;
-    }
-
-    /*@Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.adminchat", false, true)) {
-            return;
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "adminchatUsage");
-            return;
-        }
-        String msg = r.getFinalArg(args, 0);
-        for (Player p : r.getOnlinePlayers()) {
-            if (r.perm(p, "uc.adminchat", false, false)) {
-                p.sendMessage(format.replace("%Player", cs.getName()).replace("%Message", msg));
-            }
-        }
-        Bukkit.getServer().getConsoleSender().sendMessage(format.replace("%Player", cs.getName()).replace("%Message", msg));
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
-    }*/
+    }
+
 }

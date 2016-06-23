@@ -31,18 +31,15 @@ import java.util.UUID;
 
 public class ServerIDUtil {
 
-    static UUID uuid = null;
+    static UUID uuid;
 
     public static void start() {
-        if (uuid != null) {
-            return;
-        }
         try {
             File file = new File(r.getUC().getDataFolder() + File.separator + "Data", "UUID.id");
             if (!file.exists()) {
                 file.createNewFile();
                 UUID u = UUID.randomUUID();
-                FileUtil.writeLargerTextFile(file, Arrays.asList(u.toString()));
+                FileUtil.writeFile(file, Arrays.asList(u.toString()));
                 uuid = u;
             } else {
                 String s = FileUtil.getLines(file).get(0);
@@ -54,9 +51,6 @@ public class ServerIDUtil {
     }
 
     public static UUID getUUID() {
-        if (uuid == null) {
-            start();
-        }
         return uuid;
     }
 }

@@ -24,14 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.RLocation;
-import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.util.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,40 +45,53 @@ public class CmdBack implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command>";
+        return "/<command> ";
     }
 
     @Override
-    public String getDescription() {
-        return "Teleports you to your location prior to tp/spawn/warp.";
+    public Text getDescription() {
+        return Text.of("Description");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("return");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.back", true, true)) {
-            return;
-        }
-        if (!r.isPlayer(cs)) {
-            return;
-        }
-        Player p = (Player) cs;
-        RLocation loc = UC.getPlayer(p).getLastLocation();
-        if (loc == null) {
-            r.sendMes(cs, "backNotFound");
-            return;
-        }
-        LocationUtil.teleport(p, loc, true, true);
-        r.sendMes(cs, "backMessage");
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
-
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("return");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.back", true, true)) {
+//            return;
+//        }
+//        if (!r.isPlayer(cs)) {
+//            return;
+//        }
+//        Player p = (Player) cs;
+//        Location loc = UC.getPlayer(p).getLastLocation();
+//        if (loc == null) {
+//            r.sendMes(cs, "backNotFound");
+//            return;
+//        }
+//        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true, true);
+//        r.sendMes(cs, "backMessage");
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return new ArrayList<>();
+//    }
 }

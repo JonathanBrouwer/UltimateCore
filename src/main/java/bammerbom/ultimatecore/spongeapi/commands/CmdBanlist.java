@@ -24,12 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.entity.living.player.User;
-import org.spongepowered.api.util.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,12 +45,12 @@ public class CmdBanlist implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command>";
+        return "/<command> ";
     }
 
     @Override
-    public String getDescription() {
-        return "View a list of all current bans.";
+    public Text getDescription() {
+        return Text.of("Description");
     }
 
     @Override
@@ -61,36 +59,49 @@ public class CmdBanlist implements UltimateCommand {
     }
 
     @Override
-    public void run(CommandSource cs, String label, String[] args) {
-        if (r.perm(cs, "uc.banlist", true, true) == false) {
-            return;
-        }
-        List<User> bans = UC.getServer().getBannedOfflinePlayers();
-        if (bans == null || bans.isEmpty()) {
-            r.sendMes(cs, "banlistNoBansFound");
-            return;
-        }
-        StringBuilder banlist = new StringBuilder();
-        Integer cur = 0;
-        String result;
-        for (int i = 0;
-             i < bans.size();
-             i++) {
-            banlist.append(bans.get(cur).getName() + ", ");
-            cur++;
-
-        }
-        result = banlist.substring(0, banlist.length() - 2);
-        r.sendMes(cs, "banlistBans", "%Banlist", result);
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
-        List<String> bans = new ArrayList<>();
-        for (User pl : UC.getServer().getBannedOfflinePlayers()) {
-            bans.add(pl.getName());
-        }
-        return bans;
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
-
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("bans");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.banlist", true, true)) {
+//            return;
+//        }
+//        List<OfflinePlayer> bans = UC.getServer().getBannedOfflinePlayers();
+//        if (bans == null || bans.isEmpty()) {
+//            r.sendMes(cs, "banlistNoBansFound");
+//            return;
+//        }
+//        StringBuilder banlist = new StringBuilder();
+//        Integer cur = 0;
+//        String result;
+//        for (int i = 0;
+//             i < bans.size();
+//             i++) {
+//            banlist.append(bans.get(cur).getName() + ", ");
+//            cur++;
+//
+//        }
+//        result = banlist.substring(0, banlist.length() - 2);
+//        r.sendMes(cs, "banlistBans", "%Banlist", result);
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        List<String> bans = new ArrayList<>();
+//        for (OfflinePlayer pl : UC.getServer().getBannedOfflinePlayers()) {
+//            bans.add(pl.getName());
+//        }
+//        return bans;
+//    }
 }

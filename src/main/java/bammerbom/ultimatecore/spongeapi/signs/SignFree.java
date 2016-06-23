@@ -26,17 +26,13 @@ package bammerbom.ultimatecore.spongeapi.signs;
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.spongepowered.api.block.tileentity.Sign;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.block.ChangeBlockEvent;
-import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
-import org.spongepowered.api.item.inventory.Inventories;
-import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.custom.CustomInventory;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.text.format.TextColors;
+import org.bukkit.Bukkit;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class SignFree implements UltimateSign {
 
@@ -52,38 +48,39 @@ public class SignFree implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.free", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.free", true, false) && !r.perm(p, "uc.sign", true, false)) {
+            r.sendMes(p, "noPermissions");
             return;
         }
-        ItemStack item = ItemUtil.searchItem(((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent());
-        item.setQuantity(item.getMaxStackQuantity());
-        CustomInventory inv = Inventories.customInventoryBuilder().name(Texts.of(ItemUtil.getName(item))).size(36);
+        ItemStack item = ItemUtil.searchItem(sign.getLine(1));
+        item.setAmount(item.getMaxStackSize());
+        Inventory inv = Bukkit.createInventory(p, 36, ItemUtil.getName(item));
         for (int i = 0;
              i < 36;
              i++) {
-            inv.offer(item);
+            inv.addItem(item);
         }
         p.openInventory(inv);
     }
 
     @Override
-    public void onCreate(ChangeSignEvent event, Player p) {
+    public void onCreate(SignChangeEvent event) {
         if (!r.perm(p, "uc.sign.free.create", false, true)) {
             event.setCancelled(true);
-            event.getTargetTile().getLocation().removeBlock();
+            event.getBlock().breakNaturally();
             return;
         }
-        if (ItemUtil.searchItem(((Text.Literal) event.getText().lines().get(1)).getContent()) == null) {
-            r.sendMes(p, "giveItemNotFound", "%Item", event.getText().lines().get(1));
-            event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.RED + "[Free]")).get());
+        if (ItemUtil.searchItem(event.getLine(1)) == null) {
+            r.sendMes(p, "giveItemNotFound", "%Item", event.getLine(1));
+            event.setLine(0, TextColors.RED + "[Free]");
             return;
         }
-        event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Free]")).get());
+        event.setLine(0, TextColors.DARK_BLUE + "[Free]");
         r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(ChangeBlockEvent.Break event, Player p) {
+    public void onDestroy(BlockBreakEvent event) {
         if (!r.perm(p, "uc.sign.free.destroy", false, true)) {
             event.setCancelled(true);
             return;

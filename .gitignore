@@ -47,6 +47,7 @@ bin
 *.project
 /target
 .idea
+src/main/java/bammerbom/ultimatecore/spongeapi_old
 
 dependency-reduced-pom.xml
 UltimateCore.iml

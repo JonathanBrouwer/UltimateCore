@@ -26,10 +26,12 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,11 +40,11 @@ public class CmdInventory implements UltimateCommand {
 
     public static void disable() {
         for (Player pl : UC.getServer().getInOnlineInventoryOnlinePlayers()) {
-            UC.getPlayer(pl).setInOnlineInventory(false);
+            UC.getPlayer(pl).setInOnlineInventory(null);
             pl.closeInventory();
         }
         for (Player pl : UC.getServer().getInOfflineInventoryOnlinePlayers()) {
-            UC.getPlayer(pl).setInOfflineInventory(false);
+            UC.getPlayer(pl).setInOfflineInventory(null);
             pl.closeInventory();
         }
     }
@@ -63,7 +65,7 @@ public class CmdInventory implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!(r.isPlayer(cs))) {
             return;
         }
@@ -74,10 +76,17 @@ public class CmdInventory implements UltimateCommand {
         if (r.checkArgs(args, 0)) {
             Player t = r.searchPlayer(args[0]);
             if (t != null) {
-                p.openInventory(t.getInventory());
-                UC.getPlayer(p).setInOnlineInventory(true);
+                if (r.checkArgs(args, 1) && args[1].equalsIgnoreCase("armor")) {
+                    Inventory inv = Bukkit.getServer().createInventory(p, 9, "Equipped");
+                    inv.setContents(t.getInventory().getArmorContents());
+                    p.openInventory(inv);
+                    UC.getPlayer(p).setInOfflineInventory(t);
+                } else {
+                    p.openInventory(t.getInventory());
+                    UC.getPlayer(p).setInOnlineInventory(t);
+                }
             } else {
-                OfflinePlayer t2 = r.searchOfflinePlayer(args[0]);
+                OfflinePlayer t2 = r.searchGameProfile(args[0]);
                 if (t2 == null || (!t2.hasPlayedBefore() && !t2.isOnline())) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return;
@@ -88,7 +97,7 @@ public class CmdInventory implements UltimateCommand {
                 }
 
                 p.openInventory(UC.getPlayer(t2).getLastInventory());
-                UC.getPlayer(p).setInOfflineInventory(true);
+                UC.getPlayer(p).setInOfflineInventory(t2);
             }
         } else {
             r.sendMes(cs, "inventoryUsage");
@@ -96,7 +105,7 @@ public class CmdInventory implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

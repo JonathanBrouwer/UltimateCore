@@ -31,20 +31,26 @@ import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.Item;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+import org.spongepowered.api.item.inventory.transaction.InventoryTransactionResult;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SignKit implements UltimateSign {
 
@@ -60,19 +66,18 @@ public class SignKit implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.kit", true, true) && !r.perm(p, "uc.sign", true, true)) {
+        if (!r.perm(p, "uc.sign.kit", false) && !r.perm(p, "uc.sign", false)) {
+            r.sendMes(p, "noPermissions");
             return;
         }
         final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent());
+        final ConfigSection kitNode = config.getConfigurationSection(sign.lines().get(1).toPlain());
         if (kitNode == null) {
-            r.sendMes(p, "kitNotFound", "%Kit", ((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent());
-            List<Text> lines = sign.get(Keys.SIGN_LINES).get();
-            lines.set(0, Texts.of(TextColors.RED + "[Kit]"));
-            sign.offer(Keys.SIGN_LINES, lines);
+            r.sendMes(p, "kitNotFound", "%Kit", sign.lines().get(1));
+            sign.offer(Keys.SIGN_LINES, sign.lines().set(0, Text.of(TextColors.RED + "[Kit]")).get());
             return;
         }
-        final UKit kit = UC.getServer().getKit(((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent());
+        final UKit kit = UC.getServer().getKit(sign.lines().get(1).toPlain());
         if (!kit.hasCooldownPassedFor(p)) {
             if (kit.getCooldown() == -1L) {
                 r.sendMes(p, "kitOnlyOnce");
@@ -83,41 +88,49 @@ public class SignKit implements UltimateSign {
         }
         final List<ItemStack> items = kit.getItems();
         for (ItemStack item : items) {
-            if (p.getInventory().offer(item).getRejectedItems().isPresent()) {
-                Item en = (Item) p.getWorld().createEntity(EntityTypes.ITEM, p.getLocation().getPosition()).get();
-                en.offer(Keys.REPRESENTED_ITEM, item.createSnapshot());
-                p.getWorld().spawnEntity(en, Cause.of(p));
+            InventoryTransactionResult result = p.getInventory().offer(item);
+            if (!result.getRejectedItems().isEmpty()) {
+                for (ItemStackSnapshot ritem : result.getRejectedItems()) {
+                    Entity en = p.getWorld().createEntity(EntityTypes.ITEM, p.getLocation().getPosition()).get();
+                    en.offer(Keys.REPRESENTED_ITEM, ritem);
+                    p.getWorld().spawnEntity(en, Cause.builder().named(NamedCause.simulated(p)).build());
+                }
             }
         }
         kit.setLastUsed(p, System.currentTimeMillis());
-        r.sendMes(p, "kitGive", "%Kit", ((Text.Literal) sign.get(Keys.SIGN_LINES).get().get(1)).getContent());
+        r.sendMes(p, "kitGive", "%Kit", sign.lines().get(1));
     }
 
     @Override
     public void onCreate(ChangeSignEvent event, Player p) {
-        if (!r.perm(p, "uc.sign.kit", false, true)) {
+        if (!r.perm(p, "uc.sign.kit", true)) {
             event.setCancelled(true);
-            event.getTargetTile().getLocation().removeBlock();
+            event.getTargetTile().getLocation().setBlockType(BlockTypes.AIR);
+            Optional<Entity> eno = event.getTargetTile().getLocation().getExtent().createEntity(EntityTypes.ITEM, event.getTargetTile().getLocation().getPosition());
+            if (eno.isPresent()) {
+                Item en = (Item) eno.get();
+                en.offer(Keys.REPRESENTED_ITEM, ItemStack.builder().itemType(ItemTypes.SIGN).build().createSnapshot());
+                p.getWorld().spawnEntity(en, Cause.builder().named(NamedCause.simulated(p)).build());
+            }
             return;
         }
         final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(((Text.Literal) event.getText().lines().get(1)).getContent());
+        final ConfigSection kitNode = config.getConfigurationSection(event.getText().lines().get(1).toPlain());
         if (kitNode == null) {
-            r.sendMes(p, "kitNotFound", "%Kit", event.getText().lines().get(1));
-            event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.RED + "[Kit]")).get());
+            r.sendMes(p, "kitNotFound", "%Kit", event.getText().lines().get(1).toPlain());
+            event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Text.of(TextColors.RED + "[Kit]")).get());
             return;
         }
-        event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Texts.of(TextColors.DARK_BLUE + "[Kit]")).get());
+        event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Text.of(TextColors.DARK_BLUE + "[Kit]")).get());
         r.sendMes(p, "signCreated");
     }
 
     @Override
     public void onDestroy(ChangeBlockEvent.Break event, Player p) {
-        if (!r.perm(p, "uc.sign.kit.destroy", false, true)) {
+        if (!r.perm(p, "uc.sign.kit.destroy", true)) {
             event.setCancelled(true);
             return;
         }
         r.sendMes(p, "signDestroyed");
     }
-
 }

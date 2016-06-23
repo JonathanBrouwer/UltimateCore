@@ -27,9 +27,8 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
@@ -62,7 +61,7 @@ public class CmdHelp implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.help", false, true)) {
             return;
         }
@@ -88,19 +87,19 @@ public class CmdHelp implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }
 
 //Textinput
-class TextInput implements bammerbom.ultimatecore.spongeapi.commands.UText {
+class TextInput implements UText {
 
     private final transient List<String> lines;
     private final transient List<String> chapters;
     private final transient Map<String, Integer> bookmarks;
 
-    public TextInput(CommandSender sender) {
+    public TextInput(CommandSource sender) {
         this.lines = Collections.emptyList();
         this.chapters = Collections.emptyList();
         this.bookmarks = Collections.emptyMap();
@@ -122,14 +121,13 @@ class TextInput implements bammerbom.ultimatecore.spongeapi.commands.UText {
     }
 }
 
-class HelpInput implements bammerbom.ultimatecore.spongeapi.commands.UText {
+class HelpInput implements UText {
 
     private final transient List<String> lines = new ArrayList<>();
     private final transient List<String> chapters = new ArrayList<>();
     private final transient Map<String, Integer> bookmarks = new HashMap<>();
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public HelpInput(CommandSender user, String match) {
+    public HelpInput(CommandSource user, String match) {
         boolean reported = false;
         List newLines = new ArrayList();
         String pluginName;
@@ -171,7 +169,7 @@ class HelpInput implements bammerbom.ultimatecore.spongeapi.commands.UText {
                         break;
                     }
                     if (match.equalsIgnoreCase("")) {
-                        lines.add(r.mes("helpPlugin", "%Enabled", (p.isEnabled() ? ChatColor.DARK_GREEN : ChatColor.RED), "%Name", pluginName, "%Lowname", pluginNameLow));
+                        lines.add(r.mes("helpPlugin", "%Enabled", (p.isEnabled() ? TextColors.DARK_GREEN : TextColors.RED), "%Name", pluginName, "%Lowname", pluginNameLow));
                     }
                 }
             } catch (NullPointerException ex) {
@@ -197,14 +195,16 @@ class HelpInput implements bammerbom.ultimatecore.spongeapi.commands.UText {
     }
 }
 
-class PluginCommandsInput implements bammerbom.ultimatecore.spongeapi.commands.UText {
+class PluginCommandsInput implements UText {
 
     private final transient List<String> lines = new ArrayList<>();
     private final transient List<String> chapters = new ArrayList<>();
     private final transient Map<String, Integer> bookmarks = new HashMap<>();
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public PluginCommandsInput(CommandSender user, String match) {
+    public PluginCommandsInput(CommandSource user, String match) {
+        if (!r.perm(user, "uc.plugins", false, false)) {
+            return;
+        }
         boolean reported = false;
         List newLines = new ArrayList();
         String pluginName;
@@ -247,7 +247,7 @@ class PluginCommandsInput implements bammerbom.ultimatecore.spongeapi.commands.U
                         break;
                     }
                     if (match.equalsIgnoreCase("")) {
-                        lines.add(r.mes("helpPlugin", "%Enabled", (p.isEnabled() ? ChatColor.DARK_GREEN : ChatColor.RED), "%Name", pluginName, "%Lowname", pluginNameLow));
+                        lines.add(r.mes("helpPlugin", "%Enabled", (p.isEnabled() ? TextColors.DARK_GREEN : TextColors.RED), "%Name", pluginName, "%Lowname", pluginNameLow));
                     }
                 }
             } catch (NullPointerException ex) {
@@ -291,7 +291,7 @@ class TextPager {
         return input.toUpperCase(Locale.ENGLISH).charAt(0) + input.toLowerCase(Locale.ENGLISH).substring(1);
     }
 
-    public void showPage(String pageStr, String chapterPageStr, String commandName, CommandSender sender) {
+    public void showPage(String pageStr, String chapterPageStr, String commandName, CommandSource sender) {
         List<String> lines = this.text.getLines();
         List<String> chapters = this.text.getChapters();
         Map<String, Integer> bookmarks = this.text.getBookmarks();
@@ -356,7 +356,7 @@ class TextPager {
                 if (i >= start + (this.onePage ? 20 : 9)) {
                     break;
                 }
-                sender.sendMessage(String.valueOf(ChatColor.RESET) + lines.get(i));
+                sender.sendMessage(new StringBuilder().append(TextColors.RESET).append(lines.get(i)).toString());
             }
             if ((!this.onePage) && (page < pages) && (commandName != null)) {
                 if (commandName.startsWith("plugin")) {
@@ -386,7 +386,7 @@ class TextPager {
             return;
         }
 
-        int chapterstart = bookmarks.get(pageStr.toLowerCase(Locale.ENGLISH)) + 1;
+        int chapterstart = bookmarks.get(pageStr.toLowerCase(Locale.ENGLISH)).intValue() + 1;
 
         int chapterend;
         for (chapterend = chapterstart;
@@ -414,7 +414,7 @@ class TextPager {
             if (i >= start + (this.onePage ? 20 : 9)) {
                 break;
             }
-            sender.sendMessage(String.valueOf(ChatColor.RESET) + lines.get(i));
+            sender.sendMessage(new StringBuilder().append(TextColors.RESET).append(lines.get(i)).toString());
         }
         if ((!this.onePage) && (page < pages) && (commandName != null)) {
             if (commandName.startsWith("plugin")) {

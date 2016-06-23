@@ -23,39 +23,30 @@
  */
 package bammerbom.ultimatecore.spongeapi;
 
-import bammerbom.ultimatecore.spongeapi.UltimateUpdater.UpdateResult;
-import bammerbom.ultimatecore.spongeapi.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
+import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
 import org.apache.commons.io.FilenameUtils;
-import org.spongepowered.api.Game;
-import org.spongepowered.api.GameProfile;
-import org.spongepowered.api.GameRegistry;
+import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
-import org.spongepowered.api.service.permission.PermissionService;
-import org.spongepowered.api.service.permission.Subject;
-import org.spongepowered.api.service.permission.SubjectData;
-import org.spongepowered.api.service.permission.option.OptionSubject;
-import org.spongepowered.api.service.user.UserStorage;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.TextMessageException;
-import org.spongepowered.api.util.Tristate;
-import org.spongepowered.api.util.command.CommandSource;
 import org.spongepowered.api.world.Location;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 public class r {
 
@@ -76,35 +67,14 @@ public class r {
     //Methods
     static UltimateCore uc = UltimateCore.getInstance();
     static boolean debug = false;
+    static Config cnfg = null;
     //Config end
-    //Vault
-    //private static Vault vault;
-    //private static Object prom;
-    static ArrayList<String> defperms = new ArrayList<>();
 
     public static void start() {
-        /*if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
-            prom = com.comphenix.protocol.ProtocolLibrary.getProtocolManager();
-        }*/
-        Sponge.getGame().getServiceManager().potentiallyProvide(PermissionService.class).executeWhenPresent(new Predicate<PermissionService>() {
-            @Override
-            public boolean apply(PermissionService input) {
-                final SubjectData defaultData = input.getDefaultData();
-                for (String perm : defperms) {
-                    //TODO set default permissions
-                    defaultData.setPermission(SubjectData.GLOBAL_CONTEXT, perm, Tristate.TRUE);
-                }
-                return true;
-            }
-        });
         if (r.getCnfg().contains("Debug")) {
             setDebug(r.getCnfg().getBoolean("Debug"));
         }
     }
-
-    /*public static Object getProtocolManager() {
-        return prom;
-    }*/
 
     public static UltimateUpdater getUpdater() {
         return updater;
@@ -115,13 +85,14 @@ public class r {
             return;
         }
         Boolean dl = r.getCnfg().getBoolean("Updater.download");
-        updater = new UltimateUpdater(r.getUC(), 66979, UltimateCore.getPluginFile(), dl ? UpdateType.DEFAULT : UpdateType.NO_DOWNLOAD, true);
+        File file = Sponge.getPluginManager().getPlugin("ultimatecore").get().getSource().get().toFile();
+        updater = new UltimateUpdater(66979, file, dl ? UltimateUpdater.UpdateType.DEFAULT : UltimateUpdater.UpdateType.NO_DOWNLOAD, true);
         Thread thr = new Thread(new Runnable() {
             @Override
             public void run() {
                 updater.waitForThread();
                 try {
-                    if (updater != null && updater.getResult() != null && updater.getResult().equals(UpdateResult.UPDATE_AVAILABLE)) {
+                    if (updater != null && updater.getResult() != null && updater.getResult().equals(UltimateUpdater.UpdateResult.UPDATE_AVAILABLE)) {
                         r.log("There is an update available for UltimateCore.");
                         r.log("Use /uc update to update UltimateCore.");
                     }
@@ -134,23 +105,20 @@ public class r {
         thr.start();
     }
 
+    //Metrics end
+
     public static void runMetrics() {
         if (!r.getCnfg().getBoolean("Metrics")) {
             return;
         }
         try {
-            metrics = new UltimateMetrics(getUC());
+            metrics = new UltimateMetrics();
             metrics.start();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to start metrics.");
         }
     }
 
-    /*public static Vault getVault() {
-        return vault;
-    }*/
-
-    //Metrics end
     //Config
     public static Config getCnfg() {
         if (!new File(r.getUC().getDataFolder(), "config.yml").exists()) {
@@ -176,7 +144,10 @@ public class r {
             }
             UltimateFileLoader.Enable();
         }
-        return new Config(new File(r.getUC().getDataFolder(), "config.yml"));
+        if (cnfg == null) {
+            cnfg = new Config(new File(r.getUC().getDataFolder(), "config.yml"));
+        }
+        return cnfg;
     }
 
     public static UltimateCore getUC() {
@@ -190,7 +161,6 @@ public class r {
         uc = null;
         updater = null;
         metrics = null;
-        //vault = null;
     }
 
     public static boolean isPlayer(CommandSource cs) {
@@ -201,28 +171,48 @@ public class r {
         return false;
     }
 
-    public static boolean perm(CommandSource cs, String perm, Boolean def, Boolean message) {
-        if (!(cs instanceof Player)) {
-            return true;
+    public static String getDisplayName(Object cs) {
+        if (cs instanceof Player) {
+            return UC.getPlayer((Player) cs).getDisplayName();
+        } else if (cs instanceof User) {
+            return ((User) cs).getName();
+        } else if (cs instanceof CommandSource) {
+            return ((CommandSource) cs).getName();
+        } else {
+            return cs.toString();
         }
-        Player pl = (Player) cs;
-        Boolean hasperm = perm(pl, perm, def);
-        if (!hasperm && message) {
+    }
+
+    public static boolean perm(CommandSource cs, String perm, Boolean message) {
+        Boolean hasperm = perm(cs, perm);
+        if (hasperm == false && message == true) {
             r.sendMes(cs, "noPermissions");
         }
         return hasperm;
     }
 
-    private static boolean perm(Player p, String perm, Boolean def) {
-        if (def) {
-            if (!defperms.contains(perm)) {
-                defperms.add(perm);
-            }
-            r.debug("Checked " + p.getName() + " for " + perm + ", returned true. (3)");
-            return true;
-        }
-        r.debug("Checked " + p.getName() + " for " + perm + ", returned " + p.hasPermission(perm) + ". (4)");
-        return p.hasPermission(perm);
+    private static boolean perm(CommandSource cs, String perm) {
+        return cs.hasPermission(perm);
+//        if (!Sponge.getServiceManager().provide(PermissionService.class).isPresent()) {
+//            return;
+//        }
+//        p.has
+//        PermissionService ps = Sponge.getServiceManager().provide(PermissionService.class).get();
+//        if (p.get(Keys.LEVEL)) {
+//            r.debug("Checked " + p.getName() + " for " + perm + ", returned true. (1)");
+//            return true;
+//        }
+//        if (r.getVault() != null && r.getVault().getPermission() != null && !r.getVault().getPermission().getName().equals("SuperPerms")) {
+//            r.debug("Checked " + p.getName() + " for " + perm + ", returned " + r.getVault().getPermission().has(p, perm) + ". (2)");
+//            return r.getVault().getPermission().has(p, perm);
+//        } else {
+//            if (def == true) {
+//                r.debug("Checked " + p.getName() + " for " + perm + ", returned true. (3)");
+//                return true;
+//            }
+//            r.debug("Checked " + p.getName() + " for " + perm + ", returned " + p.hasPermission(perm) + ". (4)");
+//            return p.hasPermission(perm);
+//        }
     }
 
     public static boolean checkArgs(Object[] args, Integer numb) {
@@ -249,7 +239,7 @@ public class r {
             en.load(inen);
             inen.close();
             ExtendedProperties enC = new ExtendedProperties("UTF-8");
-            enC.load(r.getUC().getResource("Messages/EN.properties"));
+            enC.load(r.getResource("Messages/EN.properties"));
             Boolean a = false;
             for (String s : enC.map.keySet()) {
                 if (!en.map.containsKey(s)) {
@@ -267,7 +257,7 @@ public class r {
                 cu.load(incu);
                 incu.close();
                 ExtendedProperties cuC = new ExtendedProperties("UTF-8");
-                cuC.load(r.getUC().getResource("Messages/" + FilenameUtils.getBaseName(UltimateFileLoader.LANGf.getName()) + ".properties"));
+                cuC.load(r.getResource("Messages/" + FilenameUtils.getBaseName(UltimateFileLoader.LANGf.getName()) + ".properties"));
                 Boolean b = false;
                 for (String s : cuC.map.keySet()) {
                     if (!cu.map.containsKey(s)) {
@@ -286,206 +276,45 @@ public class r {
         }
     }
 
-    public static Game getGame() {
-        return UltimateCore.game;
-    }
-
-    public static GameRegistry getRegistry() {
-        return getGame().getRegistry();
-    }
-
-    public static PermissionService getPermission() {
-        return getGame().getServiceManager().provide(PermissionService.class).orElse(null);
-    }
-
-    public static Text.Literal getDisplayName(Object cs) {
-        if (cs instanceof Player) {
-            return UC.getPlayer((Player) cs).getDisplayName();
-        } else if (cs instanceof User) {
-            return Texts.of(((User) cs).getName());
-        } else if (cs instanceof CommandSource) {
-            return Texts.of(((CommandSource) cs).getName());
-        } else {
-            return Texts.of(cs.toString());
-        }
-    }
-
-    public static TextColor charToTextColor(String str) {
-        if (str.startsWith("&") || str.startsWith("§")) {
-            str = str.substring(1);
-        }
-        switch (str.toLowerCase()) {
-            case "0":
-                return TextColors.BLACK;
-            case "1":
-                return TextColors.DARK_BLUE;
-            case "2":
-                return TextColors.DARK_GREEN;
-            case "3":
-                return TextColors.DARK_AQUA;
-            case "4":
-                return TextColors.DARK_RED;
-            case "5":
-                return TextColors.DARK_PURPLE;
-            case "6":
-                return TextColors.GOLD;
-            case "7":
-                return TextColors.GRAY;
-            case "8":
-                return TextColors.DARK_GRAY;
-            case "9":
-                return TextColors.BLUE;
-            case "a":
-                return TextColors.GREEN;
-            case "b":
-                return TextColors.AQUA;
-            case "c":
-                return TextColors.RED;
-            case "d":
-                return TextColors.LIGHT_PURPLE;
-            case "e":
-                return TextColors.YELLOW;
-            case "f":
-                return TextColors.WHITE;
-            case "r":
-                return TextColors.RESET;
-            default:
-                return null;
-        }
-    }
-
-    public static Character textColorToChar(TextColor color) {
-        if (color.equals(TextColors.BLACK)) {
-            return '0';
-        } else if (color.equals(TextColors.DARK_BLUE)) {
-            return '1';
-        } else if (color.equals(TextColors.DARK_GREEN)) {
-            return '2';
-        } else if (color.equals(TextColors.DARK_AQUA)) {
-            return '3';
-        } else if (color.equals(TextColors.DARK_RED)) {
-            return '4';
-        } else if (color.equals(TextColors.DARK_PURPLE)) {
-            return '5';
-        } else if (color.equals(TextColors.GOLD)) {
-            return '6';
-        } else if (color.equals(TextColors.GRAY)) {
-            return '7';
-        } else if (color.equals(TextColors.DARK_GRAY)) {
-            return '8';
-        } else if (color.equals(TextColors.BLUE)) {
-            return '9';
-        } else if (color.equals(TextColors.GREEN)) {
-            return 'a';
-        } else if (color.equals(TextColors.AQUA)) {
-            return 'b';
-        } else if (color.equals(TextColors.RED)) {
-            return 'c';
-        } else if (color.equals(TextColors.LIGHT_PURPLE)) {
-            return 'd';
-        } else if (color.equals(TextColors.YELLOW)) {
-            return 'e';
-        } else if (color.equals(TextColors.WHITE)) {
-            return 'f';
-        } else if (color.equals(TextColors.RESET)) {
-            return 'r';
-        }
-        return null;
-    }
-
-    public static String translateAlternateColorCodes(char altColorChar, String textToTranslate) {
-        char[] b = textToTranslate.toCharArray();
-        for (int i = 0;
-             i < b.length - 1;
-             i++) {
-            if ((b[i] == altColorChar) && ("0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[(i + 1)]) > -1)) {
-                b[i] = '§';
-                b[(i + 1)] = Character.toLowerCase(b[(i + 1)]);
-            }
-        }
-        return new String(b);
-    }
-
-    public static Text translateAlternateColorCodes(char altColorChar, Text text) {
-        try {
-            return Texts.legacy(altColorChar).from(translateAlternateColorCodes(altColorChar, Texts.legacy(altColorChar).to(text)));
-        } catch (TextMessageException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static String stripColor(String input) {
-        if (input == null) {
-            return null;
-        }
-        return Pattern.compile("(?i)" + String.valueOf('§') + "[0-9A-FK-OR]").matcher(input).replaceAll("");
-    }
-
     public static void setColors() {
         String c1 = r.getCnfg().getString("Chat.Default");
         String c2 = r.getCnfg().getString("Chat.Value");
         String c3 = r.getCnfg().getString("Chat.Error");
 
-        positive = charToTextColor(c1);
-        neutral = charToTextColor(c2);
-        negative = charToTextColor(c3);
-        if (positive == null) {
-            r.log("Failed to find color: " + c1);
-            positive = TextColors.DARK_AQUA;
-        }
-        if (neutral == null) {
-            r.log("Failed to find color: " + c1);
-            positive = TextColors.AQUA;
-        }
-        if (negative == null) {
-            r.log("Failed to find color: " + c1);
-            positive = TextColors.RED;
-        }
+        positive = TextColorUtil.getColorByChar(c1.charAt(0)).orElse(TextColors.DARK_AQUA);
+        neutral = TextColorUtil.getColorByChar(c2.charAt(0)).orElse(TextColors.AQUA);
+        negative = TextColorUtil.getColorByChar(c3.charAt(0)).orElse(TextColors.RED);
     }
 
-    public static String mesRaw(String padMessage, Object... repl) {
-        Text.Literal text = mes(padMessage, repl);
-        return text.getContent();
-    }
-
-    public static Text.Literal mes(String padMessage, Object... repl) {
+    public static Text mes(String padMessage, Object... repl) {
         if (cu.map.containsKey(padMessage)) {
-            Text.Literal a = Texts
-                    .of(r.positive + translateAlternateColorCodes('&', cu.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
-                            .replace("\\\\n", "\n")));
+            String a = r.positive + TextColorUtil.translateAlternate(cu.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
             String repA = null;
             for (Object s : repl) {
                 if (repA == null) {
                     repA = s.toString();
                 } else {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put(repA, s.toString());
-                    a = (Text.Literal) Texts.format(a, map);
+                    a = a.replace(repA, s.toString());
                     repA = null;
                 }
             }
-            return a;
+            return Text.of(a);
         }
         if (en.map.containsKey(padMessage)) {
-            Text.Literal a = Texts
-                    .of(r.positive + translateAlternateColorCodes('&', en.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
-                            .replace("\\\\n", "\n")));
-            String repA = null;
+            String b = r.positive + TextColorUtil.translateAlternate(en.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
+            String repB = null;
             for (Object s : repl) {
-                if (repA == null) {
-                    repA = s.toString();
+                if (repB == null) {
+                    repB = s.toString();
                 } else {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put(repA, s.toString());
-                    a = (Text.Literal) Texts.format(a, map);
-                    repA = null;
+                    b = b.replace(repB, s.toString());
+                    repB = null;
                 }
             }
-            return a;
+            return Text.of(b);
         }
         r.log(r.negative + "Failed to find " + padMessage + " in Messages file.");
-        return Texts.of("");
+        return Text.of();
     }
 
     public static void sendMes(CommandSource cs, String padMessage, Object... repl) {
@@ -493,24 +322,24 @@ public class r {
     }
 
     public static void log(Object message) {
-        String logo = translateAlternateColorCodes('&', "&9[&bUC&9]&r");
+        String logo = TextColorUtil.translateAlternate("&9[&bUC&9]&r");
         if (message == null) {
             r.log("null");
             return;
         }
-        UltimateCore.logger.info(logo + " " + TextColors.YELLOW + message.toString());
+        Sponge.getServer().getConsole().sendMessage(Text.of(logo + " " + TextColors.YELLOW + message.toString()));
     }
 
     public static void debug(Object message) {
         if (!debug) {
             return;
         }
-        String logo = translateAlternateColorCodes('&', "&9[&bUC DEBUG&9]&r");
+        String logo = TextColorUtil.translateAlternate("&9[&bUC DEBUG&9]&r");
         if (message == null) {
             r.debug("null");
             return;
         }
-        UltimateCore.logger.info(logo + " " + TextColors.WHITE + message.toString());
+        Sponge.getServer().getConsole().sendMessage(Text.of(logo + " " + TextColors.WHITE + message.toString()));
         //
     }
 
@@ -523,44 +352,54 @@ public class r {
     }
 
     public static Player[] getOnlinePlayers() {
-        List<Player> plz = (List<Player>) getGame().getServer().getOnlinePlayers();
+        List<Player> plz = (List<Player>) Sponge.getServer().getOnlinePlayers();
         return plz.toArray(new Player[plz.size()]);
     }
 
-    public static List<Player> getOnlinePlayersL() {
-        return (List<Player>) getGame().getServer().getOnlinePlayers();
+    public static GameProfile[] getOfflinePlayers() {
+        Collection<GameProfile> plz = Sponge.getServer().getGameProfileManager().getCache().getProfiles();
+        return plz.toArray(new GameProfile[plz.size()]);
     }
 
-    public static User[] getOfflinePlayers() {
-        List<User> users = new ArrayList<>();
-        for (GameProfile f : Sponge.getGame().getServiceManager().provide(UserStorage.class).get().getAll()) {
-            users.add((User) f);
+    public static Optional<Player> searchPlayer(String s) {
+        Player found = null;
+        String lowerName = s.toLowerCase();
+        {
+            int delta = 2147483647;
+            for (Player player : getOnlinePlayers()) {
+                if (player.getName().toLowerCase().startsWith(lowerName)) {
+                    int curDelta = player.getName().length() - lowerName.length();
+                    if (curDelta < delta) {
+                        found = player;
+                        delta = curDelta;
+                    }
+                    if (curDelta == 0) {
+                        break;
+                    }
+                }
+            }
         }
-        return (User[]) users.toArray();
+        return Optional.ofNullable(found);
     }
 
-    public static List<User> getOfflinePlayersL() {
-        List<User> users = new ArrayList<>();
-        for (GameProfile f : Sponge.getGame().getServiceManager().provide(UserStorage.class).get().getAll()) {
-            users.add((User) f);
+    public static Optional<GameProfile> searchGameProfile(String s) {
+        try {
+            return Optional.of(Sponge.getServer().getGameProfileManager().get(s).get());
+        } catch (Exception ex) {
+            return Optional.empty();
         }
-        return users;
     }
 
-    public static Player searchPlayer(String s) {
-        return Sponge.getGame().getServer().getPlayer(s).orElse(null);
+    public static Optional<Player> searchPlayer(UUID u) {
+        return Sponge.getServer().getPlayer(u);
     }
 
-    public static User searchOfflinePlayer(String s) {
-        return Sponge.getGame().getServiceManager().provide(UserStorage.class).get().get(s).get();
-    }
-
-    public static Player searchPlayer(UUID u) {
-        return Sponge.getGame().getServer().getPlayer(u).orElse(null);
-    }
-
-    public static User searchOfflinePlayer(UUID u) {
-        return Sponge.getGame().getServiceManager().provide(UserStorage.class).get().get(u).get();
+    public static Optional<GameProfile> searchGameProfile(UUID u) {
+        try {
+            return Optional.of(Sponge.getServer().getGameProfileManager().get(u).get());
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
     }
 
     //
@@ -609,27 +448,15 @@ public class r {
         }
     }
 
-    public static double distance(Location l1, Location l2) {
-        if (l1 == null || l2 == null) {
-            throw new IllegalArgumentException("Cannot measure distance to a null location");
-        }
-        if (l1.getExtent() != l2.getExtent()) {
-            throw new IllegalArgumentException("Cannot measure distance between " + l1.getExtent() + " and " + l2.getExtent());
-        }
-        return Math.sqrt(((l1.getX() - l2.getX()) * (l1.getX() - l2.getX())) + ((l1.getY() - l2.getY()) * (l1.getY() - l2.getY())) + ((l1.getZ() - l2.getZ()) * (l1.getZ() - l2.getZ())));
-    }
-
     public static List<Entity> getNearbyEntities(Location loc, double range) {
-
-        Collection<Entity> entities = loc.getExtent().getEntities();
-        TreeMap<Double, Entity> rtrn = new TreeMap<>();
-        for (Entity en : entities) {
-            if (distance(en.getLocation(), loc) > range) {
+        List<Entity> rtrn = new ArrayList<>();
+        for (Entity en : loc.getExtent().getEntities()) {
+            if (LocationUtil.getDistance(en.getLocation(), loc) > range) {
                 continue;
             }
-            rtrn.put(distance(en.getLocation(), loc), en);
+            rtrn.add(en);
         }
-        return new ArrayList<>(rtrn.values());
+        return rtrn;
     }
 
     public static List<Entity> getNearbyEntities(Entity en, double range) {
@@ -637,18 +464,17 @@ public class r {
     }
 
     public static List<Player> getNearbyPlayers(Location loc, double range) {
-        List<Player> entities = r.getOnlinePlayersL();
-        TreeMap<Double, Player> rtrn = new TreeMap<>();
-        for (Player en : entities) {
+        List<Player> rtrn = new ArrayList<>();
+        for (Player en : r.getOnlinePlayers()) {
             if (!en.getLocation().getExtent().equals(loc.getExtent())) {
                 continue;
             }
-            if (distance(en.getLocation(), loc) > range) {
+            if (LocationUtil.getDistance(en.getLocation(), loc) > range) {
                 continue;
             }
-            rtrn.put(distance(en.getLocation(), loc), en);
+            rtrn.add(en);
         }
-        return new ArrayList<>(rtrn.values());
+        return rtrn;
     }
 
     public static List<Player> getNearbyPlayers(Entity en, double range) {
@@ -666,16 +492,6 @@ public class r {
         return a;
     }
 
-    public static double round(double value, int places) {
-        if (places < 0) {
-            return value;
-        }
-
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
-
     public static Double normalize(Double a, Double b, Double c) {
         if (a < b) {
             a = b;
@@ -687,67 +503,78 @@ public class r {
     }
 
     public static TextColor getRandomTextColor() {
-        List<TextColor> values = Arrays
-                .asList(TextColors.BLACK, TextColors.DARK_BLUE, TextColors.DARK_GREEN, TextColors.DARK_AQUA, TextColors.DARK_RED, TextColors.DARK_PURPLE, TextColors.GOLD, TextColors.GRAY,
-                        TextColors.DARK_GRAY, TextColors.BLUE, TextColors.GREEN, TextColors.AQUA, TextColors.RED, TextColors.LIGHT_PURPLE, TextColors.YELLOW, TextColors.WHITE);
+        ArrayList<TextColor> values = new ArrayList<>();
+        values.addAll(Sponge.getGame().getRegistry().getAllOf(CatalogTypes.TEXT_COLOR));
         return values.get(ra.nextInt(values.size()));
     }
 
-    public static String getTown(Player p) {
-        /*if (!Bukkit.getPluginManager().isPluginEnabled("Towny")) {
-            return null;
+    public static double round(double value, int places) {
+        if (places < 0) {
+            return value;
         }
-        Towny t = (Towny) Bukkit.getServer().getPluginManager().getPlugin("Towny");
-        if (t == null) {
-            return null;
-        }
-        Resident r;
-        try {
-            r = TownyUniverse.getDataSource().getResident(p.getName());
-        } catch (Exception ex) {
-            return null;
-        }
-        try {
-            return r.getTown().getName();
-        } catch (Exception ex) {
-            return null;
-        }*/ //TODO
-        return null;
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
-    public static String getPrefix(Player player) {
-        Subject subject = player.getContainingCollection().get(player.getIdentifier());
-        if (subject instanceof OptionSubject) {
-            OptionSubject optionSubject = (OptionSubject) subject;
-            String prefix = optionSubject.getOption("prefix").orElse("");
-            prefix.replaceAll("&", "\u00A7");
-            return prefix;
-        } else {
-            return "";
+    public static BigDecimal round(BigDecimal bd, int places) {
+        if (places < 0) {
+            return bd;
         }
+
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd;
     }
 
-    public static String getSuffix(Player player) {
-        Subject subject = player.getContainingCollection().get(player.getIdentifier());
-        if (subject instanceof OptionSubject) {
-            OptionSubject optionSubject = (OptionSubject) subject;
-            String suffix = optionSubject.getOption("suffix").orElse("");
-            suffix.replaceAll("&", "\u00A7");
-            return suffix;
-        } else {
-            return "";
+    public static void saveResource(String resourcePath, boolean replace) {
+        if ((resourcePath == null) || (resourcePath.equals(""))) {
+            throw new IllegalArgumentException("ResourcePath cannot be null or empty");
         }
-    }
-
-    public static String getFaction(Player p) {
-        /*if (!Bukkit.getPluginManager().isPluginEnabled("Factions")) {
-            return null;
+        resourcePath = resourcePath.replace('\\', '/');
+        InputStream in = getResource(resourcePath);
+        if (in == null) {
+            throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found");
+        }
+        File outFile = new File(getUC().getDataFolder(), resourcePath);
+        int lastIndex = resourcePath.lastIndexOf('/');
+        File outDir = new File(getUC().getDataFolder(), resourcePath.substring(0, lastIndex >= 0 ? lastIndex : 0));
+        if (!outDir.exists()) {
+            outDir.mkdirs();
         }
         try {
-            return MPlayer.get(p).getFaction().getName();
-        } catch (Exception ex) {
-            return null;
-        }*/ //TODO
+            if ((!outFile.exists()) || (replace)) {
+                OutputStream out = new FileOutputStream(outFile);
+                byte[] buf = new byte['?'];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                out.close();
+                in.close();
+            } else {
+                r.log("Could not save " + outFile.getName() + " to " + outFile + " because " + outFile.getName() + " already exists.");
+            }
+        } catch (IOException ex) {
+            r.log("Could not save " + outFile.getName() + " to " + outFile);
+            ex.printStackTrace();
+        }
+    }
+
+    public static InputStream getResource(String filename) {
+        if (filename == null) {
+            throw new IllegalArgumentException("Filename cannot be null");
+        }
+        try {
+            URL url = r.getUC().getClass().getClassLoader().getResource(filename);
+            if (url == null) {
+                return null;
+            }
+            URLConnection connection = url.openConnection();
+            connection.setUseCaches(false);
+            return connection.getInputStream();
+        } catch (IOException localIOException) {
+        }
         return null;
     }
 
@@ -1077,27 +904,4 @@ public class r {
             return h.keySet().iterator();
         }
     }
-
-    /*public static class Vault {
-
-        public Vault() {
-        }
-
-        public Permission getPermission() {
-            RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-            return permissionProvider.getProvider();
-
-        }
-
-        public Chat getChat() {
-            RegisteredServiceProvider<Chat> chatProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
-            return chatProvider.getProvider();
-        }
-
-        public Economy getEconomy() {
-            RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-            return economyProvider.getProvider();
-        }
-
-    }*/ //TODO
 }

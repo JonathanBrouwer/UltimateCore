@@ -31,16 +31,15 @@ import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
-import org.bukkit.event.Event;
-import org.bukkit.event.EventException;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+import org.bukkit.event.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -54,6 +53,7 @@ import org.bukkit.plugin.EventExecutor;
 
 public class GlobalPlayerListener implements Listener {
 
+    static boolean spawnOnJoin = r.getCnfg().getBoolean("SpawnOnJoin", false);
     Boolean jailChat = r.getCnfg().getBoolean("Command.Jail.talk");
     Boolean jailedmove = r.getCnfg().getBoolean("Command.Jail.move");
 
@@ -80,7 +80,7 @@ public class GlobalPlayerListener implements Listener {
         }, r.getUC());
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onTeleport(PlayerTeleportEvent e) {
         try {
             //Back
@@ -103,9 +103,13 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent e) {
         try {
+            //Spawn on join
+            if (spawnOnJoin) {
+                LocationUtil.teleportUnsafe(e.getPlayer(), UC.getPlayer(e.getPlayer()).getSpawn(false), TeleportCause.PLUGIN, false);
+            }
             //Inventory
             UC.getPlayer(e.getPlayer()).updateLastInventory();
             //Jail
@@ -133,10 +137,22 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onQuit(PlayerQuitEvent e) {
         try {
             //Inventory
+            if (UC.getPlayer(e.getPlayer()).isInOfflineInventory()) {
+                UC.getPlayer(e.getPlayer()).setInOfflineInventory(null);
+            }
+            if (UC.getPlayer(e.getPlayer()).isInOnlineInventory()) {
+                UC.getPlayer(e.getPlayer()).setInOnlineInventory(null);
+            }
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (UC.getPlayer(p).getInOnlineInventory() != null && UC.getPlayer(p).getInOnlineInventory().equals(e.getPlayer().getUniqueId())) {
+                    p.closeInventory();
+                    UC.getPlayer(p).setInOnlineInventory(null);
+                }
+            }
             UC.getPlayer(e.getPlayer()).updateLastInventory();
             //Last connect
             UC.getPlayer(e.getPlayer()).updateLastConnectMillis();
@@ -149,12 +165,17 @@ public class GlobalPlayerListener implements Listener {
                     p.showPlayer(e.getPlayer());
                 }
             }
+            //Fly
+            if (e.getPlayer().isFlying()) {
+                LocationUtil.teleport(e.getPlayer(), e.getPlayer().getLocation(), TeleportCause.PLUGIN, true, false);
+                e.getPlayer().setFallDistance(0.0F);
+            }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerQuitEvent");
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onLogin(PlayerLoginEvent e) {
         try {
             //Ban
@@ -190,7 +211,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onChat(AsyncPlayerChatEvent e) {
         try {
             //Deaf
@@ -209,6 +230,7 @@ public class GlobalPlayerListener implements Listener {
                 } else {
                     r.sendMes(e.getPlayer(), "muteChatTime", "%Time", DateUtil.format(UC.getPlayer(e.getPlayer()).getMuteTimeLeft()));
                 }
+                r.sendMes(e.getPlayer(), "muteReason", "%Reason", UC.getPlayer(e.getPlayer()).getMuteReason());
             }
             //Silence
             if (UC.getServer().isSilenced() && !r.perm(e.getPlayer(), "uc.silence.bypass", false, false)) {
@@ -225,7 +247,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onPrepareItemEnchant(PrepareItemEnchantEvent e) {
         try {
             //EnchantingTable
@@ -241,7 +263,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onInventoryClose(InventoryCloseEvent e) {
         try {
             //EnchantingTable
@@ -250,10 +272,10 @@ public class GlobalPlayerListener implements Listener {
             }
             //Inventory
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOfflineInventory()) {
-                UC.getPlayer(e.getPlayer().getUniqueId()).setInOfflineInventory(false);
+                UC.getPlayer(e.getPlayer().getUniqueId()).setInOfflineInventory(null);
             }
             if (UC.getPlayer(e.getPlayer().getUniqueId()).isInOnlineInventory()) {
-                UC.getPlayer(e.getPlayer().getUniqueId()).setInOnlineInventory(false);
+                UC.getPlayer(e.getPlayer().getUniqueId()).setInOnlineInventory(null);
             }
             //Recipe
             if (UC.getPlayer((OfflinePlayer) e.getPlayer()).isInRecipeView()) {
@@ -274,7 +296,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onInventoryClick(final InventoryClickEvent e) {
         try {
             //Inventory
@@ -300,7 +322,7 @@ public class GlobalPlayerListener implements Listener {
             if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInTeleportMenu() && e.getCurrentItem() != null && e.getCurrentItem().getItemMeta() != null && e.getCurrentItem().getItemMeta()
                     .hasDisplayName()) {
                 UC.getPlayer(e.getWhoClicked().getUniqueId()).setInTeleportMenu(false);
-                Bukkit.getServer().dispatchCommand(e.getWhoClicked(), "tp " + ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()));
+                Bukkit.getServer().dispatchCommand(e.getWhoClicked(), "tp " + TextColors.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()));
                 e.setCancelled(true);
                 e.getWhoClicked().closeInventory();
             }
@@ -314,7 +336,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onMove(PlayerMoveEvent e) {
         if (e.getFrom().getBlock().getLocation().equals(e.getTo().getBlock().getLocation())) {
             return;
@@ -343,7 +365,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onDeath(PlayerDeathEvent e) {
         try {
             //Back
@@ -360,7 +382,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onDamage(EntityDamageEvent e) {
         try {
             //God
@@ -379,7 +401,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onDamageByEntity(EntityDamageByEntityEvent e) {
         try {
             //Jailed
@@ -403,7 +425,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onFoodLevelChange(FoodLevelChangeEvent e) {
         try {
             //God
@@ -420,7 +442,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         try {
             //Jail
@@ -434,7 +456,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onInteract(PlayerInteractEvent e) {
         try {
             //Mobtp
@@ -455,7 +477,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onInteractEntity(PlayerInteractEntityEvent e) {
         try {
             //Mobtp
@@ -471,7 +493,7 @@ public class GlobalPlayerListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onWorldChange(PlayerChangedWorldEvent e) {
         try {
             //Gamemode
@@ -485,7 +507,9 @@ public class GlobalPlayerListener implements Listener {
 
     public void onRespawn(PlayerRespawnEvent e) {
         try {
-            if (UC.getPlayer(e.getPlayer()).getSpawn(false) != null) {
+            if (e.getPlayer().getBedSpawnLocation() != null) {
+                e.setRespawnLocation(e.getPlayer().getBedSpawnLocation());
+            } else if (UC.getPlayer(e.getPlayer()).getSpawn(false) != null) {
                 e.setRespawnLocation(UC.getPlayer(e.getPlayer()).getSpawn(false));
             }
         } catch (Exception ex) {

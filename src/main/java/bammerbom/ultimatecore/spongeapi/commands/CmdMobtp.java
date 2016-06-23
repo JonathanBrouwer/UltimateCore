@@ -26,10 +26,9 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -66,17 +65,17 @@ public class CmdMobtp implements UltimateCommand {
         if (!p.getItemInHand().getType().equals(Material.STICK)) {
             return false;
         }
-        if (!p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.AQUA + "MobTP: select an " +
+        if (!p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(TextColors.AQUA + "MobTP: select an " +
                 "entity (right click)")) {
             return false;
         }
         ItemStack stick = new ItemStack(Material.BLAZE_ROD);
         ItemMeta meta = stick.getItemMeta();
-        meta.setDisplayName(ChatColor.AQUA + "MobTP: place entity (right click)");
+        meta.setDisplayName(TextColors.AQUA + "MobTP: place entity (right click)");
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY + "Select an entity to teleport, then right click to to pick it up.");
-        lore.add(ChatColor.GRAY + "" + ChatColor.UNDERLINE + "Then right click again to place the entity");
-        lore.add(ChatColor.BLACK + "ID: " + entitynumber);
+        lore.add(TextColors.GRAY + "Select an entity to teleport, then right click to to pick it up.");
+        lore.add(TextColors.GRAY + "" + TextColors.UNDERLINE + "Then right click again to place the entity");
+        lore.add(TextColors.BLACK + "ID: " + entitynumber);
         sticks.put(entitynumber, en);
         meta.setLore(lore);
         stick.setItemMeta(meta);
@@ -107,7 +106,7 @@ public class CmdMobtp implements UltimateCommand {
             if (!p.getItemInHand().getType().equals(Material.BLAZE_ROD)) {
                 return false;
             }
-            if (!p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.AQUA + "MobTP: place " +
+            if (!p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(TextColors.AQUA + "MobTP: place " +
                     "entity (right click)")) {
                 return false;
             }
@@ -117,16 +116,16 @@ public class CmdMobtp implements UltimateCommand {
             ItemStack old = p.getItemInHand();
             ItemStack stick = new ItemStack(Material.STICK);
             ItemMeta meta = stick.getItemMeta();
-            meta.setDisplayName(ChatColor.AQUA + "MobTP: select an entity (right click)");
+            meta.setDisplayName(TextColors.AQUA + "MobTP: select an entity (right click)");
             ArrayList<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "" + ChatColor.UNDERLINE + "Find an entity to teleport, then right click to to " +
+            lore.add(TextColors.GRAY + "" + TextColors.UNDERLINE + "Find an entity to teleport, then right click to to " +
                     "pick it up.");
-            lore.add(ChatColor.GRAY + "Then right click again to place the entity");
+            lore.add(TextColors.GRAY + "Then right click again to place the entity");
             meta.setLore(lore);
             stick.setItemMeta(meta);
             p.getInventory().setItemInHand(stick);
             String id2 = old.getItemMeta().getLore().get(2);
-            Integer id = Integer.parseInt(ChatColor.stripColor(id2.replaceAll("ID: ", "")));
+            Integer id = Integer.parseInt(TextColors.stripColor(id2.replaceAll("ID: ", "")));
             LivingEntity eo = (LivingEntity) sticks.get(id);
             if (eo == null) {
                 return false;
@@ -256,7 +255,7 @@ public class CmdMobtp implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return;
         }
@@ -265,11 +264,11 @@ public class CmdMobtp implements UltimateCommand {
         }
         ItemStack stick = new ItemStack(Material.STICK);
         ItemMeta meta = stick.getItemMeta();
-        meta.setDisplayName(ChatColor.AQUA + "MobTP: select an entity (right click)");
+        meta.setDisplayName(TextColors.AQUA + "MobTP: select an entity (right click)");
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY + "" + ChatColor.UNDERLINE + "Find an entity to teleport, then right click to to pick" +
+        lore.add(TextColors.GRAY + "" + TextColors.UNDERLINE + "Find an entity to teleport, then right click to to pick" +
                 " it up.");
-        lore.add(ChatColor.GRAY + "Then right click again to place the entity");
+        lore.add(TextColors.GRAY + "Then right click again to place the entity");
         meta.setLore(lore);
         stick.setItemMeta(meta);
         Player p = (Player) cs;
@@ -277,7 +276,7 @@ public class CmdMobtp implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

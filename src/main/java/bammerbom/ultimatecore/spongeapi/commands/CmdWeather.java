@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -54,9 +54,9 @@ public class CmdWeather implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (label.equalsIgnoreCase("sun")) {
-            if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.sun", false, false) == false) {
+            if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.sun", false, false)) {
                 r.sendMes(cs, "noPermissions");
                 return;
             }
@@ -83,7 +83,7 @@ public class CmdWeather implements UltimateCommand {
             return;
         }
         if (label.equalsIgnoreCase("rain")) {
-            if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.rain", false, false) == false) {
+            if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.rain", false, false)) {
                 r.sendMes(cs, "noPermissions");
                 return;
             }
@@ -110,7 +110,7 @@ public class CmdWeather implements UltimateCommand {
             return;
         }
         if (label.equalsIgnoreCase("thunder") || label.equalsIgnoreCase("storm")) {
-            if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.storm", false, false) == false) {
+            if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.storm", false, false)) {
                 r.sendMes(cs, "noPermissions");
                 return;
             }
@@ -130,7 +130,7 @@ public class CmdWeather implements UltimateCommand {
             WeatherListener.setEnabled(true);
             return;
         }
-        if (r.checkArgs(args, 0) == false) {
+        if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "weatherUsage");
         } else {
             Integer weather = 0;
@@ -138,7 +138,7 @@ public class CmdWeather implements UltimateCommand {
                 WeatherListener.setEnabled(false);
                 for (World world : Bukkit.getWorlds()) {
                     if ("sun".equalsIgnoreCase(args[0]) || "clear".equalsIgnoreCase(args[0])) {
-                        if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.sun", false, false) == false) {
+                        if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.sun", false, false)) {
                             r.sendMes(cs, "noPermissions");
                             return;
                         }
@@ -146,7 +146,7 @@ public class CmdWeather implements UltimateCommand {
                         world.setThundering(false);
                         weather = 1;
                     } else if ("rain".equalsIgnoreCase(args[0])) {
-                        if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.rain", false, false) == false) {
+                        if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.rain", false, false)) {
                             r.sendMes(cs, "noPermissions");
                             return;
                         }
@@ -155,7 +155,7 @@ public class CmdWeather implements UltimateCommand {
                         weather = 2;
                     } else if ("storm".equalsIgnoreCase(args[0]) || "thunder".equalsIgnoreCase(args[0]) ||
                             "thunderstorm".equalsIgnoreCase(args[0])) {
-                        if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.storm", false, false) == false) {
+                        if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.storm", false, false)) {
                             r.sendMes(cs, "noPermissions");
                             return;
                         }
@@ -172,7 +172,7 @@ public class CmdWeather implements UltimateCommand {
                 WeatherListener.setEnabled(false);
                 World world = ((Entity) cs).getWorld();
                 if ("sun".equalsIgnoreCase(args[0]) || "clear".equalsIgnoreCase(args[0])) {
-                    if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.sun", false, false) == false) {
+                    if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.sun", false, false)) {
                         r.sendMes(cs, "noPermissions");
                         return;
                     }
@@ -180,7 +180,7 @@ public class CmdWeather implements UltimateCommand {
                     world.setThundering(false);
                     weather = 1;
                 } else if ("rain".equalsIgnoreCase(args[0])) {
-                    if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.rain", false, false) == false) {
+                    if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.rain", false, false)) {
                         r.sendMes(cs, "noPermissions");
                         return;
                     }
@@ -188,7 +188,7 @@ public class CmdWeather implements UltimateCommand {
                     world.setThundering(false);
                     weather = 2;
                 } else if ("storm".equalsIgnoreCase(args[0]) || "thunder".equalsIgnoreCase(args[0]) || "thunderstorm".equalsIgnoreCase(args[0])) {
-                    if (r.perm(cs, "uc.weather", false, false) == false && r.perm(cs, "uc.weather.storm", false, false) == false) {
+                    if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.storm", false, false)) {
                         r.sendMes(cs, "noPermissions");
                         return;
                     }
@@ -214,7 +214,7 @@ public class CmdWeather implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return Arrays.asList("sun", "rain", "thunder");
     }
 }

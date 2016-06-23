@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.*;
 
 import java.util.ArrayList;
@@ -51,9 +51,8 @@ public class CmdRemoveall implements UltimateCommand {
         return Arrays.asList();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return;
         }
@@ -61,7 +60,7 @@ public class CmdRemoveall implements UltimateCommand {
             return;
         }
         Integer range = 100;
-        if (r.checkArgs(args, 0) && r.isInt(args[0])) {
+        if (r.checkArgs(args, 0) == true && r.isInt(args[0])) {
             range = Integer.parseInt(args[0]);
             if (range > 1000) {
                 range = 1000;
@@ -101,9 +100,8 @@ public class CmdRemoveall implements UltimateCommand {
         r.sendMes(cs, "removeallMessage", "%Amount", amount, "%Radius", range);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             ArrayList<String> s = new ArrayList<>();
             for (EntityType t : EntityType.values()) {

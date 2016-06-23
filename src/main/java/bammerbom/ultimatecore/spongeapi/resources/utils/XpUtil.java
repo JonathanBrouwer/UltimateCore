@@ -23,9 +23,7 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
-
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.living.player.Player;
+import org.bukkit.entity.Player;
 
 public class XpUtil {
 
@@ -33,7 +31,21 @@ public class XpUtil {
         if (exp < 0) {
             exp = 0;
         }
-        player.offer(Keys.TOTAL_EXPERIENCE, exp);
+        player.setExp(0.0F);
+        player.setLevel(0);
+        player.setTotalExperience(0);
+        int amount = exp;
+        while (amount > 0) {
+            int expToLevel = getExpAtLevel(player.getLevel());
+            amount -= expToLevel;
+            if (amount >= 0) {
+                player.giveExp(expToLevel);
+            } else {
+                amount += expToLevel;
+                player.giveExp(amount);
+                amount = 0;
+            }
+        }
     }
 
     public static int getExpAtLevel(int level) {

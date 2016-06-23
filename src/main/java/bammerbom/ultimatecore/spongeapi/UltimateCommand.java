@@ -23,7 +23,9 @@
  */
 package bammerbom.ultimatecore.spongeapi;
 
-import org.spongepowered.api.util.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.List;
 
@@ -33,14 +35,14 @@ public interface UltimateCommand {
 
     String getPermission();
 
-    List<String> getAliases();
-
     String getUsage();
 
-    String getDescription();
+    Text getDescription();
 
-    void run(final CommandSource cs, String label, final String[] args);
+    List<String> getAliases();
 
-    List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn);
+    CommandResult run(CommandSource sender, String alias, String[] args);
+
+    List<String> onTabComplete(CommandSource sender, String alias, String[] args, String curs, Integer curn);
 
 }

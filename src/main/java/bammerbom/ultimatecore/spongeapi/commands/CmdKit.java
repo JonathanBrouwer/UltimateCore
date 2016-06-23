@@ -31,14 +31,11 @@ import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +58,7 @@ public class CmdKit implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.checkArgs(args, 0)) {
             if (!r.perm(cs, "uc.kit", true, true)) {
                 return;
@@ -73,18 +70,18 @@ public class CmdKit implements UltimateCommand {
             r.sendMes(cs, "kitList1");
             for (UKit kit : UC.getServer().getKits()) {
                 r.sendMes(cs, "kitList2", "%Kit", kit.getName(), "%Description", kit.getDescription());
-                if (kit.getCooldown() == 0) {
-                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
-                } else if (kit.getCooldown() == -1) {
-                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitOnlyOnce"));
-                } else {
-                    r.sendMes(cs, "kitList3", "%Cooldown", DateUtil.format(kit.getCooldown()));
-                }
-                List<String> items = new ArrayList<>();
-                for (ItemStack item : kit.getItems()) {
-                    items.add(ItemUtil.getName(item));
-                }
-                r.sendMes(cs, "kitList4", "%Items", StringUtil.joinList(items));
+//                if (kit.getCooldown() == 0) {
+//                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
+//                } else if (kit.getCooldown() == -1) {
+//                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitOnlyOnce"));
+//                } else {
+//                    r.sendMes(cs, "kitList3", "%Cooldown", DateUtil.format(kit.getCooldown()));
+//                }
+//                List<String> items = new ArrayList<>();
+//                for (ItemStack item : kit.getItems()) {
+//                    items.add(ItemUtil.getName(item));
+//                }
+//                r.sendMes(cs, "kitList4", "%Items", StringUtil.joinList(items));
             }
             return;
         }
@@ -97,13 +94,13 @@ public class CmdKit implements UltimateCommand {
         }
         final Player p = (Player) cs;
         final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(args[0]);
+        final ConfigSection kitNode = config.getConfigurationSection(args[0].toLowerCase());
         if (kitNode == null) {
-            r.sendMes(cs, "kitNotFound", "%Kit", args[0]);
+            r.sendMes(cs, "kitNotFound", "%Kit", args[0].toLowerCase());
             return;
         }
-        final UKit kit = UC.getServer().getKit(args[0]);
-        if (!kit.hasCooldownPassedFor(p)) {
+        final UKit kit = UC.getServer().getKit(args[0].toLowerCase());
+        if (!kit.hasCooldownPassedFor(p) && !r.perm(p, "uc.kit.cooldownexempt", false, false)) {
             if (kit.getCooldown() == -1L) {
                 r.sendMes(cs, "kitOnlyOnce");
             } else {
@@ -117,11 +114,11 @@ public class CmdKit implements UltimateCommand {
             p.getWorld().dropItemNaturally(p.getLocation(), is);
         }
         kit.setLastUsed(p, System.currentTimeMillis());
-        r.sendMes(cs, "kitGive", "%Kit", args[0]);
+        r.sendMes(cs, "kitGive", "%Kit", args[0].toLowerCase());
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return UC.getServer().getKitNames();
     }
 }

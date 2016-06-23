@@ -24,7 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import org.spongepowered.api.util.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,12 +45,12 @@ public class Cmd implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "";
+        return "/<command> ";
     }
 
     @Override
-    public String getDescription() {
-        return "";
+    public Text getDescription() {
+        return Text.of("Description");
     }
 
     @Override
@@ -57,13 +59,12 @@ public class Cmd implements UltimateCommand {
     }
 
     @Override
-    public void run(CommandSource cs, String label, String[] args) {
-
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String[] args, String label, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-
 }

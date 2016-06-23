@@ -25,9 +25,10 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TabUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -36,24 +37,29 @@ import java.util.HashMap;
 public class TabListener implements Listener {
 
     static HashMap<String, String> tabPrefixes = new HashMap<>();
+    static String afkSuffix = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.Tab.AfkSuffix"));
+    static String header = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.Tab.Header"));
+    static String footer = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.Tab.Footer"));
 
     public static void start() {
-        if (!r.getCnfg().contains("Chat.Tab.Enabled")) {
-            return;
-        }
         if (!r.getCnfg().getBoolean("Chat.Tab.Enabled")) {
             return;
         }
+        //Format
+        if (r.getCnfg().getBoolean("Chat.Tab.HeaderFooterEnabled")) {
+            for (Player p : r.getOnlinePlayers()) {
+                TabUtil.sendTabTitle(p, header, footer);
+            }
+        }
+
+        //Player names
         Bukkit.getPluginManager().registerEvents(new TabListener(), r.getUC());
         final String def = r.getCnfg().getString("Chat.Tab.TabDefault");
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             for (Player p : r.getOnlinePlayers()) {
                 if (r.getVault() == null || r.getVault().getPermission() == null) {
                     String name = def + UC.getPlayer(p).getDisplayName();
-                    name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (name.length() > 15) {
-                        name = name.substring(0, 14);
-                    }
+                    name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
                     if (!p.getPlayerListName().equals(name)) {
                         p.setPlayerListName(name);
                     }
@@ -62,10 +68,7 @@ public class TabListener implements Listener {
                 String group = r.getPrimaryGroup(p);
                 if (group == null || group.equalsIgnoreCase("")) {
                     String name = def + UC.getPlayer(p).getDisplayName();
-                    name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (name.length() > 15) {
-                        name = name.substring(0, 14);
-                    }
+                    name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
                     if (!p.getPlayerListName().equals(name)) {
                         p.setPlayerListName(name);
                     }
@@ -74,20 +77,14 @@ public class TabListener implements Listener {
                 String prefix = r.getCnfg().getString("Chat.Tab." + group);
                 if (prefix == null || prefix.equalsIgnoreCase("")) {
                     String name = def + UC.getPlayer(p).getDisplayName();
-                    name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (name.length() > 15) {
-                        name = name.substring(0, 14);
-                    }
+                    name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
                     if (!p.getPlayerListName().equals(name)) {
                         p.setPlayerListName(name);
                     }
                     continue;
                 }
                 String name = prefix + UC.getPlayer(p).getDisplayName();
-                name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                if (name.length() > 15) {
-                    name = name.substring(0, 14);
-                }
+                name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
                 if (!p.getPlayerListName().equals(name)) {
                     p.setPlayerListName(name);
                 }
@@ -99,9 +96,9 @@ public class TabListener implements Listener {
                 for (Player p : r.getOnlinePlayers()) {
                     if (r.getVault() == null || r.getVault().getPermission() == null) {
                         String name = def + UC.getPlayer(p).getDisplayName();
-                        name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                        if (name.length() > 15) {
-                            name = name.substring(0, 14);
+                        name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
+                        if (UC.getPlayer(p).isAfk()) {
+                            name = name + afkSuffix;
                         }
                         if (!p.getPlayerListName().equals(name)) {
                             p.setPlayerListName(name);
@@ -111,9 +108,9 @@ public class TabListener implements Listener {
                     String group = r.getPrimaryGroup(p);
                     if (group == null || group.equalsIgnoreCase("")) {
                         String name = def + UC.getPlayer(p).getDisplayName();
-                        name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                        if (name.length() > 15) {
-                            name = name.substring(0, 14);
+                        name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
+                        if (UC.getPlayer(p).isAfk()) {
+                            name = name + afkSuffix;
                         }
                         if (!p.getPlayerListName().equals(name)) {
                             p.setPlayerListName(name);
@@ -123,9 +120,9 @@ public class TabListener implements Listener {
                     String prefix = r.getCnfg().getString("Chat.Tab." + group);
                     if (prefix == null || prefix.equalsIgnoreCase("")) {
                         String name = def + UC.getPlayer(p).getDisplayName();
-                        name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                        if (name.length() > 15) {
-                            name = name.substring(0, 14);
+                        name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
+                        if (UC.getPlayer(p).isAfk()) {
+                            name = name + afkSuffix;
                         }
                         if (!p.getPlayerListName().equals(name)) {
                             p.setPlayerListName(name);
@@ -133,9 +130,9 @@ public class TabListener implements Listener {
                         continue;
                     }
                     String name = prefix + UC.getPlayer(p).getDisplayName();
-                    name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (name.length() > 15) {
-                        name = name.substring(0, 14);
+                    name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
+                    if (UC.getPlayer(p).isAfk()) {
+                        name = name + afkSuffix;
                     }
                     if (!p.getPlayerListName().equals(name)) {
                         p.setPlayerListName(name);
@@ -145,43 +142,37 @@ public class TabListener implements Listener {
         }, 100L, 100L);
     }
 
-    @Listener
+    @EventHandler
     public void onJoin(PlayerJoinEvent e) {
+        //Format
+        if (r.getCnfg().getBoolean("Chat.Tab.HeaderFooterEnabled")) {
+            TabUtil.sendTabTitle(e.getPlayer(), header, footer);
+        }
+
+        //Player name
         final String def = r.getCnfg().getString("Chat.Tab.TabDefault");
         if (r.getVault() == null || r.getVault().getPermission() == null) {
             String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
-            name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-            if (name.length() > 15) {
-                name = name.substring(0, 14);
-            }
+            name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
             e.getPlayer().setPlayerListName(name);
             return;
         }
         String group = r.getPrimaryGroup(e.getPlayer());
         if (group == null || group.equalsIgnoreCase("")) {
             String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
-            name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-            if (name.length() > 15) {
-                name = name.substring(0, 14);
-            }
+            name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
             e.getPlayer().setPlayerListName(name);
             return;
         }
         String prefix = r.getCnfg().getString("Chat.Tab." + group);
         if (prefix == null || prefix.equalsIgnoreCase("")) {
             String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
-            name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-            if (name.length() > 15) {
-                name = name.substring(0, 14);
-            }
+            name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
             e.getPlayer().setPlayerListName(name);
             return;
         }
         String name = prefix + UC.getPlayer(e.getPlayer()).getDisplayName();
-        name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-        if (name.length() > 15) {
-            name = name.substring(0, 14);
-        }
+        name = TextColorUtil.translateAlternate(name).replaceAll("&y", "");
         e.getPlayer().setPlayerListName(name);
     }
 }

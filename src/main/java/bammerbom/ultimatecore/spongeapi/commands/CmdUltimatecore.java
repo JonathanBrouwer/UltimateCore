@@ -23,10 +23,10 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
+import bammerbom.ultimatecore.bukkit.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.UltimateCore;
 import bammerbom.ultimatecore.spongeapi.UltimateUpdater;
-import bammerbom.ultimatecore.spongeapi.UltimateUpdater.UpdateType;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.r;
@@ -38,13 +38,13 @@ import com.earth2me.essentials.api.IWarps;
 import com.earth2me.essentials.spawn.IEssentialsSpawn;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.CommandSource;
+import org.bukkit.command.ConsoleCommandSource;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static bammerbom.ultimatecore.spongeapi.UltimateCore.file;
+import static bammerbom.ultimatecore.bukkit.UltimateCore.file;
 
 public class CmdUltimatecore implements UltimateCommand {
 
@@ -64,7 +64,7 @@ public class CmdUltimatecore implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (args.length == 0) {
             if (!r.perm(cs, "uc.ultimatecore", false, true)) {
                 return;
@@ -128,7 +128,7 @@ public class CmdUltimatecore implements UltimateCommand {
                                 r.sendMes(cs, "ultimatecoreUpdateNotAvaiable");
                                 break;
                             case SUCCESS:
-                                if (!(cs instanceof ConsoleCommandSender)) {
+                                if (!(cs instanceof ConsoleCommandSource)) {
                                     r.sendMes(cs, "ultimatecoreUpdateSucces");
                                 }
                                 break;
@@ -186,7 +186,7 @@ public class CmdUltimatecore implements UltimateCommand {
                     }
                     up.setNick(u2.getNickname());
                     up.setGod(u2.isGodModeEnabled());
-                    up.setMuted(u2.getMuted(), u2.getMuteTimeout());
+                    up.setMuted(u2.getMuted(), u2.getMuteTimeout(), r.mes("muteDefaultReason"));
                     up.setSpy(u2.isSocialSpyEnabled());
                     up.setLastLocation(u2.getLastLocation());
                 }
@@ -212,7 +212,7 @@ public class CmdUltimatecore implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return Arrays.asList("reload", "credits", "disable", "version", "update", "convert");
     }
 }

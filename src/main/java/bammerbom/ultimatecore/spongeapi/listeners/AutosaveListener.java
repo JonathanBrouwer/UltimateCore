@@ -24,7 +24,8 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.world.World;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 public class AutosaveListener {
 
@@ -32,23 +33,25 @@ public class AutosaveListener {
         if (!r.getCnfg().getBoolean("Autosave.Enabled")) {
             return;
         }
-        Sponge.getGame().getScheduler().createTaskBuilder().delayTicks(r.getCnfg().getInt("Autosave.Time") * 20).intervalTicks(r.getCnfg().getInt("Autosave.Time") * 20).name("UC: Autosave task")
-                .execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (r.getCnfg().getBoolean("Autosave.Message")) {
-                            Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("autosaveStart"));
-                        }
-                        for (World w : Sponge.getGame().getServer().getWorlds()) {
-                            try {
-                                Sponge.getGame().getServer().saveWorldProperties(w.getProperties());
-                            } catch (Exception ex) {
-                            }
-                        }
-                        if (r.getCnfg().getBoolean("Autosave.Message")) {
-                            Sponge.getGame().getServer().getBroadcastSink().sendMessage(r.mes("autosaveDone"));
-                        }
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+
+            @Override
+            public void run() {
+                if (r.getCnfg().getBoolean("Autosave.Message")) {
+                    Bukkit.broadcastMessage(r.mes("autosaveStart"));
+                }
+                for (World w : Bukkit.getWorlds()) {
+                    try {
+                        w.save();
+                    } catch (Exception ex) {
                     }
-                }).submit(r.getUC());
+                }
+                if (r.getCnfg().getBoolean("Autosave.Message")) {
+                    Bukkit.broadcastMessage(r.mes("autosaveDone"));
+                }
+
+            }
+
+        }, r.getCnfg().getInt("Autosave.Time") * 20, r.getCnfg().getInt("Autosave.Time") * 20);
     }
 }

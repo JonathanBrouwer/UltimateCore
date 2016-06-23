@@ -24,13 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,50 +44,74 @@ public class CmdDeaf implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "deafUsage");
-            return;
-        }
-        OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
-        if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
-            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
-        }
-        Long time = 0L;
-        //Info
-        if (!r.checkArgs(args, 1)) {
-        } else if (DateUtil.parseDateDiff(args[1]) != -1) {
-            time = DateUtil.parseDateDiff(args[1]);
-        }
-        //Permcheck
-        if (!r.perm(cs, "uc.deaf.time", false, false) && !r.perm(cs, "uc.deaf", false, false) && time == 0L) {
-            r.sendMes(cs, "noPermissions");
-            return;
-        }
-        if (!r.perm(cs, "uc.deaf.perm", false, false) && !r.perm(cs, "uc.deaf", false, false) && time != 0L) {
-            r.sendMes(cs, "noPermissions");
-            return;
-        }
-        UC.getPlayer(banp).setDeaf(true, time);
-        if (time == 0L) {
-            r.sendMes(cs, "deafMessage", "%Player", r.getDisplayName(banp));
-        } else {
-            r.sendMes(cs, "deafMessageTime", "%Player", r.getDisplayName(banp), "%Time", DateUtil.format(time));
-        }
-        if (banp.isOnline()) {
-            Player banp2 = (Player) banp;
-            r.sendMes(banp2, "deafTarget");
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList();
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (r.checkArgs(args, 0) == false) {
+//            r.sendMes(cs, "deafUsage");
+//            return;
+//        }
+//        OfflinePlayer banp = r.searchGameProfile(args[0]);
+//        if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
+//            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+//            return;
+//        }
+//        Long time = 0L;
+//        //Info
+//        if (r.checkArgs(args, 1) == false) {
+//        } else if (DateUtil.parseDateDiff(args[1]) != -1) {
+//            time = DateUtil.parseDateDiff(args[1]);
+//        }
+//        //Permcheck
+//        if (!r.perm(cs, "uc.deaf.time", false, false) && !r.perm(cs, "uc.deaf", false, false) && time == 0L) {
+//            r.sendMes(cs, "noPermissions");
+//            return;
+//        }
+//        if (!r.perm(cs, "uc.deaf.perm", false, false) && !r.perm(cs, "uc.deaf", false, false) && time != 0L) {
+//            r.sendMes(cs, "noPermissions");
+//            return;
+//        }
+//        UC.getPlayer(banp).setDeaf(true, time);
+//        if (time == 0L) {
+//            r.sendMes(cs, "deafMessage", "%Player", r.getDisplayName(banp));
+//        } else {
+//            r.sendMes(cs, "deafMessageTime", "%Player", r.getDisplayName(banp), "%Time", DateUtil.format(time));
+//        }
+//        if (banp.isOnline()) {
+//            Player banp2 = (Player) banp;
+//            r.sendMes(banp2, "deafTarget");
+//        }
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return null;
+//    }
 }

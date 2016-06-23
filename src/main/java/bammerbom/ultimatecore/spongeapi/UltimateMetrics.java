@@ -25,8 +25,9 @@ package bammerbom.ultimatecore.spongeapi;
 
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.service.scheduler.Task;
+import org.spongepowered.api.scheduler.Task;
 
 import java.io.*;
 import java.net.Proxy;
@@ -34,7 +35,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPOutputStream;
 
 public final class UltimateMetrics {
@@ -58,10 +58,6 @@ public final class UltimateMetrics {
      * Interval of time to ping (in minutes)
      */
     private static final int PING_INTERVAL = 15;
-    /**
-     * The plugin this metrics submits for
-     */
-    private final UltimateCore plugin;
     /**
      * All of the custom graphs to submit to metrics
      */
@@ -91,13 +87,7 @@ public final class UltimateMetrics {
      */
     private volatile Task task = null;
 
-    public UltimateMetrics(final UltimateCore plugin) throws IOException {
-        if (plugin == null) {
-            throw new IllegalArgumentException("Plugin cannot be null");
-        }
-
-        this.plugin = plugin;
-
+    public UltimateMetrics() throws IOException {
         // load the config
         configurationFile = getConfigFile();
         if (!configurationFile.exists()) {
@@ -299,39 +289,38 @@ public final class UltimateMetrics {
             }
 
             // Begin hitting the server with glorious data
-            task = Sponge.getGame().getScheduler().createTaskBuilder().async().name("UC: Metrics task").delayTicks(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS)
-                    .intervalTicks(PING_INTERVAL * 1200L * 50, TimeUnit.MILLISECONDS).execute(new Runnable() {
+            task = Sponge.getScheduler().createTaskBuilder().async().intervalTicks(PING_INTERVAL * 1200).execute(new Runnable() {
 
-                        private boolean firstPost = true;
+                private boolean firstPost = true;
 
-                        @Override
-                        public void run() {
-                            try {
-                                // This has to be synchronized or it can collide with the disable method.
-                                synchronized (optOutLock) {
-                                    // Disable Task, if it is running and the server owner decided to opt-out
-                                    if (isOptOut() && task != null) {
-                                        task.cancel();
-                                        task = null;
-                                        // Tell all plotters to stop gathering information.
-                                        for (Graph graph : graphs) {
-                                            graph.onOptOut();
-                                        }
-                                    }
+                @Override
+                public void run() {
+                    try {
+                        // This has to be synchronized or it can collide with the disable method.
+                        synchronized (optOutLock) {
+                            // Disable Task, if it is running and the server owner decided to opt-out
+                            if (isOptOut() && task != null) {
+                                task.cancel();
+                                task = null;
+                                // Tell all plotters to stop gathering information.
+                                for (Graph graph : graphs) {
+                                    graph.onOptOut();
                                 }
-
-                                // We use the inverse of firstPost because if it is the first time we are posting,
-                                // it is not a interval ping, so it evaluates to FALSE
-                                // Each time thereafter it will evaluate to TRUE, i.e PING!
-                                postPlugin(!firstPost);
-
-                                // After the first post we set firstPost to false
-                                // Each post thereafter will be a ping
-                                firstPost = false;
-                            } catch (IOException e) {
                             }
                         }
-                    }).submit(r.getUC());
+
+                        // We use the inverse of firstPost because if it is the first time we are posting,
+                        // it is not a interval ping, so it evaluates to FALSE
+                        // Each time thereafter it will evaluate to TRUE, i.e PING!
+                        postPlugin(!firstPost);
+
+                        // After the first post we set firstPost to false
+                        // Each post thereafter will be a ping
+                        firstPost = false;
+                    } catch (IOException e) {
+                    }
+                }
+            }).submit(r.getUC());
 
             return true;
         }
@@ -354,7 +343,7 @@ public final class UltimateMetrics {
      * Enables metrics for the server by setting "opt-out" to false in the config file and starting
      * the metrics task.
      *
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void enable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
@@ -376,7 +365,7 @@ public final class UltimateMetrics {
      * Disables metrics for the server by setting "opt-out" to true in the config file and
      * canceling the metrics task.
      *
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void disable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
@@ -407,7 +396,7 @@ public final class UltimateMetrics {
         // plugin.getDataFolder() => base/plugins/PluginA/
         // pluginsFolder => base/plugins/
         // The base is not necessarily relative to the startup directory.
-        File pluginsFolder = plugin.getDataFolder().getParentFile();
+        File pluginsFolder = r.getUC().getDataFolder().getParentFile();
 
         // return => base/plugins/PluginMetrics/config.yml
         return new File(new File(pluginsFolder, "PluginMetrics"), "config.yml");
@@ -418,11 +407,11 @@ public final class UltimateMetrics {
      */
     private void postPlugin(final boolean isPing) throws IOException {
         // Server software specific section
-        PluginContainer description = Sponge.getGame().getPluginManager().getPlugin("UltimateCore").get();
-        String pluginName = description.getName();
-        boolean onlineMode = Sponge.getGame().getServer().getOnlineMode(); // TRUE if online mode is enabled
-        String pluginVersion = description.getVersion();
-        String serverVersion = "git-Sponge_" + Sponge.getGame().getPlatform().getName() + "-1d14d5f-ba32592 (MC: " + Sponge.getGame().getPlatform().getMinecraftVersion().getName() + ")";
+        PluginContainer plugin = Sponge.getPluginManager().getPlugin("ultimatecore").get();
+        String pluginName = plugin.getName();
+        boolean onlineMode = Sponge.getServer().getOnlineMode(); // TRUE if online mode is enabled
+        String pluginVersion = plugin.getVersion().get();
+        String serverVersion = String.format("Sponge " + Sponge.getPlatform().getApi().getVersion());
         int playersOnline = r.getOnlinePlayers().length;
 
         // END server software specific section -- all code below does not use any code outside of this class / Java
@@ -637,7 +626,7 @@ public final class UltimateMetrics {
         /**
          * Gets an <b>unmodifiable</b> set of the plotter objects in the graph
          *
-         * @return an unmodifiable {@link java.util.Set} of the plotter objects
+         * @return an unmodifiable {@link Set} of the plotter objects
          */
         public Set<Plotter> getPlotters() {
             return Collections.unmodifiableSet(plotters);

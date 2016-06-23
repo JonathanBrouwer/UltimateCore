@@ -23,15 +23,16 @@
  */
 package bammerbom.ultimatecore.spongeapi.listeners;
 
+import bammerbom.ultimatecore.bukkit.api.UWorld.WorldFlag;
+import bammerbom.ultimatecore.bukkit.resources.classes.MobType.Enemies;
 import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.api.UWorld.WorldFlag;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
-import bammerbom.ultimatecore.spongeapi.resources.classes.MobType.Enemies;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -40,7 +41,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class GlobalWorldListener implements Listener {
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
         try {
             if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
@@ -53,7 +54,7 @@ public class GlobalWorldListener implements Listener {
         }
     }
 
-    @Listener(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onCreatureSpawn(CreatureSpawnEvent e) {
         try {
             if (e.getSpawnReason().equals(SpawnReason.SPAWNER_EGG) || e.getSpawnReason().equals(SpawnReason.CUSTOM)) {

@@ -24,10 +24,16 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.Order;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.LargeFireball;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityExplodeEvent;
 
-public class ExplosionListener {
+public class ExplosionListener implements Listener {
 
     Boolean creeper = r.getCnfg().getBoolean("Explode.Creeper");
     Boolean tnt = r.getCnfg().getBoolean("Explode.TNT");
@@ -37,10 +43,10 @@ public class ExplosionListener {
     Boolean lightning = r.getCnfg().getBoolean("Explode.Lightning");
 
     public static void start() {
-        Sponge.getGame().getEventManager().registerListeners(r.getUC(), new ExplosionListener());
+        Bukkit.getPluginManager().registerEvents(new ExplosionListener(), r.getUC());
     }
 
-    @Listener(order = Order.LATE)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void explosionListener(EntityExplodeEvent e) {
         try {
             if (e.getEntityType() != null) {

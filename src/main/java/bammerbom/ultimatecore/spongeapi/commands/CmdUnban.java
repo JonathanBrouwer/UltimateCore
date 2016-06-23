@@ -32,7 +32,7 @@ import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class CmdUnban implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.unban", false, true)) {
             return;
         }
@@ -81,8 +81,8 @@ public class CmdUnban implements UltimateCommand {
             }
             return;
         }
-        OfflinePlayer banp = r.searchOfflinePlayer(args[0]);
-        if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
+        OfflinePlayer banp = r.searchGameProfile(args[0]);
+        if (banp == null || banp.getUniqueId() == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
@@ -106,7 +106,7 @@ public class CmdUnban implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         if (!r.perm(cs, "uc.unban", false, true)) {
             return new ArrayList<>();
         }

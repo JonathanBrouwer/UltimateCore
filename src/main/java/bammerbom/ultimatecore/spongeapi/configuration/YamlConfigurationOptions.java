@@ -27,7 +27,7 @@ import org.apache.commons.lang.Validate;
 
 /**
  * Various settings for controlling the input and output of a {@link
- * bammerbom.ultimatecore.spongeapi.configuration.YamlConfiguration}
+ * YamlConfiguration}
  */
 class YamlConfigurationOptions extends FileConfigurationOptions {
 

@@ -30,7 +30,7 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
 
@@ -39,7 +39,7 @@ import java.util.*;
 public class CmdRecipe implements UltimateCommand {
 
     //Methods
-    private static void shapedRecipe(CommandSender sender, ShapedRecipe recipe, boolean showWindow) {
+    private static void shapedRecipe(CommandSource sender, ShapedRecipe recipe, boolean showWindow) {
         Map<Character, ItemStack> recipeMap = recipe.getIngredientMap();
         if (showWindow) {
             Player p = (Player) sender;
@@ -54,7 +54,7 @@ public class CmdRecipe implements UltimateCommand {
                 for (int k = 0;
                      k < recipeShape[j].length();
                      k++) {
-                    ItemStack item = ingredientMap.get(Character.valueOf(recipeShape[j].toCharArray()[k]));
+                    ItemStack item = ingredientMap.get(recipeShape[j].toCharArray()[k]);
                     if (item != null) {
                         item.setAmount(1);
                         if (item.getDurability() == (short) 32767) {
@@ -85,7 +85,7 @@ public class CmdRecipe implements UltimateCommand {
                 for (int k = 0;
                      k < recipe.getShape()[j].length();
                      k++) {
-                    ItemStack item = recipe.getIngredientMap().get(Character.valueOf(recipe.getShape()[j].toCharArray()[k]));
+                    ItemStack item = recipe.getIngredientMap().get(recipe.getShape()[j].toCharArray()[k]);
                     materials[j][k] = (item == null ? null : item.getType());
                 }
             }
@@ -110,7 +110,7 @@ public class CmdRecipe implements UltimateCommand {
         }
     }
 
-    private static void shapelessRecipe(CommandSender sender, ShapelessRecipe recipe, boolean showWindow) {
+    private static void shapelessRecipe(CommandSource sender, ShapelessRecipe recipe, boolean showWindow) {
         List<ItemStack> ingredients = recipe.getIngredientList();
         if (showWindow) {
             Player p = (Player) sender;
@@ -153,7 +153,7 @@ public class CmdRecipe implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.recipe", true, true)) {
             return;
         }
@@ -205,7 +205,7 @@ public class CmdRecipe implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

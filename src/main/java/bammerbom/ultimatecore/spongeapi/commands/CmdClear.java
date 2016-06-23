@@ -24,11 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.InventoryUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,38 +44,62 @@ public class CmdClear implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("clearinventory", "ci");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.clear", false, true)) {
-            return;
-        }
-        if (!r.checkArgs(args, 0)) {
-            if (!(r.isPlayer(cs))) {
-                return;
-            }
-            Player p = (Player) cs;
-            InventoryUtil.clearHandler(cs, p, args, 0, true);
-
-        } else {
-            if (!r.perm(cs, "uc.clear.others", false, true)) {
-                return;
-            }
-            Player t = r.searchPlayer(args[0]);
-            if (t == null) {
-                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
-            }
-            InventoryUtil.clearHandler(cs, t, args, 1, true);
-
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("clearinventory", "ci");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.clear", false, true)) {
+//            return;
+//        }
+//        if (!r.checkArgs(args, 0)) {
+//            if (!(r.isPlayer(cs))) {
+//                return;
+//            }
+//            Player p = (Player) cs;
+//            InventoryUtil.clearHandler(cs, p, args, 0, true);
+//
+//        } else {
+//            if (!r.perm(cs, "uc.clear.others", false, true)) {
+//                return;
+//            }
+//            Player t = r.searchPlayer(args[0]);
+//            if (t == null) {
+//                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+//                return;
+//            }
+//            InventoryUtil.clearHandler(cs, t, args, 1, true);
+//
+//        }
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return null;
+//    }
 }

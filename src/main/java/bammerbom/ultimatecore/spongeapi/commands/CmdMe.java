@@ -26,9 +26,8 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +35,7 @@ import java.util.List;
 
 public class CmdMe implements UltimateCommand {
 
-    String f = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.MeFormat"));
+    String f = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.MeFormat"));
 
     @Override
     public String getName() {
@@ -54,24 +53,24 @@ public class CmdMe implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.me", true, true)) {
             return;
         }
-        if (!r.checkArgs(args, 0)) {
+        if (r.checkArgs(args, 0) == false) {
             r.sendMes(cs, "meUsage");
             return;
         }
         String mes = r.getFinalArg(args, 0);
         if (r.perm(cs, "uc.coloredchat", false, false)) {
-            mes = ChatColor.translateAlternateColorCodes('&', mes);
+            mes = TextColorUtil.translateAlternate(mes);
         }
         Bukkit.broadcastMessage(f.replace("%Player", r.getDisplayName(cs)).replace("%Message", mes));
 
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
     }
 }

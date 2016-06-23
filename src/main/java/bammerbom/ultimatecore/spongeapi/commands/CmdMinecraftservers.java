@@ -23,13 +23,12 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
+import bammerbom.ultimatecore.bukkit.resources.utils.MinecraftServerUtil.MinecraftServer;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.MinecraftServerUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.MinecraftServerUtil.MinecraftServer;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +51,7 @@ public class CmdMinecraftservers implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.minecraftservers", true, true)) {
             return;
         }
@@ -68,33 +67,33 @@ public class CmdMinecraftservers implements UltimateCommand {
                 String os = "";
                 for (MinecraftServer str : MinecraftServerUtil.online) {
                     if (!os.equals("")) {
-                        os = os + ", " + ChatColor.GREEN + str.toString().toLowerCase() + r.positive + "";
+                        os = os + ", " + TextColors.GREEN + str.toString().toLowerCase() + r.positive + "";
                     } else {
-                        os = os + ChatColor.GREEN + str.toString().toLowerCase() + r.positive + "";
+                        os = os + TextColors.GREEN + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
                 for (MinecraftServer str : MinecraftServerUtil.problems) {
                     if (!os.equals("")) {
-                        os = os + ", " + ChatColor.GOLD + str.toString().toLowerCase() + r.positive + "";
+                        os = os + ", " + TextColors.GOLD + str.toString().toLowerCase() + r.positive + "";
                     } else {
-                        os = os + ChatColor.GOLD + str.toString().toLowerCase() + r.positive + "";
+                        os = os + TextColors.GOLD + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
                 for (MinecraftServer str : MinecraftServerUtil.offline) {
                     if (!os.equals("")) {
-                        os = os + ", " + ChatColor.DARK_RED + str.toString().toLowerCase() + r.positive + "";
+                        os = os + ", " + TextColors.DARK_RED + str.toString().toLowerCase() + r.positive + "";
                     } else {
-                        os = os + ChatColor.DARK_RED + str.toString().toLowerCase() + r.positive + "";
+                        os = os + TextColors.DARK_RED + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
                 for (MinecraftServer str : MinecraftServerUtil.unknown) {
                     if (!os.equals("")) {
-                        os = os + ", " + ChatColor.GRAY + str.toString().toLowerCase() + r.positive + "";
+                        os = os + ", " + TextColors.GRAY + str.toString().toLowerCase() + r.positive + "";
                     } else {
-                        os = os + ChatColor.GRAY + str.toString().toLowerCase() + r.positive + "";
+                        os = os + TextColors.GRAY + str.toString().toLowerCase() + r.positive + "";
                     }
                 }
-                r.sendMes(cs, "minecraftserversMessage", "%Servers", ChatColor.RESET + os);
+                r.sendMes(cs, "minecraftserversMessage", "%Servers", TextColors.RESET + os);
 
             }
         });
@@ -103,7 +102,7 @@ public class CmdMinecraftservers implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

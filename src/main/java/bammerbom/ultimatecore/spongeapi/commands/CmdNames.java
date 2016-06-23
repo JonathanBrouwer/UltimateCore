@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.CommandSource;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -51,7 +51,7 @@ public class CmdNames implements UltimateCommand {
     }
 
     @Override
-    public void run(final CommandSender cs, String label, String[] args) {
+    public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.names", false, true)) {
             return;
         }
@@ -63,7 +63,7 @@ public class CmdNames implements UltimateCommand {
             r.sendMes(cs, "namesUsage");
             return;
         }
-        OfflinePlayer p = r.searchOfflinePlayer(args[0]);
+        OfflinePlayer p = r.searchGameProfile(args[0]);
         if (p == null || p.getUniqueId() == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
@@ -89,7 +89,7 @@ public class CmdNames implements UltimateCommand {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }
