@@ -110,14 +110,30 @@ public class CmdTeleport implements UltimateCommand {
             Double x = LocationUtil.getCoordinate(args[0], p.getLocation().getX());
             Double y;
             Double z;
+            Float pitch;
+            Float yaw;
             if (r.checkArgs(args, 2) == false) {
                 z = LocationUtil.getCoordinate(args[1], p.getLocation().getZ());
                 y = (double) w.getHighestBlockYAt(x.intValue(), z.intValue());
-            } else {
+                pitch = p.getLocation().getPitch();
+                yaw = p.getLocation().getYaw();
+            } else if (r.checkArgs(args, 3) == false) {
                 y = LocationUtil.getCoordinate(args[1], p.getLocation().getY());
                 z = LocationUtil.getCoordinate(args[2], p.getLocation().getZ());
+                pitch = p.getLocation().getPitch();
+                yaw = p.getLocation().getYaw();
+            } else if (r.checkArgs(args, 4)) {
+                y = LocationUtil.getCoordinate(args[1], p.getLocation().getY());
+                z = LocationUtil.getCoordinate(args[2], p.getLocation().getZ());
+                //y-rot
+                yaw = LocationUtil.getCoordinate(args[3], Double.valueOf(p.getLocation().getYaw())).floatValue();
+                //x-rot
+                pitch = LocationUtil.getCoordinate(args[4], Double.valueOf(p.getLocation().getPitch())).floatValue();
+            } else {
+                r.sendMes(cs, "teleportUsage");
+                return;
             }
-            LocationUtil.teleport(p, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND, true, true);
+            LocationUtil.teleport(p, new Location(w, x, y, z, yaw, pitch), PlayerTeleportEvent.TeleportCause.COMMAND, true, true);
             r.sendMes(cs, "teleportMessage3", "%x", x, "%y", y, "%z", z);
         } else if (r.checkArgs(args, 2) == true && (r.isDouble(args[1].replace("~", "")) || args[1].replace("~", "").isEmpty()) && (!r.isDouble(args[0].replace("~", "")) && !args[0].replace("~", "")
                 .isEmpty())) {
@@ -130,18 +146,33 @@ public class CmdTeleport implements UltimateCommand {
                 return;
             }
             World w = t.getWorld();
-            Double x = LocationUtil.getCoordinate(args[1], t.getLocation().getX());
+            Double x = LocationUtil.getCoordinate(args[0], t.getLocation().getX());
             Double y;
             Double z;
+            Float pitch;
+            Float yaw;
             if (r.checkArgs(args, 3) == false) {
                 z = LocationUtil.getCoordinate(args[2], t.getLocation().getZ());
                 y = (double) w.getHighestBlockYAt(x.intValue(), z.intValue());
-            } else {
+                pitch = t.getLocation().getPitch();
+                yaw = t.getLocation().getYaw();
+            } else if (r.checkArgs(args, 4) == false) {
                 y = LocationUtil.getCoordinate(args[2], t.getLocation().getY());
                 z = LocationUtil.getCoordinate(args[3], t.getLocation().getZ());
+                pitch = t.getLocation().getPitch();
+                yaw = t.getLocation().getYaw();
+            } else if (r.checkArgs(args, 5)) {
+                y = LocationUtil.getCoordinate(args[2], t.getLocation().getY());
+                z = LocationUtil.getCoordinate(args[3], t.getLocation().getZ());
+                //y-rot
+                yaw = LocationUtil.getCoordinate(args[4], Double.valueOf(t.getLocation().getYaw())).floatValue();
+                //x-rot
+                pitch = LocationUtil.getCoordinate(args[5], Double.valueOf(t.getLocation().getPitch())).floatValue();
+            } else {
+                r.sendMes(cs, "teleportUsage");
+                return;
             }
-            LocationUtil.teleport(t, new Location(w, x, y, z), PlayerTeleportEvent.TeleportCause.COMMAND, true, false);
-            LocationUtil.playEffect(t, new Location(w, x, y, z));
+            LocationUtil.teleport(t, new Location(w, x, y, z, yaw, pitch), PlayerTeleportEvent.TeleportCause.COMMAND, true, false);
             r.sendMes(cs, "teleportMessage4", "%Player", t.getName(), "%x", x, "%y", y, "%z", z);
         } else {
             Player tg = r.searchPlayer(args[0]);
