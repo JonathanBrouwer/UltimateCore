@@ -137,7 +137,7 @@ public class UltimateFileLoader {
         }
         ENf = new File(plugin.getDataFolder() + File.separator + "Messages", "EN.properties");
         //
-        for (GameProfile pl : r.getOfflinePlayers()) {
+        for (GameProfile pl : r.getGameProfiles()) {
             try {
                 getPlayerFile(pl);
             } catch (Exception ex) {

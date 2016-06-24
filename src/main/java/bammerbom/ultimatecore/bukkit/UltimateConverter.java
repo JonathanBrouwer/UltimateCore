@@ -59,7 +59,7 @@ public class UltimateConverter {
          (Backup from 1.x)"));
          r.log("Converting...");
          HashMap<UUID, HashMap<String, Location>> homes = new HashMap<>();
-         for (OfflinePlayer pl : r.getOfflinePlayers()) {
+         for (OfflinePlayer pl : r.getGameProfiles()) {
          Config conf = new Config(new File(UC.getPlayer(pl).getPlayerFile(), pl.getUniqueId() + ".yml"));
          HashMap<String, Location> hom = new HashMap<>();
          if (conf.contains("homes")) {

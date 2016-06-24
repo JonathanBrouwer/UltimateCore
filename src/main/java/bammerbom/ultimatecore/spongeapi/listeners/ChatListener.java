@@ -211,7 +211,7 @@ public class ChatListener implements Listener {
             }
             if ((Bukkit.getPluginManager().getPlugin("EssentialsChat") != null && Bukkit.getPluginManager().getPlugin("EssentialsChat").isEnabled()) || (Bukkit.getPluginManager()
                     .getPlugin("Essentials") != null && Bukkit.getPluginManager().isPluginEnabled("Essentials"))) {
-                if (!TextColors.stripColor(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")) {
+                if (!TextColorUtil.strip(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")) {
                     e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
                     return;
                 }

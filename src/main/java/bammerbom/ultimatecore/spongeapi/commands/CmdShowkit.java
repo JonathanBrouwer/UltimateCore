@@ -82,7 +82,7 @@ public class CmdShowkit implements UltimateCommand {
             for (String key : map.keySet()) {
                 sb.append(key + ":" + map.get(key) + " ");
             }
-            r.sendMes(cs, "showkitItem", "%Item", TextColors.stripColor(sb.toString()));
+            r.sendMes(cs, "showkitItem", "%Item", TextColorUtil.strip(sb.toString()));
         }
     }
 

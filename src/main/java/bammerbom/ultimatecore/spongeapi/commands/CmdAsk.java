@@ -25,8 +25,10 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -59,11 +61,25 @@ public class CmdAsk implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("helpop");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.ask", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "askUsage");
+            return CommandResult.empty();
+        }
+        for (Player pl : r.getOnlinePlayers()) {
+            if (r.perm(pl, "uc.support", false) && !pl.equals(cs)) {
+                pl.sendMessage(Text.of(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 0))));
+                r.sendMes(pl, "askTip", "%Player", r.getDisplayName(cs));
+            }
+        }
+        cs.sendMessage(Text.of(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 0))));
         return CommandResult.success();
     }
 

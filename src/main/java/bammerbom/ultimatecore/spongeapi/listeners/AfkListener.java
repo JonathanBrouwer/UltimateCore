@@ -26,13 +26,6 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.TitleUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.*;
 
 public class AfkListener implements Listener {
 
@@ -65,7 +58,7 @@ public class AfkListener implements Listener {
                             }
                         }
                         if (UC.getPlayer(pl).isAfk()) {
-                            String sub = (kickenabled && !r.perm(pl, "uc.afk.exempt", false, false) && dif > 1) ? r.mes("afkWarning2", "%Time", TextColors.stripColor(DateUtil.formatDateDiff(((kicktime - dif) * 1000) + System.currentTimeMillis()))) : null;
+                            String sub = (kickenabled && !r.perm(pl, "uc.afk.exempt", false, false) && dif > 1) ? r.mes("afkWarning2", "%Time", TextColorUtil.strip(DateUtil.formatDateDiff(((kicktime - dif) * 1000) + System.currentTimeMillis()))) : null;
                             TitleUtil.sendTitle(pl, 0, 120, 20, r.mes("afkWarning"), sub);
                         }
 

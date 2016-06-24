@@ -241,7 +241,7 @@ public class CmdVillager implements UltimateCommand {
             if (e.getSlot() % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 14) {
                 ItemStack s = e.getClickedInventory().getItem(e.getSlot());
                 ItemStack paper = e.getClickedInventory().getItem(28);
-                Integer cur = Integer.parseInt(TextColors.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
+                Integer cur = Integer.parseInt(TextColorUtil.strip(paper.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
                 cur = cur - s.getAmount();
                 if (cur <= 0) {
                     cur = 0;
@@ -254,7 +254,7 @@ public class CmdVillager implements UltimateCommand {
             if ((e.getSlot() - 2) % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 13) {
                 ItemStack s = e.getClickedInventory().getItem(e.getSlot());
                 ItemStack paper = e.getClickedInventory().getItem(28);
-                Integer cur = Integer.parseInt(TextColors.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
+                Integer cur = Integer.parseInt(TextColorUtil.strip(paper.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
                 cur = cur + s.getAmount();
                 ItemMeta meta = paper.getItemMeta();
                 meta.setDisplayName(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + cur);
@@ -264,7 +264,7 @@ public class CmdVillager implements UltimateCommand {
             if ((e.getSlot() - 6) % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 14) {
                 ItemStack s = e.getClickedInventory().getItem(e.getSlot());
                 ItemStack paper = e.getClickedInventory().getItem(34);
-                Integer cur = Integer.parseInt(TextColors.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
+                Integer cur = Integer.parseInt(TextColorUtil.strip(paper.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
                 cur = cur - s.getAmount();
                 if (cur <= 0) {
                     cur = 0;
@@ -277,7 +277,7 @@ public class CmdVillager implements UltimateCommand {
             if ((e.getSlot() - 8) % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 13) {
                 ItemStack s = e.getClickedInventory().getItem(e.getSlot());
                 ItemStack paper = e.getClickedInventory().getItem(34);
-                Integer cur = Integer.parseInt(TextColors.stripColor(paper.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
+                Integer cur = Integer.parseInt(TextColorUtil.strip(paper.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
                 cur = cur + s.getAmount();
                 ItemMeta meta = paper.getItemMeta();
                 meta.setDisplayName(TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + cur);
@@ -298,10 +298,10 @@ public class CmdVillager implements UltimateCommand {
                 Integer iedit = editing.get(e.getWhoClicked().getUniqueId());
 
                 ItemStack stack_uses = oinv.getItem(28);
-                Integer uses = Integer.parseInt(TextColors.stripColor(stack_uses.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
+                Integer uses = Integer.parseInt(TextColorUtil.strip(stack_uses.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
 
                 ItemStack stack_max_uses = oinv.getItem(34);
-                Integer max_uses = Integer.parseInt(TextColors.stripColor(stack_max_uses.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
+                Integer max_uses = Integer.parseInt(TextColorUtil.strip(stack_max_uses.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
 
                 ItemStack stack_generateExp = oinv.getItem(22);
                 Boolean generateExp = stack_generateExp.getDurability() == (short) 13;
@@ -465,12 +465,12 @@ public class CmdVillager implements UltimateCommand {
                         ItemStack lapis = e.getInventory().getItem(fslot + 3);
                         if (lapis != null && lapis.getType().equals(Material.LAPIS_BLOCK)) {
                             for (String s : lapis.getItemMeta().getLore()) {
-                                if (TextColors.stripColor(s).startsWith("Uses: ")) {
-                                    uses = Integer.parseInt(TextColors.stripColor(s).replaceFirst("Uses: ", ""));
-                                } else if (TextColors.stripColor(s).startsWith("Max uses: ")) {
-                                    maxUses = Integer.parseInt(TextColors.stripColor(s).replaceFirst("Max uses: ", ""));
-                                } else if (TextColors.stripColor(s).startsWith("Reward exp: ")) {
-                                    rewardExp = Boolean.parseBoolean(TextColors.stripColor(s).replaceFirst("Reward exp: ", ""));
+                                if (TextColorUtil.strip(s).startsWith("Uses: ")) {
+                                    uses = Integer.parseInt(TextColorUtil.strip(s).replaceFirst("Uses: ", ""));
+                                } else if (TextColorUtil.strip(s).startsWith("Max uses: ")) {
+                                    maxUses = Integer.parseInt(TextColorUtil.strip(s).replaceFirst("Max uses: ", ""));
+                                } else if (TextColorUtil.strip(s).startsWith("Reward exp: ")) {
+                                    rewardExp = Boolean.parseBoolean(TextColorUtil.strip(s).replaceFirst("Reward exp: ", ""));
                                 } else {
                                     r.debug("Failed to parse info String: " + s);
                                 }
@@ -587,10 +587,10 @@ public class CmdVillager implements UltimateCommand {
             Integer iedit = editing.get(p.getUniqueId());
 
             ItemStack stack_uses = oinv.getItem(28);
-            Integer uses = Integer.parseInt(TextColors.stripColor(stack_uses.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
+            Integer uses = Integer.parseInt(TextColorUtil.strip(stack_uses.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
 
             ItemStack stack_max_uses = oinv.getItem(34);
-            Integer max_uses = Integer.parseInt(TextColors.stripColor(stack_max_uses.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
+            Integer max_uses = Integer.parseInt(TextColorUtil.strip(stack_max_uses.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
 
             ItemStack stack_generateExp = oinv.getItem(22);
             Boolean generateExp = stack_generateExp.getDurability() == (short) 13;
@@ -640,12 +640,12 @@ public class CmdVillager implements UltimateCommand {
                 Integer uses = 0;
                 Boolean rewardExp = true;
                 for (String s : lapis.getItemMeta().getLore()) {
-                    if (TextColors.stripColor(s).startsWith("Uses: ")) {
-                        uses = Integer.parseInt(TextColors.stripColor(s).replaceFirst("Uses: ", ""));
-                    } else if (TextColors.stripColor(s).startsWith("Max uses: ")) {
-                        maxUses = Integer.parseInt(TextColors.stripColor(s).replaceFirst("Max uses: ", ""));
-                    } else if (TextColors.stripColor(s).startsWith("Reward exp: ")) {
-                        rewardExp = Boolean.parseBoolean(TextColors.stripColor(s).replaceFirst("Reward exp: ", ""));
+                    if (TextColorUtil.strip(s).startsWith("Uses: ")) {
+                        uses = Integer.parseInt(TextColorUtil.strip(s).replaceFirst("Uses: ", ""));
+                    } else if (TextColorUtil.strip(s).startsWith("Max uses: ")) {
+                        maxUses = Integer.parseInt(TextColorUtil.strip(s).replaceFirst("Max uses: ", ""));
+                    } else if (TextColorUtil.strip(s).startsWith("Reward exp: ")) {
+                        rewardExp = Boolean.parseBoolean(TextColorUtil.strip(s).replaceFirst("Reward exp: ", ""));
                     } else {
                         r.debug("Failed to parse info String: " + s);
                     }

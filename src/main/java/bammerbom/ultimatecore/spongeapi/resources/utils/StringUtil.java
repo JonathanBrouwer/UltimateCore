@@ -23,12 +23,11 @@
  */
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
-import org.bukkit.Bukkit;
-import org.bukkit.TextColor;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.map.MapFont;
-import org.bukkit.map.MinecraftFont;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.text.format.TextColor;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -36,16 +35,15 @@ import java.util.regex.Pattern;
 public class StringUtil {
 
     public static final char CHAT_STYLE_CHAR = '�';
-    public static final int SPACE_WIDTH = getWidth(' ');
     public static final String[] EMPTY_ARRAY = new String[0];
     private static final Pattern INVALIDFILECHARS = Pattern.compile("[^a-z0-9-]");
     private static final char[] CHAT_CODES;
 
     static {
-        TextColor[] styles = TextColors.values();
+        TextColor[] styles = Sponge.getRegistry().getAllOf(CatalogTypes.TEXT_COLOR).toArray(new TextColor[Sponge.getRegistry().getAllOf(CatalogTypes.TEXT_COLOR).size()]);
         LinkedHashSet<Character> chars = new LinkedHashSet<>(styles.length * 2);
         for (int i = 0;
-             i < styles.length;
+             i < styles.size();
              i++) {
             chars.add(Character.valueOf(Character.toLowerCase(styles[i].getChar())));
             chars.add(Character.valueOf(Character.toUpperCase(styles[i].getChar())));
@@ -126,11 +124,11 @@ public class StringUtil {
         return true;
     }
 
-    public static String blockToString(Block block) {
-        return block.getWorld().getName() + "_" + block.getX() + "_" + block.getY() + "_" + block.getZ();
+    public static String blockToString(Location block) {
+        return block.getExtent().getUniqueId() + "_" + block.getX() + "_" + block.getY() + "_" + block.getZ();
     }
 
-    public static Block stringToBlock(String str) {
+    public static Location stringToBlock(String str) {
         try {
             String[] s = str.split("_");
 
@@ -138,56 +136,19 @@ public class StringUtil {
                 return null;
             }
 
+            String worldname = s[s.length - 4];
             int x = Integer.parseInt(s[(s.length - 3)]);
             int y = Integer.parseInt(s[(s.length - 2)]);
             int z = Integer.parseInt(s[(s.length - 1)]);
 
-            StringBuilder worldName = new StringBuilder(12);
-            for (int i = 0;
-                 i < s.length - 3;
-                 i++) {
-                if (i != 0) {
-                    worldName.append('_');
-                }
-                worldName.append(s[i]);
-            }
-
-            World world = Bukkit.getServer().getWorld(worldName.toString());
-            if (world == null) {
+            Optional<World> world = Sponge.getServer().getWorld(UUID.fromString(worldname));
+            if (!world.isPresent()) {
                 return null;
             }
-            return world.getBlockAt(x, y, z);
+            return world.get().getLocation(x, y, z);
         } catch (Exception e) {
         }
         return null;
-    }
-
-    public static int getWidth(String[] text) {
-        int width = 0;
-        for (String part : text) {
-            for (int i = 0;
-                 i < part.length();
-                 i++) {
-                char character = part.charAt(i);
-                if (character != '\n') {
-                    if (character == '�') {
-                        i++;
-                    } else if (character == ' ') {
-                        width += SPACE_WIDTH;
-                    } else {
-                        MapFont.CharacterSprite charsprite = MinecraftFont.Font.getChar(character);
-                        if (charsprite != null) {
-                            width += charsprite.getWidth();
-                        }
-                    }
-                }
-            }
-        }
-        return width;
-    }
-
-    public static int getWidth(char character) {
-        return MinecraftFont.Font.getChar(character).getWidth();
     }
 
     public static int firstIndexOf(String text, char[] values) {
@@ -444,7 +405,7 @@ public class StringUtil {
     }
 
     public static TextColor getColor(char code, TextColor def) {
-        for (TextColor color : TextColors.values()) {
+        for (TextColor color : Sponge.getRegistry().getAllOf(CatalogTypes.TEXT_COLOR)) {
             if (code == color.toString().charAt(1)) {
                 return color;
             }

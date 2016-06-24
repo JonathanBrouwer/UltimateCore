@@ -171,7 +171,7 @@ public class CmdUltimatecore implements UltimateCommand {
                 } catch (Exception ex) {
                 }
                 r.log("Importing Player Data...");
-                for (org.bukkit.OfflinePlayer pl : r.getOfflinePlayers()) {
+                for (org.bukkit.OfflinePlayer pl : r.getGameProfiles()) {
                     User u2 = es.getOfflineUser(pl.getName());
                     if (u2 == null) {
                         r.log("Failed to import player data of " + pl.getName());

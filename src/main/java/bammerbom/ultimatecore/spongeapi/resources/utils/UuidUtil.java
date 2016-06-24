@@ -27,12 +27,11 @@ import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import com.google.common.collect.ImmutableList;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSource;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
+import org.spongepowered.api.profile.GameProfile;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -84,7 +83,7 @@ public class UuidUtil {
             directory.mkdirs();
         }
         ArrayList<UUID> request = null;
-        for (OfflinePlayer p : r.getOfflinePlayers()) {
+        for (GameProfile p : r.getGameProfiles()) {
             if (p.getUniqueId() == null) {
                 continue;
             }
@@ -112,8 +111,8 @@ public class UuidUtil {
                     if (!conf.getString("name").equals(p.getName())) {
                         String oldname = conf.getString("name");
                         conf.set("name", p.getName());
-                        if (p.isOnline()) {
-                            r.sendMes((CommandSource) p, "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
+                        if (r.searchPlayer(p.getUniqueId()).isPresent()) {
+                            r.sendMes(r.searchPlayer(p.getUniqueId()).get(), "nameChanged", "%Oldname", oldname, "%Newname", p.getName());
                         } else {
                             conf.set("oldname", oldname);
                         }

@@ -356,7 +356,7 @@ public class r {
         return plz.toArray(new Player[plz.size()]);
     }
 
-    public static GameProfile[] getOfflinePlayers() {
+    public static GameProfile[] getGameProfiles() {
         Collection<GameProfile> plz = Sponge.getServer().getGameProfileManager().getCache().getProfiles();
         return plz.toArray(new GameProfile[plz.size()]);
     }

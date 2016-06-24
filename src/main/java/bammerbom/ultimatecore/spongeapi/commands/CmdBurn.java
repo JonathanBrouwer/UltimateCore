@@ -24,10 +24,14 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,57 +59,44 @@ public class CmdBurn implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("ignite", "fire");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.burn", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "burnUsage");
+            return CommandResult.empty();
+        }
+        Double time = 10.0;
+        Player t;
+        if (r.searchPlayer(args[0]).isPresent()) {
+            t = r.searchPlayer(args[0]).get();
+        } else {
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            return CommandResult.empty();
+        }
+        if (r.checkArgs(args, 1) && r.isDouble(args[1])) {
+            time = Double.parseDouble(args[1]);
+        }
+        time = time * 20;
+        t.offer(Keys.FIRE_TICKS, time.intValue());
+        r.sendMes(cs, "burnMessage", "%Player", t.getName(), "%Time", time / 20);
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        if (curn == 1) {
+            return null;
+        } else {
+            return new ArrayList<>();
+        }
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("ignite", "fire");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.isPlayer(cs)) {
-//            return;
-//        }
-//        if (!r.perm(cs, "uc.burn", false, true)) {
-//            return;
-//        }
-//        if (!r.checkArgs(args, 0)) {
-//            r.sendMes(cs, "burnUsage");
-//            return;
-//        }
-//        Double time = 10.0;
-//        Player t;
-//        if (r.searchPlayer(args[0]) != null) {
-//            t = r.searchPlayer(args[0]);
-//        } else {
-//            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            return;
-//        }
-//        if (r.checkArgs(args, 1) && r.isDouble(args[1])) {
-//            time = Double.parseDouble(args[1]);
-//        }
-//        time = time * 20;
-//        t.setFireTicks(time.intValue());
-//        r.sendMes(cs, "burnMessage", "%Player", t.getName(), "%Time", time / 20);
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        if (curn == 1) {
-//            return null;
-//        } else {
-//            return new ArrayList<>();
-//        }
-//    }
 }

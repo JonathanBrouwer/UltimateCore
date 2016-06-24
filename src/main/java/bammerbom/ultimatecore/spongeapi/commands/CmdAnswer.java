@@ -25,10 +25,12 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,40 +61,27 @@ public class CmdAnswer implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("ans", "askr", "askreply");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.answer", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 1)) {
+            r.sendMes(cs, "answerUsage");
+            return CommandResult.empty();
+        }
+        cs.sendMessage(Text.of(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 1))));
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        if (curn == 0) {
+            return null;
+        }
+        return new ArrayList<>();
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("ans", "askr", "askreply");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.answer", true, true)) {
-//            return;
-//        }
-//        if (!r.checkArgs(args, 1)) {
-//            r.sendMes(cs, "answerUsage");
-//            return;
-//        }
-//        cs.sendMessage(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 1)));
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        if (curn == 0) {
-//            return null;
-//        }
-//        return new ArrayList<>();
-//    }
 }

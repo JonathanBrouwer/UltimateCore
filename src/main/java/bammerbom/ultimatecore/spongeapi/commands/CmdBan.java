@@ -87,7 +87,7 @@ public class CmdBan implements UltimateCommand {
 //            return;
 //        }
 //        Long time = 0L;
-//        String reason = TextColors.stripColor(r.mes("banDefaultReason"));
+//        String reason = TextColorUtil.strip(r.mes("banDefaultReason"));
 //        if (r.checkArgs(args, 1) == false) {
 //        } else if (DateUtil.parseDateDiff(args[1]) == -1) {
 //            reason = r.getFinalArg(args, 1);

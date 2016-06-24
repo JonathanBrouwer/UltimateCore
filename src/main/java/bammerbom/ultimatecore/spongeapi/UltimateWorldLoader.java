@@ -25,10 +25,6 @@ package bammerbom.ultimatecore.spongeapi;
 
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import org.bukkit.Bukkit;
-import org.bukkit.World.Environment;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
 
 public class UltimateWorldLoader {
 
@@ -36,17 +32,17 @@ public class UltimateWorldLoader {
         JsonConfig conf = new JsonConfig(UltimateFileLoader.Dworlds);
         for (String str : conf.listKeys(false)) {
             try {
-                WorldCreator w = new WorldCreator(str);
-                if (conf.contains(str + ".env")) {
-                    w.environment(Environment.valueOf(conf.getString(str + ".env")));
-                }
-                if (conf.contains(str + ".type")) {
-                    w.type(WorldType.valueOf(conf.getString(str + ".type")));
-                }
-                if (conf.contains(str + ".gen")) {
-                    w.generator(conf.getString(str + ".gen"));
-                }
-                Bukkit.createWorld(w);
+//                WorldCreator w = new WorldCreator(str);
+//                if (conf.contains(str + ".env")) {
+//                    w.environment(Environment.valueOf(conf.getString(str + ".env")));
+//                }
+//                if (conf.contains(str + ".type")) {
+//                    w.type(WorldType.valueOf(conf.getString(str + ".type")));
+//                }
+//                if (conf.contains(str + ".gen")) {
+//                    w.generator(conf.getString(str + ".gen"));
+//                }
+//                Bukkit.createWorld(w);
             } catch (Exception ex) {
                 r.log("Failed to load world " + str);
                 ErrorLogger.log(ex, "Failed to load world " + str);

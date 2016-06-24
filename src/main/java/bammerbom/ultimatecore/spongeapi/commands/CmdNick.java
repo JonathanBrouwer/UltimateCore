@@ -108,7 +108,7 @@ public class CmdNick implements UltimateCommand {
         if (r.perm(cs, "uc.nick.colors", false, false)) {
             name = TextColorUtil.translateAlternate(name);
         }
-        if (!TextColors.stripColor(name).replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "").equalsIgnoreCase("")) {
+        if (!TextColorUtil.strip(name).replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "").equalsIgnoreCase("")) {
             r.sendMes(cs, "nickNonAlpha");
             return;
         }
@@ -116,7 +116,7 @@ public class CmdNick implements UltimateCommand {
             if (pl.equals(t)) {
                 continue;
             }
-            if (pl.getName().equalsIgnoreCase(TextColors.stripColor(name).replaceAll("&y", "")) || UC.getPlayer(pl).getDisplayName().equalsIgnoreCase(TextColors.stripColor(name).replaceAll("&y", ""))) {
+            if (pl.getName().equalsIgnoreCase(TextColorUtil.strip(name).replaceAll("&y", "")) || UC.getPlayer(pl).getDisplayName().equalsIgnoreCase(TextColorUtil.strip(name).replaceAll("&y", ""))) {
                 r.sendMes(cs, "nickAlreadyInUse");
                 return;
             }

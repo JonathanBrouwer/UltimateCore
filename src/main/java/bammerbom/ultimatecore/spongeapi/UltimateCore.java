@@ -31,7 +31,10 @@ import bammerbom.ultimatecore.spongeapi.listeners.*;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.*;
+import bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.PerformanceUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.ServerIDUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
 import com.google.inject.Inject;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
@@ -56,7 +59,13 @@ public class UltimateCore {
     @Inject
     private Logger logger;
 
+    private UltimateCore() {
+    }
+
     public static UltimateCore getInstance() {
+        if (instance == null) {
+            instance = new UltimateCore();
+        }
         return instance;
     }
 
@@ -93,9 +102,8 @@ public class UltimateCore {
             CmdHeal.start();
             CmdRules.start();
             MetaItemStack.start();
-            ItemUtil.start();
             //UTIL STARTUP END
-            String c = Sponge.getPlatform().getMinecraftVersion().getName();  //Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
+            String c = Sponge.getPlatform().getMinecraftVersion().getName();
             Integer v = Integer.parseInt(c.split("\\.")[1]);
             if (v < 10) {
                 Sponge.getServer().getConsole().sendMessage(Text.of(""));

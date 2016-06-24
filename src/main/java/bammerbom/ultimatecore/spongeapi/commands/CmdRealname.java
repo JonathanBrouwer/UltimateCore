@@ -68,7 +68,7 @@ public class CmdRealname implements UltimateCommand {
             if (UC.getPlayer(player).getNick() == null) {
                 continue;
             }
-            String s = TextColors.stripColor(UC.getPlayer(player).getNick()).toLowerCase();
+            String s = TextColorUtil.strip(UC.getPlayer(player).getNick()).toLowerCase();
             if (s.startsWith(lowerName)) {
                 int curDelta = s.length() - lowerName.length();
                 if (curDelta < delta) {
@@ -81,11 +81,11 @@ public class CmdRealname implements UltimateCommand {
             }
         }
         if (t == null) {
-            for (OfflinePlayer player : r.getOfflinePlayers()) {
+            for (OfflinePlayer player : r.getGameProfiles()) {
                 if (UC.getPlayer(player).getNick() == null) {
                     continue;
                 }
-                String s = TextColors.stripColor(UC.getPlayer(player).getNick()).toLowerCase();
+                String s = TextColorUtil.strip(UC.getPlayer(player).getNick()).toLowerCase();
                 if (s.toLowerCase().startsWith(lowerName)) {
                     int curDelta = s.length() - lowerName.length();
                     if (curDelta < delta) {

@@ -26,12 +26,25 @@ package bammerbom.ultimatecore.spongeapi.signs;
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.bukkit.Material;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.Item;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.EmptyInventory;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+
+import java.util.Optional;
 
 public class SignRepair implements UltimateSign {
 
@@ -47,13 +60,14 @@ public class SignRepair implements UltimateSign {
 
     @Override
     public void onClick(Player p, Sign sign) {
-        if (!r.perm(p, "uc.sign.repair", true, false) && !r.perm(p, "uc.sign", true, false)) {
+        if (!r.perm(p, "uc.sign.repair", false) && !r.perm(p, "uc.sign", false)) {
             r.sendMes(p, "noPermissions");
             return;
         }
-        Boolean all = sign.getLine(1).equalsIgnoreCase("all") || sign.getLine(1).equalsIgnoreCase("*");
+        Boolean all = sign.lines().get(1).toPlain().equalsIgnoreCase("all") || sign.lines().get(1).toPlain().equalsIgnoreCase("*");
         if (all) {
-            for (ItemStack stack : p.getInventory().getContents()) {
+            Inventory inv = p.getInventory().next();
+            while (!(stack instanceof EmptyInventory)) {
                 if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
                     continue;
                 }
@@ -88,19 +102,25 @@ public class SignRepair implements UltimateSign {
     }
 
     @Override
-    public void onCreate(SignChangeEvent event) {
-        if (!r.perm(p, "uc.sign.repair", false, true)) {
+    public void onCreate(ChangeSignEvent event, Player p) {
+        if (!r.perm(p, "uc.sign.repair.create", true)) {
             event.setCancelled(true);
-            event.getBlock().breakNaturally();
+            event.getTargetTile().getLocation().setBlockType(BlockTypes.AIR);
+            Optional<Entity> eno = event.getTargetTile().getLocation().getExtent().createEntity(EntityTypes.ITEM, event.getTargetTile().getLocation().getPosition());
+            if (eno.isPresent()) {
+                Item en = (Item) eno.get();
+                en.offer(Keys.REPRESENTED_ITEM, ItemStack.builder().itemType(ItemTypes.SIGN).build().createSnapshot());
+                p.getWorld().spawnEntity(en, Cause.builder().named(NamedCause.simulated(p)).build());
+            }
             return;
         }
-        event.setLine(0, TextColors.DARK_BLUE + "[Repair]");
+        event.getText().set(Keys.SIGN_LINES, event.getText().lines().set(0, Text.of(TextColors.DARK_BLUE + "[Repair]")).get());
         r.sendMes(p, "signCreated");
     }
 
     @Override
-    public void onDestroy(BlockBreakEvent event) {
-        if (!r.perm(p, "uc.sign.repair.destroy", false, true)) {
+    public void onDestroy(ChangeBlockEvent.Break event, Player p) {
+        if (!r.perm(p, "uc.sign.repair.destroy", true)) {
             event.setCancelled(true);
             return;
         }

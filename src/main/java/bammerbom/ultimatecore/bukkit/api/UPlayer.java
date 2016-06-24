@@ -1030,7 +1030,7 @@ public class UPlayer {
         if (!ps.contains(c)) {
             return;
         }
-        ps.add(c);
+        ps.remove(c);
         setPowertool(mat, ps);
     }
 

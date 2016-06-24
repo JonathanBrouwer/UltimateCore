@@ -25,10 +25,13 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,40 +61,27 @@ public class CmdBroadcast implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("bc", "bcast", "shout");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.broadcast", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "broadcastUsage");
+            return CommandResult.empty();
+        }
+        String message = r.getFinalArg(args, 0);
+        message = format.replace("%Message", message);
+        Sponge.getServer().getBroadcastChannel().send(Text.of(TextColorUtil.translateAlternate(message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
+                .replace("\\\\n", "\n")));
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("bc", "bcast", "shout");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.broadcast", false, true)) {
-//            return;
-//        }
-//        if (!r.checkArgs(args, 0)) {
-//            r.sendMes(cs, "broadcastUsage");
-//            return;
-//        }
-//        String message = r.getFinalArg(args, 0);
-//        message = format.replace("%Message", message);
-//        Bukkit.broadcastMessage(TextColorUtil.translateAlternate(message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
-//                .replace("\\\\n", "\n"));
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return new ArrayList<>();
-//    }
 }

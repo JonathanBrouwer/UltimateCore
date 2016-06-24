@@ -77,6 +77,13 @@ public class TextColorUtil {
         return Optional.empty();
     }
 
+    public static Optional<Character> getChar(TextColor color) {
+        if (!colors.containsKey(color)) {
+            return Optional.empty();
+        }
+        return Optional.of(colors.get(color));
+    }
+
     public static Optional<TextColor> getColorByChar(char code) {
         for (TextColor color : colors.keySet()) {
             if (colors.get(color).equals(code)) {

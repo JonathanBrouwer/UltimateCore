@@ -30,9 +30,12 @@ import bammerbom.ultimatecore.spongeapi.listeners.AutomessageListener;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.*;
-import org.bukkit.*;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -60,7 +63,7 @@ public class UServer {
         try {
             File file = new File(r.getUC().getDataFolder(), "motd.txt");
             if (!file.exists()) {
-                r.getUC().saveResource("motd.txt", true);
+                r.saveResource("motd.txt", true);
             }
             ArrayList<String> lines = FileUtil.getLines(file);
             for (String str : lines) {
@@ -73,11 +76,11 @@ public class UServer {
     }
 
     //Ban
-    public List<OfflinePlayer> getBannedOnlinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
+    public List<GameProfile> getBannedOnlinePlayers() {
+        List<GameProfile> pls = new ArrayList<>();
         BanList bans = Bukkit.getBanList(BanList.Type.NAME);
         for (BanEntry en : bans.getBanEntries()) {
-            OfflinePlayer p = r.searchGameProfile(en.getTarget());
+            GameProfile p = r.searchGameProfile(en.getTarget());
             if (p.isOnline()) {
                 pls.add(p);
             }
@@ -85,8 +88,8 @@ public class UServer {
         return pls;
     }
 
-    public List<OfflinePlayer> getBannedOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
+    public List<GameProfile> getBannedGameProfiles() {
+        List<GameProfile> pls = new ArrayList<>();
         BanList bans = Bukkit.getBanList(BanList.Type.NAME);
         for (BanEntry en : bans.getBanEntries()) {
             pls.add(r.searchGameProfile(en.getTarget()));
@@ -95,9 +98,9 @@ public class UServer {
     }
 
     //Deaf
-    public List<OfflinePlayer> getDeafOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<GameProfile> getDeafGameProfiles() {
+        List<GameProfile> pls = new ArrayList<>();
+        for (GameProfile pl : r.getGameProfiles()) {
             if (UC.getPlayer(pl).isDeaf()) {
                 pls.add(pl);
             }
@@ -116,9 +119,9 @@ public class UServer {
     }
 
     //Mutes
-    public List<OfflinePlayer> getMutedOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<GameProfile> getMutedGameProfiles() {
+        List<GameProfile> pls = new ArrayList<>();
+        for (GameProfile pl : r.getGameProfiles()) {
             if (UC.getPlayer(pl).isMuted()) {
                 pls.add(pl);
             }
@@ -137,9 +140,9 @@ public class UServer {
     }
 
     //Jails
-    public List<OfflinePlayer> getJailedOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<GameProfile> getJailedGameProfiles() {
+        List<GameProfile> pls = new ArrayList<>();
+        for (GameProfile pl : r.getGameProfiles()) {
             if (UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
@@ -158,9 +161,9 @@ public class UServer {
     }
 
     //Enchantingtable
-    public List<OfflinePlayer> getInCommandEnchantingtablePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<GameProfile> getInCommandEnchantingtablePlayers() {
+        List<GameProfile> pls = new ArrayList<>();
+        for (GameProfile pl : r.getGameProfiles()) {
             if (UC.getPlayer(pl).isInCommandEnchantingtable()) {
                 pls.add(pl);
             }
@@ -179,9 +182,9 @@ public class UServer {
     }
 
     //Freeze
-    public List<OfflinePlayer> getFrozenOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<GameProfile> getFrozenGameProfiles() {
+        List<GameProfile> pls = new ArrayList<>();
+        for (GameProfile pl : r.getGameProfiles()) {
             if (UC.getPlayer(pl).isFrozen()) {
                 pls.add(pl);
             }
@@ -200,9 +203,9 @@ public class UServer {
     }
 
     //God
-    public List<OfflinePlayer> getGodOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<GameProfile> getGodGameProfiles() {
+        List<GameProfile> pls = new ArrayList<>();
+        for (GameProfile pl : r.getGameProfiles()) {
             if (UC.getPlayer(pl).isGod()) {
                 pls.add(pl);
             }
@@ -292,9 +295,9 @@ public class UServer {
         return pls;
     }
 
-    public ArrayList<OfflinePlayer> getOfflineJailed() {
-        ArrayList<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public ArrayList<GameProfile> getOfflineJailed() {
+        ArrayList<GameProfile> pls = new ArrayList<>();
+        for (GameProfile pl : r.getGameProfiles()) {
             if (UC.getPlayer(pl).isJailed()) {
                 pls.add(pl);
             }
@@ -319,31 +322,31 @@ public class UServer {
         mt = mt.replace("{PLAYERLIST}", b.toString());
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()));
-        mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
-        mt = mt.replace("{UPTIME}", TextColors.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        mt = mt.replace("{TPS}", Sponge.getServer().getTicksPerSecond() + "");
+        mt = mt.replace("{UPTIME}", TextColorUtil.strip(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (PluginContainer pl : Sponge.getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {
                 pb.append(", ");
             }
-            pb.append(pl.getDescription().getName());
+            pb.append(pl.getName());
         }
         mt = mt.replace("{PLAYERCOUNT}", i + "");
         mt = mt.replace("{PLUGINS}", pb.toString());
-        mt = mt.replace("{VERSION}", Bukkit.getServer().getVersion());
-        mt = mt.replace("{WORLD}", TextColors.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{WORLDNAME}", TextColors.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{COORDS}", TextColors.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{PLAYER}", TextColors.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{NAME}", TextColors.stripColor(r.mes("notAvailable")));
-        mt = mt.replace("{RAWNAME}", TextColors.stripColor(r.mes("notAvailable")));
+        mt = mt.replace("{VERSION}", Sponge.getPlatform().getMinecraftVersion().getName());
+        mt = mt.replace("{WORLD}", TextColorUtil.strip(r.mes("notAvailable").toPlain()));
+        mt = mt.replace("{WORLDNAME}", TextColorUtil.strip(r.mes("notAvailable").toPlain()));
+        mt = mt.replace("{COORDS}", TextColorUtil.strip(r.mes("notAvailable").toPlain()));
+        mt = mt.replace("{PLAYER}", TextColorUtil.strip(r.mes("notAvailable").toPlain()));
+        mt = mt.replace("{NAME}", TextColorUtil.strip(r.mes("notAvailable").toPlain()));
+        mt = mt.replace("{RAWNAME}", TextColorUtil.strip(r.mes("notAvailable").toPlain()));
         return mt;
     }
 
     public String getMotd(Player p) {
         String mt = motd;
-        mt = mt.replace("{PLAYER}", UC.getPlayer(p).getDisplayName());
-        mt = mt.replace("{NAME}", UC.getPlayer(p).getDisplayName());
+        mt = mt.replace("{PLAYER}", UC.getPlayer(p).getDisplayName().toPlain());
+        mt = mt.replace("{NAME}", UC.getPlayer(p).getDisplayName().toPlain());
         mt = mt.replace("{RAWNAME}", p.getName());
         mt = mt.replace("{WORLD}", p.getWorld().getName());
         mt = mt.replace("{WORLDNAME}", p.getWorld().getName());
@@ -367,23 +370,23 @@ public class UServer {
         mt = mt.replace("{PLAYERLIST}", b.toString());
         mt = mt.replace("{TIME}", DateFormat.getTimeInstance(2, Locale.getDefault()).format(new Date()));
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()).replace("-", " "));
-        mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
-        mt = mt.replace("{UPTIME}", TextColors.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        mt = mt.replace("{TPS}", Sponge.getServer().getTicksPerSecond() + "");
+        mt = mt.replace("{UPTIME}", TextColorUtil.strip(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
         StringBuilder pb = new StringBuilder();
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (PluginContainer pl : Sponge.getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {
                 pb.append(", ");
             }
-            pb.append(pl.getDescription().getName());
+            pb.append(pl.getName());
         }
         mt = mt.replace("{PLUGINS}", pb.toString());
-        mt = mt.replace("{VERSION}", Bukkit.getServer().getVersion());
+        mt = mt.replace("{VERSION}", Sponge.getPlatform().getMinecraftVersion().getName());
         return mt;
     }
 
-    public List<OfflinePlayer> getInTeleportMenuOffline() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<GameProfile> getInTeleportMenuOffline() {
+        List<GameProfile> pls = new ArrayList<>();
+        for (GameProfile pl : r.getGameProfiles()) {
             if (UC.getPlayer(pl).isInTeleportMenu()) {
                 pls.add(pl);
             }
@@ -427,9 +430,9 @@ public class UServer {
 
     //Vanish
     //Deaf
-    public List<OfflinePlayer> getVanishOfflinePlayers() {
-        List<OfflinePlayer> pls = new ArrayList<>();
-        for (OfflinePlayer pl : r.getOfflinePlayers()) {
+    public List<GameProfile> getVanishGameProfiles() {
+        List<GameProfile> pls = new ArrayList<>();
+        for (GameProfile pl : r.getGameProfiles()) {
             if (UC.getPlayer(pl).isVanish()) {
                 pls.add(pl);
             }
@@ -622,11 +625,11 @@ public class UServer {
         if (firstjoin) {
             path = "global.firstjoin";
         } else if (world && StringUtil.nullOrEmpty(group)) {
-            path = "worlds.world." + loc.getWorld().getName() + ".global";
+            path = "worlds.world." + ((World) loc.getExtent()).getName() + ".global";
         } else if (!StringUtil.nullOrEmpty(group) && !world) {
             path = "global.group." + group;
         } else if (!StringUtil.nullOrEmpty(group) && world) {
-            path = "worlds.world." + loc.getWorld().getName() + ".group." + group;
+            path = "worlds.world." + ((World) loc.getExtent()).getName() + ".group." + group;
         }
         String s = LocationUtil.convertLocationToString(loc);
         JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);

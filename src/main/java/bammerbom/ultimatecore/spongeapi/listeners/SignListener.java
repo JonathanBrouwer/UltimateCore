@@ -47,7 +47,7 @@ public class SignListener implements Listener {
     public void onSignChange(SignChangeEvent e) {
         //Signs
         for (UltimateSign s : UltimateSigns.signs) {
-            if (TextColors.stripColor(e.getLine(0)).equalsIgnoreCase("[" + s.getName() + "]")) {
+            if (TextColorUtil.strip(e.getLine(0)).equalsIgnoreCase("[" + s.getName() + "]")) {
                 s.onCreate(e);
             }
         }
@@ -75,7 +75,7 @@ public class SignListener implements Listener {
         }
         Sign sign = (Sign) e.getClickedBlock().getState();
         for (UltimateSign s : UltimateSigns.signs) {
-            if (TextColors.stripColor(sign.getLine(0)).equalsIgnoreCase("[" + s.getName() + "]")) {
+            if (TextColorUtil.strip(sign.getLine(0)).equalsIgnoreCase("[" + s.getName() + "]")) {
                 s.onClick(e.getPlayer(), sign);
             }
         }
@@ -92,7 +92,7 @@ public class SignListener implements Listener {
         }
         Sign sign = (Sign) e.getBlock().getState();
         for (UltimateSign s : UltimateSigns.signs) {
-            if (TextColors.stripColor(sign.getLine(0)).equalsIgnoreCase("[" + s.getName() + "]")) {
+            if (TextColorUtil.strip(sign.getLine(0)).equalsIgnoreCase("[" + s.getName() + "]")) {
                 s.onDestroy(e);
             }
         }

@@ -75,6 +75,9 @@ public class MinecraftServerUtil {
 
     public static Status getStatus(MinecraftServer service) {
         try {
+            if (lastjson == null) {
+                return Status.UNKNOWN;
+            }
             for (Object mapo : lastjson) {
                 HashMap<String, String> map = (HashMap<String, String>) mapo;
                 if (map.containsKey(service.getURL())) {

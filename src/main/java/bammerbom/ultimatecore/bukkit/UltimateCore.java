@@ -71,7 +71,6 @@ public class UltimateCore extends JavaPlugin {
     @Override
     public void onEnable() {
         try {
-            SET JAVA TO 1.7;
             //
             Long time = System.currentTimeMillis();
             //UTIL STARTUP

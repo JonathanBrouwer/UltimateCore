@@ -58,7 +58,7 @@ public class MotdListener implements Listener {
         if (enableVariables) {
             String playerip = e.getAddress().toString().split("/")[1].split(":")[0];
             OfflinePlayer p = null;
-            for (OfflinePlayer pl : r.getOfflinePlayers()) {
+            for (OfflinePlayer pl : r.getGameProfiles()) {
                 if (UC.getPlayer(pl).getLastIp() == null) {
                     continue;
                 }
@@ -76,7 +76,7 @@ public class MotdListener implements Listener {
                     }
                 }
             } else {
-                name = TextColors.stripColor(r.mes("motdDefaultName"));
+                name = TextColorUtil.strip(r.mes("motdDefaultName"));
                 if (r.getVault() != null) {
                     if (r.getVault().getEconomy() != null) {
                         if (r.getVault().getEconomy() instanceof UEconomy) {
@@ -105,7 +105,7 @@ public class MotdListener implements Listener {
         if (enableBanMotd) {
             String playerip = e.getAddress().toString().split("/")[1].split(":")[0];
             OfflinePlayer p = null;
-            for (OfflinePlayer pl : r.getOfflinePlayers()) {
+            for (OfflinePlayer pl : r.getGameProfiles()) {
                 if (UC.getPlayer(pl) == null || UC.getPlayer(pl).getLastIp() == null) {
                     continue;
                 }
@@ -128,7 +128,7 @@ public class MotdListener implements Listener {
                 int onlineplayers = e.getNumPlayers();
                 String servername = Bukkit.getServerName();
 
-                String bantime = TextColors.stripColor(DateUtil.formatDateDiff(UC.getPlayer(p).getBanTime(), 2));
+                String bantime = TextColorUtil.strip(DateUtil.formatDateDiff(UC.getPlayer(p).getBanTime(), 2));
                 String banreason = UC.getPlayer(p).getBanReason();
 
                 String motd = banMotd;

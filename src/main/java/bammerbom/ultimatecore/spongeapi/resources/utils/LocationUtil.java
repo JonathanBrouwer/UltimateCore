@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.util.NumberConversions;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.world.Location;
 
 import java.util.*;
@@ -335,7 +336,7 @@ public class LocationUtil {
         return y < 0;
     }
 
-    public static void teleport(final Player p, Location l, final TeleportCause c, final boolean safe, boolean delay) {
+    public static void teleport(final Player p, Location l, final Cause c, final boolean safe, boolean delay) {
         if (delay && delay2 > 0 && !r.perm(p, "uc.teleport.bypasstimer", false, false)) {
             final Location loc = p.getLocation().getBlock().getLocation();
             l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;

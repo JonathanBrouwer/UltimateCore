@@ -125,7 +125,7 @@ public class CmdMobtp implements UltimateCommand {
             stick.setItemMeta(meta);
             p.getInventory().setItemInHand(stick);
             String id2 = old.getItemMeta().getLore().get(2);
-            Integer id = Integer.parseInt(TextColors.stripColor(id2.replaceAll("ID: ", "")));
+            Integer id = Integer.parseInt(TextColorUtil.strip(id2.replaceAll("ID: ", "")));
             LivingEntity eo = (LivingEntity) sticks.get(id);
             if (eo == null) {
                 return false;
