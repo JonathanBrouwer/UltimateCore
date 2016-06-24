@@ -155,40 +155,54 @@ public class CmdUltimatecore implements UltimateCommand {
             }
             IEssentials es = (IEssentials) Bukkit.getPluginManager().getPlugin("Essentials");
             try {
-                r.log("Importing Jails...");
-                IJails j = es.getJails();
-                for (String s : j.getList()) {
-                    UC.getServer().addJail(s, j.getJail(s));
+                r.log("Importing jails...");
+                try {
+                    IJails j = es.getJails();
+                    for (String s : j.getList()) {
+                        UC.getServer().addJail(s, j.getJail(s));
+                    }
+                } catch (Exception ex) {
+                    r.log("Importing jails FAILED....");
                 }
-                r.log("Importing Warps...");
-                IWarps w = es.getWarps();
-                for (String s : w.getList()) {
-                    UC.getServer().addWarp(s, w.getWarp(s));
+                r.log("Importing warps...");
+                try {
+                    IWarps w = es.getWarps();
+                    for (String s : w.getList()) {
+                        UC.getServer().addWarp(s, w.getWarp(s));
+                    }
+                } catch (Exception ex) {
+                    r.log("Importing warps FAILED....");
                 }
+                r.log("Importing spawn...");
                 try {
                     IEssentialsSpawn esp = (IEssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");
                     UC.getServer().setSpawn(esp.getSpawn("default"), false, null, false);
-                } catch (Exception ex) {
+                } catch (Error ex) {
+                    r.log("Importing spawns FAILED....");
                 }
                 r.log("Importing Player Data...");
                 for (org.bukkit.OfflinePlayer pl : r.getOfflinePlayers()) {
-                    User u2 = es.getOfflineUser(pl.getName());
-                    if (u2 == null) {
-                        r.log("Failed to import player data of " + pl.getName());
-                        continue;
+                    try {
+                        User u2 = es.getOfflineUser(pl.getName());
+                        if (u2 == null) {
+                            r.log("Failed to import player data of " + pl.getName());
+                            continue;
+                        }
+                        UPlayer up = UC.getPlayer(pl);
+                        for (String s : u2.getHomes()) {
+                            up.addHome(s, u2.getHome(s));
+                        }
+                        if (u2.getJail() != null) {
+                            up.jail(u2.getJail(), u2.getJailTimeout());
+                        }
+                        up.setNick(u2.getNickname());
+                        up.setGod(u2.isGodModeEnabled());
+                        up.setMuted(u2.getMuted(), u2.getMuteTimeout(), r.mes("muteDefaultReason"));
+                        up.setSpy(u2.isSocialSpyEnabled());
+                        up.setLastLocation(u2.getLastLocation());
+                    } catch (Exception ex) {
+                        r.log("Failed to import data of " + pl.getName() + " / " + pl.getUniqueId());
                     }
-                    UPlayer up = UC.getPlayer(pl);
-                    for (String s : u2.getHomes()) {
-                        up.addHome(s, u2.getHome(s));
-                    }
-                    if (u2.getJail() != null) {
-                        up.jail(u2.getJail(), u2.getJailTimeout());
-                    }
-                    up.setNick(u2.getNickname());
-                    up.setGod(u2.isGodModeEnabled());
-                    up.setMuted(u2.getMuted(), u2.getMuteTimeout(), r.mes("muteDefaultReason"));
-                    up.setSpy(u2.isSocialSpyEnabled());
-                    up.setLastLocation(u2.getLastLocation());
                 }
                 r.sendMes(cs, "ultimatecoreConvertComplete");
             } catch (Exception ex) {
