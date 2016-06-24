@@ -28,14 +28,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.server.TabCompleteEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PluginStealListener implements Listener {
 
+    public static List<String> commands = new ArrayList<>();
+
     public static void start() {
+        commands.add("plugins");
+        commands.add("pl");
+        commands.add("version");
+        commands.add("ver");
+        commands.add("icanhasbukkit");
+        commands.add("about");
         Bukkit.getPluginManager().registerEvents(new PluginStealListener(), r.getUC());
-        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
-            TabCompleteListener.start();
-        }
     }
 
     @EventHandler
@@ -44,8 +53,7 @@ public class PluginStealListener implements Listener {
         if (m.contains(" ")) {
             m = m.split(" ")[0];
         }
-        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins") || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl") || m.equalsIgnoreCase("about") || m
-                .equalsIgnoreCase("bukkit:about") || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version") || m.equalsIgnoreCase("ver") || m.equalsIgnoreCase("bukkit:ver")) {
+        if (commands.contains(m.toLowerCase().replace("bukkit:", ""))) {
             if (!r.perm(e.getPlayer(), "uc.plugins", false, true)) {
                 e.setCancelled(true);
             }
@@ -57,40 +65,26 @@ public class PluginStealListener implements Listener {
         }
     }
 
-    static class TabCompleteListener {
-
-        public static void start() {
-            ((com.comphenix.protocol.ProtocolManager) r.getProtocolManager()).addPacketListener(new com.comphenix.protocol.events.PacketAdapter(r
-                    .getUC(), com.comphenix.protocol.events.ListenerPriority.NORMAL, com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE) {
-                @Override
-                public void onPacketReceiving(com.comphenix.protocol.events.PacketEvent event) {
-                    if (event.getPacketType() == com.comphenix.protocol.PacketType.Play.Client.TAB_COMPLETE) {
-                        com.comphenix.protocol.events.PacketContainer packet = event.getPacket();
-                        String m = packet.getStrings().read(0).toLowerCase();
-                        if (m.contains(" ")) {
-                            m = m.split(" ")[0];
-                        } else if (!m.startsWith("/")) {
-                            return;
-                        }
-                        if (m.contains("/")) {
-                            m = m.replaceFirst("/", "");
-                        }
-                        if (m.equalsIgnoreCase("plugins") || m.equalsIgnoreCase("bukkit:plugins") || m.equalsIgnoreCase("pl") || m.equalsIgnoreCase("bukkit:pl") || m.equalsIgnoreCase("about") || m
-                                .equalsIgnoreCase("bukkit:about") || m.equalsIgnoreCase("version") || m.equalsIgnoreCase("bukkit:version") || m.equalsIgnoreCase("ver") || m
-                                .equalsIgnoreCase("bukkit:ver")) {
-                            if (!r.perm(event.getPlayer(), "uc.plugins", false, false)) {
-                                event.setCancelled(true);
-                            }
-                        }
-                        if (m.equalsIgnoreCase("?") || m.equalsIgnoreCase("bukkit:?") || m.equalsIgnoreCase("help") || m.equalsIgnoreCase("bukkit:help")) {
-                            if (!r.perm(event.getPlayer(), "uc.help", false, false)) {
-                                event.setCancelled(true);
-                            }
-                        }
-                    }
-                }
-            });
+    @EventHandler
+    public void onCommandTab(TabCompleteEvent ev) {
+        String command = ev.getBuffer().contains(" ") ? ev.getBuffer().split(" ")[0] : ev.getBuffer();
+        if (command.equalsIgnoreCase("/")) {
+            if (!r.perm(ev.getSender(), "uc.plugins", false, true)) {
+                ev.setCancelled(true);
+            }
+        }
+        command = command.replaceFirst("/", "");
+        if (commands.contains(command.replace("bukkit:", ""))) {
+            if (!r.perm(ev.getSender(), "uc.plugins", false, true)) {
+                ev.setCancelled(true);
+            }
+        }
+        if (command.equalsIgnoreCase("?") || command.equalsIgnoreCase("bukkit:?") || command.equalsIgnoreCase("help") || command.equalsIgnoreCase("bukkit:help")) {
+            if (!r.perm(ev.getSender(), "uc.help", false, true)) {
+                ev.setCancelled(true);
+            }
         }
     }
+
 
 }
