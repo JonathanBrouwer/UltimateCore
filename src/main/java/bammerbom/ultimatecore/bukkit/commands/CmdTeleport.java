@@ -146,7 +146,7 @@ public class CmdTeleport implements UltimateCommand {
                 return;
             }
             World w = t.getWorld();
-            Double x = LocationUtil.getCoordinate(args[0], t.getLocation().getX());
+            Double x = LocationUtil.getCoordinate(args[1], t.getLocation().getX());
             Double y;
             Double z;
             Float pitch;
