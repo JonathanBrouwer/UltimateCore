@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.listeners;
 
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
+import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.TabUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,12 +34,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 
 public class TabListener implements Listener {
 
-    static HashMap<String, String> tabPrefixes = new HashMap<>();
-    static String afkSuffix = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.AfkSuffix"));
+    static String defaultFormat = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.DefaultFormat"));
+    static HashMap<String, String> tabFormats = new HashMap<>();
+    static String afkFormat = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.AfkFormat"));
+    static boolean headerFooterEnabled = r.getCnfg().getBoolean("Chat.Tab.HeaderFooterEnabled");
     static String header = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.Header"));
     static String footer = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.Footer"));
 
@@ -46,134 +50,117 @@ public class TabListener implements Listener {
         if (!r.getCnfg().getBoolean("Chat.Tab.Enabled")) {
             return;
         }
-        //Format
-        if (r.getCnfg().getBoolean("Chat.Tab.HeaderFooterEnabled")) {
-            for (Player p : r.getOnlinePlayers()) {
-                TabUtil.sendTabTitle(p, header, footer);
-            }
+        for (String key : r.getCnfg().getConfigurationSection("Chat.Tab.Groups").getValues(false).keySet()) {
+            tabFormats.put(key, ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.Groups." + key)));
         }
 
-        //Player names
         Bukkit.getPluginManager().registerEvents(new TabListener(), r.getUC());
-        final String def = r.getCnfg().getString("Chat.Tab.TabDefault");
-        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-            for (Player p : r.getOnlinePlayers()) {
-                if (r.getVault() == null || r.getVault().getPermission() == null) {
-                    String name = def + UC.getPlayer(p).getDisplayName();
-                    name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (!p.getPlayerListName().equals(name)) {
-                        p.setPlayerListName(name);
-                    }
-                    continue;
-                }
-                String group = r.getPrimaryGroup(p);
-                if (group == null || group.equalsIgnoreCase("")) {
-                    String name = def + UC.getPlayer(p).getDisplayName();
-                    name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (!p.getPlayerListName().equals(name)) {
-                        p.setPlayerListName(name);
-                    }
-                    continue;
-                }
-                String prefix = r.getCnfg().getString("Chat.Tab." + group);
-                if (prefix == null || prefix.equalsIgnoreCase("")) {
-                    String name = def + UC.getPlayer(p).getDisplayName();
-                    name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                    if (!p.getPlayerListName().equals(name)) {
-                        p.setPlayerListName(name);
-                    }
-                    continue;
-                }
-                String name = prefix + UC.getPlayer(p).getDisplayName();
-                name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                if (!p.getPlayerListName().equals(name)) {
-                    p.setPlayerListName(name);
-                }
-            }
-        }
         Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
             @Override
             public void run() {
                 for (Player p : r.getOnlinePlayers()) {
-                    if (r.getVault() == null || r.getVault().getPermission() == null) {
-                        String name = def + UC.getPlayer(p).getDisplayName();
-                        name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                        if (UC.getPlayer(p).isAfk()) {
-                            name = name + afkSuffix;
-                        }
-                        if (!p.getPlayerListName().equals(name)) {
-                            p.setPlayerListName(name);
-                        }
-                        continue;
+                    //Header and footer
+                    if (headerFooterEnabled) {
+                        TabUtil.sendTabTitle(p, replaceVariables(header, p), replaceVariables(footer, p));
                     }
-                    String group = r.getPrimaryGroup(p);
-                    if (group == null || group.equalsIgnoreCase("")) {
-                        String name = def + UC.getPlayer(p).getDisplayName();
-                        name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                        if (UC.getPlayer(p).isAfk()) {
-                            name = name + afkSuffix;
-                        }
-                        if (!p.getPlayerListName().equals(name)) {
-                            p.setPlayerListName(name);
-                        }
-                        continue;
+
+                    //Player names
+                    String group = "";
+                    if (r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null) {
+                        group = r.getVault().getPermission().getPrimaryGroup(p) != null ? r.getVault().getPermission().getPrimaryGroup(p) : "";
                     }
-                    String prefix = r.getCnfg().getString("Chat.Tab." + group);
-                    if (prefix == null || prefix.equalsIgnoreCase("")) {
-                        String name = def + UC.getPlayer(p).getDisplayName();
-                        name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-                        if (UC.getPlayer(p).isAfk()) {
-                            name = name + afkSuffix;
-                        }
-                        if (!p.getPlayerListName().equals(name)) {
-                            p.setPlayerListName(name);
-                        }
-                        continue;
-                    }
-                    String name = prefix + UC.getPlayer(p).getDisplayName();
-                    name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
+
+                    //
+                    String base = (!group.isEmpty() && tabFormats.containsKey(group)) ? tabFormats.get(group) : defaultFormat;
+                    base = replaceVariables(base, p);
                     if (UC.getPlayer(p).isAfk()) {
-                        name = name + afkSuffix;
+                        base = afkFormat.replace("+Original", base);
                     }
-                    if (!p.getPlayerListName().equals(name)) {
-                        p.setPlayerListName(name);
+                    if (!p.getPlayerListName().equals(base)) {
+                        p.setPlayerListName(base);
                     }
                 }
             }
-        }, 100L, 100L);
+        }, 0L, 100L);
+    }
+
+    public static String replaceVariables(String base, Player p) {
+        String playerip = p.getAddress().getAddress().toString().split("/")[1].split(":")[0];
+        String name = "";
+        String money = "";
+        name = p.getName();
+        if (r.getVault() != null) {
+            if (r.getVault().getEconomy() != null) {
+                money = r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance(p));
+            }
+        }
+        String ip = playerip;
+        String version = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
+        int maxplayers = Bukkit.getServer().getMaxPlayers();
+        int onlineplayers = r.getOnlinePlayers().length;
+        String servername = Bukkit.getServerName();
+
+        String group = "";
+        String prefix = "";
+        String suffix = "";
+        if (r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null) {
+            group = r.getVault().getPermission().getPrimaryGroup(p) != null ? r.getVault().getPermission().getPrimaryGroup(p) : "";
+            if (r.getVault().getChat() != null && !group.isEmpty()) {
+                prefix = r.getVault().getChat().getGroupPrefix(p.getWorld(), r.getPrimaryGroup(p));
+                suffix = r.getVault().getChat().getGroupSuffix(p.getWorld(), r.getPrimaryGroup(p));
+                if ((r.getVault().getChat().getPlayerPrefix(p) != null) && !r.getVault().getChat().getPlayerPrefix(p).isEmpty()) {
+                    prefix = r.getVault().getChat().getPlayerPrefix(p);
+                }
+                if ((r.getVault().getChat().getPlayerSuffix(p) != null) && !r.getVault().getChat().getPlayerSuffix(p).isEmpty()) {
+                    suffix = r.getVault().getChat().getPlayerSuffix(p);
+                }
+            }
+        }
+        String displayname = UC.getPlayer(p).getDisplayName();
+        String worldalias = p.getWorld().getName().charAt(0) + "";
+        String world = p.getWorld().getName();
+        String faction = r.getFaction(p) != null ? r.getTown(p) : "";
+        String town = r.getTown(p) != null ? r.getTown(p) : "";
+
+        base = base.replace("+Group", group);
+        base = base.replace("+Prefix", prefix);
+        base = base.replace("+Suffix", suffix);
+        base = base.replace("+Name", name);
+        base = base.replace("+Displayname", displayname);
+        base = base.replace("+World", world);
+        base = base.replace("+WorldAlias", worldalias);
+        base = base.replace("+Town", town);
+        base = base.replace("+Faction", faction);
+        base = base.replace("+Ip", ip);
+        base = base.replace("+Money", money);
+        base = base.replace("+Version", version);
+        base = base.replace("+Maxplayers", maxplayers + "");
+        base = base.replace("+Onlineplayers", onlineplayers + "");
+        base = base.replace("+Servername", servername);
+        base = base.replace("+Uptime", ChatColor.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        return base;
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         //Format
-        if (r.getCnfg().getBoolean("Chat.Tab.HeaderFooterEnabled")) {
-            TabUtil.sendTabTitle(e.getPlayer(), header, footer);
+        Player p = e.getPlayer();
+        //Header and footer
+        if (headerFooterEnabled) {
+            TabUtil.sendTabTitle(p, replaceVariables(header, p), replaceVariables(footer, p));
         }
 
-        //Player name
-        final String def = r.getCnfg().getString("Chat.Tab.TabDefault");
-        if (r.getVault() == null || r.getVault().getPermission() == null) {
-            String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
-            name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-            e.getPlayer().setPlayerListName(name);
-            return;
+        //Player names
+        String group = "";
+        if (r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null) {
+            group = r.getVault().getPermission().getPrimaryGroup(p) != null ? r.getVault().getPermission().getPrimaryGroup(p) : "";
         }
-        String group = r.getPrimaryGroup(e.getPlayer());
-        if (group == null || group.equalsIgnoreCase("")) {
-            String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
-            name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-            e.getPlayer().setPlayerListName(name);
-            return;
+
+        //
+        String base = (!group.isEmpty() && tabFormats.containsKey(group)) ? tabFormats.get(group) : defaultFormat;
+        base = replaceVariables(base, p);
+        if (!p.getPlayerListName().equals(base)) {
+            p.setPlayerListName(base);
         }
-        String prefix = r.getCnfg().getString("Chat.Tab." + group);
-        if (prefix == null || prefix.equalsIgnoreCase("")) {
-            String name = def + UC.getPlayer(e.getPlayer()).getDisplayName();
-            name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-            e.getPlayer().setPlayerListName(name);
-            return;
-        }
-        String name = prefix + UC.getPlayer(e.getPlayer()).getDisplayName();
-        name = ChatColor.translateAlternateColorCodes('&', name).replaceAll("&y", "");
-        e.getPlayer().setPlayerListName(name);
     }
 }

@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.spongeapi.UltimateFileLoader;
 import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.listeners.AutomessageListener;
+import bammerbom.ultimatecore.spongeapi.listeners.TabListener;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.*;
@@ -372,6 +373,7 @@ public class UServer {
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()).replace("-", " "));
         mt = mt.replace("{TPS}", Sponge.getServer().getTicksPerSecond() + "");
         mt = mt.replace("{UPTIME}", TextColorUtil.strip(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        mt = TabListener.replaceVariables(mt, p);
         StringBuilder pb = new StringBuilder();
         for (PluginContainer pl : Sponge.getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {

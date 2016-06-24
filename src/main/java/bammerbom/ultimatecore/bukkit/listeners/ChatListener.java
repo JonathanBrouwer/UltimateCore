@@ -239,15 +239,7 @@ public class ChatListener implements Listener {
                         } else {
                             e.getPlayer().setDisplayName(e.getPlayer().getName());
                         }
-                        f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? group.replaceAll("&y", r.getRandomChatColor() + "") : group);
-                        f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : prefix);
-                        f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : suffix);
-                        f = r(f, "\\+Name", "\\%1\\$s");
-                        f = r(f, "\\+Displayname", "\\%1\\$s");
-                        f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
-                        f = r(f, "\\+World", e.getPlayer().getWorld().getName());
-                        f = r(f, "\\+Faction", r.getFaction(e.getPlayer()));
-                        f = r(f, "\\+Town", r.getTown(e.getPlayer()));
+                        f = TabListener.replaceVariables(f, e.getPlayer());
                         f = ChatColor.translateAlternateColorCodes('&', f);
                         if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {
                             f = r(f, "&y", r.getRandomChatColor() + "");

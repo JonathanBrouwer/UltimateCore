@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -196,7 +197,7 @@ public class ChatListener implements Listener {
         if (!e.isCancelled() && !UC.getPlayer(e.getPlayer()).isMuted()) {
             String m = e.getMessage();
             if (r.perm(e.getPlayer(), "uc.coloredchat", false, false)) {
-                m = TextColorUtil.translateAlternate(m);
+                m = ChatColor.translateAlternateColorCodes('&', m);
             }
             ChatSet set = testMessage(m, e.getPlayer());
             if (set.isCancelled()) {
@@ -211,7 +212,7 @@ public class ChatListener implements Listener {
             }
             if ((Bukkit.getPluginManager().getPlugin("EssentialsChat") != null && Bukkit.getPluginManager().getPlugin("EssentialsChat").isEnabled()) || (Bukkit.getPluginManager()
                     .getPlugin("Essentials") != null && Bukkit.getPluginManager().isPluginEnabled("Essentials"))) {
-                if (!TextColorUtil.strip(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")) {
+                if (!ChatColor.stripColor(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")) {
                     e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
                     return;
                 }
@@ -238,18 +239,10 @@ public class ChatListener implements Listener {
                         } else {
                             e.getPlayer().setDisplayName(e.getPlayer().getName());
                         }
-                        f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? group.replaceAll("&y", r.getRandomTextColor() + "") : group);
-                        f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? prefix.replaceAll("&y", r.getRandomTextColor() + "") : prefix);
-                        f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? suffix.replaceAll("&y", r.getRandomTextColor() + "") : suffix);
-                        f = r(f, "\\+Name", "\\%1\\$s");
-                        f = r(f, "\\+Displayname", "\\%1\\$s");
-                        f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
-                        f = r(f, "\\+World", e.getPlayer().getWorld().getName());
-                        f = r(f, "\\+Faction", r.getFaction(e.getPlayer()));
-                        f = r(f, "\\+Town", r.getTown(e.getPlayer()));
-                        f = TextColorUtil.translateAlternate(f);
+                        f = TabListener.replaceVariables(f, e.getPlayer());
+                        f = ChatColor.translateAlternateColorCodes('&', f);
                         if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {
-                            f = r(f, "&y", r.getRandomTextColor() + "");
+                            f = r(f, "&y", r.getRandomChatColor() + "");
                         }
                         f = r(f, "\\+Message", "\\%2\\$s");
                         synchronized (f) {
@@ -282,20 +275,20 @@ public class ChatListener implements Listener {
             } else {
                 e.getPlayer().setDisplayName(e.getPlayer().getName());
             }
-            f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (group != null ? group.replaceAll("&y", r.getRandomTextColor() + "") : "") : (group != null ? group : ""));
+            f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (group != null ? group.replaceAll("&y", r.getRandomChatColor() + "") : "") : (group != null ? group : ""));
             f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (prefix != null ? prefix
-                    .replaceAll("&y", r.getRandomTextColor() + "") : "") : (prefix != null ? prefix : ""));
+                    .replaceAll("&y", r.getRandomChatColor() + "") : "") : (prefix != null ? prefix : ""));
             f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (suffix != null ? suffix
-                    .replaceAll("&y", r.getRandomTextColor() + "") : "") : (suffix != null ? suffix : ""));
+                    .replaceAll("&y", r.getRandomChatColor() + "") : "") : (suffix != null ? suffix : ""));
             f = r(f, "\\+Name", "\\%1\\$s");
             f = r(f, "\\+Displayname", "\\%1\\$s");
             f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
             f = r(f, "\\+World", e.getPlayer().getWorld().getName());
             f = r(f, "\\+Faction", r.getFaction(e.getPlayer()));
             f = r(f, "\\+Town", r.getTown(e.getPlayer()));
-            f = TextColorUtil.translateAlternate(f);
+            f = ChatColor.translateAlternateColorCodes('&', f);
             if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {
-                f = r(f, "&y", r.getRandomTextColor() + "");
+                f = r(f, "&y", r.getRandomChatColor() + "");
             }
             f = r(f, "\\+Message", "\\%2\\$s");
             synchronized (f) {

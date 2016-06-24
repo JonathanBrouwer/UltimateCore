@@ -194,18 +194,23 @@ Chat:
   EnableCustomDeathmessages: true
 
   #What is the format?
-  #+Group = Group name (If vault installed, else empty)
-  #+Prefix = Group prefix (If vault installed, else empty)
-  #+Suffix = Group suffix (If vault installed, else empty)
-  #+Name = Raw name
-  #+Displayname = Displayname [WARNING: Some plugins automaticly set the rank/faction/etc before the players displayname]
-  #+World = Current World name
-  #+WorldAlias = First letter of the worlds name
-  #+Message = Message the player is trying to send
-  #+Town = The town the player is in (Towny)
-  #+Faction = The faction the player is in (Factions)
-  #+ChatRangePrefix = The prefix of your chat group (ChatRange)
-  #+ChatRangeColour = The colour of your chat group (ChatRange)
+  # +Group         (Group name (If vault installed, else empty))
+  # +Prefix        (Group prefix (If vault installed, else empty))
+  # +Suffix        (Group suffix (If vault installed, else empty))
+  # +Name          (Raw name)
+  # +Displayname   (Displayname [Gets replaced by nick, if available])
+  # +World         (Current World name)
+  # +WorldAlias    (First letter of the worlds name)
+  # +Message       (Message the player is trying to send)
+  # +Town          (The town the player is in (Towny))
+  # +Faction       (The faction the player is in (Factions))
+  # +Ip            (Player's ip)
+  # +Money         (The amount of money the player has)
+  # +Version       (Minecraft version)
+  # +Maxplayers    (Max players for the server)
+  # +Onlineplayers (Amount of players online on the server)
+  # +Servername    (The name of the server set in the server.properties)
+  # +Uptime        (How long the server has been online)
   #Color codes supported!
   Format: '&6+Prefix&6+Displayname: &r+Suffix+Message'
 
@@ -213,36 +218,30 @@ Chat:
   #Every group that is not registered here uses the Global format
   Groups:
     Enabled: false
-    #+Group = Group name (If vault installed, else empty)
-    #+Prefix = Group prefix (If vault installed, else empty)
-    #+Suffix = Group suffix (If vault installed, else empty)
-    #+Name = Raw name
-    #+Displayname = Displayname [WARNING: Some plugins automaticly set the rank/faction/etc before the players displayname]
-    #+World = Current World name
-    #+WorldAlias = First letter of the worlds name
-    #+Message = Message the player is trying to send
-    #+Town = The town the player is in (Towny)
-    #+Faction = The faction the player is in (Factions)
-    #+ChatRangePrefix = The prefix of your chat group (ChatRange)
-    #+ChatRangeColour = The colour of your chat group (ChatRange)
     #Color codes supported!
+    #(All the values named above will work here too)
     #GROUP NAMES ARE CASE SENSITIVE!!!
     Player: '&9[&6Player&9] &6+Displayname: &f+Message'
     Admin: '&6[&4Admin&6] &6+Displayname: &f+Message'
   Tab:
     #Are tab prefixes enabled?
-    Enabled: false
-    #The default tab prefix
-    TabDefault: '&e'
-    #Groups tab prefixes
+    Enabled: true
+    #The default tab format
+    #(All the values named above will work here too)
+    DefaultFormat: '&e+Displayname'
+    #Groups tab formats
+    #(All the values named above will work here too)
     #GROUP NAMES ARE CASE SENSITIVE!!!
-    Player: '&6'
-    Admin: '&4'
+    Groups:
+      Player: '&6+Displayname'
+      Admin: '&4+Displayname'
     #Will be added after the name of an afk player
-    AfkSuffix: ' &c[AFK]'
+    #+Original will be replaced with what the tab name was without the afk tag
+    AfkFormat: '+Original &c[AFK]'
     #Custom header and footer
+    #(All the values named above will work here too)
     HeaderFooterEnabled: true
-    Header: "&bWelcome in this server!\n&eMulti-Line supported!"
+    Header: "&bWelcome to this server, +Displayname!\n&6Players online: +Onlineplayers/+Maxplayers"
     Footer: "&cChange this message in the UltimateCore config.yml"
 
   #Enable spam/swear/etc filter?

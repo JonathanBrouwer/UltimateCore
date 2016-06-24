@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.bukkit.UltimateFileLoader;
 import bammerbom.ultimatecore.bukkit.configuration.Config;
 import bammerbom.ultimatecore.bukkit.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.bukkit.listeners.AutomessageListener;
+import bammerbom.ultimatecore.bukkit.listeners.TabListener;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.*;
@@ -369,6 +370,7 @@ public class UServer {
         mt = mt.replace("{DATE}", DateFormat.getDateInstance(2, Locale.getDefault()).format(new Date()).replace("-", " "));
         mt = mt.replace("{TPS}", PerformanceUtil.getTps() + "");
         mt = mt.replace("{UPTIME}", ChatColor.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        mt = TabListener.replaceVariables(mt, p);
         StringBuilder pb = new StringBuilder();
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
             if (!StringUtil.nullOrEmpty(pb.toString())) {
