@@ -26,13 +26,6 @@ package bammerbom.ultimatecore.spongeapi.resources.classes;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.databases.EffectDatabase;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
-import org.bukkit.DyeColor;
-import org.bukkit.Material;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Colorable;
 
 import java.util.Locale;
 import java.util.Random;

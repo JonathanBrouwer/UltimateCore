@@ -28,10 +28,10 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.ArmorStand;
 import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.living.monster.Monster;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -110,12 +110,10 @@ public class CmdButcher implements UltimateCommand {
                 }
                 if (en instanceof Living && !(en instanceof Player) && !(en instanceof ArmorStand)) {
                     MobType mob = MobType.fromBukkitType(en.getType());
-                    if ((mob != null && mob.type.equals(Enemies.ENEMY)) || en instanceof Monster) {
+                    if ((mob != null && mob.type.equals(MobType.Enemies.ENEMY)) || en instanceof Monster) {
+                        en.playEffect(EntityEffect.DEATH); //TODO wait for spongeapi
                         en.remove();
-                        en.getWorld().spawnParticles(ParticleEffect.builder().type(ParticleTypes));
                         amount++;
-
-                        en.playEffect(EntityEffect.DEATH);
                     }
                 }
             }
@@ -127,12 +125,12 @@ public class CmdButcher implements UltimateCommand {
                 if (filter != null && !filter.equals(MobType.fromBukkitType(en.getType()))) {
                     continue;
                 }
-                if (en instanceof LivingEntity && !(en instanceof Player) && !(en instanceof ArmorStand)) {
+                if (en instanceof Living && !(en instanceof Player) && !(en instanceof ArmorStand)) {
                     MobType mob = MobType.fromBukkitType(en.getType());
-                    if (mob.type.equals(Enemies.ENEMY) || en instanceof Monster) {
+                    if (mob.type.equals(MobType.Enemies.ENEMY) || en instanceof Monster) {
+                        en.playEffect(EntityEffect.DEATH); //TODO wait for spongeapi
                         en.remove();
                         amount++;
-                        en.playEffect(EntityEffect.DEATH);
                     }
                 }
             }
@@ -146,7 +144,7 @@ public class CmdButcher implements UltimateCommand {
         if (curn == 0) {
             ArrayList<String> types = new ArrayList<>();
             for (MobType type : MobType.values()) {
-                if (type.type.equals(Enemies.ENEMY)) {
+                if (type.type.equals(MobType.Enemies.ENEMY)) {
                     types.add(type.name);
                 }
             }
