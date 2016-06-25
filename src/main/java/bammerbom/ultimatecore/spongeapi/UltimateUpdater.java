@@ -482,6 +482,9 @@ public class UltimateUpdater {
      */
     public boolean shouldUpdate(String localVersion, String remoteVersion) {
         try {
+            if (localVersion.contains("-")) {
+                localVersion = localVersion.split("-")[0];
+            }
             Integer l1 = Integer.parseInt(localVersion.split("\\.")[0]);
             Integer l2 = Integer.parseInt(localVersion.split("\\.")[1]);
             Integer l3;

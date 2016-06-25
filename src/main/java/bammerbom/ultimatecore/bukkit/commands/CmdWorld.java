@@ -273,7 +273,7 @@ public class CmdWorld implements UltimateCommand {
             file.delete();
         }
     }
-    
+
     public static void tp(CommandSender cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.tp", false, false)) {
             r.sendMes(cs, "noPermissions");

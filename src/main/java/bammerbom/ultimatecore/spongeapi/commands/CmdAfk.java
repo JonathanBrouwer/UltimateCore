@@ -85,6 +85,7 @@ public class CmdAfk implements UltimateCommand {
                 Sponge.getServer().getBroadcastChannel().send(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getDisplayName()));
                 UC.getPlayer(p).setAfk(false);
                 UC.getPlayer(p).setAfkMessage(null);
+                UC.getPlayer(p).updateLastActivity();
             }
             return CommandResult.success();
         } else {
@@ -106,6 +107,7 @@ public class CmdAfk implements UltimateCommand {
                     Sponge.getServer().getBroadcastChannel().send(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getDisplayName()));
                     UC.getPlayer(t).setAfk(false);
                     UC.getPlayer(t).setAfkMessage(null);
+                    UC.getPlayer(t).updateLastActivity();
                 }
             } else {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);

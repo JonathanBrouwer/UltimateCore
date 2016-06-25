@@ -26,8 +26,21 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.action.InteractEvent;
+import org.spongepowered.api.event.command.SendCommandEvent;
+import org.spongepowered.api.event.command.TabCompleteEvent;
+import org.spongepowered.api.event.entity.MoveEntityEvent;
+import org.spongepowered.api.event.entity.living.humanoid.player.RespawnPlayerEvent;
+import org.spongepowered.api.event.item.inventory.TargetInventoryEvent;
+import org.spongepowered.api.event.message.MessageChannelEvent;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 
-public class AfkListener implements Listener {
+import java.util.Optional;
+
+public class AfkListener {
 
     static Integer afktime = r.getCnfg().getInt("Afk.AfkTime");
     static Integer kicktime = r.getCnfg().getInt("Afk.KickTime");
@@ -68,87 +81,86 @@ public class AfkListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(AsyncPlayerChatEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerBedEnterEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerBedLeaveEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerChatTabCompleteEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerEditBookEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerInteractEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerInteractEntityEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerItemHeldEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerMoveEvent e) {
-        if (!e.getFrom().getBlock().equals(e.getTo().getBlock())) {
-            UC.getPlayer(e.getPlayer()).updateLastActivity();
+    @Listener(order = Order.POST)
+    public void event(MessageChannelEvent.Chat e) {
+        Optional<Player> optPlayer = e.getCause().first(Player.class);
+        if (optPlayer.isPresent()) {
+            UC.getPlayer(optPlayer.get()).updateLastActivity();
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerRespawnEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    @Listener(order = Order.POST)
+    public void event(TabCompleteEvent e) {
+        Optional<Player> optPlayer = e.getCause().first(Player.class);
+        if (optPlayer.isPresent()) {
+            UC.getPlayer(optPlayer.get()).updateLastActivity();
+        }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerToggleSneakEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    @Listener(order = Order.POST)
+    public void event(InteractEvent e) {
+        Optional<Player> optPlayer = e.getCause().first(Player.class);
+        if (optPlayer.isPresent()) {
+            UC.getPlayer(optPlayer.get()).updateLastActivity();
+        }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void event(PlayerVelocityEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    @Listener(order = Order.POST)
+    public void event(TargetInventoryEvent e) {
+        Optional<Player> optPlayer = e.getCause().first(Player.class);
+        if (optPlayer.isPresent()) {
+            UC.getPlayer(optPlayer.get()).updateLastActivity();
+        }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void playerJoin(PlayerJoinEvent e) {
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
+    @Listener(order = Order.POST)
+    public void event(MoveEntityEvent e) {
+        Optional<Player> optPlayer = e.getCause().first(Player.class);
+        if (optPlayer.isPresent()) {
+            if (e.getFromTransform().getPosition().)
+                UC.getPlayer(optPlayer.get()).updateLastActivity();
+        }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void playerCommand(PlayerCommandPreprocessEvent e) {
-        if (e.getMessage().startsWith("/afk") || e.getMessage().startsWith("afk")) {
+    @Listener(order = Order.POST)
+    public void event(RespawnPlayerEvent e) {
+        UC.getPlayer(e.getTargetEntity()).updateLastActivity();
+
+    }
+
+    @Listener(order = Order.POST)
+    public void event(Sneak e) {
+        Optional<Player> optPlayer = e.getCause().first(Player.class);
+        if (optPlayer.isPresent()) {
+            UC.getPlayer(optPlayer.get()).updateLastActivity();
+        }
+    }
+
+    @Listener(order = Order.POST)
+    public void playerJoin(ClientConnectionEvent.Login e) {
+        UC.getPlayer(e.getTargetUser()).updateLastActivity();
+    }
+
+    @Listener(order = Order.POST)
+    public void playerCommand(SendCommandEvent e) {
+        if (e.getCommand().contains("afk")) {
             return;
         }
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
+        Optional<Player> optPlayer = e.getCause().first(Player.class);
+        if (optPlayer.isPresent()) {
+            UC.getPlayer(optPlayer.get()).updateLastActivity();
+        }
     }
 
     @EventHandler
-    public void playerQuit(PlayerQuitEvent e) {
+    public void playerQuit(Disconnect e) {
         if (UC.getPlayer(e.getPlayer()).isAfk()) {
             UC.getPlayer(e.getPlayer()).setAfk(false);
         }
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
+        Optional<Player> optPlayer = e.getCause().first(Player.class);
+        if (optPlayer.isPresent()) {
+            UC.getPlayer(optPlayer.get()).updateLastActivity();
+        }
     }
 
     @EventHandler
@@ -156,7 +168,10 @@ public class AfkListener implements Listener {
         if (UC.getPlayer(e.getPlayer()).isAfk()) {
             UC.getPlayer(e.getPlayer()).setAfk(false);
         }
-        UC.getPlayer(e.getPlayer()).updateLastActivity();
+        Optional<Player> optPlayer = e.getCause().first(Player.class);
+        if (optPlayer.isPresent()) {
+            UC.getPlayer(optPlayer.get()).updateLastActivity();
+        }
     }
 
 }

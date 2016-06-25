@@ -24,8 +24,11 @@
 package bammerbom.ultimatecore.spongeapi.api;
 
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
-import bammerbom.ultimatecore.spongeapi.resources.utils.FireworkUtil;
-import org.bukkit.*;
+import bammerbom.ultimatecore.spongeapi.r;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.gamemode.GameMode;
+import org.spongepowered.api.world.World;
 
 import java.io.File;
 
@@ -39,23 +42,18 @@ public class UWorld {
 
     public UWorld(String world) {
         try {
-            if (world == null || Bukkit.getWorld(world) == null) {
+            if (world == null || !Sponge.getServer().getWorld(world).isPresent()) {
                 throw new NullPointerException("World not found");
             }
-            base = Bukkit.getWorld(world);
+            base = Sponge.getServer().getWorld(world).get();
         } catch (NullPointerException ex) {
             throw new NullPointerException("World not found");
         }
     }
 
-    //Firework
-    public void playFirework(Location l, FireworkEffect ef) {
-        FireworkUtil.play(l, ef);
-    }
-
     //Datafile
     public File getDataFile() {
-        return new File(Bukkit.getPluginManager().getPlugin("UltimateCore").getDataFolder() + File.separator +
+        return new File(r.getUC().getDataFolder() + File.separator +
                 "Data", "worlds.json");
     }
 
@@ -66,9 +64,9 @@ public class UWorld {
     //Register
     public void register(String gen) {
         JsonConfig conf = new JsonConfig(getDataFile());
-        conf.set(base.getName() + ".env", base.getEnvironment().name());
+        conf.set(base.getName() + ".env", base.getDimension().getType().getName());
         conf.set(base.getName() + ".gen", gen);
-        conf.set(base.getName() + ".type", base.getWorldType().toString());
+        conf.set(base.getName() + ".type", base.getProperties().getGeneratorType().getName());
         //conf.set(base.getName() + ".gen", base.getGenerator().getClass());
         conf.save();
     }
@@ -82,7 +80,7 @@ public class UWorld {
     public void resetData() {
         String gen = new JsonConfig(getDataFile()).getString(base.getName() + ".gen");
         unregister();
-        register(gen.isEmpty() ? null : gen);
+        register(gen);
     }
 
     public boolean isFlagDenied(WorldFlag f) {
@@ -103,12 +101,6 @@ public class UWorld {
         JsonConfig conf = new JsonConfig(file);
         conf.set(getWorld().getName() + ".flags." + f.toString(), true);
         conf.save(file);
-        if (f.equals(WorldFlag.ANIMAL)) {
-            getWorld().setAnimalSpawnLimit(15);
-        }
-        if (f.equals(WorldFlag.MONSTER)) {
-            getWorld().setMonsterSpawnLimit(70);
-        }
         if (f.equals(WorldFlag.PVP)) {
             getWorld().setPVP(true);
         }
@@ -119,12 +111,6 @@ public class UWorld {
         JsonConfig conf = new JsonConfig(file);
         conf.set(getWorld().getName() + ".flags." + f.toString(), false);
         conf.save(file);
-        if (f.equals(WorldFlag.ANIMAL)) {
-            getWorld().setAnimalSpawnLimit(0);
-        }
-        if (f.equals(WorldFlag.MONSTER)) {
-            getWorld().setMonsterSpawnLimit(0);
-        }
         if (f.equals(WorldFlag.PVP)) {
             getWorld().setPVP(false);
         }
@@ -135,7 +121,7 @@ public class UWorld {
         JsonConfig conf = new JsonConfig(file);
         String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
         try {
-            return GameMode.valueOf(gm);
+            return Sponge.getRegistry().getType(CatalogTypes.GAME_MODE, gm).orElse(null);
         } catch (IllegalArgumentException ex) {
             return null;
         }
@@ -144,7 +130,7 @@ public class UWorld {
     public void setDefaultGamemode(GameMode gm) {
         File file = getDataFile();
         JsonConfig conf = new JsonConfig(file);
-        conf.set(getWorld().getName() + ".flags.gamemode", gm.name());
+        conf.set(getWorld().getName() + ".flags.gamemode", gm.getId()))
         conf.save(file);
     }
 

@@ -24,12 +24,18 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
+import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class CmdEditsign implements UltimateCommand {
 
@@ -55,11 +61,72 @@ public class CmdEditsign implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("signedit");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.editsign", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "editsignUsage");
+            return CommandResult.empty();
+        }
+        Optional<Location> b = LocationUtil.getAbsoluteTarget(p).getBlock();
+        if (!b.isPresent() || !b.get().getTileEntity().isPresent() || !(b.get().getTileEntity().get() instanceof Sign)) {
+            if (b != null && b.getState() != null) {
+                r.sendMes(cs, "editsignNoSignA", "%Block", ItemUtil.getName(new ItemStack(b.getType(), b.getData())));
+            } else {
+                r.sendMes(cs, "editsignNoSignB");
+            }
+            return CommandResult.empty();
+        }
+        Sign s = (Sign) b.getState();
+        int lineNumber;
+        try {
+            lineNumber = Integer.parseInt(args[0]);
+            lineNumber--;
+        } catch (NumberFormatException e) {
+            r.sendMes(cs, "editsignUsage");
+            return CommandResult.empty();
+        }
+        if ((lineNumber < 0) || (lineNumber > 3)) {
+            r.sendMes(cs, "editsignUsage");
+            return CommandResult.empty();
+        }
+        String text = args.length < 2 ? "" : r.getFinalArg(args, 1);
+        String l1 = lineNumber == 0 ? text : s.getLine(0);
+        String l2 = lineNumber == 1 ? text : s.getLine(1);
+        String l3 = lineNumber == 2 ? text : s.getLine(2);
+        String l4 = lineNumber == 3 ? text : s.getLine(3);
+        SignChangeEvent ev = new SignChangeEvent(b, p, new String[]{l1, l2, l3, l4});
+        Bukkit.getPluginManager().callEvent(ev);
+        if (ev.isCancelled()) {
+            r.sendMes(cs, "editsignNoAccess");
+            return CommandResult.empty();
+        }
+        if (args.length < 2) {
+            s.setLine(lineNumber, "");
+            s.update();
+            r.sendMes(cs, "editsignClear", "%Line", lineNumber + 1);
+            return CommandResult.empty();
+        }
+        if (r.perm(p, "uc.sign.colored", false, false)) {
+            s.setLine(0, TextColorUtil.translateAlternate(l1));
+            s.setLine(1, TextColorUtil.translateAlternate(l2));
+            s.setLine(2, TextColorUtil.translateAlternate(l3));
+            s.setLine(3, TextColorUtil.translateAlternate(l4));
+            text = TextColorUtil.translateAlternate(text);
+        } else {
+            s.setLine(lineNumber, text);
+        }
+        s.update();
+        r.sendMes(cs, "editsignSet", "%Line", lineNumber + 1, "%Text", text);
         return CommandResult.success();
     }
 

@@ -24,8 +24,13 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.type.HandTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -60,6 +65,21 @@ public class CmdEditbook implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.editbook", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || !p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.WRITTEN_BOOK)) {
+            r.sendMes(p, "editbookItem");
+            return CommandResult.empty();
+        }
+        ItemStack olditem = p.getItemInHand(HandTypes.MAIN_HAND).get();
+        ItemStack newitem = ItemStack.builder().from(olditem).itemType(ItemTypes.WRITABLE_BOOK).build();
+        p.setItemInHand(HandTypes.MAIN_HAND, newitem);
+        r.sendMes(p, "editbookSucces");
         return CommandResult.success();
     }
 
@@ -67,37 +87,4 @@ public class CmdEditbook implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList();
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.editbook", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        if (!r.isPlayer(cs)) {
-//            return CommandResult.empty();
-//        }
-//        Player p = (Player) cs;
-//        if (!p.getItemInHand().getType().equals(Material.WRITTEN_BOOK)) {
-//            r.sendMes(p, "editbookItem");
-//            return CommandResult.empty();
-//        }
-//        ItemStack stack = p.getItemInHand();
-//        BookMeta meta = (BookMeta) stack.getItemMeta();
-//        ItemStack newStack = new ItemStack(Material.BOOK_AND_QUILL);
-//        BookMeta newMeta = (BookMeta) newStack.getItemMeta();
-//        newMeta.setDisplayName(meta.getTitle());
-//        newMeta.setPages(meta.getPages());
-//        newStack.setItemMeta(newMeta);
-//        p.setItemInHand(newStack);
-//        r.sendMes(p, "editbookSucces");
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

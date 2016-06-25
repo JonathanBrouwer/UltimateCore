@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.util.NumberConversions;
+import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.world.Location;
 
@@ -194,7 +195,7 @@ public class LocationUtil {
         return is;
     }
 
-    public static Location getTarget(final LivingEntity entity) {
+    public static Optional<Location> getTarget(final Living entity) {
         final Block block = entity.getTargetBlock(TRANSPARENT_MATERIALS, 300);
         if (block == null) {
             return null;
