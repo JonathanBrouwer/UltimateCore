@@ -57,10 +57,10 @@ public class CmdKillall implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.killall", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Integer range = 100;
         if (r.checkArgs(args, 0) && r.isInt(args[0])) {

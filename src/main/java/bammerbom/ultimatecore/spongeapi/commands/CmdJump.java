@@ -55,10 +55,10 @@ public class CmdJump implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!(r.isPlayer(cs))) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.jump", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         final Location cloc = p.getLocation();

@@ -64,7 +64,7 @@ public class CmdAsk implements UltimateCommand {
             return;
         }
         for (Player pl : r.getOnlinePlayers()) {
-            if (r.perm(pl, "uc.support", false, false) && !pl.equals(cs)) {
+            if (r.perm(pl, "uc.answer", false, false) && !pl.equals(cs)) {
                 pl.sendMessage(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 0)));
                 r.sendMes(pl, "askTip", "%Player", r.getDisplayName(cs));
             }

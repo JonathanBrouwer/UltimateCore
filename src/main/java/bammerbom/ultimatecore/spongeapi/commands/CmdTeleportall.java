@@ -57,11 +57,11 @@ public class CmdTeleportall implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.teleportall", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             for (Player pl : Bukkit.getOnlinePlayers()) {
@@ -77,7 +77,7 @@ public class CmdTeleportall implements UltimateCommand {
             Player t = r.searchPlayer(args[0]);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
+                return CommandResult.empty();
             }
             for (Player pl : Bukkit.getOnlinePlayers()) {
                 if (!UC.getPlayer(pl).hasTeleportEnabled() && !r.perm(cs, "uc.tptoggle.override", false, false)) {

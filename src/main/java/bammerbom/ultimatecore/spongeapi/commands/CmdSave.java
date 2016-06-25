@@ -55,13 +55,13 @@ public class CmdSave implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.save", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (r.checkArgs(args, 0)) {
             World w = Bukkit.getWorld(args[0]);
             if (w == null) {
                 r.sendMes(cs, "worldNotFound", "%World", args[0]);
-                return;
+                return CommandResult.empty();
             }
             if (autosaveMessage) {
                 Bukkit.broadcastMessage(r.mes("saveStart"));

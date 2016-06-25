@@ -72,7 +72,7 @@ public class CmdClean implements UltimateCommand {
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.clean", true)) {
-            return;
+            return CommandResult.empty();
         }
         StringBuilder s = new StringBuilder("");
         for (World w : Sponge.getServer().getWorlds()) {

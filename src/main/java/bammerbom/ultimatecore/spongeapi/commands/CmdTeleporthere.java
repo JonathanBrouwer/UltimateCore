@@ -54,20 +54,20 @@ public class CmdTeleporthere implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.teleporthere", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "teleporthereUsage");
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         Player t = r.searchPlayer(args[0]);
         if (t == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         LocationUtil.teleport(t, p, TeleportCause.COMMAND, true, false);
         LocationUtil.playEffect(p, t.getLocation());

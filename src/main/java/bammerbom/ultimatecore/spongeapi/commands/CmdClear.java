@@ -75,23 +75,23 @@ public class CmdClear implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.perm(cs, "uc.clear", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.checkArgs(args, 0)) {
 //            if (!(r.isPlayer(cs))) {
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Player p = (Player) cs;
 //            InventoryUtil.clearHandler(cs, p, args, 0, true);
 //
 //        } else {
 //            if (!r.perm(cs, "uc.clear.others", false, true)) {
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Player t = r.searchPlayer(args[0]);
 //            if (t == null) {
 //                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                return;
+//                return CommandResult.empty();
 //            }
 //            InventoryUtil.clearHandler(cs, t, args, 1, true);
 //

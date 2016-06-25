@@ -59,26 +59,26 @@ public class CmdSpawner implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.spawner", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "spawnerUsage");
-            return;
+            return CommandResult.empty();
         }
         Block b = p.getTargetBlock((Set<Material>) null, 10);
         if (!(b.getState() instanceof CreatureSpawner)) {
             r.sendMes(cs, "spawnerNotLooking");
-            return;
+            return CommandResult.empty();
         }
         CreatureSpawner c = (CreatureSpawner) b.getState();
         MobType m = MobType.fromName(args[0]);
         if (m == null || m.getType() == null || m.getType().equals(EntityType.UNKNOWN) || !m.getType().isSpawnable()) {
             r.sendMes(cs, "spawnerNotFound", "%MobType", args[0]);
-            return;
+            return CommandResult.empty();
         }
         c.setSpawnedType(m.getType());
         c.update();

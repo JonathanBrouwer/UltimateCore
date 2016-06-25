@@ -51,11 +51,11 @@ public class CmdSethunger implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.sethunger", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             p.setFoodLevel(20);
@@ -63,7 +63,7 @@ public class CmdSethunger implements UltimateCommand {
             r.sendMes(cs, "sethungerMessage", "%Player", r.getDisplayName(p), "%Food", "20");
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             if (r.isInt(args[0])) {
                 Integer d = Integer.parseInt(args[0]);
@@ -75,14 +75,14 @@ public class CmdSethunger implements UltimateCommand {
             }
         } else if (r.checkArgs(args, 1)) {
             if (!r.perm(cs, "uc.sethunger.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (r.isInt(args[0])) {
                 Integer d = Integer.parseInt(args[0]);
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                    return;
+                    return CommandResult.empty();
                 }
                 t.setFoodLevel(r.normalize(d, 0, 20));
                 t.setSaturation(10F);
@@ -93,7 +93,7 @@ public class CmdSethunger implements UltimateCommand {
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                    return;
+                    return CommandResult.empty();
                 }
                 t.setFoodLevel(r.normalize(d, 0, 20));
                 t.setSaturation(10F);

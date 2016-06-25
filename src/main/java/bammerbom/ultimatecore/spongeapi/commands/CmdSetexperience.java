@@ -55,14 +55,14 @@ public class CmdSetexperience implements UltimateCommand {
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "setexperienceUsage");
-            return;
+            return CommandResult.empty();
         }
         if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.perm(cs, "uc.setexperience", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             String amount = args[0];
@@ -71,7 +71,7 @@ public class CmdSetexperience implements UltimateCommand {
                 x = Integer.parseInt(amount.replace("l", "").replace("L", ""));
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0].replace("l", "").replace("L", ""));
-                return;
+                return CommandResult.empty();
             }
             r.normalize(x, 0, 999999);
             if (amount.endsWith("l") || amount.endsWith("L")) {
@@ -85,12 +85,12 @@ public class CmdSetexperience implements UltimateCommand {
 
         } else if (r.checkArgs(args, 1)) {
             if (!r.perm(cs, "uc.setexperience.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = r.searchPlayer(args[1]);
             if (p == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                return;
+                return CommandResult.empty();
             }
             String amount = args[0];
             Integer x;
@@ -98,7 +98,7 @@ public class CmdSetexperience implements UltimateCommand {
                 x = Integer.parseInt(amount.replace("l", "").replace("L", ""));
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0].replace("l", "").replace("L", ""));
-                return;
+                return CommandResult.empty();
             }
             r.normalize(x, 0, 999999);
             if (amount.endsWith("l") || amount.endsWith("L")) {

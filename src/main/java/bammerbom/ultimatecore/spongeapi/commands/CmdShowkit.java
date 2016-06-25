@@ -57,15 +57,15 @@ public class CmdShowkit implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.showkit", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "showkitUsage");
-            return;
+            return CommandResult.empty();
         }
         if (!UC.getServer().getKitNames().contains(args[0])) {
             r.sendMes(cs, "kitNotFound", "%Kit", args[0]);
-            return;
+            return CommandResult.empty();
         }
         UKit kit = UC.getServer().getKit(args[0]);
         r.sendMes(cs, "showkitContains", "%Kit", kit.getName());

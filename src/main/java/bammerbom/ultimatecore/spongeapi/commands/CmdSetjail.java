@@ -53,14 +53,14 @@ public class CmdSetjail implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.setjail", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "setjailUsage");
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         UC.getServer().addJail(args[0], p.getLocation());

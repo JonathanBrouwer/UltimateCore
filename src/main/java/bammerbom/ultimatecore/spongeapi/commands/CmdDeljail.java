@@ -24,6 +24,8 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
@@ -55,39 +57,25 @@ public class CmdDeljail implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("removejail", "remjail");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.deljail", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "deljailUsage");
+            return CommandResult.empty();
+        }
+        UC.getServer().removeJail(args[0]);
+        r.sendMes(cs, "deljailMessage", "%Name", args[0]);
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return UC.getServer().getJailsL();
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("removejail", "remjail");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.deljail", false, true)) {
-//            return;
-//        }
-//        if (!r.checkArgs(args, 0)) {
-//            r.sendMes(cs, "deljailUsage");
-//            return;
-//        }
-//        UC.getServer().removeJail(args[0]);
-//        r.sendMes(cs, "deljailMessage", "%Name", args[0]);
-//
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return UC.getServer().getJailsL();
-//    }
 }

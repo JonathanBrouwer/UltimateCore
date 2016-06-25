@@ -54,10 +54,10 @@ public class CmdSpy implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.spy", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         UPlayer up = UC.getPlayer(p);

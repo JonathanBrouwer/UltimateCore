@@ -52,11 +52,11 @@ public class CmdPermcheck implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.permcheck", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "permcheckUsage");
-            return;
+            return CommandResult.empty();
         } else if (!r.checkArgs(args, 1)) {
             if (r.perm(cs, args[0], false, false)) {
                 r.sendMes(cs, "permcheckMessageTrue", "%Player", r.getDisplayName(cs), "%Permission", args[0]);
@@ -65,12 +65,12 @@ public class CmdPermcheck implements UltimateCommand {
             }
         } else {
             if (!r.perm(cs, "uc.permcheck.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             Player t = r.searchPlayer(args[0]);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
+                return CommandResult.empty();
             }
             if (r.perm(t, args[1], false, false)) {
                 r.sendMes(cs, "permcheckMessageTrue", "%Player", t.getName(), "%Permission", args[1]);

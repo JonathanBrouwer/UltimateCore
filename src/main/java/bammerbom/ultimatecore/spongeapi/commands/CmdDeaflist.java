@@ -24,10 +24,14 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -60,48 +64,35 @@ public class CmdDeaflist implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.deaflist", true)) {
+            return CommandResult.empty();
+        }
+        List<GameProfile> deafs = UC.getServer().getDeafGameProfiles();
+        if (deafs == null || deafs.isEmpty()) {
+            r.sendMes(cs, "deaflistNoDeafsFound");
+            return CommandResult.empty();
+        }
+        StringBuilder deaflist = new StringBuilder();
+        Integer cur = 0;
+        String result;
+        for (int i = 0;
+             i < deafs.size();
+             i++) {
+            deaflist.append(deafs.get(cur).getName() + ", ");
+            cur++;
+
+        }
+        result = deaflist.substring(0, deaflist.length() - 2);
+        r.sendMes(cs, "deaflistDeafs", "%Deaflist", result);
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        List<String> deafs = new ArrayList<>();
+        for (GameProfile pl : UC.getServer().getDeafGameProfiles()) {
+            deafs.add(pl.getName().get());
+        }
+        return deafs;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("deafs");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.deaflist", true, true)) {
-//            return;
-//        }
-//        List<OfflinePlayer> deafs = UC.getServer().getDeafOfflinePlayers();
-//        if (deafs == null || deafs.isEmpty()) {
-//            r.sendMes(cs, "deaflistNoDeafsFound");
-//            return;
-//        }
-//        StringBuilder deaflist = new StringBuilder();
-//        Integer cur = 0;
-//        String result;
-//        for (int i = 0;
-//             i < deafs.size();
-//             i++) {
-//            deaflist.append(deafs.get(cur).getName() + ", ");
-//            cur++;
-//
-//        }
-//        result = deaflist.substring(0, deaflist.length() - 2);
-//        r.sendMes(cs, "deaflistDeafs", "%Deaflist", result);
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        List<String> deafs = new ArrayList<>();
-//        for (OfflinePlayer pl : UC.getServer().getDeafOfflinePlayers()) {
-//            deafs.add(pl.getName());
-//        }
-//        return deafs;
-//    }
 }

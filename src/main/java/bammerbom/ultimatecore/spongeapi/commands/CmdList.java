@@ -56,7 +56,7 @@ public class CmdList implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.list", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (r.getVault() == null || r.getVault().getPermission() == null) {
             StringBuilder online = new StringBuilder();

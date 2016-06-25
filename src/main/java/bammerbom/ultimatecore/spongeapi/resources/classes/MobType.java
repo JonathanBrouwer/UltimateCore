@@ -82,7 +82,7 @@ public enum MobType {
     ELDERGUARDIAN("ElderGuardian", Enemies.ENEMY, EntityTypes.GUARDIAN),
     RABBIT("Rabbit", Enemies.FRIENDLY, EntityTypes.RABBIT),
     SHULKER("Shulker", Enemies.ENEMY, EntityTypes.SHULKER),
-    POLAR_BEAR("PolarBear", Enemies.NEUTRAL, EntityTypes.POLAR_BEAR); //TODO NEW MOBS?
+    POLAR_BEAR("PolarBear", Enemies.NEUTRAL, EntityTypes.POLAR_BEAR);
 
     private static final Map<String, MobType> hashMap;
     private static final Map<EntityType, MobType> bukkitMap;

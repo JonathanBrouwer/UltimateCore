@@ -54,15 +54,15 @@ public class CmdMore implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.more", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (p.getItemInHand() == null || p.getItemInHand().getType() == null || p.getItemInHand().getType().equals(Material.AIR)) {
             r.sendMes(cs, "moreNothingInHand");
-            return;
+            return CommandResult.empty();
         }
         p.getItemInHand().setAmount(64);
         r.sendMes(cs, "moreMessage");

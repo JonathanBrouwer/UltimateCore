@@ -24,11 +24,18 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.UltimateFileLoader;
+import bammerbom.ultimatecore.spongeapi.configuration.Config;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CmdCustommessages implements UltimateCommand {
@@ -55,11 +62,46 @@ public class CmdCustommessages implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("cm");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "custommessagesUsage");
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.custommessages", false) && !r.perm(cs, "uc.custommessages." + args[0], false)) {
+            r.sendMes(cs, "noPermissions");
+            return CommandResult.empty();
+        }
+        if (!new Config(UltimateFileLoader.Dcustommes).contains("Messages." + args[0])) {
+            r.sendMes(cs, "custommessagesUsage");
+            return CommandResult.empty();
+        }
+
+        Integer count = args.length - 1;
+        String message = TextColorUtil.translateAlternate(StringUtil.join("\n", new Config(UltimateFileLoader.Dcustommes).getStringList("Messages." + args[0])))
+                .replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "");
+        List<String> c = Arrays.asList(r.getFinalArg(args, 1).split(" "));
+        Collections.reverse(c);
+
+        for (String s : c) {
+            s = TextColorUtil.translateAlternate(s).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("_", " ");
+            if (s.isEmpty()) {
+                continue;
+            }
+            message = message.replace("%var" + count, s);
+            message = message.replace("%Var" + count, s);
+            count--;
+        }
+
+        for (Player p : r.getOnlinePlayers()) {
+            if (r.perm(p, "uc.custommessages.receive", false)) {
+                p.sendMessage(Text.of(message));
+            }
+        }
+
         return CommandResult.success();
     }
 
@@ -67,53 +109,4 @@ public class CmdCustommessages implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("cm");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.checkArgs(args, 0)) {
-//            r.sendMes(cs, "custommessagesUsage");
-//            return;
-//        }
-//        if (!r.perm(cs, "uc.custommessages", false, false) && !r.perm(cs, "uc.custommessages." + args[0], false, false)) {
-//            r.sendMes(cs, "noPermissions");
-//            return;
-//        }
-//        if (!new Config(UltimateFileLoader.Dcustommes).contains("Messages." + args[0])) {
-//            r.sendMes(cs, "custommessagesUsage");
-//            return;
-//        }
-//
-//        Integer count = args.length - 1;
-//        String message = TextColorUtil.translateAlternate(StringUtil.join("\n", new Config(UltimateFileLoader.Dcustommes).getStringList("Messages." + args[0])))
-//                .replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "");
-//        List<String> c = Arrays.asList(r.getFinalArg(args, 1).split(" "));
-//        Collections.reverse(c);
-//
-//        for (String s : c) {
-//            s = TextColorUtil.translateAlternate(s).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("_", " ");
-//            if (s.isEmpty()) {
-//                continue;
-//            }
-//            message = message.replace("%var" + count, s);
-//            message = message.replace("%Var" + count, s);
-//            count--;
-//        }
-//
-//        for (Player p : r.getOnlinePlayers()) {
-//            if (r.perm(p, "uc.custommessages.receive", true, false)) {
-//                p.sendMessage(message);
-//            }
-//        }
-//
-//    }
-//
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

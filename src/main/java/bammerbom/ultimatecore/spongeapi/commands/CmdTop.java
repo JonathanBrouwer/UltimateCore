@@ -74,16 +74,16 @@ public class CmdTop implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (!r.perm(cs, "uc.top", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Location loc = getHighestY(p.getLocation());
         if (loc == null || loc.getY() == 0) {
             r.sendMes(cs, "topFailed");
-            return;
+            return CommandResult.empty();
         }
         loc.add(0, 1.01, 0);
         LocationUtil.teleport(p, loc, TeleportCause.COMMAND, false, true);

@@ -60,16 +60,16 @@ public class CmdMsg implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.msg", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 1)) {
             r.sendMes(cs, "msgUsage");
-            return;
+            return CommandResult.empty();
         }
         Player pl = r.searchPlayer(args[0]);
         if (pl == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (cs instanceof Player) {
             if (UC.getPlayer((Player) cs).isMuted()) {
@@ -78,7 +78,7 @@ public class CmdMsg implements UltimateCommand {
                 } else {
                     r.sendMes(cs, "muteChatTime", "%Time", DateUtil.format(UC.getPlayer((Player) cs).getMuteTimeLeft()));
                 }
-                return;
+                return CommandResult.empty();
             }
             UC.getPlayer(pl).setReply((Player) cs);
             UC.getPlayer((OfflinePlayer) cs).setReply(pl);

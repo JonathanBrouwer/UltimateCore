@@ -257,10 +257,10 @@ public class CmdMobtp implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.mobtp", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         ItemStack stick = new ItemStack(Material.STICK);
         ItemMeta meta = stick.getItemMeta();

@@ -54,10 +54,10 @@ public class CmdNear implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.near", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         StringBuilder builder = new StringBuilder("");
@@ -66,7 +66,7 @@ public class CmdNear implements UltimateCommand {
         if (r.checkArgs(args, 0)) {
             if (!r.isInt(args[0])) {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
-                return;
+                return CommandResult.empty();
             }
             range = r.normalize(Integer.parseInt(args[0]), 1, 5000);
         }

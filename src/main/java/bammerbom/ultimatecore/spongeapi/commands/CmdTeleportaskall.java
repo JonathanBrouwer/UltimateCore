@@ -56,11 +56,11 @@ public class CmdTeleportaskall implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.teleportaskall", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             final Player p = (Player) cs;
             final List<UUID> targets = new ArrayList<>();
@@ -68,7 +68,7 @@ public class CmdTeleportaskall implements UltimateCommand {
             for (final Player t : Bukkit.getOnlinePlayers()) {
                 if (UC.getPlayer(t).hasTeleportEnabled() == false && !r.perm(cs, "uc.tptoggle.override", false, false)) {
                     r.sendMes(cs, "teleportDisabled");
-                    return;
+                    return CommandResult.empty();
                 }
                 UC.getServer().addTeleportHereRequest(t.getUniqueId(), p.getUniqueId());
                 if (UC.getServer().getTeleportRequests().containsKey(t.getUniqueId())) {

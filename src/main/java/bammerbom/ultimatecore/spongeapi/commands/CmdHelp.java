@@ -63,7 +63,7 @@ public class CmdHelp implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.help", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         String command = label;
         String pageStr = args.length > 0 ? args[0] : null;
@@ -203,7 +203,7 @@ class PluginCommandsInput implements UText {
 
     public PluginCommandsInput(CommandSource user, String match) {
         if (!r.perm(user, "uc.plugins", false, false)) {
-            return;
+            return CommandResult.empty();
         }
         boolean reported = false;
         List newLines = new ArrayList();
@@ -299,7 +299,7 @@ class TextPager {
         if ((pageStr == null) || (pageStr.isEmpty()) || (pageStr.matches("[0-9]+"))) {
             if ((!lines.isEmpty()) && (lines.get(0).startsWith("#"))) {
                 if (this.onePage) {
-                    return;
+                    return CommandResult.empty();
                 }
                 r.sendMes(sender, "helpSelectChapter");
                 StringBuilder sb = new StringBuilder();
@@ -312,7 +312,7 @@ class TextPager {
                     sb.append(string);
                 }
                 sender.sendMessage(sb.toString());
-                return;
+                return CommandResult.empty();
             }
 
             int page;
@@ -365,7 +365,7 @@ class TextPager {
                     r.sendMes(sender, "helpTip", "%Page", search + Integer.valueOf(page + 1));
                 }
             }
-            return;
+            return CommandResult.empty();
         }
 
         int chapterpage = 0;
@@ -383,7 +383,7 @@ class TextPager {
 
         if (!bookmarks.containsKey(pageStr.toLowerCase(Locale.ENGLISH))) {
             r.sendMes(sender, "helpUnknownChapter");
-            return;
+            return CommandResult.empty();
         }
 
         int chapterstart = bookmarks.get(pageStr.toLowerCase(Locale.ENGLISH)).intValue() + 1;

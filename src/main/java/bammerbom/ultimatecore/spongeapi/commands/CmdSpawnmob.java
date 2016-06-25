@@ -103,17 +103,17 @@ public class CmdSpawnmob implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.spawnmob", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "spawnmobUsage");
             r.sendMes(cs, "spawnmobUsage2");
             r.sendMes(cs, "spawnmobUsage3");
-            return;
+            return CommandResult.empty();
         }
         if (args[0].equalsIgnoreCase("list")) {
             String message1 = "";
@@ -136,7 +136,7 @@ public class CmdSpawnmob implements UltimateCommand {
             r.sendMes(cs, "spawnmobList1", "%Friendly", message3);
             r.sendMes(cs, "spawnmobList2", "%Neutral", message2);
             r.sendMes(cs, "spawnmobList3", "%Enemy", message1);
-            return;
+            return CommandResult.empty();
         }
         if (args[0].equalsIgnoreCase("data")) {
             r.sendMes(cs, "spawnmobData1");
@@ -148,7 +148,7 @@ public class CmdSpawnmob implements UltimateCommand {
             r.sendMes(cs, "spawnmobData7");
             r.sendMes(cs, "spawnmobData8");
             r.sendMes(cs, "spawnmobData9");
-            return;
+            return CommandResult.empty();
         }
         Location loc = p.getLocation();
         MobType mob = MobType.fromName(args[0]);
@@ -163,7 +163,7 @@ public class CmdSpawnmob implements UltimateCommand {
         if (mob == null || mob.name == null || mob.name.equals("") || mob.getType() == null) {
             if (!args[0].contains(",")) {
                 r.sendMes(cs, "spawnmobNotFound", "%Mob", args[0]);
-                return;
+                return CommandResult.empty();
             }
             //Stacked
             ArrayList<SpawnKit> kits = new ArrayList<>();
@@ -173,7 +173,7 @@ public class CmdSpawnmob implements UltimateCommand {
                     mo1 = MobType.fromName(string.split(":")[0]);
                     if (mo1 == null || mo1.name == null || mo1.name.equals("") || mo1.getType() == null) {
                         r.sendMes(cs, "spawnmobNotFound", "%Mob", string);
-                        return;
+                        return CommandResult.empty();
                     } else {
                         kits.add(new SpawnKit(mo1, string.split(":")[1]));
                     }
@@ -213,7 +213,7 @@ public class CmdSpawnmob implements UltimateCommand {
                 }
             }
             //End stacked
-            return;
+            return CommandResult.empty();
         }
         //Unstacked
         for (int i = 0;

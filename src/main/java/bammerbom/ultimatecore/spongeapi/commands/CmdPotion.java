@@ -62,10 +62,10 @@ public class CmdPotion implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.potion", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (!r.checkArgs(args, 0)) {
@@ -81,7 +81,7 @@ public class CmdPotion implements UltimateCommand {
                 sb.append(type.getName().toLowerCase().replaceAll("_", ""));
             }
             r.sendMes(cs, "potionUsage2", "%Types", sb.toString());
-            return;
+            return CommandResult.empty();
         }
         Boolean spawnin = !(p.getItemInHand().getType() == Material.POTION);
         ItemStack stack = p.getItemInHand().getType() == Material.POTION ? p.getItemInHand() : new ItemStack(Material.POTION);
@@ -89,26 +89,26 @@ public class CmdPotion implements UltimateCommand {
         if (args[0].equalsIgnoreCase("clear")) {
             if (spawnin) {
                 r.sendMes(cs, "potionClearSpawnin");
-                return;
+                return CommandResult.empty();
             }
             stack.setDurability(Short.parseShort("0"));
             meta.clearCustomEffects();
             stack.setItemMeta(meta);
             r.sendMes(cs, "potionClear");
-            return;
+            return CommandResult.empty();
 
         }
         PotionEffectType ef = EffectDatabase.getByName(args[0]);
         if (ef == null) {
             r.sendMes(cs, "potionEffectNotFound", "%Effect", args[0]);
-            return;
+            return CommandResult.empty();
         }
         Integer dur = 120;
         Integer lev = 1;
         if (r.checkArgs(args, 1)) {
             if (!r.isInt(args[1]) && !args[1].equalsIgnoreCase("splash")) {
                 r.sendMes(cs, "numberFormat", "%Number", args[1]);
-                return;
+                return CommandResult.empty();
             } else if (r.isInt(args[1])) {
                 dur = Integer.parseInt(args[1]);
             }
@@ -116,7 +116,7 @@ public class CmdPotion implements UltimateCommand {
         if (r.checkArgs(args, 2)) {
             if (!r.isInt(args[2]) && !args[1].equalsIgnoreCase("splash")) {
                 r.sendMes(cs, "numberFormat", "%Number", args[2]);
-                return;
+                return CommandResult.empty();
             } else if (r.isInt(args[2])) {
                 lev = Integer.parseInt(args[2]);
             }
@@ -131,7 +131,7 @@ public class CmdPotion implements UltimateCommand {
                 }
                 stack.setItemMeta(meta);
                 r.sendMes(cs, "potionRemove");
-                return;
+                return CommandResult.empty();
             } else {
                 lev = r.normalize(lev, 1, 999999);
                 dur = r.normalize(dur, 1, 999999);

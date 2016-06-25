@@ -55,7 +55,7 @@ public class CmdUnjail implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.unjail", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             ArrayList<OfflinePlayer> jailed = UC.getServer().getOfflineJailed();
@@ -67,17 +67,17 @@ public class CmdUnjail implements UltimateCommand {
                     b.append(j.getName());
                 }
             }
-            return;
+            return CommandResult.empty();
         }
         OfflinePlayer pl = r.searchGameProfile(args[0]);
         if (pl == null || (!pl.hasPlayedBefore() && !pl.isOnline())) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         UPlayer plu = UC.getPlayer(pl);
         if (!plu.isJailed()) {
             r.sendMes(cs, "unjailNotJailed", "%Player", pl.getName());
-            return;
+            return CommandResult.empty();
         }
         plu.unjail();
         if (pl.isOnline()) {

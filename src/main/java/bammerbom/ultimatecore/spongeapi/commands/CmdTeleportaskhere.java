@@ -56,25 +56,25 @@ public class CmdTeleportaskhere implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.teleportaskhere", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             //TODO menu
             r.sendMes(cs, "teleportaskhereUsage");
-            return;
+            return CommandResult.empty();
         }
         final Player p = (Player) cs;
         final Player t = r.searchPlayer(args[0]);
         if (t == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (UC.getPlayer(t).hasTeleportEnabled() == false && !r.perm(cs, "uc.tptoggle.override", false, false)) {
             r.sendMes(cs, "teleportDisabled", "%Player", t.getName());
-            return;
+            return CommandResult.empty();
         }
         r.sendMes(cs, "teleportaskSend", "%Player", t.getName());
         UC.getServer().addTeleportHereRequest(t.getUniqueId(), p.getUniqueId());

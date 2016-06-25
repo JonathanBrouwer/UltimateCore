@@ -61,11 +61,11 @@ public class CmdKit implements UltimateCommand {
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.checkArgs(args, 0)) {
             if (!r.perm(cs, "uc.kit", true, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (UC.getServer().getKits().isEmpty()) {
                 r.sendMes(cs, "kitNoFound");
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "kitList1");
             for (UKit kit : UC.getServer().getKits()) {
@@ -83,21 +83,21 @@ public class CmdKit implements UltimateCommand {
 //                }
 //                r.sendMes(cs, "kitList4", "%Items", StringUtil.joinList(items));
             }
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.kit", true, false) && !r.perm(cs, "uc.kit." + args[0], true, false)) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         final Player p = (Player) cs;
         final Config config = new Config(UltimateFileLoader.Dkits);
         final ConfigSection kitNode = config.getConfigurationSection(args[0].toLowerCase());
         if (kitNode == null) {
             r.sendMes(cs, "kitNotFound", "%Kit", args[0].toLowerCase());
-            return;
+            return CommandResult.empty();
         }
         final UKit kit = UC.getServer().getKit(args[0].toLowerCase());
         if (!kit.hasCooldownPassedFor(p) && !r.perm(p, "uc.kit.cooldownexempt", false, false)) {
@@ -106,7 +106,7 @@ public class CmdKit implements UltimateCommand {
             } else {
                 r.sendMes(cs, "kitTime", "%Time", DateUtil.formatDateDiff(kit.getCooldownFor(p)));
             }
-            return;
+            return CommandResult.empty();
         }
         final List<ItemStack> items = kit.getItems();
         final Map<Integer, ItemStack> leftOver = p.getInventory().addItem(items.toArray(new ItemStack[items.size()]));

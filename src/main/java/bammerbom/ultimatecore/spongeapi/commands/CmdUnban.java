@@ -59,11 +59,11 @@ public class CmdUnban implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.unban", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "unbanUsage");
-            return;
+            return CommandResult.empty();
         }
         if (FormatUtil.validIP(args[0])) {
             BanList list = Bukkit.getBanList(BanList.Type.IP);
@@ -79,17 +79,17 @@ public class CmdUnban implements UltimateCommand {
                             .replace("%Unbanned", args[0]));
                 }
             }
-            return;
+            return CommandResult.empty();
         }
         OfflinePlayer banp = r.searchGameProfile(args[0]);
         if (banp == null || banp.getUniqueId() == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         UPlayer pl = UC.getPlayer(banp);
         if (!pl.isBanned()) {
             r.sendMes(cs, "unbanNotBanned", "%Player", r.getDisplayName(banp));
-            return;
+            return CommandResult.empty();
         }
         pl.unban();
         //Check ip

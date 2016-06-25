@@ -55,11 +55,11 @@ public class CmdSpawn implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.spawn", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             if (UC.getPlayer(p).getSpawn(false) == null) {
@@ -70,12 +70,12 @@ public class CmdSpawn implements UltimateCommand {
             r.sendMes(cs, "spawnMessage");
         } else {
             if (!r.perm(cs, "uc.spawn.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             Player t = r.searchPlayer(args[0]);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
+                return CommandResult.empty();
             }
             if (UC.getPlayer(t).getSpawn(false) == null) {
                 LocationUtil.teleport(t, t.getWorld().getSpawnLocation(), TeleportCause.COMMAND, false, false);

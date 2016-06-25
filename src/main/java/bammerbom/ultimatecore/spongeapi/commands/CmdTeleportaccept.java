@@ -56,10 +56,10 @@ public class CmdTeleportaccept implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.teleportaccept", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (UC.getServer().getTeleportHereRequests().containsKey(p.getUniqueId())) {

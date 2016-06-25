@@ -66,7 +66,7 @@ public class CmdRules implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.rules", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         cs.sendMessage(message);
     }

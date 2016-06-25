@@ -75,17 +75,17 @@ public class CmdEnderchest implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!(r.isPlayer(cs))) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Player p = (Player) cs;
 //        if (r.checkArgs(args, 0) == false) {
 //            if (!r.perm(cs, "uc.enderchest", false, true)) {
-//                return;
+//                return CommandResult.empty();
 //            }
 //            p.openInventory(p.getEnderChest());
 //        } else {
 //            if (!r.perm(cs, "uc.enderchest.others", false, true)) {
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Player target = r.searchPlayer(args[0]);
 //            if (target != null) {

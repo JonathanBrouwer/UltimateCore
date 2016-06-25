@@ -40,14 +40,17 @@ import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.service.ban.BanService;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.service.user.UserStorageService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.ban.Ban;
 import org.spongepowered.api.world.Location;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.*;
 
 public class UPlayer {
@@ -253,6 +256,22 @@ public class UPlayer {
     }
 
     public boolean isBanned() {
+        if (getPlayer() == null || getPlayer().getName() == null) {
+            return false;
+        }
+        BanService service = Sponge.getServiceManager().provide(BanService.class).get();
+        if (service.isBanned(r.searchGameProfile(uuid).get())) {
+            return true;
+        }
+        for (Ban.Ip ip : service.getIpBans()) {
+            if (getLastIp() != null && ip.getAddress().getAddress().toString().split("/")[1].split(":")[0].equalsIgnoreCase(getLastIp())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isIpBanned() {
         if (getBanTime() != null && getBanTime() >= 1 && getBanTimeLeft() <= 1 && getPlayerConfig().getBoolean("banned")) {
             unban();
             return false;
@@ -260,49 +279,36 @@ public class UPlayer {
         if (getPlayer() == null || getPlayer().getName() == null) {
             return false;
         }
-        BanList list = Bukkit.getBanList(Type.NAME);
-        BanList list2 = Bukkit.getBanList(Type.IP);
-        if (getPlayerConfig().getBoolean("banned")) {
-            return true;
+        BanService service = Sponge.getServiceManager().provide(BanService.class).get();
+        for (Ban.Ip ip : service.getIpBans()) {
+            if (getLastIp() != null && ip.getAddress().getAddress().toString().split("/")[1].split(":")[0].equalsIgnoreCase(getLastIp())) {
+                return true;
+            }
         }
-        if (list.isBanned(getPlayer().getName())) {
-            return true;
-        }
-        return getLastIp() != null && list2.isBanned(getLastIp());
-    }
-
-    public Type getBanType() {
-        if (!isBanned()) {
-            return null;
-        }
-        if (getPlayer() == null || getPlayer().getName() == null) {
-            return null;
-        }
-        BanList list = Bukkit.getBanList(Type.NAME);
-        BanList list2 = Bukkit.getBanList(Type.IP);
-        if (getPlayerConfig().getBoolean("banned")) {
-            return Type.NAME;
-        }
-        if (list.isBanned(getPlayer().getName())) {
-            return Type.NAME;
-        }
-        if (getLastIp() != null && list2.isBanned(getLastIp())) {
-            return Type.IP;
-        }
-        return null;
+        return false;
     }
 
     public Long getBanTime() {
-        if (!getPlayerConfig().contains("bantime")) {
-            BanList list = Bukkit.getBanList(Type.IP);
-            if (getLastIp() != null && list.isBanned(getLastIp()) && list.getBanEntry(getLastIp()).getExpiration() != null) {
-                return list.getBanEntry(getLastIp()).getExpiration().getTime();
+        BanService service = Sponge.getServiceManager().provide(BanService.class).get();
+        if (service.getBanFor(r.searchGameProfile(uuid).get()).isPresent()) {
+            Ban ban = service.getBanFor(r.searchGameProfile(uuid).get()).get();
+            if (ban.getExpirationDate().isPresent()) {
+                return ban.getExpirationDate().get().getEpochSecond();
+            } else {
+                return -1L;
             }
-            save();
-            return 0L;
+        }
+        for (Ban.Ip ip : service.getIpBans()) {
+            if (getLastIp() != null && ip.getAddress().getAddress().toString().split("/")[1].split(":")[0].equalsIgnoreCase(getLastIp())) {
+                if (ip.getExpirationDate().isPresent()) {
+                    return ip.getExpirationDate().get().getEpochSecond();
+                } else {
+                    return -1L;
+                }
+            }
         }
         save();
-        return getPlayerConfig().getLong("bantime");
+        return -1L;
 
     }
 
@@ -310,16 +316,23 @@ public class UPlayer {
         return getBanTime() - System.currentTimeMillis();
     }
 
-    public String getBanReason() {
-        if (!getPlayerConfig().contains("banreason")) {
-            BanList list = Bukkit.getBanList(Type.IP);
-            if (getLastIp() != null && list.isBanned(getLastIp()) && list.getBanEntry(getLastIp()).getReason() != null) {
-                return list.getBanEntry(getLastIp()).getReason();
+    public Text getBanReason() {
+        BanService service = Sponge.getServiceManager().provide(BanService.class).get();
+        if (service.getBanFor(r.searchGameProfile(uuid).get()).isPresent()) {
+            Ban ban = service.getBanFor(r.searchGameProfile(uuid).get()).get();
+            if (ban.getReason().isPresent()) {
+                return ban.getReason().get();
             }
-            return "";
+        }
+        for (Ban.Ip ip : service.getIpBans()) {
+            if (getLastIp() != null && ip.getAddress().getAddress().toString().split("/")[1].split(":")[0].equalsIgnoreCase(getLastIp())) {
+                if (ip.getReason().isPresent()) {
+                    return ip.getReason().get();
+                }
+            }
         }
         save();
-        return getPlayerConfig().getString("banreason");
+        return r.mes("banDefaultReason");
     }
 
     public void unban() {
@@ -329,45 +342,27 @@ public class UPlayer {
         conf.set("bantime", null);
         conf.set("banreason", null);
         conf.save();
-        BanList list = Bukkit.getBanList(Type.NAME);
-        if (list.isBanned(getPlayer().getName())) {
-            list.pardon(getPlayer().getName());
+        BanService service = Sponge.getServiceManager().provide(BanService.class).get();
+        if (service.getBanFor(r.searchGameProfile(uuid).get()).isPresent()) {
+            service.removeBan(service.getBanFor(r.searchGameProfile(uuid).get()).get());
         }
-        if (list.isBanned(getPlayer().getUniqueId().toString())) {
-            list.pardon(getPlayer().getUniqueId().toString());
-        }
-        BanList list2 = Bukkit.getBanList(Type.IP);
-        if (getLastIp() != null && list2.isBanned(getLastIp())) {
-            list2.pardon(getLastIp());
+        for (Ban.Ip ip : service.getIpBans()) {
+            if (getLastIp() != null && ip.getAddress().getAddress().toString().split("/")[1].split(":")[0].equalsIgnoreCase(getLastIp())) {
+                service.removeBan(ip);
+            }
         }
     }
 
-    public void ban(Long time, String reason, CommandSource source) {
-        JsonConfig conf = getPlayerConfig();
-        if (time == null || time == 0L) {
-            time = -1L;
-        }
-        if (reason == null) {
-            reason = r.mes("banDefaultReason");
-        }
-        if (time >= 1) {
-            time = time + System.currentTimeMillis();
-        }
-        conf.set("banned", true);
-        conf.set("bantime", time);
-        conf.set("banreason", reason);
-        conf.save();
-        BanList list = Bukkit.getBanList(Type.NAME);
-        Date date = time == -1 ? null : new Date(time + System.currentTimeMillis());
-        list.addBan(getPlayer().getName(), reason, date, source.getName());
-        save();
+    public void ban(Long time, Text reason, CommandSource source) {
+        BanService service = Sponge.getServiceManager().provide(BanService.class).get();
+        service.addBan(Ban.builder().reason(reason).profile(r.searchGameProfile(uuid).get()).source(source).expirationDate(Instant.ofEpochMilli(time)).build());
     }
 
     public void ban(Long time) {
         ban(time, null, null);
     }
 
-    public void ban(String reason) {
+    public void ban(Text reason) {
         ban(null, reason, null);
     }
 
@@ -379,7 +374,7 @@ public class UPlayer {
         ban(time, null, source);
     }
 
-    public void ban(String reason, CommandSource source) {
+    public void ban(Text reason, CommandSource source) {
         ban(null, reason, source);
     }
 
@@ -387,7 +382,7 @@ public class UPlayer {
         ban(null, null, source);
     }
 
-    public void ban(Long time, String reason) {
+    public void ban(Long time, Text reason) {
         ban(time, reason, null);
     }
 

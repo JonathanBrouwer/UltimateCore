@@ -24,8 +24,11 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -55,11 +58,33 @@ public class CmdCompass implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("setcompass", "direction");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.compass", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        if (r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.compass.others", true)) {
+                return CommandResult.empty();
+            }
+            if (!r.searchPlayer(args[0]).isPresent()) {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                return CommandResult.empty();
+            }
+            Player pl = r.searchPlayer(args[0]).get();
+            pl.offer(Keys.TARGETED_LOCATION, p.getLocation().getPosition());
+            r.sendMes(cs, "compassOther", "%Player", pl.getName());
+        } else {
+            p.offer(Keys.TARGETED_LOCATION, p.getLocation().getPosition());
+            r.sendMes(cs, "compassSelf");
+        }
         return CommandResult.success();
     }
 
@@ -67,39 +92,4 @@ public class CmdCompass implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("setcompass", "direction");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.compass", false, true)) {
-//            return;
-//        }
-//        if (!r.isPlayer(cs)) {
-//            return;
-//        }
-//        Player p = (Player) cs;
-//        if (r.checkArgs(args, 0)) {
-//            if (!r.perm(cs, "uc.compass.others", false, true)) {
-//                return;
-//            }
-//            Player pl = r.searchPlayer(args[0]);
-//            if (pl == null) {
-//                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                return;
-//            }
-//            pl.setCompassTarget(p.getLocation());
-//            r.sendMes(cs, "compassOther", "%Player", pl.getName());
-//        } else {
-//            p.setCompassTarget(p.getLocation());
-//            r.sendMes(cs, "compassSelf");
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

@@ -24,6 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
@@ -55,43 +58,30 @@ public class CmdDelwarp implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("remwarp", "removewarp");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.delwarp", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "delwarpUsage");
+            return CommandResult.empty();
+        }
+        if (!StringUtil.containsIgnoreCase(UC.getServer().getWarpNames(), args[0])) {
+            r.sendMes(cs, "warpNotExist", "%Warp", args[0]);
+            return CommandResult.empty();
+        }
+        UC.getServer().removeWarp(args[0]);
+        r.sendMes(cs, "delwarpMessage", "%Warp", args[0]);
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return UC.getServer().getWarpNames();
     }
-//
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("remwarp", "removewarp");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.delwarp", false, true)) {
-//            return;
-//        }
-//        if (!r.checkArgs(args, 0)) {
-//            r.sendMes(cs, "delwarpUsage");
-//            return;
-//        }
-//        if (!StringUtil.containsIgnoreCase(UC.getServer().getWarpNames(), args[0])) {
-//            r.sendMes(cs, "warpNotExist", "%Warp", args[0]);
-//            return;
-//        }
-//        UC.getServer().removeWarp(args[0]);
-//        r.sendMes(cs, "delwarpMessage", "%Warp", args[0]);
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return UC.getServer().getWarpNames();
-//    }
+
 }

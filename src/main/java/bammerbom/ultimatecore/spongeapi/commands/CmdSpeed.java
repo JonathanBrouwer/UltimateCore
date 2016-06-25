@@ -71,28 +71,28 @@ public class CmdSpeed implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.speed", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "speedUsage");
-            return;
+            return CommandResult.empty();
         }
         if (!r.isFloat(args[0])) {
             if (r.checkArgs(args, 1) && r.isFloat(args[1])) {
                 run(cs, label, new String[]{args[1], args[0]});
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "speedUsage");
-            return;
+            return CommandResult.empty();
         }
         Float d = Float.parseFloat(args[0]);
         if (d > 10 || d < 0) {
             r.sendMes(cs, "speedUsage");
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             p.setFlySpeed(getSpeed(d, true));
@@ -102,10 +102,10 @@ public class CmdSpeed implements UltimateCommand {
             Player t = r.searchPlayer(args[1]);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                return;
+                return CommandResult.empty();
             }
             if (!r.perm(cs, "uc.speed.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             t.setFlySpeed(getSpeed(d, true));
             t.setWalkSpeed(getSpeed(d, false));

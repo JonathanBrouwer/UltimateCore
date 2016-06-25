@@ -56,16 +56,16 @@ public class CmdMute implements UltimateCommand {
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "muteUsage");
-            return;
+            return CommandResult.empty();
         }
         OfflinePlayer banp = r.searchGameProfile(args[0]);
         if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (UC.getPlayer(banp).isMuted()) {
             r.sendMes(cs, "muteAlreadyMuted", "%Player", r.getDisplayName(banp));
-            return;
+            return CommandResult.empty();
         }
         Long time = 0L;
         String reason = r.mes("muteDefaultReason");
@@ -82,11 +82,11 @@ public class CmdMute implements UltimateCommand {
         //Permcheck
         if (!r.perm(cs, "uc.mute.time", false, false) && !r.perm(cs, "uc.mute", false, false) && time == 0L) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.mute.perm", false, false) && !r.perm(cs, "uc.mute", false, false) && time != 0L) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         UC.getPlayer(banp).setMuted(true, time, reason);
         r.sendMes(cs, "muteMessage", "%Player", r.getDisplayName(banp));

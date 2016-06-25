@@ -57,12 +57,12 @@ public class CmdWarp implements UltimateCommand {
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.checkArgs(args, 0)) {
             if (!r.perm(cs, "uc.warplist", true, true)) {
-                return;
+                return CommandResult.empty();
             }
             List<String> warps = UC.getServer().getWarpNames();
             if (warps == null || warps.isEmpty()) {
                 r.sendMes(cs, "warpNoWarpsFound");
-                return;
+                return CommandResult.empty();
             }
             StringBuilder warplist = new StringBuilder();
             Integer cur = 0;
@@ -78,17 +78,17 @@ public class CmdWarp implements UltimateCommand {
             r.sendMes(cs, "warpWarps", "%Warps", result);
         } else {
             if (!(r.isPlayer(cs))) {
-                return;
+                return CommandResult.empty();
             }
             //Exist
             Player p = (Player) cs;
             if (!r.perm(p, "uc.warp", true, false) && !r.perm(p, "uc.warp." + args[0], true, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (UC.getServer().getWarp(args[0]) == null) {
                 r.sendMes(cs, "warpNotExist", "%Warp", args[0]);
-                return;
+                return CommandResult.empty();
             }
 
             //Teleport

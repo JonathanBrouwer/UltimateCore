@@ -75,10 +75,10 @@ public class CmdEnchantingtable implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.isPlayer(cs)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.perm(cs, "uc.enchantingtable", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Player p = (Player) cs;
 //        p.openEnchanting(p.getLocation(), true);

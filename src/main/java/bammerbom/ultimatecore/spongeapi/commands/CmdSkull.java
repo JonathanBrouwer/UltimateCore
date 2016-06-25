@@ -57,20 +57,20 @@ public class CmdSkull implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.skull", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (r.checkArgs(args, 0)) {
             if (!r.perm(cs, "uc.skull.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             OfflinePlayer t = r.searchGameProfile(args[0]);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
+                return CommandResult.empty();
             }
             ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();

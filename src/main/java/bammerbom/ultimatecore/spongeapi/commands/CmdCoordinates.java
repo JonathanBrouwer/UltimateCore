@@ -24,12 +24,15 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class CmdCoordinates implements UltimateCommand {
 
@@ -55,11 +58,33 @@ public class CmdCoordinates implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("coords", "location", "loc");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.coordinates", true)) {
+            return CommandResult.empty();
+        }
+        if (r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.coordinates.others", true)) {
+                return CommandResult.empty();
+            }
+            Optional<Player> p = r.searchPlayer(args[0]);
+            if (!p.isPresent()) {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                return CommandResult.empty();
+            }
+            r.sendMes(cs, "coordinatesOthers", "%Player", r.getDisplayName(p), "%W", p.get().getWorld().getName(),
+                    "%X", p.get().getLocation().getBlockX(), "%Y", p.get().getLocation().getBlockY(), "%Z", p.get().getLocation()
+                            .getBlockZ());
+        } else {
+            if (!r.isPlayer(cs)) {
+                return CommandResult.empty();
+            }
+            Player p = (Player) cs;
+            r.sendMes(cs, "coordinatesSelf", "%W", p.getWorld().getName(), "%X", p.getLocation().getBlockX(), "%Y", p.getLocation().getBlockY(), "%Z", p.getLocation().getBlockZ());
+        }
         return CommandResult.success();
     }
 
@@ -67,39 +92,4 @@ public class CmdCoordinates implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("coords", "location", "loc");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.coordinates", false, true)) {
-//            return;
-//        }
-//        if (r.checkArgs(args, 0)) {
-//            if (!r.perm(cs, "uc.coordinates.others", false, true)) {
-//                return;
-//            }
-//            Player p = r.searchPlayer(args[0]);
-//            if (p == null) {
-//                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                return;
-//            }
-//            r.sendMes(cs, "coordinatesOthers", "%Player", r.getDisplayName(p), "%W", p.getWorld().getName(), "%X", p.getLocation().getBlockX(), "%Y", p.getLocation().getBlockY(), "%Z", p.getLocation()
-//                    .getBlockZ());
-//        } else {
-//            if (!r.isPlayer(cs)) {
-//                return;
-//            }
-//            Player p = (Player) cs;
-//            r.sendMes(cs, "coordinatesSelf", "%W", p.getWorld().getName(), "%X", p.getLocation().getBlockX(), "%Y", p.getLocation().getBlockY(), "%Z", p.getLocation().getBlockZ());
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

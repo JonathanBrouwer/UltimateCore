@@ -25,14 +25,10 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.resources.utils.InventoryUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
 import java.util.*;
@@ -182,10 +178,10 @@ public class CmdCompact implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.perm(cs, "uc.compact", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.isPlayer(cs)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Player p = (Player) cs;
 //        Integer a = 0;

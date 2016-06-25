@@ -54,10 +54,10 @@ public class CmdSetspawn implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.setspawn", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
 

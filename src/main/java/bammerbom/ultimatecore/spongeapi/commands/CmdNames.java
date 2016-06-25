@@ -53,27 +53,27 @@ public class CmdNames implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.names", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.getCnfg().getBoolean("Mojang")) {
             r.sendMes(cs, "accountstatusDisabled");
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "namesUsage");
-            return;
+            return CommandResult.empty();
         }
         OfflinePlayer p = r.searchGameProfile(args[0]);
         if (p == null || p.getUniqueId() == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         Map<Long, String> names;
         try {
             names = UuidUtil.getNameHistory(p.getUniqueId());
         } catch (Exception e) {
             r.sendMes(cs, "namesFailed");
-            return;
+            return CommandResult.empty();
         }
         r.sendMes(cs, "namesMessage", "%Player", r.getDisplayName(p));
         for (Long date : names.keySet()) {

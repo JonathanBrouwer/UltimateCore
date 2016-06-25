@@ -53,7 +53,7 @@ public class CmdKickall implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.kickall", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Integer a = 0;
         if (!r.checkArgs(args, 0)) {

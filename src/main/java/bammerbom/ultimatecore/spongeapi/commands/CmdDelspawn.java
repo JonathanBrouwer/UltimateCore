@@ -24,8 +24,12 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -55,11 +59,39 @@ public class CmdDelspawn implements UltimateCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("removespawn");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.delspawn", true)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+
+        Boolean world = false;
+        Boolean newbie = false;
+        String group = null;
+        for (String s : args) {
+            if (s.equalsIgnoreCase("-w") || s.equalsIgnoreCase("-world")) {
+                world = true;
+            }
+            if (s.equalsIgnoreCase("-n") || s.equalsIgnoreCase("-newbie")) {
+                newbie = true;
+            }
+            if (s.startsWith("g:")) {
+                group = s.split(":")[1];
+            }
+        }
+
+        if (UC.getServer().delSpawn(world ? p.getWorld() : null, group, newbie)) {
+            r.sendMes(cs, "delspawnMessage", "%Args", StringUtil.joinList(args));
+        } else {
+            r.sendMes(cs, "delspawnNotFound", "%Args", StringUtil.joinList(args));
+        }
         return CommandResult.success();
     }
 
@@ -67,45 +99,4 @@ public class CmdDelspawn implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("removespawn");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.isPlayer(cs)) {
-//            return;
-//        }
-//        if (!r.perm(cs, "uc.delspawn", false, true)) {
-//            return;
-//        }
-//        Player p = (Player) cs;
-//
-//        Boolean world = false;
-//        Boolean newbie = false;
-//        String group = null;
-//        for (String s : args) {
-//            if (s.equalsIgnoreCase("-w") || s.equalsIgnoreCase("-world")) {
-//                world = true;
-//            }
-//            if (s.equalsIgnoreCase("-n") || s.equalsIgnoreCase("-newbie")) {
-//                newbie = true;
-//            }
-//            if (s.startsWith("g:")) {
-//                group = s.split(":")[1];
-//            }
-//        }
-//
-//        if (UC.getServer().delSpawn(world ? p.getWorld() : null, group, newbie)) {
-//            r.sendMes(cs, "delspawnMessage", "%Args", StringUtil.joinList(args));
-//        } else {
-//            r.sendMes(cs, "delspawnNotFound", "%Args", StringUtil.joinList(args));
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

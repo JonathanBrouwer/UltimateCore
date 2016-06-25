@@ -367,7 +367,7 @@ public class CmdVillager implements UltimateCommand {
             public void run() {
                 Boolean all = true;
                 if (inv == null) {
-                    return;
+                    return CommandResult.empty();
                 }
                 for (int i : Arrays.asList(9, 18, 27, 36, 45, 14, 23, 32, 41)) {
                     if (inv.getItem(i) != null && inv.getItem(i + 2) != null) {
@@ -410,7 +410,7 @@ public class CmdVillager implements UltimateCommand {
                     @Override
                     public void run() {
                         if (e.getClickedInventory().getItem(e.getSlot()) == null || e.getClickedInventory().getItem(e.getSlot()).getType().equals(Material.AIR)) {
-                            return;
+                            return CommandResult.empty();
                         }
                         editInv.put(e.getWhoClicked().getUniqueId(), inv);
                         editing.put(e.getWhoClicked().getUniqueId(), e.getSlot());
@@ -577,10 +577,10 @@ public class CmdVillager implements UltimateCommand {
 
     public static void closeInv(HumanEntity p, Inventory oinv) {
         if (blockClose) {
-            return;
+            return CommandResult.empty();
         }
         if (!currentVillager.containsKey(p.getUniqueId())) {
-            return;
+            return CommandResult.empty();
         }
         if (oinv.getTitle().equalsIgnoreCase("Villager Editor (Settings)")) {
             Inventory inv = editInv.get(p.getUniqueId());
@@ -608,7 +608,7 @@ public class CmdVillager implements UltimateCommand {
             editing.remove(p.getUniqueId());
 
             savePage(p, inv, pages.get(p.getUniqueId()));
-            return;
+            return CommandResult.empty();
         }
         savePage(p, oinv, pages.get(p.getUniqueId()));
     }
@@ -715,10 +715,10 @@ public class CmdVillager implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.villager", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         usedCommand.add(p.getUniqueId());

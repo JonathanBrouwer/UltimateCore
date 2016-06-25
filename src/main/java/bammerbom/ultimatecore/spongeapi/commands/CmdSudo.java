@@ -53,20 +53,20 @@ public class CmdSudo implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.sudo", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 1)) {
             r.sendMes(cs, "sudoUsage");
-            return;
+            return CommandResult.empty();
         }
         Player t = r.searchPlayer(args[0]);
         if (t == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (r.perm(t, "uc.sudo.exempt", false, false) && !r.perm(cs, "uc.sudo.exempt.override", false, false)) {
             r.sendMes(cs, "sudoExempt");
-            return;
+            return CommandResult.empty();
         }
         final String[] arguments = new String[args.length - 1];
         if (arguments.length > 0) {

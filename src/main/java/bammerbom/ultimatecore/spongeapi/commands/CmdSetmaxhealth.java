@@ -53,11 +53,11 @@ public class CmdSetmaxhealth implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.setmaxhealth", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             p.setMaxHealth(20.0);
@@ -66,7 +66,7 @@ public class CmdSetmaxhealth implements UltimateCommand {
 
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             if (r.isDouble(args[0])) {
@@ -88,7 +88,7 @@ public class CmdSetmaxhealth implements UltimateCommand {
                     Player t = r.searchPlayer(args[1]);
                     if (t == null) {
                         r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                        return;
+                        return CommandResult.empty();
                     }
                     t.setMaxHealth(d);
                     t.setHealth(d);
@@ -100,7 +100,7 @@ public class CmdSetmaxhealth implements UltimateCommand {
                     Player t = r.searchPlayer(args[0]);
                     if (t == null) {
                         r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                        return;
+                        return CommandResult.empty();
                     }
                     t.setMaxHealth(d);
                     t.setHealth(d);

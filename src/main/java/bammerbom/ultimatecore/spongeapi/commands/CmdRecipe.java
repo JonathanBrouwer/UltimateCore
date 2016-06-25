@@ -155,16 +155,16 @@ public class CmdRecipe implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.recipe", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "recipeUsage");
-            return;
+            return CommandResult.empty();
         }
         ItemStack item = ItemUtil.searchItem(args[0]);
         if (item == null) {
             r.sendMes(cs, "recipeItemNotFound", "%Item", args[0]);
-            return;
+            return CommandResult.empty();
         }
         int recipeNo = 0;
         if (args.length > 1) {
@@ -172,17 +172,17 @@ public class CmdRecipe implements UltimateCommand {
                 recipeNo = Integer.parseInt(args[1]) - 1;
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[1]);
-                return;
+                return CommandResult.empty();
             }
         }
         List<Recipe> recipes = Bukkit.getServer().getRecipesFor(item);
         if (recipes.isEmpty()) {
             r.sendMes(cs, "recipeNoRecipesFound");
-            return;
+            return CommandResult.empty();
         }
         if (recipes.size() <= (recipeNo)) {
             r.sendMes(cs, "recipeNoMoreRecipes", "%Amount", recipeNo + 1);
-            return;
+            return CommandResult.empty();
         }
         Recipe selected = recipes.get(recipeNo);
         if (selected instanceof FurnaceRecipe) {

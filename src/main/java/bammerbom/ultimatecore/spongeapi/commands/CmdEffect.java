@@ -75,16 +75,16 @@ public class CmdEffect implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.perm(cs, "uc.effect", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.checkArgs(args, 1)) {
 //            r.sendMes(cs, "effectUsage");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Player t = r.searchPlayer(args[0]);
 //        if (t == null) {
 //            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        PotionEffectType ef = EffectDatabase.getByName(args[1]);
 //        if (ef == null) {
@@ -93,24 +93,24 @@ public class CmdEffect implements UltimateCommand {
 //                    t.removePotionEffect(effect.getType());
 //                }
 //                r.sendMes(cs, "effectClear", "%Target", t.getName());
-//                return;
+//                return CommandResult.empty();
 //            }
 //            r.sendMes(cs, "effectNotFound", "%Effect", args[1]);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Integer dur = 120;
 //        Integer lev = 1;
 //        if (r.checkArgs(args, 2)) {
 //            if (!r.isInt(args[2])) {
 //                r.sendMes(cs, "numberFormat", "%Number", args[2]);
-//                return;
+//                return CommandResult.empty();
 //            }
 //            dur = Integer.parseInt(args[2]);
 //        }
 //        if (r.checkArgs(args, 3)) {
 //            if (!r.isInt(args[3])) {
 //                r.sendMes(cs, "numberFormat", "%Number", args[3]);
-//                return;
+//                return CommandResult.empty();
 //            }
 //            lev = Integer.parseInt(args[3]);
 //        }
@@ -119,7 +119,7 @@ public class CmdEffect implements UltimateCommand {
 //        if (lev == 0 || dur == 0) {
 //            t.removePotionEffect(ef);
 //            r.sendMes(cs, "effectSucces", "%Effect", ef.getName().toLowerCase(), "%Target", t.getName(), "%Duration", dur, "%Level", lev);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        t.removePotionEffect(ef);
 //        PotionEffect effect = new PotionEffect(ef, dur * 20, lev - 1);

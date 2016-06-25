@@ -55,7 +55,7 @@ public class CmdSetlevel implements UltimateCommand {
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "setlevelUsage");
-            return;
+            return CommandResult.empty();
         }
         if (!r.isInt(args[0])) {
             r.sendMes(cs, "numberFormat", "%Number", args[0]);
@@ -66,12 +66,12 @@ public class CmdSetlevel implements UltimateCommand {
             t = Bukkit.getPlayer(args[1]);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                return;
+                return CommandResult.empty();
             }
         } else if (r.isPlayer(cs)) {
             t = (Player) cs;
         } else {
-            return;
+            return CommandResult.empty();
         }
         t.setLevel(i);
         r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeLevels"), "%Player", t.getName(), "%Experience", i);

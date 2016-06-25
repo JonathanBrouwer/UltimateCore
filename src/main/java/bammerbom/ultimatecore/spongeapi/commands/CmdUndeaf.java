@@ -54,20 +54,20 @@ public class CmdUndeaf implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.undeaf", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "undeafUsage");
-            return;
+            return CommandResult.empty();
         }
         OfflinePlayer banp = r.searchGameProfile(args[0]);
         if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (!UC.getPlayer(banp).isDeaf()) {
             r.sendMes(cs, "undeafNotDeaf", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         UC.getPlayer(banp).setDeaf(false);
         r.sendMes(cs, "undeafMessage", "%Player", r.getDisplayName(banp));

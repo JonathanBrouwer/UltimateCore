@@ -75,12 +75,12 @@ public class CmdFreezelist implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (r.perm(cs, "uc.freezelist", true, true) == false) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        List<OfflinePlayer> freezes = UC.getServer().getFrozenOfflinePlayers();
 //        if (freezes == null || freezes.isEmpty()) {
 //            r.sendMes(cs, "freezelistNoFreezesFound");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        StringBuilder freezelist = new StringBuilder();
 //        Integer cur = 0;

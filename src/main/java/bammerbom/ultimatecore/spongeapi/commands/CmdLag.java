@@ -55,7 +55,7 @@ public class CmdLag implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.lag", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         r.sendMes(cs, "lagTps", "%Tps", PerformanceUtil.getTps());
         r.sendMes(cs, "lagMem", "%Mem", (Math.round(PerformanceUtil.usedRam()) + "/" + Math.round(PerformanceUtil.totalRam()) + "/" +
@@ -63,7 +63,7 @@ public class CmdLag implements UltimateCommand {
         int ws = 0;
         for (World w : Bukkit.getWorlds()) {
             if (r.checkArgs(args, 0) && !args[0].equalsIgnoreCase(w.getName())) {
-                return;
+                return CommandResult.empty();
             }
             ws++;
             int tiles = 0;

@@ -75,15 +75,15 @@ public class CmdEditbook implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.perm(cs, "uc.editbook", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.isPlayer(cs)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Player p = (Player) cs;
 //        if (!p.getItemInHand().getType().equals(Material.WRITTEN_BOOK)) {
 //            r.sendMes(p, "editbookItem");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        ItemStack stack = p.getItemInHand();
 //        BookMeta meta = (BookMeta) stack.getItemMeta();

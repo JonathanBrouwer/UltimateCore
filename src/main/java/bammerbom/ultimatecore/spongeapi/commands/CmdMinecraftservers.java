@@ -53,11 +53,11 @@ public class CmdMinecraftservers implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.minecraftservers", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.getCnfg().getBoolean("Metrics")) {
             r.sendMes(cs, "minecraftserversDisabled");
-            return;
+            return CommandResult.empty();
         }
         Thread thread = new Thread(new Runnable() {
             @Override

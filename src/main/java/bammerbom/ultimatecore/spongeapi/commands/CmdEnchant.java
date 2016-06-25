@@ -75,25 +75,25 @@ public class CmdEnchant implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.perm(cs, "uc.enchant", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.isPlayer(cs)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.checkArgs(args, 0)) {
 //            r.sendMes(cs, "enchantUsage");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Player p = (Player) cs;
 //        Enchantment ench = EnchantmentDatabase.getByName(args[0]);
 //        if (ench == null) {
 //            r.sendMes(cs, "enchantNotFound", "%Enchant", args[0]);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        ItemStack stack = p.getItemInHand();
 //        if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
 //            r.sendMes(cs, "enchantNoItemInHand");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        String name = ench.getName().replace("_", "").toLowerCase();
 //        Integer level = 1;

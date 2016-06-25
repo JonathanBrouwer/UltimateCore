@@ -80,10 +80,10 @@ public class CmdGamemode implements UltimateCommand {
 //            if (!r.checkArgs(args, 0)) {
 //                if (!r.perm(cs, "uc.gamemode.survival", false, false) && !r.perm(cs, "uc.gamemode", false, false)) {
 //                    r.sendMes(cs, "noPermissions");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                if (!r.isPlayer(cs)) {
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                Player p = (Player) cs;
 //                p.setGameMode(GameMode.SURVIVAL);
@@ -91,18 +91,18 @@ public class CmdGamemode implements UltimateCommand {
 //            } else {
 //                if (!r.perm(cs, "uc.gamemode.others.survival", false, false) && !r.perm(cs, "uc.gamemode.others", false, false)) {
 //                    r.sendMes(cs, "noPermissions");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                Player t = r.searchPlayer(args[0]);
 //                if (t == null) {
 //                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                t.setGameMode(GameMode.SURVIVAL);
 //                r.sendMes(cs, "gamemodeOthersSelf", "%Gamemode", r.mes("gamemodeSurvival"), "%Player", t.getName());
 //                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeSurvival"), "%Player", r.getDisplayName(cs));
 //            }
-//            return;
+//            return CommandResult.empty();
 //        }
 //        //Creative
 //        if (label.equalsIgnoreCase("c") || label.equalsIgnoreCase("creative")) {
@@ -110,10 +110,10 @@ public class CmdGamemode implements UltimateCommand {
 //            if (!r.checkArgs(args, 0)) {
 //                if (!r.perm(cs, "uc.gamemode.creative", false, false) && !r.perm(cs, "uc.gamemode", false, false)) {
 //                    r.sendMes(cs, "noPermissions");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                if (!r.isPlayer(cs)) {
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                Player p = (Player) cs;
 //                p.setGameMode(GameMode.CREATIVE);
@@ -121,18 +121,18 @@ public class CmdGamemode implements UltimateCommand {
 //            } else {
 //                if (!r.perm(cs, "uc.gamemode.others.creative", false, false) && !r.perm(cs, "uc.gamemode.others", false, false)) {
 //                    r.sendMes(cs, "noPermissions");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                Player t = r.searchPlayer(args[0]);
 //                if (t == null) {
 //                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                t.setGameMode(GameMode.CREATIVE);
 //                r.sendMes(cs, "gamemodeOthersSelf", "%Gamemode", r.mes("gamemodeCreative"), "%Player", t.getName());
 //                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeCreative"), "%Player", r.getDisplayName(cs));
 //            }
-//            return;
+//            return CommandResult.empty();
 //        }
 //        //Adventure
 //        if (label.equalsIgnoreCase("a") || label.equalsIgnoreCase("adventure")) {
@@ -140,10 +140,10 @@ public class CmdGamemode implements UltimateCommand {
 //            if (!r.checkArgs(args, 0)) {
 //                if (!r.perm(cs, "uc.gamemode.adventure", false, false) && !r.perm(cs, "uc.gamemode", false, false)) {
 //                    r.sendMes(cs, "noPermissions");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                if (!r.isPlayer(cs)) {
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                Player p = (Player) cs;
 //                p.setGameMode(GameMode.ADVENTURE);
@@ -151,28 +151,28 @@ public class CmdGamemode implements UltimateCommand {
 //            } else {
 //                if (!r.perm(cs, "uc.gamemode.others.adventure", false, false) && !r.perm(cs, "uc.gamemode.others", false, false)) {
 //                    r.sendMes(cs, "noPermissions");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                Player t = r.searchPlayer(args[0]);
 //                if (t == null) {
 //                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                t.setGameMode(GameMode.ADVENTURE);
 //                r.sendMes(cs, "gamemodeOthersSelf", "%Gamemode", r.mes("gamemodeAdventure"), "%Player", t.getName());
 //                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeAdventure"), "%Player", r.getDisplayName(cs));
 //            }
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (label.equalsIgnoreCase("spec") || label.equalsIgnoreCase("spectator")) {
 //
 //            if (!r.checkArgs(args, 0)) {
 //                if (!r.perm(cs, "uc.gamemode.spectator", false, false) && !r.perm(cs, "uc.gamemode", false, false)) {
 //                    r.sendMes(cs, "noPermissions");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                if (!r.isPlayer(cs)) {
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                Player p = (Player) cs;
 //                p.setGameMode(GameMode.SPECTATOR);
@@ -180,25 +180,25 @@ public class CmdGamemode implements UltimateCommand {
 //            } else {
 //                if (!r.perm(cs, "uc.gamemode.others.spectator", false, false) && !r.perm(cs, "uc.gamemode.others", false, false)) {
 //                    r.sendMes(cs, "noPermissions");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                Player t = r.searchPlayer(args[0]);
 //                if (t == null) {
 //                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                t.setGameMode(GameMode.SPECTATOR);
 //                r.sendMes(cs, "gamemodeOthersSelf", "%Gamemode", r.mes("gamemodeSpectator"), "%Player", t.getName());
 //                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemodeSpectator"), "%Player", r.getDisplayName(cs));
 //            }
-//            return;
+//            return CommandResult.empty();
 //        }
 //        //Gamemode
 //        if (label.equalsIgnoreCase("gm") || label.equalsIgnoreCase("gamemode")) {
 //            GameMode mode;
 //            if (!r.checkArgs(args, 0)) {
 //                r.sendMes(cs, "gamemodeUsage");
-//                return;
+//                return CommandResult.empty();
 //            }
 //            switch (args[0].toLowerCase()) {
 //                case "survival":
@@ -228,32 +228,32 @@ public class CmdGamemode implements UltimateCommand {
 //                    break;
 //                default:
 //                    r.sendMes(cs, "gamemodeUsage");
-//                    return;
+//                    return CommandResult.empty();
 //            }
 //
 //            if (r.checkArgs(args, 1)) {
 //                //Permissions
 //                if (!r.perm(cs, "uc.gamemode.others." + mode.toString().toLowerCase(), false, false) && !r.perm(cs, "uc.gamemode.others", false, false)) {
 //                    r.sendMes(cs, "noPermissions");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                //
 //                Player t = r.searchPlayer(args[1]);
 //                if (t == null) {
 //                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                t.setGameMode(mode);
 //                r.sendMes(cs, "gamemodeOthersSelf", "%Gamemode", r.mes("gamemode" + StringUtil.firstUpperCase(mode.toString().toLowerCase())), "%Player", t.getName());
 //                r.sendMes(t, "gamemodeOthersOther", "%Gamemode", r.mes("gamemode" + StringUtil.firstUpperCase(mode.toString().toLowerCase())), "%Player", r.getDisplayName(cs));
 //            } else {
 //                if (!r.isPlayer(cs)) {
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                //Permissions
 //                if (!r.perm(cs, "uc.gamemode." + mode.toString().toLowerCase(), false, false) && !r.perm(cs, "uc.gamemode", false, false)) {
 //                    r.sendMes(cs, "noPermissions");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                //
 //                Player p = (Player) cs;

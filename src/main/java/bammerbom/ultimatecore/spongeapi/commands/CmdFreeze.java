@@ -77,12 +77,12 @@ public class CmdFreeze implements UltimateCommand {
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.checkArgs(args, 0)) {
 //            r.sendMes(cs, "freezeUsage");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        OfflinePlayer t = r.searchGameProfile(args[0]);
 //        if (t == null) {
 //            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Long time = 0L;
 //        //Info
@@ -93,11 +93,11 @@ public class CmdFreeze implements UltimateCommand {
 //        //Permcheck
 //        if (!r.perm(cs, "uc.freeze.time", false, false) && !r.perm(cs, "uc.freeze", false, false) && time == 0L) {
 //            r.sendMes(cs, "noPermissions");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.perm(cs, "uc.freeze.perm", false, false) && !r.perm(cs, "uc.freeze", false, false) && time != 0L) {
 //            r.sendMes(cs, "noPermissions");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        UC.getPlayer(t).setFrozen(true, time);
 //        if (time == 0L) {

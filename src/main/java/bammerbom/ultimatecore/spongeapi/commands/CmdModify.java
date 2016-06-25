@@ -57,20 +57,20 @@ public class CmdModify implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.modify", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "modifyUsage");
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         ItemStack stack = p.getItemInHand();
         if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
             r.sendMes(cs, "modifyAir");
-            return;
+            return CommandResult.empty();
         }
         try {
             String s = r.getFinalArg(args, 0);
@@ -83,15 +83,15 @@ public class CmdModify implements UltimateCommand {
                 } catch (IllegalArgumentException ex) {
                     if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or " + "too high")) {
                         r.sendMes(cs, "enchantUnsafe");
-                        return;
+                        return CommandResult.empty();
                     }
-                    return;
+                    return CommandResult.empty();
                 }
                 stack = meta.getItemStack();
             }
         } catch (Exception e) {
             r.sendMes(cs, "giveMetadataFailed");
-            return;
+            return CommandResult.empty();
         }
         p.setItemInHand(stack);
         r.sendMes(cs, "modifyMessage");

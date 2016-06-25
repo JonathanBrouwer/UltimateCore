@@ -61,11 +61,11 @@ public class CmdHeal implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.heal", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (r.checkArgs(args, 0) == false) {
             if (!(r.isPlayer(cs))) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             p.setHealth(p.getMaxHealth());
@@ -87,7 +87,7 @@ public class CmdHeal implements UltimateCommand {
             r.sendMes(cs, "healSelf");
         } else {
             if (!r.perm(cs, "uc.heal.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             Player t = r.searchPlayer(args[0]);
             if (t == null) {

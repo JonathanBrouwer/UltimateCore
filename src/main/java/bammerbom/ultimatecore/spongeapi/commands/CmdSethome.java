@@ -55,24 +55,24 @@ public class CmdSethome implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (!r.perm(p, "uc.sethome", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (r.checkArgs(args, 0) && args[0].contains(":")) {
             if (!r.perm(p, "uc.sethome.others", true, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args[0].split(":"), 1) || args[0].split(":")[0].isEmpty() || args[0].split(":")[1].isEmpty()) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
+                return CommandResult.empty();
             }
             OfflinePlayer t = r.searchGameProfile(args[0].split(":")[0]);
             if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
-                return;
+                return CommandResult.empty();
             }
             List<String> homes = UC.getPlayer(t).getHomeNames();
             if (homes.contains(args[0])) {
@@ -84,7 +84,7 @@ public class CmdSethome implements UltimateCommand {
                 homes.add(args[0].toLowerCase().split(":")[1]);
             }
             UC.getPlayer(t).addHome(args[0].toLowerCase().split(":")[1], p.getLocation());
-            return;
+            return CommandResult.empty();
         }
         Set<String> multihomes = r.getCnfg().getConfigurationSection("Command.HomeLimits").getKeys(false);
         Integer limit = 1;
@@ -104,7 +104,7 @@ public class CmdSethome implements UltimateCommand {
         String name = r.checkArgs(args, 0) ? args[0] : "home";
         if (homes.size() >= limit && !homes.contains(name.toLowerCase())) {
             r.sendMes(cs, "sethomeMax", "%Limit", limit);
-            return;
+            return CommandResult.empty();
         }
         if (homes.contains(name)) {
             r.sendMes(cs, "sethomeMoved", "%Home", name);

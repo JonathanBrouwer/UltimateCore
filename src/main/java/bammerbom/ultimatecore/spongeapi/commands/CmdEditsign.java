@@ -75,15 +75,15 @@ public class CmdEditsign implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.perm(cs, "uc.editsign", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.isPlayer(cs)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Player p = (Player) cs;
 //        if (!r.checkArgs(args, 0)) {
 //            r.sendMes(cs, "editsignUsage");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Block b = LocationUtil.getAbsoluteTarget(p).getBlock();
 //        if ((b == null) || b.getState() == null || (!(b.getState() instanceof Sign))) {
@@ -92,7 +92,7 @@ public class CmdEditsign implements UltimateCommand {
 //            } else {
 //                r.sendMes(cs, "editsignNoSignB");
 //            }
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Sign s = (Sign) b.getState();
 //        int lineNumber;
@@ -101,11 +101,11 @@ public class CmdEditsign implements UltimateCommand {
 //            lineNumber--;
 //        } catch (NumberFormatException e) {
 //            r.sendMes(cs, "editsignUsage");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if ((lineNumber < 0) || (lineNumber > 3)) {
 //            r.sendMes(cs, "editsignUsage");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        String text = args.length < 2 ? "" : r.getFinalArg(args, 1);
 //        String l1 = lineNumber == 0 ? text : s.getLine(0);
@@ -116,13 +116,13 @@ public class CmdEditsign implements UltimateCommand {
 //        Bukkit.getPluginManager().callEvent(ev);
 //        if (ev.isCancelled()) {
 //            r.sendMes(cs, "editsignNoAccess");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (args.length < 2) {
 //            s.setLine(lineNumber, "");
 //            s.update();
 //            r.sendMes(cs, "editsignClear", "%Line", lineNumber + 1);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (r.perm(p, "uc.sign.colored", false, false)) {
 //            s.setLine(0, TextColorUtil.translateAlternate(l1));

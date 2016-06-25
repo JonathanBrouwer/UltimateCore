@@ -75,11 +75,11 @@ public class CmdGod implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.perm(cs, "uc.god", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (r.checkArgs(args, 0) == false) {
 //            if (!r.isPlayer(cs)) {
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Player p = (Player) cs;
 //            if (UC.getPlayer(p).isGod()) {
@@ -89,25 +89,25 @@ public class CmdGod implements UltimateCommand {
 //                UC.getPlayer(p).setGod(true);
 //                r.sendMes(cs, "godSelf", "%Status", r.mes("on"));
 //            }
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (DateUtil.parseDateDiff(args[0]) >= 1) {
 //            Long t = DateUtil.parseDateDiff(args[0]);
 //            if (!r.isPlayer(cs)) {
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Player p = (Player) cs;
 //            UC.getPlayer(p).setGod(true, t);
 //            r.sendMes(cs, "godSelfT", "%Status", r.mes("on"), "%Time", DateUtil.format(t));
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.perm(cs, "uc.god.others", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        OfflinePlayer banp = r.searchGameProfile(args[0]);
 //        if (banp == null || !(banp.isOnline() || banp.hasPlayedBefore())) {
 //            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        /*//Info
 //         if(r.checkArgs(args, 1) == false){
@@ -116,7 +116,7 @@ public class CmdGod implements UltimateCommand {
 //         .mes("on") : r.mes("off")));
 //         if(banp.isOnline()) r.sendMes((Player) banp, "godOthersOtherMessage", "%Player", banp.getName(), "%Status",
 //         (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
-//         return;
+//         return CommandResult.empty();
 //         }*/
 //        Long time = 0L;
 //        if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1]) >= 1) {
@@ -125,11 +125,11 @@ public class CmdGod implements UltimateCommand {
 //        //Permcheck
 //        if (!r.perm(cs, "uc.god.time", false, false) && !r.perm(cs, "uc.god", false, false) && time == 0L) {
 //            r.sendMes(cs, "noPermissions");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.perm(cs, "uc.god.perm", false, false) && !r.perm(cs, "uc.god", false, false) && time != 0L) {
 //            r.sendMes(cs, "noPermissions");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        UC.getPlayer(banp).setGod(!UC.getPlayer(banp).isGod(), time);
 //        if (time == 0L) {

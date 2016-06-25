@@ -75,11 +75,11 @@ public class CmdFeed implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.perm(cs, "uc.feed", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.checkArgs(args, 0)) {
 //            if (!r.isPlayer(cs)) {
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Player p = (Player) cs;
 //            p.setFoodLevel(20);
@@ -87,12 +87,12 @@ public class CmdFeed implements UltimateCommand {
 //            r.sendMes(cs, "feedSelf");
 //        } else {
 //            if (!r.perm(cs, "uc.feed.others", false, true)) {
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Player p = r.searchPlayer(args[0]);
 //            if (p == null) {
 //                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                return;
+//                return CommandResult.empty();
 //            }
 //            p.setFoodLevel(20);
 //            p.setSaturation(10F);

@@ -53,26 +53,26 @@ public class CmdPing implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.ping", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Player pl;
         if (r.checkArgs(args, 0)) {
             if (!r.perm(cs, "uc.ping.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             pl = r.searchPlayer(args[0]);
         } else {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             pl = (Player) cs;
         }
         if (pl == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (r.checkArgs(args, 0) && !r.perm(cs, "uc.ping.others", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         r.sendMes(cs, "pingMessage", "%Player", pl.getName(), "%Ping", PingUtil.getPing(pl));
     }

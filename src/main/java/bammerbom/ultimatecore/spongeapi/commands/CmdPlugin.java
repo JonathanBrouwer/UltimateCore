@@ -77,7 +77,7 @@ public class CmdPlugin implements UltimateCommand {
         if (!r.checkArgs(args, 0) || args[0].equalsIgnoreCase("help")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.help", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             cs.sendMessage(TextColors.GOLD + "================================");
             r.sendMes(cs, "pluginHelpLoad");
@@ -98,46 +98,46 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("load")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.load", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpLoad");
-                return;
+                return CommandResult.empty();
             }
             File f = new File(r.getUC().getDataFolder().getParentFile(), args[1].endsWith(".jar") ? args[1] : args[1] + ".jar");
             if (!f.exists()) {
                 r.sendMes(cs, "pluginFileNotFound", "%File", args[1].endsWith(".jar") ? args[1] : args[1] + ".jar");
-                return;
+                return CommandResult.empty();
             }
             if (!f.canRead()) {
                 r.sendMes(cs, "pluginFileNoReadAccess");
-                return;
+                return CommandResult.empty();
             }
             Plugin p;
             if (PluginUtil.getPluginByName(args[1].replace("\\.jar", "")) != null) {
                 r.sendMes(cs, "pluginAlreadyEnabled");
-                return;
+                return CommandResult.empty();
             }
             try {
                 p = pm.loadPlugin(f);
                 if (p == null) {
                     r.sendMes(cs, "pluginLoadFailed");
-                    return;
+                    return CommandResult.empty();
                 }
                 p.onLoad();
                 pm.enablePlugin(p);
             } catch (UnknownDependencyException ex) {
                 r.sendMes(cs, "pluginLoadMissingDependency", "%Message", ex.getMessage() != null ? ex.getMessage() : "");
                 ex.printStackTrace();
-                return;
+                return CommandResult.empty();
             } catch (InvalidDescriptionException ex) {
                 r.sendMes(cs, "pluginLoadInvalidDescription");
                 ex.printStackTrace();
-                return;
+                return CommandResult.empty();
             } catch (InvalidPluginException ex) {
                 r.sendMes(cs, "pluginLoadFailed");
                 ex.printStackTrace();
-                return;
+                return CommandResult.empty();
             }
             if (p.isEnabled()) {
                 r.sendMes(cs, "pluginLoadSucces");
@@ -148,16 +148,16 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("unload")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.unload", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpUnload");
-                return;
+                return CommandResult.empty();
             }
             Plugin p = pm.getPlugin(args[1]);
             if (p == null) {
                 r.sendMes(cs, "pluginNotFound", "%Plugin", args[1]);
-                return;
+                return CommandResult.empty();
             }
             List<String> deps = PluginUtil.getSoftDependedOnBy(p.getName());
             if (!deps.isEmpty()) {
@@ -169,7 +169,7 @@ public class CmdPlugin implements UltimateCommand {
                     sb.append(", ");
                 }
                 r.sendMes(cs, "pluginUnloadDependent", "%Plugins", sb.substring(0, sb.length() - 4));
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "pluginUnloadUnloading");
             if (PluginUtil.unload(p)) {
@@ -181,20 +181,20 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("enable")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.enable", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpEnable");
-                return;
+                return CommandResult.empty();
             }
             Plugin p = pm.getPlugin(args[1]);
             if (p == null) {
                 r.sendMes(cs, "pluginNotFound", "%Plugin", args[1]);
-                return;
+                return CommandResult.empty();
             }
             if (p.isEnabled()) {
                 r.sendMes(cs, "pluginAlreadyEnabled");
-                return;
+                return CommandResult.empty();
             }
             pm.enablePlugin(p);
             if (p.isEnabled()) {
@@ -206,20 +206,20 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("disable")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.disable", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpDisable");
-                return;
+                return CommandResult.empty();
             }
             Plugin p = pm.getPlugin(args[1]);
             if (p == null) {
                 r.sendMes(cs, "pluginNotFound", "%Plugin", args[1]);
-                return;
+                return CommandResult.empty();
             }
             if (!p.isEnabled()) {
                 r.sendMes(cs, "pluginNotEnabled");
-                return;
+                return CommandResult.empty();
             }
             List<String> deps = PluginUtil.getSoftDependedOnBy(p.getName());
             if (!deps.isEmpty()) {
@@ -231,7 +231,7 @@ public class CmdPlugin implements UltimateCommand {
                     sb.append(", ");
                 }
                 r.sendMes(cs, "pluginUnloadDependent", "%Plugins", sb.substring(0, sb.length() - 4));
-                return;
+                return CommandResult.empty();
             }
             pm.disablePlugin(p);
             if (!p.isEnabled()) {
@@ -243,20 +243,20 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("reload")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.reload", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpReload");
-                return;
+                return CommandResult.empty();
             }
             Plugin p = pm.getPlugin(args[1]);
             if (p == null) {
                 r.sendMes(cs, "pluginNotFound", "%Plugin", args[1]);
-                return;
+                return CommandResult.empty();
             }
             if (!p.isEnabled()) {
                 r.sendMes(cs, "pluginNotEnabled");
-                return;
+                return CommandResult.empty();
             }
             pm.disablePlugin(p);
             pm.enablePlugin(p);
@@ -265,7 +265,7 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("reloadall")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.reloadall", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             Bukkit.getServer().reload();
             r.sendMes(cs, "pluginReloadallMessage");
@@ -273,11 +273,11 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("delete")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.delete", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpDelete");
-                return;
+                return CommandResult.empty();
             }
             String del = args[1];
             if (!del.endsWith(".jar")) {
@@ -285,12 +285,12 @@ public class CmdPlugin implements UltimateCommand {
             }
             if (del.contains(File.separator)) {
                 r.sendMes(cs, "pluginDeleteDontLeavePluginFolder");
-                return;
+                return CommandResult.empty();
             }
             File f = new File(r.getUC().getDataFolder().getParentFile() + File.separator + del);
             if (!f.exists()) {
                 r.sendMes(cs, "pluginFileNotFound", "%File", del);
-                return;
+                return CommandResult.empty();
             }
             if (!f.canWrite()) {
                 r.sendMes(cs, "pluginFileNoWriteAccess");
@@ -304,21 +304,21 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("commands")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.commands", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpCommands");
-                return;
+                return CommandResult.empty();
             }
             Plugin p = pm.getPlugin(args[1]);
             if (p == null) {
                 r.sendMes(cs, "pluginNotFound", "%Plugin", args[1]);
-                return;
+                return CommandResult.empty();
             }
             Map<String, Map<String, Object>> cmds = p.getDescription().getCommands();
             if (cmds == null) {
                 r.sendMes(cs, "pluginCommandsNoneRegistered");
-                return;
+                return CommandResult.empty();
             }
             String command = "plugin " + p.getName();
             String pageStr = args.length > 2 ? args[2] : null;
@@ -329,7 +329,7 @@ public class CmdPlugin implements UltimateCommand {
                     output = new PluginCommandsInput(cs, args[1].toLowerCase());
                 } else {
                     r.sendMes(cs, "pluginCommandsPageNotNumber");
-                    return;
+                    return CommandResult.empty();
                 }
             } else {
                 output = input;
@@ -340,28 +340,28 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("list")) {
             if (!r.perm(cs, "uc.plugin", false, false) && !r.perm(cs, "uc.plugin.list", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "pluginsList", "%Plugins", PluginUtil.getPluginList());
         } //info
         else if (args[0].equalsIgnoreCase("info")) {
             if (!r.perm(cs, "uc.plugin.info", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpInfo");
-                return;
+                return CommandResult.empty();
             }
             Plugin p = pm.getPlugin(args[1]);
             if (p == null) {
                 r.sendMes(cs, "pluginNotFound", "%Plugin", args[1]);
-                return;
+                return CommandResult.empty();
             }
             PluginDescriptionFile pdf = p.getDescription();
             if (pdf == null) {
                 r.sendMes(cs, "pluginLoadInvalidDescription");
-                return;
+                return CommandResult.empty();
             }
             String version = pdf.getVersion();
             List<String> authors = pdf.getAuthors();
@@ -396,27 +396,27 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("updatecheck")) {
             if (!r.perm(cs, "uc.plugin.updatecheck", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpUpdatecheck");
-                return;
+                return CommandResult.empty();
             }
             Plugin p = pm.getPlugin(args[1]);
             if (p == null) {
                 r.sendMes(cs, "pluginNotFound", "%Plugin", args[1]);
-                return;
+                return CommandResult.empty();
             }
             String tag;
             try {
                 tag = URLEncoder.encode(r.checkArgs(args, 2) ? args[2] : p.getName(), "UTF-8");
             } catch (UnsupportedEncodingException ex) {
                 r.sendMes(cs, "pluginNoUTF8");
-                return;
+                return CommandResult.empty();
             }
             if (p.getDescription() == null) {
                 r.sendMes(cs, "pluginLoadInvalidDescription");
-                return;
+                return CommandResult.empty();
             }
             if (p.getDescription().getWebsite().startsWith("http://dev.bukkit.org/bukkit-plugins/")) {
                 tag = p.getDescription().getWebsite().split("dev.bukkit.org/bukkit-plugins/")[1].split("/")[0];
@@ -455,7 +455,7 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("updatecheckall")) {
             if (!r.perm(cs, "uc.plugin.updatecheckall", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             final Runnable ru = new Runnable() {
                 @Override
@@ -505,12 +505,12 @@ public class CmdPlugin implements UltimateCommand {
         else if (args[0].equalsIgnoreCase("download")) {
             if (!r.perm(cs, "uc.plugin.download", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpDownload");
                 cs.sendMessage(r.negative + "http://dev.bukkit.org/server-mods/" + r.neutral + "ultimate_core" + r.negative + "/");
-                return;
+                return CommandResult.empty();
             }
             final Runnable ru = new Runnable() {
                 @Override
@@ -547,7 +547,7 @@ public class CmdPlugin implements UltimateCommand {
                         r.sendMes(cs, "pluginDownloadInvalidtag");
                         cs.sendMessage(r.negative + "http://dev.bukkit.org/server-mods/" + r.neutral +
                                 "ultimate_core" + r.negative + "/");
-                        return;
+                        return CommandResult.empty();
                     }
                     BufferedInputStream bis;
                     final HttpURLConnection huc;
@@ -558,10 +558,10 @@ public class CmdPlugin implements UltimateCommand {
                         bis = new BufferedInputStream(huc.getInputStream());
                     } catch (MalformedURLException e) {
                         r.sendMes(cs, "pluginDownloadInvaliddownloadlink");
-                        return;
+                        return CommandResult.empty();
                     } catch (IOException e) {
                         r.sendMes(cs, "pluginDownloadFailed", "%Message", e.getMessage());
-                        return;
+                        return CommandResult.empty();
                     }
                     String[] urlParts = huc.getURL().toString().split("(\\\\|/)");
                     final String fileName = urlParts[urlParts.length - 1];
@@ -572,7 +572,7 @@ public class CmdPlugin implements UltimateCommand {
                     }
                     if (!fileName.endsWith(".zip") && !fileName.endsWith(".jar")) {
                         r.sendMes(cs, "pluginDownloadNotJarOrZip", "%Filename", fileName);
-                        return;
+                        return CommandResult.empty();
                     }
                     f.getParentFile().mkdirs();
                     BufferedOutputStream bos;
@@ -580,7 +580,7 @@ public class CmdPlugin implements UltimateCommand {
                         bos = new BufferedOutputStream(new FileOutputStream(f));
                     } catch (FileNotFoundException e) {
                         r.sendMes(cs, "pluginDownloadTempNotFound", "%Dir", System.getProperty("java.io.tmpdir"));
-                        return;
+                        return CommandResult.empty();
                     }
                     int b;
                     r.sendMes(cs, "pluginDownloadDownloading");
@@ -595,7 +595,7 @@ public class CmdPlugin implements UltimateCommand {
                         }
                     } catch (IOException e) {
                         r.sendMes(cs, "pluginDownloadFailed", "%Message", e.getMessage());
-                        return;
+                        return CommandResult.empty();
                     }
                     if (fileName.endsWith(".zip")) {
                         r.sendMes(cs, "pluginDownloadDecompressing");
@@ -625,12 +625,12 @@ public class CmdPlugin implements UltimateCommand {
         } else if (args[0].equalsIgnoreCase("search")) {
             if (!r.perm(cs, "uc.plugin.search", false, false) && !r.perm(cs, "uc.plugin", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             int page = 1;
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "pluginHelpSearch");
-                return;
+                return CommandResult.empty();
             }
             Boolean b = false;
             if (r.checkArgs(args, 2)) {
@@ -648,14 +648,14 @@ public class CmdPlugin implements UltimateCommand {
                 search = URLEncoder.encode(search, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 r.sendMes(cs, "pluginNoUTF8");
-                return;
+                return CommandResult.empty();
             }
             final URL u;
             try {
                 u = new URL("http://dev.bukkit.org/search/?scope=projects&search=" + search + "&page=" + page);
             } catch (MalformedURLException e) {
                 r.sendMes(cs, "pluginSearchMalformedTerm");
-                return;
+                return CommandResult.empty();
             }
             final Runnable ru = new Runnable() {
                 @Override
@@ -665,7 +665,7 @@ public class CmdPlugin implements UltimateCommand {
                         br = new BufferedReader(new InputStreamReader(u.openStream()));
                     } catch (IOException e) {
                         r.sendMes(cs, "pluginSearchFailed", "%Message", e.getMessage());
-                        return;
+                        return CommandResult.empty();
                     }
                     String inputLine;
                     StringBuilder content = new StringBuilder();
@@ -675,7 +675,7 @@ public class CmdPlugin implements UltimateCommand {
                         }
                     } catch (IOException e) {
                         r.sendMes(cs, "pluginSearchFailed", "%Message", e.getMessage());
-                        return;
+                        return CommandResult.empty();
                     }
                     r.sendMes(cs, "pluginSearchHeader");
                     for (int i = 0;
@@ -687,7 +687,7 @@ public class CmdPlugin implements UltimateCommand {
                             if (i == 0) {
                                 r.sendMes(cs, "pluginSearchNoResults");
                             }
-                            return;
+                            return CommandResult.empty();
                         }
                         final Pattern p = Pattern.compile("<h2><a href=\"/bukkit-plugins/([\\W\\w]+)/\">([\\w\\W]+)" + "</a></h2>");
                         final Matcher m = p.matcher(base);
@@ -695,7 +695,7 @@ public class CmdPlugin implements UltimateCommand {
                             if (i == 0) {
                                 r.sendMes(cs, "pluginSearchNoResults");
                             }
-                            return;
+                            return CommandResult.empty();
                         }
                         final String name = m.group(2).replaceAll("</?\\w+>", "");
                         final String tag = m.group(1);

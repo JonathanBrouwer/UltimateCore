@@ -63,20 +63,20 @@ public class CmdWorld implements UltimateCommand {
     public static void create(CommandSource cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.create", false, false)) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             usage(cs);
-            return;
+            return CommandResult.empty();
         }
         if (r.checkArgs(args, 1)) {
             if (Bukkit.getWorld(args[1]) != null) {
                 r.sendMes(cs, "worldAlreadyExist");
-                return;
+                return CommandResult.empty();
             }
             if (!args[1].replaceAll("[_a-zA-Z0-9]", "").isEmpty()) {
                 r.sendMes(cs, "worldNonAlpha");
-                return;
+                return CommandResult.empty();
             }
             WorldCreator settings = new WorldCreator(args[1]);
             String gen = null;
@@ -136,17 +136,17 @@ public class CmdWorld implements UltimateCommand {
     public static void importw(CommandSource cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.import", false, false)) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             usage(cs);
-            return;
+            return CommandResult.empty();
         }
         //
         if (r.checkArgs(args, 1)) {
             if (!new File(args[1]).exists()) {
                 r.sendMes(cs, "worldNotFound", "%World", args[1]);
-                return;
+                return CommandResult.empty();
             }
             WorldCreator settings = new WorldCreator(args[1]);
             String gen = null;
@@ -204,11 +204,11 @@ public class CmdWorld implements UltimateCommand {
     public static void list(CommandSource cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.list", false, false)) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             usage(cs);
-            return;
+            return CommandResult.empty();
         }
         //
         List<World> worlds1 = Bukkit.getWorlds();
@@ -235,18 +235,18 @@ public class CmdWorld implements UltimateCommand {
     public static void remove(CommandSource cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.remove", false, false)) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             usage(cs);
-            return;
+            return CommandResult.empty();
         }
         //
         if (r.checkArgs(args, 1)) {
             World world = Bukkit.getWorld(args[1]);
             if (world == null) {
                 r.sendMes(cs, "worldNotFound", "%World", args[1]);
-                return;
+                return CommandResult.empty();
             }
             for (Player pl : r.getOnlinePlayers()) {
                 if (pl.getWorld().equals(world)) {
@@ -277,21 +277,21 @@ public class CmdWorld implements UltimateCommand {
     public static void tp(CommandSource cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.tp", false, false)) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 1)) {
             usage(cs);
-            return;
+            return CommandResult.empty();
         }
         //
         if (r.checkArgs(args, 1)) {
             World world = Bukkit.getWorld(args[1]);
             if (world == null) {
                 r.sendMes(cs, "worldNotFound", "%World", args[1]);
-                return;
+                return CommandResult.empty();
             }
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             final Player p = (Player) cs;
             final Location loc = world.getSpawnLocation();
@@ -302,11 +302,11 @@ public class CmdWorld implements UltimateCommand {
     public static void flag(CommandSource cs, String[] args) {
         if (!r.perm(cs, "uc.world", false, false) && !r.perm(cs, "uc.world.flag", false, false)) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 3)) {
             usage(cs);
-            return;
+            return CommandResult.empty();
         }
         //world flag [world] [flag] [value]
         //true = allow, false = deny

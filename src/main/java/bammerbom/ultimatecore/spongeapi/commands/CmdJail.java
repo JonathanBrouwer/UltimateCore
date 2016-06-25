@@ -59,13 +59,13 @@ public class CmdJail implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.jail", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             HashMap<String, Location> jails = UC.getServer().getJails();
             if (jails.isEmpty()) {
                 r.sendMes(cs, "jailNone");
-                return;
+                return CommandResult.empty();
             }
             StringBuilder b = new StringBuilder();
             for (String j : jails.keySet()) {
@@ -78,22 +78,22 @@ public class CmdJail implements UltimateCommand {
         } else {
             if (!r.checkArgs(args, 0)) {
                 r.sendMes(cs, "jailUsage");
-                return;
+                return CommandResult.empty();
             }
             OfflinePlayer pl = r.searchGameProfile(args[0]);
             if (pl == null || (!pl.hasPlayedBefore() && !pl.isOnline())) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
+                return CommandResult.empty();
             }
             UPlayer pu = UC.getPlayer(pl);
             if (pu.isJailed()) {
                 r.sendMes(cs, "jailAlreadyJailed", "%Player", pl.getName());
-                return;
+                return CommandResult.empty();
             }
             HashMap<String, Location> jailsA = UC.getServer().getJails();
             if (jailsA.isEmpty()) {
                 r.sendMes(cs, "jailNone");
-                return;
+                return CommandResult.empty();
             }
             String jail;
             Long time = -1L;
@@ -110,7 +110,7 @@ public class CmdJail implements UltimateCommand {
             }
             if (UC.getServer().getJail(jail) == null) {
                 r.sendMes(cs, "jailNotFound", "%Jail", jail);
-                return;
+                return CommandResult.empty();
             }
             Location loc = UC.getServer().getJail(jail);
             if (pl.isOnline()) {

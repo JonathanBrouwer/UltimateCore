@@ -56,23 +56,23 @@ public class CmdMoney implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.money", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (r.getVault() == null) {
             r.sendMes(cs, "moneyNoVault");
-            return;
+            return CommandResult.empty();
         }
         if (r.getVault().getEconomy() == null) {
             r.sendMes(cs, "moneyNoEconomy");
-            return;
+            return CommandResult.empty();
         }
         //money
         if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             if (!r.perm(cs, "uc.money.status", true, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (!r.getVault().getEconomy().hasAccount((Player) cs)) {
                 r.getVault().getEconomy().createPlayerAccount((Player) cs);
@@ -80,7 +80,7 @@ public class CmdMoney implements UltimateCommand {
             r.sendMes(cs, "moneyStatusSelf", "%Balance", r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance((Player) cs)));
         /*} else if (args[0].equalsIgnoreCase("check")) {
             if (!r.perm(cs, "uc.money.check", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (r.checkArgs(args, 2) && r.isDouble(args[2])) {
                 OfflinePlayer t = r.searchGameProfile(args[1]);
@@ -89,7 +89,7 @@ public class CmdMoney implements UltimateCommand {
                 }
                 if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                    return;
+                    return CommandResult.empty();
                 }
                 final boolean has = r.getVault().getEconomy().getBalance(t) >= Double.parseDouble(args[2]);
                 if (cs instanceof BlockCommandSource) {
@@ -129,16 +129,16 @@ public class CmdMoney implements UltimateCommand {
             } else {
                 r.sendMes(cs, "moneyUsage");
             }
-            return;*/
+            return CommandResult.empty();*/
         } else if (args[0].equalsIgnoreCase("set")) {
             if (!r.perm(cs, "uc.money.set", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "moneyUsage");
             } else if (r.isDouble(args[1])) {
                 if (!r.isPlayer(cs)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 if (!r.getVault().getEconomy().hasAccount((Player) cs)) {
                     r.getVault().getEconomy().createPlayerAccount((Player) cs);
@@ -147,11 +147,11 @@ public class CmdMoney implements UltimateCommand {
                     UEconomy ue = (UEconomy) r.getVault().getEconomy();
                     if (ue.getMaximumMoney() != null && Double.parseDouble(args[1]) > ue.getMaximumMoney()) {
                         r.sendMes(cs, "moneyTooHigh");
-                        return;
+                        return CommandResult.empty();
                     }
                     if (Double.parseDouble(args[1]) < ue.getMinimumMoney()) {
                         r.sendMes(cs, "moneyTooLow");
-                        return;
+                        return CommandResult.empty();
                     }
                 }
                 EconomyResponse er1 = r.getVault().getEconomy().withdrawPlayer((Player) cs, r.getVault().getEconomy().getBalance((Player) cs));
@@ -169,7 +169,7 @@ public class CmdMoney implements UltimateCommand {
                 r.sendMes(cs, "moneyUsage");
             } else if (!r.isDouble(args[1]) && r.isDouble(args[2])) {
                 if (!r.perm(cs, "uc.money.set.others", false, true)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 OfflinePlayer t = r.searchGameProfile(args[1]);
                 if (!r.getVault().getEconomy().hasAccount(t)) {
@@ -179,11 +179,11 @@ public class CmdMoney implements UltimateCommand {
                     UEconomy ue = (UEconomy) r.getVault().getEconomy();
                     if (ue.getMaximumMoney() != null && Double.parseDouble(args[2]) > ue.getMaximumMoney()) {
                         r.sendMes(cs, "moneyTooHigh");
-                        return;
+                        return CommandResult.empty();
                     }
                     if (Double.parseDouble(args[2]) < ue.getMinimumMoney()) {
                         r.sendMes(cs, "moneyTooLow");
-                        return;
+                        return CommandResult.empty();
                     }
                 }
                 EconomyResponse er1 = r.getVault().getEconomy().withdrawPlayer(t, r.getVault().getEconomy().getBalance(t));
@@ -202,14 +202,14 @@ public class CmdMoney implements UltimateCommand {
             }
         } else if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("give")) {
             if (!r.perm(cs, "uc.money.add", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "moneyUsage");
 
             } else if (r.isDouble(args[1])) {
                 if (!r.isPlayer(cs)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 if (!r.getVault().getEconomy().hasAccount((Player) cs)) {
                     r.getVault().getEconomy().createPlayerAccount((Player) cs);
@@ -226,7 +226,7 @@ public class CmdMoney implements UltimateCommand {
                         } else {
                             r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
                         }
-                        return;
+                        return CommandResult.empty();
                     }
                 }
                 EconomyResponse er = r.getVault().getEconomy().depositPlayer((Player) cs, Double.parseDouble(args[1]));
@@ -239,7 +239,7 @@ public class CmdMoney implements UltimateCommand {
                 r.sendMes(cs, "moneyUsage");
             } else if (!r.isDouble(args[1]) && r.isDouble(args[2])) {
                 if (!r.perm(cs, "uc.money.add.others", false, true)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 OfflinePlayer t = r.searchGameProfile(args[1]);
                 if (!r.getVault().getEconomy().hasAccount(t)) {
@@ -258,9 +258,9 @@ public class CmdMoney implements UltimateCommand {
                             } else {
                                 r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
                             }
-                            return;
+                            return CommandResult.empty();
                         }
-                        return;
+                        return CommandResult.empty();
                     }
                 }
                 EconomyResponse er = r.getVault().getEconomy().depositPlayer(t, Double.parseDouble(args[2]));
@@ -274,13 +274,13 @@ public class CmdMoney implements UltimateCommand {
             }
         } else if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("take")) {
             if (!r.perm(cs, "uc.money.remove", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "moneyUsage");
             } else if (r.isDouble(args[1])) {
                 if (!r.isPlayer(cs)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 if (!r.getVault().getEconomy().hasAccount((Player) cs)) {
                     r.getVault().getEconomy().createPlayerAccount((Player) cs);
@@ -296,7 +296,7 @@ public class CmdMoney implements UltimateCommand {
                         } else {
                             r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
                         }
-                        return;
+                        return CommandResult.empty();
                     }
                 }
                 EconomyResponse er = r.getVault().getEconomy().withdrawPlayer((Player) cs, Double.parseDouble(args[1]));
@@ -309,7 +309,7 @@ public class CmdMoney implements UltimateCommand {
                 r.sendMes(cs, "moneyUsage");
             } else if (!r.isDouble(args[1]) && r.isDouble(args[2])) {
                 if (!r.perm(cs, "uc.money.remove.others", false, true)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 OfflinePlayer t = r.searchGameProfile(args[1]);
                 if (!r.getVault().getEconomy().hasAccount(t)) {
@@ -326,7 +326,7 @@ public class CmdMoney implements UltimateCommand {
                         } else {
                             r.sendMes(cs, "moneyFailed", "%Error", er.errorMessage);
                         }
-                        return;
+                        return CommandResult.empty();
                     }
                 }
                 EconomyResponse er = r.getVault().getEconomy().withdrawPlayer(t, Double.parseDouble(args[2]));
@@ -340,7 +340,7 @@ public class CmdMoney implements UltimateCommand {
             }
         } else if (args[0].equalsIgnoreCase("top")) {
             if (!r.perm(cs, "uc.money.top", true, true)) {
-                return;
+                return CommandResult.empty();
             }
             HashMap<String, Double> mapO = new HashMap<>();
             JsonConfig c = new JsonConfig(UltimateFileLoader.Deconomy);
@@ -365,7 +365,7 @@ public class CmdMoney implements UltimateCommand {
 
         } else {
             if (!r.perm(cs, "uc.money.status.others", true, true)) {
-                return;
+                return CommandResult.empty();
             }
             OfflinePlayer t = r.searchGameProfile(args[0]);
             if (!r.getVault().getEconomy().hasAccount(t)) {
@@ -373,7 +373,7 @@ public class CmdMoney implements UltimateCommand {
             }
             if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "moneyStatusOthers", "%Player", t.getName(), "%Balance", r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance(t)));
         }

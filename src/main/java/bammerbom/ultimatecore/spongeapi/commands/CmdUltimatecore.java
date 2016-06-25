@@ -67,7 +67,7 @@ public class CmdUltimatecore implements UltimateCommand {
     public void run(final CommandSource cs, String label, String[] args) {
         if (args.length == 0) {
             if (!r.perm(cs, "uc.ultimatecore", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "ultimatecoreMenu1");
             r.sendMes(cs, "ultimatecoreMenu2");
@@ -81,7 +81,7 @@ public class CmdUltimatecore implements UltimateCommand {
             r.sendMes(cs, "ultimatecoreMenu10");
         } else if (args[0].equalsIgnoreCase("reload")) {
             if (!r.perm(cs, "uc.ultimatecore.reload", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             Bukkit.getPluginManager().disablePlugin(r.getUC());
             System.gc();
@@ -90,7 +90,7 @@ public class CmdUltimatecore implements UltimateCommand {
             r.sendMes(cs, "ultimatecoreReload");
         } else if (args[0].equalsIgnoreCase("disable")) {
             if (!r.perm(cs, "uc.ultimatecore.disable", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             Bukkit.getServer().getPluginManager().disablePlugin(r.getUC());
             r.sendMes(cs, "ultimatecoreDisable");
@@ -100,13 +100,13 @@ public class CmdUltimatecore implements UltimateCommand {
         } else if (args[0].equalsIgnoreCase("noreturn")) {
         } else if (args[0].equalsIgnoreCase("version")) {
             if (!r.perm(cs, "uc.ultimatecore.version", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             cs.sendMessage(r.positive + "Your version of UltimateCore: " + r.neutral + r.getUC().getDescription().getVersion());
             cs.sendMessage(r.positive + "Newest version of UltimateCore: " + r.neutral + r.getUpdater().getLatestUpdate());
         } else if (args[0].equalsIgnoreCase("update")) {
             if (!r.perm(cs, "uc.ultimatecore.updater", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (r.getCnfg().getBoolean("Updater.check")) {
                 final Thread thr;
@@ -146,12 +146,12 @@ public class CmdUltimatecore implements UltimateCommand {
             }
         } else if (args[0].equalsIgnoreCase("convert")) {
             if (!r.perm(cs, "uc.ultimatecore.convert", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "ultimatecoreConvertStart");
             if (!Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
                 r.sendMes(cs, "ultimatecoreConvertFailed");
-                return;
+                return CommandResult.empty();
             }
             IEssentials es = (IEssentials) Bukkit.getPluginManager().getPlugin("Essentials");
             try {
@@ -196,7 +196,7 @@ public class CmdUltimatecore implements UltimateCommand {
             }
         } else {
             if (!r.perm(cs, "uc.ultimatecore", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "ultimatecoreMenu1");
             r.sendMes(cs, "ultimatecoreMenu2");

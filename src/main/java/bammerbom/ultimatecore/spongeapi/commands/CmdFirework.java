@@ -77,24 +77,24 @@ public class CmdFirework implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.isPlayer(cs)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.perm(cs, "uc.firework", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Player p = (Player) cs;
 //        Boolean spawnin = !(p.getItemInHand().getType() == Material.FIREWORK);
 //        ItemStack stack = p.getItemInHand().getType() == Material.FIREWORK ? p.getItemInHand() : new ItemStack(Material.FIREWORK);
 //        if (!r.checkArgs(args, 0)) {
 //            r.sendMes(cs, "fireworkUsage");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (args[0].equalsIgnoreCase("clear") && (p.getItemInHand().getType() == Material.FIREWORK)) {
 //            FireworkMeta fmeta = (FireworkMeta) stack.getItemMeta();
 //            fmeta.clearEffects();
 //            stack.setItemMeta(fmeta);
 //            r.sendMes(cs, "fireworkClear");
-//            return;
+//            return CommandResult.empty();
 //        }
 //
 //        if (args[0].equalsIgnoreCase("random")) {
@@ -138,7 +138,7 @@ public class CmdFirework implements UltimateCommand {
 //            } else {
 //                r.sendMes(cs, "fireworkModify");
 //            }
-//            return;
+//            return CommandResult.empty();
 //        }
 //
 //        MetaItemStack mStack = new MetaItemStack(stack);
@@ -154,7 +154,7 @@ public class CmdFirework implements UltimateCommand {
 //                    }
 //                } catch (NumberFormatException e) {
 //                    r.sendMes(cs, "fireworkFailed");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //                stack.setItemMeta(fmeta);
 //            } else if (r.isInt(arg)) {
@@ -164,7 +164,7 @@ public class CmdFirework implements UltimateCommand {
 //                    mStack.addFireworkMeta(true, arg);
 //                } catch (Exception e) {
 //                    r.sendMes(cs, "fireworkFailed");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //            }
 //        }
@@ -175,7 +175,7 @@ public class CmdFirework implements UltimateCommand {
 //            stack.setItemMeta(fmeta);
 //        } else {
 //            r.sendMes(cs, "fireworkFailed");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (spawnin) {
 //            r.sendMes(cs, "fireworkSpawnin");

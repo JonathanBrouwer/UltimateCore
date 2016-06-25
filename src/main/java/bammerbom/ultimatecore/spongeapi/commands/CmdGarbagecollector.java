@@ -75,7 +75,7 @@ public class CmdGarbagecollector implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.perm(cs, "uc.garbagecollector", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        System.gc();
 //        r.sendMes(cs, "garbagecollectorMessage");

@@ -112,13 +112,13 @@ public class CmdSetarmor implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.setarmor", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "setarmorUsage");
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             if (isArmor(args[0])) {
@@ -134,7 +134,7 @@ public class CmdSetarmor implements UltimateCommand {
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                    return;
+                    return CommandResult.empty();
                 }
                 setArmor(t, getArmor(args[0]));
                 r.sendMes(cs, "setarmorSet", "%Player", t.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
@@ -143,7 +143,7 @@ public class CmdSetarmor implements UltimateCommand {
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                    return;
+                    return CommandResult.empty();
                 }
                 setArmor(t, getArmor(args[1]));
                 r.sendMes(cs, "setarmorSet", "%Player", t.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[1]).name().toLowerCase()));

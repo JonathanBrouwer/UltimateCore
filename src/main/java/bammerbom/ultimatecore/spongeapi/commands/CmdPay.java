@@ -54,33 +54,33 @@ public class CmdPay implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.pay", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (r.getVault() == null) {
             r.sendMes(cs, "moneyNoVault");
-            return;
+            return CommandResult.empty();
         }
         if (r.getVault().getEconomy() == null) {
             r.sendMes(cs, "moneyNoEconomy");
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         //pay player amount
         if (!r.checkArgs(args, 1)) {
             r.sendMes(cs, "payUsage");
-            return;
+            return CommandResult.empty();
         }
         Player t = r.searchPlayer(args[0]);
         if (t == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (!r.isDouble(args[1])) {
             r.sendMes(cs, "numberFormat", "%Number", args[1]);
-            return;
+            return CommandResult.empty();
         }
         Double d = Double.parseDouble(args[1]);
         if (d < 0.1) {
@@ -91,16 +91,16 @@ public class CmdPay implements UltimateCommand {
             UEconomy ue = (UEconomy) r.getVault().getEconomy();
             if (ue.getBalance(p) - d < 0) {
                 r.sendMes(cs, "payTooLessMoney", "%Money", ue.format(d));
-                return;
+                return CommandResult.empty();
             }
             if (ue.getMaximumMoney() != null && d + ue.getBalance(t) > ue.getMaximumMoney()) {
                 r.sendMes(cs, "moneyMaxBalance");
-                return;
+                return CommandResult.empty();
             }
         } else {
             if (r.getVault().getEconomy().getBalance(p) - d < 0) {
                 r.sendMes(cs, "payTooLessMoney", "%Money", r.getVault().getEconomy().format(d));
-                return;
+                return CommandResult.empty();
             }
         }
 

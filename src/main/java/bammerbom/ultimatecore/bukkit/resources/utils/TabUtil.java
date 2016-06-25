@@ -38,14 +38,14 @@ public class TabUtil {
 
         if (footer == null) footer = "";
         footer = ChatColor.translateAlternateColorCodes('&', footer);
-        
+
         header = header.replaceAll("%player%", player.getDisplayName());
         footer = footer.replaceAll("%player%", player.getDisplayName());
         try {
-            Object tabHeader = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", new Class[]{String.class}).invoke(null, new Object[]{"{\"text\":\"" + header + "\"}"});
-            Object tabFooter = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", new Class[]{String.class}).invoke(null, new Object[]{"{\"text\":\"" + footer + "\"}"});
-            Constructor<?> titleConstructor = getNMSClass("PacketPlayOutPlayerListHeaderFooter").getConstructor(new Class[]{getNMSClass("IChatBaseComponent")});
-            Object packet = titleConstructor.newInstance(new Object[]{tabHeader});
+            Object tabHeader = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", new Class[]{String.class}).invoke(null, "{\"text\":\"" + header + "\"}");
+            Object tabFooter = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", new Class[]{String.class}).invoke(null, "{\"text\":\"" + footer + "\"}");
+            Constructor<?> titleConstructor = getNMSClass("PacketPlayOutPlayerListHeaderFooter").getConstructor(getNMSClass("IChatBaseComponent"));
+            Object packet = titleConstructor.newInstance(tabHeader);
             Field field = packet.getClass().getDeclaredField("b");
             field.setAccessible(true);
             field.set(packet, tabFooter);
@@ -57,9 +57,9 @@ public class TabUtil {
 
     public static void sendPacket(Player player, Object packet) {
         try {
-            Object handle = player.getClass().getMethod("getHandle", new Class[0]).invoke(player, new Object[0]);
+            Object handle = player.getClass().getMethod("getHandle", new Class[0]).invoke(player);
             Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
-            playerConnection.getClass().getMethod("sendPacket", new Class[]{getNMSClass("Packet")}).invoke(playerConnection, new Object[]{packet});
+            playerConnection.getClass().getMethod("sendPacket", new Class[]{getNMSClass("Packet")}).invoke(playerConnection, packet);
         } catch (Exception e) {
             e.printStackTrace();
         }

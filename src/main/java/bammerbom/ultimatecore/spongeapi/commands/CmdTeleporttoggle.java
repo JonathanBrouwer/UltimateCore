@@ -53,7 +53,7 @@ public class CmdTeleporttoggle implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.teleporttoggle", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             Player p = (Player) cs;
@@ -63,7 +63,7 @@ public class CmdTeleporttoggle implements UltimateCommand {
             Player t = r.searchPlayer(args[0]);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
+                return CommandResult.empty();
             }
             if (!r.perm(cs, "uc.teleporttoggle.others", false, true)) {
                 UC.getPlayer(t).setTeleportEnabled(!UC.getPlayer(t).hasTeleportEnabled());

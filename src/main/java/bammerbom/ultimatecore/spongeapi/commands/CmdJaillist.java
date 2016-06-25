@@ -54,12 +54,12 @@ public class CmdJaillist implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (r.perm(cs, "uc.jaillist", true, true) == false) {
-            return;
+            return CommandResult.empty();
         }
         List<OfflinePlayer> jails = UC.getServer().getJailedOfflinePlayers();
         if (jails == null || jails.isEmpty()) {
             r.sendMes(cs, "jaillistNoJailsFound");
-            return;
+            return CommandResult.empty();
         }
         StringBuilder jaillist = new StringBuilder();
         Integer cur = 0;

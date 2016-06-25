@@ -67,10 +67,10 @@ public class CmdInventory implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!(r.isPlayer(cs))) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.inventory", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (r.checkArgs(args, 0)) {
@@ -89,11 +89,11 @@ public class CmdInventory implements UltimateCommand {
                 OfflinePlayer t2 = r.searchGameProfile(args[0]);
                 if (t2 == null || (!t2.hasPlayedBefore() && !t2.isOnline())) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                    return;
+                    return CommandResult.empty();
                 }
                 if (UC.getPlayer(t2).getLastInventory() == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                    return;
+                    return CommandResult.empty();
                 }
 
                 p.openInventory(UC.getPlayer(t2).getLastInventory());

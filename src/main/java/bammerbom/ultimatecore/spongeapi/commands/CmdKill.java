@@ -57,17 +57,17 @@ public class CmdKill implements UltimateCommand {
     public void run(final CommandSource cs, String label, String[] args) {
         if (r.checkArgs(args, 0) == false) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             if (!r.perm(cs, "uc.kill", true, true)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             p.setLastDamageCause(new EntityDamageEvent(p, DamageCause.SUICIDE, Double.MAX_VALUE));
             p.setHealth(0.0);
         } else {
             if (!r.perm(cs, "uc.kill.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             Player target = r.searchPlayer(args[0]);
             if (target == null) {

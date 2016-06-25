@@ -61,15 +61,15 @@ public class CmdKittycannon implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.kittycannon", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         final Ocelot ocelot = (Ocelot) p.getWorld().spawnEntity(p.getLocation(), EntityType.OCELOT);
         if (ocelot == null) {
-            return;
+            return CommandResult.empty();
         }
         int i = ra.nextInt(Ocelot.Type.values().length);
         ocelot.setCatType(Ocelot.Type.values()[i]);

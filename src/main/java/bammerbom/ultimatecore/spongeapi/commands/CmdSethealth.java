@@ -52,18 +52,18 @@ public class CmdSethealth implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.sethealth", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             p.setHealth(20.0);
             r.sendMes(cs, "sethealthMessage", "%Player", r.getDisplayName(p), "%Health", "20.0");
         } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             if (r.isDouble(args[0])) {
                 Double d = Double.parseDouble(args[0]);
@@ -79,7 +79,7 @@ public class CmdSethealth implements UltimateCommand {
             }
         } else if (r.checkArgs(args, 1)) {
             if (!r.perm(cs, "uc.sethealth.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (r.isDouble(args[0])) {
                 Double d = Double.parseDouble(args[0]);
@@ -87,7 +87,7 @@ public class CmdSethealth implements UltimateCommand {
                 Player t = r.searchPlayer(args[1]);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                    return;
+                    return CommandResult.empty();
                 }
                 if (t.getMaxHealth() < d) {
                     t.setMaxHealth(d);
@@ -101,7 +101,7 @@ public class CmdSethealth implements UltimateCommand {
                 Player t = r.searchPlayer(args[0]);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                    return;
+                    return CommandResult.empty();
                 }
                 if (t.getMaxHealth() < d) {
                     t.setMaxHealth(d);

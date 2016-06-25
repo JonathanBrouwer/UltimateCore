@@ -54,11 +54,11 @@ public class CmdRealname implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.realname", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "realnameUsage");
-            return;
+            return CommandResult.empty();
         }
         OfflinePlayer t = null;
         //Search online
@@ -100,7 +100,7 @@ public class CmdRealname implements UltimateCommand {
         }
         if (t == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         r.sendMes(cs, "realnameMessage", "%Nick", UC.getPlayer(t).getNick(), "%Name", t.getName());
     }

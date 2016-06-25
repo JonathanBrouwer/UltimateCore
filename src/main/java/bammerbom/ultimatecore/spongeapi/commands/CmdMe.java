@@ -55,11 +55,11 @@ public class CmdMe implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.me", true, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (r.checkArgs(args, 0) == false) {
             r.sendMes(cs, "meUsage");
-            return;
+            return CommandResult.empty();
         }
         String mes = r.getFinalArg(args, 0);
         if (r.perm(cs, "uc.coloredchat", false, false)) {

@@ -74,7 +74,7 @@ public class CmdAsk implements UltimateCommand {
             return CommandResult.empty();
         }
         for (Player pl : r.getOnlinePlayers()) {
-            if (r.perm(pl, "uc.support", false) && !pl.equals(cs)) {
+            if (r.perm(pl, "uc.answer", false) && !pl.equals(cs)) {
                 pl.sendMessage(Text.of(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 0))));
                 r.sendMes(pl, "askTip", "%Player", r.getDisplayName(cs));
             }
@@ -87,31 +87,4 @@ public class CmdAsk implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("helpop");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.ask", true, true)) {
-//            return;
-//        }
-//        if (!r.checkArgs(args, 0)) {
-//            r.sendMes(cs, "askUsage");
-//            return;
-//        }
-//        for (Player pl : r.getOnlinePlayers()) {
-//            if (r.perm(pl, "uc.support", false, false) && !pl.equals(cs)) {
-//                pl.sendMessage(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 0)));
-//                r.sendMes(pl, "askTip", "%Player", r.getDisplayName(cs));
-//            }
-//        }
-//        cs.sendMessage(format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 0)));
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return new ArrayList<>();
-//    }
 }

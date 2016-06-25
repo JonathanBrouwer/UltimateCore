@@ -59,14 +59,14 @@ public class CmdReply implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.reply", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "replyUsage");
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (UC.getPlayer((Player) cs).isMuted()) {
             if (UC.getPlayer((Player) cs).getMuteTime() == 0 || UC.getPlayer((Player) cs).getMuteTime() == -1) {
@@ -74,13 +74,13 @@ public class CmdReply implements UltimateCommand {
             } else {
                 r.sendMes(cs, "muteChatTime", "%Time", DateUtil.format(UC.getPlayer((Player) cs).getMuteTimeLeft()));
             }
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         Player pl = UC.getPlayer(p).getReply();
         if (pl == null) {
             r.sendMes(cs, "replyNotFound");
-            return;
+            return CommandResult.empty();
         }
         UC.getPlayer(pl).setReply((Player) cs);
         String message = r.perm(cs, "uc.coloredchat", false, false) ? TextColorUtil.translateAlternate(r.getFinalArg(args, 0)) : r.getFinalArg(args, 0);

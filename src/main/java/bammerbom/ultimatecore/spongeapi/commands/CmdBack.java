@@ -77,7 +77,7 @@ public class CmdBack implements UltimateCommand {
         Location loc = UC.getPlayer(p).getLastLocation();
         if (loc == null) {
             r.sendMes(cs, "backNotFound");
-            return;
+            return CommandResult.empty();
         }
         LocationUtil.teleport(p, loc, Cause.builder().build(), true, true);
         r.sendMes(cs, "backMessage");

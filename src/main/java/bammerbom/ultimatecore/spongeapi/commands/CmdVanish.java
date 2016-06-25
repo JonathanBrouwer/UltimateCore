@@ -55,11 +55,11 @@ public class CmdVanish implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.vanish", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             if (UC.getPlayer(p).isVanish()) {
@@ -69,25 +69,25 @@ public class CmdVanish implements UltimateCommand {
                 UC.getPlayer(p).setVanish(true);
                 r.sendMes(cs, "vanishSelf", "%Status", r.mes("on"));
             }
-            return;
+            return CommandResult.empty();
         }
         if (DateUtil.parseDateDiff(args[0]) >= 1) {
             Long t = DateUtil.parseDateDiff(args[0]);
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             UC.getPlayer(p).setVanish(true, t);
             r.sendMes(cs, "vanishSelfT", "%Status", r.mes("on"), "%Time", DateUtil.format(t));
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.vanish.others", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         OfflinePlayer banp = r.searchGameProfile(args[0]);
         if (banp == null || !(banp.isOnline() || banp.hasPlayedBefore())) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         Long time = 0L;
         if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1]) >= 1) {
@@ -96,11 +96,11 @@ public class CmdVanish implements UltimateCommand {
         //Permcheck
         if (!r.perm(cs, "uc.vanish.time", false, false) && !r.perm(cs, "uc.vanish", false, false) && time == 0L) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.vanish.perm", false, false) && !r.perm(cs, "uc.vanish", false, false) && time != 0L) {
             r.sendMes(cs, "noPermissions");
-            return;
+            return CommandResult.empty();
         }
         UC.getPlayer(banp).setVanish(!UC.getPlayer(banp).isVanish(), time);
         if (time == 0L) {

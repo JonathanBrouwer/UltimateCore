@@ -54,11 +54,11 @@ public class CmdNick implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.nick", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "nickUsage");
-            return;
+            return CommandResult.empty();
         }
         Boolean o = false;
         if (r.checkArgs(args, 0) && args[0].equalsIgnoreCase("off")) {
@@ -68,16 +68,16 @@ public class CmdNick implements UltimateCommand {
                 t = r.searchPlayer(args[1]);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                    return;
+                    return CommandResult.empty();
                 }
             } else {
                 if (!r.isPlayer(cs)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 t = (Player) cs;
             }
             if (o && !r.perm(cs, "uc.nick.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "nickMessage", "%Name", r.mes("nickOff"), "%Player", t.getName());
             if (o) {
@@ -85,7 +85,7 @@ public class CmdNick implements UltimateCommand {
             }
             t.setDisplayName(t.getName());
             UC.getPlayer(t).setNick(null);
-            return;
+            return CommandResult.empty();
         }
         Player t;
         if (r.checkArgs(args, 1)) {
@@ -93,16 +93,16 @@ public class CmdNick implements UltimateCommand {
             t = r.searchPlayer(args[1]);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                return;
+                return CommandResult.empty();
             }
         } else {
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             t = (Player) cs;
         }
         if (o && !r.perm(cs, "uc.nick.others", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         String name = args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", "");
         if (r.perm(cs, "uc.nick.colors", false, false)) {
@@ -110,7 +110,7 @@ public class CmdNick implements UltimateCommand {
         }
         if (!TextColorUtil.strip(name).replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "").equalsIgnoreCase("")) {
             r.sendMes(cs, "nickNonAlpha");
-            return;
+            return CommandResult.empty();
         }
         for (Player pl : r.getOnlinePlayers()) {
             if (pl.equals(t)) {
@@ -118,7 +118,7 @@ public class CmdNick implements UltimateCommand {
             }
             if (pl.getName().equalsIgnoreCase(TextColorUtil.strip(name).replaceAll("&y", "")) || UC.getPlayer(pl).getDisplayName().equalsIgnoreCase(TextColorUtil.strip(name).replaceAll("&y", ""))) {
                 r.sendMes(cs, "nickAlreadyInUse");
-                return;
+                return CommandResult.empty();
             }
         }
         name = TextColorUtil.translateAlternate(args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", ""));

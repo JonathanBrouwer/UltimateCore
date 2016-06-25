@@ -75,37 +75,37 @@ public class CmdGive implements UltimateCommand {
 //    @Override
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.perm(cs, "uc.give", false, true)) {
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (!r.checkArgs(args, 1)) {
 //            r.sendMes(cs, "giveUsage");
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Player target = r.searchPlayer(args[0]);
 //        if (target == null) {
 //            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        ItemStack item;
 //        try {
 //            item = new ItemStack(ItemUtil.searchItem(args[1]));
 //        } catch (Exception e) {
 //            r.sendMes(cs, "giveItemNotFound", "%Item", args[1]);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (item == null || item.getType() == null || item.getType().equals(Material.AIR)) {
 //            r.sendMes(cs, "giveItemNotFound", "%Item", args[1]);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        if (InventoryUtil.isFullInventory(target.getInventory())) {
 //            r.sendMes(cs, "giveInventoryFull", "%Item", args[1]);
-//            return;
+//            return CommandResult.empty();
 //        }
 //        Integer amount = item.getMaxStackSize();
 //        if (r.checkArgs(args, 2)) {
 //            if (!r.isInt(args[2])) {
 //                r.sendMes(cs, "numberFormat", "%Number", args[2]);
-//                return;
+//                return CommandResult.empty();
 //            }
 //            amount = Integer.parseInt(args[2]);
 //        }
@@ -132,13 +132,13 @@ public class CmdGive implements UltimateCommand {
 //                            } else {
 //                                r.sendMes(cs, "giveMetadataFailed");
 //                            }
-//                            return;
+//                            return CommandResult.empty();
 //                        }
 //                        item = meta.getItemStack();
 //                    }
 //                } catch (Exception e) {
 //                    r.sendMes(cs, "giveMetadataFailed");
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //            }
 //        }

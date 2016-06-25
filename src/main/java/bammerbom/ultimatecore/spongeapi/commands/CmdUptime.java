@@ -53,7 +53,7 @@ public class CmdUptime implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.uptime", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         r.sendMes(cs, "uptimeMessage", "%Time", DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime()));
     }

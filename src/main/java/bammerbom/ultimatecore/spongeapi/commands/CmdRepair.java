@@ -57,41 +57,41 @@ public class CmdRepair implements UltimateCommand {
         if (!r.checkArgs(args, 0)) {
             //repair
             if (!r.perm(cs, "uc.repair", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             ItemStack stack = p.getItemInHand();
             if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
                 r.sendMes(cs, "repairNoItemInHand");
-                return;
+                return CommandResult.empty();
             }
             if (!ItemUtil.isRepairable(stack)) {
                 r.sendMes(cs, "repairNotRepairable");
-                return;
+                return CommandResult.empty();
             }
             stack.setDurability((short) 0);
             r.sendMes(cs, "repairSelfHand");
         } else if (!args[0].equalsIgnoreCase("all")) {
             //repair <Player>
             if (!r.perm(cs, "uc.repair.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = r.searchPlayer(args[0]);
             if (p == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                return;
+                return CommandResult.empty();
             }
             ItemStack stack = p.getItemInHand();
             if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
                 r.sendMes(cs, "repairNoItemInHand");
-                return;
+                return CommandResult.empty();
             }
             if (!ItemUtil.isRepairable(stack)) {
                 r.sendMes(cs, "repairNotRepairable");
-                return;
+                return CommandResult.empty();
             }
             stack.setDurability((short) 0);
             r.sendMes(cs, "repairOtherSelfHand", "%Player", r.getDisplayName(p));
@@ -100,12 +100,12 @@ public class CmdRepair implements UltimateCommand {
             //repair all <Player>
             if (r.checkArgs(args, 1)) {
                 if (!r.perm(cs, "uc.repair.others.all", false, true)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 Player p = r.searchPlayer(args[1]);
                 if (p == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                    return;
+                    return CommandResult.empty();
                 }
                 for (ItemStack stack : p.getInventory().getContents()) {
                     if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
@@ -130,10 +130,10 @@ public class CmdRepair implements UltimateCommand {
             } else {
                 //repair all
                 if (!r.perm(cs, "uc.repair.all", false, true)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 if (!r.isPlayer(cs)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 Player p = (Player) cs;
                 for (ItemStack stack : p.getInventory().getContents()) {

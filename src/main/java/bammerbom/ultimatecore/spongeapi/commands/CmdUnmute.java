@@ -54,20 +54,20 @@ public class CmdUnmute implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.unmute", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "unmuteUsage");
-            return;
+            return CommandResult.empty();
         }
         OfflinePlayer banp = r.searchGameProfile(args[0]);
         if (banp == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (!UC.getPlayer(banp).isMuted()) {
             r.sendMes(cs, "unmuteNotMuted", "%Player", r.getDisplayName(banp));
-            return;
+            return CommandResult.empty();
         }
         UC.getPlayer(banp).setMuted(false);
         r.sendMes(cs, "unmuteMessage", "%Player", r.getDisplayName(banp));

@@ -58,36 +58,36 @@ public class CmdItem implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.item", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "itemUsage");
-            return;
+            return CommandResult.empty();
         }
         ItemStack item;
         try {
             item = new ItemStack(ItemUtil.searchItem(args[0]));
         } catch (Exception e) {
             r.sendMes(cs, "itemItemNotFound", "%Item", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (item == null || item.getType() == null || item.getType().equals(Material.AIR)) {
             r.sendMes(cs, "itemItemNotFound", "%Item", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (InventoryUtil.isFullInventory(p.getInventory())) {
             r.sendMes(cs, "itemInventoryFull");
-            return;
+            return CommandResult.empty();
         }
         Integer amount = item.getMaxStackSize();
         if (r.checkArgs(args, 1)) {
             if (!r.isInt(args[1])) {
                 r.sendMes(cs, "numberFormat", "%Number", args[1]);
-                return;
+                return CommandResult.empty();
             }
             amount = Integer.parseInt(args[1]);
         }
@@ -111,17 +111,17 @@ public class CmdItem implements UltimateCommand {
                         } catch (IllegalArgumentException ex) {
                             if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too " + "low or too high")) {
                                 r.sendMes(cs, "enchantUnsafe");
-                                return;
+                                return CommandResult.empty();
                             } else {
                                 r.sendMes(cs, "itemMetadataFailed");
                             }
-                            return;
+                            return CommandResult.empty();
                         }
 
                     }
                 } catch (Exception e) {
                     r.sendMes(cs, "itemMetadataFailed");
-                    return;
+                    return CommandResult.empty();
                 }
             }
         }

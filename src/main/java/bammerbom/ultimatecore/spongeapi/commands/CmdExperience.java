@@ -76,12 +76,12 @@ public class CmdExperience implements UltimateCommand {
 //    public void run(final CommandSource cs, String label, String[] args) {
 //        if (!r.checkArgs(args, 0)) {
 //            if (!r.isPlayer(cs)) {
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Player p = (Player) cs;
 //            if (!r.perm(cs, "uc.experience", false, false) && !r.perm(cs, "uc.experience.show", false, false)) {
 //                r.sendMes(cs, "noPermissions");
-//                return;
+//                return CommandResult.empty();
 //            }
 //            r.sendMes(cs, "experienceShow", "%Player", r.getDisplayName(cs), "%Experience", XpUtil.getExp(p), "%Levels", p.getLevel());
 //        } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
@@ -92,22 +92,22 @@ public class CmdExperience implements UltimateCommand {
 //                    Player p = r.searchPlayer(args[0]);
 //                    if (!r.perm(cs, "uc.experience", false, false) && !r.perm(cs, "uc.experience.show.others", false, false)) {
 //                        r.sendMes(cs, "noPermissions");
-//                        return;
+//                        return CommandResult.empty();
 //                    }
 //                    r.sendMes(cs, "experienceShow", "%Player", r.getDisplayName(p), "%Experience", XpUtil.getExp(p), "%Levels", p.getLevel());
-//                    return;
+//                    return CommandResult.empty();
 //                } else {
 //                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                    return;
+//                    return CommandResult.empty();
 //                }
 //            }
 //            if (!r.perm(cs, "uc.experience", false, false) && !r.perm(cs, "uc.experience.set", false, false)) {
 //                r.sendMes(cs, "noPermissions");
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Integer x = Integer.parseInt(xp.replace("L", "").replace("l", ""));
 //            if (!r.isPlayer(cs)) {
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Player p = (Player) cs;
 //            if (rawxp.endsWith("L") || rawxp.endsWith("l")) {
@@ -138,19 +138,19 @@ public class CmdExperience implements UltimateCommand {
 //        } else if (r.checkArgs(args, 1)) {
 //            if (!r.perm(cs, "uc.experience", false, false) && !r.perm(cs, "uc.experience.set.others", false, false)) {
 //                r.sendMes(cs, "noPermissions");
-//                return;
+//                return CommandResult.empty();
 //            }
 //            String rawxp = args[0];
 //            String xp = !args[0].endsWith("L") ? rawxp : rawxp.replaceAll("L", "").replaceAll("l", "");
 //            if (!r.isInt(xp)) {
 //                r.sendMes(cs, "numberFormat", "%Number", args[0]);
-//                return;
+//                return CommandResult.empty();
 //            }
 //            Integer x = Integer.parseInt(xp);
 //            Player t = r.searchPlayer(args[1]);
 //            if (t == null) {
 //                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-//                return;
+//                return CommandResult.empty();
 //            }
 //            if (rawxp.endsWith("L") || rawxp.endsWith("l")) {
 //                if (t.getLevel() + x < 1) {

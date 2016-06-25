@@ -56,18 +56,18 @@ public class CmdIp implements UltimateCommand {
         if (r.checkArgs(args, 0) == false) {
             if (!r.perm(cs, "uc.ip.server", false, false) && !r.perm(cs, "uc.ip", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "ipServer", "%IP", Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort());
         } else {
             if (!r.perm(cs, "uc.ip.player", false, false) && !r.perm(cs, "uc.ip", false, false)) {
                 r.sendMes(cs, "noPermissions");
-                return;
+                return CommandResult.empty();
             }
             OfflinePlayer p = r.searchGameProfile(args[0]);
             if (p == null || UC.getPlayer(p).getLastIp() == null || UC.getPlayer(p).getLastHostname() == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
+                return CommandResult.empty();
             }
             r.sendMes(cs, "ipPlayer1", "%Player", r.getDisplayName(p), "%Hostname", UC.getPlayer(p).getLastHostname());
             r.sendMes(cs, "ipPlayer2", "%Player", r.getDisplayName(p), "%IP", UC.getPlayer(p).getLastIp());

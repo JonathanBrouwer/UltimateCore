@@ -57,12 +57,12 @@ public class CmdMegasmite implements UltimateCommand {
     public void run(final CommandSource cs, String label, String[] args) {
         if (r.checkArgs(args, 0)) {
             if (!r.perm(cs, "uc.megasmite.others", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             Player target = r.searchPlayer(args[0]);
             if (target == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return;
+                return CommandResult.empty();
             }
             Location tPlayerLocation = target.getLocation();
             if (r.getCnfg().getBoolean("Command.Smite.smiteDamage") == false) {
@@ -80,10 +80,10 @@ public class CmdMegasmite implements UltimateCommand {
             }
         } else {
             if (!r.perm(cs, "uc.megasmite", false, true)) {
-                return;
+                return CommandResult.empty();
             }
             if (!(r.isPlayer(cs))) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             Block strike = p.getTargetBlock((Set<Material>) null, 150);

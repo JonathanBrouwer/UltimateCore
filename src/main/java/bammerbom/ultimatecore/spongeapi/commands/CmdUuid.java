@@ -52,16 +52,16 @@ public class CmdUuid implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.uuid", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "uuidUsage");
-            return;
+            return CommandResult.empty();
         }
         OfflinePlayer p = r.searchGameProfile(args[0]);
         if (p == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         r.sendMes(cs, "uuidMessage", "%Name", r.getDisplayName(p), "%Uuid", p.getUniqueId());
     }

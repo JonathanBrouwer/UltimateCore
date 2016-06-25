@@ -53,20 +53,20 @@ public class CmdKick implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.kick", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (r.checkArgs(args, 0) == false) {
             r.sendMes(cs, "kickUsage");
-            return;
+            return CommandResult.empty();
         }
         Player target = r.searchPlayer(args[0]);
         if (target == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-            return;
+            return CommandResult.empty();
         }
         if (cs.getName().equalsIgnoreCase(target.getName())) {
             r.sendMes(cs, "kickSelf");
-            return;
+            return CommandResult.empty();
         }
         if (r.checkArgs(args, 1) == false) {
             Bukkit.broadcastMessage(r.mes("kickBroadcast", "%Kicker", r.getDisplayName(cs), "%Player", target.getName()));

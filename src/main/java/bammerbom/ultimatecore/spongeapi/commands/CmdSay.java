@@ -54,11 +54,11 @@ public class CmdSay implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.say", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "sayUsage");
-            return;
+            return CommandResult.empty();
         }
         String m = format.replace("%Player", r.getDisplayName(cs)).replace("%Message", r.getFinalArg(args, 0));
         Bukkit.broadcastMessage(TextColorUtil.translateAlternate(m).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));

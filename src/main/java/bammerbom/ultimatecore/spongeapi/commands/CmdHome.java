@@ -62,10 +62,10 @@ public class CmdHome implements UltimateCommand {
     public void run(final CommandSource cs, String label, String[] args) {
         if (r.checkArgs(args, 0) == false) {
             if (!(r.isPlayer(cs))) {
-                return;
+                return CommandResult.empty();
             }
             if (!r.perm(cs, "uc.home", true, true)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             ArrayList<String> homes = UC.getPlayer(p).getHomeNames();
@@ -81,7 +81,7 @@ public class CmdHome implements UltimateCommand {
                     r.sendMes(cs, "homeInvalid", "%Home", home);
                     ErrorLogger.log(ex, "Failed to load home: " + home);
                 }
-                return;
+                return CommandResult.empty();
             }
 
             String a = StringUtil.joinList(homes);
@@ -110,17 +110,17 @@ public class CmdHome implements UltimateCommand {
         } else {
             OfflinePlayer t;
             if (r.perm(cs, "uc.home", true, true) == false) {
-                return;
+                return CommandResult.empty();
             }
             if (args[0].contains(":")) {
                 if (!r.perm(cs, "uc.home.others", false, true)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 if (args[0].endsWith(":") || args[0].endsWith(":list")) {
                     t = r.searchPlayer(args[0].split(":")[0]);
                     if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
                         r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
-                        return;
+                        return CommandResult.empty();
                     }
                     ArrayList<String> homes = UC.getPlayer(t).getHomeNames();
                     String a = "";
@@ -139,7 +139,7 @@ public class CmdHome implements UltimateCommand {
                     }
                     if (a.equalsIgnoreCase("") || a.equalsIgnoreCase(null)) {
                         r.sendMes(cs, "homeNoHomesFound");
-                        return;
+                        return CommandResult.empty();
                     } else {
                         Set<String> multihomes = r.getCnfg().getConfigurationSection("Command.HomeLimits").getKeys(false);
                         Integer limit = 1;
@@ -157,22 +157,22 @@ public class CmdHome implements UltimateCommand {
                         }
                         String limitformat = limit == 999999 ? r.mes("unlimited") : (limit + "");
                         r.sendMes(cs, "homeList", "%Homes", a, "%Current", homes.size(), "%Max", limitformat);
-                        return;
+                        return CommandResult.empty();
                     }
                 }
                 if (!r.isPlayer(cs)) {
-                    return;
+                    return CommandResult.empty();
                 }
                 Player p = (Player) cs;
                 t = r.searchGameProfile(args[0].split(":")[0]);
                 if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
-                    return;
+                    return CommandResult.empty();
                 }
                 List<String> homes = UC.getPlayer(t).getHomeNames();
                 if (!homes.contains(args[0].split(":")[1].toLowerCase())) {
                     r.sendMes(cs, "homeNotExist", "%Home", args[0]);
-                    return;
+                    return CommandResult.empty();
                 }
                 try {
                     //Teleport
@@ -185,17 +185,17 @@ public class CmdHome implements UltimateCommand {
                     r.sendMes(cs, "homeInvalid", "%Home", args[0]);
                     ErrorLogger.log(ex, "Failed to load home: " + args[0]);
                 }
-                return;
+                return CommandResult.empty();
             }
             if (!r.isPlayer(cs)) {
-                return;
+                return CommandResult.empty();
             }
             Player p = (Player) cs;
             //Exist
             List<String> homes = UC.getPlayer(p).getHomeNames();
             if (!homes.contains(args[0].toLowerCase())) {
                 r.sendMes(cs, "homeNotExist", "%Home", args[0]);
-                return;
+                return CommandResult.empty();
             }
             try {
                 //Teleport

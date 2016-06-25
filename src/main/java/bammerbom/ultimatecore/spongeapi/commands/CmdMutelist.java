@@ -54,12 +54,12 @@ public class CmdMutelist implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (r.perm(cs, "uc.mutelist", true, true) == false) {
-            return;
+            return CommandResult.empty();
         }
         List<OfflinePlayer> mutes = UC.getServer().getMutedOfflinePlayers();
         if (mutes == null || mutes.isEmpty()) {
             r.sendMes(cs, "mutelistNoMutesFound");
-            return;
+            return CommandResult.empty();
         }
         StringBuilder mutelist = new StringBuilder();
         Integer cur = 0;

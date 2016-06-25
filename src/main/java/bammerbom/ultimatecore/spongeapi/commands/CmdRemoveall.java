@@ -54,10 +54,10 @@ public class CmdRemoveall implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.perm(cs, "uc.removeall", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         Integer range = 100;
         if (r.checkArgs(args, 0) == true && r.isInt(args[0])) {
@@ -81,7 +81,7 @@ public class CmdRemoveall implements UltimateCommand {
                 et = MobType.fromName(args[0]).getType();
             } else if (!r.isInt(args[0])) {
                 r.sendMes(cs, "removeallEntityTypeNotFound", "%Type", args[0]);
-                return;
+                return CommandResult.empty();
             }
 
         }

@@ -58,50 +58,50 @@ public class CmdTime implements UltimateCommand {
             for (World w : Bukkit.getWorlds()) {
                 if (!r.checkArgs(args, 0)) {
                     r.sendMes(cs, "timeUsage");
-                    return;
+                    return CommandResult.empty();
                 } else {
                     if ("day".equalsIgnoreCase(args[0])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.day", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         w.setFullTime(0);
 
                     } else if ("night".equalsIgnoreCase(args[0])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.night", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         w.setFullTime(13000);
 
                     } else if ("disable".equalsIgnoreCase(args[0])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.disabe", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         w.setGameRuleValue("doDaylightCycle", "false");
                     } else if ("enable".equalsIgnoreCase(args[0])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.enable", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         w.setGameRuleValue("doDaylightCycle", "true");
                     } else if (r.isInt(args[0])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.ticks", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         Integer time = Integer.parseInt(args[0]);
                         w.setFullTime(time);
                     } else if (args[0].equalsIgnoreCase("add")) {
                         if (!r.checkArgs(args, 1)) {
                             r.sendMes(cs, "timeUsage");
-                            return;
+                            return CommandResult.empty();
                         }
                         if (r.isInt(args[1])) {
                             if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.add", false, false)) {
                                 r.sendMes(cs, "noPermissions");
-                                return;
+                                return CommandResult.empty();
                             }
                             Integer time = Integer.parseInt(args[1]);
                             w.setFullTime(w.getTime() + time);
@@ -111,38 +111,38 @@ public class CmdTime implements UltimateCommand {
                     } else if (args[0].equalsIgnoreCase("set")) {
                         if (!r.checkArgs(args, 1)) {
                             r.sendMes(cs, "timeUsage");
-                            return;
+                            return CommandResult.empty();
                         }
                         if ("day".equalsIgnoreCase(args[1])) {
                             if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.day", false, false)) {
                                 r.sendMes(cs, "noPermissions");
-                                return;
+                                return CommandResult.empty();
                             }
                             w.setFullTime(1000);
 
                         } else if ("night".equalsIgnoreCase(args[1])) {
                             if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.night", false, false)) {
                                 r.sendMes(cs, "noPermissions");
-                                return;
+                                return CommandResult.empty();
                             }
                             w.setFullTime(13000);
 
                         } else if ("disable".equalsIgnoreCase(args[1])) {
                             if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.disabe", false, false)) {
                                 r.sendMes(cs, "noPermissions");
-                                return;
+                                return CommandResult.empty();
                             }
                             w.setGameRuleValue("doDaylightCycle", "false");
                         } else if ("enable".equalsIgnoreCase(args[1])) {
                             if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.enable", false, false)) {
                                 r.sendMes(cs, "noPermissions");
-                                return;
+                                return CommandResult.empty();
                             }
                             w.setGameRuleValue("doDaylightCycle", "true");
                         } else if (r.isInt(args[1])) {
                             if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.ticks", false, false)) {
                                 r.sendMes(cs, "noPermissions");
-                                return;
+                                return CommandResult.empty();
                             }
                             Integer time = Integer.parseInt(args[1]);
                             w.setFullTime(time);
@@ -155,7 +155,7 @@ public class CmdTime implements UltimateCommand {
                 r.sendMes(cs, "timeUsage");
             } else {
                 if (!perm) {
-                    return;
+                    return CommandResult.empty();
                 }
                 if ("day".equalsIgnoreCase(args[0])) {
                     r.sendMes(cs, "timeMessage", "%Time", r.mes("timeDay"));
@@ -174,7 +174,7 @@ public class CmdTime implements UltimateCommand {
                             w = Bukkit.getWorld(args[2]);
                             if (w == null) {
                                 r.sendMes(cs, "worldNotFound", "%World", args[2]);
-                                return;
+                                return CommandResult.empty();
                             }
                         }
                         Long time = w.getTime();
@@ -185,7 +185,7 @@ public class CmdTime implements UltimateCommand {
                             w = Bukkit.getWorld(args[2]);
                             if (w == null) {
                                 r.sendMes(cs, "worldNotFound", "%World", args[2]);
-                                return;
+                                return CommandResult.empty();
                             }
                         }
                         Long time = w.getFullTime();
@@ -224,35 +224,35 @@ public class CmdTime implements UltimateCommand {
                 if ("day".equalsIgnoreCase(args[0])) {
                     if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.day", false, false)) {
                         r.sendMes(cs, "noPermissions");
-                        return;
+                        return CommandResult.empty();
                     }
                     world.setFullTime(1000);
                     r.sendMes(cs, "timeMessage", "%Time", r.mes("timeDay"));
                 } else if ("night".equalsIgnoreCase(args[0])) {
                     if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.night", false, false)) {
                         r.sendMes(cs, "noPermissions");
-                        return;
+                        return CommandResult.empty();
                     }
                     world.setFullTime(13000);
                     r.sendMes(cs, "timeMessage", "%Time", r.mes("timeNight"));
                 } else if ("disable".equalsIgnoreCase(args[0])) {
                     if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.disabe", false, false)) {
                         r.sendMes(cs, "noPermissions");
-                        return;
+                        return CommandResult.empty();
                     }
                     world.setGameRuleValue("doDaylightCycle", "false");
                     r.sendMes(cs, "timeMessage", "%Time", r.mes("disabled"));
                 } else if ("enable".equalsIgnoreCase(args[0])) {
                     if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.enable", false, false)) {
                         r.sendMes(cs, "noPermissions");
-                        return;
+                        return CommandResult.empty();
                     }
                     world.setGameRuleValue("doDaylightCycle", "true");
                     r.sendMes(cs, "timeMessage", "%Time", r.mes("enabled"));
                 } else if (r.isInt(args[0])) {
                     if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.ticks", false, false)) {
                         r.sendMes(cs, "noPermissions");
-                        return;
+                        return CommandResult.empty();
                     }
                     Integer time = Integer.parseInt(args[0]);
                     world.setFullTime(time);
@@ -264,7 +264,7 @@ public class CmdTime implements UltimateCommand {
                             w = Bukkit.getWorld(args[2]);
                             if (w == null) {
                                 r.sendMes(cs, "worldNotFound", "%World", args[2]);
-                                return;
+                                return CommandResult.empty();
                             }
                         }
                         Long time = w.getTime();
@@ -275,7 +275,7 @@ public class CmdTime implements UltimateCommand {
                             w = Bukkit.getWorld(args[2]);
                             if (w == null) {
                                 r.sendMes(cs, "worldNotFound", "%World", args[2]);
-                                return;
+                                return CommandResult.empty();
                             }
                         }
                         Long time = w.getFullTime();
@@ -286,12 +286,12 @@ public class CmdTime implements UltimateCommand {
                 } else if (args[0].equalsIgnoreCase("add")) {
                     if (!r.checkArgs(args, 1)) {
                         r.sendMes(cs, "timeUsage");
-                        return;
+                        return CommandResult.empty();
                     }
                     if (r.isInt(args[1])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.add", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         Integer time = Integer.parseInt(args[1]);
                         world.setFullTime(world.getTime() + time);
@@ -300,40 +300,40 @@ public class CmdTime implements UltimateCommand {
                 } else if (args[0].equalsIgnoreCase("set")) {
                     if (!r.checkArgs(args, 1)) {
                         r.sendMes(cs, "timeUsage");
-                        return;
+                        return CommandResult.empty();
                     }
                     if ("day".equalsIgnoreCase(args[1])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.day", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         world.setFullTime(1000);
                         r.sendMes(cs, "timeMessage", "%Time", r.mes("timeDay"));
                     } else if ("night".equalsIgnoreCase(args[1])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.night", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         world.setFullTime(13000);
                         r.sendMes(cs, "timeMessage", "%Time", r.mes("timeNight"));
                     } else if ("disable".equalsIgnoreCase(args[1])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.disabe", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         world.setGameRuleValue("doDaylightCycle", "false");
                         r.sendMes(cs, "timeMessage", "%Time", r.mes("disabled"));
                     } else if ("enable".equalsIgnoreCase(args[1])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.enable", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         world.setGameRuleValue("doDaylightCycle", "true");
                         r.sendMes(cs, "timeMessage", "%Time", r.mes("enabled"));
                     } else if (r.isInt(args[1])) {
                         if (!r.perm(cs, "uc.time", false, false) && !r.perm(cs, "uc.time.ticks", false, false)) {
                             r.sendMes(cs, "noPermissions");
-                            return;
+                            return CommandResult.empty();
                         }
                         Integer time = Integer.parseInt(args[1]);
                         world.setFullTime(time);

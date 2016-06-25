@@ -53,10 +53,10 @@ public class CmdMotd implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.motd", true, false)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         cs.sendMessage(UC.getServer().getMotd((Player) cs));
     }

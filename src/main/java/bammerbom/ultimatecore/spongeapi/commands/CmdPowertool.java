@@ -57,20 +57,20 @@ public class CmdPowertool implements UltimateCommand {
     @Override
     public void run(final CommandSource cs, String label, String[] args) {
         if (!r.perm(cs, "uc.powertool", false, true)) {
-            return;
+            return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
-            return;
+            return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (!r.checkArgs(args, 0) || args[0].equalsIgnoreCase("clear")) {
             if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
                 r.sendMes(cs, "powertoolSomethingInHand");
-                return;
+                return CommandResult.empty();
             }
             if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
                 r.sendMes(cs, "powertoolNothingAssigned");
-                return;
+                return CommandResult.empty();
             }
             UC.getPlayer(p).clearPowertool(p.getItemInHand().getType());
             r.sendMes(cs, "powertoolClear");
@@ -80,26 +80,26 @@ public class CmdPowertool implements UltimateCommand {
         } else if (args[0].equalsIgnoreCase("add")) {
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "powertoolAddUsage");
-                return;
+                return CommandResult.empty();
             }
             if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
                 r.sendMes(cs, "powertoolSomethingInHand");
-                return;
+                return CommandResult.empty();
             }
             UC.getPlayer(p).addPowertool(p.getItemInHand().getType(), r.getFinalArg(args, 1));
             r.sendMes(cs, "powertoolAdd", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
         } else if (args[0].equalsIgnoreCase("remove")) {
             if (!r.checkArgs(args, 1)) {
                 r.sendMes(cs, "powertoolUsageRemove");
-                return;
+                return CommandResult.empty();
             }
             if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
                 r.sendMes(cs, "powertoolSomethingInHand");
-                return;
+                return CommandResult.empty();
             }
             if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
                 r.sendMes(cs, "powertoolNothingAssigned");
-                return;
+                return CommandResult.empty();
             }
             if (!UC.getPlayer(p).getPowertools(p.getItemInHand().getType()).contains(r.getFinalArg(args, 1))) {
                 r.sendMes(cs, "powertoolNoSuchCommandAssigned");
@@ -109,11 +109,11 @@ public class CmdPowertool implements UltimateCommand {
         } else if (args[0].equalsIgnoreCase("list")) {
             if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
                 r.sendMes(cs, "powertoolSomethingInHand");
-                return;
+                return CommandResult.empty();
             }
             if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
                 r.sendMes(cs, "powertoolList", "%List", r.mes("powertoolNone"));
-                return;
+                return CommandResult.empty();
             }
             String s = StringUtil.joinList(UC.getPlayer(p).getPowertools(p.getItemInHand().getType()));
             r.sendMes(cs, "powertoolList", "%List", s);
