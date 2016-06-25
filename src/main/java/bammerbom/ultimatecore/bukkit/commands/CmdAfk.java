@@ -74,6 +74,7 @@ public class CmdAfk implements UltimateCommand {
                 Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(p).getDisplayName()));
                 UC.getPlayer(p).setAfk(false);
                 UC.getPlayer(p).setAfkMessage(null);
+                UC.getPlayer(p).updateLastActivity();
             }
         } else {
             if (!r.perm(cs, "uc.afk.others", false, true)) {
@@ -94,6 +95,7 @@ public class CmdAfk implements UltimateCommand {
                     Bukkit.broadcastMessage(r.mes("afkUnafk", "%Player", UC.getPlayer(t).getDisplayName()));
                     UC.getPlayer(t).setAfk(false);
                     UC.getPlayer(t).setAfkMessage(null);
+                    UC.getPlayer(t).updateLastActivity();
                 }
             } else {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
