@@ -71,15 +71,15 @@ public class CmdClearchat implements UltimateCommand {
                 for (int i = 0;
                      i < 100;
                      i++) {
-                    p.sendMessage("");
+                    p.sendMessage(Text.of(""));
                 }
             }
         } else {
-            Player pl = r.searchPlayer(args[0]);
-            if (pl == null) {
+            if (!r.searchPlayer(args[0]).isPresent()) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
+            Player pl = r.searchPlayer(args[0]).get();
             if (!r.perm(cs, "uc.clearchat", false, true) && !r.perm(cs, "uc.clearchat.player.others", false, true) && !(pl.equals(cs) && r.perm(cs, "uc.clearchat.player", true, true))) {
                 r.sendMes(cs, "noPermissions");
                 return;

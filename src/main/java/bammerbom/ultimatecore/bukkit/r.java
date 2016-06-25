@@ -76,7 +76,6 @@ public class r {
     //Config end
     //Vault
     private static Vault vault = null;
-    private static Object prom = null;
 
     public static void prestart() {
         r.debug("Trying to start economy...");
@@ -95,9 +94,6 @@ public class r {
     }
 
     public static void start() {
-        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
-            prom = com.comphenix.protocol.ProtocolLibrary.getProtocolManager();
-        }
         if (r.getCnfg().contains("Debug")) {
             setDebug(r.getCnfg().getBoolean("Debug"));
         }
@@ -105,10 +101,6 @@ public class r {
 
     public static UltimateUpdater getUpdater() {
         return updater;
-    }
-
-    public static Object getProtocolManager() {
-        return prom;
     }
 
     public static void runUpdater() {
