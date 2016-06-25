@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.bukkit.listeners;
 import bammerbom.ultimatecore.bukkit.api.UC;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.DateUtil;
+import bammerbom.ultimatecore.bukkit.resources.utils.StringUtil;
 import bammerbom.ultimatecore.bukkit.resources.utils.TabUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,6 +34,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.lang.management.ManagementFactory;
 import java.util.HashMap;
@@ -43,8 +46,17 @@ public class TabListener implements Listener {
     static HashMap<String, String> tabFormats = new HashMap<>();
     static String afkFormat = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.AfkFormat"));
     static boolean headerFooterEnabled = r.getCnfg().getBoolean("Chat.Tab.HeaderFooterEnabled");
-    static String header = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.Header"));
-    static String footer = ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.Footer"));
+    static String header = ChatColor.translateAlternateColorCodes('&', r.getCnfg().isList("Chat.Tab.Header") ? StringUtil.join("\n", r.getCnfg().getStringList("Chat.Tab.Header")) : r
+            .getCnfg().getString("Chat.Tab.Header"));
+    static String footer = ChatColor.translateAlternateColorCodes('&', r.getCnfg().isList("Chat.Tab.Footer") ? StringUtil.join("\n", r.getCnfg().getStringList("Chat.Tab.Footer")) : r
+            .getCnfg().getString("Chat.Tab.Footer"));
+    static Boolean abovehead = r.getCnfg().getBoolean("Chat.Nametag.Enabled");
+    static String defaultPrefix = r.getCnfg().getString("Chat.Nametag.DefaultPrefix");
+    static String defaultSuffix = r.getCnfg().getString("Chat.Nametag.DefaultSuffix");
+    static HashMap<String, String> prefixes = new HashMap<>();
+    static HashMap<String, String> suffixes = new HashMap<>();
+
+    static Scoreboard board;
 
     public static void start() {
         if (!r.getCnfg().getBoolean("Chat.Tab.Enabled")) {
@@ -53,6 +65,11 @@ public class TabListener implements Listener {
         for (String key : r.getCnfg().getConfigurationSection("Chat.Tab.Groups").getValues(false).keySet()) {
             tabFormats.put(key, ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Tab.Groups." + key)));
         }
+        for (String key : r.getCnfg().getConfigurationSection("Chat.Nametag.Groups").getValues(false).keySet()) {
+            prefixes.put(key, ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Nametag.Groups." + key + ".Prefix")));
+            suffixes.put(key, ChatColor.translateAlternateColorCodes('&', r.getCnfg().getString("Chat.Nametag.Groups." + key + ".Suffix")));
+        }
+
 
         Bukkit.getPluginManager().registerEvents(new TabListener(), r.getUC());
         Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
@@ -76,9 +93,31 @@ public class TabListener implements Listener {
                     if (UC.getPlayer(p).isAfk()) {
                         base = afkFormat.replace("+Original", base);
                     }
-                    if (!p.getPlayerListName().equals(base)) {
-                        p.setPlayerListName(base);
+                    p.setPlayerListName(base);
+                    if (abovehead) {
+                        if (board == null) {
+                            board = Bukkit.getScoreboardManager().getNewScoreboard();
+                        }
+                        Team team = board.getTeam(p.getName());
+                        if (team == null) {
+                            team = board.registerNewTeam(p.getName());
+                        }
+                        String prefix = defaultPrefix;
+                        if (prefixes.containsKey(group)) {
+                            prefix = prefixes.get(group);
+                        }
+                        String suffix = defaultSuffix;
+                        if (suffixes.containsKey(group)) {
+                            suffix = suffixes.get(group);
+                        }
+                        team.addPlayer(p);
+                        team.setPrefix(prefix);
+                        team.setSuffix(suffix);
+                        team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
                     }
+                }
+                for (Player pl : r.getOnlinePlayers()) {
+                    pl.setScoreboard(board);
                 }
             }
         }, 0L, 100L);

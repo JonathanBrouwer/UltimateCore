@@ -233,17 +233,36 @@ Chat:
     #(All the values named above will work here too)
     #GROUP NAMES ARE CASE SENSITIVE!!!
     Groups:
-      Player: '&6+Displayname'
-      Admin: '&4+Displayname'
+      Player: '&e+Displayname'
+      Admin: '&6+Displayname'
     #Will be added after the name of an afk player
     #+Original will be replaced with what the tab name was without the afk tag
     AfkFormat: '+Original &c[AFK]'
     #Custom header and footer
     #(All the values named above will work here too)
     HeaderFooterEnabled: false
-    Header: "&bWelcome to this server, +Displayname!\n&6Players online: +Onlineplayers/+Maxplayers"
-    Footer: "&cChange this message in the UltimateCore config.yml"
-
+    Header:
+    - "&bWelcome to this server, +Displayname!"
+    - "&6Players online: +Onlineplayers/+Maxplayers"
+    Footer:
+    - "&cChange this message in the UltimateCore config.yml"
+  Nametag:
+    #Is changing nametags enabled?
+    Enabled: false
+    #The default prefix
+    DefaultPrefix: "Geen prefix &e"
+    #The default suffix
+    DefaultSuffix: ""
+    #Groups tab formats
+    #(All the values named above will work here too)
+    #GROUP NAMES ARE CASE SENSITIVE!!!
+    Groups:
+      Player:
+        Prefix: "&6[&ePlayer&6] &e"
+        Suffix: ""
+      Admin:
+        Prefix: "&4[&cAdmin&4] &e"
+        Suffix: ""
   #Enable spam/swear/etc filter?
   SpamFilter: true
   SwearFilter: false
