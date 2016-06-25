@@ -250,7 +250,7 @@ Chat:
     #Is changing nametags enabled?
     Enabled: false
     #The default prefix
-    DefaultPrefix: "Geen prefix &e"
+    DefaultPrefix: "&e"
     #The default suffix
     DefaultSuffix: ""
     #Groups tab formats
