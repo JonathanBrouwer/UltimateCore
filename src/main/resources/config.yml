@@ -240,7 +240,7 @@ Chat:
     AfkFormat: '+Original &c[AFK]'
     #Custom header and footer
     #(All the values named above will work here too)
-    HeaderFooterEnabled: true
+    HeaderFooterEnabled: false
     Header: "&bWelcome to this server, +Displayname!\n&6Players online: +Onlineplayers/+Maxplayers"
     Footer: "&cChange this message in the UltimateCore config.yml"
 
