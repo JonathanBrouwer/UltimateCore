@@ -111,8 +111,16 @@ public class TabListener implements Listener {
                             suffix = suffixes.get(group);
                         }
                         team.addPlayer(p);
-                        team.setPrefix(replaceVariables(prefix, p));
-                        team.setSuffix(replaceVariables(suffix, p));
+                        prefix = replaceVariables(prefix, p);
+                        suffix = replaceVariables(suffix, p);
+                        if (prefix.length() > 16) {
+                            prefix = prefix.substring(0, 15);
+                        }
+                        if (suffix.length() > 16) {
+                            suffix = suffix.substring(0, 15);
+                        }
+                        team.setPrefix(prefix);
+                        team.setSuffix(suffix);
                         team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
                     }
                 }
@@ -177,6 +185,7 @@ public class TabListener implements Listener {
         base = base.replace("+Onlineplayers", onlineplayers + "");
         base = base.replace("+Servername", servername);
         base = base.replace("+Uptime", ChatColor.stripColor(DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime())));
+        base = ChatColor.translateAlternateColorCodes('&', base);
         return base;
     }
 
