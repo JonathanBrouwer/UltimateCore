@@ -111,8 +111,8 @@ public class TabListener implements Listener {
                             suffix = suffixes.get(group);
                         }
                         team.addPlayer(p);
-                        team.setPrefix(prefix);
-                        team.setSuffix(suffix);
+                        team.setPrefix(replaceVariables(prefix, p));
+                        team.setSuffix(replaceVariables(suffix, p));
                         team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
                     }
                 }

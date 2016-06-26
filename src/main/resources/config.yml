@@ -253,7 +253,7 @@ Chat:
     DefaultPrefix: "&e"
     #The default suffix
     DefaultSuffix: ""
-    #Groups tab formats
+    #Group nametag prefixes & suffixes
     #(All the values named above will work here too)
     #GROUP NAMES ARE CASE SENSITIVE!!!
     Groups:
