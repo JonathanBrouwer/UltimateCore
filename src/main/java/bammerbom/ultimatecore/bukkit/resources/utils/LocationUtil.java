@@ -248,21 +248,12 @@ public class LocationUtil {
         return (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y, z).getType())) || (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y + 1, z).getType()));
     }
 
-    // Not needed if using searchSafeLocation(loc)
-    public static Location getRoundedDestination(final Location loc) {
-        final World world = loc.getWorld();
-        int x = loc.getBlockX();
-        int y = (int) Math.round(loc.getY());
-        int z = loc.getBlockZ();
-        return new Location(world, x + 0.5, y, z + 0.5, loc.getYaw(), loc.getPitch());
-    }
-
     public static Location searchSafeLocation(final Player user, final Location loc) {
         if (loc.getWorld().equals(user.getWorld()) && (user.getGameMode() == GameMode.CREATIVE || UC.getPlayer(user).isGod()) && user.getAllowFlight()) {
             if (shouldFly(loc)) {
                 user.setFlying(true);
             }
-            return getRoundedDestination(loc);
+            return loc;
         }
         return searchSafeLocation(loc);
     }
@@ -370,7 +361,7 @@ public class LocationUtil {
             if (p.isInsideVehicle()) {
                 p.leaveVehicle();
             }
-            p.teleport(LocationUtil.getRoundedDestination(l), c);
+            p.teleport(l, c);
             playEffect(p, l);
             return;
         }
@@ -385,7 +376,7 @@ public class LocationUtil {
             if (p.isInsideVehicle()) {
                 p.leaveVehicle();
             }
-            p.teleport(LocationUtil.getRoundedDestination(l), c);
+            p.teleport(l, c);
             playEffect(p, l);
         }
     }
