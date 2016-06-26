@@ -34,6 +34,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
+import org.spongepowered.api.text.format.TextColors;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -193,15 +194,19 @@ public class PluginUtil {
     public static String getPluginList() {
         StringBuilder pluginList = new StringBuilder();
         Plugin[] plugins = Bukkit.getPluginManager().getPlugins();
-
+        HashMap<String, Plugin> pluginnames = new HashMap<>();
         for (Plugin plugin : plugins) {
+            pluginnames.put(plugin.getName(), plugin);
+        }
+
+        for (String name : new TreeSet<>(pluginnames.keySet())) {
             if (pluginList.length() > 0) {
                 pluginList.append(r.neutral);
                 pluginList.append(", ");
             }
 
-            pluginList.append(plugin.isEnabled() ? TextColors.GREEN : TextColors.RED);
-            pluginList.append(plugin.getDescription().getName());
+            pluginList.append(pluginnames.get(name).isEnabled() ? TextColors.GREEN : TextColors.RED);
+            pluginList.append(name);
         }
 
         return r.positive + "(" + r.neutral + plugins.length + r.positive + "): " + r.neutral + pluginList.toString();
