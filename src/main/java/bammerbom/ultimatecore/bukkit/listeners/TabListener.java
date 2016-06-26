@@ -124,8 +124,10 @@ public class TabListener implements Listener {
                         team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
                     }
                 }
-                for (Player pl : r.getOnlinePlayers()) {
-                    pl.setScoreboard(board);
+                if (abovehead) {
+                    for (Player pl : r.getOnlinePlayers()) {
+                        pl.setScoreboard(board);
+                    }
                 }
             }
         }, 0L, 100L);
