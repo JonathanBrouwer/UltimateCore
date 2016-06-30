@@ -24,8 +24,13 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.projectile.explosive.fireball.Fireball;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,21 +50,52 @@ public class CmdFireball implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Type]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Shoot a fireball.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("fireskull");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        if (!r.perm(p, "uc.fireball", true)) {
+            return CommandResult.empty();
+        }
+        Fireball ball = (Fireball) p.getWorld().createEntity(EntityTypes.FIREBALL, p.getLocation().getPosition()).get();
+        ball.offer(Keys.DIRECTION, ); //TODO wait for api
+        Class type = Fireball.class;
+        if (args.length > 0) {
+            if (args[0].equalsIgnoreCase("small")) {
+                type = SmallFireball.class;
+            } else if (args[0].equalsIgnoreCase("arrow")) {
+                type = Arrow.class;
+            } else if (args[0].equalsIgnoreCase("skull")) {
+                type = WitherSkull.class;
+            } else if (args[0].equalsIgnoreCase("egg")) {
+                type = Egg.class;
+            } else if (args[0].equalsIgnoreCase("snowball")) {
+                type = Snowball.class;
+            } else if (args[0].equalsIgnoreCase("expbottle")) {
+                type = ThrownExpBottle.class;
+            } else if (args[0].equalsIgnoreCase("large")) {
+                type = LargeFireball.class;
+            }
+        }
+        Vector direction = p.getEyeLocation().getDirection().multiply(2);
+        Projectile projectile = (Projectile) p.getWorld().spawn(p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), type);
+        projectile.setShooter(p);
+        projectile.setVelocity(direction);
         return CommandResult.success();
     }
 
@@ -67,47 +103,4 @@ public class CmdFireball implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("fireskull");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.isPlayer(cs)) {
-//            return CommandResult.empty();
-//        }
-//        Player p = (Player) cs;
-//        if (!r.perm(p, "uc.fireball", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        Class type = Fireball.class;
-//        if (args.length > 0) {
-//            if (args[0].equalsIgnoreCase("small")) {
-//                type = SmallFireball.class;
-//            } else if (args[0].equalsIgnoreCase("arrow")) {
-//                type = Arrow.class;
-//            } else if (args[0].equalsIgnoreCase("skull")) {
-//                type = WitherSkull.class;
-//            } else if (args[0].equalsIgnoreCase("egg")) {
-//                type = Egg.class;
-//            } else if (args[0].equalsIgnoreCase("snowball")) {
-//                type = Snowball.class;
-//            } else if (args[0].equalsIgnoreCase("expbottle")) {
-//                type = ThrownExpBottle.class;
-//            } else if (args[0].equalsIgnoreCase("large")) {
-//                type = LargeFireball.class;
-//            }
-//        }
-//        Vector direction = p.getEyeLocation().getDirection().multiply(2);
-//        Projectile projectile = (Projectile) p.getWorld().spawn(p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), type);
-//        projectile.setShooter(p);
-//        projectile.setVelocity(direction);
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

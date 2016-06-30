@@ -24,8 +24,11 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,12 +48,12 @@ public class CmdFly implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Enable/Disable fly mode.");
     }
 
     @Override
@@ -60,6 +63,42 @@ public class CmdFly implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (r.checkArgs(args, 0) == false) {
+            if (!(r.isPlayer(cs))) {
+                return CommandResult.empty();
+            }
+            if (!r.perm(cs, "uc.fly", true)) {
+                return CommandResult.empty();
+            }
+            Player p = (Player) cs;
+            if (p.get(Keys.CAN_FLY).orElse(false)) {
+                p.offer(Keys.CAN_FLY, false);
+                r.sendMes(cs, "flySelf", "%Status", r.mes("off"));
+            } else {
+                p.offer(Keys.CAN_FLY, true);
+                p.offer(Keys.FLYING_SPEED, 1.0);
+                r.sendMes(cs, "flySelf", "%Status", r.mes("on"));
+            }
+        } else {
+            if (!r.perm(cs, "uc.fly.others", true)) {
+                return CommandResult.empty();
+            }
+            Player target = r.searchPlayer(args[0]).orElse(null);
+            if (target != null) {
+                if (target.get(Keys.CAN_FLY).orElse(false)) {
+                    target.offer(Keys.CAN_FLY, false);
+                    r.sendMes(target, "flyOthersOther", "%Status", r.mes("off"), "%Player", r.getDisplayName(cs));
+                    r.sendMes(cs, "flyOthersSelf", "%Status", r.mes("off"), "%Player", target.getName());
+                } else {
+                    target.offer(Keys.CAN_FLY, true);
+                    r.sendMes(target, "flyOthersOther", "%Status", r.mes("on"), "%Player", r.getDisplayName(cs));
+                    r.sendMes(cs, "flyOthersSelf", "%Status", r.mes("on"), "%Player", target.getName());
+                }
+            } else {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            }
+
+        }
         return CommandResult.success();
     }
 
@@ -67,53 +106,4 @@ public class CmdFly implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList();
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (r.checkArgs(args, 0) == false) {
-//            if (!(r.isPlayer(cs))) {
-//                return CommandResult.empty();
-//            }
-//            if (!r.perm(cs, "uc.fly", false, true)) {
-//                return CommandResult.empty();
-//            }
-//            Player p = (Player) cs;
-//            if (p.getAllowFlight() == true) {
-//                p.setAllowFlight(false);
-//                r.sendMes(cs, "flySelf", "%Status", r.mes("off"));
-//            } else {
-//                p.setAllowFlight(true);
-//                p.setFlySpeed(0.1F);
-//                r.sendMes(cs, "flySelf", "%Status", r.mes("on"));
-//            }
-//        } else {
-//            if (!r.perm(cs, "uc.fly.others", false, true)) {
-//                return CommandResult.empty();
-//            }
-//            Player target = r.searchPlayer(args[0]);
-//            if (target != null) {
-//                if (target.getAllowFlight() == true) {
-//                    target.setAllowFlight(false);
-//                    r.sendMes(target, "flyOthersOther", "%Status", r.mes("off"), "%Player", r.getDisplayName(cs));
-//                    r.sendMes(cs, "flyOthersSelf", "%Status", r.mes("off"), "%Player", target.getName());
-//                } else {
-//                    target.setAllowFlight(true);
-//                    r.sendMes(target, "flyOthersOther", "%Status", r.mes("on"), "%Player", r.getDisplayName(cs));
-//                    r.sendMes(cs, "flyOthersSelf", "%Status", r.mes("on"), "%Player", target.getName());
-//                }
-//            } else {
-//                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            }
-//
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

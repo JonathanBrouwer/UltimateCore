@@ -24,8 +24,11 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,21 +48,46 @@ public class CmdFeed implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Fill someone's food bar.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("eat", "food");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.feed", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 0)) {
+            if (!r.isPlayer(cs)) {
+                return CommandResult.empty();
+            }
+            Player p = (Player) cs;
+            p.offer(Keys.FOOD_LEVEL, 20);
+            p.offer(Keys.SATURATION, 10.0);
+            r.sendMes(cs, "feedSelf");
+        } else {
+            if (!r.perm(cs, "uc.feed.others", true)) {
+                return CommandResult.empty();
+            }
+            Player p = r.searchPlayer(args[0]).orElse(null);
+            if (p == null) {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                return CommandResult.empty();
+            }
+            p.offer(Keys.FOOD_LEVEL, 20);
+            p.offer(Keys.SATURATION, 10.0);
+            r.sendMes(cs, "feedOthersSelf", "%Player", r.getDisplayName(p));
+            r.sendMes(p, "feedOthersOther", "%Player", r.getDisplayName(cs));
+        }
         return CommandResult.success();
     }
 
@@ -67,42 +95,4 @@ public class CmdFeed implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("eat", "food");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.feed", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        if (!r.checkArgs(args, 0)) {
-//            if (!r.isPlayer(cs)) {
-//                return CommandResult.empty();
-//            }
-//            Player p = (Player) cs;
-//            p.setFoodLevel(20);
-//            p.setSaturation(10F);
-//            r.sendMes(cs, "feedSelf");
-//        } else {
-//            if (!r.perm(cs, "uc.feed.others", false, true)) {
-//                return CommandResult.empty();
-//            }
-//            Player p = r.searchPlayer(args[0]);
-//            if (p == null) {
-//                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                return CommandResult.empty();
-//            }
-//            p.setFoodLevel(20);
-//            p.setSaturation(10F);
-//            r.sendMes(cs, "feedOthersSelf", "%Player", r.getDisplayName(p));
-//            r.sendMes(p, "feedOthersOther", "%Player", r.getDisplayName(cs));
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

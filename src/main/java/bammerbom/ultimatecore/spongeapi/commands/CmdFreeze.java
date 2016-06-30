@@ -24,8 +24,13 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,12 +50,12 @@ public class CmdFreeze implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Player> [Time]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Make someone not able to move.");
     }
 
     @Override
@@ -60,6 +65,40 @@ public class CmdFreeze implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "freezeUsage");
+            return CommandResult.empty();
+        }
+        GameProfile t = r.searchGameProfile(args[0]).orElse(null);
+        if (t == null) {
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            return CommandResult.empty();
+        }
+        Long time = 0L;
+        //Info
+        if (!r.checkArgs(args, 1)) {
+        } else if (DateUtil.parseDateDiff(args[1]) != -1) {
+            time = DateUtil.parseDateDiff(args[1]);
+        }
+        //Permcheck
+        if (!r.perm(cs, "uc.freeze.time", false) && !r.perm(cs, "uc.freeze", false) && time == 0L) {
+            r.sendMes(cs, "noPermissions");
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.freeze.perm", false) && !r.perm(cs, "uc.freeze", false) && time != 0L) {
+            r.sendMes(cs, "noPermissions");
+            return CommandResult.empty();
+        }
+        UC.getPlayer(t).setFrozen(true, time);
+        if (time == 0L) {
+            r.sendMes(cs, "freezeMessage", "%Player", t.getName());
+        } else {
+            r.sendMes(cs, "freezeMessageTime", "%Player", t.getName(), "%Time", DateUtil.format(time));
+        }
+        if (r.searchPlayer(t.getUniqueId()).isPresent()) {
+            Player banp2 = (Player) t;
+            r.sendMes(banp2, "freezeTarget");
+        }
         return CommandResult.success();
     }
 
@@ -67,52 +106,4 @@ public class CmdFreeze implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList();
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.checkArgs(args, 0)) {
-//            r.sendMes(cs, "freezeUsage");
-//            return CommandResult.empty();
-//        }
-//        OfflinePlayer t = r.searchGameProfile(args[0]);
-//        if (t == null) {
-//            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            return CommandResult.empty();
-//        }
-//        Long time = 0L;
-//        //Info
-//        if (!r.checkArgs(args, 1)) {
-//        } else if (DateUtil.parseDateDiff(args[1]) != -1) {
-//            time = DateUtil.parseDateDiff(args[1]);
-//        }
-//        //Permcheck
-//        if (!r.perm(cs, "uc.freeze.time", false, false) && !r.perm(cs, "uc.freeze", false, false) && time == 0L) {
-//            r.sendMes(cs, "noPermissions");
-//            return CommandResult.empty();
-//        }
-//        if (!r.perm(cs, "uc.freeze.perm", false, false) && !r.perm(cs, "uc.freeze", false, false) && time != 0L) {
-//            r.sendMes(cs, "noPermissions");
-//            return CommandResult.empty();
-//        }
-//        UC.getPlayer(t).setFrozen(true, time);
-//        if (time == 0L) {
-//            r.sendMes(cs, "freezeMessage", "%Player", t.getName());
-//        } else {
-//            r.sendMes(cs, "freezeMessageTime", "%Player", t.getName(), "%Time", DateUtil.format(time));
-//        }
-//        if (t.isOnline()) {
-//            Player banp2 = (Player) t;
-//            r.sendMes(banp2, "freezeTarget");
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }
