@@ -146,7 +146,8 @@ public class ItemUtil {
                 stack.getType().equals(Material.GOLD_HELMET) || stack.getType().equals(Material.DIAMOND_BOOTS) ||
                 stack.getType().equals(Material.DIAMOND_LEGGINGS) || stack.getType().equals(Material.DIAMOND_CHESTPLATE) || stack.getType().equals(Material.DIAMOND_HELMET) || stack.getType()
                 .equals(Material.BOW) || stack.getType().equals(Material.FISHING_ROD) || stack.getType().equals(Material.CARROT_STICK) || stack.getType().equals(Material.FLINT_AND_STEEL) || stack
-                .getType().equals(Material.SHEARS) || stack.getType().equals(Material.ANVIL);
+                .getType().equals(Material.SHEARS) || stack.getType().equals(Material.ANVIL)
+                || stack.getType().equals(Material.ELYTRA);
     }
 
     public static String getID(Material mat) {
