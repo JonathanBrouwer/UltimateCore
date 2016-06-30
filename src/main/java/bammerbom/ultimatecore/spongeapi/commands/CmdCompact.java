@@ -148,12 +148,12 @@ public class CmdCompact implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Hand]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Compact the items in your inventory.");
     }
 
     @Override

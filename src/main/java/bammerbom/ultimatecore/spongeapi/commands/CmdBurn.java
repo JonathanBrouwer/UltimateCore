@@ -49,12 +49,12 @@ public class CmdBurn implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Player> [Time]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Set someone on fire.");
     }
 
     @Override

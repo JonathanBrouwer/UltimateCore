@@ -49,12 +49,12 @@ public class CmdDamage implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player] [Damage]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Damage someone for a certain amount of damage.");
     }
 
     @Override

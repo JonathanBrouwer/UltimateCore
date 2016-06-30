@@ -54,12 +54,12 @@ public class CmdBanip implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <IP/Player> [Time] [Reason]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Bans the target ip.");
     }
 
     @Override

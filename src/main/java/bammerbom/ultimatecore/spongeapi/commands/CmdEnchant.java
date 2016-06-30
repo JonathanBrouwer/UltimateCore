@@ -24,8 +24,14 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.databases.EnchantmentDatabase;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.type.HandTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.Enchantment;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,21 +51,65 @@ public class CmdEnchant implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Enchantment> [Level]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Enchant the item in your hand.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("enchantment");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.enchant", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "enchantUsage");
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        Enchantment ench = EnchantmentDatabase.getByName(args[0]);
+        if (ench == null) {
+            r.sendMes(cs, "enchantNotFound", "%Enchant", args[0]);
+            return CommandResult.empty();
+        }
+        ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).orElse(null);
+        if (stack == null) {
+            r.sendMes(cs, "enchantNoItemInHand");
+            return CommandResult.empty();
+        }
+        String name = ench.getName().replace("_", "").toLowerCase();
+        Integer level = 1;
+        if (r.checkArgs(args, 1) && r.isInt(args[1])) {
+            level = Integer.parseInt(args[1]);
+        }
+        if (level < 0) {
+            level = 0;
+        }
+        if (level == 0) {
+            stack.removeEnchantment(ench);
+            r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
+        } else {
+            try {
+                MetaItemStack stack2 = new MetaItemStack(stack);
+                stack2.addEnchantment(cs, r.perm(cs, "uc.enchant.unsafe", false, false), ench, level);
+                p.setItemInHand(stack2.getItemStack());
+                r.sendMes(cs, "enchantMessage", "%Enchant", name, "%Level", level, "%Item", ItemUtil.getName(stack).toLowerCase());
+            } catch (IllegalArgumentException ex) {
+                if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or too " + "high")) {
+                    r.sendMes(cs, "enchantUnsafe");
+                }
+            }
+        }
         return CommandResult.success();
     }
 

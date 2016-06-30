@@ -24,8 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,21 +47,43 @@ public class CmdEnderchest implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Open an enderchest.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("echest");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!(r.isPlayer(cs))) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        if (r.checkArgs(args, 0) == false) {
+            if (!r.perm(cs, "uc.enderchest", true)) {
+                return CommandResult.empty();
+            }
+            //TODO wait for enderchest api
+            p.openInventory(p.getEnderChest());
+        } else {
+            if (!r.perm(cs, "uc.enderchest.others", true)) {
+                return CommandResult.empty();
+            }
+            Player target = r.searchPlayer(args[0]).orElse(null);
+            if (target != null) {
+                //TODO wait for enderchest api
+                p.openInventory(target.getEnderChest());
+            } else {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            }
+        }
         return CommandResult.success();
     }
 
@@ -67,37 +91,4 @@ public class CmdEnderchest implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("echest");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!(r.isPlayer(cs))) {
-//            return CommandResult.empty();
-//        }
-//        Player p = (Player) cs;
-//        if (r.checkArgs(args, 0) == false) {
-//            if (!r.perm(cs, "uc.enderchest", false, true)) {
-//                return CommandResult.empty();
-//            }
-//            p.openInventory(p.getEnderChest());
-//        } else {
-//            if (!r.perm(cs, "uc.enderchest.others", false, true)) {
-//                return CommandResult.empty();
-//            }
-//            Player target = r.searchPlayer(args[0]);
-//            if (target != null) {
-//                p.openInventory(target.getEnderChest());
-//            } else {
-//                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

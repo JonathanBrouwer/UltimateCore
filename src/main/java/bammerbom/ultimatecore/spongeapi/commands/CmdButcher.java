@@ -53,12 +53,12 @@ public class CmdButcher implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Type] [Range]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Kill all monsters in a certain area.");
     }
 
     @Override

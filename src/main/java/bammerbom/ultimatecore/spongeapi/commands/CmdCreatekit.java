@@ -51,12 +51,12 @@ public class CmdCreatekit implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Name> <Time> <Description...>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Create a new kit with the items in your inventory.");
     }
 
     @Override

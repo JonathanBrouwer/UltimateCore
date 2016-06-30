@@ -24,8 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,21 +47,30 @@ public class CmdEnchantingtable implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("pen an enchanting inventory.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("ectable");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.enchantingtable", true)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        //TODO wait for https://github.com/SpongePowered/SpongeAPI/pull/1189
+        UC.getPlayer(p).setInCommandEnchantingtable(true);
         return CommandResult.success();
     }
 
@@ -67,26 +78,4 @@ public class CmdEnchantingtable implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("ectable");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.isPlayer(cs)) {
-//            return CommandResult.empty();
-//        }
-//        if (!r.perm(cs, "uc.enchantingtable", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        Player p = (Player) cs;
-//        p.openEnchanting(p.getLocation(), true);
-//        UC.getPlayer(p).setInCommandEnchantingtable(true);
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

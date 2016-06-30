@@ -49,12 +49,12 @@ public class CmdDelspawn implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Args...]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Remove a spawn.");
     }
 
     @Override

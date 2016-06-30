@@ -53,12 +53,12 @@ public class CmdBan implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Player> [Time] [Reason]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Bans the target player.");
     }
 
     @Override

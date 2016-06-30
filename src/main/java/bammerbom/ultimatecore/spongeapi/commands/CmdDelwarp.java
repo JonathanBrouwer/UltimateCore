@@ -48,12 +48,12 @@ public class CmdDelwarp implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Warp>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Remove a warp.");
     }
 
     @Override

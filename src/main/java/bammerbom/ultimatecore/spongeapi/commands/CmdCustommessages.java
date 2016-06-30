@@ -52,12 +52,12 @@ public class CmdCustommessages implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Message> [Var...]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Get a custom message from the custommessages.yml file.");
     }
 
     @Override

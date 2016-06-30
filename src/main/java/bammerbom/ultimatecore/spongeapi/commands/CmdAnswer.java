@@ -51,12 +51,12 @@ public class CmdAnswer implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Player> <Message>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Answer a question send with /ask");
     }
 
     @Override

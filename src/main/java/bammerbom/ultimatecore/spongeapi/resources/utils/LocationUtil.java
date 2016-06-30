@@ -26,62 +26,25 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.util.NumberConversions;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.property.block.PassableProperty;
 import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.util.blockray.BlockRay;
+import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.*;
 
 public class LocationUtil {
 
     // The player can stand inside these materials
-    public static final Set<Material> HOLLOW_MATERIALS = new HashSet<>();
     public static final int RADIUS = 3;
     public static final Vector3D[] VOLUME;
-    private static final Set<Material> TRANSPARENT_MATERIALS = new HashSet<>();
     static int delay2 = 0;
-
-    static {
-        HOLLOW_MATERIALS.add(Material.AIR);
-        HOLLOW_MATERIALS.add(Material.SAPLING);
-        HOLLOW_MATERIALS.add(Material.POWERED_RAIL);
-        HOLLOW_MATERIALS.add(Material.DETECTOR_RAIL);
-        HOLLOW_MATERIALS.add(Material.LONG_GRASS);
-        HOLLOW_MATERIALS.add(Material.DEAD_BUSH);
-        HOLLOW_MATERIALS.add(Material.YELLOW_FLOWER);
-        HOLLOW_MATERIALS.add(Material.RED_ROSE);
-        HOLLOW_MATERIALS.add(Material.BROWN_MUSHROOM);
-        HOLLOW_MATERIALS.add(Material.RED_MUSHROOM);
-        HOLLOW_MATERIALS.add(Material.TORCH);
-        HOLLOW_MATERIALS.add(Material.REDSTONE_WIRE);
-        HOLLOW_MATERIALS.add(Material.SEEDS);
-        HOLLOW_MATERIALS.add(Material.SIGN_POST);
-        HOLLOW_MATERIALS.add(Material.WOODEN_DOOR);
-        HOLLOW_MATERIALS.add(Material.LADDER);
-        HOLLOW_MATERIALS.add(Material.RAILS);
-        HOLLOW_MATERIALS.add(Material.WALL_SIGN);
-        HOLLOW_MATERIALS.add(Material.LEVER);
-        HOLLOW_MATERIALS.add(Material.STONE_PLATE);
-        HOLLOW_MATERIALS.add(Material.IRON_DOOR_BLOCK);
-        HOLLOW_MATERIALS.add(Material.WOOD_PLATE);
-        HOLLOW_MATERIALS.add(Material.REDSTONE_TORCH_OFF);
-        HOLLOW_MATERIALS.add(Material.REDSTONE_TORCH_ON);
-        HOLLOW_MATERIALS.add(Material.STONE_BUTTON);
-        HOLLOW_MATERIALS.add(Material.SNOW);
-        HOLLOW_MATERIALS.add(Material.SUGAR_CANE_BLOCK);
-        HOLLOW_MATERIALS.add(Material.DIODE_BLOCK_OFF);
-        HOLLOW_MATERIALS.add(Material.DIODE_BLOCK_ON);
-        HOLLOW_MATERIALS.add(Material.PUMPKIN_STEM);
-        HOLLOW_MATERIALS.add(Material.MELON_STEM);
-        HOLLOW_MATERIALS.add(Material.VINE);
-        HOLLOW_MATERIALS.add(Material.FENCE_GATE);
-        HOLLOW_MATERIALS.add(Material.WATER_LILY);
-        HOLLOW_MATERIALS.add(Material.NETHER_WARTS);
-        HOLLOW_MATERIALS.add(Material.CARPET);
-        TRANSPARENT_MATERIALS.addAll(HOLLOW_MATERIALS);
-        TRANSPARENT_MATERIALS.add(Material.WATER);
-        TRANSPARENT_MATERIALS.add(Material.STATIONARY_WATER);
-    }
 
     static {
         List<Vector3D> pos = new ArrayList<>();
@@ -113,108 +76,24 @@ public class LocationUtil {
         }
     }
 
-    public static ItemStack convertBlockToItem(final Block block) {
-        final ItemStack is = new ItemStack(block.getType(), 1, (short) 0, block.getData());
-        switch (is.getType()) {
-            case WOODEN_DOOR:
-                is.setType(Material.WOOD_DOOR);
-                is.setDurability((short) 0);
-                break;
-            case IRON_DOOR_BLOCK:
-                is.setType(Material.IRON_DOOR);
-                is.setDurability((short) 0);
-                break;
-            case SIGN_POST:
-            case WALL_SIGN:
-                is.setType(Material.SIGN);
-                is.setDurability((short) 0);
-                break;
-            case CROPS:
-                is.setType(Material.SEEDS);
-                is.setDurability((short) 0);
-                break;
-            case CAKE_BLOCK:
-                is.setType(Material.CAKE);
-                is.setDurability((short) 0);
-                break;
-            case BED_BLOCK:
-                is.setType(Material.BED);
-                is.setDurability((short) 0);
-                break;
-            case REDSTONE_WIRE:
-                is.setType(Material.REDSTONE);
-                is.setDurability((short) 0);
-                break;
-            case REDSTONE_TORCH_OFF:
-            case REDSTONE_TORCH_ON:
-                is.setType(Material.REDSTONE_TORCH_ON);
-                is.setDurability((short) 0);
-                break;
-            case DIODE_BLOCK_OFF:
-            case DIODE_BLOCK_ON:
-                is.setType(Material.DIODE);
-                is.setDurability((short) 0);
-                break;
-            case DOUBLE_STEP:
-                is.setType(Material.STEP);
-                break;
-            case TORCH:
-            case RAILS:
-            case LADDER:
-            case WOOD_STAIRS:
-            case COBBLESTONE_STAIRS:
-            case LEVER:
-            case STONE_BUTTON:
-            case FURNACE:
-            case DISPENSER:
-            case PUMPKIN:
-            case JACK_O_LANTERN:
-            case WOOD_PLATE:
-            case STONE_PLATE:
-            case PISTON_STICKY_BASE:
-            case PISTON_BASE:
-            case IRON_FENCE:
-            case THIN_GLASS:
-            case TRAP_DOOR:
-            case FENCE:
-            case FENCE_GATE:
-            case NETHER_FENCE:
-                is.setDurability((short) 0);
-                break;
-            case FIRE:
-                return null;
-            case PUMPKIN_STEM:
-                is.setType(Material.PUMPKIN_SEEDS);
-                break;
-            case MELON_STEM:
-                is.setType(Material.MELON_SEEDS);
-                break;
-            default:
-                break;
-        }
-        return is;
-    }
-
     public static Optional<Location> getTarget(final Living entity) {
-        final Block block = entity.getTargetBlock(TRANSPARENT_MATERIALS, 300);
-        if (block == null) {
-            return null;
+        Optional<BlockRayHit<World>> hit = BlockRay.from(entity).build().end();
+        if (!hit.isPresent()) {
+            return Optional.empty();
         }
-        return block.getLocation();
+        return Optional.of(hit.get().getLocation());
     }
 
     static boolean isBlockAboveAir(final World world, final int x, final int y, final int z) {
-        if (y > world.getMaxHeight()) {
-            return true;
-        }
-        return HOLLOW_MATERIALS.contains(world.getBlockAt(x, y - 1, z).getType());
+        return world.getLocation(x, y - 1, z).getBlockType().getProperty(PassableProperty.class).get().getValue();
     }
 
     public static boolean isBlockUnsafeForUser(final Player user, final World world, final int x, final int y, final int z) {
         if (world == null || world == null) {
             return false;
         }
-        if (world.equals(user.getWorld()) && (user.getGameMode() == GameMode.CREATIVE || UC.getPlayer(user).isGod()) && user.getAllowFlight()) {
+        if (world.equals(user.getWorld()) && (user.get(Keys.GAME_MODE).orElse(GameModes.NOT_SET) == GameModes.CREATIVE || UC.getPlayer(user).isGod()) && user.get(Keys.CAN_FLY).orElse
+                (false)) {
             return false;
         }
 
@@ -232,7 +111,7 @@ public class LocationUtil {
     }
 
     public static boolean isBlockDamaging(final World world, final int x, final int y, final int z) {
-        final Block below = world.getBlockAt(x, y - 1, z);
+        final Location below = world.getBlockAt(x, y - 1, z);
         if (below.getType() == Material.LAVA || below.getType() == Material.STATIONARY_LAVA) {
             return true;
         }

@@ -48,12 +48,12 @@ public class CmdCoordinates implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Get the location of a certain player.");
     }
 
     @Override

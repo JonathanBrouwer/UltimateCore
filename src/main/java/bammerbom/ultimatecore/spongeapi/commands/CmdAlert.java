@@ -51,12 +51,12 @@ public class CmdAlert implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Message>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Sends everyone on the server an alert message.");
     }
 
     @Override

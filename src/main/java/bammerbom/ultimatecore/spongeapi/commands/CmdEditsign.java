@@ -51,12 +51,12 @@ public class CmdEditsign implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <1-4> [Text]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Edit a sign.");
     }
 
     @Override

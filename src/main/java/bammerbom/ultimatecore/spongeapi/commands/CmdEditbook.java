@@ -50,12 +50,12 @@ public class CmdEditbook implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Converts te book in your hand to an editable book.");
     }
 
     @Override

@@ -51,12 +51,12 @@ public class CmdDeaf implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Player> [Time]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Make someone not able to receive chat.");
     }
 
     @Override

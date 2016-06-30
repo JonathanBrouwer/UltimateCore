@@ -51,12 +51,12 @@ public class CmdAsk implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Message>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Ask a question to players with the uc.answer permission.");
     }
 
     @Override

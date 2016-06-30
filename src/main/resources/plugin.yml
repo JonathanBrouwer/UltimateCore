@@ -33,7 +33,7 @@ commands:
     permissions: uc.answer
     aliases: [ans, askr, askreply]
   ask:
-    description: Ask a question to players with the uc.support permission.
+    description: Ask a question to players with the uc.answer permission.
     usage: /<command> <Message>
     permissions: uc.ask
     aliases: [helpop]
@@ -172,7 +172,7 @@ commands:
     aliases: [echest]
   experience:
     usage: /<command> [-][XP][L] [Player]
-    description: View or set the expierence of someone or yourself.
+    description: View or set the experience of someone or yourself.
     permissions: uc.experience
     aliases: [xp, exp]
   extinguish:

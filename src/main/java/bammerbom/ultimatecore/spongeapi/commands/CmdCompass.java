@@ -48,12 +48,12 @@ public class CmdCompass implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Set the compass location of someone to your current location.");
     }
 
     @Override

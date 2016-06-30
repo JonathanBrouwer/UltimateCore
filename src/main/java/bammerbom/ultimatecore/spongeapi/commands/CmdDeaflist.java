@@ -49,12 +49,12 @@ public class CmdDeaflist implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("View a list of all current deaf players.");
     }
 
     @Override

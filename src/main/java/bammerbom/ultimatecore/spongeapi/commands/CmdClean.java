@@ -56,12 +56,12 @@ public class CmdClean implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [World]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Clean the world, to reduce lag.");
     }
 
     @Override

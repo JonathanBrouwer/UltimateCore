@@ -52,12 +52,12 @@ public class CmdBack implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Teleports you to your location prior to tp/spawn/warp.");
     }
 
     @Override

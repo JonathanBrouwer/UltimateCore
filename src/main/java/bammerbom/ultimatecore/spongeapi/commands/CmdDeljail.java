@@ -47,12 +47,12 @@ public class CmdDeljail implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Name>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Remove a jail.");
     }
 
     @Override

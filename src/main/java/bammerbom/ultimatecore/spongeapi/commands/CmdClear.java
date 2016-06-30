@@ -45,12 +45,12 @@ public class CmdClear implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [player] [item[:<data>]] [amount]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Clear all items in your inventory.");
     }
 
     @Override
