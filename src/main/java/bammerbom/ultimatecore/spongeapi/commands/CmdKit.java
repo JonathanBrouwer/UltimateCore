@@ -24,21 +24,12 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.UltimateFileLoader;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.api.UKit;
-import bammerbom.ultimatecore.spongeapi.configuration.Config;
-import bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class CmdKit implements UltimateCommand {
 
@@ -53,72 +44,96 @@ public class CmdKit implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("kits", "kitlist");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.checkArgs(args, 0)) {
-            if (!r.perm(cs, "uc.kit", true, true)) {
-                return CommandResult.empty();
-            }
-            if (UC.getServer().getKits().isEmpty()) {
-                r.sendMes(cs, "kitNoFound");
-                return CommandResult.empty();
-            }
-            r.sendMes(cs, "kitList1");
-            for (UKit kit : UC.getServer().getKits()) {
-                r.sendMes(cs, "kitList2", "%Kit", kit.getName(), "%Description", kit.getDescription());
-//                if (kit.getCooldown() == 0) {
-//                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
-//                } else if (kit.getCooldown() == -1) {
-//                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitOnlyOnce"));
-//                } else {
-//                    r.sendMes(cs, "kitList3", "%Cooldown", DateUtil.format(kit.getCooldown()));
-//                }
-//                List<String> items = new ArrayList<>();
-//                for (ItemStack item : kit.getItems()) {
-//                    items.add(ItemUtil.getName(item));
-//                }
-//                r.sendMes(cs, "kitList4", "%Items", StringUtil.joinList(items));
-            }
-            return CommandResult.empty();
-        }
-        if (!r.perm(cs, "uc.kit", true, false) && !r.perm(cs, "uc.kit." + args[0], true, false)) {
-            r.sendMes(cs, "noPermissions");
-            return CommandResult.empty();
-        }
-        if (!r.isPlayer(cs)) {
-            return CommandResult.empty();
-        }
-        final Player p = (Player) cs;
-        final Config config = new Config(UltimateFileLoader.Dkits);
-        final ConfigSection kitNode = config.getConfigurationSection(args[0].toLowerCase());
-        if (kitNode == null) {
-            r.sendMes(cs, "kitNotFound", "%Kit", args[0].toLowerCase());
-            return CommandResult.empty();
-        }
-        final UKit kit = UC.getServer().getKit(args[0].toLowerCase());
-        if (!kit.hasCooldownPassedFor(p) && !r.perm(p, "uc.kit.cooldownexempt", false, false)) {
-            if (kit.getCooldown() == -1L) {
-                r.sendMes(cs, "kitOnlyOnce");
-            } else {
-                r.sendMes(cs, "kitTime", "%Time", DateUtil.formatDateDiff(kit.getCooldownFor(p)));
-            }
-            return CommandResult.empty();
-        }
-        final List<ItemStack> items = kit.getItems();
-        final Map<Integer, ItemStack> leftOver = p.getInventory().addItem(items.toArray(new ItemStack[items.size()]));
-        for (final ItemStack is : leftOver.values()) {
-            p.getWorld().dropItemNaturally(p.getLocation(), is);
-        }
-        kit.setLastUsed(p, System.currentTimeMillis());
-        r.sendMes(cs, "kitGive", "%Kit", args[0].toLowerCase());
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return UC.getServer().getKitNames();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("kits", "kitlist");
+//    }
+
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.checkArgs(args, 0)) {
+//            if (!r.perm(cs, "uc.kit", true, true)) {
+//                return CommandResult.empty();
+//            }
+//            if (UC.getServer().getKits().isEmpty()) {
+//                r.sendMes(cs, "kitNoFound");
+//                return CommandResult.empty();
+//            }
+//            r.sendMes(cs, "kitList1");
+//            for (UKit kit : UC.getServer().getKits()) {
+//                r.sendMes(cs, "kitList2", "%Kit", kit.getName(), "%Description", kit.getDescription());
+////                if (kit.getCooldown() == 0) {
+////                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
+////                } else if (kit.getCooldown() == -1) {
+////                    r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitOnlyOnce"));
+////                } else {
+////                    r.sendMes(cs, "kitList3", "%Cooldown", DateUtil.format(kit.getCooldown()));
+////                }
+////                List<String> items = new ArrayList<>();
+////                for (ItemStack item : kit.getItems()) {
+////                    items.add(ItemUtil.getName(item));
+////                }
+////                r.sendMes(cs, "kitList4", "%Items", StringUtil.joinList(items));
+//            }
+//            return CommandResult.empty();
+//        }
+//        if (!r.perm(cs, "uc.kit", true, false) && !r.perm(cs, "uc.kit." + args[0], true, false)) {
+//            r.sendMes(cs, "noPermissions");
+//            return CommandResult.empty();
+//        }
+//        if (!r.isPlayer(cs)) {
+//            return CommandResult.empty();
+//        }
+//        final Player p = (Player) cs;
+//        final Config config = new Config(UltimateFileLoader.Dkits);
+//        final ConfigSection kitNode = config.getConfigurationSection(args[0].toLowerCase());
+//        if (kitNode == null) {
+//            r.sendMes(cs, "kitNotFound", "%Kit", args[0].toLowerCase());
+//            return CommandResult.empty();
+//        }
+//        final UKit kit = UC.getServer().getKit(args[0].toLowerCase());
+//        if (!kit.hasCooldownPassedFor(p) && !r.perm(p, "uc.kit.cooldownexempt", false, false)) {
+//            if (kit.getCooldown() == -1L) {
+//                r.sendMes(cs, "kitOnlyOnce");
+//            } else {
+//                r.sendMes(cs, "kitTime", "%Time", DateUtil.formatDateDiff(kit.getCooldownFor(p)));
+//            }
+//            return CommandResult.empty();
+//        }
+//        final List<ItemStack> items = kit.getItems();
+//        final Map<Integer, ItemStack> leftOver = p.getInventory().addItem(items.toArray(new ItemStack[items.size()]));
+//        for (final ItemStack is : leftOver.values()) {
+//            p.getWorld().dropItemNaturally(p.getLocation(), is);
+//        }
+//        kit.setLastUsed(p, System.currentTimeMillis());
+//        r.sendMes(cs, "kitGive", "%Kit", args[0].toLowerCase());
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return UC.getServer().getKitNames();
+//    }
 }

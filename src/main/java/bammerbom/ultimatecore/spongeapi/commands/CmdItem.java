@@ -28,12 +28,12 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,13 +51,23 @@ public class CmdItem implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Item> [Amount] [Data...]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Give an item to yourself.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("i");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.item", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.item", true)) {
             return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
@@ -70,12 +80,12 @@ public class CmdItem implements UltimateCommand {
         }
         ItemStack item;
         try {
-            item = new ItemStack(ItemUtil.searchItem(args[0]));
+            item = ItemUtil.searchItem(args[0]);
         } catch (Exception e) {
             r.sendMes(cs, "itemItemNotFound", "%Item", args[0]);
             return CommandResult.empty();
         }
-        if (item == null || item.getType() == null || item.getType().equals(Material.AIR)) {
+        if (item == null || item.getItem() == null || item.getItem().equals(ItemTypes.NONE)) {
             r.sendMes(cs, "itemItemNotFound", "%Item", args[0]);
             return CommandResult.empty();
         }
@@ -83,7 +93,7 @@ public class CmdItem implements UltimateCommand {
             r.sendMes(cs, "itemInventoryFull");
             return CommandResult.empty();
         }
-        Integer amount = item.getMaxStackSize();
+        Integer amount = item.getMaxStackQuantity();
         if (r.checkArgs(args, 1)) {
             if (!r.isInt(args[1])) {
                 r.sendMes(cs, "numberFormat", "%Number", args[1]);
@@ -91,7 +101,7 @@ public class CmdItem implements UltimateCommand {
             }
             amount = Integer.parseInt(args[1]);
         }
-        item.setAmount(amount);
+        item.setQuantity(amount);
         if (r.checkArgs(args, 2)) {
             if (r.isInt(args[2])) {
                 item.setDurability(Short.parseShort(args[2]));
@@ -106,7 +116,7 @@ public class CmdItem implements UltimateCommand {
                         item = Bukkit.getUnsafe().modifyItemStack(item, s);
                     } else {
                         try {
-                            meta.parseStringMeta(cs, r.perm(cs, "uc.item.unsafe", false, false), args, metaStart);
+                            meta.parseStringMeta(cs, r.perm(cs, "uc.item.unsafe", false), args, metaStart);
                             item = meta.getItemStack();
                         } catch (IllegalArgumentException ex) {
                             if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too " + "low or too high")) {
@@ -127,10 +137,11 @@ public class CmdItem implements UltimateCommand {
         }
         InventoryUtil.addItem(p.getInventory(), item);
         r.sendMes(cs, "itemMessage", "%Item", ItemUtil.getName(item), "%Amount", amount, "%Player", r.getDisplayName(p));
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

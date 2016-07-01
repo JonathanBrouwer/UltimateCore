@@ -24,8 +24,13 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,21 +50,91 @@ public class CmdGod implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player] [Time]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Enable/Disable god mode for a certain time.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("godmode");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.god", true)) {
+            return CommandResult.empty();
+        }
+        if (r.checkArgs(args, 0) == false) {
+            if (!r.isPlayer(cs)) {
+                return CommandResult.empty();
+            }
+            Player p = (Player) cs;
+            if (UC.getPlayer(p).isGod()) {
+                UC.getPlayer(p).setGod(false);
+                r.sendMes(cs, "godSelf", "%Status", r.mes("off"));
+            } else {
+                UC.getPlayer(p).setGod(true);
+                r.sendMes(cs, "godSelf", "%Status", r.mes("on"));
+            }
+            return CommandResult.empty();
+        }
+        if (DateUtil.parseDateDiff(args[0]) >= 1) {
+            Long t = DateUtil.parseDateDiff(args[0]);
+            if (!r.isPlayer(cs)) {
+                return CommandResult.empty();
+            }
+            Player p = (Player) cs;
+            UC.getPlayer(p).setGod(true, t);
+            r.sendMes(cs, "godSelfT", "%Status", r.mes("on"), "%Time", DateUtil.format(t));
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.god.others", true)) {
+            return CommandResult.empty();
+        }
+        GameProfile banp = r.searchGameProfile(args[0]).orElse(null);
+        if (banp == null) {
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            return CommandResult.empty();
+        }
+        /*//Info
+         if(r.checkArgs(args, 1) == false){
+         UC.getPlayer(banp).setGod(!UC.getPlayer(banp).isGod());
+         r.sendMes(cs, "godOthersSelfMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r
+         .mes("on") : r.mes("off")));
+         if(banp.isOnline()) r.sendMes((Player) banp, "godOthersOtherMessage", "%Player", banp.getName(), "%Status",
+         (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
+         return CommandResult.empty();
+         }*/
+        Long time = 0L;
+        if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1]) >= 1) {
+            time = DateUtil.parseDateDiff(args[1]);
+        }
+        //Permcheck
+        if (!r.perm(cs, "uc.god.time", false) && !r.perm(cs, "uc.god", false) && time == 0L) {
+            r.sendMes(cs, "noPermissions");
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.god.perm", false) && !r.perm(cs, "uc.god", false) && time != 0L) {
+            r.sendMes(cs, "noPermissions");
+            return CommandResult.empty();
+        }
+        UC.getPlayer(banp).setGod(!UC.getPlayer(banp).isGod(), time);
+        if (time == 0L) {
+            r.sendMes(cs, "godOthersSelfMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
+            if (r.searchPlayer(banp.getUniqueId()).isPresent()) {
+                r.sendMes((CommandSource) banp, "godOthersOtherMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
+            }
+        } else {
+            r.sendMes(cs, "godOthersSelfMessageT", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
+            if (r.searchPlayer(banp.getUniqueId()).isPresent()) {
+                r.sendMes((CommandSource) banp, "godOthersOtherMessageT", "%Player", r.getDisplayName(cs), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil
+                        .format(time));
+            }
+        }
         return CommandResult.success();
     }
 
@@ -67,87 +142,5 @@ public class CmdGod implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("godmode");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.god", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        if (r.checkArgs(args, 0) == false) {
-//            if (!r.isPlayer(cs)) {
-//                return CommandResult.empty();
-//            }
-//            Player p = (Player) cs;
-//            if (UC.getPlayer(p).isGod()) {
-//                UC.getPlayer(p).setGod(false);
-//                r.sendMes(cs, "godSelf", "%Status", r.mes("off"));
-//            } else {
-//                UC.getPlayer(p).setGod(true);
-//                r.sendMes(cs, "godSelf", "%Status", r.mes("on"));
-//            }
-//            return CommandResult.empty();
-//        }
-//        if (DateUtil.parseDateDiff(args[0]) >= 1) {
-//            Long t = DateUtil.parseDateDiff(args[0]);
-//            if (!r.isPlayer(cs)) {
-//                return CommandResult.empty();
-//            }
-//            Player p = (Player) cs;
-//            UC.getPlayer(p).setGod(true, t);
-//            r.sendMes(cs, "godSelfT", "%Status", r.mes("on"), "%Time", DateUtil.format(t));
-//            return CommandResult.empty();
-//        }
-//        if (!r.perm(cs, "uc.god.others", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        OfflinePlayer banp = r.searchGameProfile(args[0]);
-//        if (banp == null || !(banp.isOnline() || banp.hasPlayedBefore())) {
-//            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            return CommandResult.empty();
-//        }
-//        /*//Info
-//         if(r.checkArgs(args, 1) == false){
-//         UC.getPlayer(banp).setGod(!UC.getPlayer(banp).isGod());
-//         r.sendMes(cs, "godOthersSelfMessage", "%Player", banp.getName(), "%Status", (UC.getPlayer(banp).isGod() ? r
-//         .mes("on") : r.mes("off")));
-//         if(banp.isOnline()) r.sendMes((Player) banp, "godOthersOtherMessage", "%Player", banp.getName(), "%Status",
-//         (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
-//         return CommandResult.empty();
-//         }*/
-//        Long time = 0L;
-//        if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1]) >= 1) {
-//            time = DateUtil.parseDateDiff(args[1]);
-//        }
-//        //Permcheck
-//        if (!r.perm(cs, "uc.god.time", false, false) && !r.perm(cs, "uc.god", false, false) && time == 0L) {
-//            r.sendMes(cs, "noPermissions");
-//            return CommandResult.empty();
-//        }
-//        if (!r.perm(cs, "uc.god.perm", false, false) && !r.perm(cs, "uc.god", false, false) && time != 0L) {
-//            r.sendMes(cs, "noPermissions");
-//            return CommandResult.empty();
-//        }
-//        UC.getPlayer(banp).setGod(!UC.getPlayer(banp).isGod(), time);
-//        if (time == 0L) {
-//            r.sendMes(cs, "godOthersSelfMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
-//            if (banp.isOnline()) {
-//                r.sendMes((CommandSource) banp, "godOthersOtherMessage", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")));
-//            }
-//        } else {
-//            r.sendMes(cs, "godOthersSelfMessageT", "%Player", r.getDisplayName(banp), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil.format(time));
-//            if (banp.isOnline()) {
-//                r.sendMes((CommandSource) banp, "godOthersOtherMessageT", "%Player", r.getDisplayName(cs), "%Status", (UC.getPlayer(banp).isGod() ? r.mes("on") : r.mes("off")), "%Time", DateUtil
-//                        .format(time));
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
+
 }

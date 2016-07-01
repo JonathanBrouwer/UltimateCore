@@ -31,8 +31,6 @@ import bammerbom.ultimatecore.spongeapi.listeners.*;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.databases.ItemDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.PerformanceUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ServerIDUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
 import com.google.inject.Inject;
@@ -93,7 +91,6 @@ public class UltimateCore {
             UuidUtil.loadPlayers();
             UltimateCommands.load();
             UltimateSigns.start();
-            PerformanceUtil.getTps();
             ItemDatabase.enable();
             //
             UEconomy.start();
@@ -160,7 +157,6 @@ public class UltimateCore {
             r.removeUC();
             ItemDatabase.disable();
             DynmapListener.stop();
-            BossbarUtil.stop();
             //
             time = System.currentTimeMillis() - time;
             r.log(TextColors.GREEN + "Disabled UltimateCore! (" + time + "ms)");

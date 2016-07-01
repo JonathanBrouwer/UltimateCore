@@ -24,17 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.EntityEffect;
-import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Ocelot;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -54,44 +47,68 @@ public class CmdKittycannon implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("kittyboom");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
-            return CommandResult.empty();
-        }
-        if (!r.perm(cs, "uc.kittycannon", false, true)) {
-            return CommandResult.empty();
-        }
-        Player p = (Player) cs;
-        final Ocelot ocelot = (Ocelot) p.getWorld().spawnEntity(p.getLocation(), EntityType.OCELOT);
-        if (ocelot == null) {
-            return CommandResult.empty();
-        }
-        int i = ra.nextInt(Ocelot.Type.values().length);
-        ocelot.setCatType(Ocelot.Type.values()[i]);
-        ocelot.setTamed(true);
-        i = ra.nextInt(2);
-        if (i == 1) {
-            ocelot.setBaby();
-        }
-        ocelot.setVelocity(p.getEyeLocation().getDirection().multiply(2));
-        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-            @Override
-            public void run() {
-                Location loc = ocelot.getLocation();
-                ocelot.playEffect(EntityEffect.HURT);
-                ocelot.remove();
-                loc.getWorld().createExplosion(loc, 0.0F, false);
-            }
-        }, 18L);
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("kittyboom");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.isPlayer(cs)) {
+//            return CommandResult.empty();
+//        }
+//        if (!r.perm(cs, "uc.kittycannon", false, true)) {
+//            return CommandResult.empty();
+//        }
+//        Player p = (Player) cs;
+//        final Ocelot ocelot = (Ocelot) p.getWorld().spawnEntity(p.getLocation(), EntityType.OCELOT);
+//        if (ocelot == null) {
+//            return CommandResult.empty();
+//        }
+//        int i = ra.nextInt(Ocelot.Type.values().length);
+//        ocelot.setCatType(Ocelot.Type.values()[i]);
+//        ocelot.setTamed(true);
+//        i = ra.nextInt(2);
+//        if (i == 1) {
+//            ocelot.setBaby();
+//        }
+//        ocelot.setVelocity(p.getEyeLocation().getDirection().multiply(2));
+//        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+//            @Override
+//            public void run() {
+//                Location loc = ocelot.getLocation();
+//                ocelot.playEffect(EntityEffect.HURT);
+//                ocelot.remove();
+//                loc.getWorld().createExplosion(loc, 0.0F, false);
+//            }
+//        }, 18L);
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return new ArrayList<>();
+//    }
 }

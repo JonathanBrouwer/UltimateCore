@@ -29,6 +29,8 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +68,12 @@ public class UltimateCommandCallable implements CommandCallable {
      *
      * @param source    The command source
      * @param arguments The arguments entered up to this point
+     * @param loc       The position the source is looking at when performing tab completion
      * @return A list of suggestions
      * @throws CommandException Thrown if there was a parsing error
      */
     @Override
-    public List<String> getSuggestions(CommandSource source, String arguments) throws CommandException {
+    public List<String> getSuggestions(CommandSource source, String arguments, Location<World> loc) throws CommandException {
         String[] args = arguments.split(" ");
         //TODO label
         List<String> rtrn = command.onTabComplete(source, "", args, args[args.length - 1], args.length - 1);
@@ -108,7 +111,7 @@ public class UltimateCommandCallable implements CommandCallable {
      * @return A description
      */
     @Override
-    public Optional<? extends Text> getShortDescription(CommandSource source) {
+    public Optional<Text> getShortDescription(CommandSource source) {
         return Optional.of(command.getDescription());
     }
 
@@ -128,7 +131,7 @@ public class UltimateCommandCallable implements CommandCallable {
      * @return A help text
      */
     @Override
-    public Optional<? extends Text> getHelp(CommandSource source) {
+    public Optional<Text> getHelp(CommandSource source) {
         return getShortDescription(source);
     }
 

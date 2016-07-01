@@ -26,12 +26,11 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,11 +40,11 @@ public class CmdInventory implements UltimateCommand {
     public static void disable() {
         for (Player pl : UC.getServer().getInOnlineInventoryOnlinePlayers()) {
             UC.getPlayer(pl).setInOnlineInventory(null);
-            pl.closeInventory();
+            pl.closeInventory(Cause.builder().build());
         }
         for (Player pl : UC.getServer().getInOfflineInventoryOnlinePlayers()) {
             UC.getPlayer(pl).setInOfflineInventory(null);
-            pl.closeInventory();
+            pl.closeInventory(Cause.builder().build());
         }
     }
 
@@ -60,21 +59,31 @@ public class CmdInventory implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Open a players inventory.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("inv", "invsee");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!(r.isPlayer(cs))) {
             return CommandResult.empty();
         }
-        if (!r.perm(cs, "uc.inventory", false, true)) {
+        if (!r.perm(cs, "uc.inventory", true)) {
             return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (r.checkArgs(args, 0)) {
-            Player t = r.searchPlayer(args[0]);
+            Player t = r.searchPlayer(args[0]).orElse(null);
             if (t != null) {
                 if (r.checkArgs(args, 1) && args[1].equalsIgnoreCase("armor")) {
                     Inventory inv = Bukkit.getServer().createInventory(p, 9, "Equipped");
@@ -102,10 +111,25 @@ public class CmdInventory implements UltimateCommand {
         } else {
             r.sendMes(cs, "inventoryUsage");
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return null;
+//    }
 }

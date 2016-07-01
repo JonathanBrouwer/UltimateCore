@@ -26,6 +26,8 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
@@ -33,10 +35,13 @@ import org.spongepowered.api.event.action.InteractEvent;
 import org.spongepowered.api.event.command.SendCommandEvent;
 import org.spongepowered.api.event.command.TabCompleteEvent;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
+import org.spongepowered.api.event.entity.living.humanoid.player.KickPlayerEvent;
 import org.spongepowered.api.event.entity.living.humanoid.player.RespawnPlayerEvent;
 import org.spongepowered.api.event.item.inventory.TargetInventoryEvent;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.title.Title;
 
 import java.util.Optional;
 
@@ -48,8 +53,8 @@ public class AfkListener {
 
     public static void start() {
         if (r.getCnfg().getBoolean("Afk.Enabled")) {
-            Bukkit.getPluginManager().registerEvents(new AfkListener(), r.getUC());
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+            Sponge.getEventManager().registerListeners(r.getUC(), new AfkListener());
+            Sponge.getScheduler().createTaskBuilder().intervalTicks(100L).delayTicks(100L).name("UltimateCore afk thread").execute(new Runnable() {
                 @Override
                 public void run() {
                     for (Player pl : r.getOnlinePlayers()) {
@@ -60,24 +65,25 @@ public class AfkListener {
                         if (dif > afktime) {
                             if (!UC.getPlayer(pl).isAfk()) {
                                 UC.getPlayer(pl).setAfk(true);
-                                Bukkit.broadcastMessage(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
+                                Sponge.getServer().getBroadcastChannel().send(r.mes("afkAfk", "%Player", UC.getPlayer(pl).getDisplayName()));
                             }
                         }
                         if (dif > kicktime) {
                             if (kickenabled) {
-                                if (!r.perm(pl, "uc.afk.exempt", false, false)) {
-                                    pl.kickPlayer(r.mes("afkKick"));
+                                if (!r.perm(pl, "uc.afk.exempt", false)) {
+                                    pl.kick(r.mes("afkKick"));
                                 }
                             }
                         }
                         if (UC.getPlayer(pl).isAfk()) {
-                            String sub = (kickenabled && !r.perm(pl, "uc.afk.exempt", false, false) && dif > 1) ? r.mes("afkWarning2", "%Time", TextColorUtil.strip(DateUtil.formatDateDiff(((kicktime - dif) * 1000) + System.currentTimeMillis()))) : null;
-                            TitleUtil.sendTitle(pl, 0, 120, 20, r.mes("afkWarning"), sub);
+                            Text sub = (kickenabled && !r.perm(pl, "uc.afk.exempt", false) && dif > 1) ? r.mes("afkWarning2", "%Time", TextColorUtil.strip(DateUtil.formatDateDiff((
+                                    (kicktime - dif) * 1000) + System.currentTimeMillis()))) : null;
+                            pl.sendTitle(Title.builder().title(r.mes("afkWarning")).subtitle(sub).fadeIn(20).stay(120).fadeOut(20).build());
                         }
 
                     }
                 }
-            }, 100L, 100L);
+            }).submit(r.getUC());
         }
     }
 
@@ -125,11 +131,12 @@ public class AfkListener {
     @Listener(order = Order.POST)
     public void event(RespawnPlayerEvent e) {
         UC.getPlayer(e.getTargetEntity()).updateLastActivity();
+        e.getTargetEntity().get(Keys.CONTA)
 
     }
 
     @Listener(order = Order.POST)
-    public void event(Sneak e) {
+    public void event(SneakToggleEvent e) { //TODO wait for api
         Optional<Player> optPlayer = e.getCause().first(Player.class);
         if (optPlayer.isPresent()) {
             UC.getPlayer(optPlayer.get()).updateLastActivity();
@@ -152,10 +159,10 @@ public class AfkListener {
         }
     }
 
-    @EventHandler
-    public void playerQuit(Disconnect e) {
-        if (UC.getPlayer(e.getPlayer()).isAfk()) {
-            UC.getPlayer(e.getPlayer()).setAfk(false);
+    @Listener(order = Order.POST)
+    public void playerQuit(ClientConnectionEvent.Disconnect e) {
+        if (UC.getPlayer(e.getTargetEntity()).isAfk()) {
+            UC.getPlayer(e.getTargetEntity()).setAfk(false);
         }
         Optional<Player> optPlayer = e.getCause().first(Player.class);
         if (optPlayer.isPresent()) {
@@ -163,10 +170,10 @@ public class AfkListener {
         }
     }
 
-    @EventHandler
-    public void playerKick(PlayerKickEvent e) {
-        if (UC.getPlayer(e.getPlayer()).isAfk()) {
-            UC.getPlayer(e.getPlayer()).setAfk(false);
+    @Listener(order = Order.POST)
+    public void playerKick(KickPlayerEvent e) {
+        if (UC.getPlayer(e.getTargetEntity()).isAfk()) {
+            UC.getPlayer(e.getTargetEntity()).setAfk(false);
         }
         Optional<Player> optPlayer = e.getCause().first(Player.class);
         if (optPlayer.isPresent()) {

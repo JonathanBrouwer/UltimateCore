@@ -25,9 +25,11 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,13 +47,23 @@ public class CmdHunger implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Amount> [Player]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Remove hunger bars from a player.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.hunger", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.hunger", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
@@ -66,41 +78,43 @@ public class CmdHunger implements UltimateCommand {
             if (r.isInt(args[0])) {
                 Integer d = Integer.parseInt(args[0]);
                 Player p = (Player) cs;
-                p.setFoodLevel(p.getFoodLevel() - r.normalize(d, 0, 20));
+                p.offer(Keys.FOOD_LEVEL, r.normalize(p.get(Keys.FOOD_LEVEL).orElse(20) - d, 0, 20));
                 r.sendMes(cs, "hungerSelf", "%Player", r.getDisplayName(p), "%Hunger", args[0]);
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
         } else if (r.checkArgs(args, 1)) {
-            if (!r.perm(cs, "uc.hunger.others", false, true)) {
+            if (!r.perm(cs, "uc.hunger.others", true)) {
                 return CommandResult.empty();
             }
             if (r.isInt(args[0])) {
                 Integer d = Integer.parseInt(args[0]);
-                Player t = r.searchPlayer(args[1]);
+                Player t = r.searchPlayer(args[1]).orElse(null);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return CommandResult.empty();
                 }
-                t.setFoodLevel(t.getFoodLevel() - r.normalize(d, 0, 20));
+                t.offer(Keys.FOOD_LEVEL, r.normalize(t.get(Keys.FOOD_LEVEL).orElse(20) - d, 0, 20));
                 r.sendMes(cs, "hungerOthers", "%Player", t.getName(), "%Hunger", args[0]);
             } else if (r.isInt(args[1])) {
                 Integer d = Integer.parseInt(args[1]);
-                Player t = r.searchPlayer(args[0]);
+                Player t = r.searchPlayer(args[0]).orElse(null);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return CommandResult.empty();
                 }
-                t.setFoodLevel(t.getFoodLevel() - r.normalize(d, 0, 20));
+                t.offer(Keys.FOOD_LEVEL, r.normalize(t.get(Keys.FOOD_LEVEL).orElse(20) - d, 0, 20));
                 r.sendMes(cs, "hungerOthers", "%Player", t.getName(), "%Hunger", args[1]);
             } else {
                 r.sendMes(cs, "numberFormat", "%Number", args[0]);
             }
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+
 }

@@ -26,10 +26,11 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,24 +48,39 @@ public class CmdIp implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> [Player]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Get the servers or a players ip.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (r.checkArgs(args, 0) == false) {
-            if (!r.perm(cs, "uc.ip.server", false, false) && !r.perm(cs, "uc.ip", false, false)) {
+            if (!r.perm(cs, "uc.ip.server", false) && !r.perm(cs, "uc.ip", false)) {
                 r.sendMes(cs, "noPermissions");
                 return CommandResult.empty();
             }
-            r.sendMes(cs, "ipServer", "%IP", Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort());
+            if (Sponge.getServer().getBoundAddress().isPresent()) {
+                r.sendMes(cs, "ipServer", "%IP", Sponge.getServer().getBoundAddress().get().getAddress().toString().split("/")[1].split(":")[0]
+                        + ":" + Sponge.getServer().getBoundAddress().get().getPort());
+            } else {
+                r.sendMes(cs, "ipServer", "%IP", "n/a");
+            }
         } else {
-            if (!r.perm(cs, "uc.ip.player", false, false) && !r.perm(cs, "uc.ip", false, false)) {
+            if (!r.perm(cs, "uc.ip.player", false) && !r.perm(cs, "uc.ip", false)) {
                 r.sendMes(cs, "noPermissions");
                 return CommandResult.empty();
             }
-            OfflinePlayer p = r.searchGameProfile(args[0]);
+            GameProfile p = r.searchGameProfile(args[0]).orElse(null);
             if (p == null || UC.getPlayer(p).getLastIp() == null || UC.getPlayer(p).getLastHostname() == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return CommandResult.empty();
@@ -72,10 +88,12 @@ public class CmdIp implements UltimateCommand {
             r.sendMes(cs, "ipPlayer1", "%Player", r.getDisplayName(p), "%Hostname", UC.getPlayer(p).getLastHostname());
             r.sendMes(cs, "ipPlayer2", "%Player", r.getDisplayName(p), "%IP", UC.getPlayer(p).getLastIp());
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+
 }

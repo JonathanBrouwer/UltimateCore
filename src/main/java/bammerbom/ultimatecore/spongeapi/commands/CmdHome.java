@@ -29,12 +29,13 @@ import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,17 +55,27 @@ public class CmdHome implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("homes", "homelist");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (r.checkArgs(args, 0) == false) {
             if (!(r.isPlayer(cs))) {
                 return CommandResult.empty();
             }
-            if (!r.perm(cs, "uc.home", true, true)) {
+            if (!r.perm(cs, "uc.home", true)) {
                 return CommandResult.empty();
             }
             Player p = (Player) cs;
@@ -75,7 +86,7 @@ public class CmdHome implements UltimateCommand {
                 try {
                     //Teleport
                     Location location = UC.getPlayer(p).getHome(home.toLowerCase());
-                    LocationUtil.teleport(p, location, TeleportCause.COMMAND, true, true);
+                    LocationUtil.teleport(p, location, Cause.builder().build(), true, true); //TODO Cause
                     r.sendMes(cs, "homeTeleport", "%Home", home);
                 } catch (Exception ex) {
                     r.sendMes(cs, "homeInvalid", "%Home", home);
@@ -90,17 +101,17 @@ public class CmdHome implements UltimateCommand {
             Integer limit = 1;
             if (multihomes != null) {
                 for (String s : multihomes) {
-                    if (r.perm(cs, "uc.sethome." + s.toLowerCase(), false, false)) {
+                    if (r.perm(cs, "uc.sethome." + s.toLowerCase(), false)) {
                         if (limit < r.getCnfg().getInt("Command.HomeLimits." + s)) {
                             limit = r.getCnfg().getInt("Command.HomeLimits." + s);
                         }
                     }
                 }
             }
-            if (r.perm(cs, "uc.sethome.unlimited", false, false)) {
+            if (r.perm(cs, "uc.sethome.unlimited", false)) {
                 limit = 999999;
             }
-            String limitformat = limit == 999999 ? r.mes("unlimited") : (limit + "");
+            String limitformat = limit == 999999 ? r.mes("unlimited").toPlain() : (limit + "");
             //
             if (a.equalsIgnoreCase("") || a.equalsIgnoreCase(null)) {
                 r.sendMes(cs, "homeNoHomesFound");
@@ -108,17 +119,17 @@ public class CmdHome implements UltimateCommand {
                 r.sendMes(cs, "homeList", "%Homes", a, "%Current", homes.size(), "%Max", limitformat);
             }
         } else {
-            OfflinePlayer t;
-            if (r.perm(cs, "uc.home", true, true) == false) {
+            GameProfile t;
+            if (r.perm(cs, "uc.home", true) == false) {
                 return CommandResult.empty();
             }
             if (args[0].contains(":")) {
-                if (!r.perm(cs, "uc.home.others", false, true)) {
+                if (!r.perm(cs, "uc.home.others", true)) {
                     return CommandResult.empty();
                 }
                 if (args[0].endsWith(":") || args[0].endsWith(":list")) {
-                    t = r.searchPlayer(args[0].split(":")[0]);
-                    if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
+                    t = r.searchPlayer(args[0].split(":")[0]).orElse(null).getProfile();
+                    if (t == null) {
                         r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
                         return CommandResult.empty();
                     }
@@ -145,17 +156,17 @@ public class CmdHome implements UltimateCommand {
                         Integer limit = 1;
                         if (multihomes != null) {
                             for (String s : multihomes) {
-                                if (r.perm(cs, "uc.sethome." + s.toLowerCase(), false, false)) {
+                                if (r.perm(cs, "uc.sethome." + s.toLowerCase(), false)) {
                                     if (limit < r.getCnfg().getInt("Command.HomeLimits." + s)) {
                                         limit = r.getCnfg().getInt("Command.HomeLimits." + s);
                                     }
                                 }
                             }
                         }
-                        if (r.perm(cs, "uc.sethome.unlimited", false, false)) {
+                        if (r.perm(cs, "uc.sethome.unlimited", false)) {
                             limit = 999999;
                         }
-                        String limitformat = limit == 999999 ? r.mes("unlimited") : (limit + "");
+                        String limitformat = limit == 999999 ? r.mes("unlimited").toPlain() : (limit + "");
                         r.sendMes(cs, "homeList", "%Homes", a, "%Current", homes.size(), "%Max", limitformat);
                         return CommandResult.empty();
                     }
@@ -164,8 +175,8 @@ public class CmdHome implements UltimateCommand {
                     return CommandResult.empty();
                 }
                 Player p = (Player) cs;
-                t = r.searchGameProfile(args[0].split(":")[0]);
-                if (t == null || (!t.hasPlayedBefore() && !t.isOnline())) {
+                t = r.searchGameProfile(args[0].split(":")[0]).orElse(null);
+                if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0].split(":")[0]);
                     return CommandResult.empty();
                 }
@@ -178,7 +189,7 @@ public class CmdHome implements UltimateCommand {
                     //Teleport
                     Location location = UC.getPlayer(t).getHome(args[0].toLowerCase().split(":")[1]);
                     if (r.isPlayer(cs)) {
-                        LocationUtil.teleport(p, location, TeleportCause.COMMAND, true, true);
+                        LocationUtil.teleport(p, location, Cause.builder().build(), true, true);
                     }
                     r.sendMes(cs, "homeTeleport", "%Home", args[0]);
                 } catch (Exception ex) {
@@ -200,20 +211,21 @@ public class CmdHome implements UltimateCommand {
             try {
                 //Teleport
                 Location location = UC.getPlayer(p).getHome(args[0].toLowerCase());
-                LocationUtil.teleport(p, location, TeleportCause.COMMAND, true, true);
+                LocationUtil.teleport(p, location, Cause.builder().build(), true, true);
                 r.sendMes(cs, "homeTeleport", "%Home", args[0]);
             } catch (Exception ex) {
                 r.sendMes(cs, "homeInvalid", "%Home", args[0]);
                 ErrorLogger.log(ex, "Failed to load home: " + args[0]);
             }
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         if (!r.isPlayer(cs)) {
             return new ArrayList<>();
         }
-        return UC.getPlayer((OfflinePlayer) cs).getHomeNames();
+        return UC.getPlayer((Player) cs).getHomeNames();
     }
 }

@@ -25,17 +25,54 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.effect.potion.PotionEffect;
+import org.spongepowered.api.effect.potion.PotionEffectType;
+import org.spongepowered.api.effect.potion.PotionEffectTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class CmdHeal implements UltimateCommand {
 
     static Boolean healPositiveEffects = false;
+    static HashMap<PotionEffectType, State> effectStates = new HashMap<>();
+
+    static {
+        effectStates.put(PotionEffectTypes.ABSORPTION, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.BLINDNESS, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.FIRE_RESISTANCE, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.GLOWING, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.HASTE, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.HEALTH_BOOST, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.HUNGER, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.INSTANT_DAMAGE, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.INSTANT_HEALTH, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.INVISIBILITY, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.JUMP_BOOST, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.LEVITATION, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.LUCK, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.MINING_FATIGUE, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.NAUSEA, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.NIGHT_VISION, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.POISON, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.REGENERATION, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.RESISTANCE, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.SATURATION, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.SLOWNESS, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.SPEED, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.STRENGTH, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.UNLUCK, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.WATER_BREATHING, State.POSITIVE);
+        effectStates.put(PotionEffectTypes.WEAKNESS, State.NEGATIVE);
+        effectStates.put(PotionEffectTypes.WITHER, State.NEGATIVE);
+    }
 
     public static void start() {
         if (r.getCnfg().getBoolean("HealPositive")) {
@@ -54,13 +91,23 @@ public class CmdHeal implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> [Player]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Fills the target's health bar.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.heal", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.heal", true)) {
             return CommandResult.empty();
         }
         if (r.checkArgs(args, 0) == false) {
@@ -68,68 +115,66 @@ public class CmdHeal implements UltimateCommand {
                 return CommandResult.empty();
             }
             Player p = (Player) cs;
-            p.setHealth(p.getMaxHealth());
-            for (PotionEffect effect : p.getActivePotionEffects()) {
+            p.offer(Keys.HEALTH, p.get(Keys.MAX_HEALTH).orElse(20.0));
+            List<PotionEffect> effects = p.get(Keys.POTION_EFFECTS).orElse(new ArrayList<>());
+            List<PotionEffect> remove = new ArrayList<>();
+            for (PotionEffect effect : effects) {
                 if (!healPositiveEffects) {
-                    for (NegativeEffect bad : NegativeEffect.values()) {
-                        if (effect.getType().getName().equalsIgnoreCase(bad.name())) {
-                            p.removePotionEffect(effect.getType());
-                        }
+                    if (!effectStates.containsKey(effect.getType()) || effectStates.get(effect).equals(State.NEGATIVE)) {
+                        remove.add(effect);
                     }
                 } else {
-                    p.removePotionEffect(effect.getType());
+                    remove.add(effect);
                 }
             }
-            p.setFoodLevel(20);
-            p.setSaturation(10F);
-            p.setFireTicks(0);
-            p.setRemainingAir(p.getMaximumAir());
+            effects.removeAll(remove);
+            p.offer(Keys.POTION_EFFECTS, effects);
+            p.offer(Keys.HEALTH, p.get(Keys.MAX_HEALTH).orElse(20.0));
+            p.offer(Keys.FOOD_LEVEL, 20);
+            p.offer(Keys.SATURATION, 10.0);
+            p.offer(Keys.FIRE_TICKS, 0);
+            p.offer(Keys.REMAINING_AIR, p.get(Keys.MAX_AIR).orElse(10));
             r.sendMes(cs, "healSelf");
         } else {
-            if (!r.perm(cs, "uc.heal.others", false, true)) {
+            if (!r.perm(cs, "uc.heal.others", true)) {
                 return CommandResult.empty();
             }
-            Player t = r.searchPlayer(args[0]);
+            Player t = r.searchPlayer(args[0]).orElse(null);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             } else {
                 r.sendMes(cs, "healOthersSelf", "%Player", t.getName());
                 r.sendMes(t, "healOthersOther", "%Player", r.getDisplayName(cs));
-                for (PotionEffect effect : t.getActivePotionEffects()) {
+                List<PotionEffect> effects = t.get(Keys.POTION_EFFECTS).orElse(new ArrayList<>());
+                List<PotionEffect> remove = new ArrayList<>();
+                for (PotionEffect effect : effects) {
                     if (!healPositiveEffects) {
-                        for (NegativeEffect bad : NegativeEffect.values()) {
-                            if (effect.getType().getName().equalsIgnoreCase(bad.name())) {
-                                t.removePotionEffect(effect.getType());
-                            }
+                        if (!effectStates.containsKey(effect.getType()) || effectStates.get(effect).equals(State.NEGATIVE)) {
+                            remove.add(effect);
                         }
                     } else {
-                        t.removePotionEffect(effect.getType());
+                        remove.add(effect);
                     }
                 }
-                t.setHealth(t.getMaxHealth());
-                t.setFoodLevel(20);
-                t.setSaturation(10F);
-                t.setFireTicks(0);
-                t.setRemainingAir(t.getMaximumAir());
+                effects.removeAll(remove);
+                t.offer(Keys.POTION_EFFECTS, effects);
+                t.offer(Keys.HEALTH, t.get(Keys.MAX_HEALTH).orElse(20.0));
+                t.offer(Keys.FOOD_LEVEL, 20);
+                t.offer(Keys.SATURATION, 10.0);
+                t.offer(Keys.FIRE_TICKS, 0);
+                t.offer(Keys.REMAINING_AIR, t.get(Keys.MAX_AIR).orElse(10));
             }
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 
-    public enum NegativeEffect {
-
-        CONFUSION,
-        HARM,
-        HUNGER,
-        POISON,
-        SLOW_DIGGING,
-        SLOW,
-        WEAKNESS,
-        WITHER,
-        BLINDNESS
+    enum State {
+        POSITIVE,
+        NEGATIVE
     }
 }

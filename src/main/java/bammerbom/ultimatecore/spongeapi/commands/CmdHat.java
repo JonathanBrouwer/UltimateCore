@@ -25,11 +25,13 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.type.HandTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,33 +49,44 @@ public class CmdHat implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Puts the item in your hand on your head.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("head");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return CommandResult.empty();
         }
-        if (!r.perm(cs, "uc.hat", false, true)) {
+        if (!r.perm(cs, "uc.hat", true)) {
             return CommandResult.empty();
         }
         Player p = (Player) cs;
-        ItemStack InHandItem = p.getItemInHand();
-        if (p.getInventory().getHelmet() == null || p.getInventory().getHelmet().getType().equals(Material.AIR)) {
-            p.getInventory().setHelmet(InHandItem);
-            p.getInventory().setItemInHand(null);
+        ItemStack inHandItem = p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build());
+        if (!p.getHelmet().isPresent()) {
+            p.setHelmet(inHandItem);
+            p.setItemInHand(HandTypes.MAIN_HAND, null);
         } else {
-            ItemStack tohand = p.getInventory().getHelmet();
-            p.getInventory().setHelmet(InHandItem);
-            p.getInventory().setItemInHand(tohand);
+            ItemStack tohand = p.getHelmet().get();
+            p.setHelmet(inHandItem);
+            p.setItemInHand(HandTypes.MAIN_HAND, tohand);
         }
         r.sendMes(p, "hatMessage");
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

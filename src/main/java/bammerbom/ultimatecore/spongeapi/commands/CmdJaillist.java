@@ -24,13 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,40 +44,64 @@ public class CmdJaillist implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("jails");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (r.perm(cs, "uc.jaillist", true, true) == false) {
-            return CommandResult.empty();
-        }
-        List<OfflinePlayer> jails = UC.getServer().getJailedOfflinePlayers();
-        if (jails == null || jails.isEmpty()) {
-            r.sendMes(cs, "jaillistNoJailsFound");
-            return CommandResult.empty();
-        }
-        StringBuilder jaillist = new StringBuilder();
-        Integer cur = 0;
-        String result;
-        for (int i = 0;
-             i < jails.size();
-             i++) {
-            jaillist.append(jails.get(cur).getName() + ", ");
-            cur++;
-
-        }
-        result = jaillist.substring(0, jaillist.length() - 2);
-        r.sendMes(cs, "jaillistJails", "%Jaillist", result);
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        List<String> jails = new ArrayList<>();
-        for (OfflinePlayer pl : UC.getServer().getJailedOfflinePlayers()) {
-            jails.add(pl.getName());
-        }
-        return jails;
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("jails");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (r.perm(cs, "uc.jaillist", true, true) == false) {
+//            return CommandResult.empty();
+//        }
+//        List<OfflinePlayer> jails = UC.getServer().getJailedOfflinePlayers();
+//        if (jails == null || jails.isEmpty()) {
+//            r.sendMes(cs, "jaillistNoJailsFound");
+//            return CommandResult.empty();
+//        }
+//        StringBuilder jaillist = new StringBuilder();
+//        Integer cur = 0;
+//        String result;
+//        for (int i = 0;
+//             i < jails.size();
+//             i++) {
+//            jaillist.append(jails.get(cur).getName() + ", ");
+//            cur++;
+//
+//        }
+//        result = jaillist.substring(0, jaillist.length() - 2);
+//        r.sendMes(cs, "jaillistJails", "%Jaillist", result);
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        List<String> jails = new ArrayList<>();
+//        for (OfflinePlayer pl : UC.getServer().getJailedOfflinePlayers()) {
+//            jails.add(pl.getName());
+//        }
+//        return jails;
+//    }
 }

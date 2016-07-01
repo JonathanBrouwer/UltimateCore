@@ -24,10 +24,12 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,39 +52,26 @@ public class CmdGarbagecollector implements UltimateCommand {
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Runs the Java garbage collector.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("gc");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.garbagecollector", true)) {
+            return CommandResult.empty();
+        }
+        System.gc();
+        r.sendMes(cs, "garbagecollectorMessage");
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("gc");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.garbagecollector", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        System.gc();
-//        r.sendMes(cs, "garbagecollectorMessage");
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return new ArrayList<>();
-//    }
 }

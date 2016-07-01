@@ -70,7 +70,7 @@ public class UltimateCommands {
         cmds.add(new CmdEditsign());
         cmds.add(new CmdEffect());
         cmds.add(new CmdEnchant());
-        //cmds.add(new CmdEnchantingtable());
+        cmds.add(new CmdEnchantingtable());
         cmds.add(new CmdEnderchest());
         cmds.add(new CmdExperience());
         cmds.add(new CmdExtinguish());
@@ -86,7 +86,6 @@ public class UltimateCommands {
         cmds.add(new CmdGod());
         cmds.add(new CmdHat());
         cmds.add(new CmdHeal());
-        cmds.add(new CmdHelp());
         cmds.add(new CmdHome());
         cmds.add(new CmdHunger());
         cmds.add(new CmdInventory());
