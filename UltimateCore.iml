@@ -19,7 +19,7 @@
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: org.avaje:ebean:2.8.1" level="project" />
     <orderEntry type="library" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
-    <orderEntry type="library" name="Maven: net.md-5:bungeecord-chat:1.9-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: net.md-5:bungeecord-chat:1.10-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.spongepowered:spongeapi:5.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.3.2" level="project" />
@@ -41,7 +41,7 @@
     <orderEntry type="library" name="Maven: net.ess3:Essentials:2.13.1" level="project" />
     <orderEntry type="library" name="Maven: net.ess3:EssentialsSpawn:2.13.1" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.12.2" level="project" />
-    <orderEntry type="library" name="Maven: us.dynmap:dynmap:2.2-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: us.dynmap:dynmap:2.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.nijikokun.bukkit:Permissions:3.1.6" level="project" />
     <orderEntry type="library" name="Maven: ru.tehkode:PermissionsEx:1.19.1" level="project" />
     <orderEntry type="library" name="Maven: de.bananaco:bPermissions:2.9.1" level="project" />
