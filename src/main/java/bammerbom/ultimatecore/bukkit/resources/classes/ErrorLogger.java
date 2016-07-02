@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.bukkit.resources.classes;
 
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.utils.ServerIDUtil;
+import com.goebl.david.Response;
 import com.goebl.david.Webb;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
@@ -166,13 +167,18 @@ public class ErrorLogger {
 
                         //
                         Webb webb = Webb.create();
-                        String rtrn = webb.get("http://ultimatecore.ga/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg.replace("\n", "<br>"))).asString()
-                                .getBody();
-
-                        if (rtrn != null && rtrn.equalsIgnoreCase("true")) {
+                        Response<String> rtrn = null;
+                        try {
+                            rtrn = webb.get("http://ultimatecore.ga/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg.replace("\n", "<br>"), "UTF-8"))
+                                    .asString();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            return;
+                        }
+                        if (rtrn.getBody() != null && rtrn.getBody().equalsIgnoreCase("true")) {
                             r.log("SEND ERROR SUCCESSFULLY");
                         } else {
-                            r.log("SENDING ERROR FAILED (" + rtrn + ")");
+                            r.log("SENDING ERROR FAILED (" + rtrn.getStatusCode() + " / " + rtrn.getResponseMessage() + " / " + rtrn.getBody() + ")");
                         }
 
                         countdown = null;
