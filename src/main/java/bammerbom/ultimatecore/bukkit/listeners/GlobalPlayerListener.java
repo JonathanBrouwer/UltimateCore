@@ -107,7 +107,7 @@ public class GlobalPlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         try {
             //Spawn on join
-            if (spawnOnJoin) {
+            if (spawnOnJoin && UC.getPlayer(e.getPlayer()).getSpawn(false) != null) {
                 LocationUtil.teleportUnsafe(e.getPlayer(), UC.getPlayer(e.getPlayer()).getSpawn(false), TeleportCause.PLUGIN, false);
             }
             //Inventory
