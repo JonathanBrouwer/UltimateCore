@@ -216,7 +216,6 @@ public class CmdMoney implements UltimateCommand {
                 }
                 if (r.getVault().getEconomy() instanceof UEconomy) {
                     UEconomy ue = (UEconomy) r.getVault().getEconomy();
-                    r.log(Double.parseDouble(args[1]) + " + " + ue.getBalance((Player) cs) + " > " + ue.getMaximumMoney());
                     if (ue.getMaximumMoney() != null && Double.parseDouble(args[1]) + ue.getBalance((Player) cs) > ue.getMaximumMoney()) {
                         double add = ue.getMaximumMoney() - ue.getBalance((Player) cs);
                         EconomyResponse er = r.getVault().getEconomy().depositPlayer((Player) cs, add);
@@ -248,7 +247,6 @@ public class CmdMoney implements UltimateCommand {
                 if (r.getVault().getEconomy() instanceof UEconomy) {
                     UEconomy ue = (UEconomy) r.getVault().getEconomy();
                     if (ue.getMaximumMoney() != null && Double.parseDouble(args[2]) + ue.getBalance(t) > ue.getMaximumMoney()) {
-                        r.log(Double.parseDouble(args[1]) + " + " + ue.getBalance((Player) cs) + " > " + ue.getMaximumMoney());
                         if (ue.getMaximumMoney() != null && Double.parseDouble(args[1]) + ue.getBalance(t) > ue.getMaximumMoney()) {
                             double add = ue.getMaximumMoney() - ue.getBalance(t);
                             EconomyResponse er = r.getVault().getEconomy().depositPlayer(t, add);
