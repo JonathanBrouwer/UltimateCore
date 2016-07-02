@@ -25,17 +25,37 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.PerformanceUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Chunk;
+import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class CmdLag implements UltimateCommand {
+
+    public static float maxRam() {
+        return Runtime.getRuntime().maxMemory() / 1048576F;
+    }
+
+    public static float totalRam() {
+        return Runtime.getRuntime().totalMemory() / 1048576F;
+    }
+
+    public static float freeRam() {
+        return Runtime.getRuntime().freeMemory() / 1048576F;
+    }
+
+    public static float usedRam() {
+        return maxRam() - freeRam();
+    }
+
+    public static float percentageUsed() {
+        return Math.round((((usedRam() * 1.0) / (maxRam() * 1.0)) * 100.0) * 10) / 10F;
+    }
 
     @Override
     public String getName() {
@@ -48,37 +68,50 @@ public class CmdLag implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("View the performance of the server.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("ram", "tps", "mem", "memory");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.lag", true, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.lag", true)) {
             return CommandResult.empty();
         }
-        r.sendMes(cs, "lagTps", "%Tps", PerformanceUtil.getTps());
-        r.sendMes(cs, "lagMem", "%Mem", (Math.round(PerformanceUtil.usedRam()) + "/" + Math.round(PerformanceUtil.totalRam()) + "/" +
-                Math.round(PerformanceUtil.maxRam())), "%Per", PerformanceUtil.percentageUsed());
+        r.sendMes(cs, "lagTps", "%Tps", Sponge.getServer().getTicksPerSecond());
+        r.sendMes(cs, "lagMem", "%Mem", (Math.round(usedRam()) + "/" + Math.round(totalRam()) + "/" +
+                Math.round(maxRam())), "%Per", percentageUsed());
         int ws = 0;
-        for (World w : Bukkit.getWorlds()) {
+        for (World w : Sponge.getServer().getWorlds()) {
             if (r.checkArgs(args, 0) && !args[0].equalsIgnoreCase(w.getName())) {
                 return CommandResult.empty();
             }
             ws++;
             int tiles = 0;
+            int chunks = 0;
             for (Chunk c : w.getLoadedChunks()) {
-                tiles += c.getTileEntities().length;
+                chunks++;
+                tiles += c.getTileEntities().size();
             }
-            r.sendMes(cs, "lagWorld", "%World", w.getName(), "%Chunks", w.getLoadedChunks().length, "%Entities", w.getEntities().size(), "%Tiles", tiles);
+            r.sendMes(cs, "lagWorld", "%World", w.getName(), "%Chunks", chunks, "%Entities", w.getEntities().size(), "%Tiles", tiles);
         }
         if (ws == 0) {
             r.sendMes(cs, "worldNotFound", "%World", args[0]);
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

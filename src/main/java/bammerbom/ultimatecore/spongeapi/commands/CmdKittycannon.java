@@ -24,13 +24,23 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.OcelotType;
+import org.spongepowered.api.effect.particle.ParticleEffect;
+import org.spongepowered.api.effect.particle.ParticleTypes;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.living.animal.Ocelot;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class CmdKittycannon implements UltimateCommand {
 
@@ -53,62 +63,49 @@ public class CmdKittycannon implements UltimateCommand {
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Summon an exploding ocelot.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("kittyboom");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.kittycannon", true)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        final Ocelot ocelot = (Ocelot) p.getWorld().createEntity(EntityTypes.OCELOT, p.getLocation().getPosition()).orElse(null);
+        if (ocelot == null) {
+            return CommandResult.empty();
+        }
+        int i = ra.nextInt(Sponge.getRegistry().getAllOf(CatalogTypes.OCELOT_TYPE).size());
+        OcelotType type = (OcelotType) Sponge.getRegistry().getAllOf(CatalogTypes.OCELOT_TYPE).toArray()[i];
+        ocelot.offer(Keys.OCELOT_TYPE, type);
+        ocelot.offer(Keys.TAMED_OWNER, Optional.of(p.getUniqueId()));
+        i = ra.nextInt(2);
+        if (i == 1) {
+            ocelot.offer(Keys.AGE, 0); //TODO baby?
+        }
+        ocelot.setVelocity(p.getLocation().add(0, 1, 0).getPosition());
+        Sponge.getScheduler().createTaskBuilder().name("Kittycannon task").delayTicks(20L).execute(new Runnable() {
+            @Override
+            public void run() {
+                Location<World> loc = ocelot.getLocation();
+                ocelot.remove();
+                loc.getExtent().spawnParticles(ParticleEffect.builder().type(ParticleTypes.EXPLOSION_NORMAL).build(), loc.getPosition());
+            }
+        }).submit(r.getUC());
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("kittyboom");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.isPlayer(cs)) {
-//            return CommandResult.empty();
-//        }
-//        if (!r.perm(cs, "uc.kittycannon", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        Player p = (Player) cs;
-//        final Ocelot ocelot = (Ocelot) p.getWorld().spawnEntity(p.getLocation(), EntityType.OCELOT);
-//        if (ocelot == null) {
-//            return CommandResult.empty();
-//        }
-//        int i = ra.nextInt(Ocelot.Type.values().length);
-//        ocelot.setCatType(Ocelot.Type.values()[i]);
-//        ocelot.setTamed(true);
-//        i = ra.nextInt(2);
-//        if (i == 1) {
-//            ocelot.setBaby();
-//        }
-//        ocelot.setVelocity(p.getEyeLocation().getDirection().multiply(2));
-//        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-//            @Override
-//            public void run() {
-//                Location loc = ocelot.getLocation();
-//                ocelot.playEffect(EntityEffect.HURT);
-//                ocelot.remove();
-//                loc.getWorld().createExplosion(loc, 0.0F, false);
-//            }
-//        }, 18L);
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return new ArrayList<>();
-//    }
 }

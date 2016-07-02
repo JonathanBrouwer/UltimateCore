@@ -24,9 +24,14 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,21 +50,30 @@ public class CmdJump implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Jump to the place where you are looking at.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("jumpto");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!(r.isPlayer(cs))) {
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.jump", true)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        Location loc = LocationUtil.getTarget(p).orElse(p.getLocation());
+        LocationUtil.teleport(p, loc, Cause.builder().build(), true, true);
         return CommandResult.success();
     }
 
@@ -67,30 +81,4 @@ public class CmdJump implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("jumpto");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!(r.isPlayer(cs))) {
-//            return CommandResult.empty();
-//        }
-//        if (!r.perm(cs, "uc.jump", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        Player p = (Player) cs;
-//        final Location cloc = p.getLocation();
-//        Location loc = LocationUtil.getTarget(p);
-//        loc.setYaw(cloc.getYaw());
-//        loc.setPitch(cloc.getPitch());
-//        loc.setY(loc.getY() + 1);
-//        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, true, true);
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

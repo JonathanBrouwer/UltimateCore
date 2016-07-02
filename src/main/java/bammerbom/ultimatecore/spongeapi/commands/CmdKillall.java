@@ -24,8 +24,16 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,12 +53,12 @@ public class CmdKillall implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Type] [Radius]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Kill all mobs in the specified radius.");
     }
 
     @Override
@@ -60,6 +68,45 @@ public class CmdKillall implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.killall", true)) {
+            return CommandResult.empty();
+        }
+        Integer range = 100;
+        if (r.checkArgs(args, 0) && r.isInt(args[0])) {
+            range = Integer.parseInt(args[0]);
+            if (range > 1000) {
+                range = 1000;
+            }
+        } else if (r.checkArgs(args, 1) && r.isInt(args[1])) {
+            range = Integer.parseInt(args[1]);
+            if (range > 1000) {
+                range = 1000;
+            }
+        }
+        EntityType et = null;
+        if (r.checkArgs(args, 0)) {
+            if (Sponge.getRegistry().getType(CatalogTypes.ENTITY_TYPE, args[0]).isPresent()) {
+                et = Sponge.getRegistry().getType(CatalogTypes.ENTITY_TYPE, args[0]).get();
+            }
+            if (MobType.fromName(args[0]) != null) {
+                et = MobType.fromName(args[0]).getType();
+            }
+        }
+        Player p = (Player) cs;
+        Integer amount = 0;
+        for (Entity en : r.getNearbyEntities(p, range)) {
+            if (en instanceof Living && !(en instanceof Player)) {
+                if (et != null && !en.getType().equals(et)) {
+                    continue;
+                }
+                en.remove();
+                amount++;
+            }
+        }
+        r.sendMes(cs, "killAll", "%Amount", amount, "%Radius", range);
         return CommandResult.success();
     }
 
@@ -67,61 +114,4 @@ public class CmdKillall implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList();
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.isPlayer(cs)) {
-//            return CommandResult.empty();
-//        }
-//        if (!r.perm(cs, "uc.killall", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        Integer range = 100;
-//        if (r.checkArgs(args, 0) && r.isInt(args[0])) {
-//            range = Integer.parseInt(args[0]);
-//            if (range > 1000) {
-//                range = 1000;
-//            }
-//        } else if (r.checkArgs(args, 1) && r.isInt(args[1])) {
-//            range = Integer.parseInt(args[1]);
-//            if (range > 1000) {
-//                range = 1000;
-//            }
-//        }
-//        EntityType et = null;
-//        if (r.checkArgs(args, 0)) {
-//            if (EntityType.fromName(args[0].toUpperCase()) != null) {
-//                et = EntityType.fromName(args[0].toUpperCase());
-//            }
-//            if (EntityType.fromName(args[0].replaceAll("_", "").toUpperCase()) != null) {
-//                et = EntityType.fromName(args[0].replaceAll("_", "").toUpperCase());
-//            }
-//            if (MobType.fromName(args[0]) != null) {
-//                et = MobType.fromName(args[0]).getType();
-//            }
-//
-//        }
-//        Player p = (Player) cs;
-//        Integer amount = 0;
-//        for (Entity en : r.getNearbyEntities(p, range)) {
-//            if (en instanceof LivingEntity && !(en instanceof Player)) {
-//                if (et != null && !en.getType().equals(et)) {
-//                    continue;
-//                }
-//                en.remove();
-//                amount++;
-//                en.playEffect(EntityEffect.DEATH);
-//            }
-//        }
-//        r.sendMes(cs, "killAll", "%Amount", amount, "%Radius", range);
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

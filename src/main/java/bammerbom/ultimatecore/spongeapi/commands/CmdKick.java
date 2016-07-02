@@ -24,8 +24,11 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,12 +48,12 @@ public class CmdKick implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Player> [Reason]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Kick someone from the server.");
     }
 
     @Override
@@ -60,6 +63,31 @@ public class CmdKick implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.kick", true)) {
+            return CommandResult.empty();
+        }
+        if (r.checkArgs(args, 0) == false) {
+            r.sendMes(cs, "kickUsage");
+            return CommandResult.empty();
+        }
+        Player target = r.searchPlayer(args[0]).get();
+        if (target == null) {
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            return CommandResult.empty();
+        }
+        if (cs.getName().equalsIgnoreCase(target.getName())) {
+            r.sendMes(cs, "kickSelf");
+            return CommandResult.empty();
+        }
+        if (r.checkArgs(args, 1) == false) {
+            Sponge.getServer().getBroadcastChannel().send(r.mes("kickBroadcast", "%Kicker", r.getDisplayName(cs), "%Player", target.getName()));
+            Sponge.getServer().getBroadcastChannel().send(r.mes("kickBroadcast2", "%Reason", r.mes("kickDefaultReason")));
+            target.kick(r.mes("kickMessage", "%Reason", r.mes("kickDefaultReason")));
+        } else {
+            Sponge.getServer().getBroadcastChannel().send(r.mes("kickBroadcast", "%Kicker", r.getDisplayName(cs), "%Player", target.getName()));
+            Sponge.getServer().getBroadcastChannel().send(r.mes("kickBroadcast2", "%Reason", r.getFinalArg(args, 1)));
+            target.kick(r.mes("kickMessage", "%Reason", r.getFinalArg(args, 1)));
+        }
         return CommandResult.success();
     }
 
@@ -67,42 +95,4 @@ public class CmdKick implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList();
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.kick", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        if (r.checkArgs(args, 0) == false) {
-//            r.sendMes(cs, "kickUsage");
-//            return CommandResult.empty();
-//        }
-//        Player target = r.searchPlayer(args[0]);
-//        if (target == null) {
-//            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            return CommandResult.empty();
-//        }
-//        if (cs.getName().equalsIgnoreCase(target.getName())) {
-//            r.sendMes(cs, "kickSelf");
-//            return CommandResult.empty();
-//        }
-//        if (r.checkArgs(args, 1) == false) {
-//            Bukkit.broadcastMessage(r.mes("kickBroadcast", "%Kicker", r.getDisplayName(cs), "%Player", target.getName()));
-//            Bukkit.broadcastMessage(r.mes("kickBroadcast2", "%Reason", r.mes("kickDefaultReason")));
-//            target.kickPlayer(r.mes("kickMessage", "%Reason", r.mes("kickDefaultReason")));
-//        } else {
-//            Bukkit.broadcastMessage(r.mes("kickBroadcast", "%Kicker", r.getDisplayName(cs), "%Player", target.getName()));
-//            Bukkit.broadcastMessage(r.mes("kickBroadcast2", "%Reason", r.getFinalArg(args, 1)));
-//            target.kickPlayer(r.mes("kickMessage", "%Reason", r.getFinalArg(args, 1)));
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

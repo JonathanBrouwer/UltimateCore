@@ -23,12 +23,10 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
-import bammerbom.ultimatecore.bukkit.resources.utils.MinecraftServerUtil.MinecraftServer;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.MinecraftServerUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,65 +44,89 @@ public class CmdMinecraftservers implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("mcservers");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.minecraftservers", true, true)) {
-            return CommandResult.empty();
-        }
-        if (!r.getCnfg().getBoolean("Metrics")) {
-            r.sendMes(cs, "minecraftserversDisabled");
-            return CommandResult.empty();
-        }
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                MinecraftServerUtil.runcheck();
-
-                String os = "";
-                for (MinecraftServer str : MinecraftServerUtil.online) {
-                    if (!os.equals("")) {
-                        os = os + ", " + TextColors.GREEN + str.toString().toLowerCase() + r.positive + "";
-                    } else {
-                        os = os + TextColors.GREEN + str.toString().toLowerCase() + r.positive + "";
-                    }
-                }
-                for (MinecraftServer str : MinecraftServerUtil.problems) {
-                    if (!os.equals("")) {
-                        os = os + ", " + TextColors.GOLD + str.toString().toLowerCase() + r.positive + "";
-                    } else {
-                        os = os + TextColors.GOLD + str.toString().toLowerCase() + r.positive + "";
-                    }
-                }
-                for (MinecraftServer str : MinecraftServerUtil.offline) {
-                    if (!os.equals("")) {
-                        os = os + ", " + TextColors.DARK_RED + str.toString().toLowerCase() + r.positive + "";
-                    } else {
-                        os = os + TextColors.DARK_RED + str.toString().toLowerCase() + r.positive + "";
-                    }
-                }
-                for (MinecraftServer str : MinecraftServerUtil.unknown) {
-                    if (!os.equals("")) {
-                        os = os + ", " + TextColors.GRAY + str.toString().toLowerCase() + r.positive + "";
-                    } else {
-                        os = os + TextColors.GRAY + str.toString().toLowerCase() + r.positive + "";
-                    }
-                }
-                r.sendMes(cs, "minecraftserversMessage", "%Servers", TextColors.RESET + os);
-
-            }
-        });
-        thread.setName("UltimateCore: Server Check Thread");
-        thread.start();
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("mcservers");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.minecraftservers", true, true)) {
+//            return CommandResult.empty();
+//        }
+//        if (!r.getCnfg().getBoolean("Metrics")) {
+//            r.sendMes(cs, "minecraftserversDisabled");
+//            return CommandResult.empty();
+//        }
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                MinecraftServerUtil.runcheck();
+//
+//                String os = "";
+//                for (MinecraftServer str : MinecraftServerUtil.online) {
+//                    if (!os.equals("")) {
+//                        os = os + ", " + TextColors.GREEN + str.toString().toLowerCase() + r.positive + "";
+//                    } else {
+//                        os = os + TextColors.GREEN + str.toString().toLowerCase() + r.positive + "";
+//                    }
+//                }
+//                for (MinecraftServer str : MinecraftServerUtil.problems) {
+//                    if (!os.equals("")) {
+//                        os = os + ", " + TextColors.GOLD + str.toString().toLowerCase() + r.positive + "";
+//                    } else {
+//                        os = os + TextColors.GOLD + str.toString().toLowerCase() + r.positive + "";
+//                    }
+//                }
+//                for (MinecraftServer str : MinecraftServerUtil.offline) {
+//                    if (!os.equals("")) {
+//                        os = os + ", " + TextColors.DARK_RED + str.toString().toLowerCase() + r.positive + "";
+//                    } else {
+//                        os = os + TextColors.DARK_RED + str.toString().toLowerCase() + r.positive + "";
+//                    }
+//                }
+//                for (MinecraftServer str : MinecraftServerUtil.unknown) {
+//                    if (!os.equals("")) {
+//                        os = os + ", " + TextColors.GRAY + str.toString().toLowerCase() + r.positive + "";
+//                    } else {
+//                        os = os + TextColors.GRAY + str.toString().toLowerCase() + r.positive + "";
+//                    }
+//                }
+//                r.sendMes(cs, "minecraftserversMessage", "%Servers", TextColors.RESET + os);
+//
+//            }
+//        });
+//        thread.setName("UltimateCore: Server Check Thread");
+//        thread.start();
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return null;
+//    }
 }
 
 

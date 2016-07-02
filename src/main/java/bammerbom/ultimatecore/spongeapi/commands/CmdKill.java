@@ -24,8 +24,11 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,21 +48,45 @@ public class CmdKill implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Kill someone or yourself.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("suicide");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (r.checkArgs(args, 0) == false) {
+            if (!r.isPlayer(cs)) {
+                return CommandResult.empty();
+            }
+            if (!r.perm(cs, "uc.kill", true)) {
+                return CommandResult.empty();
+            }
+            Player p = (Player) cs;
+            p.offer(Keys.HEALTH, 0.0);
+        } else {
+            if (!r.perm(cs, "uc.kill.others", true)) {
+                return CommandResult.empty();
+            }
+            Player target = r.searchPlayer(args[0]).orElse(null);
+            if (target == null) {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            } else {
+                r.sendMes(target, "killTarget", "%Player", r.getDisplayName(cs));
+                r.sendMes(cs, "killKiller", "%Player", target.getName());
+
+                target.offer(Keys.HEALTH, 0.0);
+            }
+
+        }
         return CommandResult.success();
     }
 
@@ -67,50 +94,4 @@ public class CmdKill implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("suicide");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (r.checkArgs(args, 0) == false) {
-//            if (!r.isPlayer(cs)) {
-//                return CommandResult.empty();
-//            }
-//            if (!r.perm(cs, "uc.kill", true, true)) {
-//                return CommandResult.empty();
-//            }
-//            Player p = (Player) cs;
-//            p.setLastDamageCause(new EntityDamageEvent(p, DamageCause.SUICIDE, Double.MAX_VALUE));
-//            p.setHealth(0.0);
-//        } else {
-//            if (!r.perm(cs, "uc.kill.others", false, true)) {
-//                return CommandResult.empty();
-//            }
-//            Player target = r.searchPlayer(args[0]);
-//            if (target == null) {
-//                //ICommand cmd = (ICommand) MinecraftServer.getServer().getCommandHandler().a().get("kill");
-//                //cmd.execute(MinecraftServer.getServer(), args);
-//                try {
-//                    Bukkit.getServer().dispatchCommand(cs, "minecraft:kill " + r.getFinalArg(args, 0));
-//                } catch (Exception ex) {
-//                    ErrorLogger.log(ex, "Reflection failed. (/kill command)");
-//                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                }
-//            } else {
-//                r.sendMes(target, "killTarget", "%Player", r.getDisplayName(cs));
-//                r.sendMes(cs, "killKiller", "%Player", target.getName());
-//
-//                target.setLastDamageCause(new EntityDamageEvent(target, DamageCause.CUSTOM, Double.MAX_VALUE));
-//                target.setHealth(0.0);
-//            }
-//
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }

@@ -24,10 +24,14 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,12 +49,12 @@ public class CmdKickall implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Reason]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Kick everyone from the server.");
     }
 
     @Override
@@ -60,48 +64,35 @@ public class CmdKickall implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.kickall", true)) {
+            return CommandResult.empty();
+        }
+        Integer a = 0;
+        if (!r.checkArgs(args, 0)) {
+            for (Player p : r.getOnlinePlayers()) {
+                if (!r.perm(p, "uc.kickall.exempt", false) && !p.equals(cs)) {
+                    p.kick();
+                    a++;
+                }
+            }
+        } else {
+            for (Player p : r.getOnlinePlayers()) {
+                if (!r.perm(p, "uc.kickall.exempt", false) && !p.equals(cs)) {
+                    p.kick(Text.of(r.positive + TextColorUtil.translateAlternate(r.getFinalArg(args, 0))));
+                    a++;
+                }
+            }
+        }
+        if (a == 0) {
+            r.sendMes(cs, "kickallNobody");
+        } else {
+            r.sendMes(cs, "kickallMessage", "%Amount", a);
+        }
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList();
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.kickall", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        Integer a = 0;
-//        if (!r.checkArgs(args, 0)) {
-//            for (Player p : r.getOnlinePlayers()) {
-//                if (!r.perm(p, "uc.kickall.exempt", false, false) && !p.equals(cs)) {
-//                    p.kickPlayer("");
-//                    a++;
-//                }
-//            }
-//        } else {
-//            for (Player p : r.getOnlinePlayers()) {
-//                if (!r.perm(p, "uc.kickall.exempt", false, false) && !p.equals(cs)) {
-//                    p.kickPlayer(r.positive + TextColorUtil.translateAlternate(r.getFinalArg(args, 0)));
-//                    a++;
-//                }
-//            }
-//        }
-//        if (a == 0) {
-//            r.sendMes(cs, "kickallNobody");
-//        } else {
-//            r.sendMes(cs, "kickallMessage", "%Amount", a);
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return new ArrayList<>();
-//    }
 }

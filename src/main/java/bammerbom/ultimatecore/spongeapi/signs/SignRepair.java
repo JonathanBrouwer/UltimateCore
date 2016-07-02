@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.Item;
@@ -74,7 +75,7 @@ public class SignRepair implements UltimateSign {
                 if (!ItemUtil.isRepairable(stack)) {
                     continue;
                 }
-                stack.setDurability((short) 0);
+                stack.offer(Keys.ITEM_DURABILITY, 0);
             }
             for (ItemStack stack : p.getInventory().getArmorContents()) {
                 if (stack == null) {
@@ -83,12 +84,12 @@ public class SignRepair implements UltimateSign {
                 if (!ItemUtil.isRepairable(stack)) {
                     continue;
                 }
-                stack.setDurability((short) 0);
+                stack.offer(Keys.ITEM_DURABILITY, 0);
             }
             r.sendMes(p, "repairSelfAll");
         } else {
-            ItemStack stack = p.getItemInHand();
-            if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
+            ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).orElse(null);
+            if (stack == null || stack.getItem() == ItemTypes.NONE) {
                 r.sendMes(p, "repairNoItemInHand");
                 return;
             }
@@ -96,7 +97,7 @@ public class SignRepair implements UltimateSign {
                 r.sendMes(p, "repairNotRepairable");
                 return;
             }
-            stack.setDurability((short) 0);
+            stack.offer(Keys.ITEM_DURABILITY, 0);
             r.sendMes(p, "repairSelfHand");
         }
     }

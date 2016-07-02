@@ -27,12 +27,13 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.*;
 
@@ -250,33 +251,57 @@ public class CmdMobtp implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.isPlayer(cs)) {
-            return CommandResult.empty();
-        }
-        if (!r.perm(cs, "uc.mobtp", false, true)) {
-            return CommandResult.empty();
-        }
-        ItemStack stick = new ItemStack(Material.STICK);
-        ItemMeta meta = stick.getItemMeta();
-        meta.setDisplayName(TextColors.AQUA + "MobTP: select an entity (right click)");
-        ArrayList<String> lore = new ArrayList<>();
-        lore.add(TextColors.GRAY + "" + TextColors.UNDERLINE + "Find an entity to teleport, then right click to to pick" +
-                " it up.");
-        lore.add(TextColors.GRAY + "Then right click again to place the entity");
-        meta.setLore(lore);
-        stick.setItemMeta(meta);
-        Player p = (Player) cs;
-        p.getInventory().addItem(stick);
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList();
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.isPlayer(cs)) {
+//            return CommandResult.empty();
+//        }
+//        if (!r.perm(cs, "uc.mobtp", false, true)) {
+//            return CommandResult.empty();
+//        }
+//        ItemStack stick = new ItemStack(Material.STICK);
+//        ItemMeta meta = stick.getItemMeta();
+//        meta.setDisplayName(TextColors.AQUA + "MobTP: select an entity (right click)");
+//        ArrayList<String> lore = new ArrayList<>();
+//        lore.add(TextColors.GRAY + "" + TextColors.UNDERLINE + "Find an entity to teleport, then right click to to pick" +
+//                " it up.");
+//        lore.add(TextColors.GRAY + "Then right click again to place the entity");
+//        meta.setLore(lore);
+//        stick.setItemMeta(meta);
+//        Player p = (Player) cs;
+//        p.getInventory().addItem(stick);
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return null;
+//    }
 }

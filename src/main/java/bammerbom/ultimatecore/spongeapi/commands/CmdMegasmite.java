@@ -24,17 +24,12 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 public class CmdMegasmite implements UltimateCommand {
 
@@ -49,63 +44,87 @@ public class CmdMegasmite implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("megalightning");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (r.checkArgs(args, 0)) {
-            if (!r.perm(cs, "uc.megasmite.others", false, true)) {
-                return CommandResult.empty();
-            }
-            Player target = r.searchPlayer(args[0]);
-            if (target == null) {
-                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return CommandResult.empty();
-            }
-            Location tPlayerLocation = target.getLocation();
-            if (r.getCnfg().getBoolean("Command.Smite.smiteDamage") == false) {
-                for (int i = 0;
-                     i < 20;
-                     i++) {
-                    target.getWorld().strikeLightningEffect(tPlayerLocation);
-                }
-            } else {
-                for (int i = 0;
-                     i < 20;
-                     i++) {
-                    target.getWorld().strikeLightning(tPlayerLocation);
-                }
-            }
-        } else {
-            if (!r.perm(cs, "uc.megasmite", false, true)) {
-                return CommandResult.empty();
-            }
-            if (!(r.isPlayer(cs))) {
-                return CommandResult.empty();
-            }
-            Player p = (Player) cs;
-            Block strike = p.getTargetBlock((Set<Material>) null, 150);
-            Location strikel = strike.getLocation();
-            if (r.getCnfg().getBoolean("Command.Smite.smiteDamage") == false) {
-                for (int i = 0;
-                     i < 20;
-                     i++) {
-                    p.getWorld().strikeLightningEffect(strikel);
-                }
-            } else {
-                for (int i = 0;
-                     i < 20;
-                     i++) {
-                    p.getWorld().strikeLightning(strikel);
-                }
-            }
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("megalightning");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (r.checkArgs(args, 0)) {
+//            if (!r.perm(cs, "uc.megasmite.others", false, true)) {
+//                return CommandResult.empty();
+//            }
+//            Player target = r.searchPlayer(args[0]);
+//            if (target == null) {
+//                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+//                return CommandResult.empty();
+//            }
+//            Location tPlayerLocation = target.getLocation();
+//            if (r.getCnfg().getBoolean("Command.Smite.smiteDamage") == false) {
+//                for (int i = 0;
+//                     i < 20;
+//                     i++) {
+//                    target.getWorld().strikeLightningEffect(tPlayerLocation);
+//                }
+//            } else {
+//                for (int i = 0;
+//                     i < 20;
+//                     i++) {
+//                    target.getWorld().strikeLightning(tPlayerLocation);
+//                }
+//            }
+//        } else {
+//            if (!r.perm(cs, "uc.megasmite", false, true)) {
+//                return CommandResult.empty();
+//            }
+//            if (!(r.isPlayer(cs))) {
+//                return CommandResult.empty();
+//            }
+//            Player p = (Player) cs;
+//            Block strike = p.getTargetBlock((Set<Material>) null, 150);
+//            Location strikel = strike.getLocation();
+//            if (r.getCnfg().getBoolean("Command.Smite.smiteDamage") == false) {
+//                for (int i = 0;
+//                     i < 20;
+//                     i++) {
+//                    p.getWorld().strikeLightningEffect(strikel);
+//                }
+//            } else {
+//                for (int i = 0;
+//                     i < 20;
+//                     i++) {
+//                    p.getWorld().strikeLightning(strikel);
+//                }
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return null;
+//    }
 }

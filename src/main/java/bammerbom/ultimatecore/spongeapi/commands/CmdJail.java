@@ -24,13 +24,19 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.api.UPlayer;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class CmdJail implements UltimateCommand {
 
@@ -48,12 +54,12 @@ public class CmdJail implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Player> [Jail]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Put someone in jail.");
     }
 
     @Override
@@ -63,93 +69,80 @@ public class CmdJail implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.jail", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 0)) {
+            HashMap<String, Location> jails = UC.getServer().getJails();
+            if (jails.isEmpty()) {
+                r.sendMes(cs, "jailNone");
+                return CommandResult.empty();
+            }
+            StringBuilder b = new StringBuilder();
+            for (String j : jails.keySet()) {
+                if (b.length() != 0) {
+                    b.append(j + ", ");
+                }
+                b.append(j);
+            }
+            r.sendMes(cs, "jailList", "%Jails", b.toString());
+        } else {
+            if (!r.checkArgs(args, 0)) {
+                r.sendMes(cs, "jailUsage");
+                return CommandResult.empty();
+            }
+            GameProfile pl = r.searchGameProfile(args[0]).orElse(null);
+            if (pl == null) {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                return CommandResult.empty();
+            }
+            UPlayer pu = UC.getPlayer(pl);
+            if (pu.isJailed()) {
+                r.sendMes(cs, "jailAlreadyJailed", "%Player", pl.getName());
+                return CommandResult.empty();
+            }
+            HashMap<String, Location> jailsA = UC.getServer().getJails();
+            if (jailsA.isEmpty()) {
+                r.sendMes(cs, "jailNone");
+                return CommandResult.empty();
+            }
+            String jail;
+            Long time = -1L;
+            if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1]) != -1) {
+                time = DateUtil.parseDateDiff(args[1]);
+            }
+            if (r.checkArgs(args, 2)) {
+                jail = args[2];
+            } else if (r.checkArgs(args, 1) && time == -1) {
+                jail = args[1];
+            } else {
+                ArrayList<String> jails = UC.getServer().getJailsL();
+                jail = jails.get(ra.nextInt(jails.size()));
+            }
+            if (UC.getServer().getJail(jail) == null) {
+                r.sendMes(cs, "jailNotFound", "%Jail", jail);
+                return CommandResult.empty();
+            }
+            Location loc = UC.getServer().getJail(jail);
+            if (r.searchPlayer(pl.getUniqueId()).isPresent()) {
+                LocationUtil.teleportUnsafe(r.searchPlayer(pl.getUniqueId()).get(), loc, Cause.builder().build(), false);
+                r.sendMes(r.searchPlayer(pl.getUniqueId()).get(), "jailTarget", "%Time", time != -1L ? DateUtil.format(time) : r.mes("jailEver"));
+            }
+            pu.jail(jail, time);
+            r.sendMes(cs, "jailSender", "%Jail", jail, "%Player", pl.getName(), "%Time", time != -1L ? DateUtil.format(time) : r.mes("jailEver"));
+        }
+
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        if (curn == 0) {
+            return null;
+        } else if (curn == 1) {
+            return UC.getServer().getJailsL();
+        } else {
+            return new ArrayList<>();
+        }
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList();
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.jail", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        if (!r.checkArgs(args, 0)) {
-//            HashMap<String, Location> jails = UC.getServer().getJails();
-//            if (jails.isEmpty()) {
-//                r.sendMes(cs, "jailNone");
-//                return CommandResult.empty();
-//            }
-//            StringBuilder b = new StringBuilder();
-//            for (String j : jails.keySet()) {
-//                if (b.length() != 0) {
-//                    b.append(j + ", ");
-//                }
-//                b.append(j);
-//            }
-//            r.sendMes(cs, "jailList", "%Jails", b.toString());
-//        } else {
-//            if (!r.checkArgs(args, 0)) {
-//                r.sendMes(cs, "jailUsage");
-//                return CommandResult.empty();
-//            }
-//            OfflinePlayer pl = r.searchGameProfile(args[0]);
-//            if (pl == null || (!pl.hasPlayedBefore() && !pl.isOnline())) {
-//                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//                return CommandResult.empty();
-//            }
-//            UPlayer pu = UC.getPlayer(pl);
-//            if (pu.isJailed()) {
-//                r.sendMes(cs, "jailAlreadyJailed", "%Player", pl.getName());
-//                return CommandResult.empty();
-//            }
-//            HashMap<String, Location> jailsA = UC.getServer().getJails();
-//            if (jailsA.isEmpty()) {
-//                r.sendMes(cs, "jailNone");
-//                return CommandResult.empty();
-//            }
-//            String jail;
-//            Long time = -1L;
-//            if (r.checkArgs(args, 1) && DateUtil.parseDateDiff(args[1]) != -1) {
-//                time = DateUtil.parseDateDiff(args[1]);
-//            }
-//            if (r.checkArgs(args, 2)) {
-//                jail = args[2];
-//            } else if (r.checkArgs(args, 1) && time == -1) {
-//                jail = args[1];
-//            } else {
-//                ArrayList<String> jails = UC.getServer().getJailsL();
-//                jail = jails.get(ra.nextInt(jails.size()));
-//            }
-//            if (UC.getServer().getJail(jail) == null) {
-//                r.sendMes(cs, "jailNotFound", "%Jail", jail);
-//                return CommandResult.empty();
-//            }
-//            Location loc = UC.getServer().getJail(jail);
-//            if (pl.isOnline()) {
-//                LocationUtil.teleportUnsafe(pl.getPlayer(), loc, TeleportCause.PLUGIN, false);
-//                r.sendMes(pl.getPlayer(), "jailTarget", "%Time", time != -1L ? DateUtil.format(time) : r.mes("jailEver"));
-//            }
-//            pu.jail(jail, time);
-//            r.sendMes(cs, "jailSender", "%Jail", jail, "%Player", pl.getName(), "%Time", time != -1L ? DateUtil.format(time) : r.mes("jailEver"));
-//        }
-//
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        if (curn == 0) {
-//            return null;
-//        } else if (curn == 1) {
-//            return UC.getServer().getJailsL();
-//        } else {
-//            return new ArrayList<>();
-//        }
-//    }
 }

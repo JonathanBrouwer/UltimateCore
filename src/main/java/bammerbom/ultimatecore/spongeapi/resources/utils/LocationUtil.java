@@ -343,17 +343,4 @@ public class LocationUtil {
         }
         return Math.sqrt(NumberConversions.square(l1.getX() - l2.getX()) + NumberConversions.square(l1.getY() - l2.getY()) + NumberConversions.square(l1.getZ() - l2.getZ()));
     }
-
-    public static class Vector3D {
-
-        public int x;
-        public int y;
-        public int z;
-
-        public Vector3D(int x, int y, int z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-    }
 }

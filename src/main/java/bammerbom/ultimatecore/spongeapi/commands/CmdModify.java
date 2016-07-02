@@ -24,16 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,55 +44,79 @@ public class CmdModify implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.modify", false, true)) {
-            return CommandResult.empty();
-        }
-        if (!r.isPlayer(cs)) {
-            return CommandResult.empty();
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "modifyUsage");
-            return CommandResult.empty();
-        }
-        Player p = (Player) cs;
-        ItemStack stack = p.getItemInHand();
-        if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
-            r.sendMes(cs, "modifyAir");
-            return CommandResult.empty();
-        }
-        try {
-            String s = r.getFinalArg(args, 0);
-            if (s.startsWith("\\{")) {
-                stack = Bukkit.getUnsafe().modifyItemStack(stack, s);
-            } else {
-                MetaItemStack meta = new MetaItemStack(stack);
-                try {
-                    meta.parseStringMeta(cs, r.perm(cs, "uc.modify.unsafe", false, false), args, 0);
-                } catch (IllegalArgumentException ex) {
-                    if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or " + "too high")) {
-                        r.sendMes(cs, "enchantUnsafe");
-                        return CommandResult.empty();
-                    }
-                    return CommandResult.empty();
-                }
-                stack = meta.getItemStack();
-            }
-        } catch (Exception e) {
-            r.sendMes(cs, "giveMetadataFailed");
-            return CommandResult.empty();
-        }
-        p.setItemInHand(stack);
-        r.sendMes(cs, "modifyMessage");
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList();
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.modify", false, true)) {
+//            return CommandResult.empty();
+//        }
+//        if (!r.isPlayer(cs)) {
+//            return CommandResult.empty();
+//        }
+//        if (!r.checkArgs(args, 0)) {
+//            r.sendMes(cs, "modifyUsage");
+//            return CommandResult.empty();
+//        }
+//        Player p = (Player) cs;
+//        ItemStack stack = p.getItemInHand();
+//        if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
+//            r.sendMes(cs, "modifyAir");
+//            return CommandResult.empty();
+//        }
+//        try {
+//            String s = r.getFinalArg(args, 0);
+//            if (s.startsWith("\\{")) {
+//                stack = Bukkit.getUnsafe().modifyItemStack(stack, s);
+//            } else {
+//                MetaItemStack meta = new MetaItemStack(stack);
+//                try {
+//                    meta.parseStringMeta(cs, r.perm(cs, "uc.modify.unsafe", false, false), args, 0);
+//                } catch (IllegalArgumentException ex) {
+//                    if (ex.getMessage() != null && ex.getMessage().contains("Enchantment level is either too low or " + "too high")) {
+//                        r.sendMes(cs, "enchantUnsafe");
+//                        return CommandResult.empty();
+//                    }
+//                    return CommandResult.empty();
+//                }
+//                stack = meta.getItemStack();
+//            }
+//        } catch (Exception e) {
+//            r.sendMes(cs, "giveMetadataFailed");
+//            return CommandResult.empty();
+//        }
+//        p.setItemInHand(stack);
+//        r.sendMes(cs, "modifyMessage");
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        return new ArrayList<>();
+//    }
 }

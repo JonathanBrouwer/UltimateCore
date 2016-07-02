@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.r;
+import org.spongepowered.api.text.Text;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -114,7 +115,7 @@ public class DateUtil {
     public static String formatDateDiff(Calendar fromDate, Calendar toDate, int maxacc) {
         boolean future = false;
         if (toDate.equals(fromDate)) {
-            return r.mes("now");
+            return r.mes("now").toPlain();
         }
         if (toDate.after(fromDate)) {
             future = true;
@@ -122,7 +123,7 @@ public class DateUtil {
         StringBuilder sb = new StringBuilder();
         int[] types = {1, 2, 5, 11, 12, 13};
 
-        String[] names = {r.mes("years"), r.mes("year"), r.mes("months"), r.mes("month"), r.mes("days"), r.mes("day"), r.mes("hours"), r.mes("hour"), r.mes("minutes"), r.mes("minute"), r
+        Text[] names = {r.mes("years"), r.mes("year"), r.mes("months"), r.mes("month"), r.mes("days"), r.mes("day"), r.mes("hours"), r.mes("hour"), r.mes("minutes"), r.mes("minute"), r
                 .mes("seconds"), r.mes("second")};
 
         int accuracy = 0;
@@ -135,7 +136,7 @@ public class DateUtil {
             int diff = dateDiff(types[i], fromDate, toDate, future);
             if (diff > 0) {
                 accuracy++;
-                sb.append(" ").append(diff).append(" ").append(names[((i * 2) + (diff == 1 ? 1 : 0))]);
+                sb.append(" ").append(diff).append(" ").append(names[((i * 2) + (diff == 1 ? 1 : 0))].toPlain());
             }
         }
         if (sb.length() == 0) {

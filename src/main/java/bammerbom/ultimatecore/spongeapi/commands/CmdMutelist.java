@@ -24,13 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,40 +44,64 @@ public class CmdMutelist implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("mutes");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (r.perm(cs, "uc.mutelist", true, true) == false) {
-            return CommandResult.empty();
-        }
-        List<OfflinePlayer> mutes = UC.getServer().getMutedOfflinePlayers();
-        if (mutes == null || mutes.isEmpty()) {
-            r.sendMes(cs, "mutelistNoMutesFound");
-            return CommandResult.empty();
-        }
-        StringBuilder mutelist = new StringBuilder();
-        Integer cur = 0;
-        String result;
-        for (int i = 0;
-             i < mutes.size();
-             i++) {
-            mutelist.append(mutes.get(cur).getName() + ", ");
-            cur++;
-
-        }
-        result = mutelist.substring(0, mutelist.length() - 2);
-        r.sendMes(cs, "mutelistMutes", "%Mutelist", result);
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        List<String> mutes = new ArrayList<>();
-        for (OfflinePlayer pl : UC.getServer().getMutedOfflinePlayers()) {
-            mutes.add(pl.getName());
-        }
-        return mutes;
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("mutes");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (r.perm(cs, "uc.mutelist", true, true) == false) {
+//            return CommandResult.empty();
+//        }
+//        List<OfflinePlayer> mutes = UC.getServer().getMutedOfflinePlayers();
+//        if (mutes == null || mutes.isEmpty()) {
+//            r.sendMes(cs, "mutelistNoMutesFound");
+//            return CommandResult.empty();
+//        }
+//        StringBuilder mutelist = new StringBuilder();
+//        Integer cur = 0;
+//        String result;
+//        for (int i = 0;
+//             i < mutes.size();
+//             i++) {
+//            mutelist.append(mutes.get(cur).getName() + ", ");
+//            cur++;
+//
+//        }
+//        result = mutelist.substring(0, mutelist.length() - 2);
+//        r.sendMes(cs, "mutelistMutes", "%Mutelist", result);
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        List<String> mutes = new ArrayList<>();
+//        for (OfflinePlayer pl : UC.getServer().getMutedOfflinePlayers()) {
+//            mutes.add(pl.getName());
+//        }
+//        return mutes;
+//    }
 }

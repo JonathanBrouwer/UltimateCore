@@ -119,11 +119,10 @@ public class UltimateCore {
             pm.registerListeners(this, new GlobalWorldListener());
             AfkListener.start();
             AutomessageListener.start();
-            AutosaveListener.start();
             BloodListener.start();
             ChatListener.start();
             DeathmessagesListener.start();
-            DynmapListener.start();
+            //DynmapListener.start();
             ExplosionListener.start();
             JoinLeaveListener.start();
             MotdListener.start();

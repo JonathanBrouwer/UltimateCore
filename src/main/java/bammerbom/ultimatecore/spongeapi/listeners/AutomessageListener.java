@@ -24,21 +24,23 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ActionBarUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.BossbarUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.boss.BossBar;
+import org.spongepowered.api.boss.BossBarColor;
+import org.spongepowered.api.boss.BossBarOverlay;
+import org.spongepowered.api.boss.ServerBossBar;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.chat.ChatTypes;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class AutomessageListener implements Listener {
+public class AutomessageListener {
 
     public static ArrayList<String> messages = new ArrayList<>();
     public static String currentmessage = "";
@@ -49,7 +51,7 @@ public class AutomessageListener implements Listener {
     public static void start() {
         File file = new File(r.getUC().getDataFolder(), "messages.txt");
         if (!file.exists()) {
-            r.getUC().saveResource("messages.txt", true);
+            r.saveResource("messages.txt", true);
         }
         messages = FileUtil.getLines(file);
         decrease = r.getCnfg().getBoolean("Messages.Decrease");
@@ -57,7 +59,7 @@ public class AutomessageListener implements Listener {
         if (!r.getCnfg().getBoolean("Messages.Enabledchat") && !r.getCnfg().getBoolean("Messages" + ".Enabledbossbar") && !r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
             return;
         }
-        Bukkit.getPluginManager().registerEvents(new AutomessageListener(), r.getUC());
+        Sponge.getEventManager().registerListeners(r.getUC(), new AutomessageListener());
         ArrayList<String> messgs = messages;
         Integer length = messgs.size();
         if (length != 0) {
@@ -69,9 +71,9 @@ public class AutomessageListener implements Listener {
         final Integer time = r.getCnfg().getInt("Messages.Time");
         final Integer timestay = r.getCnfg().getInt("Messages.Stay");
         final Boolean ur = r.getCnfg().getBoolean("Messages.Randomise");
-        final BarColor color = BarColor.valueOf(r.getCnfg().getString("Messages.Color").toUpperCase());
-        final BarStyle style = BarStyle.valueOf(r.getCnfg().getString("Messages.Style").toUpperCase());
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+        final BossBarColor color = Sponge.getRegistry().getType(BossBarColor.class, r.getCnfg().getString("Messages.Color").toUpperCase()).get();
+        final BossBarOverlay style = Sponge.getRegistry().getType(BossBarOverlay.class, r.getCnfg().getString("Messages.Style").toUpperCase()).get();
+        Sponge.getScheduler().createTaskBuilder().intervalTicks(time * 20).execute(new Runnable() {
             @Override
             public void run() {
                 String mess = ur ? messgs.get(random.nextInt(messgs.size())) : "";
@@ -89,20 +91,22 @@ public class AutomessageListener implements Listener {
                 for (Player p : r.getOnlinePlayers()) {
                     if (r.getCnfg().getBoolean("Messages.Enabledbossbar")) {
                         if (decrease) {
-                            BossbarUtil.setMessage(p, TextColorUtil.translateAlternate(mess).replace("\n", " "), timestay, color, style);
+                            BossBar bar = ServerBossBar.builder().color(color).overlay(style).name(Text.of(TextColorUtil.translateAlternate(mess).replace("\n", " "))).build();
+                            //TODO timestay * 20
                         } else {
-                            BossbarUtil.setMessage(p, TextColorUtil.translateAlternate(mess).replace("\n", " "), color, style);
+                            BossBar bar = ServerBossBar.builder().color(color).overlay(style).name(Text.of(TextColorUtil.translateAlternate(mess).replace("\n", " "))).build();
                         }
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledactionbar")) {
-                        ActionBarUtil.sendActionBar(p, TextColorUtil.translateAlternate(mess).replace("\n", " "), timestay * 20);
+                        p.sendMessage(ChatTypes.ACTION_BAR, Text.of(TextColorUtil.translateAlternate(mess).replace("\n", " ")));
+                        //TODO timestay * 20
                     }
                     if (r.getCnfg().getBoolean("Messages.Enabledchat")) {
-                        p.sendMessage(TextColorUtil.translateAlternate(mess));
+                        p.sendMessage(Text.of(TextColorUtil.translateAlternate(mess)));
                     }
 
                 }
             }
-        }, 0, time * 20);
+        }).submit(r.getUC());
     }
 }
