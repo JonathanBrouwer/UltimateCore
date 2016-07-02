@@ -24,11 +24,17 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,79 +55,66 @@ public class CmdMsg implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Player> <Message>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Send a private message to someone.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("w", "m", "pm", "tell", "whisper", "message");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.msg", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 1)) {
+            r.sendMes(cs, "msgUsage");
+            return CommandResult.empty();
+        }
+        Player pl = r.searchPlayer(args[0]).orElse(null);
+        if (pl == null) {
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            return CommandResult.empty();
+        }
+        if (cs instanceof Player) {
+            if (UC.getPlayer((Player) cs).isMuted()) {
+                if (UC.getPlayer((Player) cs).getMuteTime() == 0 || UC.getPlayer((Player) cs).getMuteTime() == -1) {
+                    r.sendMes(cs, "muteChat");
+                } else {
+                    r.sendMes(cs, "muteChatTime", "%Time", DateUtil.format(UC.getPlayer((Player) cs).getMuteTimeLeft()));
+                }
+                return CommandResult.empty();
+            }
+            UC.getPlayer(pl).setReply((Player) cs);
+            UC.getPlayer((Player) cs).setReply(pl);
+        }
+        String message = r.perm(cs, "uc.coloredchat", false) ? TextColorUtil.translateAlternate(r.getFinalArg(args, 1)) : r.getFinalArg(args, 1);
+        //Spy
+        for (Player p : r.getOnlinePlayers()) {
+            UPlayer up = UC.getPlayer(p);
+            if (up.isSpy()) {
+                p.sendMessage(Text.of(formatSpy.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", r.getDisplayName(cs))
+                        .replace("%Player2", pl.getName()).replace("%Message", message)));
+            }
+        }
+        cs.sendMessage(Text.of(format.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", r.mes("me").toPlain()).replace
+                ("%Player2", pl.getName()).replace("%Message", message)));
+        pl.sendMessage(Text.of(format.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", r.getDisplayName(cs)).replace
+                ("%Player2", r.mes("me").toPlain()).replace("%Message", message)));
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        if (curn == 0) {
+            return null;
+        }
+        return new ArrayList<>();
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("w", "m", "pm", "tell", "whisper", "message");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.msg", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        if (!r.checkArgs(args, 1)) {
-//            r.sendMes(cs, "msgUsage");
-//            return CommandResult.empty();
-//        }
-//        Player pl = r.searchPlayer(args[0]);
-//        if (pl == null) {
-//            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            return CommandResult.empty();
-//        }
-//        if (cs instanceof Player) {
-//            if (UC.getPlayer((Player) cs).isMuted()) {
-//                if (UC.getPlayer((Player) cs).getMuteTime() == 0 || UC.getPlayer((Player) cs).getMuteTime() == -1) {
-//                    r.sendMes(cs, "muteChat");
-//                } else {
-//                    r.sendMes(cs, "muteChatTime", "%Time", DateUtil.format(UC.getPlayer((Player) cs).getMuteTimeLeft()));
-//                }
-//                return CommandResult.empty();
-//            }
-//            UC.getPlayer(pl).setReply((Player) cs);
-//            UC.getPlayer((OfflinePlayer) cs).setReply(pl);
-//        }
-//        String message = r.perm(cs, "uc.coloredchat", false, false) ? TextColorUtil.translateAlternate(r.getFinalArg(args, 1)) : r.getFinalArg(args, 1);
-//        //Spy
-//        for (Player p : r.getOnlinePlayers()) {
-//            UPlayer up = UC.getPlayer(p);
-//            if (up.isSpy()) {
-//                p.sendMessage(formatSpy.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", r.getDisplayName(cs))
-//                        .replace("%Player2", pl.getName()).replace("%Message", message));
-//            }
-//        }
-//        cs.sendMessage(format.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", r.mes("me")).replace("%Player2", pl.getName())
-//                .replace("%Message", message));
-//        pl.sendMessage(format.replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("%Player1", r.getDisplayName(cs)).replace("%Player2", r.mes("me"))
-//                .replace("%Message", message));
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        if (curn == 0) {
-//            return null;
-//        }
-//        return new ArrayList<>();
-//    }
 }

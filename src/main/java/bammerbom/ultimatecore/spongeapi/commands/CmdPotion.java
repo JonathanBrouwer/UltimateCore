@@ -25,20 +25,18 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.databases.EffectDatabase;
-import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.HandTypes;
+import org.spongepowered.api.effect.potion.PotionEffectType;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,23 +53,33 @@ public class CmdPotion implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Effect> [Duration] [Amplifier] [Splash]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Spawn in or modify a potion.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return CommandResult.empty();
         }
-        if (!r.perm(cs, "uc.potion", false, true)) {
+        if (!r.perm(cs, "uc.potion", true)) {
             return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "potionUsage");
             StringBuilder sb = new StringBuilder();
-            for (PotionEffectType type : PotionEffectType.values()) {
+            for (PotionEffectType type : Sponge.getRegistry().getAllOf(CatalogTypes.POTION_EFFECT_TYPE)) {
                 if (type == null || type.getName() == null) {
                     continue;
                 }
@@ -83,8 +91,9 @@ public class CmdPotion implements UltimateCommand {
             r.sendMes(cs, "potionUsage2", "%Types", sb.toString());
             return CommandResult.empty();
         }
-        Boolean spawnin = !(p.getItemInHand().getType() == Material.POTION);
-        ItemStack stack = p.getItemInHand().getType() == Material.POTION ? p.getItemInHand() : new ItemStack(Material.POTION);
+
+        Boolean spawnin = p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build().supports(Keys.POTION_EFFECTS);
+        ItemStack stack = spawnin ? p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build()) : ItemStack.builder().itemType(ItemTypes.POTION).build();
         PotionMeta meta = (PotionMeta) stack.getItemMeta();
         if (args[0].equalsIgnoreCase("clear")) {
             if (spawnin) {
@@ -169,10 +178,11 @@ public class CmdPotion implements UltimateCommand {
         } else {
             r.sendMes(cs, "potionAdd", "%Potion", splash, "%Effect", ef.getName().toLowerCase());
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             List<String> l = new ArrayList<>();
             for (PotionEffectType t : PotionEffectType.values()) {

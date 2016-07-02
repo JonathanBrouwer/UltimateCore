@@ -25,10 +25,10 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.PingUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,21 +46,31 @@ public class CmdPing implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> [Player]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("View a players ping.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("pong");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.ping", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.ping", true)) {
             return CommandResult.empty();
         }
         Player pl;
         if (r.checkArgs(args, 0)) {
-            if (!r.perm(cs, "uc.ping.others", false, true)) {
+            if (!r.perm(cs, "uc.ping.others", true)) {
                 return CommandResult.empty();
             }
-            pl = r.searchPlayer(args[0]);
+            pl = r.searchPlayer(args[0]).orElse(null);
         } else {
             if (!r.isPlayer(cs)) {
                 return CommandResult.empty();
@@ -71,14 +81,15 @@ public class CmdPing implements UltimateCommand {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return CommandResult.empty();
         }
-        if (r.checkArgs(args, 0) && !r.perm(cs, "uc.ping.others", false, true)) {
+        if (r.checkArgs(args, 0) && !r.perm(cs, "uc.ping.others", true)) {
             return CommandResult.empty();
         }
-        r.sendMes(cs, "pingMessage", "%Player", pl.getName(), "%Ping", PingUtil.getPing(pl));
+        r.sendMes(cs, "pingMessage", "%Player", pl.getName(), "%Ping", pl.getConnection().getLatency());
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

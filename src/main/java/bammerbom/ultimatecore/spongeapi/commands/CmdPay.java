@@ -27,10 +27,17 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UEconomy;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.service.economy.EconomyService;
+import org.spongepowered.api.service.economy.transaction.ResultType;
+import org.spongepowered.api.service.economy.transaction.TransactionResult;
+import org.spongepowered.api.text.Text;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,23 +54,30 @@ public class CmdPay implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player> <Amount>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Give someone a certain amount of money");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.pay", true, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.pay", true)) {
             return CommandResult.empty();
         }
-        if (r.getVault() == null) {
-            r.sendMes(cs, "moneyNoVault");
-            return CommandResult.empty();
-        }
-        if (r.getVault().getEconomy() == null) {
+        if (!Sponge.getServiceManager().provide(EconomyService.class).isPresent()) {
             r.sendMes(cs, "moneyNoEconomy");
             return CommandResult.empty();
         }
+        EconomyService service = Sponge.getServiceManager().provide(EconomyService.class).get();
         if (!r.isPlayer(cs)) {
             return CommandResult.empty();
         }
@@ -73,7 +87,7 @@ public class CmdPay implements UltimateCommand {
             r.sendMes(cs, "payUsage");
             return CommandResult.empty();
         }
-        Player t = r.searchPlayer(args[0]);
+        Player t = r.searchPlayer(args[0]).orElse(null);
         if (t == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return CommandResult.empty();
@@ -86,32 +100,34 @@ public class CmdPay implements UltimateCommand {
         if (d < 0.1) {
             d = 0.1;
         }
-
-        if (r.getVault().getEconomy() instanceof UEconomy) {
-            UEconomy ue = (UEconomy) r.getVault().getEconomy();
-            if (ue.getBalance(p) - d < 0) {
-                r.sendMes(cs, "payTooLessMoney", "%Money", ue.format(d));
+        Double balance = Double.parseDouble(service.getOrCreateAccount(p.getUniqueId()).get().getBalance(service.getDefaultCurrency()).toString());
+        if (service instanceof UEconomy) {
+            UEconomy ue = (UEconomy) service;
+            if (-d < 0) {
+                r.sendMes(cs, "payTooLessMoney", "%Money", ue.getDefaultCurrency().format(BigDecimal.valueOf(d)));
                 return CommandResult.empty();
             }
-            if (ue.getMaximumMoney() != null && d + ue.getBalance(t) > ue.getMaximumMoney()) {
+            if (ue.getMaximumMoney() != null && d + balance > Double.parseDouble(ue.getMaximumMoney().toString())) {
                 r.sendMes(cs, "moneyMaxBalance");
                 return CommandResult.empty();
             }
         } else {
-            if (r.getVault().getEconomy().getBalance(p) - d < 0) {
-                r.sendMes(cs, "payTooLessMoney", "%Money", r.getVault().getEconomy().format(d));
+            if (balance - d < 0) {
+                r.sendMes(cs, "payTooLessMoney", "%Money", service.getDefaultCurrency().format(BigDecimal.valueOf(d)));
                 return CommandResult.empty();
             }
         }
-
-        r.getVault().getEconomy().withdrawPlayer(p, d);
-        r.getVault().getEconomy().depositPlayer(t, d);
-        r.sendMes(cs, "payMessage", "%Player", UC.getPlayer(t).getDisplayName(), "%Amount", r.getVault().getEconomy().format(d));
-        r.sendMes(t, "payTarget", "%Player", UC.getPlayer(p).getDisplayName(), "%Amount", r.getVault().getEconomy().format(d));
+        TransactionResult res = service.getOrCreateAccount(p.getUniqueId()).get().withdraw(service.getDefaultCurrency(), BigDecimal.valueOf(d), Cause.builder().build());
+        if (res.getResult().equals(ResultType.SUCCESS)) {
+            service.getOrCreateAccount(t.getUniqueId()).get().deposit(service.getDefaultCurrency(), BigDecimal.valueOf(d), Cause.builder().build());
+        }
+        r.sendMes(cs, "payMessage", "%Player", UC.getPlayer(t).getDisplayName(), "%Amount", service.getDefaultCurrency().format(BigDecimal.valueOf(d)));
+        r.sendMes(t, "payTarget", "%Player", UC.getPlayer(p).getDisplayName(), "%Amount", service.getDefaultCurrency().format(BigDecimal.valueOf(d)));
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

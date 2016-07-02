@@ -181,6 +181,9 @@ public class UltimateCommands {
         ucmds = new UltimateCommands();
         //
         for (UltimateCommand cmd : cmds) {
+            if (r.getCnfg().getStringList("Command.DisabledCommands").contains(cmd.getName())) {
+                continue;
+            }
             CommandCallable callable = new UltimateCommandCallable(cmd);
             List<String> aliases = new ArrayList<>();
             aliases.add(cmd.getName());

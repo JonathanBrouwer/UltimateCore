@@ -24,10 +24,14 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.type.HandTypes;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,7 +54,7 @@ public class CmdMore implements UltimateCommand {
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Sets the quantity of the item in your hand to the max stack size.");
     }
 
     @Override
@@ -60,37 +64,24 @@ public class CmdMore implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.more", true)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent()) {
+            r.sendMes(cs, "moreNothingInHand");
+            return CommandResult.empty();
+        }
+        p.getItemInHand(HandTypes.MAIN_HAND).get().setQuantity(64);
+        r.sendMes(cs, "moreMessage");
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList();
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.isPlayer(cs)) {
-//            return CommandResult.empty();
-//        }
-//        if (!r.perm(cs, "uc.more", false, true)) {
-//            return CommandResult.empty();
-//        }
-//        Player p = (Player) cs;
-//        if (p.getItemInHand() == null || p.getItemInHand().getType() == null || p.getItemInHand().getType().equals(Material.AIR)) {
-//            r.sendMes(cs, "moreNothingInHand");
-//            return CommandResult.empty();
-//        }
-//        p.getItemInHand().setAmount(64);
-//        r.sendMes(cs, "moreMessage");
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return new ArrayList<>();
-//    }
 }

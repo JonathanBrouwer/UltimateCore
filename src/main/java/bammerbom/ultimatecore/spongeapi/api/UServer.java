@@ -35,6 +35,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -307,7 +308,7 @@ public class UServer {
     }
 
     //Motd
-    public String getMotd() {
+    public Text getMotd() {
         String mt = motd;
         StringBuilder b = new StringBuilder("");
         Integer i = 0;
@@ -341,10 +342,10 @@ public class UServer {
         mt = mt.replace("{PLAYER}", TextColorUtil.strip(r.mes("notAvailable").toPlain()));
         mt = mt.replace("{NAME}", TextColorUtil.strip(r.mes("notAvailable").toPlain()));
         mt = mt.replace("{RAWNAME}", TextColorUtil.strip(r.mes("notAvailable").toPlain()));
-        return mt;
+        return Text.of(mt);
     }
 
-    public String getMotd(Player p) {
+    public Text getMotd(Player p) {
         String mt = motd;
         mt = mt.replace("{PLAYER}", UC.getPlayer(p).getDisplayName().toPlain());
         mt = mt.replace("{NAME}", UC.getPlayer(p).getDisplayName().toPlain());
@@ -383,7 +384,7 @@ public class UServer {
         }
         mt = mt.replace("{PLUGINS}", pb.toString());
         mt = mt.replace("{VERSION}", Sponge.getPlatform().getMinecraftVersion().getName());
-        return mt;
+        return Text.of(mt);
     }
 
     public List<GameProfile> getInTeleportMenuOffline() {

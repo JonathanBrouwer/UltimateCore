@@ -26,9 +26,10 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.UuidUtil;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.text.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -46,13 +47,23 @@ public class CmdNames implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("View all names a player had in the past.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.names", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.names", true)) {
             return CommandResult.empty();
         }
         if (!r.getCnfg().getBoolean("Mojang")) {
@@ -63,7 +74,7 @@ public class CmdNames implements UltimateCommand {
             r.sendMes(cs, "namesUsage");
             return CommandResult.empty();
         }
-        OfflinePlayer p = r.searchGameProfile(args[0]);
+        GameProfile p = r.searchGameProfile(args[0]).orElse(null);
         if (p == null || p.getUniqueId() == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return CommandResult.empty();
@@ -80,16 +91,17 @@ public class CmdNames implements UltimateCommand {
             String name = names.get(date);
             final String time;
             if (date == -1) {
-                time = r.mes("namesFirst");
+                time = r.mes("namesFirst").toPlain();
             } else {
                 time = new SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.US).format(new Date(date));
             }
             r.sendMes(cs, "namesMessage2", "%Date", time, "%Name", name);
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

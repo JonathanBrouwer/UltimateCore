@@ -24,16 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,87 +44,111 @@ public class CmdPowertool implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Effect> [Duration] [Amplifier] [Splash]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Spawn in or modify a potion.");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("pt");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.powertool", false, true)) {
-            return CommandResult.empty();
-        }
-        if (!r.isPlayer(cs)) {
-            return CommandResult.empty();
-        }
-        Player p = (Player) cs;
-        if (!r.checkArgs(args, 0) || args[0].equalsIgnoreCase("clear")) {
-            if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
-                r.sendMes(cs, "powertoolSomethingInHand");
-                return CommandResult.empty();
-            }
-            if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
-                r.sendMes(cs, "powertoolNothingAssigned");
-                return CommandResult.empty();
-            }
-            UC.getPlayer(p).clearPowertool(p.getItemInHand().getType());
-            r.sendMes(cs, "powertoolClear");
-        } else if (args[0].equalsIgnoreCase("clearall")) {
-            UC.getPlayer(p).clearAllPowertools();
-            r.sendMes(cs, "powertoolClearall");
-        } else if (args[0].equalsIgnoreCase("add")) {
-            if (!r.checkArgs(args, 1)) {
-                r.sendMes(cs, "powertoolAddUsage");
-                return CommandResult.empty();
-            }
-            if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
-                r.sendMes(cs, "powertoolSomethingInHand");
-                return CommandResult.empty();
-            }
-            UC.getPlayer(p).addPowertool(p.getItemInHand().getType(), r.getFinalArg(args, 1));
-            r.sendMes(cs, "powertoolAdd", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
-        } else if (args[0].equalsIgnoreCase("remove")) {
-            if (!r.checkArgs(args, 1)) {
-                r.sendMes(cs, "powertoolUsageRemove");
-                return CommandResult.empty();
-            }
-            if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
-                r.sendMes(cs, "powertoolSomethingInHand");
-                return CommandResult.empty();
-            }
-            if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
-                r.sendMes(cs, "powertoolNothingAssigned");
-                return CommandResult.empty();
-            }
-            if (!UC.getPlayer(p).getPowertools(p.getItemInHand().getType()).contains(r.getFinalArg(args, 1))) {
-                r.sendMes(cs, "powertoolNoSuchCommandAssigned");
-            }
-            UC.getPlayer(p).removePowertool(p.getItemInHand().getType(), r.getFinalArg(args, 1));
-            r.sendMes(cs, "powertoolRemove", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
-        } else if (args[0].equalsIgnoreCase("list")) {
-            if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
-                r.sendMes(cs, "powertoolSomethingInHand");
-                return CommandResult.empty();
-            }
-            if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
-                r.sendMes(cs, "powertoolList", "%List", r.mes("powertoolNone"));
-                return CommandResult.empty();
-            }
-            String s = StringUtil.joinList(UC.getPlayer(p).getPowertools(p.getItemInHand().getType()));
-            r.sendMes(cs, "powertoolList", "%List", s);
-        } else if (args[0].equalsIgnoreCase("set")) {
-            UC.getPlayer(p).setPowertool(p.getItemInHand().getType(), Arrays.asList(r.getFinalArg(args, 1)));
-            r.sendMes(cs, "powertoolSet", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
-        } else {
-            UC.getPlayer(p).setPowertool(p.getItemInHand().getType(), Arrays.asList(r.getFinalArg(args, 0)));
-            r.sendMes(cs, "powertoolSet", "%Command", r.getFinalArg(args, 0), "%Item", ItemUtil.getName(p.getItemInHand()));
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (curn == 0) {
-            return Arrays.asList("clear", "clearall", "add", "remove", "list", "set");
-        }
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+//    @Override
+//    public List<String> getAliases() {
+//        return Arrays.asList("pt");
+//    }
+//
+//    @Override
+//    public void run(final CommandSource cs, String label, String[] args) {
+//        if (!r.perm(cs, "uc.powertool", false, true)) {
+//            return CommandResult.empty();
+//        }
+//        if (!r.isPlayer(cs)) {
+//            return CommandResult.empty();
+//        }
+//        Player p = (Player) cs;
+//        if (!r.checkArgs(args, 0) || args[0].equalsIgnoreCase("clear")) {
+//            if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
+//                r.sendMes(cs, "powertoolSomethingInHand");
+//                return CommandResult.empty();
+//            }
+//            if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
+//                r.sendMes(cs, "powertoolNothingAssigned");
+//                return CommandResult.empty();
+//            }
+//            UC.getPlayer(p).clearPowertool(p.getItemInHand().getType());
+//            r.sendMes(cs, "powertoolClear");
+//        } else if (args[0].equalsIgnoreCase("clearall")) {
+//            UC.getPlayer(p).clearAllPowertools();
+//            r.sendMes(cs, "powertoolClearall");
+//        } else if (args[0].equalsIgnoreCase("add")) {
+//            if (!r.checkArgs(args, 1)) {
+//                r.sendMes(cs, "powertoolAddUsage");
+//                return CommandResult.empty();
+//            }
+//            if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
+//                r.sendMes(cs, "powertoolSomethingInHand");
+//                return CommandResult.empty();
+//            }
+//            UC.getPlayer(p).addPowertool(p.getItemInHand().getType(), r.getFinalArg(args, 1));
+//            r.sendMes(cs, "powertoolAdd", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
+//        } else if (args[0].equalsIgnoreCase("remove")) {
+//            if (!r.checkArgs(args, 1)) {
+//                r.sendMes(cs, "powertoolUsageRemove");
+//                return CommandResult.empty();
+//            }
+//            if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
+//                r.sendMes(cs, "powertoolSomethingInHand");
+//                return CommandResult.empty();
+//            }
+//            if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
+//                r.sendMes(cs, "powertoolNothingAssigned");
+//                return CommandResult.empty();
+//            }
+//            if (!UC.getPlayer(p).getPowertools(p.getItemInHand().getType()).contains(r.getFinalArg(args, 1))) {
+//                r.sendMes(cs, "powertoolNoSuchCommandAssigned");
+//            }
+//            UC.getPlayer(p).removePowertool(p.getItemInHand().getType(), r.getFinalArg(args, 1));
+//            r.sendMes(cs, "powertoolRemove", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
+//        } else if (args[0].equalsIgnoreCase("list")) {
+//            if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
+//                r.sendMes(cs, "powertoolSomethingInHand");
+//                return CommandResult.empty();
+//            }
+//            if (!UC.getPlayer(p).hasPowertool(p.getItemInHand().getType())) {
+//                r.sendMes(cs, "powertoolList", "%List", r.mes("powertoolNone"));
+//                return CommandResult.empty();
+//            }
+//            String s = StringUtil.joinList(UC.getPlayer(p).getPowertools(p.getItemInHand().getType()));
+//            r.sendMes(cs, "powertoolList", "%List", s);
+//        } else if (args[0].equalsIgnoreCase("set")) {
+//            UC.getPlayer(p).setPowertool(p.getItemInHand().getType(), Arrays.asList(r.getFinalArg(args, 1)));
+//            r.sendMes(cs, "powertoolSet", "%Command", r.getFinalArg(args, 1), "%Item", ItemUtil.getName(p.getItemInHand()));
+//        } else {
+//            UC.getPlayer(p).setPowertool(p.getItemInHand().getType(), Arrays.asList(r.getFinalArg(args, 0)));
+//            r.sendMes(cs, "powertoolSet", "%Command", r.getFinalArg(args, 0), "%Item", ItemUtil.getName(p.getItemInHand()));
+//        }
+//    }
+//
+//    @Override
+//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+//        if (curn == 0) {
+//            return Arrays.asList("clear", "clearall", "add", "remove", "list", "set");
+//        }
+//        return new ArrayList<>();
+//    }
 }

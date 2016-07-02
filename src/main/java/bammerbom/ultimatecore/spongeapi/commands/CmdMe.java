@@ -25,10 +25,13 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,52 +51,38 @@ public class CmdMe implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Message>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Send a message in the me format.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("action", "describe");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.me", true)) {
+            return CommandResult.empty();
+        }
+        if (r.checkArgs(args, 0) == false) {
+            r.sendMes(cs, "meUsage");
+            return CommandResult.empty();
+        }
+        String mes = r.getFinalArg(args, 0);
+        if (r.perm(cs, "uc.coloredchat", false)) {
+            mes = TextColorUtil.translateAlternate(mes);
+        }
+        Sponge.getServer().getBroadcastChannel().send(Text.of(f.replace("%Player", r.getDisplayName(cs)).replace("%Message", mes)));
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList("action", "describe");
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.perm(cs, "uc.me", true, true)) {
-//            return CommandResult.empty();
-//        }
-//        if (r.checkArgs(args, 0) == false) {
-//            r.sendMes(cs, "meUsage");
-//            return CommandResult.empty();
-//        }
-//        String mes = r.getFinalArg(args, 0);
-//        if (r.perm(cs, "uc.coloredchat", false, false)) {
-//            mes = TextColorUtil.translateAlternate(mes);
-//        }
-//        Bukkit.broadcastMessage(f.replace("%Player", r.getDisplayName(cs)).replace("%Message", mes));
-//
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return new ArrayList<>();
-//    }
 }

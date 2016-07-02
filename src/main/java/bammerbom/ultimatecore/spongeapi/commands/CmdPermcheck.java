@@ -25,9 +25,10 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,43 +46,54 @@ public class CmdPermcheck implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> [Player] <Permission>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Check if a certain player has a permission");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("permissioncheck");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.permcheck", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.permcheck", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "permcheckUsage");
             return CommandResult.empty();
         } else if (!r.checkArgs(args, 1)) {
-            if (r.perm(cs, args[0], false, false)) {
+            if (r.perm(cs, args[0], false)) {
                 r.sendMes(cs, "permcheckMessageTrue", "%Player", r.getDisplayName(cs), "%Permission", args[0]);
             } else {
                 r.sendMes(cs, "permcheckMessageFalse", "%Player", r.getDisplayName(cs), "%Permission", args[0]);
             }
         } else {
-            if (!r.perm(cs, "uc.permcheck.others", false, true)) {
+            if (!r.perm(cs, "uc.permcheck.others", true)) {
                 return CommandResult.empty();
             }
-            Player t = r.searchPlayer(args[0]);
+            Player t = r.searchPlayer(args[0]).orElse(null);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return CommandResult.empty();
             }
-            if (r.perm(t, args[1], false, false)) {
+            if (r.perm(t, args[1], false)) {
                 r.sendMes(cs, "permcheckMessageTrue", "%Player", t.getName(), "%Permission", args[1]);
             } else {
                 r.sendMes(cs, "permcheckMessageFalse", "%Player", t.getName(), "%Permission", args[1]);
             }
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

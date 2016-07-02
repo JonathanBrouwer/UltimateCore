@@ -25,10 +25,12 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,13 +49,23 @@ public class CmdNear implements UltimateCommand {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("nearby");
+    public String getUsage() {
+        return "/<command> [Range]";
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.near", true, true)) {
+    public Text getDescription() {
+        return Text.of("View all nearby players.");
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList();
+    }
+
+    @Override
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.near", true)) {
             return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
@@ -79,17 +91,18 @@ public class CmdNear implements UltimateCommand {
                 builder.append(", ");
             }
             builder.append(t.getName());
-            builder.append("(" + Double.valueOf(t.getLocation().distance(p.getLocation())).intValue() + ")");
+            builder.append("(" + LocationUtil.getDistance(t.getLocation(), p.getLocation()).intValue() + ")");
             a = false;
         }
         if (a) {
             builder.append(r.mes("nearNone"));
         }
         r.sendMes(cs, "nearMessage", "%Range", range, "%Players", builder.toString());
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
     }
 }

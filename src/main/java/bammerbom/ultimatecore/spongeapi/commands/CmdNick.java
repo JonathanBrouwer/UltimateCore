@@ -26,9 +26,12 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,13 +50,23 @@ public class CmdNick implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Name>/off [Player]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Set a player's nickname");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("nickname");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.nick", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.nick", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
@@ -65,7 +78,7 @@ public class CmdNick implements UltimateCommand {
             Player t;
             if (r.checkArgs(args, 1)) {
                 o = true;
-                t = r.searchPlayer(args[1]);
+                t = r.searchPlayer(args[1]).orElse(null);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return CommandResult.empty();
@@ -76,21 +89,21 @@ public class CmdNick implements UltimateCommand {
                 }
                 t = (Player) cs;
             }
-            if (o && !r.perm(cs, "uc.nick.others", false, true)) {
+            if (o && !r.perm(cs, "uc.nick.others", true)) {
                 return CommandResult.empty();
             }
             r.sendMes(cs, "nickMessage", "%Name", r.mes("nickOff"), "%Player", t.getName());
             if (o) {
                 r.sendMes(t, "nickMessageOthers", "%Player", r.getDisplayName(cs), "%Name", r.mes("nickOff"));
             }
-            t.setDisplayName(t.getName());
+            t.offer(Keys.DISPLAY_NAME, Text.of(t.getName()));
             UC.getPlayer(t).setNick(null);
             return CommandResult.empty();
         }
         Player t;
         if (r.checkArgs(args, 1)) {
             o = true;
-            t = r.searchPlayer(args[1]);
+            t = r.searchPlayer(args[1]).orElse(null);
             if (t == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                 return CommandResult.empty();
@@ -101,11 +114,11 @@ public class CmdNick implements UltimateCommand {
             }
             t = (Player) cs;
         }
-        if (o && !r.perm(cs, "uc.nick.others", false, true)) {
+        if (o && !r.perm(cs, "uc.nick.others", true)) {
             return CommandResult.empty();
         }
         String name = args[0].replaceAll("&k", "").replaceAll("%n", "").replaceAll("&l", "");
-        if (r.perm(cs, "uc.nick.colors", false, false)) {
+        if (r.perm(cs, "uc.nick.colors", false)) {
             name = TextColorUtil.translateAlternate(name);
         }
         if (!TextColorUtil.strip(name).replaceAll("&y", "").replaceAll("_", "").replaceAll("[a-zA-Z0-9]", "").equalsIgnoreCase("")) {
@@ -116,7 +129,8 @@ public class CmdNick implements UltimateCommand {
             if (pl.equals(t)) {
                 continue;
             }
-            if (pl.getName().equalsIgnoreCase(TextColorUtil.strip(name).replaceAll("&y", "")) || UC.getPlayer(pl).getDisplayName().equalsIgnoreCase(TextColorUtil.strip(name).replaceAll("&y", ""))) {
+            if (pl.getName().equalsIgnoreCase(TextColorUtil.strip(name).replaceAll("&y", "")) || UC.getPlayer(pl).getDisplayName().toPlain().equalsIgnoreCase(TextColorUtil.strip(name).replaceAll
+                    ("&y", ""))) {
                 r.sendMes(cs, "nickAlreadyInUse");
                 return CommandResult.empty();
             }
@@ -127,10 +141,11 @@ public class CmdNick implements UltimateCommand {
         if (o) {
             r.sendMes(t, "nickMessageOthers", "%Player", r.getDisplayName(cs), "%Name", name);
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         if (curn == 1) {
             return null;
         }

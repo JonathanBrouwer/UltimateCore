@@ -24,8 +24,13 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,12 +50,12 @@ public class CmdMute implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Player> [Time] [Reason]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Make someone not able to chat.");
     }
 
     @Override
@@ -60,6 +65,50 @@ public class CmdMute implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "muteUsage");
+            return CommandResult.empty();
+        }
+        GameProfile banp = r.searchGameProfile(args[0]).orElse(null);
+        if (banp == null) {
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            return CommandResult.empty();
+        }
+        if (UC.getPlayer(banp).isMuted()) {
+            r.sendMes(cs, "muteAlreadyMuted", "%Player", r.getDisplayName(banp));
+            return CommandResult.empty();
+        }
+        Long time = 0L;
+        String reason = r.mes("muteDefaultReason").toPlain();
+        //Info
+        if (!r.checkArgs(args, 1)) {
+        } else if (DateUtil.parseDateDiff(args[1]) != -1) {
+            time = DateUtil.parseDateDiff(args[1]);
+            if (r.checkArgs(args, 2)) {
+                reason = r.getFinalArg(args, 2);
+            }
+        } else if (DateUtil.parseDateDiff(args[1]) == -1) {
+            reason = r.getFinalArg(args, 1);
+        }
+        //Permcheck
+        if (!r.perm(cs, "uc.mute.time", false) && !r.perm(cs, "uc.mute", false) && time == 0L) {
+            r.sendMes(cs, "noPermissions");
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.mute.perm", false) && !r.perm(cs, "uc.mute", false) && time != 0L) {
+            r.sendMes(cs, "noPermissions");
+            return CommandResult.empty();
+        }
+        UC.getPlayer(banp).setMuted(true, time, reason);
+        r.sendMes(cs, "muteMessage", "%Player", r.getDisplayName(banp));
+        if (r.searchPlayer(banp.getUniqueId()).isPresent()) {
+            Player banp2 = (Player) banp;
+            r.sendMes(banp2, "muteTarget");
+            if (time > 0L) {
+                r.sendMes(banp2, "muteTime", "%Time", DateUtil.format(UC.getPlayer(banp).getMuteTimeLeft()));
+            }
+            r.sendMes(banp2, "muteReason", "%Reason", reason);
+        }
         return CommandResult.success();
     }
 
@@ -67,61 +116,4 @@ public class CmdMute implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-//    @Override
-//    public List<String> getAliases() {
-//        return Arrays.asList();
-//    }
-//
-//    @Override
-//    public void run(final CommandSource cs, String label, String[] args) {
-//        if (!r.checkArgs(args, 0)) {
-//            r.sendMes(cs, "muteUsage");
-//            return CommandResult.empty();
-//        }
-//        OfflinePlayer banp = r.searchGameProfile(args[0]);
-//        if (banp == null || (!banp.hasPlayedBefore() && !banp.isOnline())) {
-//            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-//            return CommandResult.empty();
-//        }
-//        if (UC.getPlayer(banp).isMuted()) {
-//            r.sendMes(cs, "muteAlreadyMuted", "%Player", r.getDisplayName(banp));
-//            return CommandResult.empty();
-//        }
-//        Long time = 0L;
-//        String reason = r.mes("muteDefaultReason");
-//        //Info
-//        if (!r.checkArgs(args, 1)) {
-//        } else if (DateUtil.parseDateDiff(args[1]) != -1) {
-//            time = DateUtil.parseDateDiff(args[1]);
-//            if (r.checkArgs(args, 2)) {
-//                reason = r.getFinalArg(args, 2);
-//            }
-//        } else if (DateUtil.parseDateDiff(args[1]) == -1) {
-//            reason = r.getFinalArg(args, 1);
-//        }
-//        //Permcheck
-//        if (!r.perm(cs, "uc.mute.time", false, false) && !r.perm(cs, "uc.mute", false, false) && time == 0L) {
-//            r.sendMes(cs, "noPermissions");
-//            return CommandResult.empty();
-//        }
-//        if (!r.perm(cs, "uc.mute.perm", false, false) && !r.perm(cs, "uc.mute", false, false) && time != 0L) {
-//            r.sendMes(cs, "noPermissions");
-//            return CommandResult.empty();
-//        }
-//        UC.getPlayer(banp).setMuted(true, time, reason);
-//        r.sendMes(cs, "muteMessage", "%Player", r.getDisplayName(banp));
-//        if (banp.isOnline()) {
-//            Player banp2 = (Player) banp;
-//            r.sendMes(banp2, "muteTarget");
-//            if (time > 0L) {
-//                r.sendMes(banp2, "muteTime", "%Time", DateUtil.format(UC.getPlayer(banp).getMuteTimeLeft()));
-//            }
-//            r.sendMes(banp2, "muteReason", "%Reason", reason);
-//        }
-//    }
-//
-//    @Override
-//    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-//        return null;
-//    }
 }
