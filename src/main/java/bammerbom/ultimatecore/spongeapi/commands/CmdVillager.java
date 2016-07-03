@@ -160,8 +160,8 @@ public class CmdVillager implements UltimateCommand {
         ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
         ItemMeta barrier_meta = barrier.getItemMeta();
         barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
-        barrier_meta.setLore(Arrays.asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + trade.getUses(), TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + trade
-                .getMaxUses(), TextColors.DARK_AQUA + "Reward exp: " + TextColors.AQUA + trade.getRewardExp()));
+        barrier_meta.setLore(Arrays.asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + trade.getUses(), TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + trade.getMaxUses(),
+                TextColors.DARK_AQUA + "Reward exp: " + TextColors.AQUA + trade.getRewardExp()));
         barrier.setItemMeta(barrier_meta);
         Integer s1 = s.get(0), s2 = s.get(1), s3 = s.get(2), s4 = s.get(3), s5 = s.get(4), s6 = s.get(5), s7 = s.get(6), s8 = s.get(7), s9 = s.get(8);
         if (s1 != null) {
@@ -309,8 +309,8 @@ public class CmdVillager implements UltimateCommand {
                 ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
                 ItemMeta barrier_meta = barrier.getItemMeta();
                 barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
-                barrier_meta.setLore(Arrays
-                        .asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + uses, TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + max_uses, TextColors.DARK_AQUA + "Reward exp: " + TextColors.AQUA + generateExp));
+                barrier_meta.setLore(Arrays.asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + uses, TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + max_uses, TextColors
+                        .DARK_AQUA + "Reward exp: " + TextColors.AQUA + generateExp));
                 barrier.setItemMeta(barrier_meta);
 
                 inv.setItem(iedit, barrier);
@@ -342,8 +342,8 @@ public class CmdVillager implements UltimateCommand {
         final ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
         ItemMeta barrier_meta = barrier.getItemMeta();
         barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
-        barrier_meta.setLore(Arrays
-                .asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + "0", TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + "7", TextColors.DARK_AQUA + "Reward exp: " + TextColors.AQUA + "true"));
+        barrier_meta.setLore(Arrays.asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + "0", TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + "7", TextColors.DARK_AQUA +
+                "Reward exp: " + TextColors.AQUA + "true"));
         barrier.setItemMeta(barrier_meta);
 
         final ItemStack redglass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 11);
@@ -598,8 +598,8 @@ public class CmdVillager implements UltimateCommand {
             ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
             ItemMeta barrier_meta = barrier.getItemMeta();
             barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
-            barrier_meta.setLore(Arrays
-                    .asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + uses, TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + max_uses, TextColors.DARK_AQUA + "Reward exp: " + TextColors.AQUA + generateExp));
+            barrier_meta.setLore(Arrays.asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + uses, TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + max_uses, TextColors
+                    .DARK_AQUA + "Reward exp: " + TextColors.AQUA + generateExp));
             barrier.setItemMeta(barrier_meta);
 
             inv.setItem(iedit, barrier);

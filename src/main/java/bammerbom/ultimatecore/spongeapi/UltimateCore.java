@@ -155,7 +155,6 @@ public class UltimateCore {
             //
             r.removeUC();
             ItemDatabase.disable();
-            DynmapListener.stop();
             //
             time = System.currentTimeMillis() - time;
             r.log(TextColors.GREEN + "Disabled UltimateCore! (" + time + "ms)");
@@ -171,6 +170,5 @@ public class UltimateCore {
     }
 
     public void test() {
-
     }
 }

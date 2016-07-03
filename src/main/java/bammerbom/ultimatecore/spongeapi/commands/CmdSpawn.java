@@ -24,13 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,47 +44,71 @@ public class CmdSpawn implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.spawn", true, true)) {
-            return CommandResult.empty();
-        }
-        if (!r.checkArgs(args, 0)) {
-            if (!r.isPlayer(cs)) {
-                return CommandResult.empty();
-            }
-            Player p = (Player) cs;
-            if (UC.getPlayer(p).getSpawn(false) == null) {
-                LocationUtil.teleport(p, p.getWorld().getSpawnLocation(), TeleportCause.COMMAND, false, true);
-            } else {
-                LocationUtil.teleport(p, UC.getPlayer(p).getSpawn(false), TeleportCause.COMMAND, false, true);
-            }
-            r.sendMes(cs, "spawnMessage");
-        } else {
-            if (!r.perm(cs, "uc.spawn.others", false, true)) {
-                return CommandResult.empty();
-            }
-            Player t = r.searchPlayer(args[0]);
-            if (t == null) {
-                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                return CommandResult.empty();
-            }
-            if (UC.getPlayer(t).getSpawn(false) == null) {
-                LocationUtil.teleport(t, t.getWorld().getSpawnLocation(), TeleportCause.COMMAND, false, false);
-            } else {
-                LocationUtil.teleport(t, UC.getPlayer(t).getSpawn(false), TeleportCause.COMMAND, false, false);
-            }
-            r.sendMes(cs, "spawnMessageOtherSelf", "%Player", UC.getPlayer(t).getDisplayName());
-            r.sendMes(t, "spawnMessageOtherOthers", "%Player", r.getDisplayName(cs));
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+    //    @Override
+    //    public List<String> getAliases() {
+    //        return Arrays.asList();
+    //    }
+    //
+    //    @Override
+    //    public void run(final CommandSource cs, String label, String[] args) {
+    //        if (!r.perm(cs, "uc.spawn", true, true)) {
+    //            return CommandResult.empty();
+    //        }
+    //        if (!r.checkArgs(args, 0)) {
+    //            if (!r.isPlayer(cs)) {
+    //                return CommandResult.empty();
+    //            }
+    //            Player p = (Player) cs;
+    //            if (UC.getPlayer(p).getSpawn(false) == null) {
+    //                LocationUtil.teleport(p, p.getWorld().getSpawnLocation(), TeleportCause.COMMAND, false, true);
+    //            } else {
+    //                LocationUtil.teleport(p, UC.getPlayer(p).getSpawn(false), TeleportCause.COMMAND, false, true);
+    //            }
+    //            r.sendMes(cs, "spawnMessage");
+    //        } else {
+    //            if (!r.perm(cs, "uc.spawn.others", false, true)) {
+    //                return CommandResult.empty();
+    //            }
+    //            Player t = r.searchPlayer(args[0]);
+    //            if (t == null) {
+    //                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+    //                return CommandResult.empty();
+    //            }
+    //            if (UC.getPlayer(t).getSpawn(false) == null) {
+    //                LocationUtil.teleport(t, t.getWorld().getSpawnLocation(), TeleportCause.COMMAND, false, false);
+    //            } else {
+    //                LocationUtil.teleport(t, UC.getPlayer(t).getSpawn(false), TeleportCause.COMMAND, false, false);
+    //            }
+    //            r.sendMes(cs, "spawnMessageOtherSelf", "%Player", UC.getPlayer(t).getDisplayName());
+    //            r.sendMes(t, "spawnMessageOtherOthers", "%Player", r.getDisplayName(cs));
+    //        }
+    //    }
+    //
+    //    @Override
+    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    //        return null;
+    //    }
 }

@@ -93,7 +93,8 @@ public class CmdPotion implements UltimateCommand {
         }
 
         Boolean spawnin = p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build().supports(Keys.POTION_EFFECTS);
-        ItemStack stack = spawnin ? p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build()) : ItemStack.builder().itemType(ItemTypes.POTION).build();
+        ItemStack stack = spawnin ? p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build()) : ItemStack.builder().itemType(ItemTypes.POTION)
+                .build();
         PotionMeta meta = (PotionMeta) stack.getItemMeta();
         if (args[0].equalsIgnoreCase("clear")) {
             if (spawnin) {

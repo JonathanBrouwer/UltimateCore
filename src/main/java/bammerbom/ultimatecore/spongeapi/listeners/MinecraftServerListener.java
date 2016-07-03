@@ -49,13 +49,16 @@ public class MinecraftServerListener {
                 final ArrayList<MinecraftServerUtil.MinecraftServer> nproblems = MinecraftServerUtil.problems;
                 final ArrayList<MinecraftServerUtil.MinecraftServer> nonline = MinecraftServerUtil.online;
                 for (MinecraftServerUtil.MinecraftServer server : MinecraftServerUtil.MinecraftServer.values()) {
-                    if (server.equals(MinecraftServerUtil.MinecraftServer.WEBSITE) || server.equals(MinecraftServerUtil.MinecraftServer.MOJANG) || server.equals(MinecraftServerUtil.MinecraftServer.API)) {
+                    if (server.equals(MinecraftServerUtil.MinecraftServer.WEBSITE) || server.equals(MinecraftServerUtil.MinecraftServer.MOJANG) || server.equals(MinecraftServerUtil
+                            .MinecraftServer.API)) {
                         continue;
                     }
-                    if (server.equals(MinecraftServerUtil.MinecraftServer.AUTHSERVER) && MinecraftServerUtil.getStatus(MinecraftServerUtil.MinecraftServer.AUTH) == MinecraftServerUtil.Status.OFFLINE) {
+                    if (server.equals(MinecraftServerUtil.MinecraftServer.AUTHSERVER) && MinecraftServerUtil.getStatus(MinecraftServerUtil.MinecraftServer.AUTH) == MinecraftServerUtil
+                            .Status.OFFLINE) {
                         continue;
                     }
-                    if (server.equals(MinecraftServerUtil.MinecraftServer.SESSIONSERVER) && MinecraftServerUtil.getStatus(MinecraftServerUtil.MinecraftServer.SESSION) == MinecraftServerUtil.Status.OFFLINE) {
+                    if (server.equals(MinecraftServerUtil.MinecraftServer.SESSIONSERVER) && MinecraftServerUtil.getStatus(MinecraftServerUtil.MinecraftServer.SESSION) ==
+                            MinecraftServerUtil.Status.OFFLINE) {
                         continue;
                     }
                     MinecraftServerUtil.Status old = getStatus(offline, unknown, problems, online, server);
@@ -65,14 +68,14 @@ public class MinecraftServerListener {
                             continue;
                         }
                         if (new_.equals(MinecraftServerUtil.Status.OFFLINE) || new_.equals(MinecraftServerUtil.Status.UNKNOWN)) {
-                            Bukkit.broadcastMessage(r.mes("minecraftserversOffline", "%Service", server.toString().toLowerCase(), "%Tip", MinecraftServerUtil
-                                    .getTip(MinecraftServerUtil.Status.OFFLINE, server) != null ? r.mes(MinecraftServerUtil.getTip(MinecraftServerUtil.Status.OFFLINE, server)) : ""));
+                            Bukkit.broadcastMessage(r.mes("minecraftserversOffline", "%Service", server.toString().toLowerCase(), "%Tip", MinecraftServerUtil.getTip(MinecraftServerUtil
+                                    .Status.OFFLINE, server) != null ? r.mes(MinecraftServerUtil.getTip(MinecraftServerUtil.Status.OFFLINE, server)) : ""));
                         } else if (new_.equals(MinecraftServerUtil.Status.EXPERIENCE)) {
-                            Bukkit.broadcastMessage(r.mes("minecraftserversUnstable", "%Service", server.toString().toLowerCase(), "%Tip", MinecraftServerUtil
-                                    .getTip(MinecraftServerUtil.Status.EXPERIENCE, server) != null ? r.mes(MinecraftServerUtil.getTip(MinecraftServerUtil.Status.EXPERIENCE, server)) : ""));
+                            Bukkit.broadcastMessage(r.mes("minecraftserversUnstable", "%Service", server.toString().toLowerCase(), "%Tip", MinecraftServerUtil.getTip(MinecraftServerUtil
+                                    .Status.EXPERIENCE, server) != null ? r.mes(MinecraftServerUtil.getTip(MinecraftServerUtil.Status.EXPERIENCE, server)) : ""));
                         } else if (new_.equals(MinecraftServerUtil.Status.ONLINE)) {
-                            Bukkit.broadcastMessage(r.mes("minecraftserversOnline", "%Service", server.toString().toLowerCase(), "%Tip", MinecraftServerUtil
-                                    .getTip(MinecraftServerUtil.Status.ONLINE, server) != null ? r.mes(MinecraftServerUtil.getTip(MinecraftServerUtil.Status.ONLINE, server)) : ""));
+                            Bukkit.broadcastMessage(r.mes("minecraftserversOnline", "%Service", server.toString().toLowerCase(), "%Tip", MinecraftServerUtil.getTip(MinecraftServerUtil
+                                    .Status.ONLINE, server) != null ? r.mes(MinecraftServerUtil.getTip(MinecraftServerUtil.Status.ONLINE, server)) : ""));
                         }
                     }
                 }
@@ -80,8 +83,9 @@ public class MinecraftServerListener {
         }, 20L * r.getCnfg().getLong("MojangServersDelay"), 20L * r.getCnfg().getLong("MojangServersDelay"));
     }
 
-    private static MinecraftServerUtil.Status getStatus(ArrayList<MinecraftServerUtil.MinecraftServer> offline, ArrayList<MinecraftServerUtil.MinecraftServer> unknown, ArrayList<MinecraftServerUtil
-            .MinecraftServer> problems, ArrayList<MinecraftServerUtil.MinecraftServer> online, MinecraftServerUtil.MinecraftServer server) {
+    private static MinecraftServerUtil.Status getStatus(ArrayList<MinecraftServerUtil.MinecraftServer> offline, ArrayList<MinecraftServerUtil.MinecraftServer> unknown,
+                                                        ArrayList<MinecraftServerUtil.MinecraftServer> problems, ArrayList<MinecraftServerUtil.MinecraftServer> online, MinecraftServerUtil
+                                                                .MinecraftServer server) {
         if (offline.contains(server)) {
             return MinecraftServerUtil.Status.OFFLINE;
         } else if (unknown.contains(server)) {

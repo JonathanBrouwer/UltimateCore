@@ -25,11 +25,13 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.World;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,46 +50,65 @@ public class CmdSave implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> [World]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Save all worlds to disk, or save a specific world.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.save", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.save", true)) {
             return CommandResult.empty();
         }
         if (r.checkArgs(args, 0)) {
-            World w = Bukkit.getWorld(args[0]);
+            World w = Sponge.getServer().getWorld(args[0]).orElse(null);
             if (w == null) {
                 r.sendMes(cs, "worldNotFound", "%World", args[0]);
                 return CommandResult.empty();
             }
             if (autosaveMessage) {
-                Bukkit.broadcastMessage(r.mes("saveStart"));
+                Sponge.getServer().getBroadcastChannel().send(r.mes("saveStart"));
             } else {
                 r.sendMes(cs, "saveStart");
             }
-            w.save();
+            try {
+                w.save();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             if (autosaveMessage) {
-                Bukkit.broadcastMessage(r.mes("saveStart"));
+                Sponge.getServer().getBroadcastChannel().send(r.mes("saveStart"));
             } else {
                 r.sendMes(cs, "saveStart");
             }
-            for (World w : Bukkit.getWorlds()) {
-                w.save();
+            for (World w : Sponge.getServer().getWorlds()) {
+                try {
+                    w.save();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         if (autosaveMessage) {
-            Bukkit.broadcastMessage(r.mes("saveFinish"));
+            Sponge.getServer().getBroadcastChannel().send(r.mes("saveFinish"));
         } else {
             r.sendMes(cs, "saveFinish");
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

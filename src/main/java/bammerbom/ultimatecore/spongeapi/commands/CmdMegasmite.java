@@ -78,9 +78,7 @@ public class CmdMegasmite implements UltimateCommand {
                 return CommandResult.empty();
             }
             Location tPlayerLocation = target.getLocation();
-            for (int i = 0;
-                 i < 20;
-                 i++) {
+            for (int i = 0; i < 20; i++) {
                 Lightning li = (Lightning) target.getWorld().createEntity(EntityTypes.LIGHTNING, tPlayerLocation.getPosition()).get();
                 li.setEffect(!r.getCnfg().getBoolean("Command.Smite.smiteDamage"));
                 target.getWorld().spawnEntity(li, Cause.builder().build()); //TODO Cause
@@ -94,9 +92,7 @@ public class CmdMegasmite implements UltimateCommand {
             }
             Player p = (Player) cs;
             Location<World> target = LocationUtil.getTarget(p).orElse(p.getLocation());
-            for (int i = 0;
-                 i < 20;
-                 i++) {
+            for (int i = 0; i < 20; i++) {
                 Lightning li = (Lightning) target.getExtent().createEntity(EntityTypes.LIGHTNING, target.getPosition()).get();
                 li.setEffect(!r.getCnfg().getBoolean("Command.Smite.smiteDamage"));
                 target.getExtent().spawnEntity(li, Cause.builder().build()); //TODO Cause

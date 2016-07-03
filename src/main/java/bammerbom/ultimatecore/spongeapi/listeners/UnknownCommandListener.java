@@ -25,13 +25,11 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import org.bukkit.Bukkit;
-import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.plugin.SimplePluginManager;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.command.SendCommandEvent;
 
 import java.lang.reflect.Field;
 
@@ -41,7 +39,7 @@ public class UnknownCommandListener implements Listener {
         if (!r.getCnfg().getBoolean("Command.UnknownCommand")) {
             return;
         }
-        Bukkit.getServer().getPluginManager().registerEvents(new UnknownCommandListener(), r.getUC());
+        Sponge.getEventManager().registerListeners(r.getUC(), new UnknownCommandListener());
     }
 
     public boolean isCmdRegistered(String cmd) {
@@ -68,12 +66,12 @@ public class UnknownCommandListener implements Listener {
         return null;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+    @Listener(order = Order.DEFAULT)
+    public void onPlayerCommandPreprocess(SendCommandEvent event) {
         if (event.isCancelled()) {
             return;
         }
-        String cmd = event.getMessage();
+        if (event.getResult().equals(CommandResult.empty())) String cmd = event.getMessage();
         if (cmd == null || cmd.equalsIgnoreCase("")) {
             r.sendMes(event.getPlayer(), "unknownCommand");
             event.setCancelled(true);

@@ -28,9 +28,10 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,31 +49,41 @@ public class CmdSeen implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("View information about a player.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.seen", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.seen", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "seenUsage");
             return CommandResult.empty();
         }
-        OfflinePlayer p = r.searchGameProfile(args[0]);
-        if (p == null || (!p.hasPlayedBefore() && !p.isOnline())) {
+        GameProfile p = r.searchGameProfile(args[0]).orElse(null);
+        if (p == null) {
             r.sendMes(cs, "seenNotFound", "%Player", args[0]);
             return CommandResult.empty();
         }
         UPlayer pl = UC.getPlayer(p);
-        r.sendMes(cs, "seenMessage", "%Player", r.getDisplayName(p), "%Status", (p.isOnline() ? r.mes("seenOnline") : r.mes("seenOffline")), "%Time", DateUtil
-                .formatDateDiff(pl.getLastConnectMillis()));
+        r.sendMes(cs, "seenMessage", "%Player", r.getDisplayName(p), "%Status", (r.searchPlayer(p.getUniqueId()).isPresent() ? r.mes("seenOnline") : r.mes("seenOffline")), "%Time",
+                DateUtil.formatDateDiff(pl.getLastConnectMillis()));
         //Last location
-        if (p.getPlayer() != null && p.getPlayer().getLocation() != null) {
-            String loc = p.getPlayer().getWorld().getName() + " " + p.getPlayer().getLocation().getBlockX() + " " + p.getPlayer().getLocation().getBlockY() + " " + p.getPlayer().getLocation()
-                    .getBlockZ();
+        if (pl.getOnlinePlayer() != null && pl.getOnlinePlayer().getLocation() != null) {
+            String loc = pl.getOnlinePlayer().getWorld().getName() + " " + pl.getOnlinePlayer().getLocation().getBlockX() + " " + pl.getOnlinePlayer().getLocation().getBlockY() + " " + pl
+                    .getOnlinePlayer().getLocation().getBlockZ();
             r.sendMes(cs, "seenLocation", "%Location", loc);
         }
         //Ban
@@ -102,10 +113,11 @@ public class CmdSeen implements UltimateCommand {
         if (pl.isFrozen()) {
             r.sendMes(cs, "seenFrozentime", "%Frozentime", pl.getFrozenTimeLeft() >= 0 ? DateUtil.format(pl.getFrozenTimeLeft()) : r.mes("banForever"));
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

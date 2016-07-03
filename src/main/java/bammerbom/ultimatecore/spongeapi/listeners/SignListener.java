@@ -26,74 +26,94 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 import bammerbom.ultimatecore.spongeapi.UltimateSign;
 import bammerbom.ultimatecore.spongeapi.UltimateSigns;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.Sign;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.data.Transaction;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.block.InteractBlockEvent;
+import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
+import org.spongepowered.api.text.Text;
 
-public class SignListener implements Listener {
+import java.util.Optional;
+
+public class SignListener {
 
     public static void start() {
-        Bukkit.getPluginManager().registerEvents(new SignListener(), r.getUC());
+        Sponge.getEventManager().registerListeners(r.getUC(), new SignListener());
     }
 
-    @EventHandler(priority = EventPriority.LOW)
-    public void onSignChange(SignChangeEvent e) {
+    @Listener(order = Order.DEFAULT)
+    public void onSignChange(ChangeSignEvent e) {
         //Signs
+        Optional<Player> p = e.getCause().first(Player.class);
+        if (!p.isPresent()) {
+            return;
+        }
         for (UltimateSign s : UltimateSigns.signs) {
-            if (TextColorUtil.strip(e.getLine(0)).equalsIgnoreCase("[" + s.getName() + "]")) {
-                s.onCreate(e);
+            if (TextColorUtil.strip(e.getText().lines().get(0).toPlain()).equalsIgnoreCase("[" + s.getName() + "]")) {
+                s.onCreate(e, p.get());
             }
         }
         //Color signs
-        if (!r.perm(e.getPlayer(), "uc.sign.colored", false, false)) {
+        if (!r.perm(p.get(), "uc.sign.colored", false)) {
             return;
         }
-        e.setLine(0, TextColorUtil.translateAlternate(e.getLine(0)));
-        e.setLine(1, TextColorUtil.translateAlternate(e.getLine(1)));
-        e.setLine(2, TextColorUtil.translateAlternate(e.getLine(2)));
-        e.setLine(3, TextColorUtil.translateAlternate(e.getLine(3)));
+        e.getText().set(Keys.SIGN_LINES, e.getText().lines().set(0, Text.of(TextColorUtil.translateAlternate(e.getText().lines().get(0).toPlain()))).get());
+        e.getText().set(Keys.SIGN_LINES, e.getText().lines().set(1, Text.of(TextColorUtil.translateAlternate(e.getText().lines().get(1).toPlain()))).get());
+        e.getText().set(Keys.SIGN_LINES, e.getText().lines().set(2, Text.of(TextColorUtil.translateAlternate(e.getText().lines().get(2).toPlain()))).get());
+        e.getText().set(Keys.SIGN_LINES, e.getText().lines().set(3, Text.of(TextColorUtil.translateAlternate(e.getText().lines().get(3).toPlain()))).get());
     }
 
-    @EventHandler(priority = EventPriority.LOW)
-    public void onSignInteract(PlayerInteractEvent e) {
+    @Listener(order = Order.DEFAULT)
+    public void onSignInteract(InteractBlockEvent.Secondary e) {
         //Signs
-        if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+        if (e.getTargetBlock().equals(BlockSnapshot.NONE)) {
             return;
         }
-        if (e.getClickedBlock() == null || e.getClickedBlock().getType() == null || e.getClickedBlock().getType().equals(Material.AIR)) {
+        if (!e.getCause().first(Player.class).isPresent()) {
             return;
         }
-        if (!(e.getClickedBlock().getState() instanceof Sign)) {
+        if (!e.getTargetBlock().getLocation().isPresent() || !e.getTargetBlock().getLocation().get().getTileEntity().isPresent()) {
             return;
         }
-        Sign sign = (Sign) e.getClickedBlock().getState();
+        if (!(e.getTargetBlock().getLocation().get().getTileEntity().get() instanceof Sign)) {
+            return;
+        }
+        Sign sign = (Sign) e.getTargetBlock().getLocation().get().getTileEntity().get();
         for (UltimateSign s : UltimateSigns.signs) {
-            if (TextColorUtil.strip(sign.getLine(0)).equalsIgnoreCase("[" + s.getName() + "]")) {
-                s.onClick(e.getPlayer(), sign);
+            if (TextColorUtil.strip(sign.lines().get(0).toPlain()).equalsIgnoreCase("[" + s.getName() + "]")) {
+                s.onClick(e.getCause().first(Player.class).get(), sign);
             }
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
-    public void onSignDestroy(BlockBreakEvent e) {
+    @Listener(order = Order.DEFAULT)
+    public void onSignDestroy(ChangeBlockEvent e) {
         //Signs
-        if (e.getBlock() == null || e.getBlock().getType() == null || e.getBlock().getType().equals(Material.AIR)) {
-            return;
-        }
-        if (!(e.getBlock().getState() instanceof Sign)) {
-            return;
-        }
-        Sign sign = (Sign) e.getBlock().getState();
-        for (UltimateSign s : UltimateSigns.signs) {
-            if (TextColorUtil.strip(sign.getLine(0)).equalsIgnoreCase("[" + s.getName() + "]")) {
-                s.onDestroy(e);
+        for (Transaction<BlockSnapshot> tr : e.getTransactions()) {
+            if (tr.getOriginal().equals(BlockSnapshot.NONE)) {
+                return;
+            }
+            if (!e.getCause().first(Player.class).isPresent()) {
+                return;
+            }
+            if (!tr.getOriginal().getLocation().isPresent() || !tr.getOriginal().getLocation().get().getTileEntity().isPresent()) {
+                return;
+            }
+            if (!(tr.getOriginal().getLocation().get().getTileEntity().get() instanceof Sign)) {
+                return;
+            }
+            Sign sign = (Sign) tr.getOriginal().getLocation().get().getTileEntity().get();
+            for (UltimateSign s : UltimateSigns.signs) {
+                if (TextColorUtil.strip(sign.lines().get(0).toPlain()).equalsIgnoreCase("[" + s.getName() + "]")) {
+                    s.onDestroy(e, e.getCause().first(Player.class).get());
+                }
             }
         }
     }

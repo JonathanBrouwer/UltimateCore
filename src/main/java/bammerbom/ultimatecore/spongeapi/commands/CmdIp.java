@@ -70,8 +70,8 @@ public class CmdIp implements UltimateCommand {
                 return CommandResult.empty();
             }
             if (Sponge.getServer().getBoundAddress().isPresent()) {
-                r.sendMes(cs, "ipServer", "%IP", Sponge.getServer().getBoundAddress().get().getAddress().toString().split("/")[1].split(":")[0]
-                        + ":" + Sponge.getServer().getBoundAddress().get().getPort());
+                r.sendMes(cs, "ipServer", "%IP", Sponge.getServer().getBoundAddress().get().getAddress().toString().split("/")[1].split(":")[0] + ":" + Sponge.getServer().getBoundAddress
+                        ().get().getPort());
             } else {
                 r.sendMes(cs, "ipServer", "%IP", "n/a");
             }

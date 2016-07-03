@@ -409,7 +409,7 @@ commands:
     description: Get the real name of a certain nick.
     permissions: uc.realname
   recipe:
-    usage: <command> <Item> [Recipe]
+    usage: /<command> <Item> [Recipe]
     description: View the recipe of an item.
     permissions: uc.recipe
     aliases: [formula, method, recipes]

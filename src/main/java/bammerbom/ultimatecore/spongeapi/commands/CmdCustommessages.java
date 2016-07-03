@@ -81,8 +81,8 @@ public class CmdCustommessages implements UltimateCommand {
         }
 
         Integer count = args.length - 1;
-        String message = TextColorUtil.translateAlternate(StringUtil.join("\n", new Config(UltimateFileLoader.Dcustommes).getStringList("Messages." + args[0])))
-                .replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "");
+        String message = TextColorUtil.translateAlternate(StringUtil.join("\n", new Config(UltimateFileLoader.Dcustommes).getStringList("Messages." + args[0]))).replace("@1", r.positive +
+                "").replace("@2", r.neutral + "").replace("@3", r.negative + "");
         List<String> c = Arrays.asList(r.getFinalArg(args, 1).split(" "));
         Collections.reverse(c);
 

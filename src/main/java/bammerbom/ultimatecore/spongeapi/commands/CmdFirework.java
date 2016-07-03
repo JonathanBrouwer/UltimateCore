@@ -49,7 +49,8 @@ public class CmdFirework implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> [clear] [random] [power:<amount>] [color:<COLOR[,COLOR]]>] [fade:<COLOR[,COLOR]]>] [shape:<star/ball/large/creeper/burst>] [effect:<trail/twinkle>[,trail/twinkle]]";
+        return "/<command> [clear] [random] [power:<amount>] [color:<COLOR[,COLOR]]>] [fade:<COLOR[,COLOR]]>] [shape:<star/ball/large/creeper/burst>] [effect:<trail/twinkle>[," +
+                "trail/twinkle]]";
     }
 
     @Override
@@ -108,13 +109,8 @@ public class CmdFirework implements UltimateCommand {
 
             FireworkMeta fm = (FireworkMeta) stack.getItemMeta();
             fm.clearEffects();
-            fm.addEffect(FireworkEffect.builder()
-                    .flicker(ran.nextBoolean())
-                    .trail(ran.nextBoolean())
-                    .with(effecttype.get(ran.nextInt(effecttype.size())))
-                    .withColor(effectcolor.get(ran.nextInt(effectcolor.size())))
-                    .withFade(effectcolor.get(ran.nextInt(effectcolor.size())))
-                    .build());
+            fm.addEffect(FireworkEffect.builder().flicker(ran.nextBoolean()).trail(ran.nextBoolean()).with(effecttype.get(ran.nextInt(effecttype.size()))).withColor(effectcolor.get(ran
+                    .nextInt(effectcolor.size()))).withFade(effectcolor.get(ran.nextInt(effectcolor.size()))).build());
             int number = ran.nextInt(3);
             number++;
             fm.setPower(number);

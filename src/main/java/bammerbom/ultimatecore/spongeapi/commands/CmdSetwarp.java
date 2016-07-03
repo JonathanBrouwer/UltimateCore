@@ -24,13 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,34 +44,58 @@ public class CmdSetwarp implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.setwarp", false, true)) {
-            return CommandResult.empty();
-        }
-        if (!r.isPlayer(cs)) {
-            return CommandResult.empty();
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "setwarpUsage");
-            return CommandResult.empty();
-        }
-        Player p = (Player) cs;
-        if (UC.getServer().getWarp(args[0]) != null) {
-            r.sendMes(cs, "setwarpMoved", "%Warp", args[0]);
-        } else {
-            r.sendMes(cs, "setwarpSet", "%Warp", args[0]);
-        }
-        UC.getServer().addWarp(args[0], p.getLocation());
-
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+    //    @Override
+    //    public List<String> getAliases() {
+    //        return Arrays.asList();
+    //    }
+    //
+    //    @Override
+    //    public void run(final CommandSource cs, String label, String[] args) {
+    //        if (!r.perm(cs, "uc.setwarp", false, true)) {
+    //            return CommandResult.empty();
+    //        }
+    //        if (!r.isPlayer(cs)) {
+    //            return CommandResult.empty();
+    //        }
+    //        if (!r.checkArgs(args, 0)) {
+    //            r.sendMes(cs, "setwarpUsage");
+    //            return CommandResult.empty();
+    //        }
+    //        Player p = (Player) cs;
+    //        if (UC.getServer().getWarp(args[0]) != null) {
+    //            r.sendMes(cs, "setwarpMoved", "%Warp", args[0]);
+    //        } else {
+    //            r.sendMes(cs, "setwarpSet", "%Warp", args[0]);
+    //        }
+    //        UC.getServer().addWarp(args[0], p.getLocation());
+    //
+    //    }
+    //
+    //    @Override
+    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    //        return new ArrayList<>();
+    //    }
 }

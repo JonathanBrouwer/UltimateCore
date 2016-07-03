@@ -26,9 +26,15 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.*;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,16 +53,26 @@ public class CmdRemoveall implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> [Type] [Range]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Remove all entities of a certain type.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return CommandResult.empty();
         }
-        if (!r.perm(cs, "uc.removeall", false, true)) {
+        if (!r.perm(cs, "uc.removeall", true)) {
             return CommandResult.empty();
         }
         Integer range = 100;
@@ -73,10 +89,8 @@ public class CmdRemoveall implements UltimateCommand {
         }
         EntityType et = null;
         if (r.checkArgs(args, 0)) {
-            if (EntityType.fromName(args[0].toUpperCase()) != null) {
-                et = EntityType.fromName(args[0].toUpperCase());
-            } else if (EntityType.fromName(args[0].replaceAll("_", "").toUpperCase()) != null) {
-                et = EntityType.fromName(args[0].replaceAll("_", "").toUpperCase());
+            if (Sponge.getRegistry().getType(CatalogTypes.ENTITY_TYPE, args[0].toUpperCase()).isPresent()) {
+                et = Sponge.getRegistry().getType(CatalogTypes.ENTITY_TYPE, args[0].toUpperCase()).get();
             } else if (MobType.fromName(args[0]) != null) {
                 et = MobType.fromName(args[0]).getType();
             } else if (!r.isInt(args[0])) {
@@ -88,7 +102,7 @@ public class CmdRemoveall implements UltimateCommand {
         Player p = (Player) cs;
         Integer amount = 0;
         for (Entity en : r.getNearbyEntities(p, range)) {
-            if ((en instanceof Painting) || (en instanceof ItemFrame) || (en instanceof Player)) {
+            if ((en.getType().equals(EntityTypes.PAINTING)) || (en.getType().equals(EntityTypes.ITEM_FRAME)) || (en.getType().equals(EntityTypes.PLAYER))) {
                 continue;
             }
             if (et != null && !en.getType().equals(et)) {
@@ -98,13 +112,14 @@ public class CmdRemoveall implements UltimateCommand {
             amount++;
         }
         r.sendMes(cs, "removeallMessage", "%Amount", amount, "%Radius", range);
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             ArrayList<String> s = new ArrayList<>();
-            for (EntityType t : EntityType.values()) {
+            for (EntityType t : Sponge.getRegistry().getAllOf(CatalogTypes.ENTITY_TYPE)) {
                 if (MobType.fromBukkitType(t) != null) {
                     s.add(MobType.fromBukkitType(t).name());
                 } else {

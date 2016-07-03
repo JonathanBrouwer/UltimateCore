@@ -36,6 +36,7 @@ import org.spongepowered.api.text.Text;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +56,7 @@ public class ItemUtil {
         return ItemDatabase.getItem(str);
     }
 
-    public static Optional<JSONObject> serializeItemStack(ItemStack item) {
+    public static Optional<JSONObject> serialize(ItemStack item) {
         try {
             return Optional.of((JSONObject) new JSONParser().parse(new GsonBuilder().create().toJson(item.toContainer().getValues(true))));
         } catch (Exception e) {
@@ -64,9 +65,9 @@ public class ItemUtil {
         }
     }
 
-    public static Optional<ItemStack> deserializeItemStack(JSONObject json) {
+    public static Optional<ItemStack> deserialize(String json) {
         try {
-            StringReader source = new StringReader(json.toJSONString());
+            StringReader source = new StringReader(json);
             GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setSource(() -> new BufferedReader(source)).build();
             ConfigurationNode node = loader.load();
             return Optional.of(node.getValue(TypeToken.of(ItemStack.class)));
@@ -74,5 +75,27 @@ public class ItemUtil {
             e.printStackTrace();
             return Optional.empty();
         }
+    }
+
+    public static List<JSONObject> serialize(List<ItemStack> items) {
+        List<JSONObject> rtrn = new ArrayList<>();
+        for (ItemStack stack : items) {
+            Optional<JSONObject> obj = serialize(stack);
+            if (obj.isPresent()) {
+                rtrn.add(obj.get());
+            }
+        }
+        return rtrn;
+    }
+
+    public static List<ItemStack> deserialize(List<String> jsons) {
+        List<ItemStack> rtrn = new ArrayList<>();
+        for (String json : jsons) {
+            Optional<ItemStack> item = deserialize(json);
+            if (item.isPresent()) {
+                rtrn.add(item.get());
+            }
+        }
+        return rtrn;
     }
 }

@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,69 +44,93 @@ public class CmdSethunger implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("setfood");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.sethunger", false, true)) {
-            return CommandResult.empty();
-        }
-        if (!r.checkArgs(args, 0)) {
-            if (!r.isPlayer(cs)) {
-                return CommandResult.empty();
-            }
-            Player p = (Player) cs;
-            p.setFoodLevel(20);
-            p.setSaturation(10F);
-            r.sendMes(cs, "sethungerMessage", "%Player", r.getDisplayName(p), "%Food", "20");
-        } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
-            if (!r.isPlayer(cs)) {
-                return CommandResult.empty();
-            }
-            if (r.isInt(args[0])) {
-                Integer d = Integer.parseInt(args[0]);
-                Player p = (Player) cs;
-                p.setFoodLevel(r.normalize(d, 0, 20));
-                r.sendMes(cs, "sethungerMessage", "%Player", r.getDisplayName(p), "%Food", r.normalize(d, 0, 20));
-            } else {
-                r.sendMes(cs, "numberFormat", "%Number", args[0]);
-            }
-        } else if (r.checkArgs(args, 1)) {
-            if (!r.perm(cs, "uc.sethunger.others", false, true)) {
-                return CommandResult.empty();
-            }
-            if (r.isInt(args[0])) {
-                Integer d = Integer.parseInt(args[0]);
-                Player t = r.searchPlayer(args[1]);
-                if (t == null) {
-                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                    return CommandResult.empty();
-                }
-                t.setFoodLevel(r.normalize(d, 0, 20));
-                t.setSaturation(10F);
-                r.sendMes(cs, "sethungerMessage", "%Player", t.getName(), "%Food", r.normalize(d, 0, 20));
-                r.sendMes(t, "sethungerOthers", "%Player", r.getDisplayName(cs), "%Food", r.normalize(d, 0, 20));
-            } else if (r.isInt(args[1])) {
-                Integer d = Integer.parseInt(args[1]);
-                Player t = r.searchPlayer(args[0]);
-                if (t == null) {
-                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-                    return CommandResult.empty();
-                }
-                t.setFoodLevel(r.normalize(d, 0, 20));
-                t.setSaturation(10F);
-                r.sendMes(cs, "sethungerMessage", "%Player", t.getName(), "%Food", r.normalize(d, 0, 20));
-                r.sendMes(t, "sethungerOthers", "%Player", r.getDisplayName(cs), "%Food", r.normalize(d, 0, 20));
-            } else {
-                r.sendMes(cs, "numberFormat", "%Number", args[0]);
-            }
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+    //    @Override
+    //    public List<String> getAliases() {
+    //        return Arrays.asList("setfood");
+    //    }
+    //
+    //    @Override
+    //    public void run(final CommandSource cs, String label, String[] args) {
+    //        if (!r.perm(cs, "uc.sethunger", false, true)) {
+    //            return CommandResult.empty();
+    //        }
+    //        if (!r.checkArgs(args, 0)) {
+    //            if (!r.isPlayer(cs)) {
+    //                return CommandResult.empty();
+    //            }
+    //            Player p = (Player) cs;
+    //            p.setFoodLevel(20);
+    //            p.setSaturation(10F);
+    //            r.sendMes(cs, "sethungerMessage", "%Player", r.getDisplayName(p), "%Food", "20");
+    //        } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
+    //            if (!r.isPlayer(cs)) {
+    //                return CommandResult.empty();
+    //            }
+    //            if (r.isInt(args[0])) {
+    //                Integer d = Integer.parseInt(args[0]);
+    //                Player p = (Player) cs;
+    //                p.setFoodLevel(r.normalize(d, 0, 20));
+    //                r.sendMes(cs, "sethungerMessage", "%Player", r.getDisplayName(p), "%Food", r.normalize(d, 0, 20));
+    //            } else {
+    //                r.sendMes(cs, "numberFormat", "%Number", args[0]);
+    //            }
+    //        } else if (r.checkArgs(args, 1)) {
+    //            if (!r.perm(cs, "uc.sethunger.others", false, true)) {
+    //                return CommandResult.empty();
+    //            }
+    //            if (r.isInt(args[0])) {
+    //                Integer d = Integer.parseInt(args[0]);
+    //                Player t = r.searchPlayer(args[1]);
+    //                if (t == null) {
+    //                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
+    //                    return CommandResult.empty();
+    //                }
+    //                t.setFoodLevel(r.normalize(d, 0, 20));
+    //                t.setSaturation(10F);
+    //                r.sendMes(cs, "sethungerMessage", "%Player", t.getName(), "%Food", r.normalize(d, 0, 20));
+    //                r.sendMes(t, "sethungerOthers", "%Player", r.getDisplayName(cs), "%Food", r.normalize(d, 0, 20));
+    //            } else if (r.isInt(args[1])) {
+    //                Integer d = Integer.parseInt(args[1]);
+    //                Player t = r.searchPlayer(args[0]);
+    //                if (t == null) {
+    //                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+    //                    return CommandResult.empty();
+    //                }
+    //                t.setFoodLevel(r.normalize(d, 0, 20));
+    //                t.setSaturation(10F);
+    //                r.sendMes(cs, "sethungerMessage", "%Player", t.getName(), "%Food", r.normalize(d, 0, 20));
+    //                r.sendMes(t, "sethungerOthers", "%Player", r.getDisplayName(cs), "%Food", r.normalize(d, 0, 20));
+    //            } else {
+    //                r.sendMes(cs, "numberFormat", "%Number", args[0]);
+    //            }
+    //        }
+    //    }
+    //
+    //    @Override
+    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    //        return null;
+    //    }
 }

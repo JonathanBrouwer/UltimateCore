@@ -109,7 +109,8 @@ public class CmdMoney implements UltimateCommand {
                         return CommandResult.empty();
                     }
                 }
-                TransactionResult res = service.getOrCreateAccount(p.getUniqueId()).get().setBalance(service.getDefaultCurrency(), BigDecimal.valueOf(Double.parseDouble(args[1])), Cause.builder().build());
+                TransactionResult res = service.getOrCreateAccount(p.getUniqueId()).get().setBalance(service.getDefaultCurrency(), BigDecimal.valueOf(Double.parseDouble(args[1])), Cause
+                        .builder().build());
                 if (res.getResult().equals(ResultType.SUCCESS)) {
                     r.sendMes(cs, "moneySetSelf", "%Balance", service.getDefaultCurrency().format(BigDecimal.valueOf(Double.parseDouble(args[1]))));
                 } else {

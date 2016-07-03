@@ -25,15 +25,18 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.HandTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class CmdRepair implements UltimateCommand {
 
@@ -48,119 +51,114 @@ public class CmdRepair implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> [All] [Player]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Repair the item in your hand, or all items in your inventory.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("fix");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!r.checkArgs(args, 0)) {
             //repair
-            if (!r.perm(cs, "uc.repair", false, true)) {
+            if (!r.perm(cs, "uc.repair", true)) {
                 return CommandResult.empty();
             }
             if (!r.isPlayer(cs)) {
                 return CommandResult.empty();
             }
             Player p = (Player) cs;
-            ItemStack stack = p.getItemInHand();
-            if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
+            ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).orElse(null);
+            if (stack == null) {
                 r.sendMes(cs, "repairNoItemInHand");
                 return CommandResult.empty();
             }
-            if (!ItemUtil.isRepairable(stack)) {
+            if (!stack.supports(Keys.ITEM_DURABILITY)) {
                 r.sendMes(cs, "repairNotRepairable");
                 return CommandResult.empty();
             }
-            stack.setDurability((short) 0);
+            stack.offer(Keys.ITEM_DURABILITY, 0);
             r.sendMes(cs, "repairSelfHand");
         } else if (!args[0].equalsIgnoreCase("all")) {
             //repair <Player>
-            if (!r.perm(cs, "uc.repair.others", false, true)) {
+            if (!r.perm(cs, "uc.repair.others", true)) {
                 return CommandResult.empty();
             }
-            Player p = r.searchPlayer(args[0]);
+            Player p = r.searchPlayer(args[0]).orElse(null);
             if (p == null) {
                 r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                 return CommandResult.empty();
             }
-            ItemStack stack = p.getItemInHand();
-            if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
+            ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).orElse(null);
+            if (stack == null) {
                 r.sendMes(cs, "repairNoItemInHand");
                 return CommandResult.empty();
             }
-            if (!ItemUtil.isRepairable(stack)) {
+            if (!stack.supports(Keys.ITEM_DURABILITY)) {
                 r.sendMes(cs, "repairNotRepairable");
                 return CommandResult.empty();
             }
-            stack.setDurability((short) 0);
+            stack.offer(Keys.ITEM_DURABILITY, 0);
             r.sendMes(cs, "repairOtherSelfHand", "%Player", r.getDisplayName(p));
             r.sendMes(p, "repairOtherOtherHand", "%Player", r.getDisplayName(cs));
         } else if (args[0].equalsIgnoreCase("all")) {
             //repair all <Player>
             if (r.checkArgs(args, 1)) {
-                if (!r.perm(cs, "uc.repair.others.all", false, true)) {
+                if (!r.perm(cs, "uc.repair.others.all", true)) {
                     return CommandResult.empty();
                 }
-                Player p = r.searchPlayer(args[1]);
+                Player p = r.searchPlayer(args[1]).orElse(null);
                 if (p == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return CommandResult.empty();
                 }
-                for (ItemStack stack : p.getInventory().getContents()) {
-                    if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
-                        continue;
-                    }
-                    if (!ItemUtil.isRepairable(stack)) {
-                        continue;
-                    }
-                    stack.setDurability((short) 0);
-                }
-                for (ItemStack stack : p.getInventory().getArmorContents()) {
+                for (Inventory istack : p.getInventory().slots()) {
+                    Optional<ItemStack> stack = istack.peek();
                     if (stack == null) {
                         continue;
                     }
-                    if (!ItemUtil.isRepairable(stack)) {
+                    if (!stack.get().supports(Keys.ITEM_DURABILITY)) {
                         continue;
                     }
-                    stack.setDurability((short) 0);
+                    stack.get().offer(Keys.ITEM_DURABILITY, 0);
                 }
                 r.sendMes(cs, "repairOtherSelfAll", "%Player", r.getDisplayName(p));
                 r.sendMes(p, "repairOtherOtherAll", "%Player", r.getDisplayName(cs));
             } else {
                 //repair all
-                if (!r.perm(cs, "uc.repair.all", false, true)) {
+                if (!r.perm(cs, "uc.repair.all", true)) {
                     return CommandResult.empty();
                 }
                 if (!r.isPlayer(cs)) {
                     return CommandResult.empty();
                 }
                 Player p = (Player) cs;
-                for (ItemStack stack : p.getInventory().getContents()) {
-                    if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
-                        continue;
-                    }
-                    if (!ItemUtil.isRepairable(stack)) {
-                        continue;
-                    }
-                    stack.setDurability((short) 0);
-                }
-                for (ItemStack stack : p.getInventory().getArmorContents()) {
+                for (Inventory istack : p.getInventory().slots()) {
+                    Optional<ItemStack> stack = istack.peek();
                     if (stack == null) {
                         continue;
                     }
-                    if (!ItemUtil.isRepairable(stack)) {
+                    if (!stack.get().supports(Keys.ITEM_DURABILITY)) {
                         continue;
                     }
-                    stack.setDurability((short) 0);
+                    stack.get().offer(Keys.ITEM_DURABILITY, 0);
                 }
                 r.sendMes(cs, "repairSelfAll");
             }
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

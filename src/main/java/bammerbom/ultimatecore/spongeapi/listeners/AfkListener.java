@@ -123,8 +123,7 @@ public class AfkListener {
     public void event(MoveEntityEvent e) {
         Optional<Player> optPlayer = e.getCause().first(Player.class);
         if (optPlayer.isPresent()) {
-            if (e.getFromTransform().getPosition().)
-                UC.getPlayer(optPlayer.get()).updateLastActivity();
+            if (e.getFromTransform().getPosition().) UC.getPlayer(optPlayer.get()).updateLastActivity();
         }
     }
 

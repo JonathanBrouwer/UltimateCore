@@ -85,39 +85,39 @@ public class SignDisposal implements UltimateSign {
     }
 
     @Override
-    public void onDestroy(ChangeBlockEvent.Break event, Player p) {
+    public void onDestroy(ChangeBlockEvent event, Player p) {
         if (!r.perm(p, "uc.sign.disposal.destroy", true)) {
             event.setCancelled(true);
             return;
         }
         r.sendMes(p, "signDestroyed");
     }
-//    @Override
-//    public void onClick(Player p, Sign sign) {
-//        if (!r.perm(p, "uc.sign.disposal", true, false) && !r.perm(p, "uc.sign", true, false)) {
-//            r.sendMes(p, "noPermissions");
-//            return;
-//        }
-//        p.openInventory(Bukkit.createInventory(p, 36, r.mes("signDisposalTitle")));
-//    }
-//
-//    @Override
-//    public void onCreate(SignChangeEvent event) {
-//        if (!r.perm(p, "uc.sign.disposal.create", false, true)) {
-//            event.setCancelled(true);
-//            event.getBlock().breakNaturally();
-//            return;
-//        }
-//        event.setLine(0, TextColors.DARK_BLUE + "[Disposal]");
-//        r.sendMes(p, "signCreated");
-//    }
-//
-//    @Override
-//    public void onDestroy(BlockBreakEvent event) {
-//        if (!r.perm(p, "uc.sign.disposal.destroy", false, true)) {
-//            event.setCancelled(true);
-//            return;
-//        }
-//        r.sendMes(p, "signDestroyed");
-//    }
+    //    @Override
+    //    public void onClick(Player p, Sign sign) {
+    //        if (!r.perm(p, "uc.sign.disposal", true, false) && !r.perm(p, "uc.sign", true, false)) {
+    //            r.sendMes(p, "noPermissions");
+    //            return;
+    //        }
+    //        p.openInventory(Bukkit.createInventory(p, 36, r.mes("signDisposalTitle")));
+    //    }
+    //
+    //    @Override
+    //    public void onCreate(SignChangeEvent event) {
+    //        if (!r.perm(p, "uc.sign.disposal.create", false, true)) {
+    //            event.setCancelled(true);
+    //            event.getBlock().breakNaturally();
+    //            return;
+    //        }
+    //        event.setLine(0, TextColors.DARK_BLUE + "[Disposal]");
+    //        r.sendMes(p, "signCreated");
+    //    }
+    //
+    //    @Override
+    //    public void onDestroy(BlockBreakEvent event) {
+    //        if (!r.perm(p, "uc.sign.disposal.destroy", false, true)) {
+    //            event.setCancelled(true);
+    //            return;
+    //        }
+    //        r.sendMes(p, "signDestroyed");
+    //    }
 }

@@ -26,10 +26,12 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,20 +49,30 @@ public class CmdRealname implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Nick>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Get the real name of a certain nick.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.realname", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.realname", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "realnameUsage");
             return CommandResult.empty();
         }
-        OfflinePlayer t = null;
+        GameProfile t = null;
         //Search online
         String lowerName = args[0].toLowerCase();
         int delta = Integer.MAX_VALUE;
@@ -68,11 +80,11 @@ public class CmdRealname implements UltimateCommand {
             if (UC.getPlayer(player).getNick() == null) {
                 continue;
             }
-            String s = TextColorUtil.strip(UC.getPlayer(player).getNick()).toLowerCase();
+            String s = TextColorUtil.strip(UC.getPlayer(player).getNick().toPlain()).toLowerCase();
             if (s.startsWith(lowerName)) {
                 int curDelta = s.length() - lowerName.length();
                 if (curDelta < delta) {
-                    t = player;
+                    t = player.getProfile();
                     delta = curDelta;
                 }
                 if (curDelta == 0) {
@@ -81,11 +93,11 @@ public class CmdRealname implements UltimateCommand {
             }
         }
         if (t == null) {
-            for (OfflinePlayer player : r.getGameProfiles()) {
+            for (GameProfile player : r.getGameProfiles()) {
                 if (UC.getPlayer(player).getNick() == null) {
                     continue;
                 }
-                String s = TextColorUtil.strip(UC.getPlayer(player).getNick()).toLowerCase();
+                String s = TextColorUtil.strip(UC.getPlayer(player).getNick().toPlain()).toLowerCase();
                 if (s.toLowerCase().startsWith(lowerName)) {
                     int curDelta = s.length() - lowerName.length();
                     if (curDelta < delta) {
@@ -103,10 +115,11 @@ public class CmdRealname implements UltimateCommand {
             return CommandResult.empty();
         }
         r.sendMes(cs, "realnameMessage", "%Nick", UC.getPlayer(t).getNick(), "%Name", t.getName());
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

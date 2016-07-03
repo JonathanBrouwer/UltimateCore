@@ -25,50 +25,27 @@ package bammerbom.ultimatecore.spongeapi.resources.utils;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.util.NumberConversions;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.property.block.PassableProperty;
+import com.flowpowered.math.vector.Vector3d;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.effect.particle.ParticleEffect;
+import org.spongepowered.api.effect.particle.ParticleTypes;
+import org.spongepowered.api.effect.sound.SoundTypes;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.TeleportHelper;
 import org.spongepowered.api.world.World;
 
-import java.util.*;
+import java.util.Optional;
+import java.util.UUID;
 
 public class LocationUtil {
 
-    // The player can stand inside these materials
-    public static final int RADIUS = 3;
-    public static final Vector3D[] VOLUME;
     static int delay2 = 0;
-
-    static {
-        List<Vector3D> pos = new ArrayList<>();
-        for (int x = -RADIUS;
-             x <= RADIUS;
-             x++) {
-            for (int y = -RADIUS;
-                 y <= RADIUS;
-                 y++) {
-                for (int z = -RADIUS;
-                     z <= RADIUS;
-                     z++) {
-                    pos.add(new Vector3D(x, y, z));
-                }
-            }
-        }
-        Collections.sort(pos, new Comparator<Vector3D>() {
-            @Override
-            public int compare(Vector3D a, Vector3D b) {
-                return (a.x * a.x + a.y * a.y + a.z * a.z) - (b.x * b.x + b.y * b.y + b.z * b.z);
-            }
-        });
-        VOLUME = pos.toArray(new Vector3D[0]);
-    }
 
     static {
         if (r.getCnfg().getBoolean("Command.Teleport.EnableDelay")) {
@@ -84,184 +61,47 @@ public class LocationUtil {
         return Optional.of(hit.get().getLocation());
     }
 
-    static boolean isBlockAboveAir(final World world, final int x, final int y, final int z) {
-        return world.getLocation(x, y - 1, z).getBlockType().getProperty(PassableProperty.class).get().getValue();
-    }
-
-    public static boolean isBlockUnsafeForUser(final Player user, final World world, final int x, final int y, final int z) {
-        if (world == null || world == null) {
-            return false;
-        }
-        if (world.equals(user.getWorld()) && (user.get(Keys.GAME_MODE).orElse(GameModes.NOT_SET) == GameModes.CREATIVE || UC.getPlayer(user).isGod()) && user.get(Keys.CAN_FLY).orElse
-                (false)) {
-            return false;
-        }
-
-        if (isBlockDamaging(world, x, y, z)) {
-            return true;
-        }
-        return isBlockAboveAir(world, x, y, z);
-    }
-
-    public static boolean isBlockUnsafe(final World world, final int x, final int y, final int z) {
-        if (isBlockDamaging(world, x, y, z)) {
-            return true;
-        }
-        return isBlockAboveAir(world, x, y, z);
-    }
-
-    public static boolean isBlockDamaging(final World world, final int x, final int y, final int z) {
-        final Location below = world.getBlockAt(x, y - 1, z);
-        if (below.getType() == Material.LAVA || below.getType() == Material.STATIONARY_LAVA) {
-            return true;
-        }
-        if (below.getType() == Material.FIRE) {
-            return true;
-        }
-        if (below.getType() == Material.BED_BLOCK) {
-            return true;
-        }
-        return (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y, z).getType())) || (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y + 1, z).getType()));
-    }
-
-    public static Location searchSafeLocation(final Player user, final Location loc) {
-        if (loc.getWorld().equals(user.getWorld()) && (user.getGameMode() == GameMode.CREATIVE || UC.getPlayer(user).isGod()) && user.getAllowFlight()) {
-            if (shouldFly(loc)) {
-                user.setFlying(true);
-            }
-            return loc;
-        }
-        return searchSafeLocation(loc);
-    }
-
-    public static Location searchSafeLocation(final Location loc) {
-        if (loc == null || loc.getWorld() == null) {
-            return null;
-        }
-        Location org = loc;
-        final World world = loc.getWorld();
-        int x = loc.getBlockX();
-        int y = (int) Math.round(loc.getY());
-        int z = loc.getBlockZ();
-        final int origX = x;
-        final int origY = y;
-        final int origZ = z;
-        while (isBlockAboveAir(world, x, y, z)) {
-            y -= 1;
-            if (y < 0) {
-                y = origY;
-                break;
-            }
-        }
-        if (isBlockUnsafe(world, x, y, z)) {
-            x = Math.round(loc.getX()) == origX ? x - 1 : x + 1;
-            z = Math.round(loc.getZ()) == origZ ? z - 1 : z + 1;
-        }
-        int i = 0;
-        while (isBlockUnsafe(world, x, y, z)) {
-            i++;
-            if (i >= VOLUME.length) {
-                x = origX;
-                y = origY + RADIUS;
-                z = origZ;
-                break;
-            }
-            x = origX + VOLUME[i].x;
-            y = origY + VOLUME[i].y;
-            z = origZ + VOLUME[i].z;
-        }
-        while (isBlockUnsafe(world, x, y, z)) {
-            y += 1;
-            if (y >= world.getMaxHeight()) {
-                x += 1;
-                break;
-            }
-        }
-        while (isBlockUnsafe(world, x, y, z)) {
-            y -= 1;
-            if (y <= 1) {
-                x += 1;
-                y = world.getHighestBlockYAt(x, z);
-                if (x - 48 > loc.getBlockX()) {
-                    return org;
-                }
-            }
-        }
-        return new Location(world, x + 0.5, y, z + 0.5, loc.getYaw(), loc.getPitch());
-    }
-
-    public static boolean shouldFly(Location loc) {
-        final World world = loc.getWorld();
-        final int x = loc.getBlockX();
-        int y = (int) Math.round(loc.getY());
-        final int z = loc.getBlockZ();
-        int count = 0;
-        while (LocationUtil.isBlockUnsafe(world, x, y, z) && y > -1) {
-            y--;
-            count++;
-            if (count > 2) {
-                return true;
-            }
-        }
-
-        return y < 0;
-    }
-
     public static void teleport(final Player p, Location l, final Cause c, final boolean safe, boolean delay) {
-        if (delay && delay2 > 0 && !r.perm(p, "uc.teleport.bypasstimer", false, false)) {
-            final Location loc = p.getLocation().getBlock().getLocation();
-            l = searchSafeLocation(l) != null ? searchSafeLocation(l) : l;
+        if (delay && delay2 > 0 && !r.perm(p, "uc.teleport.bypasstimer", false)) {
+            final Location loc = p.getLocation();
+            TeleportHelper helper = Sponge.getGame().getTeleportHelper();
+            if (safe) {
+                l = helper.getSafeLocation(l).orElse(l);
+            }
             final Location to = l;
-            Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+            Sponge.getScheduler().createTaskBuilder().delayTicks(2L).name("Teleport delay starting message delay").execute(new Runnable() {
                 @Override
                 public void run() {
                     r.sendMes(p, "teleportDelayStarting", "%Time", delay2);
                 }
-            }, 2L);
-            Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-
+            }).submit(r.getUC());
+            Sponge.getScheduler().createTaskBuilder().delayTicks(20L * delay2).name("Teleport delay").execute(new Runnable() {
                 @Override
                 public void run() {
-                    if (p.getLocation().getBlock().getLocation().equals(loc)) {
+                    if (p.getLocation().equals(loc)) {
                         teleport(p, to, c, safe, false);
                         r.sendMes(p, "teleportDelaySucces");
                     } else {
                         r.sendMes(p, "teleportDelayFailedMove");
                     }
                 }
-            }, (20L * delay2));
+            }).submit(r.getUC());
 
             return;
         }
-        if (!safe) {
-            if (p.isInsideVehicle()) {
-                p.leaveVehicle();
-            }
-            p.teleport(l, c);
-            playEffect(p, l);
-            return;
+        if (p.getVehicle().isPresent()) {
+            p.setVehicle(null);
         }
-
-        if (LocationUtil.isBlockUnsafeForUser(p, l.getWorld(), l.getBlockX(), l.getBlockY(), l.getBlockZ())) {
-            if (p.isInsideVehicle()) {
-                p.leaveVehicle();
-            }
-            p.teleport(LocationUtil.searchSafeLocation(p, l), c);
-            playEffect(p, l);
-        } else {
-            if (p.isInsideVehicle()) {
-                p.leaveVehicle();
-            }
-            p.teleport(l, c);
-            playEffect(p, l);
-        }
+        p.setLocation(l);
+        playEffect(p, l);
+        return;
     }
 
-    public static void teleport(Player p, Entity e, final TeleportCause c, final boolean safe, boolean delay) {
+    public static void teleport(Player p, Entity e, final Cause c, final boolean safe, boolean delay) {
         teleport(p, e.getLocation(), c, safe, delay);
     }
 
-    public static void teleportUnsafe(Player p, Location loc, TeleportCause c, boolean delay) {
+    public static void teleportUnsafe(Player p, Location loc, Cause c, boolean delay) {
         teleport(p, loc, c, false, delay);
     }
 
@@ -271,35 +111,38 @@ public class LocationUtil {
      * @param p   The player who is teleported
      * @param loc The location where the effect is shown
      */
-    public static void playEffect(Player p, Location loc) {
+    public static void playEffect(Player p, Location<World> loc) {
         if (p != null && UC.getPlayer(p).isVanish()) {
             return;
         }
-        for (Player pl : Bukkit.getOnlinePlayers()) {
+        for (Player pl : Sponge.getServer().getOnlinePlayers()) {
             if (p != null && !pl.canSee(p)) {
                 continue;
             }
-            pl.playEffect(loc, Effect.ENDER_SIGNAL, 10);
-            pl.playSound(loc, Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
+            pl.spawnParticles(ParticleEffect.builder().type(ParticleTypes.MOB_APPEARANCE).build(), loc.getPosition()); //TODO is this ENDER_SIGNAL?
+            pl.playSound(SoundTypes.ENTITY_ENDERMEN_TELEPORT, loc.getPosition(), 1);
         }
     }
 
-    public static Location convertStringToLocation(String s) {
+    /**
+     * Converts a serialized string to a location
+     *
+     * @param s The string
+     * @return An Object[] with a Location and a Vector3d for the rotation.
+     */
+    public static Object[] convertStringToLocation(String s) {
         if (s == null) {
             return null;
         }
-        if (s.contains(",")) {
-            String[] split = s.split(",");
-            return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float
-                    .parseFloat(split[4]));
-        }
-        String[] split = s.split("\\|");
-        return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]), Float.parseFloat(split[5]), Float
-                .parseFloat(split[4]));
+        String[] split = s.contains(",") ? s.split(",") : s.split("\\|");
+        Location loc = new Location(Sponge.getServer().getWorld(UUID.fromString(split[0])).get(), Double.parseDouble(split[1]), Double.parseDouble(split[2]),
+                Double.parseDouble(split[3]));
+        Vector3d rot = new Vector3d(Double.parseDouble(split[4]), Double.parseDouble(split[5]), Double.parseDouble(split[6]));
+        return new Object[]{loc, rot};
     }
 
-    public static String convertLocationToString(Location loc) {
-        return loc.getWorld().getName() + "|" + loc.getX() + "|" + loc.getY() + "|" + loc.getZ() + "|" + loc.getPitch() + "|" + loc.getYaw();
+    public static String convertLocationToString(Location<World> loc, Vector3d rot) {
+        return loc.getExtent().getUniqueId() + "|" + loc.getX() + "|" + loc.getY() + "|" + loc.getZ() + "|" + rot.getX() + "|" + rot.getY() + "|" + rot.getZ();
     }
 
     public static Double getCoordinate(String input, double current) {
@@ -328,19 +171,10 @@ public class LocationUtil {
         return result;
     }
 
-    public static Location getAbsoluteTarget(LivingEntity entity) {
-        Block block = entity.getTargetBlock((Set<Material>) null, 300);
-        if (block == null) {
-            return null;
-        }
-        return block.getLocation();
-
-    }
-
     public static Double getDistance(Location l1, Location l2) {
         if (l1.getExtent() != l2.getExtent()) {
             return null;
         }
-        return Math.sqrt(NumberConversions.square(l1.getX() - l2.getX()) + NumberConversions.square(l1.getY() - l2.getY()) + NumberConversions.square(l1.getZ() - l2.getZ()));
+        return Math.sqrt(Math.pow(l1.getX() - l2.getX(), 2) + Math.pow(l1.getY() - l2.getY(), 2) + Math.pow(l1.getZ() - l2.getZ(), 2));
     }
 }

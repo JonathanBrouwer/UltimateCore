@@ -36,8 +36,8 @@ import java.util.List;
 
 public class CmdAnswer implements UltimateCommand {
 
-    String format = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.AnswerFormat")).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
-            .replace("\\\\n", "\n");
+    String format = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.AnswerFormat")).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative +
+            "").replace("\\\\n", "\n");
 
     @Override
     public String getName() {

@@ -151,7 +151,7 @@ public class SignGamemode implements UltimateSign {
     }
 
     @Override
-    public void onDestroy(ChangeBlockEvent.Break event, Player p) {
+    public void onDestroy(ChangeBlockEvent event, Player p) {
         if (!r.perm(p, "uc.sign.gamemode.destroy", true)) {
             event.setCancelled(true);
             return;

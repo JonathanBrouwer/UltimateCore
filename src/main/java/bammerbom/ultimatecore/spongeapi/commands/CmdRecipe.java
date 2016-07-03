@@ -26,13 +26,13 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.*;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.item.recipe.ShapedRecipe;
+import org.spongepowered.api.text.Text;
 
 import java.util.*;
 
@@ -41,19 +41,15 @@ public class CmdRecipe implements UltimateCommand {
     //Methods
     private static void shapedRecipe(CommandSource sender, ShapedRecipe recipe, boolean showWindow) {
         Map<Character, ItemStack> recipeMap = recipe.getIngredientMap();
-        if (showWindow) {
+        if (showWindow && sender instanceof Player) {
             Player p = (Player) sender;
-            p.closeInventory();
+            p.closeInventory(Cause.builder().build());
             InventoryView view = p.openWorkbench(null, true);
             UC.getPlayer(p).setInRecipeView(true);
             String[] recipeShape = recipe.getShape();
             Map<Character, ItemStack> ingredientMap = recipe.getIngredientMap();
-            for (int j = 0;
-                 j < recipeShape.length;
-                 j++) {
-                for (int k = 0;
-                     k < recipeShape[j].length();
-                     k++) {
+            for (int j = 0; j < recipeShape.length; j++) {
+                for (int k = 0; k < recipeShape[j].length(); k++) {
                     ItemStack item = ingredientMap.get(recipeShape[j].toCharArray()[k]);
                     if (item != null) {
                         item.setAmount(1);
@@ -68,9 +64,7 @@ public class CmdRecipe implements UltimateCommand {
             HashMap<Material, String> colorMap = new HashMap<>();
             char[] arr = "abcdefghi".toCharArray();
             int len = arr.length;
-            for (int i = 0;
-                 i < len;
-                 i++) {
+            for (int i = 0; i < len; i++) {
                 Character c = arr[i];
 
                 ItemStack item = recipeMap.get(c);
@@ -79,12 +73,8 @@ public class CmdRecipe implements UltimateCommand {
                 }
             }
             Material[][] materials = new Material[3][3];
-            for (int j = 0;
-                 j < recipe.getShape().length;
-                 j++) {
-                for (int k = 0;
-                     k < recipe.getShape()[j].length();
-                     k++) {
+            for (int j = 0; j < recipe.getShape().length; j++) {
+                for (int k = 0; k < recipe.getShape()[j].length(); k++) {
                     ItemStack item = recipe.getIngredientMap().get(recipe.getShape()[j].toCharArray()[k]);
                     materials[j][k] = (item == null ? null : item.getType());
                 }
@@ -116,17 +106,13 @@ public class CmdRecipe implements UltimateCommand {
             Player p = (Player) sender;
             InventoryView view = p.openWorkbench(null, true);
             UC.getPlayer(p).setInRecipeView(true);
-            for (int i = 0;
-                 i < ingredients.size();
-                 i++) {
+            for (int i = 0; i < ingredients.size(); i++) {
                 view.setItem(i + 1, ingredients.get(i));
             }
 
         } else {
             StringBuilder s = new StringBuilder();
-            for (int i = 0;
-                 i < ingredients.size();
-                 i++) {
+            for (int i = 0; i < ingredients.size(); i++) {
                 s.append(ingredients.get(i).getType().name().toLowerCase().replaceAll("_", ""));
                 if (i != ingredients.size() - 1) {
                     s.append(",");
@@ -148,64 +134,88 @@ public class CmdRecipe implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Item> [Recipe]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("View the recipe of an item.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("formula", "method", "recipes");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.recipe", true, true)) {
-            return CommandResult.empty();
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "recipeUsage");
-            return CommandResult.empty();
-        }
-        ItemStack item = ItemUtil.searchItem(args[0]);
-        if (item == null) {
-            r.sendMes(cs, "recipeItemNotFound", "%Item", args[0]);
-            return CommandResult.empty();
-        }
-        int recipeNo = 0;
-        if (args.length > 1) {
-            if (r.isInt(args[1])) {
-                recipeNo = Integer.parseInt(args[1]) - 1;
-            } else {
-                r.sendMes(cs, "numberFormat", "%Number", args[1]);
-                return CommandResult.empty();
-            }
-        }
-        List<Recipe> recipes = Bukkit.getServer().getRecipesFor(item);
-        if (recipes.isEmpty()) {
-            r.sendMes(cs, "recipeNoRecipesFound");
-            return CommandResult.empty();
-        }
-        if (recipes.size() <= (recipeNo)) {
-            r.sendMes(cs, "recipeNoMoreRecipes", "%Amount", recipeNo + 1);
-            return CommandResult.empty();
-        }
-        Recipe selected = recipes.get(recipeNo);
-        if (selected instanceof FurnaceRecipe) {
-            r.sendMes(cs, "recipeSmelt", "%Input", ((FurnaceRecipe) selected).getInput().getType().name().toLowerCase().replaceAll("_", ""));
-        } else if (selected instanceof ShapedRecipe) {
-            shapedRecipe(cs, (ShapedRecipe) selected, cs instanceof Player);
-        } else if (selected instanceof ShapelessRecipe) {
-            if (item.getType().equals(Material.FIREWORK)) {
-                ShapelessRecipe shapelessRecipe = new ShapelessRecipe(item);
-                shapelessRecipe.addIngredient(Material.SULPHUR);
-                shapelessRecipe.addIngredient(Material.PAPER);
-                shapelessRecipe.addIngredient(Material.FIREWORK_CHARGE);
-                shapelessRecipe(cs, shapelessRecipe, cs instanceof Player);
-            }
-            shapelessRecipe(cs, (ShapelessRecipe) selected, cs instanceof Player);
-        }
-        if (recipes.size() > 1) {
-            r.sendMes(cs, "recipeTip", "%Item", item.getType().name().toLowerCase().replaceAll("_", ""));
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+    //    @Override
+    //    public List<String> getAliases() {
+    //
+    //    }
+    //
+    //    @Override
+    //    public void run(final CommandSource cs, String label, String[] args) {
+    //        if (!r.perm(cs, "uc.recipe", true, true)) {
+    //            return CommandResult.empty();
+    //        }
+    //        if (!r.checkArgs(args, 0)) {
+    //            r.sendMes(cs, "recipeUsage");
+    //            return CommandResult.empty();
+    //        }
+    //        ItemStack item = ItemUtil.searchItem(args[0]);
+    //        if (item == null) {
+    //            r.sendMes(cs, "recipeItemNotFound", "%Item", args[0]);
+    //            return CommandResult.empty();
+    //        }
+    //        int recipeNo = 0;
+    //        if (args.length > 1) {
+    //            if (r.isInt(args[1])) {
+    //                recipeNo = Integer.parseInt(args[1]) - 1;
+    //            } else {
+    //                r.sendMes(cs, "numberFormat", "%Number", args[1]);
+    //                return CommandResult.empty();
+    //            }
+    //        }
+    //        List<Recipe> recipes = Bukkit.getServer().getRecipesFor(item);
+    //        if (recipes.isEmpty()) {
+    //            r.sendMes(cs, "recipeNoRecipesFound");
+    //            return CommandResult.empty();
+    //        }
+    //        if (recipes.size() <= (recipeNo)) {
+    //            r.sendMes(cs, "recipeNoMoreRecipes", "%Amount", recipeNo + 1);
+    //            return CommandResult.empty();
+    //        }
+    //        Recipe selected = recipes.get(recipeNo);
+    //        if (selected instanceof FurnaceRecipe) {
+    //            r.sendMes(cs, "recipeSmelt", "%Input", ((FurnaceRecipe) selected).getInput().getType().name().toLowerCase().replaceAll("_", ""));
+    //        } else if (selected instanceof ShapedRecipe) {
+    //            shapedRecipe(cs, (ShapedRecipe) selected, cs instanceof Player);
+    //        } else if (selected instanceof ShapelessRecipe) {
+    //            if (item.getType().equals(Material.FIREWORK)) {
+    //                ShapelessRecipe shapelessRecipe = new ShapelessRecipe(item);
+    //                shapelessRecipe.addIngredient(Material.SULPHUR);
+    //                shapelessRecipe.addIngredient(Material.PAPER);
+    //                shapelessRecipe.addIngredient(Material.FIREWORK_CHARGE);
+    //                shapelessRecipe(cs, shapelessRecipe, cs instanceof Player);
+    //            }
+    //            shapelessRecipe(cs, (ShapelessRecipe) selected, cs instanceof Player);
+    //        }
+    //        if (recipes.size() > 1) {
+    //            r.sendMes(cs, "recipeTip", "%Item", item.getType().name().toLowerCase().replaceAll("_", ""));
+    //        }
+    //    }
+    //
+    //    @Override
+    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    //        return null;
+    //    }
 }

@@ -25,195 +25,194 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.*;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Skeleton.SkeletonType;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.material.MaterialData;
+import com.flowpowered.math.vector.Vector3d;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.DyeColors;
+import org.spongepowered.api.data.type.SkeletonTypes;
+import org.spongepowered.api.effect.particle.BlockParticle;
+import org.spongepowered.api.effect.particle.ParticleTypes;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.gamemode.GameModes;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.entity.DamageEntityEvent;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
-public class BloodListener implements Listener {
+public class BloodListener {
 
-    ArrayList<Integer> iCD = new ArrayList<>();
+    ArrayList<UUID> iCD = new ArrayList<>();
 
     public static void start() {
         if (r.getCnfg().getBoolean("Blood.Enabled")) {
-            Bukkit.getPluginManager().registerEvents(new BloodListener(), r.getUC());
+            Sponge.getEventManager().registerListeners(r.getUC(), new BloodListener());
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void bleed(final EntityDamageEvent e) {
-        if (e.isCancelled() || e.getEntity().isDead()) {
+    @Listener(order = Order.POST)
+    public void bleed(final DamageEntityEvent e) {
+        if (e.isCancelled()) {
             return;
         }
-        if (!(e.getEntity() instanceof LivingEntity)) {
+        if (e.getTargetEntity() == null) {
             return;
         }
-        if (!r.getCnfg().getBoolean("Blood.Enabled")) {
+        if (r.getCnfg().getBoolean("Blood.Enabled") == false) {
             return;
         }
-        if (r.getOnlinePlayersL().isEmpty()) {
+        if (r.getOnlinePlayers().length == 0) {
             return;
         }
-        if (e.getEntity() instanceof Player || !r.getCnfg().getBoolean("Blood.PlayersOnly")) {
-            if (e.getEntity() instanceof Player) {
-                final Player p = (Player) e.getEntity();
+        Entity en = e.getTargetEntity();
+        if (en instanceof Player || r.getCnfg().getBoolean("Blood.PlayersOnly") == false) {
+            if (en instanceof Player) {
+                final Player p = (Player) en;
                 if (UC.getPlayer(p).isGod()) {
                     return;
                 }
-                if (iCD.contains(p.getEntityId())) {
+                if (iCD.contains(p.getUniqueId())) {
                     return;
                 }
-                if (((HumanEntity) e.getEntity()).getGameMode().equals(GameMode.CREATIVE) || ((HumanEntity) e.getEntity()).getGameMode().equals(GameMode.SPECTATOR)) {
+                if (p.get(Keys.GAME_MODE).get().equals(GameModes.CREATIVE) || p.get(Keys.GAME_MODE).get().equals(GameModes.SPECTATOR)) {
                     return;
                 }
-                iCD.add(p.getEntityId());
-                Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+                iCD.add(p.getUniqueId());
+                Sponge.getGame().getScheduler().createTaskBuilder().name("UC: Blood task").delayTicks(5L).execute(new Runnable() {
                     @Override
                     public void run() {
-                        iCD.remove((Object) p.getEntityId());
+                        iCD.remove(p.getUniqueId());
                     }
-                }, 5L);
-                e.getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getEntity().getLocation().add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
+                }).submit(r.getUC());
+                p.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                        (BlockTypes.REDSTONE_BLOCK).build()).build(), p.getLocation().getPosition().add(0, 1, 0));
+                p.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                        (BlockTypes.REDSTONE_BLOCK).build()).build(), p.getLocation().getPosition().add(0, 1, 0));
             } else {
-                if (iCD.contains(e.getEntity().getEntityId())) {
+                if (iCD.contains(en.getUniqueId())) {
                     return;
                 }
-                iCD.add(e.getEntity().getEntityId());
-                World w = e.getEntity().getWorld();
-                Location l = e.getEntity().getLocation();
-                switch (e.getEntityType()) {
-                    case SKELETON:
-                        if (((Skeleton) e.getEntity()).getSkeletonType().equals(SkeletonType.NORMAL)) {
-                            w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.BONE_BLOCK, (byte) 0));
-                        } else {
-                            w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.COAL_BLOCK, (byte) 0));
+                iCD.add(en.getUniqueId());
+                if (en.getType().equals(EntityTypes.SKELETON)) {
+                    if (en.get(Keys.SKELETON_TYPE).get().equals(SkeletonTypes.NORMAL)) {
+                        en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder()
+                                .blockType(BlockTypes.WOOL).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                    } else {
+                        en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder()
+                                .blockType(BlockTypes.COAL_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                    }
+                } else if (en.getType().equals(EntityTypes.CREEPER)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.WOOL).add(Keys.DYE_COLOR, DyeColors.GREEN).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.SPIDER)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 0.6, 0));
+                } else if (en.getType().equals(EntityTypes.GIANT)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.ZOMBIE)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.SLIME)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.SLIME).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.GHAST)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.QUARTZ_ORE).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.PIG_ZOMBIE)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.STAINED_HARDENED_CLAY).add(Keys.DYE_COLOR, DyeColors.PURPLE).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.ENDERMAN)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.ENDER_CHEST).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.CAVE_SPIDER)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 0.6, 0));
+                } else if (en.getType().equals(EntityTypes.SILVERFISH)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.STONE).build()).build(), en.getLocation().getPosition());
+                } else if (en.getType().equals(EntityTypes.BLAZE)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.LAVA).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.MAGMA_CUBE)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.LAVA).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.WITHER)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.BAT)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(20).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.WITCH)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.ENDERMITE)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.ENDER_CHEST).build()).build(), en.getLocation().getPosition());
+                } else if (en.getType().equals(EntityTypes.GUARDIAN)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.SEA_LANTERN).build()).build(), en.getLocation().getPosition().add(0, 0.8, 0));
+                } else if (en.getType().equals(EntityTypes.PIG)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.SHEEP)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.COW)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.CHICKEN)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 0.6, 0));
+                } else if (en.getType().equals(EntityTypes.SQUID)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.COAL_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.WOLF)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.MUSHROOM_COW)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.SNOWMAN)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.SNOW).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.OCELOT)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 0.2, 0));
+                } else if (en.getType().equals(EntityTypes.IRON_GOLEM)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.IRON_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.HORSE)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.RABBIT)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 0.3, 0));
+                } else if (en.getType().equals(EntityTypes.VILLAGER)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.ARMOR_STAND)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.PLANKS).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+                } else if (en.getType().equals(EntityTypes.PLAYER)) {
+                    en.getWorld().spawnParticles(BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).count(50).offset(new Vector3d(0.3, 0.3, 0.3)).block(BlockState.builder().blockType
+                            (BlockTypes.REDSTONE_BLOCK).build()).build(), en.getLocation().getPosition().add(0, 1, 0));
+
+                    Sponge.getGame().getScheduler().createTaskBuilder().name("UC: Blood task").delayTicks(5L).execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            iCD.remove(en.getUniqueId());
                         }
-                        break;
-                    case CREEPER:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.STAINED_CLAY, (byte) 5));
-                        break;
-                    case SPIDER:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case GIANT:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case ZOMBIE:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case SLIME:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.SLIME_BLOCK, (byte) 0));
-                        break;
-                    case GHAST:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 1.5F, 1.5F, 1.5F, new MaterialData(Material.BONE_BLOCK, (byte) 0));
-                        break;
-                    case PIG_ZOMBIE:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.STAINED_CLAY, (byte) 10));
-                        break;
-                    case ENDERMAN:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.ENDER_CHEST, (byte) 0));
-                        break;
-                    case CAVE_SPIDER:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case SILVERFISH:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.1, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.STONE, (byte) 0));
-                        break;
-                    case BLAZE:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.7, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.LAVA, (byte) 0));
-                        break;
-                    case MAGMA_CUBE:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.LAVA, (byte) 0));
-                        break;
-                    case ENDER_DRAGON:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case WITHER:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 1.5F, 1.5F, 1.5F, new MaterialData(Material.SOUL_SAND, (byte) 0));
-                        break;
-                    case BAT:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 20, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case WITCH:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case ENDERMITE:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.1, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.ENDER_CHEST, (byte) 0));
-                        break;
-                    case GUARDIAN:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.8, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.LAVA, (byte) 0));
-                        break;
-                    case PIG:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case SHEEP:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case COW:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case CHICKEN:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case SQUID:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.COAL_BLOCK, (byte) 0));
-                        break;
-                    case WOLF:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case MUSHROOM_COW:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case SNOWMAN:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.SNOW_BLOCK, (byte) 0));
-                        break;
-                    case POLAR_BEAR:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.SNOW_BLOCK, (byte) 0));
-                        break;
-                    case OCELOT:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.2, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case IRON_GOLEM:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.IRON_BLOCK, (byte) 0));
-                        break;
-                    case HORSE:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case RABBIT:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.2, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case VILLAGER:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case PLAYER:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
-                        break;
-                    case ARMOR_STAND:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.WOOD, (byte) 0));
-                        break;
-                    default:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
+                    }).submit(r.getUC());
                 }
 
-                Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-
-                    @Override
-                    public void run() {
-                        iCD.remove((Object) e.getEntity().getEntityId());
-                    }
-                }, 10L);
             }
-
         }
-    }
 
+    }
 }

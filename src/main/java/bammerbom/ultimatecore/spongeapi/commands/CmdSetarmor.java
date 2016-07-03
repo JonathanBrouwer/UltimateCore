@@ -26,11 +26,12 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,34 +61,34 @@ public class CmdSetarmor implements UltimateCommand {
     public static void setArmor(Player p, ArmorType a) {
         switch (a) {
             case CHAIN:
-                p.getInventory().setHelmet(new ItemStack(Material.CHAINMAIL_HELMET));
-                p.getInventory().setChestplate(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
-                p.getInventory().setLeggings(new ItemStack(Material.CHAINMAIL_LEGGINGS));
-                p.getInventory().setBoots(new ItemStack(Material.CHAINMAIL_BOOTS));
+                p.setHelmet(ItemStack.builder().itemType(ItemTypes.CHAINMAIL_HELMET).build());
+                p.setChestplate(ItemStack.builder().itemType(ItemTypes.CHAINMAIL_CHESTPLATE).build());
+                p.setLeggings(ItemStack.builder().itemType(ItemTypes.CHAINMAIL_LEGGINGS).build());
+                p.setBoots(ItemStack.builder().itemType(ItemTypes.CHAINMAIL_BOOTS).build());
                 break;
             case DIAMOND:
-                p.getInventory().setHelmet(new ItemStack(Material.DIAMOND_HELMET));
-                p.getInventory().setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
-                p.getInventory().setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
-                p.getInventory().setBoots(new ItemStack(Material.DIAMOND_BOOTS));
+                p.setHelmet(ItemStack.builder().itemType(ItemTypes.DIAMOND_HELMET).build());
+                p.setChestplate(ItemStack.builder().itemType(ItemTypes.DIAMOND_CHESTPLATE).build());
+                p.setLeggings(ItemStack.builder().itemType(ItemTypes.DIAMOND_LEGGINGS).build());
+                p.setBoots(ItemStack.builder().itemType(ItemTypes.DIAMOND_BOOTS).build());
                 break;
             case GOLD:
-                p.getInventory().setHelmet(new ItemStack(Material.GOLD_HELMET));
-                p.getInventory().setChestplate(new ItemStack(Material.GOLD_CHESTPLATE));
-                p.getInventory().setLeggings(new ItemStack(Material.GOLD_LEGGINGS));
-                p.getInventory().setBoots(new ItemStack(Material.GOLD_BOOTS));
+                p.setHelmet(ItemStack.builder().itemType(ItemTypes.GOLDEN_HELMET).build());
+                p.setChestplate(ItemStack.builder().itemType(ItemTypes.GOLDEN_CHESTPLATE).build());
+                p.setLeggings(ItemStack.builder().itemType(ItemTypes.GOLDEN_LEGGINGS).build());
+                p.setBoots(ItemStack.builder().itemType(ItemTypes.GOLDEN_BOOTS).build());
                 break;
             case IRON:
-                p.getInventory().setHelmet(new ItemStack(Material.IRON_HELMET));
-                p.getInventory().setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
-                p.getInventory().setLeggings(new ItemStack(Material.IRON_LEGGINGS));
-                p.getInventory().setBoots(new ItemStack(Material.IRON_BOOTS));
+                p.setHelmet(ItemStack.builder().itemType(ItemTypes.IRON_HELMET).build());
+                p.setChestplate(ItemStack.builder().itemType(ItemTypes.IRON_CHESTPLATE).build());
+                p.setLeggings(ItemStack.builder().itemType(ItemTypes.IRON_LEGGINGS).build());
+                p.setBoots(ItemStack.builder().itemType(ItemTypes.IRON_BOOTS).build());
                 break;
             case LEATHER:
-                p.getInventory().setHelmet(new ItemStack(Material.LEATHER_HELMET));
-                p.getInventory().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
-                p.getInventory().setLeggings(new ItemStack(Material.LEATHER_LEGGINGS));
-                p.getInventory().setBoots(new ItemStack(Material.LEATHER_BOOTS));
+                p.setHelmet(ItemStack.builder().itemType(ItemTypes.LEATHER_HELMET).build());
+                p.setChestplate(ItemStack.builder().itemType(ItemTypes.LEATHER_CHESTPLATE).build());
+                p.setLeggings(ItemStack.builder().itemType(ItemTypes.LEATHER_LEGGINGS).build());
+                p.setBoots(ItemStack.builder().itemType(ItemTypes.LEATHER_BOOTS).build());
                 break;
             default:
                 break;
@@ -105,13 +106,23 @@ public class CmdSetarmor implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <ArmorType> [Player]";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Set someones armor type.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.setarmor", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.setarmor", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
@@ -128,10 +139,10 @@ public class CmdSetarmor implements UltimateCommand {
                 r.sendMes(cs, "setarmorNotFound", "%Armor", args[0]);
             }
         } else if (r.checkArgs(args, 1)) {
-            if (!r.perm(cs, "uc.setarmor.others", false, true)) {
+            if (!r.perm(cs, "uc.setarmor.others", true)) {
             }
             if (isArmor(args[0])) {
-                Player t = r.searchPlayer(args[1]);
+                Player t = r.searchPlayer(args[1]).orElse(null);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[1]);
                     return CommandResult.empty();
@@ -140,7 +151,7 @@ public class CmdSetarmor implements UltimateCommand {
                 r.sendMes(cs, "setarmorSet", "%Player", t.getName(), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
                 r.sendMes(t, "setarmorOthers", "%Player", r.getDisplayName(cs), "%Armor", StringUtil.firstUpperCase(getArmor(args[0]).name().toLowerCase()));
             } else if (isArmor(args[1])) {
-                Player t = r.searchPlayer(args[0]);
+                Player t = r.searchPlayer(args[0]).orElse(null);
                 if (t == null) {
                     r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                     return CommandResult.empty();
@@ -152,10 +163,11 @@ public class CmdSetarmor implements UltimateCommand {
                 r.sendMes(cs, "setarmorNotFound", "%Armor", args[0]);
             }
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         ArrayList<String> l = new ArrayList<>();
         if (curn == 0) {
             for (ArmorType t : ArmorType.values()) {

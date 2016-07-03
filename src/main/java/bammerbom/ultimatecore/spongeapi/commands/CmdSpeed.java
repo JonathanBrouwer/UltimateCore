@@ -24,12 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,61 +62,85 @@ public class CmdSpeed implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.speed", false, true)) {
-            return CommandResult.empty();
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "speedUsage");
-            return CommandResult.empty();
-        }
-        if (!r.isFloat(args[0])) {
-            if (r.checkArgs(args, 1) && r.isFloat(args[1])) {
-                run(cs, label, new String[]{args[1], args[0]});
-                return CommandResult.empty();
-            }
-            r.sendMes(cs, "speedUsage");
-            return CommandResult.empty();
-        }
-        Float d = Float.parseFloat(args[0]);
-        if (d > 10 || d < 0) {
-            r.sendMes(cs, "speedUsage");
-            return CommandResult.empty();
-        }
-        if (!r.checkArgs(args, 1)) {
-            if (!r.isPlayer(cs)) {
-                return CommandResult.empty();
-            }
-            Player p = (Player) cs;
-            p.setFlySpeed(getSpeed(d, true));
-            p.setWalkSpeed(getSpeed(d, false));
-            r.sendMes(cs, "speedSelf", "%Speed", args[0]);
-        } else {
-            Player t = r.searchPlayer(args[1]);
-            if (t == null) {
-                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                return CommandResult.empty();
-            }
-            if (!r.perm(cs, "uc.speed.others", false, true)) {
-                return CommandResult.empty();
-            }
-            t.setFlySpeed(getSpeed(d, true));
-            t.setWalkSpeed(getSpeed(d, false));
-            r.sendMes(cs, "speedOtherSelf", "%Player", t.getName(), "%Speed", args[0]);
-            r.sendMes(t, "speedOtherOthers", "%Speed", args[0]);
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (curn == 1) {
-            return null;
-        }
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+    //    @Override
+    //    public List<String> getAliases() {
+    //        return Arrays.asList();
+    //    }
+    //
+    //    @Override
+    //    public void run(final CommandSource cs, String label, String[] args) {
+    //        if (!r.perm(cs, "uc.speed", false, true)) {
+    //            return CommandResult.empty();
+    //        }
+    //        if (!r.checkArgs(args, 0)) {
+    //            r.sendMes(cs, "speedUsage");
+    //            return CommandResult.empty();
+    //        }
+    //        if (!r.isFloat(args[0])) {
+    //            if (r.checkArgs(args, 1) && r.isFloat(args[1])) {
+    //                run(cs, label, new String[]{args[1], args[0]});
+    //                return CommandResult.empty();
+    //            }
+    //            r.sendMes(cs, "speedUsage");
+    //            return CommandResult.empty();
+    //        }
+    //        Float d = Float.parseFloat(args[0]);
+    //        if (d > 10 || d < 0) {
+    //            r.sendMes(cs, "speedUsage");
+    //            return CommandResult.empty();
+    //        }
+    //        if (!r.checkArgs(args, 1)) {
+    //            if (!r.isPlayer(cs)) {
+    //                return CommandResult.empty();
+    //            }
+    //            Player p = (Player) cs;
+    //            p.setFlySpeed(getSpeed(d, true));
+    //            p.setWalkSpeed(getSpeed(d, false));
+    //            r.sendMes(cs, "speedSelf", "%Speed", args[0]);
+    //        } else {
+    //            Player t = r.searchPlayer(args[1]);
+    //            if (t == null) {
+    //                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
+    //                return CommandResult.empty();
+    //            }
+    //            if (!r.perm(cs, "uc.speed.others", false, true)) {
+    //                return CommandResult.empty();
+    //            }
+    //            t.setFlySpeed(getSpeed(d, true));
+    //            t.setWalkSpeed(getSpeed(d, false));
+    //            r.sendMes(cs, "speedOtherSelf", "%Player", t.getName(), "%Speed", args[0]);
+    //            r.sendMes(t, "speedOtherOthers", "%Speed", args[0]);
+    //        }
+    //    }
+    //
+    //    @Override
+    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    //        if (curn == 1) {
+    //            return null;
+    //        }
+    //        return new ArrayList<>();
+    //    }
 }

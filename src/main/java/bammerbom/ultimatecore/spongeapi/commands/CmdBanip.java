@@ -123,10 +123,11 @@ public class CmdBanip implements UltimateCommand {
         Date date = time == 0 ? null : new Date(time + System.currentTimeMillis());
         BanService bans = Sponge.getServiceManager().provide(BanService.class).get();
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-            Sponge.getServer().getBroadcastChannel().send(r
-                    .mes("banBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason", reason));
+            Sponge.getServer().getBroadcastChannel().send(r.mes("banBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Banned",
+                    ip, "%Time", timen, "%Reason", reason));
         } else {
-            r.sendMes(cs, "banipBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason", reason);
+            r.sendMes(cs, "banipBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason",
+                    reason);
         }
         return CommandResult.success();
     }

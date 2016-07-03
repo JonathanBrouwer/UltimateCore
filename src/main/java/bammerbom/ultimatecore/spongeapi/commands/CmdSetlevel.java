@@ -24,13 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,41 +44,65 @@ public class CmdSetlevel implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
-        return Arrays.asList("setlvl");
+        return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "setlevelUsage");
-            return CommandResult.empty();
-        }
-        if (!r.isInt(args[0])) {
-            r.sendMes(cs, "numberFormat", "%Number", args[0]);
-        }
-        Integer i = Integer.parseInt(args[0]);
-        Player t;
-        if (r.checkArgs(args, 1)) {
-            t = Bukkit.getPlayer(args[1]);
-            if (t == null) {
-                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-                return CommandResult.empty();
-            }
-        } else if (r.isPlayer(cs)) {
-            t = (Player) cs;
-        } else {
-            return CommandResult.empty();
-        }
-        t.setLevel(i);
-        r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeLevels"), "%Player", t.getName(), "%Experience", i);
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (curn == 1) {
-            return null;
-        }
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        return null;
     }
+    //    @Override
+    //    public List<String> getAliases() {
+    //        return Arrays.asList("setlvl");
+    //    }
+    //
+    //    @Override
+    //    public void run(final CommandSource cs, String label, String[] args) {
+    //        if (!r.checkArgs(args, 0)) {
+    //            r.sendMes(cs, "setlevelUsage");
+    //            return CommandResult.empty();
+    //        }
+    //        if (!r.isInt(args[0])) {
+    //            r.sendMes(cs, "numberFormat", "%Number", args[0]);
+    //        }
+    //        Integer i = Integer.parseInt(args[0]);
+    //        Player t;
+    //        if (r.checkArgs(args, 1)) {
+    //            t = Bukkit.getPlayer(args[1]);
+    //            if (t == null) {
+    //                r.sendMes(cs, "playerNotFound", "%Player", args[1]);
+    //                return CommandResult.empty();
+    //            }
+    //        } else if (r.isPlayer(cs)) {
+    //            t = (Player) cs;
+    //        } else {
+    //            return CommandResult.empty();
+    //        }
+    //        t.setLevel(i);
+    //        r.sendMes(cs, "experienceSet", "%Settype", r.mes("experienceSettypeLevels"), "%Player", t.getName(), "%Experience", i);
+    //    }
+    //
+    //    @Override
+    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    //        if (curn == 1) {
+    //            return null;
+    //        }
+    //        return new ArrayList<>();
+    //    }
 }

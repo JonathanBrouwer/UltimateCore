@@ -75,8 +75,8 @@ public class CmdAlert implements UltimateCommand {
         }
         String message = r.getFinalArg(args, 0);
         message = format.replace("%Message", message);
-        Sponge.getServer().getBroadcastChannel().send(Text.of(TextColorUtil.translateAlternate(message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "")
-                .replace("\\\\n", "\n")));
+        Sponge.getServer().getBroadcastChannel().send(Text.of(TextColorUtil.translateAlternate(message).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r
+                .negative + "").replace("\\\\n", "\n")));
         return CommandResult.success();
     }
 

@@ -26,8 +26,11 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FileUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextStyles;
 
 import java.io.File;
 import java.util.Arrays;
@@ -40,11 +43,11 @@ public class CmdRules implements UltimateCommand {
     public static void start() {
         File file = new File(r.getUC().getDataFolder(), "rules.txt");
         if (!file.exists()) {
-            r.getUC().saveResource("rules.txt", true);
+            r.saveResource("rules.txt", true);
         }
         message = "";
         for (String r : FileUtil.getLines(file)) {
-            message = message + TextColorUtil.translateAlternate(r) + TextColors.RESET + "\n";
+            message = message + TextColorUtil.translateAlternate(r) + TextStyles.RESET + "\n";
         }
     }
 
@@ -59,20 +62,31 @@ public class CmdRules implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Put the rules in the chat.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.rules", true, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.rules", true)) {
             return CommandResult.empty();
         }
-        cs.sendMessage(message);
+        cs.sendMessage(Text.of(message));
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

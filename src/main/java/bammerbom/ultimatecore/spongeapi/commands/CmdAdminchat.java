@@ -37,7 +37,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CmdAdminchat implements UltimateCommand {
-    static String format = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.AdminchatFormat").replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + ""));
+    static String format = TextColorUtil.translateAlternate(r.getCnfg().getString("Chat.AdminchatFormat").replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r
+            .negative + ""));
 
     @Override
     public String getName() {

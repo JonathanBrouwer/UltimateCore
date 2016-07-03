@@ -32,6 +32,8 @@ import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.json.simple.JSONAware;
+import org.json.simple.JSONObject;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -40,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * A class representing a kit.
@@ -79,11 +82,12 @@ public class UKit {
      * Saves this kit to the config file
      */
     public void save() {
-        List<HashMap<String, Object>> itemstrings = ItemUtil.serialize(items);
+        List<JSONObject> jsons = ItemUtil.serialize(items);
+        List<String> strings = jsons.stream().map(JSONAware::toJSONString).collect(Collectors.toList());
         kits.set(name + ".description", description);
         kits.set(name + ".cooldown", cooldowns);
         kits.set(name + ".firstjoin", firstjoin);
-        kits.set(name + ".items", itemstrings);
+        kits.set(name + ".items", strings);
         kits.save();
         this.kit = kits.getConfigurationSection(name);
     }

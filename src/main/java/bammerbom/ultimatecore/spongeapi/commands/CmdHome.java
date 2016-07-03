@@ -138,9 +138,7 @@ public class CmdHome implements UltimateCommand {
                     Integer b = 0;
                     try {
                         Integer amount = homes.toArray().length;
-                        for (int i = 0;
-                             i < amount;
-                             i++) {
+                        for (int i = 0; i < amount; i++) {
                             a = a + homes.get(b) + ", ";
                             b++;
 

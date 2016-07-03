@@ -24,17 +24,11 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.api.UC;
-import bammerbom.ultimatecore.spongeapi.api.UKit;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class CmdShowkit implements UltimateCommand {
@@ -50,44 +44,68 @@ public class CmdShowkit implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Description");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.showkit", false, true)) {
-            return CommandResult.empty();
-        }
-        if (!r.checkArgs(args, 0)) {
-            r.sendMes(cs, "showkitUsage");
-            return CommandResult.empty();
-        }
-        if (!UC.getServer().getKitNames().contains(args[0])) {
-            r.sendMes(cs, "kitNotFound", "%Kit", args[0]);
-            return CommandResult.empty();
-        }
-        UKit kit = UC.getServer().getKit(args[0]);
-        r.sendMes(cs, "showkitContains", "%Kit", kit.getName());
-        if (kit.getCooldown() == 0) {
-            r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
-        } else if (kit.getCooldown() == -1) {
-            r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitOnlyOnce"));
-        } else {
-            r.sendMes(cs, "kitList3", "%Cooldown", DateUtil.format(kit.getCooldown()));
-        }
-        for (ItemStack stack : kit.getItems()) {
-            HashMap<String, Object> map = ItemUtil.serialize(stack);
-            StringBuilder sb = new StringBuilder();
-            for (String key : map.keySet()) {
-                sb.append(key + ":" + map.get(key) + " ");
-            }
-            r.sendMes(cs, "showkitItem", "%Item", TextColorUtil.strip(sb.toString()));
-        }
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
+    //    @Override
+    //    public List<String> getAliases() {
+    //        return Arrays.asList();
+    //    }
+    //
+    //    @Override
+    //    public void run(final CommandSource cs, String label, String[] args) {
+    //        if (!r.perm(cs, "uc.showkit", false, true)) {
+    //            return CommandResult.empty();
+    //        }
+    //        if (!r.checkArgs(args, 0)) {
+    //            r.sendMes(cs, "showkitUsage");
+    //            return CommandResult.empty();
+    //        }
+    //        if (!UC.getServer().getKitNames().contains(args[0])) {
+    //            r.sendMes(cs, "kitNotFound", "%Kit", args[0]);
+    //            return CommandResult.empty();
+    //        }
+    //        UKit kit = UC.getServer().getKit(args[0]);
+    //        r.sendMes(cs, "showkitContains", "%Kit", kit.getName());
+    //        if (kit.getCooldown() == 0) {
+    //            r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitNoCooldown"));
+    //        } else if (kit.getCooldown() == -1) {
+    //            r.sendMes(cs, "kitList3", "%Cooldown", r.mes("kitOnlyOnce"));
+    //        } else {
+    //            r.sendMes(cs, "kitList3", "%Cooldown", DateUtil.format(kit.getCooldown()));
+    //        }
+    //        for (ItemStack stack : kit.getItems()) {
+    //            HashMap<String, Object> map = ItemUtil.serialize(stack);
+    //            StringBuilder sb = new StringBuilder();
+    //            for (String key : map.keySet()) {
+    //                sb.append(key + ":" + map.get(key) + " ");
+    //            }
+    //            r.sendMes(cs, "showkitItem", "%Item", TextColorUtil.strip(sb.toString()));
+    //        }
+    //    }
+    //
+    //    @Override
+    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    //        return null;
+    //    }
 }

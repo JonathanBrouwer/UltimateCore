@@ -38,5 +38,5 @@ public interface UltimateSign {
 
     void onCreate(ChangeSignEvent event, Player p);
 
-    void onDestroy(ChangeBlockEvent.Break event, Player p);
+    void onDestroy(ChangeBlockEvent event, Player p);
 }
