@@ -90,7 +90,7 @@ public class UltimateCore extends Application {
             public void handle(ActionEvent t) {
                 if (Desktop.isDesktopSupported()) {
                     try {
-                        Desktop.getDesktop().browse(new URI("http://ultimatecore.ga"));
+                        Desktop.getDesktop().browse(new URI("http://ultimatecore.org"));
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
                     }
@@ -152,7 +152,7 @@ public class UltimateCore extends Application {
             public void handle(ActionEvent t) {
                 if (Desktop.isDesktopSupported()) {
                     try {
-                        Desktop.getDesktop().browse(new URI("http://ultimatecore.ga/features"));
+                        Desktop.getDesktop().browse(new URI("http://ultimatecore.org/features"));
                     } catch (Exception ex) {
                         showErrorMessage("Failed to open web page.");
                     }

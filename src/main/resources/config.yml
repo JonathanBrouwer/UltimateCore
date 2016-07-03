@@ -180,7 +180,7 @@ Chat:
 
   #The UltimateCore message colors
   #A link of all chatcolors, enter them without the '&':
-  #http://ultimatecore.ga/faq/3
+  #http://ultimatecore.org/faq/3
   #[@1] The default UltimateCore message color (Default = Dark aqua)
   Default: 3
   #[@2] The message color for values, like player names (Default = aqua)

@@ -169,8 +169,8 @@ public class ErrorLogger {
                         Webb webb = Webb.create();
                         Response<String> rtrn = null;
                         try {
-                            rtrn = webb.get("http://ultimatecore.ga/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg.replace("\n", "<br>"), "UTF-8"))
-                                    .asString();
+                            rtrn = webb.get("http://ultimatecore.org/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg.replace("\n", "<br>"),
+                                    "UTF-8")).asString();
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                             return;

@@ -81,7 +81,8 @@ public class ErrorLogger {
             writer.append("=======================================\n");
             writer.append("UltimateCore has run into an error \n");
             writer.append("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket\n");
-            writer.append("Sponge version: " + Sponge.getPlatform().getImplementation().getName() + " - " + Sponge.getPlatform().getImplementation().getVersion() + " - " + Sponge.getPlatform().getApi().getVersion() + "\n");
+            writer.append("Sponge version: " + Sponge.getPlatform().getImplementation().getName() + " - " + Sponge.getPlatform().getImplementation().getVersion() + " - " + Sponge
+                    .getPlatform().getApi().getVersion() + "\n");
             writer.append("UltimateCore version: " + Sponge.getPluginManager().getPlugin("ultimatecore").get().getVersion() + "\n");
             writer.append("Plugins loaded (" + Sponge.getPluginManager().getPlugins().size() + "): " + Sponge.getPluginManager().getPlugins() + "\n");
             writer.append("Java version: " + System.getProperty("java.version") + "\n");
@@ -107,7 +108,8 @@ public class ErrorLogger {
                         writer.append("=======================================\n");
                         writer.append("UltimateCore has run into an error \n");
                         writer.append("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket\n");
-                        writer.append("Sponge version: " + Sponge.getPlatform().getImplementation().getName() + " - " + Sponge.getPlatform().getImplementation().getVersion() + " - " + Sponge.getPlatform().getApi().getVersion() + "\n");
+                        writer.append("Sponge version: " + Sponge.getPlatform().getImplementation().getName() + " - " + Sponge.getPlatform().getImplementation().getVersion() + " - " +
+                                Sponge.getPlatform().getApi().getVersion() + "\n");
                         writer.append("UltimateCore version: " + Sponge.getPluginManager().getPlugin("ultimatecore").get().getVersion() + "\n");
                         writer.append("Plugins loaded (" + Sponge.getPluginManager().getPlugins().size() + "): " + Sponge.getPluginManager().getPlugins() + "\n");
                         writer.append("Java version: " + System.getProperty("java.version") + "\n");
@@ -162,8 +164,8 @@ public class ErrorLogger {
 
                         //
                         Webb webb = Webb.create();
-                        String rtrn = webb.get("http://ultimatecore.ga/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg.replace("\n", "<br>"))).asString()
-                                .getBody();
+                        String rtrn = webb.get("http://ultimatecore.org/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg.replace("\n", "<br>")))
+                                .asString().getBody();
 
                         if (rtrn != null && rtrn.equalsIgnoreCase("true")) {
                             r.log("SEND ERROR SUCCESSFULLY");
