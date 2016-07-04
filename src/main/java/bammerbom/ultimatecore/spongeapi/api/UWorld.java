@@ -64,21 +64,21 @@ public class UWorld {
     //Register
     public void register(String gen) {
         JsonConfig conf = new JsonConfig(getDataFile());
-        conf.set(base.getName() + ".env", base.getDimension().getType().getName());
-        conf.set(base.getName() + ".gen", gen);
-        conf.set(base.getName() + ".type", base.getProperties().getGeneratorType().getName());
-        //conf.set(base.getName() + ".gen", base.getGenerator().getClass());
+        conf.set(base.getUniqueId() + ".env", base.getDimension().getType().getId());
+        conf.set(base.getUniqueId() + ".gen", gen);
+        conf.set(base.getUniqueId() + ".type", base.getProperties().getGeneratorType().getId());
+        //conf.set(base.getUniqueId() + ".gen", base.getGenerator().getClass());
         conf.save();
     }
 
     public void unregister() {
         JsonConfig conf = new JsonConfig(getDataFile());
-        conf.set(base.getName(), null);
+        conf.set(base.getUniqueId().toString(), null);
         conf.save();
     }
 
     public void resetData() {
-        String gen = new JsonConfig(getDataFile()).getString(base.getName() + ".gen");
+        String gen = new JsonConfig(getDataFile()).getString(base.getUniqueId() + ".gen");
         unregister();
         register(gen);
     }
@@ -86,10 +86,10 @@ public class UWorld {
     public boolean isFlagDenied(WorldFlag f) {
         File file = getDataFile();
         JsonConfig conf = new JsonConfig(file);
-        if (!conf.contains(getWorld().getName() + ".flags." + f.toString())) {
+        if (!conf.contains(getWorld().getUniqueId() + ".flags." + f.toString())) {
             return false;
         }
-        return !conf.getBoolean(getWorld().getName() + ".flags." + f.toString());
+        return !conf.getBoolean(getWorld().getUniqueId() + ".flags." + f.toString());
     }
 
     public boolean isFlagAllowed(WorldFlag f) {
@@ -99,27 +99,27 @@ public class UWorld {
     public void setFlagAllowed(WorldFlag f) {
         File file = getDataFile();
         JsonConfig conf = new JsonConfig(file);
-        conf.set(getWorld().getName() + ".flags." + f.toString(), true);
+        conf.set(getWorld().getUniqueId() + ".flags." + f.toString(), true);
         conf.save(file);
         if (f.equals(WorldFlag.PVP)) {
-            getWorld().setPVP(true);
+            getWorld().getProperties().setPVPEnabled(true);
         }
     }
 
     public void setFlagDenied(WorldFlag f) {
         File file = getDataFile();
         JsonConfig conf = new JsonConfig(file);
-        conf.set(getWorld().getName() + ".flags." + f.toString(), false);
+        conf.set(getWorld().getUniqueId() + ".flags." + f.toString(), false);
         conf.save(file);
         if (f.equals(WorldFlag.PVP)) {
-            getWorld().setPVP(false);
+            getWorld().getProperties().setPVPEnabled(false);
         }
     }
 
     public GameMode getDefaultGamemode() {
         File file = getDataFile();
         JsonConfig conf = new JsonConfig(file);
-        String gm = conf.getString(getWorld().getName() + ".flags.gamemode");
+        String gm = conf.getString(getWorld().getUniqueId() + ".flags.gamemode");
         try {
             return Sponge.getRegistry().getType(CatalogTypes.GAME_MODE, gm).orElse(null);
         } catch (IllegalArgumentException ex) {
@@ -130,8 +130,9 @@ public class UWorld {
     public void setDefaultGamemode(GameMode gm) {
         File file = getDataFile();
         JsonConfig conf = new JsonConfig(file);
-        conf.set(getWorld().getName() + ".flags.gamemode", gm.getId()))
+        conf.set(getWorld().getUniqueId() + ".flags.gamemode", gm.getId());
         conf.save(file);
+        getWorld().getProperties().setGameMode(gm);
     }
 
     //World

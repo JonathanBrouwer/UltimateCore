@@ -26,9 +26,10 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,22 +48,32 @@ public class CmdTeleportdeny implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> ";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Deny a teleport request.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("tpdeny", "tpno");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return CommandResult.empty();
         }
-        if (!r.perm(cs, "uc.teleportdeny", true, true)) {
+        if (!r.perm(cs, "uc.teleportdeny", true)) {
             return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (UC.getServer().getTeleportRequests().containsKey(p.getUniqueId()) || UC.getServer().getTeleportHereRequests().containsKey(p.getUniqueId())) {
-            Player t1 = r.searchPlayer(UC.getServer().getTeleportRequests().get(p.getUniqueId()));
-            Player t2 = r.searchPlayer(UC.getServer().getTeleportHereRequests().get(p.getUniqueId()));
+            Player t1 = r.searchPlayer(UC.getServer().getTeleportRequests().get(p.getUniqueId())).orElse(null);
+            Player t2 = r.searchPlayer(UC.getServer().getTeleportHereRequests().get(p.getUniqueId())).orElse(null);
             r.sendMes(cs, "teleportdenySender");
             if (t1 != null) {
                 r.sendMes(t1, "teleportdenyTarget", "%Player", r.getDisplayName(p));
@@ -75,10 +86,11 @@ public class CmdTeleportdeny implements UltimateCommand {
         } else {
             r.sendMes(p, "teleportaskNoRequests");
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
     }
 }

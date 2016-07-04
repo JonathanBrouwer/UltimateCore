@@ -27,10 +27,11 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,25 +50,35 @@ public class CmdTeleportaccept implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Accept a teleport request.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("tpaccept", "tpyes");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return CommandResult.empty();
         }
-        if (!r.perm(cs, "uc.teleportaccept", true, true)) {
+        if (!r.perm(cs, "uc.teleportaccept", true)) {
             return CommandResult.empty();
         }
         Player p = (Player) cs;
         if (UC.getServer().getTeleportHereRequests().containsKey(p.getUniqueId())) {
-            Player t = r.searchPlayer(UC.getServer().getTeleportHereRequests().get(p.getUniqueId()));
+            Player t = r.searchPlayer(UC.getServer().getTeleportHereRequests().get(p.getUniqueId())).orElse(null);
             if (t == null) {
                 r.sendMes(p, "teleportaskNoRequests");
             } else {
-                LocationUtil.teleport(p, t, TeleportCause.COMMAND, true, true);
+                LocationUtil.teleport(p, t, Cause.builder().build(), true, true);
                 r.sendMes(cs, "teleportaskhereAcceptSender", "%Player", t.getName());
                 r.sendMes(t, "teleportaskhereAcceptTarget", "%Player", r.getDisplayName(p));
                 UC.getServer().removeTeleportHereRequest(t.getUniqueId());
@@ -75,20 +86,21 @@ public class CmdTeleportaccept implements UltimateCommand {
         } else if (!UC.getServer().getTeleportRequests().containsKey(p.getUniqueId())) {
             r.sendMes(p, "teleportaskNoRequests");
         } else {
-            Player t = r.searchPlayer(UC.getServer().getTeleportRequests().get(p.getUniqueId()));
+            Player t = r.searchPlayer(UC.getServer().getTeleportRequests().get(p.getUniqueId())).orElse(null);
             if (t == null) {
                 r.sendMes(p, "teleportaskNoRequests");
             } else {
-                LocationUtil.teleport(t, p, TeleportCause.COMMAND, true, true);
+                LocationUtil.teleport(t, p, Cause.builder().build(), true, true);
                 r.sendMes(cs, "teleportaskAcceptSender", "%Player", t.getName());
                 r.sendMes(t, "teleportaskAcceptTarget", "%Player", r.getDisplayName(p));
                 UC.getServer().removeTeleportRequest(p.getUniqueId());
             }
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
     }
 }

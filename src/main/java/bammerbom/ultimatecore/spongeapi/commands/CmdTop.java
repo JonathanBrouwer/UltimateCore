@@ -26,35 +26,18 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CmdTop implements UltimateCommand {
-
-    public static Location getHighestY(Location loc) {
-        Integer highest = 0;
-        Integer current = 0;
-        while (current < loc.getWorld().getMaxHeight()) {
-            Integer cur = current;
-            current++;
-            Location loc2 = new Location(loc.getWorld(), loc.getX(), cur, loc.getZ());
-            if (loc2.getBlock() != null && loc2.getBlock().getType() != null && !loc2.getBlock().getType().equals(Material.AIR)) {
-                highest = cur;
-            }
-        }
-        Location loc3 = new Location(loc.getWorld(), loc.getX(), highest, loc.getZ());
-        loc3.setPitch(loc.getPitch());
-        loc3.setYaw(loc.getYaw());
-        return loc3;
-    }
 
     @Override
     public String getName() {
@@ -67,31 +50,43 @@ public class CmdTop implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Teleport yourself to the highest location.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return CommandResult.empty();
         }
         Player p = (Player) cs;
-        if (!r.perm(cs, "uc.top", false, true)) {
+        if (!r.perm(cs, "uc.top", true)) {
             return CommandResult.empty();
         }
-        Location loc = getHighestY(p.getLocation());
+        Location loc = new Location(p.getWorld(), p.getLocation().getX(), LocationUtil.getHighestBlockYAt(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockZ()).orElse
+                (null), p.getLocation().getZ());
         if (loc == null || loc.getY() == 0) {
             r.sendMes(cs, "topFailed");
             return CommandResult.empty();
         }
         loc.add(0, 1.01, 0);
-        LocationUtil.teleport(p, loc, TeleportCause.COMMAND, false, true);
+        LocationUtil.teleport(p, loc, Cause.builder().build(), false, true);
         r.sendMes(cs, "topMessage");
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
     }
 }

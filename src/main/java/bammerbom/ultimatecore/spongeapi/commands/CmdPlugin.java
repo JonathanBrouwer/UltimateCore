@@ -477,7 +477,8 @@ public class CmdPlugin implements UltimateCommand {
 //                        String n = "";
 //                        try {
 //                            String tag = p.getName().toLowerCase();
-//                            if (p.getDescription().getWebsite().startsWith("http://dev.bukkit.org/bukkit-plugins/") || p.getDescription().getWebsite().startsWith("dev.bukkit.org/bukkit-plugins/")) {
+//                            if (p.getDescription().getWebsite().startsWith("http://dev.bukkit.org/bukkit-plugins/") || p.getDescription().getWebsite().startsWith("dev.bukkit
+// .org/bukkit-plugins/")) {
 //                                tag = p.getDescription().getWebsite().split("dev\\.bukkit\\.org/bukkit-plugins/")[1].split("/")[0];
 //                            }
 //                            String pluginUrlString = "http://dev.bukkit.org/bukkit-plugins/" + p.getName().toLowerCase() + "/files.rss";

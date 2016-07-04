@@ -26,10 +26,11 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,13 +50,23 @@ public class CmdTeleportaskall implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Ask everyone to teleport to you.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("tpaall");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.teleportaskall", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.teleportaskall", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
@@ -65,8 +76,8 @@ public class CmdTeleportaskall implements UltimateCommand {
             final Player p = (Player) cs;
             final List<UUID> targets = new ArrayList<>();
             r.sendMes(cs, "teleportaskallSend");
-            for (final Player t : Bukkit.getOnlinePlayers()) {
-                if (UC.getPlayer(t).hasTeleportEnabled() == false && !r.perm(cs, "uc.tptoggle.override", false, false)) {
+            for (final Player t : Sponge.getServer().getOnlinePlayers()) {
+                if (UC.getPlayer(t).hasTeleportEnabled() == false && !r.perm(cs, "uc.tptoggle.override", false)) {
                     r.sendMes(cs, "teleportDisabled");
                     return CommandResult.empty();
                 }
@@ -88,7 +99,7 @@ public class CmdTeleportaskall implements UltimateCommand {
                 r.sendMes(cs, "teleportaskTarget3");
                 targets.add(t.getUniqueId());
             }
-            Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+            Sponge.getScheduler().createTaskBuilder().name("TPA all cancel delay task").delayTicks(r.getCnfg().getInt("Command.Teleport.TpaCancel") * 20L).execute(new Runnable() {
                 @Override
                 public void run() {
                     for (UUID t : targets) {
@@ -97,12 +108,13 @@ public class CmdTeleportaskall implements UltimateCommand {
                         }
                     }
                 }
-            }, r.getCnfg().getInt("Command.Teleport.TpaCancel") * 20L);
+            }).submit(r.getUC());
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
     }
 }

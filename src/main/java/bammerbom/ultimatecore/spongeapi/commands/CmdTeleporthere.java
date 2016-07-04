@@ -26,10 +26,11 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,16 +48,26 @@ public class CmdTeleporthere implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Teleport someone to you.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("tphere");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!r.isPlayer(cs)) {
             return CommandResult.empty();
         }
-        if (!r.perm(cs, "uc.teleporthere", false, true)) {
+        if (!r.perm(cs, "uc.teleporthere", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
@@ -64,18 +75,18 @@ public class CmdTeleporthere implements UltimateCommand {
             return CommandResult.empty();
         }
         Player p = (Player) cs;
-        Player t = r.searchPlayer(args[0]);
+        Player t = r.searchPlayer(args[0]).orElse(null);
         if (t == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return CommandResult.empty();
         }
-        LocationUtil.teleport(t, p, TeleportCause.COMMAND, true, false);
-        LocationUtil.playEffect(p, t.getLocation());
+        LocationUtil.teleport(t, p, Cause.builder().build(), true, false);
         r.sendMes(cs, "teleporthereMessage", "%Player", t.getName());
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

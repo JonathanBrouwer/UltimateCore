@@ -41,9 +41,7 @@ public class StreamUtil {
     }
 
     public static void writeIndent(BufferedWriter writer, int indent) throws IOException {
-        for (int i = 0;
-             i < indent;
-             i++) {
+        for (int i = 0; i < indent; i++) {
             writer.write(32);
         }
     }

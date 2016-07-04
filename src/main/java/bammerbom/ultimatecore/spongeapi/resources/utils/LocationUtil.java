@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import com.flowpowered.math.vector.Vector3d;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.effect.sound.SoundTypes;
@@ -135,8 +136,7 @@ public class LocationUtil {
             return null;
         }
         String[] split = s.contains(",") ? s.split(",") : s.split("\\|");
-        Location loc = new Location(Sponge.getServer().getWorld(UUID.fromString(split[0])).get(), Double.parseDouble(split[1]), Double.parseDouble(split[2]),
-                Double.parseDouble(split[3]));
+        Location loc = new Location(Sponge.getServer().getWorld(UUID.fromString(split[0])).get(), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]));
         Vector3d rot = new Vector3d(Double.parseDouble(split[4]), Double.parseDouble(split[5]), Double.parseDouble(split[6]));
         return new Object[]{loc, rot};
     }
@@ -176,5 +176,16 @@ public class LocationUtil {
             return null;
         }
         return Math.sqrt(Math.pow(l1.getX() - l2.getX(), 2) + Math.pow(l1.getY() - l2.getY(), 2) + Math.pow(l1.getZ() - l2.getZ(), 2));
+    }
+
+    public static Optional<Integer> getHighestBlockYAt(World w, int x, int z) {
+        int y = 256; //TODO max hight?
+        while (y >= 0) {
+            if (!w.getLocation(x, y, z).getBlockType().equals(BlockTypes.AIR)) {
+                return Optional.of(y);
+            }
+            y--;
+        }
+        return Optional.empty();
     }
 }

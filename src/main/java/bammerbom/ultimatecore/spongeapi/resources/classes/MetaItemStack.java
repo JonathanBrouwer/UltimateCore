@@ -111,9 +111,7 @@ public class MetaItemStack {
         if (string[fromArg].startsWith("{")) {
             this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
         } else {
-            for (int i = fromArg;
-                 i < string.length;
-                 i++) {
+            for (int i = fromArg; i < string.length; i++) {
                 addStringMeta(sender, allowUnsafe, string[i]);
             }
             if (this.validFirework) {
@@ -214,8 +212,8 @@ public class MetaItemStack {
             addPotionMeta(false, string);
         } else if (this.stack.getItemMeta() instanceof BannerMeta) { //WARNING - Meta for banners will be ignored after this point.
             addBannerMeta(cs, false, string);
-        } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour"))) && ((this.stack.getType() == Material.LEATHER_BOOTS) || (this.stack
-                .getType() == Material.LEATHER_CHESTPLATE) || (this.stack.getType() == Material.LEATHER_HELMET) || (this.stack.getType() == Material.LEATHER_LEGGINGS))) {
+        } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour"))) && ((this.stack.getType() == Material.LEATHER_BOOTS) || (this
+                .stack.getType() == Material.LEATHER_CHESTPLATE) || (this.stack.getType() == Material.LEATHER_HELMET) || (this.stack.getType() == Material.LEATHER_LEGGINGS))) {
             String[] color = split[1].split("(\\||,)");
             if (color.length == 3) {
                 int red = r.isInt(color[0]) ? Integer.parseInt(color[0]) : 0;
@@ -402,7 +400,8 @@ public class MetaItemStack {
                     }
                 }
                 this.builder.withColor(primaryColors);
-            } else if ((split[0].equalsIgnoreCase("shape")) || (split[0].equalsIgnoreCase("type")) || ((allowShortName) && ((split[0].equalsIgnoreCase("s")) || (split[0].equalsIgnoreCase("t"))))) {
+            } else if ((split[0].equalsIgnoreCase("shape")) || (split[0].equalsIgnoreCase("type")) || ((allowShortName) && ((split[0].equalsIgnoreCase("s")) || (split[0].equalsIgnoreCase
+                    ("t"))))) {
                 FireworkEffect.Type finalEffect = null;
                 split[1] = (split[1].equalsIgnoreCase("large") ? "BALL_LARGE" : split[1]);
                 if (fireworkShape.containsKey(split[1].toUpperCase())) {
