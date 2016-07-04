@@ -129,7 +129,7 @@ public class MotdListener implements Listener {
                 int onlineplayers = e.getNumPlayers();
                 String servername = Bukkit.getServerName();
 
-                String bantime = ChatColor.stripColor(DateUtil.formatDateDiff(UC.getPlayer(p).getBanTime(), 2));
+                String bantime = UC.getPlayer(p).getBanTime() <= 1 ? r.mes("banForever") : ChatColor.stripColor(DateUtil.formatDateDiff(UC.getPlayer(p).getBanTime(), 2));
                 String banreason = UC.getPlayer(p).getBanReason();
 
                 String motd = banMotd;
@@ -141,7 +141,7 @@ public class MotdListener implements Listener {
                 motd = motd.replace("+Maxplayers", maxplayers + "");
                 motd = motd.replace("+Onlineplayers", onlineplayers + "");
                 motd = motd.replace("+Servername", servername);
-                motd = motd.replace("+Bantime", bantime);
+                motd = motd.replace("+Bantime", ChatColor.stripColor(bantime));
                 motd = motd.replace("+Banreason", banreason);
                 e.setMotd(motd);
             }
