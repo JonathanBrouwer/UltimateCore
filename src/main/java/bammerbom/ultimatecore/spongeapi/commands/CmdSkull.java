@@ -24,8 +24,15 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.SkullTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,12 +52,12 @@ public class CmdSkull implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Get the head of a player.");
     }
 
     @Override
@@ -60,6 +67,30 @@ public class CmdSkull implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.skull", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        if (r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.skull.others", true)) {
+                return CommandResult.empty();
+            }
+            GameProfile t = r.searchGameProfile(args[0]).orElse(null);
+            if (t == null) {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                return CommandResult.empty();
+            }
+            ItemStack skull = ItemStack.builder().itemType(ItemTypes.SKULL).add(Keys.SKULL_TYPE, SkullTypes.PLAYER).add(Keys.REPRESENTED_PLAYER, t).build();
+            p.getInventory().offer(skull);
+            r.sendMes(cs, "skullMessage", "%Player", t.getName());
+        } else {
+            ItemStack skull = ItemStack.builder().itemType(ItemTypes.SKULL).add(Keys.SKULL_TYPE, SkullTypes.PLAYER).add(Keys.REPRESENTED_PLAYER, p.getProfile()).build();
+            p.getInventory().offer(skull);
+            r.sendMes(cs, "skullMessage", "%Player", r.getDisplayName(p));
+        }
         return CommandResult.success();
     }
 
@@ -67,47 +98,4 @@ public class CmdSkull implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-    //    @Override
-    //    public List<String> getAliases() {
-    //        return Arrays.asList();
-    //    }
-    //
-    //    @Override
-    //    public void run(final CommandSource cs, String label, String[] args) {
-    //        if (!r.perm(cs, "uc.skull", false, true)) {
-    //            return CommandResult.empty();
-    //        }
-    //        if (!r.isPlayer(cs)) {
-    //            return CommandResult.empty();
-    //        }
-    //        Player p = (Player) cs;
-    //        if (r.checkArgs(args, 0)) {
-    //            if (!r.perm(cs, "uc.skull.others", false, true)) {
-    //                return CommandResult.empty();
-    //            }
-    //            OfflinePlayer t = r.searchGameProfile(args[0]);
-    //            if (t == null) {
-    //                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-    //                return CommandResult.empty();
-    //            }
-    //            ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-    //            SkullMeta meta = (SkullMeta) skull.getItemMeta();
-    //            meta.setOwner(t.getName());
-    //            skull.setItemMeta(meta);
-    //            InventoryUtil.addItem(p.getInventory(), skull);
-    //            r.sendMes(cs, "skullMessage", "%Player", t.getName());
-    //        } else {
-    //            ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-    //            SkullMeta meta = (SkullMeta) skull.getItemMeta();
-    //            meta.setOwner(p.getName());
-    //            skull.setItemMeta(meta);
-    //            InventoryUtil.addItem(p.getInventory(), skull);
-    //            r.sendMes(cs, "skullMessage", "%Player", r.getDisplayName(p));
-    //        }
-    //    }
-    //
-    //    @Override
-    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-    //        return null;
-    //    }
 }

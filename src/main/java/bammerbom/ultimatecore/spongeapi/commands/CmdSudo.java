@@ -24,8 +24,10 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,12 +47,12 @@ public class CmdSudo implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Player> <Command>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Force a player to run a command.");
     }
 
     @Override
@@ -60,6 +62,33 @@ public class CmdSudo implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.sudo", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 1)) {
+            r.sendMes(cs, "sudoUsage");
+            return CommandResult.empty();
+        }
+        Player t = r.searchPlayer(args[0]).orElse(null);
+        if (t == null) {
+            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+            return CommandResult.empty();
+        }
+        if (r.perm(t, "uc.sudo.exempt", false) && !r.perm(cs, "uc.sudo.exempt.override", false)) {
+            r.sendMes(cs, "sudoExempt");
+            return CommandResult.empty();
+        }
+        final String[] arguments = new String[args.length - 1];
+        if (arguments.length > 0) {
+            System.arraycopy(args, 1, arguments, 0, args.length - 1);
+        }
+        final String command = r.getFinalArg(arguments, 0);
+        r.sendMes(cs, "sudoMessage", "%Player", t.getName(), "%Command", command);
+        try {
+            t.getMessageChannel().send(Text.of("/" + command));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return CommandResult.success();
     }
 
@@ -67,44 +96,4 @@ public class CmdSudo implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-    //    @Override
-    //    public List<String> getAliases() {
-    //        return Arrays.asList();
-    //    }
-    //
-    //    @Override
-    //    public void run(final CommandSource cs, String label, String[] args) {
-    //        if (!r.perm(cs, "uc.sudo", false, true)) {
-    //            return CommandResult.empty();
-    //        }
-    //        if (!r.checkArgs(args, 1)) {
-    //            r.sendMes(cs, "sudoUsage");
-    //            return CommandResult.empty();
-    //        }
-    //        Player t = r.searchPlayer(args[0]);
-    //        if (t == null) {
-    //            r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-    //            return CommandResult.empty();
-    //        }
-    //        if (r.perm(t, "uc.sudo.exempt", false, false) && !r.perm(cs, "uc.sudo.exempt.override", false, false)) {
-    //            r.sendMes(cs, "sudoExempt");
-    //            return CommandResult.empty();
-    //        }
-    //        final String[] arguments = new String[args.length - 1];
-    //        if (arguments.length > 0) {
-    //            System.arraycopy(args, 1, arguments, 0, args.length - 1);
-    //        }
-    //        final String command = r.getFinalArg(arguments, 0);
-    //        r.sendMes(cs, "sudoMessage", "%Player", t.getName(), "%Command", command);
-    //        try {
-    //            Bukkit.getServer().dispatchCommand(t, command);
-    //        } catch (Exception ex) {
-    //            ex.printStackTrace();
-    //        }
-    //    }
-    //
-    //    @Override
-    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-    //        return null;
-    //    }
 }

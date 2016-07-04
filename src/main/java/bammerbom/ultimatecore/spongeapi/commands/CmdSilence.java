@@ -24,10 +24,14 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,7 +54,7 @@ public class CmdSilence implements UltimateCommand {
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Disable the chat for the entire server.");
     }
 
     @Override
@@ -60,38 +64,25 @@ public class CmdSilence implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.silence", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 0)) {
+            UC.getServer().setSilenced(true);
+            r.sendMes(cs, "silenceMessage");
+        } else {
+            Long time = null;
+            if (DateUtil.parseDateDiff(args[0]) != -1) {
+                time = DateUtil.parseDateDiff(args[0]);
+            }
+            UC.getServer().setSilenced(true, time);
+            r.sendMes(cs, "silenceMessageTime", "%Time", DateUtil.format(time));
+        }
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>();
     }
-    //    @Override
-    //    public List<String> getAliases() {
-    //        return Arrays.asList("disablechat");
-    //    }
-    //
-    //    @Override
-    //    public void run(final CommandSource cs, String label, String[] args) {
-    //        if (!r.perm(cs, "uc.silence", false, true)) {
-    //            return CommandResult.empty();
-    //        }
-    //        if (!r.checkArgs(args, 0)) {
-    //            UC.getServer().setSilenced(true);
-    //            r.sendMes(cs, "silenceMessage");
-    //        } else {
-    //            Long time = null;
-    //            if (DateUtil.parseDateDiff(args[0]) != -1) {
-    //                time = DateUtil.parseDateDiff(args[0]);
-    //            }
-    //            UC.getServer().setSilenced(true, time);
-    //            r.sendMes(cs, "silenceMessageTime", "%Time", DateUtil.format(time));
-    //        }
-    //    }
-    //
-    //    @Override
-    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-    //        return new ArrayList<>();
-    //    }
 }

@@ -24,8 +24,11 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,21 +48,83 @@ public class CmdSethealth implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <Health> [Player]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Set the amount of health of a player.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("setlives");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.sethealth", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.checkArgs(args, 0)) {
+            if (!r.isPlayer(cs)) {
+                return CommandResult.empty();
+            }
+            Player p = (Player) cs;
+            p.offer(Keys.HEALTH, p.get(Keys.MAX_HEALTH).orElse(20.0));
+            r.sendMes(cs, "sethealthMessage", "%Player", r.getDisplayName(p), "%Health", "20.0");
+        } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
+            if (!r.isPlayer(cs)) {
+                return CommandResult.empty();
+            }
+            if (r.isDouble(args[0])) {
+                Double d = Double.parseDouble(args[0]);
+                d = r.normalize(d, 0.0, 2048.0);
+                Player p = (Player) cs;
+                if (p.get(Keys.MAX_HEALTH).orElse(20.0) < d) {
+                    p.offer(Keys.MAX_HEALTH, 20.0);
+                }
+                p.offer(Keys.HEALTH, 20.0);
+                r.sendMes(cs, "sethealthMessage", "%Player", r.getDisplayName(p), "%Health", d);
+            } else {
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
+            }
+        } else if (r.checkArgs(args, 1)) {
+            if (!r.perm(cs, "uc.sethealth.others", true)) {
+                return CommandResult.empty();
+            }
+            if (r.isDouble(args[0])) {
+                Double d = Double.parseDouble(args[0]);
+                d = r.normalize(d, 0.0, 2048.0);
+                Player t = r.searchPlayer(args[1]).orElse(null);
+                if (t == null) {
+                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
+                    return CommandResult.empty();
+                }
+                if (t.get(Keys.MAX_HEALTH).orElse(20.0) < d) {
+                    t.offer(Keys.MAX_HEALTH, 20.0);
+                }
+                t.offer(Keys.HEALTH, 20.0);
+                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Health", d);
+                r.sendMes(t, "sethealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
+            } else if (r.isDouble(args[1])) {
+                Double d = Double.parseDouble(args[1]);
+                d = r.normalize(d, 0.0, 999999.0);
+                Player t = r.searchPlayer(args[0]).orElse(null);
+                if (t == null) {
+                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                    return CommandResult.empty();
+                }
+                if (t.get(Keys.MAX_HEALTH).orElse(20.0) < d) {
+                    t.offer(Keys.MAX_HEALTH, 20.0);
+                }
+                t.offer(Keys.HEALTH, 20.0);
+                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Health", d);
+                r.sendMes(t, "sethealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
+            } else {
+                r.sendMes(cs, "numberFormat", "%Number", args[0]);
+            }
+        }
         return CommandResult.success();
     }
 
@@ -67,79 +132,4 @@ public class CmdSethealth implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-    //    @Override
-    //    public List<String> getAliases() {
-    //        return Arrays.asList("setlives");
-    //    }
-    //
-    //    @Override
-    //    public void run(final CommandSource cs, String label, String[] args) {
-    //        if (!r.perm(cs, "uc.sethealth", false, true)) {
-    //            return CommandResult.empty();
-    //        }
-    //        if (!r.checkArgs(args, 0)) {
-    //            if (!r.isPlayer(cs)) {
-    //                return CommandResult.empty();
-    //            }
-    //            Player p = (Player) cs;
-    //            p.setHealth(20.0);
-    //            r.sendMes(cs, "sethealthMessage", "%Player", r.getDisplayName(p), "%Health", "20.0");
-    //        } else if (r.checkArgs(args, 0) && !r.checkArgs(args, 1)) {
-    //            if (!r.isPlayer(cs)) {
-    //                return CommandResult.empty();
-    //            }
-    //            if (r.isDouble(args[0])) {
-    //                Double d = Double.parseDouble(args[0]);
-    //                d = r.normalize(d, 0.0, 2048.0);
-    //                Player p = (Player) cs;
-    //                if (p.getMaxHealth() < d) {
-    //                    p.setMaxHealth(d);
-    //                }
-    //                p.setHealth(d);
-    //                r.sendMes(cs, "sethealthMessage", "%Player", r.getDisplayName(p), "%Health", d);
-    //            } else {
-    //                r.sendMes(cs, "numberFormat", "%Number", args[0]);
-    //            }
-    //        } else if (r.checkArgs(args, 1)) {
-    //            if (!r.perm(cs, "uc.sethealth.others", false, true)) {
-    //                return CommandResult.empty();
-    //            }
-    //            if (r.isDouble(args[0])) {
-    //                Double d = Double.parseDouble(args[0]);
-    //                d = r.normalize(d, 0.0, 2048.0);
-    //                Player t = r.searchPlayer(args[1]);
-    //                if (t == null) {
-    //                    r.sendMes(cs, "playerNotFound", "%Player", args[1]);
-    //                    return CommandResult.empty();
-    //                }
-    //                if (t.getMaxHealth() < d) {
-    //                    t.setMaxHealth(d);
-    //                }
-    //                t.setHealth(d);
-    //                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Health", d);
-    //                r.sendMes(t, "sethealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
-    //            } else if (r.isDouble(args[1])) {
-    //                Double d = Double.parseDouble(args[1]);
-    //                d = r.normalize(d, 0.0, 999999.0);
-    //                Player t = r.searchPlayer(args[0]);
-    //                if (t == null) {
-    //                    r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-    //                    return CommandResult.empty();
-    //                }
-    //                if (t.getMaxHealth() < d) {
-    //                    t.setMaxHealth(d);
-    //                }
-    //                t.setHealth(d);
-    //                r.sendMes(cs, "sethealthMessage", "%Player", t.getName(), "%Health", d);
-    //                r.sendMes(t, "sethealthOthers", "%Player", r.getDisplayName(cs), "%Health", d);
-    //            } else {
-    //                r.sendMes(cs, "numberFormat", "%Number", args[0]);
-    //            }
-    //        }
-    //    }
-    //
-    //    @Override
-    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-    //        return null;
-    //    }
 }

@@ -24,8 +24,12 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.api.UC;
+import bammerbom.ultimatecore.spongeapi.api.UPlayer;
+import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -45,21 +49,31 @@ public class CmdSpy implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Toggle spymode for yourself.");
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList();
+        return Arrays.asList("socialspy");
     }
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.spy", true)) {
+            return CommandResult.empty();
+        }
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        UPlayer up = UC.getPlayer(p);
+        up.setSpy(!up.isSpy());
+        r.sendMes(cs, "spyMessage", "%Spy", up.isSpy() ? r.mes("on") : r.mes("off"));
         return CommandResult.success();
     }
 
@@ -67,27 +81,4 @@ public class CmdSpy implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-    //    @Override
-    //    public List<String> getAliases() {
-    //        return Arrays.asList("socialspy");
-    //    }
-    //
-    //    @Override
-    //    public void run(final CommandSource cs, String label, String[] args) {
-    //        if (!r.perm(cs, "uc.spy", true, true)) {
-    //            return CommandResult.empty();
-    //        }
-    //        if (!r.isPlayer(cs)) {
-    //            return CommandResult.empty();
-    //        }
-    //        Player p = (Player) cs;
-    //        UPlayer up = UC.getPlayer(p);
-    //        up.setSpy(!up.isSpy());
-    //        r.sendMes(cs, "spyMessage", "%Spy", up.isSpy() ? r.mes("on") : r.mes("off"));
-    //    }
-    //
-    //    @Override
-    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-    //        return null;
-    //    }
 }

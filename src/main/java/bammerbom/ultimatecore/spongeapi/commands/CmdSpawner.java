@@ -24,10 +24,20 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.classes.MobType;
+import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
+import org.spongepowered.api.block.tileentity.MobSpawner;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.EntitySnapshot;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,12 +55,12 @@ public class CmdSpawner implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> <MobType>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Set the mob type of a spawner.");
     }
 
     @Override
@@ -60,53 +70,39 @@ public class CmdSpawner implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.isPlayer(cs)) {
+            return CommandResult.empty();
+        }
+        if (!r.perm(cs, "uc.spawner", true)) {
+            return CommandResult.empty();
+        }
+        Player p = (Player) cs;
+        if (!r.checkArgs(args, 0)) {
+            r.sendMes(cs, "spawnerUsage");
+            return CommandResult.empty();
+        }
+        Location b = LocationUtil.getTarget(p).orElse(p.getLocation());
+        if (!b.getTileEntity().isPresent() || !(b.getTileEntity().get() instanceof MobSpawner)) {
+            r.sendMes(cs, "spawnerNotLooking");
+            return CommandResult.empty();
+        }
+        MobSpawner spawner = (MobSpawner) b.getTileEntity().get();
+        MobType m = MobType.fromName(args[0]);
+        if (m == null || m.getType() == null || m.getType().equals(EntityTypes.UNKNOWN)) {
+            r.sendMes(cs, "spawnerNotFound", "%MobType", args[0]);
+            return CommandResult.empty();
+        }
+        spawner.offer(Keys.SPAWNER_ENTITIES, Arrays.asList(EntitySnapshot.builder().type(m.getType()).build()));
+        r.sendMes(cs, "spawnerMessage", "%MobType", m.name().toLowerCase());
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
-        return null;
+        List<String> rtrn = new ArrayList<>();
+        for (MobType t : MobType.values()) {
+            rtrn.add(t.name);
+        }
+        return rtrn;
     }
-    //    @Override
-    //    public List<String> getAliases() {
-    //        return Arrays.asList();
-    //    }
-    //
-    //    @Override
-    //    public void run(final CommandSource cs, String label, String[] args) {
-    //        if (!r.isPlayer(cs)) {
-    //            return CommandResult.empty();
-    //        }
-    //        if (!r.perm(cs, "uc.spawner", false, true)) {
-    //            return CommandResult.empty();
-    //        }
-    //        Player p = (Player) cs;
-    //        if (!r.checkArgs(args, 0)) {
-    //            r.sendMes(cs, "spawnerUsage");
-    //            return CommandResult.empty();
-    //        }
-    //        Block b = p.getTargetBlock((Set<Material>) null, 10);
-    //        if (!(b.getState() instanceof CreatureSpawner)) {
-    //            r.sendMes(cs, "spawnerNotLooking");
-    //            return CommandResult.empty();
-    //        }
-    //        CreatureSpawner c = (CreatureSpawner) b.getState();
-    //        MobType m = MobType.fromName(args[0]);
-    //        if (m == null || m.getType() == null || m.getType().equals(EntityType.UNKNOWN) || !m.getType().isSpawnable()) {
-    //            r.sendMes(cs, "spawnerNotFound", "%MobType", args[0]);
-    //            return CommandResult.empty();
-    //        }
-    //        c.setSpawnedType(m.getType());
-    //        c.update();
-    //        r.sendMes(cs, "spawnerMessage", "%MobType", m.name().toLowerCase());
-    //    }
-    //
-    //    @Override
-    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-    //        List<String> rtrn = new ArrayList<>();
-    //        for (MobType t : MobType.values()) {
-    //            rtrn.add(t.name);
-    //        }
-    //        return rtrn;
-    //    }
 }

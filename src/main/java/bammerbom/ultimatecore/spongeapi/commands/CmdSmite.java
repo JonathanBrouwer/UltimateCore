@@ -24,9 +24,16 @@
 package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
+import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.weather.Lightning;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,12 +52,12 @@ public class CmdSmite implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player]";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Throw lightning at a player.");
     }
 
     @Override
@@ -60,6 +67,32 @@ public class CmdSmite implements UltimateCommand {
 
     @Override
     public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.smite", true)) {
+            return CommandResult.empty();
+        }
+        if (r.checkArgs(args, 0)) {
+            if (!r.perm(cs, "uc.smite.others", true)) {
+                return CommandResult.empty();
+            }
+            Player targetp = r.searchPlayer(args[0]).orElse(null);
+            if (targetp == null) {
+                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
+                return CommandResult.empty();
+            }
+            Location target = targetp.getLocation();
+            Lightning li = (Lightning) target.getExtent().createEntity(EntityTypes.LIGHTNING, target.getPosition()).get();
+            li.setEffect(!r.getCnfg().getBoolean("Command.Smite.smiteDamage"));
+            target.getExtent().spawnEntity(li, Cause.builder().build()); //TODO Cause
+        } else {
+            if (!(r.isPlayer(cs))) {
+                return CommandResult.empty();
+            }
+            Player p = (Player) cs;
+            Location target = LocationUtil.getTarget(p).orElse(p.getLocation());
+            Lightning li = (Lightning) target.getExtent().createEntity(EntityTypes.LIGHTNING, target.getPosition()).get();
+            li.setEffect(!r.getCnfg().getBoolean("Command.Smite.smiteDamage"));
+            target.getExtent().spawnEntity(li, Cause.builder().build()); //TODO Cause
+        }
         return CommandResult.success();
     }
 
@@ -67,48 +100,4 @@ public class CmdSmite implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
-    //    @Override
-    //    public List<String> getAliases() {
-    //        return Arrays.asList();
-    //    }
-    //
-    //    @Override
-    //    public void run(final CommandSource cs, String label, String[] args) {
-    //        if (!r.perm(cs, "uc.smite", false, true)) {
-    //            return CommandResult.empty();
-    //        }
-    //        if (r.checkArgs(args, 0)) {
-    //            if (!r.perm(cs, "uc.smite.others", false, true)) {
-    //                return CommandResult.empty();
-    //            }
-    //            Player target = r.searchPlayer(args[0]);
-    //            if (target == null) {
-    //                r.sendMes(cs, "playerNotFound", "%Player", args[0]);
-    //                return CommandResult.empty();
-    //            }
-    //            Location tPlayerLocation = target.getLocation();
-    //            if (!r.getCnfg().getBoolean("Command.Smite.smiteDamage")) {
-    //                target.getWorld().strikeLightningEffect(tPlayerLocation);
-    //            } else {
-    //                target.getWorld().strikeLightning(tPlayerLocation);
-    //            }
-    //        } else {
-    //            if (!(r.isPlayer(cs))) {
-    //                return CommandResult.empty();
-    //            }
-    //            Player p = (Player) cs;
-    //            Block strike = p.getTargetBlock((Set<Material>) null, 150);
-    //            Location strikel = strike.getLocation();
-    //            if (!r.getCnfg().getBoolean("Command.Smite.smiteDamage")) {
-    //                p.getWorld().strikeLightningEffect(strikel);
-    //            } else {
-    //                p.getWorld().strikeLightning(strikel);
-    //            }
-    //        }
-    //    }
-    //
-    //    @Override
-    //    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-    //        return null;
-    //    }
 }
