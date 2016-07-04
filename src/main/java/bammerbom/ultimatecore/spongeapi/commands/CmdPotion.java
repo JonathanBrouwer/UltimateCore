@@ -25,18 +25,21 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
+import bammerbom.ultimatecore.spongeapi.resources.databases.EffectDatabase;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
+import org.spongepowered.api.effect.potion.PotionEffect;
 import org.spongepowered.api.effect.potion.PotionEffectType;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -92,18 +95,15 @@ public class CmdPotion implements UltimateCommand {
             return CommandResult.empty();
         }
 
-        Boolean spawnin = p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build().supports(Keys.POTION_EFFECTS);
+        Boolean spawnin = p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build()).supports(Keys.POTION_EFFECTS);
         ItemStack stack = spawnin ? p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build()) : ItemStack.builder().itemType(ItemTypes.POTION)
                 .build();
-        PotionMeta meta = (PotionMeta) stack.getItemMeta();
         if (args[0].equalsIgnoreCase("clear")) {
             if (spawnin) {
                 r.sendMes(cs, "potionClearSpawnin");
                 return CommandResult.empty();
             }
-            stack.setDurability(Short.parseShort("0"));
-            meta.clearCustomEffects();
-            stack.setItemMeta(meta);
+            stack.offer(Keys.POTION_EFFECTS, new ArrayList<>());
             r.sendMes(cs, "potionClear");
             return CommandResult.empty();
 
@@ -135,11 +135,8 @@ public class CmdPotion implements UltimateCommand {
         dur = r.normalize(dur, 0, 999999);
         if (lev == 0 || dur == 0) {
             if (!spawnin) {
-                meta.removeCustomEffect(ef);
-                if (StringUtil.nullOrEmpty(meta.getCustomEffects())) {
-                    stack.setDurability(Short.parseShort("0"));
-                }
-                stack.setItemMeta(meta);
+                List<PotionEffect> efs = stack.get(Keys.POTION_EFFECTS).orElse(new ArrayList<>());
+                stack.get(Keys.POTION_EFFECTS).get().removeIf(pot -> pot.getType().equals(ef)); //TODO does this work?
                 r.sendMes(cs, "potionRemove");
                 return CommandResult.empty();
             } else {
@@ -147,36 +144,22 @@ public class CmdPotion implements UltimateCommand {
                 dur = r.normalize(dur, 1, 999999);
             }
         }
-        PotionEffect effect = new PotionEffect(ef, dur * 20, lev - 1);
-        meta.addCustomEffect(effect, true);
-        meta.setMainEffect(ef);
-        stack.setItemMeta(meta);
-        stack.setDurability(Short.parseShort("1"));
-        Potion potion = Potion.fromItemStack(stack);
+        PotionEffect effect = PotionEffect.of(ef, lev, dur);
+        stack.get(Keys.POTION_EFFECTS).get().add(effect); //TODO does this work?
         for (String str : args) {
             if (str.equalsIgnoreCase("splash")) {
-                potion.setSplash(true);
+                stack = ItemStack.builder().fromItemStack(stack).itemType(ItemTypes.SPLASH_POTION).build();
             }
             if (str.equalsIgnoreCase("lingering")) {
-                //TODO lingering
+                stack = ItemStack.builder().fromItemStack(stack).itemType(ItemTypes.LINGERING_POTION).build();
             }
         }
-        potion.apply(stack);
-        Potion potion2 = new Potion(PotionType.getByEffect(ef));
-        potion2.setSplash(potion.isSplash());
-        stack.setDurability(potion2.toDamageValue());
-        if (PotionType.getByEffect(ef) == null) {
-            if (!potion.isSplash()) {
-                stack.setDurability(Short.parseShort("8232"));
-            } else {
-                stack.setDurability(Short.parseShort("16424"));
-            }
-        }
-        String splash = potion.isSplash() ? r.mes("potionSplash") : r.mes("potionPotion");
+        Text splash = stack.getItem().equals(ItemTypes.LINGERING_POTION) ? r.mes("potionSplash") : r.mes("potionPotion");
         if (spawnin) {
-            p.getInventory().addItem(stack);
+            p.getInventory().offer(stack);
             r.sendMes(cs, "potionGive", "%Potion", splash, "%Effect", ef.getName().toLowerCase());
         } else {
+            p.setItemInHand(HandTypes.MAIN_HAND, stack);
             r.sendMes(cs, "potionAdd", "%Potion", splash, "%Effect", ef.getName().toLowerCase());
         }
         return CommandResult.success();
@@ -186,7 +169,7 @@ public class CmdPotion implements UltimateCommand {
     public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         if (curn == 0) {
             List<String> l = new ArrayList<>();
-            for (PotionEffectType t : PotionEffectType.values()) {
+            for (PotionEffectType t : Sponge.getRegistry().getAllOf(CatalogTypes.POTION_EFFECT_TYPE)) {
                 if (t == null || t.getName() == null) {
                     continue;
                 }

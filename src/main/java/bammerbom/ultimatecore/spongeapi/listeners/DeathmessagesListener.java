@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
@@ -106,8 +105,6 @@ public class DeathmessagesListener {
 
     @Listener(order = Order.DEFAULT)
     public void death(DestructEntityEvent.Chat e) {
-        //TODO find a better way to do this
-        //This is needed so minecraft doenst take the old deathmessage
         if (e.getRawMessage() instanceof TranslatableText) {
             String key = ((TranslatableText) e.getRawMessage()).getTranslation().getId();
             if (msg.containsKey(key)) {
@@ -115,11 +112,11 @@ public class DeathmessagesListener {
                 if (e.getCause().first(Player.class).isPresent()) {
                     Player k = e.getCause().first(Player.class).get();
                     ItemStack stack = k.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build());
-                    Text name = ItemUtil.getName(stack);
+                    Text name = stack.get(Keys.DISPLAY_NAME).orElse(Text.of(stack.getItem().getName()));
                     if (stack.get(Keys.DISPLAY_NAME).isPresent()) {
                         name = stack.get(Keys.DISPLAY_NAME).get();
                     }
-                    e.setMessage(e.getMessage().replace("%Weapon", name)); //TODO replace
+                    e.setMessage(Text.of(e.getMessage().toString().replace("%Weapon", name.toPlain())));
                 }
             }
         }

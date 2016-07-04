@@ -35,6 +35,7 @@ import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.service.permission.option.OptionSubject;
 import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
@@ -198,18 +199,6 @@ public class ChatListener {
                     Subject group = r.getPrimaryGroup(p);
                     if (!(group == null) && !group.equalsIgnoreCase("") && r.getCnfg().get("Chat.Groups." + group) != null) {
                         String f = r.getCnfg().getString("Chat.Groups." + group);
-                        String prefix = service.getGroupSubjects();
-                        String suffix = "";
-                        if (r.getVault().getChat() != null) { //TODO prefix & suffix
-                            prefix = r.getVault().getChat().getGroupPrefix(p.getWorld(), r.getPrimaryGroup(p));
-                            suffix = r.getVault().getChat().getGroupSuffix(p.getWorld(), r.getPrimaryGroup(p));
-                            if ((r.getVault().getChat().getPlayerPrefix(p) != null) && !r.getVault().getChat().getPlayerPrefix(p).isEmpty()) {
-                                prefix = r.getVault().getChat().getPlayerPrefix(p);
-                            }
-                            if ((r.getVault().getChat().getPlayerSuffix(p) != null) && !r.getVault().getChat().getPlayerSuffix(p).isEmpty()) {
-                                suffix = r.getVault().getChat().getPlayerSuffix(p);
-                            }
-                        }
                         if (!f.contains("\\+Name")) {
                             p.offer(Keys.DISPLAY_NAME, UC.getPlayer(p).getDisplayName());
                         } else {
@@ -230,18 +219,9 @@ public class ChatListener {
             String group = "";
             String prefix = "";
             String suffix = "";
-            if (r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getChat() != null) {
-                group = r.getPrimaryGroup(p);
-                prefix = r.getVault().getChat().getGroupPrefix(p.getWorld(), r.getPrimaryGroup(p));
-                suffix = r.getVault().getChat().getGroupSuffix(p.getWorld(), r.getPrimaryGroup(p));
-            }
-            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerPrefix(p) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer())
-                    .equalsIgnoreCase("")) {
-                prefix = r.getVault().getChat().getPlayerPrefix(p);
-            }
-            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(p) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer())
-                    .equalsIgnoreCase("")) {
-                suffix = r.getVault().getChat().getPlayerSuffix(p);
+            if (p instanceof OptionSubject) {
+                prefix = ((OptionSubject) p).getOption("prefix").orElse("");
+                suffix = ((OptionSubject) p).getOption("suffix").orElse("");
             }
             if (!f.contains("\\+Name")) {
                 p.offer(Keys.DISPLAY_NAME, UC.getPlayer(p).getDisplayName());

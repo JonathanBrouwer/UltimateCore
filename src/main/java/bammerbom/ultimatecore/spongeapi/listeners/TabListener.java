@@ -32,6 +32,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.spongepowered.api.service.permission.option.OptionSubject;
 
 import java.lang.management.ManagementFactory;
 import java.util.HashMap;
@@ -148,6 +149,14 @@ public class TabListener implements Listener {
         String group = "";
         String prefix = "";
         String suffix = "";
+        //TODO SPONGE
+        String prefix = "";
+        String suffix = "";
+        if (p instanceof OptionSubject) {
+            prefix = ((OptionSubject) p).getOption("prefix").orElse("");
+            suffix = ((OptionSubject) p).getOption("suffix").orElse("");
+        }
+        //SPONGE END
         if (r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getPermission().getPrimaryGroup(p) != null) {
             group = r.getVault().getPermission().getPrimaryGroup(p) != null ? r.getVault().getPermission().getPrimaryGroup(p) : "";
             if (r.getVault().getChat() != null && !group.isEmpty()) {
