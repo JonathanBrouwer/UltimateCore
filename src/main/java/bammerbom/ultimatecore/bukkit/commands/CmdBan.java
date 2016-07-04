@@ -69,7 +69,7 @@ public class CmdBan implements UltimateCommand {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return;
         }
-        Long time = 0L;
+        Long time = -1L;
         String reason = ChatColor.stripColor(r.mes("banDefaultReason"));
         if (r.checkArgs(args, 1) == false) {
         } else if (DateUtil.parseDateDiff(args[1]) == -1) {
@@ -81,7 +81,7 @@ public class CmdBan implements UltimateCommand {
             }
         }
         String timen = DateUtil.format(time);
-        if (time == 0) {
+        if (time == -1) {
             timen = r.mes("banForever");
         } else {
             timen = "" + timen;

@@ -37,7 +37,7 @@ public class DateUtil {
             return -1;
         }
         try {
-            Long mil = 999L;
+            Long mil = -1L;
             Matcher matcher = Pattern.compile("\\d+\\D+").matcher(time);
             while (matcher.find()) {
                 String s = matcher.group();
