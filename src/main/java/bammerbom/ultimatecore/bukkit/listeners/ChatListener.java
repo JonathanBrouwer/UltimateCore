@@ -231,13 +231,6 @@ public class ChatListener implements Listener {
                 e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
                 return;
             }
-            if ((Bukkit.getPluginManager().getPlugin("EssentialsChat") != null && Bukkit.getPluginManager().getPlugin("EssentialsChat").isEnabled()) || (Bukkit.getPluginManager()
-                    .getPlugin("Essentials") != null && Bukkit.getPluginManager().isPluginEnabled("Essentials"))) {
-                if (!ChatColor.stripColor(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")) {
-                    e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
-                    return;
-                }
-            }
             if (r.getCnfg().getBoolean("Chat.Groups.Enabled")) {
                 if (r.getVault() != null && r.getVault().getPermission() != null) {
                     String group = r.getPrimaryGroup(e.getPlayer());

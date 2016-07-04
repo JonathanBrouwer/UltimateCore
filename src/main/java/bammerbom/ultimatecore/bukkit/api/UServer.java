@@ -505,10 +505,6 @@ public class UServer {
         return null;
     }
 
-    public void clearWarps() {
-        setWarps(new HashMap<>());
-    }
-
     public List<Player> getAfkPlayers() {
         List<Player> pls = new ArrayList<>();
         for (Player pl : r.getOnlinePlayers()) {

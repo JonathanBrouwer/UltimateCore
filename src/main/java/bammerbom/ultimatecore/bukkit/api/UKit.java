@@ -193,23 +193,6 @@ public class UKit {
     }
 
     /**
-     * Gets the lore for the given item.
-     *
-     * @param item Item to get lore for
-     * @return List of strings, never null
-     */
-    private List<String> getLore(final ConfigSection item) {
-        final List<String> lore = new ArrayList<>();
-        if (item == null) {
-            return lore;
-        }
-        for (final String loreItem : item.getStringList("lore")) {
-            lore.add(ChatColor.translateAlternateColorCodes('&', loreItem));
-        }
-        return lore;
-    }
-
-    /**
      * Gets the amount of seconds this kit's cooldown is.
      *
      * @return Seconds
