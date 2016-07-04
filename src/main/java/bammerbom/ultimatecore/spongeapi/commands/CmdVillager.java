@@ -29,15 +29,17 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.VillagerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 import java.util.*;
 
@@ -708,13 +710,23 @@ public class CmdVillager implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Edit a villager's trades");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("editvillager");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.villager", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.villager", true)) {
             return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
@@ -723,10 +735,11 @@ public class CmdVillager implements UltimateCommand {
         Player p = (Player) cs;
         usedCommand.add(p.getUniqueId());
         r.sendMes(p, "villagerMessage");
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

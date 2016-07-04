@@ -62,19 +62,21 @@ public class UWorld {
     }
 
     //Register
-    public void register(String gen) {
+    public void register() {
         JsonConfig conf = new JsonConfig(getDataFile());
         conf.set(base.getUniqueId() + ".env", base.getDimension().getType().getId());
-        conf.set(base.getUniqueId() + ".gen", gen);
+        conf.set(base.getUniqueId() + ".gen", base.getWorldGenerator().getId());
         conf.set(base.getUniqueId() + ".type", base.getProperties().getGeneratorType().getId());
         //conf.set(base.getUniqueId() + ".gen", base.getGenerator().getClass());
         conf.save();
+        base.getProperties().setEnabled(true);
     }
 
     public void unregister() {
         JsonConfig conf = new JsonConfig(getDataFile());
         conf.set(base.getUniqueId().toString(), null);
         conf.save();
+        base.getProperties().setEnabled(false);
     }
 
     public void resetData() {

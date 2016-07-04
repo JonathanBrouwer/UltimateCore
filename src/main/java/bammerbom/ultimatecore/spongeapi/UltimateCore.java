@@ -143,7 +143,6 @@ public class UltimateCore {
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to enable UltimateCore");
         }
-        UltimateWorldLoader.startWorldLoading();
         test();
     }
 

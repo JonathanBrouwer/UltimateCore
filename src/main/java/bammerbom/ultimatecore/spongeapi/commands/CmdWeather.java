@@ -26,12 +26,13 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.listeners.WeatherListener;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,33 +50,43 @@ public class CmdWeather implements UltimateCommand {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("sun", "rain", "thunder", "storm");
+    public String getUsage() {
+        return "/<command> clear/rain/thunder [Time]";
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public Text getDescription() {
+        return Text.of("Change the weather.");
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList();
+    }
+
+    @Override
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (label.equalsIgnoreCase("sun")) {
-            if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.sun", false, false)) {
+            if (!r.perm(cs, "uc.weather", false) && !r.perm(cs, "uc.weather.sun", false)) {
                 r.sendMes(cs, "noPermissions");
                 return CommandResult.empty();
             }
             WeatherListener.setEnabled(false);
             if (!(cs instanceof Player)) {
-                for (World world : Bukkit.getWorlds()) {
-                    world.setStorm(false);
-                    world.setThundering(false);
+                for (World world : Sponge.getServer().getWorlds()) {
+                    world.getProperties().setRaining(false);
+                    world.getProperties().setThundering(false);
                     if (r.checkArgs(args, 1) && r.isInt(args[0])) {
-                        world.setWeatherDuration(20 * Integer.parseInt(args[0]));
+                        world.getProperties().setRainTime(20 * Integer.parseInt(args[0]));
                     }
                 }
                 r.sendMes(cs, "weatherSet", "%Weather", r.mes("weatherSun"));
             } else {
                 Player p = (Player) cs;
-                p.getWorld().setStorm(false);
-                p.getWorld().setThundering(false);
+                p.getWorld().getProperties().setRaining(false);
+                p.getWorld().getProperties().setThundering(false);
                 if (r.checkArgs(args, 0) && r.isInt(args[0])) {
-                    p.getWorld().setWeatherDuration(20 * Integer.parseInt(args[0]));
+                    p.getWorld().getProperties().setRainTime(20 * Integer.parseInt(args[0]));
                 }
                 r.sendMes(cs, "weatherSet", "%Weather", r.mes("weatherSun"));
             }
@@ -83,26 +94,27 @@ public class CmdWeather implements UltimateCommand {
             return CommandResult.empty();
         }
         if (label.equalsIgnoreCase("rain")) {
-            if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.rain", false, false)) {
+            if (!r.perm(cs, "uc.weather", false) && !r.perm(cs, "uc.weather.rain", false)) {
                 r.sendMes(cs, "noPermissions");
                 return CommandResult.empty();
             }
             WeatherListener.setEnabled(false);
             if (!(cs instanceof Player)) {
-                for (World world : Bukkit.getWorlds()) {
-                    world.setStorm(true);
-                    world.setThundering(false);
+                for (World world : Sponge.getServer().getWorlds()) {
+                    world.getProperties().setRaining(true);
+                    world.getProperties().setThundering(false);
                     if (r.checkArgs(args, 1) && r.isInt(args[0])) {
-                        world.setWeatherDuration(20 * Integer.parseInt(args[0]));
+                        world.getProperties().setRainTime(20 * Integer.parseInt(args[0]));
                     }
                 }
                 r.sendMes(cs, "weatherSet", "%Weather", r.mes("weatherRain"));
             } else {
                 Player p = (Player) cs;
-                p.getWorld().setStorm(true);
-                p.getWorld().setThundering(false);
+                World world = p.getWorld();
+                world.getProperties().setRaining(true);
+                world.getProperties().setThundering(false);
                 if (r.checkArgs(args, 0) && r.isInt(args[0])) {
-                    p.getWorld().setWeatherDuration(20 * Integer.parseInt(args[0]));
+                    world.getProperties().setRainTime(20 * Integer.parseInt(args[0]));
                 }
                 r.sendMes(cs, "weatherSet", "%Weather", r.mes("weatherRain"));
             }
@@ -110,21 +122,22 @@ public class CmdWeather implements UltimateCommand {
             return CommandResult.empty();
         }
         if (label.equalsIgnoreCase("thunder") || label.equalsIgnoreCase("storm")) {
-            if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.storm", false, false)) {
+            if (!r.perm(cs, "uc.weather", false) && !r.perm(cs, "uc.weather.storm", false)) {
                 r.sendMes(cs, "noPermissions");
                 return CommandResult.empty();
             }
             WeatherListener.setEnabled(false);
             if (!(cs instanceof Player)) {
-                for (World world : Bukkit.getWorlds()) {
-                    world.setStorm(true);
-                    world.setThundering(true);
+                for (World world : Sponge.getServer().getWorlds()) {
+                    world.getProperties().setRaining(true);
+                    world.getProperties().setThundering(true);
                 }
                 r.sendMes(cs, "weatherSet", "%Weather", r.mes("weatherThunder"));
             } else {
                 Player p = (Player) cs;
-                p.getWorld().setStorm(true);
-                p.getWorld().setThundering(true);
+                World world = p.getWorld();
+                world.getProperties().setRaining(true);
+                world.getProperties().setThundering(true);
                 r.sendMes(cs, "weatherSet", "%Weather", r.mes("weatherThunder"));
             }
             WeatherListener.setEnabled(true);
@@ -136,35 +149,35 @@ public class CmdWeather implements UltimateCommand {
             Integer weather = 0;
             if (!(cs instanceof Player)) {
                 WeatherListener.setEnabled(false);
-                for (World world : Bukkit.getWorlds()) {
+                for (World world : Sponge.getServer().getWorlds()) {
                     if ("sun".equalsIgnoreCase(args[0]) || "clear".equalsIgnoreCase(args[0])) {
-                        if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.sun", false, false)) {
+                        if (!r.perm(cs, "uc.weather", false) && !r.perm(cs, "uc.weather.sun", false)) {
                             r.sendMes(cs, "noPermissions");
                             return CommandResult.empty();
                         }
-                        world.setStorm(false);
-                        world.setThundering(false);
+                        world.getProperties().setRaining(false);
+                        world.getProperties().setThundering(false);
                         weather = 1;
                     } else if ("rain".equalsIgnoreCase(args[0])) {
-                        if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.rain", false, false)) {
+                        if (!r.perm(cs, "uc.weather", false) && !r.perm(cs, "uc.weather.rain", false)) {
                             r.sendMes(cs, "noPermissions");
                             return CommandResult.empty();
                         }
-                        world.setStorm(true);
-                        world.setThundering(false);
+                        world.getProperties().setRaining(true);
+                        world.getProperties().setThundering(false);
                         weather = 2;
                     } else if ("storm".equalsIgnoreCase(args[0]) || "thunder".equalsIgnoreCase(args[0]) ||
                             "thunderstorm".equalsIgnoreCase(args[0])) {
-                        if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.storm", false, false)) {
+                        if (!r.perm(cs, "uc.weather", false) && !r.perm(cs, "uc.weather.storm", false)) {
                             r.sendMes(cs, "noPermissions");
                             return CommandResult.empty();
                         }
-                        world.setStorm(true);
-                        world.setThundering(true);
+                        world.getProperties().setRaining(true);
+                        world.getProperties().setThundering(true);
                         weather = 3;
                     }
                     if (r.checkArgs(args, 1) && r.isInt(args[1])) {
-                        world.setWeatherDuration(20 * Integer.parseInt(args[1]));
+                        world.getProperties().setRainTime(20 * Integer.parseInt(args[0]));
                     }
                 }
                 WeatherListener.setEnabled(true);
@@ -172,32 +185,32 @@ public class CmdWeather implements UltimateCommand {
                 WeatherListener.setEnabled(false);
                 World world = ((Entity) cs).getWorld();
                 if ("sun".equalsIgnoreCase(args[0]) || "clear".equalsIgnoreCase(args[0])) {
-                    if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.sun", false, false)) {
+                    if (!r.perm(cs, "uc.weather", false) && !r.perm(cs, "uc.weather.sun", false)) {
                         r.sendMes(cs, "noPermissions");
                         return CommandResult.empty();
                     }
-                    world.setStorm(false);
-                    world.setThundering(false);
+                    world.getProperties().setRaining(false);
+                    world.getProperties().setThundering(false);
                     weather = 1;
                 } else if ("rain".equalsIgnoreCase(args[0])) {
-                    if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.rain", false, false)) {
+                    if (!r.perm(cs, "uc.weather", false) && !r.perm(cs, "uc.weather.rain", false)) {
                         r.sendMes(cs, "noPermissions");
                         return CommandResult.empty();
                     }
-                    world.setStorm(true);
-                    world.setThundering(false);
+                    world.getProperties().setRaining(true);
+                    world.getProperties().setThundering(false);
                     weather = 2;
                 } else if ("storm".equalsIgnoreCase(args[0]) || "thunder".equalsIgnoreCase(args[0]) || "thunderstorm".equalsIgnoreCase(args[0])) {
-                    if (!r.perm(cs, "uc.weather", false, false) && !r.perm(cs, "uc.weather.storm", false, false)) {
+                    if (!r.perm(cs, "uc.weather", false) && !r.perm(cs, "uc.weather.storm", false)) {
                         r.sendMes(cs, "noPermissions");
                         return CommandResult.empty();
                     }
-                    world.setStorm(true);
-                    world.setThundering(true);
+                    world.getProperties().setRaining(true);
+                    world.getProperties().setThundering(true);
                     weather = 3;
                 }
                 if (r.checkArgs(args, 1) && r.isInt(args[1])) {
-                    world.setWeatherDuration(20 * Integer.parseInt(args[1]));
+                    world.getProperties().setRainTime(20 * Integer.parseInt(args[0]));
                 }
                 WeatherListener.setEnabled(true);
             }
@@ -211,10 +224,11 @@ public class CmdWeather implements UltimateCommand {
                 r.sendMes(cs, "weatherUsage");
             }
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return Arrays.asList("sun", "rain", "thunder");
     }
 }

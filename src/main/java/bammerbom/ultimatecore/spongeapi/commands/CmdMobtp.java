@@ -148,7 +148,7 @@ public class CmdMobtp implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command>";
     }
 
     @Override

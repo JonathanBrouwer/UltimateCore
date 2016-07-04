@@ -32,10 +32,12 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.permission.PermissionService;
-import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class CmdList implements UltimateCommand {
 
@@ -51,7 +53,7 @@ public class CmdList implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command>";
     }
 
     @Override
@@ -94,12 +96,7 @@ public class CmdList implements UltimateCommand {
             HashMap<String, List<String>> players = new HashMap<>();
             List<String> nopl = new ArrayList<>();
             for (Player p : r.getOnlinePlayers()) {
-                Subject maingroup = p.getSubjectData().getParents(new HashSet<>()).get(0);
-                if (maingroup == null) {
-                    nopl.add(p.getName());
-                    continue;
-                }
-                String mname = maingroup.getIdentifier();
+                String mname = r.getPrimaryGroup(p);
                 List<String> pl = players.getOrDefault(mname, new ArrayList<>());
                 pl.add(p.getName());
                 players.put(mname, pl);

@@ -49,7 +49,7 @@ public class CmdPlugin implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command>";
     }
 
     @Override

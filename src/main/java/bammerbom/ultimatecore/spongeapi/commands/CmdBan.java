@@ -81,7 +81,7 @@ public class CmdBan implements UltimateCommand {
             return CommandResult.empty();
         }
         GameProfile banp = r.searchGameProfile(args[0]).get();
-        Long time = 0L;
+        Long time = -1L;
         String reason = TextColorUtil.strip(r.mes("banDefaultReason").toPlain());
         if (r.checkArgs(args, 1) == false) {
         } else if (DateUtil.parseDateDiff(args[1]) == -1) {
@@ -93,7 +93,7 @@ public class CmdBan implements UltimateCommand {
             }
         }
         String timen = DateUtil.format(time);
-        if (time == 0) {
+        if (time == -1) {
             timen = r.mes("banForever").toPlain();
         } else {
             timen = "" + timen;

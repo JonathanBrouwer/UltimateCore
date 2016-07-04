@@ -58,7 +58,7 @@ public class CmdKittycannon implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command>";
     }
 
     @Override

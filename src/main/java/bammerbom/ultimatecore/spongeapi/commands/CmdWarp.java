@@ -27,11 +27,12 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,14 +50,24 @@ public class CmdWarp implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Warp>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Teleport yourself to a warp.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("warps", "warplist");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
         if (!r.checkArgs(args, 0)) {
-            if (!r.perm(cs, "uc.warplist", true, true)) {
+            if (!r.perm(cs, "uc.warplist", true)) {
                 return CommandResult.empty();
             }
             List<String> warps = UC.getServer().getWarpNames();
@@ -80,7 +91,7 @@ public class CmdWarp implements UltimateCommand {
             }
             //Exist
             Player p = (Player) cs;
-            if (!r.perm(p, "uc.warp", true, false) && !r.perm(p, "uc.warp." + args[0], true, false)) {
+            if (!r.perm(p, "uc.warp", false) && !r.perm(p, "uc.warp." + args[0], false)) {
                 r.sendMes(cs, "noPermissions");
                 return CommandResult.empty();
             }
@@ -91,13 +102,14 @@ public class CmdWarp implements UltimateCommand {
 
             //Teleport
             Location loc = UC.getServer().getWarp(args[0]);
-            LocationUtil.teleportUnsafe(p, loc, TeleportCause.COMMAND, true);
+            LocationUtil.teleportUnsafe(p, loc, Cause.builder().build(), true);
             r.sendMes(cs, "warpMessage", "%Warp", args[0]);
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return UC.getServer().getWarpNames();
     }
 }

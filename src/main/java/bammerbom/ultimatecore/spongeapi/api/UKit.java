@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.spongeapi.configuration.Config;
 import bammerbom.ultimatecore.spongeapi.configuration.ConfigSection;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.MetaItemStack;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
@@ -39,9 +38,7 @@ import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -58,17 +55,27 @@ public class UKit {
     private final boolean firstjoin;
     private ConfigSection kit;
 
-    public UKit(final String name) {
+    public UKit(String name) {
+        for (String s : new Config(UltimateFileLoader.Dkits).getKeys(false)) {
+            if (s.equalsIgnoreCase(name)) {
+                name = s;
+            }
+        }
         this.name = name;
         this.kit = kits.getConfigurationSection(name);
-        this.items = getItemStacks(kit.getMapList("items"));
+        this.items = getItemStacks(kit.getStringList("items"));
         this.cooldown = DateUtil.parseDateDiff(kit.getString("cooldown", "0"));
         this.cooldowns = kit.getString("cooldown", "0");
         this.description = TextColorUtil.translateAlternate(kit.getString("description", ""));
         this.firstjoin = kit.getBoolean("firstjoin", false);
     }
 
-    public UKit(final String name, final String cooldown, final boolean firstjoin, final String description, final List<ItemStack> items) {
+    public UKit(String name, final String cooldown, final boolean firstjoin, final String description, final List<ItemStack> items) {
+        for (String s : new Config(UltimateFileLoader.Dkits).getKeys(false)) {
+            if (s.equalsIgnoreCase(name)) {
+                name = s;
+            }
+        }
         this.name = name;
         this.kit = null;
         this.items = items;
@@ -107,29 +114,9 @@ public class UKit {
      * @param item Node representing an ItemStack
      * @return ItemStack of null
      */
-    private ItemStack getItemStack(final Map<String, Object> item) {
+    private ItemStack getItemStack(String item) {
         try {
-            final ItemStack is = ItemUtil.searchItem((String) item.get("type"));
-            if (is == null) {
-                return null;
-            }
-            if (item.containsKey("amount")) {
-                is.setQuantity((int) item.get("amount"));
-            }
-            if (item.containsKey("damage")) {
-                is.setDurability(((Number) item.get("damage")).shortValue());
-            }
-            MetaItemStack ism = new MetaItemStack(is);
-            for (String s : item.keySet()) {
-                if (s.equalsIgnoreCase("amount") || s.equalsIgnoreCase("type") || s.equalsIgnoreCase("damage")) {
-                    continue;
-                }
-                try {
-                    ism.addStringMeta(null, true, s + ":" + item.get(s).toString().replaceAll(" ", "_"));
-                } catch (Exception ex) {
-                }
-            }
-            return ism.getItemStack();
+            return ItemUtil.deserialize(item).get();
         } catch (Exception ex) {
             r.log("Kit " + name + " has an invalid item: " + item);
             return ItemStack.builder().itemType(ItemTypes.NONE).build();
@@ -142,35 +129,16 @@ public class UKit {
      * @param items List of nodes representing items
      * @return List of ItemStacks, never null
      */
-    private List<ItemStack> getItemStacks(List<Map<?, ?>> items) {
+    private List<ItemStack> getItemStacks(List<String> items) {
         final List<ItemStack> itemStacks = new ArrayList<>();
-        for (final Map<?, ?> item : items) {
-            HashMap<String, Object> itemc = new HashMap<>();
-            itemc.putAll((Map<String, Object>) item);
-            final ItemStack is = this.getItemStack(itemc);
+        for (String obj : items) {
+            final ItemStack is = this.getItemStack(obj);
             if (is == null) {
                 continue;
             }
             itemStacks.add(is);
         }
         return itemStacks;
-    }
-
-    /**
-     * Gets the lore for the given item.
-     *
-     * @param item Item to get lore for
-     * @return List of strings, never null
-     */
-    private List<String> getLore(final ConfigSection item) {
-        final List<String> lore = new ArrayList<>();
-        if (item == null) {
-            return lore;
-        }
-        for (final String loreItem : item.getStringList("lore")) {
-            lore.add(TextColorUtil.translateAlternate(loreItem));
-        }
-        return lore;
     }
 
     /**

@@ -28,12 +28,14 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.FormatUtil;
-import org.bukkit.BanList;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.service.ban.BanService;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.util.ban.Ban;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,13 +54,23 @@ public class CmdUnban implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Unbans the target player.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("pardon");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.unban", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.unban", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
@@ -66,22 +78,28 @@ public class CmdUnban implements UltimateCommand {
             return CommandResult.empty();
         }
         if (FormatUtil.validIP(args[0])) {
-            BanList list = Bukkit.getBanList(BanList.Type.IP);
-            if (list.isBanned(args[0])) {
-                list.pardon(args[0]);
-                for (OfflinePlayer p : UC.getServer().getBannedOfflinePlayers()) {
-                    if (UC.getPlayer(p).getLastIp() != null && UC.getPlayer(p).getLastIp().equalsIgnoreCase(args[0])) {
-                        UC.getPlayer(p).unban();
-                    }
-                }
-                if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-                    Bukkit.broadcastMessage(r.mes("unbanBroadcast").replace("%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase())).replace
-                            ("%Unbanned", args[0]));
+            boolean banned = false;
+            BanService service = Sponge.getServiceManager().provide(BanService.class).get();
+            for (Ban.Ip ip : service.getIpBans()) {
+                if (ip.getAddress().getAddress().toString().split("/")[1].split(":")[0].equalsIgnoreCase(args[0])) {
+                    service.removeBan(ip);
+                    banned = true;
                 }
             }
-            return CommandResult.empty();
+            if (banned) {
+                if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
+                    Sponge.getServer().getBroadcastChannel().send(Text.of(r.mes("unbanBroadcast").toPlain().replace("%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r
+                            .getDisplayName(cs).toLowerCase())).replace("%Unbanned", args[0])));
+                } else {
+                    r.sendMes(cs, "unbanBroadcast", "%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Unbanned", args[0]);
+                }
+            } else {
+                r.sendMes(cs, "unbanNotBanned", "%Player", args[0]);
+                return CommandResult.empty();
+            }
+            return CommandResult.success();
         }
-        OfflinePlayer banp = r.searchGameProfile(args[0]);
+        GameProfile banp = r.searchGameProfile(args[0]).orElse(null);
         if (banp == null || banp.getUniqueId() == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return CommandResult.empty();
@@ -92,28 +110,23 @@ public class CmdUnban implements UltimateCommand {
             return CommandResult.empty();
         }
         pl.unban();
-        //Check ip
-        BanList list = Bukkit.getBanList(BanList.Type.IP);
-        if (pl.getLastIp() != null && list.isBanned(pl.getLastIp())) {
-            list.pardon(pl.getLastIp());
-        }
-        //
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-            Bukkit.broadcastMessage(r.mes("unbanBroadcast", "%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Unbanned", r
-                    .getDisplayName(banp)));
+            Sponge.getServer().getBroadcastChannel().send(r.mes("unbanBroadcast", "%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()),
+                    "%Unbanned", r.getDisplayName(banp)));
         } else {
             r.sendMes(cs, "unbanBroadcast", "%Unbanner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Unbanned", r.getDisplayName(banp));
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        if (!r.perm(cs, "uc.unban", false, true)) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        if (!r.perm(cs, "uc.unban", true)) {
             return new ArrayList<>();
         }
         ArrayList<String> str = new ArrayList<>();
-        for (OfflinePlayer pl : UC.getServer().getBannedOfflinePlayers()) {
-            str.add(pl.getName());
+        for (GameProfile pl : UC.getServer().getBannedGameProfiles()) {
+            str.add(pl.getName().orElse(""));
         }
         return str;
     }

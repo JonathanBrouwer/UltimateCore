@@ -26,84 +26,44 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.StringUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.message.MessageChannelEvent;
+import org.spongepowered.api.service.permission.PermissionService;
+import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-public class ChatListener implements Listener {
+public class ChatListener {
 
-    static HashMap<String, String> lastChatMessage = new HashMap<>();
+    static HashMap<String, Text> lastChatMessage = new HashMap<>();
     static HashMap<String, Integer> lastChatMessageTimes = new HashMap<>();
     static HashMap<String, Integer> spamTime = new HashMap<>();
     static HashMap<String, Integer> swearAmount = new HashMap<>();
     static Pattern ipPattern = Pattern.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})");
-    static Pattern domainPattern = Pattern.compile("(?<!'|\\w)(?:(?:(?:(?!\\w)www.*|.*http.*|[a-zA-Z0-9]|\\s*dash\\s*){1,63}){1,2}(?<!'|\\w)(a+(\\W|_)*c+|a+(\\W|_)*d+|a+(\\W|_)*e+|a+" +
-            "(\\W|_)" +
-            "*f+|a+(\\W|_)*g+|a+(\\W|_)*i+|a+(\\W|_)*l+|a+(\\W|_)*m+|a+(\\W|_)*n+|a+(\\W|_)*o+|a+(\\W|_)*q+|a+(\\W|_)*r+|a+(\\W|_)*r+(\\W|_)*p+(\\W|_)*a+|a+(\\W|_)*s+|a+(\\W|_)*t+|a+" +
-            "(\\W|_)*u+|a+" +
-            "(\\W|_)*w+|a+(\\W|_)*x+|a+(\\W|_)*z+|b+(\\W|_)*a+|b+(\\W|_)*b+|b+(\\W|_)*d+|b+(\\W|_)*e+|b+(\\W|_)*f+|b+(\\W|_)*g+|b+(\\W|_)*h+|b+(\\W|_)*i+|b+(\\W|_)*i+(\\W|_)*z+|b+(\\W|_)" +
-            "*j+|b+" +
-            "(\\W|_)*m+|b+(\\W|_)*n+|b+(\\W|_)*o+|b+(\\W|_)*r+|b+(\\W|_)*s+|b+(\\W|_)*t+|b+(\\W|_)*v+|b+(\\W|_)*w+|b+(\\W|_)*y+|b+(\\W|_)*z+|c+(\\W|_)*a+|c+(\\W|_)*a+(\\W|_)*t+|c+(\\W|_)" +
-            "*c+|c+" +
-            "(\\W|_)*d+|c+(\\W|_)*f+|c+(\\W|_)*g+|c+(\\W|_)*h+|c+(\\W|_)*i+|c+(\\W|_)*k+|c+(\\W|_)*l+|c+(\\W|_)*m+|c+(\\W|_)*n+|c+(\\W|_)*o+|c+(\\W|_)*o+(\\W|_)*m+|c+(\\W|_)*o+(\\W|_)*o+" +
-            "(\\W|_)" +
-            "*p+|c+(\\W|_)*r+|c+(\\W|_)*u+|c+(\\W|_)*v+|c+(\\W|_)*w+|c+(\\W|_)*x+|c+(\\W|_)*y+|c+(\\W|_)*z+|d+(\\W|_)*e+(?!-)|d+(\\W|_)*j+|d+(\\W|_)*k+|d+(\\W|_)*m+|d+(\\W|_)*o+|d+(\\W|_)" +
-            "*z+|e+" +
-            "(\\W|_)*c+|e+(\\W|_)*d+(\\W|_)*u+|e+(\\W|_)*e+|e+(\\W|_)*g+|e+(\\W|_)*r+|e+(\\W|_)*s+|e+(\\W|_)*t+|e+(\\W|_)*u+|f+(\\W|_)*i+|f+(\\W|_)*j+|f+(\\W|_)*k+|f+(\\W|_)*m+|f+(\\W|_)" +
-            "*o+|f+" +
-            "(\\W|_)*r+|g+(\\W|_)*a+|g+(\\W|_)*b+|g+(\\W|_)*d+|g+(\\W|_)*e+|g+(\\W|_)*f+|g+(\\W|_)*g+|g+(\\W|_)*h+|g+(\\W|_)*i+|g+(\\W|_)*l+|g+(\\W|_)*m+|g+(\\W|_)*n+|g+(\\W|_)*o+(\\W|_)" +
-            "*v+|g+" +
-            "(\\W|_)*p+|g+(\\W|_)*q+|g+(\\W|_)*r+|g+(\\W|_)*s+|g+(\\W|_)*t+|g+(\\W|_)*u+|g+(\\W|_)*w+|g+(\\W|_)*y+|h+(\\W|_)*k+|h+(\\W|_)*m+|h+(\\W|_)*n+|h+(\\W|_)*r+|h+(\\W|_)*t+|h+" +
-            "(\\W|_)*u+|i+" +
-            "(\\W|_)*d+|i+(\\W|_)*e+|i+(\\W|_)*l+|i+(\\W|_)*m+|i+(\\W|_)*n+|i+(\\W|_)*n+(\\W|_)*f+(\\W|_)*o+|i+(\\W|_)*n+(\\W|_)*t+|i+(\\W|_)*o+|i+(\\W|_)*q+|i+(\\W|_)*r+|i+(\\W|_)*s+|i+" +
-            "(\\W|_)" +
-            "*t+|j+(\\W|_)*e+|j+(\\W|_)*m+|j+(\\W|_)*o+|j+(\\W|_)*p+|k+(\\W|_)*e+|k+(\\W|_)*g+|k+(\\W|_)*h+|k+(\\W|_)*i+|k+(\\W|_)*m+|k+(\\W|_)*n+|k+(\\W|_)*p+|k+(\\W|_)*r+|k+(\\W|_)" +
-            "*w+|k+(\\W|_)" +
-            "*y+|k+(\\W|_)*z+|l+(\\W|_)*a+|l+(\\W|_)*b+|l+(\\W|_)*c+|l+(\\W|_)*i+|l+(\\W|_)*k+|l+(\\W|_)*r+|l+(\\W|_)*s+|l+(\\W|_)*t+|l+(\\W|_)*u+|l+(\\W|_)*v+|l+(\\W|_)*y+|m+(\\W|_)" +
-            "*a+|m+(\\W|_)" +
-            "*c+|m+(\\W|_)*d+|m+(\\W|_)*e+|m+(\\W|_)*g+|m+(\\W|_)*h+|m+(\\W|_)*i+(\\W|_)*l+|m+(\\W|_)*k+|m+(\\W|_)*l+|m+(\\W|_)*m+|m+(\\W|_)*n+|m+(\\W|_)*o+|m+(\\W|_)*o+(\\W|_)*b+(\\W|_)" +
-            "*i+|m+" +
-            "(\\W|_)*p+|m+(\\W|_)*q+|m+(\\W|_)*r+|m+(\\W|_)*s+|m+(\\W|_)*t+|m+(\\W|_)*u+|m+(\\W|_)*v+|m+(\\W|_)*w+|m+(\\W|_)*x+|m+(\\W|_)*y+|m+(\\W|_)*z+|n+(\\W|_)*a+|n+(\\W|_)*c+|n+" +
-            "(\\W|_)*e+|n+" +
-            "(\\W|_)*e+(\\W|_)*t+|n+(\\W|_)*f+|n+(\\W|_)*g+|n+(\\W|_)*i+|n+(\\W|_)*l+|n+(\\W|_)*o+|n+(\\W|_)*p+|n+(\\W|_)*r+|n+(\\W|_)*u+|n+(\\W|_)*z+|o+(\\W|_)*m+|o+(\\W|_)*r+(\\W|_)" +
-            "*g+|p+(\\W|_)" +
-            "*a+|p+(\\W|_)*e+|p+(\\W|_)*f+|p+(\\W|_)*g+|p+(\\W|_)*h+|p+(\\W|_)*k+|p+(\\W|_)*l+|p+(\\W|_)*m+|p+(\\W|_)*n+|p+(\\W|_)*r+|p+(\\W|_)*r+(\\W|_)*o+|p+(\\W|_)*s+|p+(\\W|_)*t+|p+" +
-            "(\\W|_)" +
-            "*w+|p+(\\W|_)*y+|q+(\\W|_)*a+|r+(\\W|_)*e+|r+(\\W|_)*o+|r+(\\W|_)*s+|r+(\\W|_)*u+|r+(\\W|_)*w+|s+(\\W|_)*a+|s+(\\W|_)*b+|s+(\\W|_)*c+|s+(\\W|_)*d+|s+(\\W|_)*e+|s+(\\W|_)" +
-            "*g+|s+(\\W|_)" +
-            "*h+|s+(\\W|_)*i+|s+(\\W|_)*j+|s+(\\W|_)*k+|s+(\\W|_)*l+|s+(\\W|_)*m+|s+(\\W|_)*n+|s+(\\W|_)*o+|s+(\\W|_)*r+|s+(\\W|_)*t+|s+(\\W|_)*u+|s+(\\W|_)*v+|s+(\\W|_)*x+|s+(\\W|_)" +
-            "*y+|s+(\\W|_)" +
-            "*z+|t+(\\W|_)*c+|t+(\\W|_)*d+|t+(\\W|_)*e+(\\W|_)*l+|t+(\\W|_)*f+|t+(\\W|_)*g+|t+(\\W|_)*h+|t+(\\W|_)*j+|t+(\\W|_)*k+|t+(\\W|_)*l+|t+(\\W|_)*m+|t+(\\W|_)*n+|t+(\\W|_)*o+|t+" +
-            "(\\W|_)" +
-            "*p+|t+(\\W|_)*r+|t+(\\W|_)*t+|t+(\\W|_)*v+|t+(\\W|_)*w+|t+(\\W|_)*z+|u+(\\W|_)*a+|u+(\\W|_)*g+|u+(\\W|_)*k+|u+(\\W|_)*s+|u+(\\W|_)*y+|u+(\\W|_)*z+|v+(\\W|_)*a+|v+(\\W|_)" +
-            "*c+|v+(\\W|_)" +
-            "*e+|v+(\\W|_)*g+|v+(\\W|_)*i+|v+(\\W|_)*n+|v+(\\W|_)*u+|w+(\\W|_)*f+|w+(\\W|_)*s+|x+(\\W|_)*n+|x+(\\W|_)*x+(\\W|_)*x+|y+(\\W|_)*e+|y+(\\W|_)*t+|z+(\\W|_)*a+|z+(\\W|_)*m+|z+" +
-            "(\\W|_)*w+)" +
-            ":*\\d*(?!\\w)(?!\\w|')(?!\\w|,|')/*.*)\n");
 
     public static void start() {
         ChatListener list = new ChatListener();
         list.spamTask();
-        Bukkit.getPluginManager().registerEvents(list, r.getUC());
+        Sponge.getEventManager().registerListeners(r.getUC(), list);
     }
 
-    private static ChatSet testMessage(String mr, Player p) {
+    private static ChatSet testMessage(Text mr, Player p) {
         ChatSet set = new ChatSet(mr);
-        if (r.perm(p, "uc.chat", false, false)) {
+        if (r.perm(p, "uc.chat", false)) {
             return set;
         }
         //Anti REPEAT
-        if (!r.perm(p, "uc.chat.repeat", false, false)) {
+        if (!r.perm(p, "uc.chat.repeat", false)) {
             if (r.getCnfg().getBoolean("Chat.RepeatFilter")) {
-                String lastmessage = "";
+                Text lastmessage = Text.of();
                 Integer lastmessageTimes = 0;
                 if (lastChatMessage.get(p.getName()) != null) {
                     lastmessage = lastChatMessage.get(p.getName());
@@ -111,7 +71,7 @@ public class ChatListener implements Listener {
                 }
                 lastChatMessage.put(p.getName(), mr);
                 lastChatMessageTimes.put(p.getName(), lastmessageTimes + 1);
-                if (lastmessage.equalsIgnoreCase(mr)) {
+                if (lastmessage.equals(mr)) {
                     if (lastmessageTimes + 1 == 3) {
                         r.sendMes(p, "chatRepeat");
                         set.setCancelled(true);
@@ -121,7 +81,7 @@ public class ChatListener implements Listener {
                         set.setCancelled(true);
                     }
                     if (lastmessageTimes + 1 == 5) {
-                        UC.getPlayer(p).setMuted(true, 60000L, r.mes("chatRepeat"));
+                        UC.getPlayer(p).setMuted(true, 60000L, r.mes("chatRepeat").toPlain());
                         set.setCancelled(true);
                     }
                 } else {
@@ -130,13 +90,13 @@ public class ChatListener implements Listener {
             }
         }
         //Anti SPAM
-        if (!r.perm(p, "uc.chat.spam", false, false)) {
+        if (!r.perm(p, "uc.chat.spam", false)) {
             if (r.getCnfg().getBoolean("Chat.SpamFilter")) {
                 if (spamTime.containsKey(p.getName())) {
                     Integer amount = spamTime.get(p.getName());
                     spamTime.put(p.getName(), amount + 1);
                     if (amount >= 4) {
-                        UC.getPlayer(p).setMuted(true, 60000L, r.mes("chatSpam"));
+                        UC.getPlayer(p).setMuted(true, 60000L, r.mes("chatSpam").toPlain());
                         set.setCancelled(true);
                     } else if (amount >= 3) {
                         r.sendMes(p, "chatSpam");
@@ -147,11 +107,11 @@ public class ChatListener implements Listener {
             }
         }
         //Anti SWEAR
-        if (!r.perm(p, "uc.chat.swear", false, false)) {
+        if (!r.perm(p, "uc.chat.swear", false)) {
             if (r.getCnfg().getBoolean("Chat.SwearFilter") || r.getCnfg().getBoolean("Chat.SwearFiler")) {
                 Boolean stop = false;
                 for (String sw : r.getCnfg().getStringList("SwearWords")) {
-                    if (mr.toLowerCase().contains(sw.toLowerCase())) {
+                    if (mr.toPlain().toLowerCase().contains(sw.toLowerCase())) {
                         //set.setCancelled(true);
                         if (!stop) {
                             stop = true;
@@ -163,22 +123,22 @@ public class ChatListener implements Listener {
                             swearAmount.put(p.getName(), s);
                             r.sendMes(p, "chatSwear");
                             if (s >= 3) {
-                                UC.getPlayer(p).setMuted(true, 60000L, r.mes("chatSwear"));
+                                UC.getPlayer(p).setMuted(true, 60000L, r.mes("chatSwear").toPlain());
                                 set.setCancelled(true);
                             }
                         }
-                        set.setMessage(set.getMessage().replaceAll("(?i)" + sw, "****"));
+                        set.setMessage(Text.of(set.getMessage().toString().replaceAll("(?i)" + sw, "****")));
                     }
                 }
             }
         }
         //Anti CAPS
-        if (!r.perm(p, "uc.chat.caps", false, false)) {
+        if (!r.perm(p, "uc.chat.caps", false)) {
             if (r.getCnfg().get("Chat.CapsFilter") == null || r.getCnfg().getBoolean("Chat.CapsFilter")) {
-                double msglength = set.getMessage().toCharArray().length;
+                double msglength = set.getMessage().toPlain().toCharArray().length;
                 double capsCountt = 0.0D;
                 if (msglength > 9.0) {
-                    for (char c : set.getMessage().toCharArray()) {
+                    for (char c : set.getMessage().toPlain().toCharArray()) {
                         if (Character.isUpperCase(c)) {
                             capsCountt += 1.0D;
                         }
@@ -188,23 +148,23 @@ public class ChatListener implements Listener {
                     }
                 }
                 if ((capsCountt / msglength * 100) > 60.0) {
-                    set.setMessage(StringUtil.firstUpperCase(set.getMessage().toLowerCase()));
+                    set.setMessage(Text.of(StringUtil.firstUpperCase(set.getMessage().toString().toLowerCase())));
                 }
             }
         }
         //Anti IP
-        if (!r.perm(p, "uc.chat.ip", false, false)) {
+        if (!r.perm(p, "uc.chat.ip", false)) {
             if (r.getCnfg().getBoolean("Chat.IpFilter")) {
-                if (ipPattern.matcher(set.getMessage()).find()) {
+                if (ipPattern.matcher(set.getMessage().toPlain()).find()) {
                     set.setCancelled(true);
                     r.sendMes(p, "chatIp");
                 }
             }
         }
         //Anti URL
-        if (!r.perm(p, "uc.chat.url", false, false)) {
+        if (!r.perm(p, "uc.chat.url", false)) {
             if (r.getCnfg().getBoolean("Chat.UrlFilter")) {
-                if (domainPattern.matcher(set.getMessage()).find()) {
+                if (domainPattern.matcher(set.getMessage()).find()) { //TODO find better domain pattern
                     set.setCancelled(true);
                     r.sendMes(p, "chatUrl");
                 }
@@ -213,63 +173,55 @@ public class ChatListener implements Listener {
         return set;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void ChatListener(AsyncPlayerChatEvent e) {
-        if (!e.isCancelled() && !UC.getPlayer(e.getPlayer()).isMuted()) {
-            String m = e.getMessage();
-            if (r.perm(e.getPlayer(), "uc.coloredchat", false, false)) {
-                m = ChatColor.translateAlternateColorCodes('&', m);
+    @Listener(order = Order.DEFAULT)
+    public void ChatListener(MessageChannelEvent.Chat e) {
+        Player p = e.getCause().first(Player.class).get();
+        if (!e.isCancelled() && !UC.getPlayer(p).isMuted()) {
+            Text m = e.getRawMessage();
+            if (r.perm(p, "uc.coloredchat", false)) {
+                m = Text.of(TextColorUtil.translateAlternate(m.toString()));
             }
-            ChatSet set = testMessage(m, e.getPlayer());
+            ChatSet set = testMessage(m, p);
             if (set.isCancelled()) {
                 e.setCancelled(true);
                 return;
             }
             m = set.getMessage();
-            e.setMessage(m);
+            e.setMessage(Text.of(m));
             if (!r.getCnfg().getBoolean("Chat.EnableCustomChat")) {
-                e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
+                p.offer(Keys.DISPLAY_NAME, UC.getPlayer(p).getDisplayName());
                 return;
             }
-            if ((Bukkit.getPluginManager().getPlugin("EssentialsChat") != null && Bukkit.getPluginManager().getPlugin("EssentialsChat").isEnabled()) || (Bukkit.getPluginManager()
-                    .getPlugin("Essentials") != null && Bukkit.getPluginManager().isPluginEnabled("Essentials"))) {
-                if (!ChatColor.stripColor(e.getFormat()).equalsIgnoreCase("<%1$s> %2$s")) {
-                    e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
-                    return;
-                }
-            }
             if (r.getCnfg().getBoolean("Chat.Groups.Enabled")) {
-                if (r.getVault() != null && r.getVault().getPermission() != null) {
-                    String group = r.getPrimaryGroup(e.getPlayer());
+                if (Sponge.getServiceManager().provide(PermissionService.class).isPresent()) {
+                    PermissionService service = Sponge.getServiceManager().provide(PermissionService.class).get();
+                    Subject group = r.getPrimaryGroup(p);
                     if (!(group == null) && !group.equalsIgnoreCase("") && r.getCnfg().get("Chat.Groups." + group) != null) {
                         String f = r.getCnfg().getString("Chat.Groups." + group);
-                        String prefix = "";
+                        String prefix = service.getGroupSubjects();
                         String suffix = "";
-                        if (r.getVault().getChat() != null) {
-                            prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getPrimaryGroup(e.getPlayer()));
-                            suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getPrimaryGroup(e.getPlayer()));
-                            if ((r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer()).isEmpty()) {
-                                prefix = r.getVault().getChat().getPlayerPrefix(e.getPlayer());
+                        if (r.getVault().getChat() != null) { //TODO prefix & suffix
+                            prefix = r.getVault().getChat().getGroupPrefix(p.getWorld(), r.getPrimaryGroup(p));
+                            suffix = r.getVault().getChat().getGroupSuffix(p.getWorld(), r.getPrimaryGroup(p));
+                            if ((r.getVault().getChat().getPlayerPrefix(p) != null) && !r.getVault().getChat().getPlayerPrefix(p).isEmpty()) {
+                                prefix = r.getVault().getChat().getPlayerPrefix(p);
                             }
-                            if ((r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer()).isEmpty()) {
-                                suffix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
+                            if ((r.getVault().getChat().getPlayerSuffix(p) != null) && !r.getVault().getChat().getPlayerSuffix(p).isEmpty()) {
+                                suffix = r.getVault().getChat().getPlayerSuffix(p);
                             }
                         }
                         if (!f.contains("\\+Name")) {
-                            e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
+                            p.offer(Keys.DISPLAY_NAME, UC.getPlayer(p).getDisplayName());
                         } else {
-                            e.getPlayer().setDisplayName(e.getPlayer().getName());
+                            p.offer(Keys.DISPLAY_NAME, Text.of(p.getName()));
                         }
-                        f = TabListener.replaceVariables(f, e.getPlayer());
-                        f = ChatColor.translateAlternateColorCodes('&', f);
-                        if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {
-                            f = r(f, "&y", r.getRandomChatColor() + "");
+                        f = TabListener.replaceVariables(f, p);
+                        f = TextColorUtil.translateAlternate(f);
+                        if (r.perm(p, "uc.chat.rainbow", false)) {
+                            f = r(f, "&y", r.getRandomTextColor() + "");
                         }
-                        f = r(f, "\\+Message", "\\%2\\$s");
-                        synchronized (f) {
-                            e.setMessage(m);
-                            e.setFormat(f);
-                        }
+                        e.setMessage(m);
+
                         return;
                     }
                 }
@@ -279,49 +231,44 @@ public class ChatListener implements Listener {
             String prefix = "";
             String suffix = "";
             if (r.getVault() != null && r.getVault().getPermission() != null && r.getVault().getChat() != null) {
-                group = r.getPrimaryGroup(e.getPlayer());
-                prefix = r.getVault().getChat().getGroupPrefix(e.getPlayer().getWorld(), r.getPrimaryGroup(e.getPlayer()));
-                suffix = r.getVault().getChat().getGroupSuffix(e.getPlayer().getWorld(), r.getPrimaryGroup(e.getPlayer()));
+                group = r.getPrimaryGroup(p);
+                prefix = r.getVault().getChat().getGroupPrefix(p.getWorld(), r.getPrimaryGroup(p));
+                suffix = r.getVault().getChat().getGroupSuffix(p.getWorld(), r.getPrimaryGroup(p));
             }
-            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerPrefix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerPrefix(e
-                    .getPlayer()).equalsIgnoreCase("")) {
-                prefix = r.getVault().getChat().getPlayerPrefix(e.getPlayer());
+            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerPrefix(p) != null) && !r.getVault().getChat().getPlayerPrefix(e.getPlayer())
+                    .equalsIgnoreCase("")) {
+                prefix = r.getVault().getChat().getPlayerPrefix(p);
             }
-            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(e.getPlayer()) != null) && !r.getVault().getChat().getPlayerSuffix(e
-                    .getPlayer()).equalsIgnoreCase("")) {
-                suffix = r.getVault().getChat().getPlayerSuffix(e.getPlayer());
+            if (r.getVault() != null && r.getVault().getChat() != null && (r.getVault().getChat().getPlayerSuffix(p) != null) && !r.getVault().getChat().getPlayerSuffix(e.getPlayer())
+                    .equalsIgnoreCase("")) {
+                suffix = r.getVault().getChat().getPlayerSuffix(p);
             }
             if (!f.contains("\\+Name")) {
-                e.getPlayer().setDisplayName(UC.getPlayer(e.getPlayer()).getDisplayName());
+                p.offer(Keys.DISPLAY_NAME, UC.getPlayer(p).getDisplayName());
             } else {
-                e.getPlayer().setDisplayName(e.getPlayer().getName());
+                p.offer(Keys.DISPLAY_NAME, Text.of(p.getName()));
             }
-            f = r(f, "\\+Group", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (group != null ? group.replaceAll("&y", r.getRandomChatColor() + "") : "") : (group != null ?
-                    group : ""));
-            f = r(f, "\\+Prefix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (prefix != null ? prefix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (prefix != null ?
-                    prefix : ""));
-            f = r(f, "\\+Suffix", r.perm(e.getPlayer(), "uc.chat.rainbow", false, false) ? (suffix != null ? suffix.replaceAll("&y", r.getRandomChatColor() + "") : "") : (suffix != null ?
-                    suffix : ""));
+            f = r(f, "\\+Group", r.perm(p, "uc.chat.rainbow", false) ? (group != null ? group.replaceAll("&y", r.getRandomTextColor() + "") : "") : (group != null ? group : ""));
+            f = r(f, "\\+Prefix", r.perm(p, "uc.chat.rainbow", false) ? (prefix != null ? prefix.replaceAll("&y", r.getRandomTextColor() + "") : "") : (prefix != null ? prefix : ""));
+            f = r(f, "\\+Suffix", r.perm(p, "uc.chat.rainbow", false) ? (suffix != null ? suffix.replaceAll("&y", r.getRandomTextColor() + "") : "") : (suffix != null ? suffix : ""));
             f = r(f, "\\+Name", "\\%1\\$s");
             f = r(f, "\\+Displayname", "\\%1\\$s");
-            f = r(f, "\\+WorldAlias", e.getPlayer().getWorld().getName().charAt(0) + "");
-            f = r(f, "\\+World", e.getPlayer().getWorld().getName());
-            f = r(f, "\\+Faction", r.getFaction(e.getPlayer()));
-            f = r(f, "\\+Town", r.getTown(e.getPlayer()));
-            f = ChatColor.translateAlternateColorCodes('&', f);
-            if (r.perm(e.getPlayer(), "uc.chat.rainbow", false, false)) {
-                f = r(f, "&y", r.getRandomChatColor() + "");
+            f = r(f, "\\+WorldAlias", p.getWorld().getName().charAt(0) + "");
+            f = r(f, "\\+World", p.getWorld().getName());
+//            f = r(f, "\\+Faction", r.getFaction(p));
+//            f = r(f, "\\+Town", r.getTown(p));
+            f = TextColorUtil.translateAlternate(f);
+            if (r.perm(p, "uc.chat.rainbow", false)) {
+                f = r(f, "&y", r.getRandomTextColor() + "");
             }
             f = r(f, "\\+Message", "\\%2\\$s");
-            synchronized (f) {
-                e.setMessage(m);
-                e.setFormat(f);
-            }
+            e.setMessage(m);
+
         }
     }
 
     private void spamTask() {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+        Sponge.getScheduler().createTaskBuilder().intervalTicks(70L).delayTicks(70L).execute(new Runnable() {
             @Override
             public void run() {
                 ArrayList<String> spamtime_remove = new ArrayList<>();
@@ -340,8 +287,8 @@ public class ChatListener implements Listener {
                     spamTime.remove(str);
                 }
             }
-        }, 70L, 70L);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(r.getUC(), new Runnable() {
+        }).name("UC spam task").submit(r.getUC());
+        Sponge.getScheduler().createTaskBuilder().intervalTicks(160L).delayTicks(160L).execute(new Runnable() {
             @Override
             public void run() {
                 ArrayList<String> spamtime_remove = new ArrayList<>();
@@ -360,7 +307,7 @@ public class ChatListener implements Listener {
                     }
                 }
             }
-        }, 160L, 160L);
+        }).name("UC swear task").submit(r.getUC());
     }
 
     public String r(String str, String str2, String str3) {
@@ -377,9 +324,9 @@ public class ChatListener implements Listener {
 class ChatSet {
 
     Boolean cancelled;
-    String message;
+    Text message;
 
-    public ChatSet(String mes) {
+    public ChatSet(Text mes) {
         cancelled = false;
         message = mes;
     }
@@ -392,11 +339,11 @@ class ChatSet {
         cancelled = can;
     }
 
-    public String getMessage() {
+    public Text getMessage() {
         return message;
     }
 
-    public void setMessage(String msg) {
+    public void setMessage(Text msg) {
         message = msg;
     }
 }

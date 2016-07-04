@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.spongeapi.resources.utils.InventoryUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ItemUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
+import com.flowpowered.math.vector.Vector3d;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
@@ -59,14 +60,14 @@ public class UPlayer {
     static boolean tpspawn = r.getCnfg().getBoolean("Command.Jail.spawn");
     String name = null;
     UUID uuid = null;
-    Location lastLocation = null;
+    Object[] lastLocation = null;
     Boolean deaf = null;
     Long deaftime = null;
     Boolean freeze = null;
     Long freezetime = null;
     Boolean god = null;
     Long godtime = null;
-    HashMap<String, Location> homes = null;
+    HashMap<String, Object[]> homes = null;
     UUID onlineInv = null;
     UUID offlineInv = null;
     Boolean jailed = null;
@@ -231,15 +232,20 @@ public class UPlayer {
         if (!getPlayer().isOnline()) {
             return;
         }
-        setLastLocation(getOnlinePlayer().getLocation());
+        setLastLocation(getOnlinePlayer().getLocation(), getOnlinePlayer().getRotation());
     }
 
-    public Location getLastLocation() {
+    /**
+     * Returns the /back location for a player.
+     *
+     * @return An array of a Location (0) and a Vector3d (1)
+     */
+    public Object[] getLastLocation() {
         if (lastLocation == null) {
             if (!getPlayerConfig().contains("lastlocation")) {
                 return null;
             }
-            Location loc = LocationUtil.convertStringToLocation(getPlayerConfig().getString("lastlocation"));
+            Object[] loc = LocationUtil.convertStringToLocation(getPlayerConfig().getString("lastlocation"));
             lastLocation = loc;
             save();
             return loc;
@@ -247,10 +253,10 @@ public class UPlayer {
         return lastLocation;
     }
 
-    public void setLastLocation(Location loc) {
-        lastLocation = loc;
+    public void setLastLocation(Location loc, Vector3d rot) {
+        lastLocation = new Object[]{loc, rot};
         JsonConfig conf = getPlayerConfig();
-        conf.set("lastlocation", loc == null ? null : LocationUtil.convertLocationToString(loc));
+        conf.set("lastlocation", loc == null ? null : LocationUtil.convertLocationToString(loc, rot));
         conf.save();
         save();
     }
@@ -565,7 +571,7 @@ public class UPlayer {
         save();
     }
 
-    public HashMap<String, Location> getHomes() {
+    public HashMap<String, Object[]> getHomes() {
         if (homes != null) {
             return homes;
         }
@@ -585,13 +591,13 @@ public class UPlayer {
         return homes;
     }
 
-    public void setHomes(HashMap<String, Location> nh) {
+    public void setHomes(HashMap<String, Object[]> nh) {
         homes = nh;
         save();
         JsonConfig conf = getPlayerConfig();
         conf.set("homes", null);
         for (String s : nh.keySet()) {
-            conf.set("homes." + s.toLowerCase(), LocationUtil.convertLocationToString(nh.get(s)));
+            conf.set("homes." + s.toLowerCase(), LocationUtil.convertLocationToString((Location) nh.get(s)[0], (Vector3d) nh.get(s)[1]));
         }
         conf.save();
     }
@@ -602,19 +608,19 @@ public class UPlayer {
         return h;
     }
 
-    public void addHome(String s, Location l) {
-        HashMap<String, Location> h = getHomes();
-        h.put(s.toLowerCase(), l);
+    public void addHome(String s, Location l, Vector3d rot) {
+        HashMap<String, Object[]> h = getHomes();
+        h.put(s.toLowerCase(), new Object[]{l, rot});
         setHomes(h);
     }
 
     public void removeHome(String s) {
-        HashMap<String, Location> h = getHomes();
+        HashMap<String, Object[]> h = getHomes();
         h.remove(s.toLowerCase());
         setHomes(h);
     }
 
-    public Location getHome(String s) {
+    public Object[] getHome(String s) {
         return getHomes().get(s.toLowerCase());
     }
 
@@ -718,7 +724,8 @@ public class UPlayer {
             if (UC.getPlayer(getPlayer()).getSpawn(false) == null) {
                 LocationUtil.teleport(getOnlinePlayer(), getOnlinePlayer().getWorld().getSpawnLocation(), Cause.builder().build(), false, false);
             } else {
-                LocationUtil.teleport(getOnlinePlayer(), UC.getPlayer(getPlayer()).getSpawn(false), Cause.builder().build(), false, false);
+                LocationUtil.teleport(getOnlinePlayer(), (Location) UC.getPlayer(getPlayer()).getSpawn(false)[0], Cause.builder().build(), false, false);
+                getOnlinePlayer().setRotation((Vector3d) UC.getPlayer(getPlayer()).getSpawn(false)[1]);
             }
         }
     }
@@ -1195,7 +1202,7 @@ public class UPlayer {
         }
     }
 
-    public Location getSpawn(Boolean firstjoin) {
+    public Object[] getSpawn(Boolean firstjoin) {
         JsonConfig conf = new JsonConfig(UltimateFileLoader.Dspawns);
         String loc;
         Player p = r.searchPlayer(uuid).get();

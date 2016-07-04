@@ -25,9 +25,10 @@ package bammerbom.ultimatecore.spongeapi.commands;
 
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,24 +47,35 @@ public class CmdWorkbench implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Open a crafting table.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList("wb", "craftingtable", "ct", "wbench");
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.workbench", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.workbench", true)) {
             return CommandResult.empty();
         }
         if (!r.isPlayer(cs)) {
             return CommandResult.empty();
         }
         Player p = (Player) cs;
-        p.openWorkbench(p.getLocation(), true);
+        p.openWorkbench(p.getLocation(), true); //TODO wait for https://github.com/SpongePowered/SpongeAPI/pull/1189
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
         return new ArrayList<>();
     }
 }

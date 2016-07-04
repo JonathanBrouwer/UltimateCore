@@ -27,9 +27,10 @@ import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,19 +49,29 @@ public class CmdUnjail implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Unjail someone.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.unjail", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.unjail", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
-            ArrayList<OfflinePlayer> jailed = UC.getServer().getOfflineJailed();
+            List<GameProfile> jailed = UC.getServer().getJailedGameProfiles();
             StringBuilder b = new StringBuilder();
-            for (OfflinePlayer j : jailed) {
+            for (GameProfile j : jailed) {
                 if (b.length() != 0) {
                     b.append(j.getName() + ", ");
                 } else {
@@ -69,8 +80,8 @@ public class CmdUnjail implements UltimateCommand {
             }
             return CommandResult.empty();
         }
-        OfflinePlayer pl = r.searchGameProfile(args[0]);
-        if (pl == null || (!pl.hasPlayedBefore() && !pl.isOnline())) {
+        GameProfile pl = r.searchGameProfile(args[0]).orElse(null);
+        if (pl == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return CommandResult.empty();
         }
@@ -80,15 +91,22 @@ public class CmdUnjail implements UltimateCommand {
             return CommandResult.empty();
         }
         plu.unjail();
-        if (pl.isOnline()) {
-            r.sendMes(pl.getPlayer(), "unjailTarget");
+        if (r.searchPlayer(pl.getUniqueId()).isPresent()) {
+            r.sendMes(r.searchPlayer(pl.getUniqueId()).get(), "unjailTarget");
         }
         r.sendMes(cs, "unjailMessage", "%Player", pl.getName());
-
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        if (!r.perm(cs, "uc.unjail", true)) {
+            return new ArrayList<>();
+        }
+        ArrayList<String> str = new ArrayList<>();
+        for (GameProfile pl : UC.getServer().getJailedGameProfiles()) {
+            str.add(pl.getName().orElse(""));
+        }
+        return str;
     }
 }

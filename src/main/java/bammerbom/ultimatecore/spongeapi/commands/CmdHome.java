@@ -56,12 +56,12 @@ public class CmdHome implements UltimateCommand {
 
     @Override
     public String getUsage() {
-        return "/<command> ";
+        return "/<command> [Player:]<Home>";
     }
 
     @Override
     public Text getDescription() {
-        return Text.of("Description");
+        return Text.of("Teleport to your home.");
     }
 
     @Override

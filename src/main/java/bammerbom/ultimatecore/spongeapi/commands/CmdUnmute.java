@@ -26,11 +26,13 @@ package bammerbom.ultimatecore.spongeapi.commands;
 import bammerbom.ultimatecore.spongeapi.UltimateCommand;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.r;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSource;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,20 +49,30 @@ public class CmdUnmute implements UltimateCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/<command> <Player>";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Unmute someone.");
+    }
+
+    @Override
     public List<String> getAliases() {
         return Arrays.asList();
     }
 
     @Override
-    public void run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.unmute", false, true)) {
+    public CommandResult run(final CommandSource cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.unmute", true)) {
             return CommandResult.empty();
         }
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "unmuteUsage");
             return CommandResult.empty();
         }
-        OfflinePlayer banp = r.searchGameProfile(args[0]);
+        GameProfile banp = r.searchGameProfile(args[0]).orElse(null);
         if (banp == null) {
             r.sendMes(cs, "playerNotFound", "%Player", args[0]);
             return CommandResult.empty();
@@ -71,14 +83,22 @@ public class CmdUnmute implements UltimateCommand {
         }
         UC.getPlayer(banp).setMuted(false);
         r.sendMes(cs, "unmuteMessage", "%Player", r.getDisplayName(banp));
-        if (banp.isOnline()) {
-            Player banp2 = (Player) banp;
+        if (r.searchPlayer(banp.getUniqueId()).isPresent()) {
+            Player banp2 = r.searchPlayer(banp.getUniqueId()).get();
             r.sendMes(banp2, "unmuteTarget");
         }
+        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
-        return null;
+    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+        if (!r.perm(cs, "uc.unmute", true)) {
+            return new ArrayList<>();
+        }
+        ArrayList<String> str = new ArrayList<>();
+        for (GameProfile pl : UC.getServer().getMutedGameProfiles()) {
+            str.add(pl.getName().orElse(""));
+        }
+        return str;
     }
 }

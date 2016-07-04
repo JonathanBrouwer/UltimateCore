@@ -36,6 +36,7 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
@@ -171,15 +172,15 @@ public class r {
         return false;
     }
 
-    public static String getDisplayName(Object cs) {
+    public static Text getDisplayName(Object cs) {
         if (cs instanceof Player) {
             return UC.getPlayer((Player) cs).getDisplayName();
         } else if (cs instanceof User) {
-            return ((User) cs).getName();
+            return Text.of(((User) cs).getName());
         } else if (cs instanceof CommandSource) {
-            return ((CommandSource) cs).getName();
+            return Text.of(((CommandSource) cs).getName());
         } else {
-            return cs.toString();
+            return Text.of(cs.toString());
         }
     }
 
@@ -506,6 +507,10 @@ public class r {
         ArrayList<TextColor> values = new ArrayList<>();
         values.addAll(Sponge.getGame().getRegistry().getAllOf(CatalogTypes.TEXT_COLOR));
         return values.get(ra.nextInt(values.size()));
+    }
+
+    public static Subject getPrimaryGroup(Player p) {
+        return p.getSubjectData().getParents(new HashSet<>()).get(0);
     }
 
     public static double round(double value, int places) {

@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UEconomy;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
+import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
@@ -128,7 +129,8 @@ public class MotdListener implements Listener {
                 int onlineplayers = e.getNumPlayers();
                 String servername = Bukkit.getServerName();
 
-                String bantime = TextColorUtil.strip(DateUtil.formatDateDiff(UC.getPlayer(p).getBanTime(), 2));
+                String bantime = bammerbom.ultimatecore.bukkit.api.UC.getPlayer(p).getBanTime() <= 1 ? bammerbom.ultimatecore.bukkit.r.mes("banForever") : TextColorUtil.strip(DateUtil
+                        .formatDateDiff(UC.getPlayer(p).getBanTime(), 2));
                 String banreason = UC.getPlayer(p).getBanReason();
 
                 String motd = banMotd;
@@ -140,7 +142,7 @@ public class MotdListener implements Listener {
                 motd = motd.replace("+Maxplayers", maxplayers + "");
                 motd = motd.replace("+Onlineplayers", onlineplayers + "");
                 motd = motd.replace("+Servername", servername);
-                motd = motd.replace("+Bantime", bantime);
+                motd = motd.replace("+Bantime", TextColorUtil.strip(bantime));
                 motd = motd.replace("+Banreason", banreason);
                 e.setMotd(motd);
             }
