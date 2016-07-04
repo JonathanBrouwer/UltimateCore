@@ -126,9 +126,7 @@ public class DateUtil {
                 .mes("seconds"), r.mes("second")};
 
         int accuracy = 0;
-        for (int i = 0;
-             i < types.length;
-             i++) {
+        for (int i = 0; i < types.length; i++) {
             if (accuracy >= maxacc) {
                 break;
             }

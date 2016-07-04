@@ -82,7 +82,8 @@ public class BloodListener implements Listener {
                         iCD.remove((Object) p.getEntityId());
                     }
                 }, 5L);
-                e.getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getEntity().getLocation().add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
+                e.getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getEntity().getLocation().add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK,
+                        (byte) 0));
             } else {
                 if (iCD.contains(e.getEntity().getEntityId())) {
                     return;

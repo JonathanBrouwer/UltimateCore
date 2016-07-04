@@ -104,13 +104,8 @@ public class CmdFirework implements UltimateCommand {
 
             FireworkMeta fm = (FireworkMeta) stack.getItemMeta();
             fm.clearEffects();
-            fm.addEffect(FireworkEffect.builder()
-                    .flicker(ran.nextBoolean())
-                    .trail(ran.nextBoolean())
-                    .with(effecttype.get(ran.nextInt(effecttype.size())))
-                    .withColor(effectcolor.get(ran.nextInt(effectcolor.size())))
-                    .withFade(effectcolor.get(ran.nextInt(effectcolor.size())))
-                    .build());
+            fm.addEffect(FireworkEffect.builder().flicker(ran.nextBoolean()).trail(ran.nextBoolean()).with(effecttype.get(ran.nextInt(effecttype.size()))).withColor(effectcolor.get(ran
+                    .nextInt(effectcolor.size()))).withFade(effectcolor.get(ran.nextInt(effectcolor.size()))).build());
             int number = ran.nextInt(3);
             number++;
             fm.setPower(number);

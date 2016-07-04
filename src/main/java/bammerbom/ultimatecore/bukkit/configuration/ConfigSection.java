@@ -118,9 +118,7 @@ public class ConfigSection {
         char separator = root.options().pathSeparator();
 
         StringBuilder builder = new StringBuilder();
-        for (ConfigSection parent = section;
-             (parent != null) && (parent != relativeTo);
-             parent = parent.getParent()) {
+        for (ConfigSection parent = section; (parent != null) && (parent != relativeTo); parent = parent.getParent()) {
             if (builder.length() > 0) {
                 builder.insert(0, separator);
             }
@@ -782,7 +780,8 @@ public class ConfigSection {
     }
 
     protected boolean isPrimitiveWrapper(Object input) {
-        return input instanceof Integer || input instanceof Boolean || input instanceof Character || input instanceof Byte || input instanceof Short || input instanceof Double || input instanceof Long || input instanceof Float;
+        return input instanceof Integer || input instanceof Boolean || input instanceof Character || input instanceof Byte || input instanceof Short || input instanceof Double || input
+                instanceof Long || input instanceof Float;
     }
 
     protected Object getDefault(String path) {
@@ -821,8 +820,8 @@ public class ConfigSection {
     @Override
     public String toString() {
         MemoryConfiguration root = getRoot();
-        return new StringBuilder().append(getClass().getSimpleName()).append("[path='").append(getCurrentPath()).append("', root='").append(root == null ? null : root.getClass().getSimpleName())
-                .append("']").toString();
+        return new StringBuilder().append(getClass().getSimpleName()).append("[path='").append(getCurrentPath()).append("', root='").append(root == null ? null : root.getClass()
+                .getSimpleName()).append("']").toString();
     }
 
 }

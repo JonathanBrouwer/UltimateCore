@@ -42,7 +42,8 @@ public class ReflectionUtil {
      * The NMS Path of the current Bukkit version. EG: net.minecraft.server.1_6_2R
      */
     public static String NMS_PATH = "net.minecraft.server." + (Bukkit.getServer() != null ? Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] : "UNKNOWN");
-    public static String OBC_PATH = "org.bukkit.craftbukkit." + (Bukkit.getServer() != null ? Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] : "UNKNOWN");
+    public static String OBC_PATH = "org.bukkit.craftbukkit." + (Bukkit.getServer() != null ? Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] :
+            "UNKNOWN");
 
     /**
      * Execute a reflection command
@@ -185,9 +186,7 @@ public class ReflectionUtil {
         Method m = null;
         Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
-        for (c = obj.getClass();
-             c != null;
-             c = c.getSuperclass()) {
+        for (c = obj.getClass(); c != null; c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
                 if (method.getName().equals(methodName)) {
                     m = method;
@@ -202,9 +201,7 @@ public class ReflectionUtil {
         Method m = null;
         Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
-        for (c = obj;
-             c != null;
-             c = c.getSuperclass()) {
+        for (c = obj; c != null; c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
                 if (method.getName().equals(methodName)) {
                     m = method;
@@ -228,9 +225,7 @@ public class ReflectionUtil {
         Method m = null;
         Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
-        for (c = obj.getClass();
-             c != null;
-             c = c.getSuperclass()) {
+        for (c = obj.getClass(); c != null; c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
                 if (method.getName().equals(name) && checkForMatch(method.getParameterTypes(), args)) {
                     m = method;
@@ -248,9 +243,7 @@ public class ReflectionUtil {
         Method m = null;
         Class<?> c;
         //Traverse loop to make sure we get every method, also the inherited ones
-        for (c = obj;
-             c != null;
-             c = c.getSuperclass()) {
+        for (c = obj; c != null; c = c.getSuperclass()) {
             for (Method method : c.getDeclaredMethods()) {
                 if (method.getName().equals(name) && checkForMatch(method.getParameterTypes(), args)) {
                     m = method;
@@ -497,7 +490,6 @@ public class ReflectionUtil {
          * @return
          * @throws Exception
          */
-        @SuppressWarnings("unchecked")
         private <T> T castOrCreate(Object obj, Class<T> as) throws Exception {
             try {
                 if (as.isAssignableFrom(obj.getClass())) {

@@ -246,9 +246,7 @@ public class r {
 
     public static String getFinalArg(String[] args, int start) {
         StringBuilder bldr = new StringBuilder();
-        for (int i = start;
-             i < args.length;
-             i++) {
+        for (int i = start; i < args.length; i++) {
             if (i != start) {
                 bldr.append(" ");
             }
@@ -324,8 +322,8 @@ public class r {
 
     public static String mes(String padMessage, Object... repl) {
         if (cu.map.containsKey(padMessage)) {
-            String a = r.positive + ChatColor
-                    .translateAlternateColorCodes('&', cu.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
+            String a = r.positive + ChatColor.translateAlternateColorCodes('&', cu.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r
+                    .negative + "").replace("\\\\n", "\n"));
             String repA = null;
             for (Object s : repl) {
                 if (repA == null) {
@@ -338,8 +336,8 @@ public class r {
             return a;
         }
         if (en.map.containsKey(padMessage)) {
-            String b = r.positive + ChatColor
-                    .translateAlternateColorCodes('&', en.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r.negative + "").replace("\\\\n", "\n"));
+            String b = r.positive + ChatColor.translateAlternateColorCodes('&', en.getProperty(padMessage).replace("@1", r.positive + "").replace("@2", r.neutral + "").replace("@3", r
+                    .negative + "").replace("\\\\n", "\n"));
             String repB = null;
             for (Object s : repl) {
                 if (repB == null) {
@@ -672,9 +670,7 @@ public class r {
                     // Find start of key
                     int len = line.length();
                     int keyStart;
-                    for (keyStart = 0;
-                         keyStart < len;
-                         keyStart++) {
+                    for (keyStart = 0; keyStart < len; keyStart++) {
                         if (whiteSpaceChars.indexOf(line.charAt(keyStart)) == -1) {
                             break;
                         }
@@ -699,9 +695,7 @@ public class r {
                             String loppedLine = line.substring(0, len - 1);
                             // Advance beyond whitespace on new line
                             int startIndex;
-                            for (startIndex = 0;
-                                 startIndex < nextLine.length();
-                                 startIndex++) {
+                            for (startIndex = 0; startIndex < nextLine.length(); startIndex++) {
                                 if (whiteSpaceChars.indexOf(nextLine.charAt(startIndex)) == -1) {
                                     break;
                                 }
@@ -713,9 +707,7 @@ public class r {
 
                         // Find separation between key and value
                         int separatorIndex;
-                        for (separatorIndex = keyStart;
-                             separatorIndex < len;
-                             separatorIndex++) {
+                        for (separatorIndex = keyStart; separatorIndex < len; separatorIndex++) {
                             char currentChar = line.charAt(separatorIndex);
                             if (currentChar == '\\') {
                                 separatorIndex++;
@@ -726,9 +718,7 @@ public class r {
 
                         // Skip over whitespace after key if any
                         int valueIndex;
-                        for (valueIndex = separatorIndex;
-                             valueIndex < len;
-                             valueIndex++) {
+                        for (valueIndex = separatorIndex; valueIndex < len; valueIndex++) {
                             if (whiteSpaceChars.indexOf(line.charAt(valueIndex)) == -1) {
                                 break;
                             }
@@ -783,17 +773,14 @@ public class r {
             int len = theString.length();
             StringBuilder outBuffer = new StringBuilder(len);
 
-            for (int x = 0;
-                 x < len; ) {
+            for (int x = 0; x < len; ) {
                 aChar = theString.charAt(x++);
                 if (aChar == '\\') {
                     aChar = theString.charAt(x++);
                     if (aChar == 'u') {
                         // Read the xxxx
                         int value = 0;
-                        for (int i = 0;
-                             i < 4;
-                             i++) {
+                        for (int i = 0; i < 4; i++) {
                             aChar = theString.charAt(x++);
                             switch (aChar) {
                                 case '0':
@@ -855,9 +842,7 @@ public class r {
             int len = theString.length();
             StringBuilder outBuffer = new StringBuilder(len * 2);
 
-            for (int x = 0;
-                 x < len;
-                 x++) {
+            for (int x = 0; x < len; x++) {
                 char aChar = theString.charAt(x);
                 switch (aChar) {
                     case ' ':
@@ -906,8 +891,7 @@ public class r {
             writeln(awriter, "#" + new Date().toString());
 
             Set<String> newKeys = new HashSet<>(map.keySet());
-            for (Iterator<String> iter = order.iterator();
-                 iter.hasNext(); ) {
+            for (Iterator<String> iter = order.iterator(); iter.hasNext(); ) {
                 String str = iter.next();
                 if ((str.charAt(0) == '#') || (str.charAt(0) == '!')) {
                     writeln(awriter, str);
@@ -920,8 +904,7 @@ public class r {
                     }
                 }
             }
-            for (Iterator<String> iter = newKeys.iterator();
-                 iter.hasNext(); ) {
+            for (Iterator<String> iter = newKeys.iterator(); iter.hasNext(); ) {
                 String key = saveConvert(iter.next(), true);
                 String val = saveConvert(map.get(key), false);
                 writeln(awriter, key + "=" + val);
@@ -945,8 +928,7 @@ public class r {
 
         public Iterator<String> propertyNames() {
             Map<String, String> h = new HashMap<>();
-            for (Iterator<String> i = map.keySet().iterator();
-                 i.hasNext(); ) {
+            for (Iterator<String> i = map.keySet().iterator(); i.hasNext(); ) {
                 String key = i.next();
                 h.put(key, map.get(key));
             }

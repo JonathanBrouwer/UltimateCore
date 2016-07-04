@@ -66,7 +66,8 @@ public class AfkListener implements Listener {
                             }
                         }
                         if (UC.getPlayer(pl).isAfk()) {
-                            String sub = (kickenabled && !r.perm(pl, "uc.afk.exempt", false, false) && dif > 1) ? r.mes("afkWarning2", "%Time", ChatColor.stripColor(DateUtil.formatDateDiff(((kicktime - dif) * 1000) + System.currentTimeMillis()))) : null;
+                            String sub = (kickenabled && !r.perm(pl, "uc.afk.exempt", false, false) && dif > 1) ? r.mes("afkWarning2", "%Time", ChatColor.stripColor(DateUtil
+                                    .formatDateDiff(((kicktime - dif) * 1000) + System.currentTimeMillis()))) : null;
                             TitleUtil.sendTitle(pl, 0, 120, 20, r.mes("afkWarning"), sub);
                         }
 

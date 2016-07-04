@@ -81,9 +81,7 @@ public class CmdWorld implements UltimateCommand {
             WorldCreator settings = new WorldCreator(args[1]);
             String gen = null;
             Integer na = 2;
-            for (int i = 0;
-                 i < args.length + 3;
-                 i++) {
+            for (int i = 0; i < args.length + 3; i++) {
 
                 if (r.checkArgs(args, na)) {
                     if (args[na].equalsIgnoreCase("flat") || args[na].equalsIgnoreCase("flatland")) {
@@ -151,9 +149,7 @@ public class CmdWorld implements UltimateCommand {
             WorldCreator settings = new WorldCreator(args[1]);
             String gen = null;
             Integer na = 2;
-            for (int i = 0;
-                 i < args.length + 3;
-                 i++) {
+            for (int i = 0; i < args.length + 3; i++) {
 
                 if (r.checkArgs(args, na)) {
                     if (args[na].equalsIgnoreCase("flat") || args[na].equalsIgnoreCase("flatland")) {
@@ -220,9 +216,7 @@ public class CmdWorld implements UltimateCommand {
         String result;
         try {
             Integer cur = 0;
-            for (int i = 0;
-                 i < worlds.toArray().length;
-                 i++) {
+            for (int i = 0; i < worlds.toArray().length; i++) {
                 list.append(worlds.get(cur) + ", ");
                 cur++;
             }
@@ -442,7 +436,8 @@ public class CmdWorld implements UltimateCommand {
             return Arrays.asList("create", "import", "list", "remove", "tp", "flag");
         }
         if (curn == 1) {
-            if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("import") || args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("flag")) {
+            if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("import") || args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("tp") || args[0]
+                    .equalsIgnoreCase("flag")) {
                 ArrayList<String> rtrn = new ArrayList<>();
                 for (World w : Bukkit.getWorlds()) {
                     rtrn.add(w.getName());

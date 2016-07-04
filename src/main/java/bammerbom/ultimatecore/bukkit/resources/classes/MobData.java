@@ -95,9 +95,9 @@ public class MobData {
 
     static void setHorseSpeed(Horse h, double speed) {
         try {
-            ReflectionUtil.ReflectionObject attributes = ReflectionUtil.execute("getHandle().getAttributeInstance({1})", h, ReflectionUtil
-                    .executeStatic(ReflectionUtil.NMS_PATH.equalsIgnoreCase("net.minecraft.server.1_8_R1") || ReflectionUtil.NMS_PATH
-                            .equalsIgnoreCase("net.minecraft.server.1_8_R2") ? "d" : "MOVEMENT_SPEED", ReflectionUtil.ReflectionStatic.fromNMS("GenericAttributes")).fetch());
+            ReflectionUtil.ReflectionObject attributes = ReflectionUtil.execute("getHandle().getAttributeInstance({1})", h, ReflectionUtil.executeStatic(ReflectionUtil.NMS_PATH
+                    .equalsIgnoreCase("net.minecraft.server.1_8_R1") || ReflectionUtil.NMS_PATH.equalsIgnoreCase("net.minecraft.server.1_8_R2") ? "d" : "MOVEMENT_SPEED", ReflectionUtil
+                    .ReflectionStatic.fromNMS("GenericAttributes")).fetch());
             attributes.set("f", speed);
             attributes.invoke("f");
         } catch (Exception ex) {

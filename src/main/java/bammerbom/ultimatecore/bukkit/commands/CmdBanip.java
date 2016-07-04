@@ -112,10 +112,11 @@ public class CmdBanip implements UltimateCommand {
         Date date = time == 0 ? null : new Date(time + System.currentTimeMillis());
         Bukkit.getBanList(BanList.Type.IP).addBan(ip, reason, date, cs.getName());
         if (r.getCnfg().getBoolean("Command.BanBroadcast")) {
-            Bukkit.broadcastMessage(r
-                    .mes("banBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason", reason));
+            Bukkit.broadcastMessage(r.mes("banBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Banned", ip, "%Time", timen,
+                    "%Reason", reason));
         } else {
-            r.sendMes(cs, "banipBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason", reason);
+            r.sendMes(cs, "banipBroadcast", "%Banner", ((cs instanceof Player) ? r.getDisplayName(cs) : r.getDisplayName(cs).toLowerCase()), "%Banned", ip, "%Time", timen, "%Reason",
+                    reason);
         }
 
     }

@@ -41,9 +41,7 @@ public class StreamUtil {
     }
 
     public static void writeIndent(BufferedWriter writer, int indent) throws IOException {
-        for (int i = 0;
-             i < indent;
-             i++) {
+        for (int i = 0; i < indent; i++) {
             writer.write(32);
         }
     }
@@ -66,7 +64,6 @@ public class StreamUtil {
         return file.length();
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static List<File> deleteFile(File file) {
         if (file.isDirectory()) {
             List failFiles = new ArrayList();

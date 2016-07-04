@@ -319,8 +319,8 @@ public class GlobalPlayerListener implements Listener {
                 }, 1L);
             }
             //Teleportmenu
-            if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInTeleportMenu() && e.getCurrentItem() != null && e.getCurrentItem().getItemMeta() != null && e.getCurrentItem().getItemMeta()
-                    .hasDisplayName()) {
+            if (UC.getPlayer(e.getWhoClicked().getUniqueId()).isInTeleportMenu() && e.getCurrentItem() != null && e.getCurrentItem().getItemMeta() != null && e.getCurrentItem()
+                    .getItemMeta().hasDisplayName()) {
                 UC.getPlayer(e.getWhoClicked().getUniqueId()).setInTeleportMenu(false);
                 Bukkit.getServer().dispatchCommand(e.getWhoClicked(), "tp " + ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()));
                 e.setCancelled(true);
@@ -464,8 +464,8 @@ public class GlobalPlayerListener implements Listener {
                 e.setCancelled(CmdMobtp.place(e.getPlayer()));
             }
             //Powertool
-            if (!e.getAction().equals(Action.PHYSICAL) && e.getPlayer() != null && e.getPlayer().getItemInHand() != null && e.getPlayer().getItemInHand().getType() != null && !e.getPlayer()
-                    .getItemInHand().getType().equals(Material.AIR) && UC.getPlayer(e.getPlayer()).hasPowertool(e.getPlayer().getItemInHand().getType())) {
+            if (!e.getAction().equals(Action.PHYSICAL) && e.getPlayer() != null && e.getPlayer().getItemInHand() != null && e.getPlayer().getItemInHand().getType() != null && !e.getPlayer
+                    ().getItemInHand().getType().equals(Material.AIR) && UC.getPlayer(e.getPlayer()).hasPowertool(e.getPlayer().getItemInHand().getType())) {
                 for (String s : UC.getPlayer(e.getPlayer()).getPowertools(e.getPlayer().getItemInHand().getType())) {
                     e.getPlayer().performCommand(s);
                 }

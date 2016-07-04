@@ -142,7 +142,6 @@ public class ConfigurationSerialization {
      * @param alias Alias to register as
      * @see SerializableAs
      */
-    @SuppressWarnings("unchecked")
     public static void registerClass(Class<?> clazz, String alias) {
         aliases.put(alias, (Class<? extends ConfigurationSerializable>) clazz);
     }
@@ -245,8 +244,8 @@ public class ConfigurationSerialization {
                 return result;
             }
         } catch (Throwable ex) {
-            Logger.getLogger(ConfigurationSerialization.class.getName())
-                    .log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + clazz + " for deserialization", ex instanceof InvocationTargetException ? ex.getCause() : ex);
+            Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + clazz + " for deserialization", ex
+                    instanceof InvocationTargetException ? ex.getCause() : ex);
         }
 
         return null;

@@ -111,7 +111,8 @@ public class ItemUtil {
 
     public static String getName(ItemStack stack) {
         try {
-            return ReflectionUtil.execute("getName()", ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionStatic.fromOBC("inventory.CraftItemStack"), stack).fetch()).fetch().toString();
+            return ReflectionUtil.execute("getName()", ReflectionUtil.executeStatic("asNMSCopy({1})", ReflectionStatic.fromOBC("inventory.CraftItemStack"), stack).fetch()).fetch()
+                    .toString();
         } catch (Exception ex) {
             return getTypeName(stack);
         }
@@ -129,25 +130,24 @@ public class ItemUtil {
     }
 
     public static boolean isRepairable(ItemStack stack) {
-        return stack.getType().equals(Material.WOOD_AXE) || stack.getType().equals(Material.WOOD_PICKAXE) || stack.getType().equals(Material.WOOD_SPADE) || stack.getType()
-                .equals(Material.WOOD_SWORD) || stack.getType().equals(Material.WOOD_HOE) || stack.getType().equals(Material.STONE_AXE) || stack.getType().equals(Material.STONE_PICKAXE) || stack
-                .getType().equals(Material.STONE_SPADE) || stack.getType().equals(Material.STONE_SWORD) || stack.getType().equals(Material.STONE_HOE) || stack.getType()
-                .equals(Material.IRON_AXE) || stack.getType().equals(Material.IRON_PICKAXE) || stack.getType().equals(Material.IRON_SPADE) || stack.getType().equals(Material.IRON_SWORD) || stack
-                .getType().equals(Material.IRON_HOE) || stack.getType().equals(Material.GOLD_AXE) || stack.getType().equals(Material.GOLD_PICKAXE) || stack.getType()
-                .equals(Material.GOLD_SPADE) || stack.getType().equals(Material.GOLD_SWORD) || stack.getType().equals(Material.GOLD_HOE) || stack.getType().equals(Material.DIAMOND_AXE) || stack
-                .getType().equals(Material.DIAMOND_PICKAXE) || stack.getType().equals(Material.DIAMOND_SPADE) || stack.getType().equals(Material.DIAMOND_SWORD) || stack.getType()
-                .equals(Material.DIAMOND_HOE) || stack.getType().equals(Material.LEATHER_BOOTS) || stack.getType().equals(Material.LEATHER_LEGGINGS) || stack.getType()
-                .equals(Material.LEATHER_CHESTPLATE) || stack.getType().equals(Material.LEATHER_HELMET) || stack.getType().equals(Material.CHAINMAIL_BOOTS) || stack.getType()
-                .equals(Material.CHAINMAIL_LEGGINGS) || stack.getType().equals(Material.CHAINMAIL_CHESTPLATE) ||
+        return stack.getType().equals(Material.WOOD_AXE) || stack.getType().equals(Material.WOOD_PICKAXE) || stack.getType().equals(Material.WOOD_SPADE) || stack.getType().equals(Material
+                .WOOD_SWORD) || stack.getType().equals(Material.WOOD_HOE) || stack.getType().equals(Material.STONE_AXE) || stack.getType().equals(Material.STONE_PICKAXE) || stack.getType
+                ().equals(Material.STONE_SPADE) || stack.getType().equals(Material.STONE_SWORD) || stack.getType().equals(Material.STONE_HOE) || stack.getType().equals(Material.IRON_AXE)
+                || stack.getType().equals(Material.IRON_PICKAXE) || stack.getType().equals(Material.IRON_SPADE) || stack.getType().equals(Material.IRON_SWORD) || stack.getType().equals
+                (Material.IRON_HOE) || stack.getType().equals(Material.GOLD_AXE) || stack.getType().equals(Material.GOLD_PICKAXE) || stack.getType().equals(Material.GOLD_SPADE) || stack
+                .getType().equals(Material.GOLD_SWORD) || stack.getType().equals(Material.GOLD_HOE) || stack.getType().equals(Material.DIAMOND_AXE) || stack.getType().equals(Material
+                .DIAMOND_PICKAXE) || stack.getType().equals(Material.DIAMOND_SPADE) || stack.getType().equals(Material.DIAMOND_SWORD) || stack.getType().equals(Material.DIAMOND_HOE) ||
+                stack.getType().equals(Material.LEATHER_BOOTS) || stack.getType().equals(Material.LEATHER_LEGGINGS) || stack.getType().equals(Material.LEATHER_CHESTPLATE) || stack.getType
+                ().equals(Material.LEATHER_HELMET) || stack.getType().equals(Material.CHAINMAIL_BOOTS) || stack.getType().equals(Material.CHAINMAIL_LEGGINGS) || stack.getType().equals
+                (Material.CHAINMAIL_CHESTPLATE) ||
                 stack.getType().equals(Material.CHAINMAIL_HELMET) || stack.getType().equals(Material.IRON_BOOTS) ||
                 stack.getType().equals(Material.IRON_LEGGINGS) || stack.getType().equals(Material.IRON_CHESTPLATE) ||
-                stack.getType().equals(Material.IRON_HELMET) || stack.getType().equals(Material.GOLD_BOOTS) || stack.getType().equals(Material.GOLD_LEGGINGS) || stack.getType()
-                .equals(Material.GOLD_CHESTPLATE) ||
+                stack.getType().equals(Material.IRON_HELMET) || stack.getType().equals(Material.GOLD_BOOTS) || stack.getType().equals(Material.GOLD_LEGGINGS) || stack.getType().equals
+                (Material.GOLD_CHESTPLATE) ||
                 stack.getType().equals(Material.GOLD_HELMET) || stack.getType().equals(Material.DIAMOND_BOOTS) ||
-                stack.getType().equals(Material.DIAMOND_LEGGINGS) || stack.getType().equals(Material.DIAMOND_CHESTPLATE) || stack.getType().equals(Material.DIAMOND_HELMET) || stack.getType()
-                .equals(Material.BOW) || stack.getType().equals(Material.FISHING_ROD) || stack.getType().equals(Material.CARROT_STICK) || stack.getType().equals(Material.FLINT_AND_STEEL) || stack
-                .getType().equals(Material.SHEARS) || stack.getType().equals(Material.ANVIL)
-                || stack.getType().equals(Material.ELYTRA);
+                stack.getType().equals(Material.DIAMOND_LEGGINGS) || stack.getType().equals(Material.DIAMOND_CHESTPLATE) || stack.getType().equals(Material.DIAMOND_HELMET) || stack
+                .getType().equals(Material.BOW) || stack.getType().equals(Material.FISHING_ROD) || stack.getType().equals(Material.CARROT_STICK) || stack.getType().equals(Material
+                .FLINT_AND_STEEL) || stack.getType().equals(Material.SHEARS) || stack.getType().equals(Material.ANVIL) || stack.getType().equals(Material.ELYTRA);
     }
 
     public static String getID(Material mat) {
