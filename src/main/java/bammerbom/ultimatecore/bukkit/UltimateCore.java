@@ -37,12 +37,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
-public class UltimateCore extends JavaPlugin {
+public class UltimateCore extends JavaPlugin implements Listener {
 
     public static File file;
     private static UltimateCore instance = null;
@@ -106,6 +109,12 @@ public class UltimateCore extends JavaPlugin {
                 r.log(ChatColor.DARK_RED + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                 Bukkit.getConsoleSender().sendMessage(" ");
             }
+            if (System.getProperty("java.version").startsWith("1.7")) {
+                r.log(ChatColor.RED + "---------------------------------------------------");
+                r.log(ChatColor.RED + "This server is still running java 7");
+                r.log(ChatColor.RED + "UltimateCore will not support this anymore soon.");
+                r.log(ChatColor.RED + "---------------------------------------------------");
+            }
             //
             UltimateConverter.convert();
             //
@@ -133,6 +142,7 @@ public class UltimateCore extends JavaPlugin {
             UnknownCommandListener.start();
             WeatherListener.start();
             MinecraftServerListener.start();
+            Bukkit.getPluginManager().registerEvents(this, this);
             //LISTENER STARTUP END
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new UltimateTick(), 40L, 40L);
             //
@@ -175,6 +185,18 @@ public class UltimateCore extends JavaPlugin {
             ErrorLogger.log(ex, "Failed to execute command: /" + label + " " + r.getFinalArg(args, 0));
         }
         return true;
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        if (System.getProperty("java.version").startsWith("1.7")) {
+            if (e.getPlayer().hasPermission("asklnsdiabasdiubasas.saasdnuiasds")) {
+                e.getPlayer().sendMessage(ChatColor.RED + "---------------------------------------------------");
+                e.getPlayer().sendMessage(ChatColor.RED + "This server is still running java 7");
+                e.getPlayer().sendMessage(ChatColor.RED + "UltimateCore will not support this anymore soon.");
+                e.getPlayer().sendMessage(ChatColor.RED + "---------------------------------------------------");
+            }
+        }
     }
 
     public void test() {
