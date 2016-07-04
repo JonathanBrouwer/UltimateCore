@@ -506,7 +506,7 @@ public class UServer {
     }
 
     public void clearWarps() {
-        setWarps(new HashMap<String, Location>());
+        setWarps(new HashMap<>());
     }
 
     public List<Player> getAfkPlayers() {
@@ -541,7 +541,11 @@ public class UServer {
     }
 
     public List<String> getKitNames() {
-        return new ArrayList<>(new Config(UltimateFileLoader.Dkits).getKeys(false));
+        ArrayList<String> list = new ArrayList<>();
+        for (String key : new Config(UltimateFileLoader.Dkits).getKeys(false)) {
+            list.add(key.toLowerCase());
+        }
+        return list;
     }
 
     public boolean isDebug() {

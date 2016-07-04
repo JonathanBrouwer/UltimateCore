@@ -57,7 +57,12 @@ public class UKit {
     private final boolean firstjoin;
     private ConfigSection kit;
 
-    public UKit(final String name) {
+    public UKit(String name) {
+        for (String s : new Config(UltimateFileLoader.Dkits).getKeys(false)) {
+            if (s.equalsIgnoreCase(name)) {
+                name = s;
+            }
+        }
         this.name = name;
         this.kit = kits.getConfigurationSection(name);
         this.items = getItemStacks(kit.getMapList("items"));
@@ -67,7 +72,12 @@ public class UKit {
         this.firstjoin = kit.getBoolean("firstjoin", false);
     }
 
-    public UKit(final String name, final String cooldown, final boolean firstjoin, final String description, final List<ItemStack> items) {
+    public UKit(String name, final String cooldown, final boolean firstjoin, final String description, final List<ItemStack> items) {
+        for (String s : new Config(UltimateFileLoader.Dkits).getKeys(false)) {
+            if (s.equalsIgnoreCase(name)) {
+                name = s;
+            }
+        }
         this.name = name;
         this.kit = null;
         this.items = items;
