@@ -575,7 +575,11 @@ public class UPlayer {
         JsonConfig conf = getPlayerConfig();
         conf.set("homes", null);
         for (String s : nh.keySet()) {
-            conf.set("homes." + s.toLowerCase(), LocationUtil.convertLocationToString(nh.get(s)));
+            try {
+                conf.set("homes." + s.toLowerCase(), LocationUtil.convertLocationToString(nh.get(s)));
+            } catch (Exception ex) {
+                r.log("Invalid home: " + getPlayer().getName() + "/" + s);
+            }
         }
         conf.save();
     }
