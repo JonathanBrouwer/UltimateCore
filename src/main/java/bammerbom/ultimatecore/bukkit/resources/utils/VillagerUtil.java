@@ -78,12 +78,12 @@ public class VillagerUtil {
     }
 
     public static final class VillagerTrade {
-        public Integer maxUses;
-        public Integer uses;
-        public Boolean rewardExp;
-        public ItemStack item1;
-        public ItemStack item2;
-        public ItemStack rewardItem;
+        private Integer maxUses;
+        private Integer uses;
+        private Boolean rewardExp;
+        private ItemStack item1;
+        private ItemStack item2;
+        private ItemStack rewardItem;
 
         public VillagerTrade(ItemStack item1, ItemStack item2, ItemStack rewardItem, Integer maxUses, Integer uses, Boolean rewardExp) {
             this.item1 = item1;

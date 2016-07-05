@@ -287,8 +287,9 @@ public class GlobalPlayerListener implements Listener {
                 UC.getPlayer(e.getPlayer().getUniqueId()).setInTeleportMenu(false);
             }
             //Villager
-            if (e.getInventory().getTitle().startsWith("Villager Editor")) {
-                CmdVillager.closeInv(e.getPlayer(), e.getInventory());
+            if (e.getInventory().getTitle().startsWith("Villager ") && e.getPlayer() instanceof Player) {
+                r.log("Debug - InventoryCloseEvent - " + e.getInventory().getTitle());
+                CmdVillager.closeInv((Player) e.getPlayer(), e.getInventory());
             }
 
         } catch (Exception ex) {
@@ -326,7 +327,7 @@ public class GlobalPlayerListener implements Listener {
                 e.setCancelled(true);
                 e.getWhoClicked().closeInventory();
             }
-            if (!e.isCancelled() && e.getInventory().getTitle().startsWith("Villager Editor")) {
+            if (!e.isCancelled() && e.getInventory().getTitle().startsWith("Villager ")) {
                 e.setCancelled(CmdVillager.clickButton(e));
             }
             //
@@ -486,7 +487,7 @@ public class GlobalPlayerListener implements Listener {
             }
             //Villager
             if (!e.isCancelled() && e.getRightClicked() instanceof Villager) {
-                e.setCancelled(CmdVillager.confirm(e.getPlayer(), (Villager) e.getRightClicked(), 1));
+                e.setCancelled(CmdVillager.confirm(e.getPlayer(), (Villager) e.getRightClicked()));
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerInteractEntityEvent");

@@ -35,6 +35,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.enchantments.EnchantmentWrapper;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
@@ -316,6 +317,34 @@ public class ItemUtil {
         }
 
         return item;
+    }
+
+    public static ItemStack createItem(Material mat, int data, String name, List<String> lore) {
+        ItemStack stack = new ItemStack(mat);
+        stack.setDurability((short) data);
+        ItemMeta meta = stack.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
+    public static ItemStack createItem(Material mat, int quantity, int data, String name, List<String> lore) {
+        ItemStack stack = new ItemStack(mat);
+        stack.setDurability((short) data);
+        stack.setAmount(quantity);
+        ItemMeta meta = stack.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
+    public static Inventory putInInventory(Inventory inv, ItemStack stack, Integer... slots) {
+        for (Integer slot : slots) {
+            inv.setItem(slot, stack);
+        }
+        return inv;
     }
 
 }
