@@ -28,8 +28,10 @@ import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.projectile.Projectile;
 import org.spongepowered.api.entity.projectile.explosive.fireball.Fireball;
 import org.spongepowered.api.text.Text;
 
@@ -73,29 +75,30 @@ public class CmdFireball implements UltimateCommand {
             return CommandResult.empty();
         }
         Fireball ball = (Fireball) p.getWorld().createEntity(EntityTypes.FIREBALL, p.getLocation().getPosition()).get();
-        ball.offer(Keys.DIRECTION, ); //TODO wait for api
-        Class type = Fireball.class;
+        ball.offer(Keys.DIRECTION, p.get(Keys.DIRECTION).get()); //TODO wait for api
+        EntityType type = EntityTypes.FIREBALL;
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("small")) {
-                type = SmallFireball.class;
+                type = EntityTypes.SMALL_FIREBALL;
             } else if (args[0].equalsIgnoreCase("arrow")) {
-                type = Arrow.class;
+                type = EntityTypes.TIPPED_ARROW; //TODO correct arrow type?
             } else if (args[0].equalsIgnoreCase("skull")) {
-                type = WitherSkull.class;
+                type = EntityTypes.WITHER_SKULL;
             } else if (args[0].equalsIgnoreCase("egg")) {
-                type = Egg.class;
+                type = EntityTypes.EGG;
             } else if (args[0].equalsIgnoreCase("snowball")) {
-                type = Snowball.class;
+                type = EntityTypes.SNOWBALL;
             } else if (args[0].equalsIgnoreCase("expbottle")) {
-                type = ThrownExpBottle.class;
+                type = EntityTypes.THROWN_EXP_BOTTLE;
             } else if (args[0].equalsIgnoreCase("large")) {
-                type = LargeFireball.class;
+                type = EntityTypes.FIREBALL;
+            } else if (args[0].equalsIgnoreCase("dragon")) {
+                type = EntityTypes.DRAGON_FIREBALL;
             }
         }
-        Vector direction = p.getEyeLocation().getDirection().multiply(2);
-        Projectile projectile = (Projectile) p.getWorld().spawn(p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), type);
+        Projectile projectile = (Projectile) p.getWorld().createEntity(type, p.getLocation().getPosition()).get();
         projectile.setShooter(p);
-        projectile.setVelocity(direction);
+        projectile.setVelocity();
         return CommandResult.success();
     }
 

@@ -35,7 +35,6 @@ import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.permission.Subject;
-import org.spongepowered.api.service.permission.option.OptionSubject;
 import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
@@ -165,7 +164,7 @@ public class ChatListener {
         //Anti URL
         if (!r.perm(p, "uc.chat.url", false)) {
             if (r.getCnfg().getBoolean("Chat.UrlFilter")) {
-                if (domainPattern.matcher(set.getMessage()).find()) { //TODO find better domain pattern
+                if (Pattern.compile("").matcher(set.getMessage().toPlain()).find()) { //TODO find better domain pattern
                     set.setCancelled(true);
                     r.sendMes(p, "chatUrl");
                 }
@@ -197,7 +196,7 @@ public class ChatListener {
                 if (Sponge.getServiceManager().provide(PermissionService.class).isPresent()) {
                     PermissionService service = Sponge.getServiceManager().provide(PermissionService.class).get();
                     Subject group = r.getPrimaryGroup(p);
-                    if (!(group == null) && !group.equalsIgnoreCase("") && r.getCnfg().get("Chat.Groups." + group) != null) {
+                    if (!(group == null) && !group.getIdentifier().equalsIgnoreCase("") && r.getCnfg().get("Chat.Groups." + group.getIdentifier()) != null) {
                         String f = r.getCnfg().getString("Chat.Groups." + group);
                         if (!f.contains("\\+Name")) {
                             p.offer(Keys.DISPLAY_NAME, UC.getPlayer(p).getDisplayName());
@@ -216,13 +215,9 @@ public class ChatListener {
                 }
             }
             String f = r.getCnfg().getString("Chat.Format");
-            String group = "";
-            String prefix = "";
-            String suffix = "";
-            if (p instanceof OptionSubject) {
-                prefix = ((OptionSubject) p).getOption("prefix").orElse("");
-                suffix = ((OptionSubject) p).getOption("suffix").orElse("");
-            }
+            String group = r.getPrimaryGroup(p).getIdentifier();
+            String prefix = p.getOption("prefix").orElse("");
+            String suffix = p.getOption("suffix").orElse("");
             if (!f.contains("\\+Name")) {
                 p.offer(Keys.DISPLAY_NAME, UC.getPlayer(p).getDisplayName());
             } else {

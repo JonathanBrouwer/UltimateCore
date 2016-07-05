@@ -24,16 +24,14 @@
 package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandMapping;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.command.SendCommandEvent;
 
-import java.lang.reflect.Field;
-
-public class UnknownCommandListener implements Listener {
+public class UnknownCommandListener {
 
     public static void start() {
         if (!r.getCnfg().getBoolean("Command.UnknownCommand")) {
@@ -42,47 +40,19 @@ public class UnknownCommandListener implements Listener {
         Sponge.getEventManager().registerListeners(r.getUC(), new UnknownCommandListener());
     }
 
-    public boolean isCmdRegistered(String cmd) {
-        return getCommandMap().getCommand(cmd.replaceFirst("/", "")) != null;
-    }
-
-    private SimpleCommandMap getCommandMap() {
-        if ((Bukkit.getPluginManager() instanceof SimplePluginManager)) {
-            Field f;
-            try {
-                f = SimplePluginManager.class.getDeclaredField("commandMap");
-            } catch (NoSuchFieldException | SecurityException e) {
-                ErrorLogger.log(e, "Failed to load command map.");
-                return null;
-            }
-            f.setAccessible(true);
-            try {
-                return (SimpleCommandMap) f.get(Bukkit.getPluginManager());
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                ErrorLogger.log(e, "Command map is modded.");
-                return null;
-            }
-        }
-        return null;
-    }
-
-    @Listener(order = Order.DEFAULT)
-    public void onPlayerCommandPreprocess(SendCommandEvent event) {
+    @Listener(order = Order.LAST)
+    public void onCommand(SendCommandEvent event) {
         if (event.isCancelled()) {
             return;
         }
-        if (event.getResult().equals(CommandResult.empty())) String cmd = event.getMessage();
-        if (cmd == null || cmd.equalsIgnoreCase("")) {
-            r.sendMes(event.getPlayer(), "unknownCommand");
-            event.setCancelled(true);
-            return;
+        String cmd = event.getCommand();
+        for (CommandMapping com : Sponge.getCommandManager().getCommands()) {
+            if (com.getAllAliases().contains(cmd)) {
+                return;
+            }
         }
-        cmd = cmd.split(" ")[0];
-
-        if (!isCmdRegistered(cmd)) {
-            r.sendMes(event.getPlayer(), "unknownCommand");
-            event.setCancelled(true);
-        }
+        r.sendMes(event.getCause().first(CommandSource.class).get(), "unknownCommand");
+        event.setCancelled(true);
 
     }
 }

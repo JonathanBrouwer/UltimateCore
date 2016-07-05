@@ -25,55 +25,42 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.entity.DestructEntityEvent;
 
-public class RespawnListener implements Listener {
+public class RespawnListener {
 
     public static void start() {
         if (!r.getCnfg().getBoolean("InstantRespawn")) {
             return;
         }
-        Bukkit.getPluginManager().registerEvents(new RespawnListener(), r.getUC());
+        Sponge.getEventManager().registerListeners(r.getUC(), new RespawnListener());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onDeath(final PlayerDeathEvent e) {
-        if (!r.perm(e.getEntity(), "uc.instantrespawn", true, false)) {
+    @Listener(order = Order.LAST)
+    public void onDeath(final DestructEntityEvent.Death e) {
+        if (!(e.getTargetEntity() instanceof Player)) {
             return;
         }
-        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+        final Player p = (Player) e.getTargetEntity();
+        if (!r.perm(p, "uc.instantrespawn", false)) {
+            return;
+        }
+        Sponge.getScheduler().createTaskBuilder().delayTicks(2L).execute(new Runnable() {
             @Override
             public void run() {
-                Player p = e.getEntity();
                 try {
-                    p.spigot().respawn();
+                    //TODO does this work?
+                    p.getWorld().spawnEntity(p, Cause.builder().build());
                 } catch (Exception ex) {
-                    try {
-                        Object nmsPlayer = p.getClass().getMethod("getHandle").invoke(p);
-                        Object packet = Class.forName(nmsPlayer.getClass().getPackage().getName() + "" +
-                                ".PacketPlayInClientCommand").newInstance();
-                        Class<?> enumClass = Class.forName(nmsPlayer.getClass().getPackage().getName() + "" +
-                                ".EnumClientCommand");
-
-                        for (Object ob : enumClass.getEnumConstants()) {
-                            if (ob.toString().equals("PERFORM_RESPAWN")) {
-                                packet = packet.getClass().getConstructor(enumClass).newInstance(ob);
-                            }
-                        }
-
-                        Object con = nmsPlayer.getClass().getField("playerConnection").get(nmsPlayer);
-                        con.getClass().getMethod("a", packet.getClass()).invoke(con, packet);
-                    } catch (Exception ex2) {
-                        ErrorLogger.log(ex2, "Failed to force respawn.");
-                    }
+                    ErrorLogger.log(ex, "Failed to force respawn.");
                 }
             }
-        }, 2L);
+        }).name("Respawn delay task").submit(r.getUC());
     }
 
 }

@@ -126,11 +126,11 @@ public class UltimateCore {
             ExplosionListener.start();
             JoinLeaveListener.start();
             MotdListener.start();
-            PluginStealListener.start();
+            //PluginStealListener.start();
             RespawnListener.start();
             SignListener.start();
             TabListener.start();
-            TreeListener.start();
+            //TreeListener.start();
             UnknownCommandListener.start();
             WeatherListener.start();
             MinecraftServerListener.start();

@@ -26,32 +26,15 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 import bammerbom.ultimatecore.spongeapi.api.UC;
 import bammerbom.ultimatecore.spongeapi.api.UPlayer;
 import bammerbom.ultimatecore.spongeapi.commands.CmdMobtp;
-import bammerbom.ultimatecore.spongeapi.commands.CmdVillager;
 import bammerbom.ultimatecore.spongeapi.jsonconfiguration.JsonConfig;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.LocationUtil;
-import org.bukkit.*;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
-import org.bukkit.event.*;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.*;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.plugin.EventExecutor;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.event.Order;
 
-public class GlobalPlayerListener implements Listener {
+public class GlobalPlayerListener {
 
     static boolean spawnOnJoin = r.getCnfg().getBoolean("SpawnOnJoin", false);
     Boolean jailChat = r.getCnfg().getBoolean("Command.Jail.talk");
@@ -59,15 +42,15 @@ public class GlobalPlayerListener implements Listener {
 
     public static void start() {
         final GlobalPlayerListener gpl = new GlobalPlayerListener();
-        Bukkit.getPluginManager().registerEvents(gpl, r.getUC());
-        EventPriority p;
+        Sponge.getEventManager().registerListeners(r.getUC(), gpl);
+        Order p;
         String s = r.getCnfg().getString("Command.Spawn.Priority");
         if (s.equalsIgnoreCase("lowest")) {
-            p = EventPriority.LOWEST;
+            p = Order.EARLY;
         } else if (s.equalsIgnoreCase("high")) {
-            p = EventPriority.HIGH;
+            p = Order.DEFAULT;
         } else if (s.equalsIgnoreCase("highest")) {
-            p = EventPriority.HIGHEST;
+            p = Order.LATE;
         } else {
             r.log("Spawn priority is invalid.");
             return;
@@ -287,7 +270,7 @@ public class GlobalPlayerListener implements Listener {
                 UC.getPlayer(e.getPlayer().getUniqueId()).setInTeleportMenu(false);
             }
             //Villager
-            if (e.getInventory().getTitle().startsWith("Villager Editor")) {
+            if (e.getInventory().getTitle().startsWith("Villager ")) {
                 CmdVillager.closeInv(e.getPlayer(), e.getInventory());
             }
 
@@ -326,7 +309,7 @@ public class GlobalPlayerListener implements Listener {
                 e.setCancelled(true);
                 e.getWhoClicked().closeInventory();
             }
-            if (!e.isCancelled() && e.getInventory().getTitle().startsWith("Villager Editor")) {
+            if (!e.isCancelled() && e.getInventory().getTitle().startsWith("Villager ")) {
                 e.setCancelled(CmdVillager.clickButton(e));
             }
             //
@@ -486,7 +469,7 @@ public class GlobalPlayerListener implements Listener {
             }
             //Villager
             if (!e.isCancelled() && e.getRightClicked() instanceof Villager) {
-                e.setCancelled(CmdVillager.confirm(e.getPlayer(), (Villager) e.getRightClicked(), 1));
+                e.setCancelled(CmdVillager.confirm(e.getPlayer(), (Villager) e.getRightClicked()));
             }
         } catch (Exception ex) {
             ErrorLogger.log(ex, "Failed to handle event: PlayerInteractEntityEvent");

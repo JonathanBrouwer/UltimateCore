@@ -123,19 +123,19 @@ public class AfkListener {
     public void event(MoveEntityEvent e) {
         Optional<Player> optPlayer = e.getCause().first(Player.class);
         if (optPlayer.isPresent()) {
-            if (e.getFromTransform().getPosition().) UC.getPlayer(optPlayer.get()).updateLastActivity();
+            if (!e.getFromTransform().getPosition().toInt().equals(e.getToTransform().getPosition().toInt())) {
+                UC.getPlayer(optPlayer.get()).updateLastActivity();
+            }
         }
     }
 
     @Listener(order = Order.POST)
     public void event(RespawnPlayerEvent e) {
         UC.getPlayer(e.getTargetEntity()).updateLastActivity();
-        e.getTargetEntity().get(Keys.CONTA)
-
     }
 
     @Listener(order = Order.POST)
-    public void event(SneakToggleEvent e) { //TODO wait for api
+    public void event(SneakToggleEvent e) { //TODO wait for api https://github.com/SpongePowered/SpongeAPI/issues/1281
         Optional<Player> optPlayer = e.getCause().first(Player.class);
         if (optPlayer.isPresent()) {
             UC.getPlayer(optPlayer.get()).updateLastActivity();

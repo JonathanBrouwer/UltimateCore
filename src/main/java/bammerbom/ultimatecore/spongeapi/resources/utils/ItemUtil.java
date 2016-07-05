@@ -98,4 +98,32 @@ public class ItemUtil {
         }
         return rtrn;
     }
+
+    public static ItemStack createItem(Material mat, int data, String name, List<String> lore) {
+        ItemStack stack = new ItemStack(mat);
+        stack.setDurability((short) data);
+        ItemMeta meta = stack.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
+    public static ItemStack createItem(Material mat, int quantity, int data, String name, List<String> lore) {
+        ItemStack stack = new ItemStack(mat);
+        stack.setDurability((short) data);
+        stack.setAmount(quantity);
+        ItemMeta meta = stack.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
+    public static Inventory putInInventory(Inventory inv, ItemStack stack, Integer... slots) {
+        for (Integer slot : slots) {
+            inv.setItem(slot, stack);
+        }
+        return inv;
+    }
 }

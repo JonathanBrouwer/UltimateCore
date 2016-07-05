@@ -40,7 +40,8 @@ public class EffectDatabase {
             pf.put("swiftness", PotionEffectTypes.SPEED);
             pf.put("slowness", PotionEffectTypes.SLOWNESS);
             pf.put("haste", PotionEffectTypes.HASTE);
-            pf.put("miningfatigue", PotionEffectTypes.MINING_FATIGUE; pf.put("strength", PotionEffectTypes.STRENGTH);
+            pf.put("miningfatigue", PotionEffectTypes.MINING_FATIGUE);
+            pf.put("strength", PotionEffectTypes.STRENGTH);
             pf.put("instanthealth", PotionEffectTypes.INSTANT_HEALTH);
             pf.put("instantdamage", PotionEffectTypes.INSTANT_DAMAGE);
             pf.put("jumpboost", PotionEffectTypes.JUMP_BOOST);
@@ -56,7 +57,8 @@ public class EffectDatabase {
                 pf.put(type.getName().toLowerCase().replace("_", "").replace(" ", ""), type);
                 pf.put(type.getId(), type);
             }
-        } if (str.contains(":")) {
+        }
+        if (str.contains(":")) {
             str = str.split(":")[1];
         }
         return pf.get(str.toLowerCase());

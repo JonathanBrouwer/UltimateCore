@@ -42,10 +42,7 @@ import org.spongepowered.api.entity.living.player.gamemode.GameMode;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.world.GeneratorTypes;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
-import org.spongepowered.api.world.WorldArchetypes;
+import org.spongepowered.api.world.*;
 import org.spongepowered.api.world.storage.WorldProperties;
 
 import java.io.File;
@@ -92,19 +89,60 @@ public class CmdWorld implements UltimateCommand {
             String gen = null;
             Integer na = 2;
             try {
+                Long seed = null;
+                for (int i = 0; i < args.length + 3; i++) {
+                    if (r.isInt(args[na])) {
+                        seed = Long.parseLong(args[na]);
+                    } else if (args[na].startsWith("s:")) {
+                        if (StringUtil.isAlphaNumeric(args[na].replaceFirst("s:", "").replace("-", ""))) {
+                            if (r.isLong(args[na].replaceFirst("s:", ""))) {
+                                String seed1 = args[na].replaceFirst("s:", "");
+                                seed = Long.parseLong(seed1);
+                            } else {
+                                String seed1 = args[na].replaceFirst("s:", "");
+                                seed = Long.parseLong(seed1.hashCode() + "");
+                            }
+                        }
+                    }
+                }
                 for (int i = 0; i < args.length + 3; i++) {
                     settings.setGeneratorType(GeneratorTypes.OVERWORLD);
                     if (r.checkArgs(args, na)) {
                         if (args[na].equalsIgnoreCase("normal")) {
-                            settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetypes.OVERWORLD);
+                            if (seed != null) {
+                                settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetype.builder().from(WorldArchetypes.OVERWORLD).seed(seed).build(args[0].toLowerCase
+                                        (), args[0]));
+                            } else {
+                                settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetypes.OVERWORLD);
+                            }
                         } else if (args[na].equalsIgnoreCase("nether")) {
-                            settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetypes.THE_NETHER);
+                            if (seed != null) {
+                                settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetype.builder().from(WorldArchetypes.THE_NETHER).seed(seed).build(args[0].toLowerCase
+                                        (), args[0]));
+                            } else {
+                                settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetypes.THE_NETHER);
+                            }
                         } else if (args[na].equalsIgnoreCase("end")) {
-                            settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetypes.THE_END);
+                            if (seed != null) {
+                                settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetype.builder().from(WorldArchetypes.THE_NETHER).seed(seed).build(args[0].toLowerCase
+                                        (), args[0]));
+                            } else {
+                                settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetypes.THE_NETHER);
+                            }
                         } else if (args[na].equalsIgnoreCase("void")) {
-                            settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetypes.THE_VOID);
+                            if (seed != null) {
+                                settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetype.builder().from(WorldArchetypes.THE_VOID).seed(seed).build(args[0].toLowerCase()
+                                        , args[0]));
+                            } else {
+                                settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetypes.THE_VOID);
+                            }
                         } else if (args[na].equalsIgnoreCase("skylands")) {
-                            settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetypes.THE_SKYLANDS);
+                            if (seed != null) {
+                                settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetype.builder().from(WorldArchetypes.THE_SKYLANDS).seed(seed).build(args[0]
+                                        .toLowerCase(), args[0]));
+                            } else {
+                                settings = Sponge.getServer().createWorldProperties(args[1], WorldArchetypes.THE_SKYLANDS);
+                            }
                         }
                         na++;
                     }
@@ -126,19 +164,7 @@ public class CmdWorld implements UltimateCommand {
                         settings.setGeneratorType(GeneratorTypes.AMPLIFIED);
                     } else if (args[na].equalsIgnoreCase("nostructures")) {
                         //TODO generate structures?
-                        settings.getGeneratorSettings().structures;
-                    } else if (r.isInt(args[na])) {
-                        settings.seed(Long.parseLong(args[na]));
-                    } else if (args[na].startsWith("s:")) {
-                        if (StringUtil.isAlphaNumeric(args[na].replaceFirst("s:", "").replace("-", ""))) {
-                            if (r.isLong(args[na].replaceFirst("s:", ""))) {
-                                String seed1 = args[na].replaceFirst("s:", "");
-                                settings.seed(Long.parseLong(seed1));
-                            } else {
-                                String seed1 = args[na].replaceFirst("s:", "");
-                                settings.seed(seed1.hashCode());
-                            }
-                        }
+                        settings.getGeneratorSettings().doesGenerateStructures();
                     } else if (args[na].startsWith("g:")) {
                         String generator = args[na].replaceFirst("g:", "");
                         gen = generator;
@@ -151,7 +177,7 @@ public class CmdWorld implements UltimateCommand {
             r.sendMes(cs, "worldCreateCreating", "%World", settings.getWorldName());
 
             World world = Sponge.getServer().loadWorld(settings).orElse(null);
-            UC.getWorld(world).register(gen);
+            UC.getWorld(world).register();
 
             r.sendMes(cs, "worldCreateCreated", "%World", settings.getWorldName());
             return CommandResult.success();

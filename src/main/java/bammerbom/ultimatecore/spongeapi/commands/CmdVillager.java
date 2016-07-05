@@ -23,680 +23,418 @@
  */
 package bammerbom.ultimatecore.spongeapi.commands;
 
-import bammerbom.ultimatecore.spongeapi.UltimateCommand;
-import bammerbom.ultimatecore.spongeapi.r;
-import bammerbom.ultimatecore.spongeapi.resources.utils.ReflectionUtil;
-import bammerbom.ultimatecore.spongeapi.resources.utils.VillagerUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Villager;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
-
 import java.util.*;
 
 public class CmdVillager implements UltimateCommand {
 
+    /**
+     * Contains a player when he used /villager, but didn't click a villager yet
+     */
     public static ArrayList<UUID> usedCommand = new ArrayList<>();
-    public static HashMap<UUID, Villager> currentVillager = new HashMap<>();
-    public static HashMap<UUID, Inventory> editInv = new HashMap<>();
-    public static HashMap<UUID, Integer> editing = new HashMap<>();
-    public static HashMap<UUID, Integer> pages = new HashMap<>();
-    static boolean blockClose = false;
 
-    public static boolean confirm(HumanEntity p, Villager v, Integer page) {
-        r.debug("Confirm " + page);
+    /**
+     * Contains the player's uuid, and the uuid villager he is editing
+     */
+    public static HashMap<UUID, UUID> villager = new HashMap<>();
+
+    /**
+     * Contains the player's uuid, and the list of trades of the villager he is editing with <Index, Trade>
+     */
+    public static HashMap<UUID, HashMap<Integer, VillagerUtil.VillagerTrade>> trades = new HashMap<>();
+
+    /**
+     * Contain's the player's uuid, and the totalIndex of the settings the player is editing
+     */
+    public static HashMap<UUID, Integer> inSettings = new HashMap<>();
+
+
+    /**
+     * Whether close inventory events should be ignored
+     */
+    public static boolean ignoreClose = false;
+
+    //----------------------------------------------------------------------------------------------
+
+    /**
+     * Called when a player right clicks a villager
+     *
+     * @return whether the event should be cancelled
+     */
+    public static boolean confirm(Player p, Villager v) {
+        r.log("Debug - confirm");
         if (!usedCommand.contains(p.getUniqueId())) {
             return false;
         }
         usedCommand.remove(p.getUniqueId());
 
-        final int opage = page;
-        pages.put(p.getUniqueId(), page);
-        page--;
-        page = page * 9;
-
-        Inventory inv = Bukkit.createInventory(p, 54, "Villager Editor (Page " + ((page / 9) + 1) + ")");
-
-        ItemStack paper_buying1 = new ItemStack(Material.PAPER);
-        ItemMeta paper_buying1_meta = paper_buying1.getItemMeta();
-        paper_buying1_meta.setDisplayName(TextColors.AQUA + "Buying item 1");
-        paper_buying1.setItemMeta(paper_buying1_meta);
-        inv.setItem(0, paper_buying1);
-        inv.setItem(5, paper_buying1);
-
-        ItemStack paper_buying2 = new ItemStack(Material.PAPER);
-        ItemMeta paper_buying2_meta = paper_buying2.getItemMeta();
-        paper_buying2_meta.setDisplayName(TextColors.AQUA + "Buying item 2");
-        paper_buying2.setItemMeta(paper_buying2_meta);
-        inv.setItem(1, paper_buying2);
-        inv.setItem(6, paper_buying2);
-
-        ItemStack paper_selling = new ItemStack(Material.PAPER);
-        ItemMeta paper_selling_meta = paper_selling.getItemMeta();
-        paper_selling_meta.setDisplayName(TextColors.AQUA + "Selling item");
-        paper_selling.setItemMeta(paper_selling_meta);
-        inv.setItem(2, paper_selling);
-        inv.setItem(7, paper_selling);
-
-        ItemStack greenglass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
-        ItemMeta greenglass_meta = greenglass.getItemMeta();
-        greenglass_meta.setDisplayName(" ");
-        greenglass.setItemMeta(greenglass_meta);
-        inv.setItem(3, greenglass);
-        inv.setItem(4, greenglass);
-        inv.setItem(8, greenglass);
-        inv.setItem(13, greenglass);
-        inv.setItem(22, greenglass);
-        inv.setItem(31, greenglass);
-        inv.setItem(40, greenglass);
-        inv.setItem(49, greenglass);
-        inv.setItem(53, greenglass);
-
-        Integer s1 = 9, s2 = 18, s3 = 27, s4 = 36, s5 = 45, s6 = 14, s7 = 23, s8 = 32, s9 = 41;
-        int opages = 1;
+        //Put information in hashmaps
+        villager.put(p.getUniqueId(), v.getUniqueId());
+        HashMap<Integer, VillagerUtil.VillagerTrade> tlist = new HashMap<>();
+        int i = 0;
         for (VillagerUtil.VillagerTrade trade : VillagerUtil.listTrades(v)) {
-            if (page != 0) {
-                page--;
-                continue;
-            }
-            inv = addTradeToInv(inv, trade, Arrays.asList(s1, s2, s3, s4, s5, s6, s7, s8, s9), p);
-            if (s1 != null) {
-                s1 = null;
-            } else if (s2 != null) {
-                s2 = null;
-            } else if (s3 != null) {
-                s3 = null;
-            } else if (s4 != null) {
-                s4 = null;
-            } else if (s5 != null) {
-                s5 = null;
-            } else if (s6 != null) {
-                s6 = null;
-            } else if (s7 != null) {
-                s7 = null;
-            } else if (s8 != null) {
-                s8 = null;
-            } else if (s9 != null) {
-                s9 = null;
-                opages++;
-            }
+            tlist.put(i, trade);
+            i++;
         }
+        trades.put(p.getUniqueId(), tlist);
 
-        ItemStack feather_previous = new ItemStack(Material.FEATHER);
-        ItemMeta feather_previous_meta = feather_previous.getItemMeta();
-        feather_previous_meta.setDisplayName(TextColors.DARK_RED + "Previous page");
-        if (opage == 1) {
-            feather_previous_meta.setLore(Arrays.asList(TextColors.RED + "Not available"));
-        }
-        feather_previous.setItemMeta(feather_previous_meta);
-        inv.setItem(50, feather_previous);
+        //Open page 1
+        openPage(p, 1);
 
-        ItemStack feather_next = new ItemStack(Material.FEATHER);
-        ItemMeta feather_next_meta = feather_next.getItemMeta();
-        feather_next_meta.setDisplayName(TextColors.GREEN + "Next page");
-        r.debug(opage + " " + opages);
-        if (opages <= opage) {
-            feather_next_meta.setLore(Arrays.asList(TextColors.RED + "Not available"));
-        }
-        feather_next.setItemMeta(feather_next_meta);
-        inv.setItem(51, feather_next);
-
-        blockClose = true;
-        p.openInventory(inv);
-        blockClose = false;
-
-        currentVillager.put(p.getUniqueId(), v);
+        //Return
         return true;
     }
 
-    static Inventory addTradeToInv(Inventory inv, VillagerUtil.VillagerTrade trade, List<Integer> s, HumanEntity p) {
-        ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
-        ItemMeta barrier_meta = barrier.getItemMeta();
-        barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
-        barrier_meta.setLore(Arrays.asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + trade.getUses(), TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + trade.getMaxUses(),
-                TextColors.DARK_AQUA + "Reward exp: " + TextColors.AQUA + trade.getRewardExp()));
-        barrier.setItemMeta(barrier_meta);
-        Integer s1 = s.get(0), s2 = s.get(1), s3 = s.get(2), s4 = s.get(3), s5 = s.get(4), s6 = s.get(5), s7 = s.get(6), s8 = s.get(7), s9 = s.get(8);
-        if (s1 != null) {
-            inv.setItem(s1, trade.getItem1());
-            if (trade.hasItem2()) {
-                inv.setItem(s1 + 1, trade.getItem2());
-            }
-            inv.setItem(s1 + 2, trade.getRewardItem());
-            inv.setItem(s1 + 3, barrier);
-        } else if (s2 != null) {
-            inv.setItem(s2, trade.getItem1());
-            if (trade.hasItem2()) {
-                inv.setItem(s2 + 1, trade.getItem2());
-            }
-            inv.setItem(s2 + 2, trade.getRewardItem());
-            inv.setItem(s2 + 3, barrier);
-        } else if (s3 != null) {
-            inv.setItem(s3, trade.getItem1());
-            if (trade.hasItem2()) {
-                inv.setItem(s3 + 1, trade.getItem2());
-            }
-            inv.setItem(s3 + 2, trade.getRewardItem());
-            inv.setItem(s3 + 3, barrier);
-        } else if (s4 != null) {
-            inv.setItem(s4, trade.getItem1());
-            if (trade.hasItem2()) {
-                inv.setItem(s4 + 1, trade.getItem2());
-            }
-            inv.setItem(s4 + 2, trade.getRewardItem());
-            inv.setItem(s4 + 3, barrier);
-        } else if (s5 != null) {
-            inv.setItem(s5, trade.getItem1());
-            if (trade.hasItem2()) {
-                inv.setItem(s5 + 1, trade.getItem2());
-            }
-            inv.setItem(s5 + 2, trade.getRewardItem());
-            inv.setItem(s5 + 3, barrier);
-        } else if (s6 != null) {
-            inv.setItem(s6, trade.getItem1());
-            if (trade.hasItem2()) {
-                inv.setItem(s6 + 1, trade.getItem2());
-            }
-            inv.setItem(s6 + 2, trade.getRewardItem());
-            inv.setItem(s6 + 3, barrier);
-        } else if (s7 != null) {
-            inv.setItem(s7, trade.getItem1());
-            if (trade.hasItem2()) {
-                inv.setItem(s7 + 1, trade.getItem2());
-            }
-            inv.setItem(s7 + 2, trade.getRewardItem());
-            inv.setItem(s7 + 3, barrier);
-        } else if (s8 != null) {
-            inv.setItem(s8, trade.getItem1());
-            if (trade.hasItem2()) {
-                inv.setItem(s8 + 1, trade.getItem2());
-            }
-            inv.setItem(s8 + 2, trade.getRewardItem());
-            inv.setItem(s8 + 3, barrier);
-        } else if (s9 != null) {
-            inv.setItem(s9, trade.getItem1());
-            if (trade.hasItem2()) {
-                inv.setItem(s9 + 1, trade.getItem2());
-            }
-            inv.setItem(s9 + 2, trade.getRewardItem());
-            inv.setItem(s9 + 3, barrier);
-        } else {
-            return inv;
+    /**
+     * Open a specific page for a player.
+     *
+     * @return The inventory, which will already be opened by this method
+     */
+    public static Inventory openPage(Player p, int page) {
+        r.log(trades.get(p.getUniqueId()));
+        r.log("Debug - openPage - " + page);
+        //Create inventory
+        Inventory inv = Bukkit.createInventory(p, 54, "Villager Editor (Page " + page + ")");
+
+        //Put green glass in the inventory
+        ItemStack green = ItemUtil.createItem(Material.STAINED_GLASS_PANE, 5, "", new ArrayList<String>());
+        inv = ItemUtil.putInInventory(inv, green, 3, 4, 8, 13, 22, 31, 40, 49, 52, 53);
+
+        //Put paper with instructions in the inventory
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.PAPER, 0, ChatColor.AQUA + "Buying item 1", new ArrayList<String>()), 0, 5);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.PAPER, 0, ChatColor.AQUA + "Buying item 2", new ArrayList<String>()), 1, 6);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.PAPER, 0, ChatColor.AQUA + "Selling item", new ArrayList<String>()), 2, 7);
+        r.log(trades.get(p.getUniqueId()));
+        //Put the trades in the inventory
+        for (int i = 1; i <= 9; i++) {
+            inv = addTradeToInv(p, inv, page, i);
         }
+        r.log(trades.get(p.getUniqueId()));
+        //Put page forward & backward arrows in inventory
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.FEATHER, 0, ChatColor.RED + "Previous page", new ArrayList<String>()), 50);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.FEATHER, 0, ChatColor.GREEN + "Next page", new ArrayList<String>()), 51);
+
+        //Open Inventory
+        ignoreClose = true;
+        p.openInventory(inv);
+        ignoreClose = false;
         return inv;
     }
 
+    /**
+     * Open a specific settings page for a player.
+     *
+     * @return The inventory, which will already be opened by this method
+     */
+    public static Inventory openSettings(Player p, int totalIndex) {
+        r.log("Debug - openSettings - " + totalIndex);
+        //Update hashmaps
+        inSettings.put(p.getUniqueId(), totalIndex);
+        //Create inventory
+        Inventory inv = Bukkit.createInventory(p, 54, "Villager Trade Settings");
+
+        //Put the trade in the inventory
+        VillagerUtil.VillagerTrade trade = trades.get(p.getUniqueId()).get(totalIndex);
+        inv.setItem(3, trade.getItem1());
+        inv.setItem(4, trade.getItem2());
+        inv.setItem(5, trade.getRewardItem());
+        //Put blue (neutral) glass in inventory
+        ItemStack blue = ItemUtil.createItem(Material.STAINED_GLASS_PANE, 11, "", new ArrayList<String>());
+        inv = ItemUtil.putInInventory(inv, blue, 0, 1, 2, 6, 7, 8, 10, 12, 13, 14, 16, 19, 21, 23, 25, 30, 31, 32, 37, 39, 41, 43, 46, 48, 49, 50, 52);
+        //Put red (remove) glass in inventory
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 14, ChatColor.RED + "Remove 1", new ArrayList<String>()), 45, 51);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 5, 14, ChatColor.RED + "Remove 5", new ArrayList<String>()), 36, 42);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 10, 14, ChatColor.RED + "Remove 10", new ArrayList<String>()), 27, 33);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 20, 14, ChatColor.RED + "Remove 20", new ArrayList<String>()), 18, 24);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 50, 14, ChatColor.RED + "Remove 50", new ArrayList<String>()), 9, 15);
+        //Put green (add) glass in inventory
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 13, ChatColor.GREEN + "Add 1", new ArrayList<String>()), 47, 53);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 5, 13, ChatColor.GREEN + "Add 5", new ArrayList<String>()), 38, 44);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 10, 13, ChatColor.GREEN + "Add 10", new ArrayList<String>()), 29, 35);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 20, 13, ChatColor.GREEN + "Add 20", new ArrayList<String>()), 20, 26);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 50, 13, ChatColor.GREEN + "Add 50", new ArrayList<String>()), 11, 17);
+        //Put rest in inventory
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.PAPER, 0, ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + trade.getUses(), new ArrayList<String>()), 28);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.PAPER, 0, ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + trade.getMaxUses(), new ArrayList<String>()), 34);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_CLAY, trade.getRewardExp() ? 13 : 14, ChatColor.DARK_AQUA + "Generate experience: " + ChatColor.AQUA +
+                trade.getRewardExp(), new ArrayList<String>()), 22);
+        inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.BARRIER, 0, ChatColor.DARK_RED + "Close", new ArrayList<String>()), 40);
+        //Open inventory
+        p.openInventory(inv);
+        return inv;
+    }
+
+    /**
+     * Puts a certain trade in the inventory
+     *
+     * @param tradeIndex the index on the page, so the first item on page 3 has tradeIndex 1
+     * @return
+     */
+    public static Inventory addTradeToInv(Player p, Inventory inv, int page, int tradeIndex) {
+        r.log("Debug - addTradeToInv - " + page + " - " + tradeIndex);
+        //Calculate indexes
+        //totalIndex = index over all pages
+        int totalIndex = ((page - 1) * 9) + (tradeIndex - 1);
+        if (trades.get(p.getUniqueId()).size() < totalIndex + 1) {
+            return inv;
+        }
+        int[] slotList = {9, 18, 27, 36, 45, 14, 23, 32, 41};
+        //startSlot = slot to put the trade
+        int startSlot = slotList[tradeIndex - 1];
+
+        //Get trade
+        VillagerUtil.VillagerTrade trade = trades.get(p.getUniqueId()).get(totalIndex);
+
+        //Put items in inventory
+        inv.setItem(startSlot, trade.getItem1());
+        inv.setItem(startSlot + 1, trade.getItem2());
+        inv.setItem(startSlot + 2, trade.getRewardItem());
+
+        //Create edit item & put it in inventory
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + trade.getUses());
+        lore.add(ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + trade.getMaxUses());
+        lore.add(ChatColor.DARK_AQUA + "Reward xp: " + ChatColor.AQUA + trade.getRewardExp());
+        ItemStack edit = ItemUtil.createItem(Material.LAPIS_BLOCK, 0, ChatColor.DARK_AQUA + "Click to edit", lore);
+        inv.setItem(startSlot + 3, edit);
+        return inv;
+    }
+
+    /**
+     * Called when a player clicks on an item in the inventory
+     *
+     * @return whether the event should be cancelled
+     */
     public static boolean clickButton(final InventoryClickEvent e) {
-        if (e.getInventory().getTitle().equalsIgnoreCase("Villager Editor (Settings)")) {
-            if (e.getClickedInventory() == null || e.getInventory() == null || !e.getClickedInventory().equals(e.getInventory())) {
-                return true;
-            }
-            if (e.getSlot() % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 14) {
-                ItemStack s = e.getClickedInventory().getItem(e.getSlot());
-                ItemStack paper = e.getClickedInventory().getItem(28);
-                Integer cur = Integer.parseInt(TextColorUtil.strip(paper.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
-                cur = cur - s.getAmount();
-                if (cur <= 0) {
-                    cur = 0;
+        r.log("Debug - clickButton - " + e.getSlot());
+        final Player p = (Player) e.getWhoClicked();
+        if (!villager.containsKey(p.getUniqueId())) {
+            return false;
+        }
+        Inventory inv = e.getClickedInventory();
+        if (inv == null || inv.getName() == null) {
+            return false;
+        }
+        //If in main villager editor screen
+        if (inv.getName().startsWith("Villager Editor (Page ")) {
+            int slot = e.getSlot();
+            final int page = Integer.parseInt(inv.getName().split("Villager Editor \\(Page ")[1].split("\\)")[0]);
+            int relIndex = 0;
+            for (int i : new int[]{9, 18, 27, 36, 45, 14, 23, 32, 41}) {
+                relIndex++;
+                if (slot == i || slot - 1 == i || slot - 2 == i) {
+                    //PLAYER CLICKED ON 1, 2, OR 3
+                    updateInventory(p, inv, page);
+                    final Inventory newinv = inv;
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
+                        @Override
+                        public void run() {
+                            updateInventory(p, newinv, page);
+                        }
+                    }, 5L);
+                    return false;
                 }
-                ItemMeta meta = paper.getItemMeta();
-                meta.setDisplayName(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + cur);
-                paper.setItemMeta(meta);
-                e.getInventory().setItem(28, paper);
-            }
-            if ((e.getSlot() - 2) % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 13) {
-                ItemStack s = e.getClickedInventory().getItem(e.getSlot());
-                ItemStack paper = e.getClickedInventory().getItem(28);
-                Integer cur = Integer.parseInt(TextColorUtil.strip(paper.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
-                cur = cur + s.getAmount();
-                ItemMeta meta = paper.getItemMeta();
-                meta.setDisplayName(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + cur);
-                paper.setItemMeta(meta);
-                e.getInventory().setItem(28, paper);
-            }
-            if ((e.getSlot() - 6) % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 14) {
-                ItemStack s = e.getClickedInventory().getItem(e.getSlot());
-                ItemStack paper = e.getClickedInventory().getItem(34);
-                Integer cur = Integer.parseInt(TextColorUtil.strip(paper.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
-                cur = cur - s.getAmount();
-                if (cur <= 0) {
-                    cur = 0;
+                if (slot - 3 == i && inv.getItem(slot) != null && inv.getItem(slot).getType() == Material.LAPIS_BLOCK) {
+                    //PLAYER CLICKED EDIT BUTTON
+                    saveInventory(p, inv, true);
+                    int totalIndex = ((page - 1) * 9) + (relIndex - 1);
+                    openSettings(p, totalIndex);
                 }
-                ItemMeta meta = paper.getItemMeta();
-                meta.setDisplayName(TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + cur);
-                paper.setItemMeta(meta);
-                e.getInventory().setItem(34, paper);
             }
-            if ((e.getSlot() - 8) % 9 == 0 && e.getClickedInventory().getItem(e.getSlot()).getDurability() == (short) 13) {
-                ItemStack s = e.getClickedInventory().getItem(e.getSlot());
-                ItemStack paper = e.getClickedInventory().getItem(34);
-                Integer cur = Integer.parseInt(TextColorUtil.strip(paper.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
-                cur = cur + s.getAmount();
-                ItemMeta meta = paper.getItemMeta();
-                meta.setDisplayName(TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + cur);
-                paper.setItemMeta(meta);
-                e.getInventory().setItem(34, paper);
+            final Inventory newinv = inv;
+            return true;
+        }
+
+        //If in trade settings screen
+        else if (inv.getName().equals("Villager Trade Settings")) {
+            //On click add of remove
+            r.log(0);
+            if (e.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE)) {
+                boolean isAdd = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).startsWith("Add");
+                r.log(1);
+                if (Arrays.asList(new Integer[]{9, 18, 27, 36, 45, 11, 20, 29, 38, 47}).contains(Integer.valueOf(e.getSlot()))) {
+                    r.log(2);
+                    int current = Integer.parseInt(ChatColor.stripColor(inv.getItem(28).getItemMeta().getDisplayName()).split("Uses: ")[1]);
+                    int add = Integer.parseInt(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).split(" ")[1]) * (isAdd ? 1 : -1);
+                    inv.setItem(28, ItemUtil.createItem(Material.PAPER, 0, ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + (current + add), new ArrayList<String>()));
+                } else if (Arrays.asList(new Integer[]{15, 24, 33, 42, 51, 17, 26, 35, 44, 53}).contains(Integer.valueOf(e.getSlot()))) {
+                    r.log(3);
+                    int current = Integer.parseInt(ChatColor.stripColor(inv.getItem(34).getItemMeta().getDisplayName()).split("Max uses: ")[1]);
+                    int add = Integer.parseInt(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).split(" ")[1]) * (isAdd ? 1 : -1);
+                    inv.setItem(34, ItemUtil.createItem(Material.PAPER, 0, ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + (current + add), new ArrayList<String>()));
+                }
             }
             if (e.getSlot() == 22) {
-                Boolean rewardExp = e.getInventory().getItem(22).getDurability() == (short) 13;
-                ItemStack clay = new ItemStack(Material.STAINED_CLAY, 1, rewardExp ? (byte) 14 : (byte) 13);
-                ItemMeta clay_meta = clay.getItemMeta();
-                clay_meta.setDisplayName(TextColors.DARK_AQUA + "Generate exp: " + TextColors.AQUA + !rewardExp);
-                clay.setItemMeta(clay_meta);
-                e.getInventory().setItem(22, clay);
+                boolean exp = !Boolean.parseBoolean(ChatColor.stripColor(inv.getItem(22).getItemMeta().getDisplayName()).split("Generate experience: ")[1]);
+                inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.STAINED_CLAY, exp ? 13 : 14, ChatColor.DARK_AQUA + "Generate experience: " + ChatColor.AQUA +
+                        exp, new ArrayList<String>()), 22);
             }
             if (e.getSlot() == 40) {
-                Inventory inv = editInv.get(e.getWhoClicked().getUniqueId());
-                Inventory oinv = e.getInventory();
-                Integer iedit = editing.get(e.getWhoClicked().getUniqueId());
-
-                ItemStack stack_uses = oinv.getItem(28);
-                Integer uses = Integer.parseInt(TextColorUtil.strip(stack_uses.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
-
-                ItemStack stack_max_uses = oinv.getItem(34);
-                Integer max_uses = Integer.parseInt(TextColorUtil.strip(stack_max_uses.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
-
-                ItemStack stack_generateExp = oinv.getItem(22);
-                Boolean generateExp = stack_generateExp.getDurability() == (short) 13;
-
-                ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
-                ItemMeta barrier_meta = barrier.getItemMeta();
-                barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
-                barrier_meta.setLore(Arrays.asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + uses, TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + max_uses, TextColors
-                        .DARK_AQUA + "Reward exp: " + TextColors.AQUA + generateExp));
-                barrier.setItemMeta(barrier_meta);
-
-                inv.setItem(iedit, barrier);
-
-                editInv.remove(e.getWhoClicked().getUniqueId());
-                editing.remove(e.getWhoClicked().getUniqueId());
-
-                e.getWhoClicked().openInventory(inv);
+                closeInv(p, inv);
             }
             return true;
         }
-        if (e.getSlot() == 50 && !e.getClickedInventory().getItem(50).getItemMeta().hasLore()) {
-            if (!(pages.get(e.getWhoClicked().getUniqueId()) == 1)) {
-                r.debug("OPEN " + (pages.get(e.getWhoClicked().getUniqueId()) - 1));
-                savePage(e.getWhoClicked(), e.getClickedInventory(), pages.get(e.getWhoClicked().getUniqueId()));
-                closeInv(e.getWhoClicked(), e.getClickedInventory());
-                usedCommand.add(e.getWhoClicked().getUniqueId());
-                confirm(e.getWhoClicked(), currentVillager.get(e.getWhoClicked().getUniqueId()), pages.get(e.getWhoClicked().getUniqueId()) - 1);
-                r.debug("OPENED " + (pages.get(e.getWhoClicked().getUniqueId())));
-            }
-        }
-        if (e.getSlot() == 51 && !e.getClickedInventory().getItem(51).getItemMeta().hasLore()) {
-            r.debug("OPEN " + (pages.get(e.getWhoClicked().getUniqueId()) + 1));
-            closeInv(e.getWhoClicked(), e.getClickedInventory());
-            usedCommand.add(e.getWhoClicked().getUniqueId());
-            confirm(e.getWhoClicked(), currentVillager.get(e.getWhoClicked().getUniqueId()), pages.get(e.getWhoClicked().getUniqueId()) + 1);
-            r.debug("OPENED " + (pages.get(e.getWhoClicked().getUniqueId())));
-        }
-        final ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
-        ItemMeta barrier_meta = barrier.getItemMeta();
-        barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
-        barrier_meta.setLore(Arrays.asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + "0", TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + "7", TextColors.DARK_AQUA +
-                "Reward exp: " + TextColors.AQUA + "true"));
-        barrier.setItemMeta(barrier_meta);
 
-        final ItemStack redglass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 11);
-        ItemMeta redglass_meta = redglass.getItemMeta();
-        redglass_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
-        redglass_meta.setLore(Arrays.asList(TextColors.RED + "Invalid trade"));
-        redglass.setItemMeta(redglass_meta);
-
-        final Inventory inv = e.getClickedInventory();
-        ItemStack item = e.getCurrentItem();
-        if (e.getClickedInventory() == e.getWhoClicked().getInventory()) {
+        //Else?
+        else {
+            //Idk what happened, just return & don't cancel
             return false;
         }
-        int slot = e.getSlot();
-        while (isEditableSlot(slot - 1)) {
-            slot--;
-        }
-        final int fslot = slot;
-        Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-            @Override
-            public void run() {
-                Boolean all = true;
-                if (inv == null) {
-                    return CommandResult.empty();
-                }
-                for (int i : Arrays.asList(9, 18, 27, 36, 45, 14, 23, 32, 41)) {
-                    if (inv.getItem(i) != null && inv.getItem(i + 2) != null) {
-                        inv.setItem(i + 3, barrier);
-                    } else if (inv.getItem(i) != null || inv.getItem(i + 1) != null || inv.getItem(i + 2) != null) {
-                        inv.setItem(i + 3, redglass);
-                        all = false;
-                    } else {
-                        inv.setItem(i + 3, new ItemStack(Material.AIR));
-                        all = false;
-                    }
-                }
-                if (all) {
-                    ItemStack feather_previous = new ItemStack(Material.FEATHER);
-                    ItemMeta feather_previous_meta = feather_previous.getItemMeta();
-                    feather_previous_meta.setDisplayName(TextColors.DARK_RED + "Previous page");
-                    if (pages.get(e.getWhoClicked().getUniqueId()) == 1) {
-                        feather_previous_meta.setLore(Arrays.asList(TextColors.RED + "Not available"));
-                    }
-                    feather_previous.setItemMeta(feather_previous_meta);
-                    inv.setItem(50, feather_previous);
-
-                    ItemStack feather_next = new ItemStack(Material.FEATHER);
-                    ItemMeta feather_next_meta = feather_next.getItemMeta();
-                    feather_next_meta.setDisplayName(TextColors.GREEN + "Next page");
-                    feather_next.setItemMeta(feather_next_meta);
-                    inv.setItem(51, feather_next);
-                }
-            }
-        }, 3L);
-        if (isEditableSlot(e.getSlot())) {
-            return false;
-
-        }
-        if (item != null && !inv.getTitle().equalsIgnoreCase("Villager Editor (Settings)")) {
-            //Edit
-            if (e.getSlot() == 12 || e.getSlot() == 21 || e.getSlot() == 30 || e.getSlot() == 39 || e.getSlot() == 48 || e.getSlot() == 17 || e.getSlot() == 26 || e.getSlot() == 35 || e
-                    .getSlot() == 44) {
-                Bukkit.getScheduler().scheduleSyncDelayedTask(r.getUC(), new Runnable() {
-                    @Override
-                    public void run() {
-                        if (e.getClickedInventory().getItem(e.getSlot()) == null || e.getClickedInventory().getItem(e.getSlot()).getType().equals(Material.AIR)) {
-                            return CommandResult.empty();
-                        }
-                        editInv.put(e.getWhoClicked().getUniqueId(), inv);
-                        editing.put(e.getWhoClicked().getUniqueId(), e.getSlot());
-                        Inventory settings = Bukkit.createInventory(e.getWhoClicked(), 54, "Villager Editor (Settings)");
-
-                        ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 11);
-                        ItemMeta pane_meta = pane.getItemMeta();
-                        pane_meta.setDisplayName(" ");
-                        pane.setItemMeta(pane_meta);
-
-                        settings.setItem(0, pane);
-                        settings.setItem(1, pane);
-                        settings.setItem(2, pane);
-
-                        settings.setItem(3, inv.getItem(fslot));
-                        settings.setItem(4, inv.getItem(fslot + 1));
-                        settings.setItem(5, inv.getItem(fslot + 2));
-
-                        settings.setItem(6, pane);
-                        settings.setItem(7, pane);
-                        settings.setItem(8, pane);
-
-                        settings.setItem(10, pane);
-                        settings.setItem(19, pane);
-                        settings.setItem(37, pane);
-                        settings.setItem(46, pane);
-
-                        settings.setItem(12, pane);
-                        settings.setItem(21, pane);
-                        settings.setItem(30, pane);
-                        settings.setItem(39, pane);
-                        settings.setItem(48, pane);
-
-                        settings.setItem(13, pane);
-                        settings.setItem(31, pane);
-                        settings.setItem(49, pane);
-
-                        settings.setItem(14, pane);
-                        settings.setItem(23, pane);
-                        settings.setItem(32, pane);
-                        settings.setItem(41, pane);
-                        settings.setItem(50, pane);
-
-                        settings.setItem(16, pane);
-                        settings.setItem(25, pane);
-                        settings.setItem(43, pane);
-                        settings.setItem(52, pane);
-
-                        Integer uses = 0;
-                        Integer maxUses = 7;
-                        Boolean rewardExp = true;
-                        ItemStack lapis = e.getInventory().getItem(fslot + 3);
-                        if (lapis != null && lapis.getType().equals(Material.LAPIS_BLOCK)) {
-                            for (String s : lapis.getItemMeta().getLore()) {
-                                if (TextColorUtil.strip(s).startsWith("Uses: ")) {
-                                    uses = Integer.parseInt(TextColorUtil.strip(s).replaceFirst("Uses: ", ""));
-                                } else if (TextColorUtil.strip(s).startsWith("Max uses: ")) {
-                                    maxUses = Integer.parseInt(TextColorUtil.strip(s).replaceFirst("Max uses: ", ""));
-                                } else if (TextColorUtil.strip(s).startsWith("Reward exp: ")) {
-                                    rewardExp = Boolean.parseBoolean(TextColorUtil.strip(s).replaceFirst("Reward exp: ", ""));
-                                } else {
-                                    r.debug("Failed to parse info String: " + s);
-                                }
-                            }
-                        }
-                        ItemStack paper = new ItemStack(Material.PAPER);
-                        ItemMeta paper_meta = paper.getItemMeta();
-
-                        paper_meta.setDisplayName(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + uses);
-                        paper.setItemMeta(paper_meta);
-                        settings.setItem(28, paper);
-
-                        ItemStack clay = new ItemStack(Material.STAINED_CLAY, 1, rewardExp ? (byte) 13 : (byte) 14);
-                        ItemMeta clay_meta = clay.getItemMeta();
-                        clay_meta.setDisplayName(TextColors.DARK_AQUA + "Generate exp: " + TextColors.AQUA + rewardExp);
-                        clay.setItemMeta(clay_meta);
-                        settings.setItem(22, clay);
-
-                        paper_meta.setDisplayName(TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + maxUses);
-                        paper.setItemMeta(paper_meta);
-                        settings.setItem(34, paper);
-
-                        ItemStack plus = new ItemStack(Material.STAINED_GLASS_PANE, 0, (byte) 13);
-                        ItemMeta plus_meta = plus.getItemMeta();
-
-                        plus.setAmount(1);
-                        plus_meta.setDisplayName(TextColors.DARK_GREEN + "Add 1");
-                        plus.setItemMeta(plus_meta);
-                        settings.setItem(47, plus);
-                        settings.setItem(53, plus);
-
-                        plus.setAmount(5);
-                        plus_meta.setDisplayName(TextColors.DARK_GREEN + "Add 5");
-                        plus.setItemMeta(plus_meta);
-                        settings.setItem(38, plus);
-                        settings.setItem(44, plus);
-
-                        plus.setAmount(10);
-                        plus_meta.setDisplayName(TextColors.DARK_GREEN + "Add 10");
-                        plus.setItemMeta(plus_meta);
-                        settings.setItem(29, plus);
-                        settings.setItem(35, plus);
-
-                        plus.setAmount(20);
-                        plus_meta.setDisplayName(TextColors.DARK_GREEN + "Add 20");
-                        plus.setItemMeta(plus_meta);
-                        settings.setItem(20, plus);
-                        settings.setItem(26, plus);
-
-                        plus.setAmount(50);
-                        plus_meta.setDisplayName(TextColors.DARK_GREEN + "Add 50");
-                        plus.setItemMeta(plus_meta);
-                        settings.setItem(11, plus);
-                        settings.setItem(17, plus);
-
-                        ItemStack min = new ItemStack(Material.STAINED_GLASS_PANE, 0, (byte) 14);
-                        ItemMeta min_meta = plus.getItemMeta();
-
-                        min.setAmount(1);
-                        min_meta.setDisplayName(TextColors.DARK_RED + "Remove 1");
-                        min.setItemMeta(min_meta);
-                        settings.setItem(45, min);
-                        settings.setItem(51, min);
-
-                        min.setAmount(5);
-                        min_meta.setDisplayName(TextColors.DARK_RED + "Remove 5");
-                        min.setItemMeta(min_meta);
-                        settings.setItem(36, min);
-                        settings.setItem(42, min);
-
-                        min.setAmount(10);
-                        min_meta.setDisplayName(TextColors.DARK_RED + "Remove 10");
-                        min.setItemMeta(min_meta);
-                        settings.setItem(27, min);
-                        settings.setItem(33, min);
-
-                        min.setAmount(20);
-                        min_meta.setDisplayName(TextColors.DARK_RED + "Remove 20");
-                        min.setItemMeta(min_meta);
-                        settings.setItem(18, min);
-                        settings.setItem(24, min);
-
-                        min.setAmount(50);
-                        min_meta.setDisplayName(TextColors.DARK_RED + "Remove 50");
-                        min.setItemMeta(min_meta);
-                        settings.setItem(9, min);
-                        settings.setItem(15, min);
-
-                        ItemStack close = new ItemStack(Material.BARRIER);
-                        ItemMeta close_meta = close.getItemMeta();
-                        close_meta.setDisplayName(TextColors.DARK_RED + "Close");
-                        close.setItemMeta(close_meta);
-                        settings.setItem(40, close);
-
-                        e.getWhoClicked().closeInventory();
-                        e.getWhoClicked().openInventory(settings);
-                    }
-                }, 1L);
-            }
-        }
-
-        return true;
     }
 
-    public static void closeInv(HumanEntity p, Inventory oinv) {
-        if (blockClose) {
-            return CommandResult.empty();
-        }
-        if (!currentVillager.containsKey(p.getUniqueId())) {
-            return CommandResult.empty();
-        }
-        if (oinv.getTitle().equalsIgnoreCase("Villager Editor (Settings)")) {
-            Inventory inv = editInv.get(p.getUniqueId());
-            Integer iedit = editing.get(p.getUniqueId());
+    /**
+     * Save the current inventory to the hashmaps
+     */
+    public static void updateInventory(Player p, Inventory inv, int page) {
+        r.log("Debug - updateInventory - " + inv.getTitle() + " - " + page);
+        //Loop trough all buying item 1 slots
+        int relIndex = 1;
+        for (int i : new int[]{9, 18, 27, 36, 45, 14, 23, 32, 41}) {
+            //Get trade
+            int totalIndex = ((page - 1) * 9) + (relIndex - 1);
+            relIndex++;
+            VillagerUtil.VillagerTrade trade = trades.containsKey(p.getUniqueId()) ? trades.get(p.getUniqueId()).get(totalIndex) : null;
 
-            ItemStack stack_uses = oinv.getItem(28);
-            Integer uses = Integer.parseInt(TextColorUtil.strip(stack_uses.getItemMeta().getDisplayName()).replaceFirst("Uses: ", ""));
-
-            ItemStack stack_max_uses = oinv.getItem(34);
-            Integer max_uses = Integer.parseInt(TextColorUtil.strip(stack_max_uses.getItemMeta().getDisplayName()).replaceFirst("Max uses: ", ""));
-
-            ItemStack stack_generateExp = oinv.getItem(22);
-            Boolean generateExp = stack_generateExp.getDurability() == (short) 13;
-
-            ItemStack barrier = new ItemStack(Material.LAPIS_BLOCK);
-            ItemMeta barrier_meta = barrier.getItemMeta();
-            barrier_meta.setDisplayName(TextColors.DARK_AQUA + "Edit");
-            barrier_meta.setLore(Arrays.asList(TextColors.DARK_AQUA + "Uses: " + TextColors.AQUA + uses, TextColors.DARK_AQUA + "Max uses: " + TextColors.AQUA + max_uses, TextColors
-                    .DARK_AQUA + "Reward exp: " + TextColors.AQUA + generateExp));
-            barrier.setItemMeta(barrier_meta);
-
-            inv.setItem(iedit, barrier);
-
-            editInv.remove(p.getUniqueId());
-            editing.remove(p.getUniqueId());
-
-            savePage(p, inv, pages.get(p.getUniqueId()));
-            return CommandResult.empty();
-        }
-        savePage(p, oinv, pages.get(p.getUniqueId()));
-    }
-
-    static void savePage(HumanEntity p, Inventory inv, Integer page) {
-        r.debug("Save page " + page);
-        List<VillagerUtil.VillagerTrade> trades = VillagerUtil.listTrades(currentVillager.get(p.getUniqueId()));
-        r.debug("[1] " + trades);
-        int cur = ((page - 1) * 9);
-        if (cur < 0) {
-            cur = 0;
-        }
-        r.debug("Cur " + cur);
-        try {
-            Integer times = 1;
-            while (times <= 9) {
-                r.debug("Remove " + cur + " (" + times + ")");
-                trades.remove(cur);
-                times++;
+            //True if at least buying item 1 & selling item
+            boolean valid = true;
+            //True if at least one slot contains an item
+            boolean one = false;
+            //Check if there is an item in buying item 1
+            if (inv.getItem(i) == null || inv.getItem(i).getType() == Material.AIR) {
+                valid = false;
+            } else {
+                one = true;
             }
-        } catch (Exception ex) {
-        }
-        r.debug("[2] " + trades);
+            //Check if there is an item in buying item 2
+            if (inv.getItem(i + 1) != null && inv.getItem(i + 1).getType() != Material.AIR) {
+                one = true;
+            }
+            //Check if there is an item in selling item
+            if (inv.getItem(i + 2) == null || inv.getItem(i + 2).getType() == Material.AIR) {
+                valid = false;
+            } else {
+                one = true;
+            }
 
-        for (int i : Arrays.asList(9, 18, 27, 36, 45, 14, 23, 32, 41)) {
-            ItemStack lapis = inv.getItem(i + 3);
-            if (lapis != null && lapis.getType().equals(Material.LAPIS_BLOCK)) {
-                Integer maxUses = 7;
-                Integer uses = 0;
-                Boolean rewardExp = true;
-                for (String s : lapis.getItemMeta().getLore()) {
-                    if (TextColorUtil.strip(s).startsWith("Uses: ")) {
-                        uses = Integer.parseInt(TextColorUtil.strip(s).replaceFirst("Uses: ", ""));
-                    } else if (TextColorUtil.strip(s).startsWith("Max uses: ")) {
-                        maxUses = Integer.parseInt(TextColorUtil.strip(s).replaceFirst("Max uses: ", ""));
-                    } else if (TextColorUtil.strip(s).startsWith("Reward exp: ")) {
-                        rewardExp = Boolean.parseBoolean(TextColorUtil.strip(s).replaceFirst("Reward exp: ", ""));
+            //Get the trade
+            if (valid) {
+                if (trade == null) {
+                    if (inv.getItem(i + 1) != null && inv.getItem(i + 1).getType() != Material.AIR) {
+                        trade = new VillagerUtil.VillagerTrade(inv.getItem(i), inv.getItem(i + 1), inv.getItem(i + 2), 7, 0, true);
                     } else {
-                        r.debug("Failed to parse info String: " + s);
+                        trade = new VillagerUtil.VillagerTrade(inv.getItem(i), inv.getItem(i + 2), 7, 0, true);
                     }
-                }
-
-                if (inv.getItem(i) == null || inv.getItem(i).getType() == Material.AIR || inv.getItem(i + 2) == null || inv.getItem(i + 2).getType() == Material.AIR) {
-                    continue;
-                }
-                r.debug("Slot " + i + " count " + inv.getItem(i).getAmount());
-                if (inv.getItem(i + 1) != null && inv.getItem(i + 1).getType() != Material.AIR) {
-                    trades.add(cur, new VillagerUtil.VillagerTrade(inv.getItem(i), inv.getItem(i + 1), inv.getItem(i + 2), maxUses, uses, rewardExp));
                 } else {
-                    trades.add(cur, new VillagerUtil.VillagerTrade(inv.getItem(i), inv.getItem(i + 2), maxUses, uses, rewardExp));
+                    if (inv.getItem(i + 1) != null && inv.getItem(i + 1).getType() != Material.AIR) {
+                        trade = new VillagerUtil.VillagerTrade(inv.getItem(i), inv.getItem(i + 1), inv.getItem(i + 2), trade.getMaxUses(), trade.getUses(), trade.getRewardExp());
+                    } else {
+                        trade = new VillagerUtil.VillagerTrade(inv.getItem(i), inv.getItem(i + 2), trade.getMaxUses(), trade.getUses(), trade.getRewardExp());
+                    }
                 }
-                cur++;
+                //Create edit item & put it in inventory
+                List<String> lore = new ArrayList<>();
+                lore.add(ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + trade.getUses());
+                lore.add(ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + trade.getMaxUses());
+                lore.add(ChatColor.DARK_AQUA + "Reward xp: " + ChatColor.AQUA + trade.getRewardExp());
+                ItemStack edit = ItemUtil.createItem(Material.LAPIS_BLOCK, 0, ChatColor.DARK_AQUA + "Click to edit", lore);
+                inv.setItem(i + 3, edit);
+                //Add/update trade to list
+                HashMap<Integer, VillagerUtil.VillagerTrade> tlist = trades.get(p.getUniqueId());
+                tlist.put(totalIndex, trade);
+                trades.put(p.getUniqueId(), tlist);
+                r.log("Debug - updateCheck - " + i + " - " + "succes");
+            } else if (one) {
+                //Set item
+                ItemStack edit = ItemUtil.createItem(Material.STAINED_GLASS_PANE, 14, ChatColor.DARK_AQUA + "Click to edit", Arrays.asList(ChatColor.RED + "Invalid trade."));
+                inv.setItem(i + 3, edit);
+                //Remove trade from list
+                HashMap<Integer, VillagerUtil.VillagerTrade> tlist = trades.get(p.getUniqueId());
+                tlist.remove(totalIndex);
+                trades.put(p.getUniqueId(), tlist);
+                r.log("Debug - updateCheck - " + i + " - " + "invalid");
+            } else {
+                //Set item
+                inv.setItem(i + 3, null);
+                //Remove trade from list
+                HashMap<Integer, VillagerUtil.VillagerTrade> tlist = trades.get(p.getUniqueId());
+                tlist.remove(totalIndex);
+                trades.put(p.getUniqueId(), tlist);
+                r.log("Debug - updateCheck - " + i + " - " + "empty");
             }
         }
-        r.debug("[3] " + trades);
-        new ReflectionUtil.ReflectionObject(currentVillager.get(p.getUniqueId())).invoke("getHandle").set("tradingPlayer", null);
-        VillagerUtil.setTrades(currentVillager.get(p.getUniqueId()), trades);
     }
 
-    static boolean isEditableSlot(int slot) {
-        Integer s1 = 9, s2 = 18, s3 = 27, s4 = 36, s5 = 45, s6 = 14, s7 = 23, s8 = 32, s9 = 41;
-        if (slot >= s1 && slot <= (s1 + 2)) {
-            return true;
+    /**
+     * Save the current inventory to the villager
+     */
+    public static void saveInventory(Player p, Inventory inv, boolean main) {
+        r.log("Debug - saveInventory - " + inv.getTitle() + " - " + main);
+        if (main) {
+            updateInventory(p, inv, Integer.parseInt(inv.getName().split("Villager Editor \\(Page ")[1].split("\\)")[0]));
+            HashMap<Integer, VillagerUtil.VillagerTrade> tlist = trades.get(p.getUniqueId());
+            //Get the villager instance
+            Villager v = null;
+            for (Entity en : p.getWorld().getEntities()) {
+                if (en instanceof Villager && en.getUniqueId().equals(villager.get(p.getUniqueId()))) {
+                    v = (Villager) en;
+                }
+            }
+            if (v == null) {
+                p.sendMessage(ChatColor.RED + "Invalid villager, is the villager dead?");
+                return;
+            }
+            //Save trades
+            ArrayList<VillagerUtil.VillagerTrade> tlist2 = new ArrayList<>();
+            for (VillagerUtil.VillagerTrade trade_ : tlist.values()) {
+                tlist2.add(trade_);
+            }
+            VillagerUtil.setTrades(v, tlist2);
+        } else {
+            //Get data
+            boolean exp = Boolean.parseBoolean(ChatColor.stripColor(inv.getItem(22).getItemMeta().getDisplayName()).split("Generate experience: ")[1]);
+            int uses = Integer.parseInt(ChatColor.stripColor(inv.getItem(28).getItemMeta().getDisplayName()).split("Uses: ")[1]);
+            int maxuses = Integer.parseInt(ChatColor.stripColor(inv.getItem(34).getItemMeta().getDisplayName()).split("Max uses: ")[1]);
+
+            //Get trade
+            int totalIndex = inSettings.get(p.getUniqueId());
+            VillagerUtil.VillagerTrade trade = trades.get(p.getUniqueId()).get(totalIndex);
+            VillagerUtil.VillagerTrade newtrade = new VillagerUtil.VillagerTrade(trade.getItem1(), trade.getItem2(), trade.getRewardItem(), maxuses, uses, exp);
+
+            //Save trade to hashmap
+            HashMap<Integer, VillagerUtil.VillagerTrade> tlist = trades.get(p.getUniqueId());
+            tlist.put(totalIndex, newtrade);
+            trades.put(p.getUniqueId(), tlist);
         }
-        if (slot >= s2 && slot <= (s2 + 2)) {
-            return true;
+    }
+
+    /**
+     * Called when a player closes an inventory
+     */
+    public static void closeInv(Player p, Inventory inv) {
+        if (!villager.containsKey(p.getUniqueId()) || ignoreClose) {
+            return;
         }
-        if (slot >= s3 && slot <= (s3 + 2)) {
-            return true;
+        r.log("Debug - closeInv - " + inv.getTitle());
+        //If in main villager editor screen
+        if (inv.getTitle().startsWith("Villager Editor (Page ") && !inSettings.containsKey(p.getUniqueId())) {
+            saveInventory(p, inv, true);
+            villager.remove(p.getUniqueId());
+            trades.remove(p.getUniqueId());
+            p.sendMessage(ChatColor.GREEN + "Villager edit completed succesfully.");
         }
-        if (slot >= s4 && slot <= (s4 + 2)) {
-            return true;
+
+        //If in trade settings screen
+        else if (inv.getName().startsWith("Villager Trade Settings")) {
+            saveInventory(p, inv, false);
+            int totalIndex = inSettings.get(p.getUniqueId());
+            int page = 1;
+            while (totalIndex >= 9) {
+                page++;
+                totalIndex -= 9;
+            }
+            openPage(p, page);
+            inSettings.remove(p.getUniqueId());
+            return;
         }
-        if (slot >= s5 && slot <= (s5 + 2)) {
-            return true;
-        }
-        if (slot >= s6 && slot <= (s6 + 2)) {
-            return true;
-        }
-        if (slot >= s7 && slot <= (s7 + 2)) {
-            return true;
-        }
-        if (slot >= s8 && slot <= (s8 + 2)) {
-            return true;
-        }
-        return slot >= s9 && slot <= (s9 + 2);
     }
 
     @Override
@@ -710,36 +448,25 @@ public class CmdVillager implements UltimateCommand {
     }
 
     @Override
-    public String getUsage() {
-        return "/<command>";
-    }
-
-    @Override
-    public Text getDescription() {
-        return Text.of("Edit a villager's trades");
-    }
-
-    @Override
     public List<String> getAliases() {
         return Arrays.asList("editvillager");
     }
 
     @Override
-    public CommandResult run(final CommandSource cs, String label, String[] args) {
-        if (!r.perm(cs, "uc.villager", true)) {
-            return CommandResult.empty();
+    public void run(final CommandSender cs, String label, String[] args) {
+        if (!r.perm(cs, "uc.villager", false, true)) {
+            return;
         }
         if (!r.isPlayer(cs)) {
-            return CommandResult.empty();
+            return;
         }
         Player p = (Player) cs;
         usedCommand.add(p.getUniqueId());
         r.sendMes(p, "villagerMessage");
-        return CommandResult.success();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource cs, String alias, String[] args, String curs, Integer curn) {
+    public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args, String curs, Integer curn) {
         return null;
     }
 }

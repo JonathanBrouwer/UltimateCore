@@ -28,15 +28,13 @@ import bammerbom.ultimatecore.spongeapi.api.UEconomy;
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.DateUtil;
 import bammerbom.ultimatecore.spongeapi.resources.utils.TextColorUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.server.ServerListPingEvent;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.server.ClientPingServerEvent;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.text.Text;
 
-public class MotdListener implements Listener {
+public class MotdListener {
 
     static boolean enableColors = true;
     static boolean enableVariables = true;
@@ -48,18 +46,18 @@ public class MotdListener implements Listener {
         enableVariables = r.getCnfg().getBoolean("Motd.EnableVariables");
         enableBanMotd = r.getCnfg().getBoolean("Motd.EnableBanMotd");
         banMotd = r.getCnfg().getString("Motd.BanMotd");
-        Bukkit.getPluginManager().registerEvents(new MotdListener(), r.getUC());
+        Sponge.getEventManager().registerListeners(r.getUC(), new MotdListener());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void motdHandler(ServerListPingEvent e) {
+    @Listener
+    public void motdHandler(ClientPingServerEvent e) {
         if (enableColors) {
-            e.setMotd(TextColorUtil.translateAlternate((e.getMotd())));
+            e.getResponse().setDescription(Text.of(TextColorUtil.translateAlternate(e.getResponse().getDescription().toString())));
         }
         if (enableVariables) {
-            String playerip = e.getAddress().toString().split("/")[1].split(":")[0];
-            OfflinePlayer p = null;
-            for (OfflinePlayer pl : r.getGameProfiles()) {
+            String playerip = e.getClient().getAddress().getAddress().toString().split("/")[1].split(":")[0];
+            GameProfile p = null;
+            for (GameProfile pl : r.getGameProfiles()) {
                 if (UC.getPlayer(pl).getLastIp() == null) {
                     continue;
                 }
@@ -70,7 +68,7 @@ public class MotdListener implements Listener {
             String name = "";
             String money = "";
             if (p != null) {
-                name = p.getName();
+                name = p.getName().orElse("");
                 if (r.getVault() != null) {
                     if (r.getVault().getEconomy() != null) {
                         money = r.getVault().getEconomy().format(r.getVault().getEconomy().getBalance(p));
