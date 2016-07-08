@@ -25,9 +25,15 @@ package bammerbom.ultimatecore.spongeapi.listeners;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.world.ExplosionEvent;
+import org.spongepowered.api.world.explosion.Explosion;
+
+import java.util.Optional;
 
 public class ExplosionListener {
 
@@ -43,34 +49,35 @@ public class ExplosionListener {
     }
 
     @Listener(order = Order.DEFAULT)
-    public void explosionListener(ExplosionEvent e) {
+    public void explosionListener(ExplosionEvent.Pre e) {
+        Optional<Entity> en = e.getCause().first(Entity.class);
+        if (!en.isPresent()) {
+            return;
+        }
+        EntityType et = en.get().getType();
         try {
-            if (e.getEntityType() != null) {
-                if (creeper && e.getEntityType().equals(EntityType.CREEPER)) {
-                    e.setYield(0.0F);
-                    e.setCancelled(true);
+            if (et != null) {
+                if (creeper && et.equals(EntityTypes.CREEPER)) {
+                    e.setExplosion(Explosion.builder().from(e.getExplosion()).shouldBreakBlocks(false).canCauseFire(false).build());
                 }
-                if (tnt && (e.getEntityType().equals(EntityType.PRIMED_TNT) || e.getEntityType().equals(EntityType.MINECART_TNT))) {
-                    e.setYield(0.0F);
-                    e.setCancelled(true);
+                if (tnt && (et.equals(EntityTypes.TNT_MINECART) || et.equals(EntityTypes.PRIMED_TNT))) {
+                    e.setExplosion(Explosion.builder().from(e.getExplosion()).shouldBreakBlocks(false).canCauseFire(false).build());
                 }
-                if (ghast && (e.getEntityType().equals(EntityType.GHAST) || e.getEntity() instanceof Fireball || e.getEntity() instanceof LargeFireball)) {
-                    e.setYield(0.0F);
-                    e.setCancelled(true);
+                if (ghast && (et.equals(EntityTypes.GHAST) || et.equals(EntityTypes.FIREBALL))) {
+                    e.setExplosion(Explosion.builder().from(e.getExplosion()).shouldBreakBlocks(false).canCauseFire(false).build());
                 }
-                if (enderdragon && (e.getEntityType().equals(EntityType.ENDER_DRAGON) || e.getEntityType().equals(EntityType.ENDER_CRYSTAL))) {
-                    e.setCancelled(true);
+                if (enderdragon && (et.equals(EntityTypes.ENDER_CRYSTAL) || et.equals(EntityTypes.ENDER_DRAGON) || et.equals(EntityTypes.DRAGON_FIREBALL))) {
+                    e.setExplosion(Explosion.builder().from(e.getExplosion()).shouldBreakBlocks(false).canCauseFire(false).build());
                 }
-                if (wither && (e.getEntityType().equals(EntityType.WITHER) || e.getEntityType().equals(EntityType.WITHER_SKULL))) {
-                    e.setYield(0.0F);
-                    e.setCancelled(true);
+                if (wither && (et.equals(EntityTypes.WITHER) || et.equals(EntityTypes.WITHER_SKULL))) {
+                    e.setExplosion(Explosion.builder().from(e.getExplosion()).shouldBreakBlocks(false).canCauseFire(false).build());
                 }
-                if (lightning && e.getEntityType().equals(EntityType.LIGHTNING)) {
-                    e.setYield(0.0F);
-                    e.setCancelled(true);
+                if (lightning && (et.equals(EntityTypes.LIGHTNING) || et.equals(EntityTypes.WEATHER))) {
+                    e.setExplosion(Explosion.builder().from(e.getExplosion()).shouldBreakBlocks(false).canCauseFire(false).build());
                 }
             }
         } catch (Exception exc) {
+            exc.printStackTrace();
         }
     }
 

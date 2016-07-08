@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.spongeapi.resources.classes;
 
 import bammerbom.ultimatecore.spongeapi.r;
 import bammerbom.ultimatecore.spongeapi.resources.utils.ServerIDUtil;
+import com.goebl.david.Response;
 import com.goebl.david.Webb;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.spongepowered.api.Sponge;
@@ -32,7 +33,6 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import java.io.*;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -164,13 +164,13 @@ public class ErrorLogger {
 
                         //
                         Webb webb = Webb.create();
-                        String rtrn = webb.get("http://ultimatecore.org/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg.replace("\n", "<br>")))
-                                .asString().getBody();
+                        Response<String> rtrn = webb.post("http://ultimatecore.org/postrequest/error_report.php").param("server_id", ServerIDUtil.getUUID().toString()).param("error_log",
+                                msg).asString();
 
-                        if (rtrn != null && rtrn.equalsIgnoreCase("true")) {
+                        if (rtrn.getBody() != null && rtrn.getBody().equalsIgnoreCase("true")) {
                             r.log("SEND ERROR SUCCESSFULLY");
                         } else {
-                            r.log("SENDING ERROR FAILED (" + rtrn + ")");
+                            r.log("SENDING ERROR FAILED (" + rtrn.getStatusCode() + " / " + rtrn.getResponseMessage() + " / " + rtrn.getBody() + ")");
                         }
 
                         countdown = null;
