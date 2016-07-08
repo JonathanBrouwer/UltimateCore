@@ -32,7 +32,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.io.*;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -167,14 +166,9 @@ public class ErrorLogger {
 
                         //
                         Webb webb = Webb.create();
-                        Response<String> rtrn = null;
-                        try {
-                            rtrn = webb.get("http://ultimatecore.org/create_error_report?server=" + ServerIDUtil.getUUID() + "&error=" + URLEncoder.encode(msg.replace("\n", "<br>"),
-                                    "UTF-8")).asString();
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                            return;
-                        }
+                        Response<String> rtrn = webb.post("http://ultimatecore.org/postrequest/error_report.php").param("server_id", ServerIDUtil.getUUID().toString()).param("error_log",
+                                msg).asString();
+
                         if (rtrn.getBody() != null && rtrn.getBody().equalsIgnoreCase("true")) {
                             r.log("SEND ERROR SUCCESSFULLY");
                         } else {
