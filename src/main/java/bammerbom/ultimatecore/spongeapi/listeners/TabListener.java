@@ -166,7 +166,7 @@ public class TabListener {
         String displayname = UC.getPlayer(p).getDisplayName().toPlain();
         String worldalias = p.getWorld().getName().charAt(0) + "";
         String world = p.getWorld().getName();
-        //String faction = r.getFaction(p) != null ? r.getTown(p) : "";
+        //String faction = r.getFaction(p) != null ? r.getFaction(p) : "";
         //String town = r.getTown(p) != null ? r.getTown(p) : "";
 
         base = base.replace("+Group", group);
