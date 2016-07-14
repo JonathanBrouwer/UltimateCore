@@ -200,6 +200,5 @@ public class UltimateCore extends JavaPlugin implements Listener {
     }
 
     public void test() {
-        ErrorLogger.log(new NullPointerException(), "Wat kut, een error :(");
     }
 }
