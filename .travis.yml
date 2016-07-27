@@ -3,6 +3,5 @@ install: mvn install deploy
 cache: bundler
 jdk:
   - oraclejdk8
-  - openjdk8
 notifications:
   email: false
