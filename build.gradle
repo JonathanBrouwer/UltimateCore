@@ -1,0 +1,24 @@
+//I am new with gradle, if anything is wrong or could be improved please tell me <3
+apply plugin: "java"
+
+sourceSets {
+    main.java.srcDir("src/main/java")
+}
+
+jar {
+    manifest.attributes("Main-Class": "bammerbom.ultimatecore.Main")
+}
+
+//Dependencies
+repositories {
+    mavenCentral()
+    maven {
+        name 'Sponge repo'
+        url 'http://repo.spongepowered.org/maven'
+    }
+}
+
+dependencies {
+    compile "org.spongepowered:spongeapi:5.0.0-SNAPSHOT"
+    compile "com.goebl:david-webb:1.3.0"
+}

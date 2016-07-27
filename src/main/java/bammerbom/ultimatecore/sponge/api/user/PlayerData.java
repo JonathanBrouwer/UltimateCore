@@ -30,7 +30,7 @@ import org.spongepowered.api.entity.living.player.Player;
  */
 public class PlayerData extends UserData {
 
-    PlayerData(Player p) {
+    public PlayerData(Player p) {
         super(p);
     }
 }

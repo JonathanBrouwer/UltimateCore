@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.user.impl;
+package bammerbom.ultimatecore.sponge.impl.user;
 
 import bammerbom.ultimatecore.sponge.api.user.UCPlayer;
 import bammerbom.ultimatecore.sponge.api.user.UCUser;

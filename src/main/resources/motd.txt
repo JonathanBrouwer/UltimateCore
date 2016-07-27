@@ -1,2 +1,0 @@
-&7Welcome,&a {PLAYER}&7!
-&7Players online:&e {ONLINE}

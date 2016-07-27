@@ -1,5 +1,0 @@
-Messages:
-  shutdown:
-    - "Server is shutting down in %var1 seconds"
-  minigame:
-    - "Minigame %var1 starts in %var2 seconds!!!"

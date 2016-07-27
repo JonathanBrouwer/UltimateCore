@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.sign.impl;
+package bammerbom.ultimatecore.sponge.impl.sign;
 
 
 import bammerbom.ultimatecore.sponge.api.sign.SignService;

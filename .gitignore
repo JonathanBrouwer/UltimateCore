@@ -46,7 +46,10 @@ bin
 *.classpath
 *.project
 /target
+/build
 .idea
+.gradle
+.git
 src/main/java/bammerbom/ultimatecore/spongeapi_old
 
 dependency-reduced-pom.xml

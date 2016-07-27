@@ -41,7 +41,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URI;
 
-public class UltimateCore extends Application {
+public class Main extends Application {
 
     Stage stage;
 
@@ -52,7 +52,7 @@ public class UltimateCore extends Application {
     @Override
     public void start(Stage stag) throws Exception {
         stage = stag;
-        stage.setTitle("UltimateCore");
+        stage.setTitle("Main");
         stage.getIcons().add(new Image("icon.png"));
 
         stage.setWidth(450);
@@ -60,7 +60,7 @@ public class UltimateCore extends Application {
 
         //Text
         Label text = new Label();
-        text.setText("Welcome to the UltimateCore hub! Please select the action you want to take.");
+        text.setText("Welcome to the Main hub! Please select the action you want to take.");
         GridPane.setConstraints(text, 0, 0, 4, 1);
 
         //Bukkit
@@ -72,7 +72,7 @@ public class UltimateCore extends Application {
                     try {
                         Desktop.getDesktop().browse(new URI("http://dev.bukkit.org/bukkit-plugins/ultimate_core"));
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Failed to open web page.", "Main", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     showErrorMessage("Opening web pages is not supported on your OS.");
@@ -83,8 +83,8 @@ public class UltimateCore extends Application {
         bukkit.setPrefWidth(90.0);
         GridPane.setConstraints(bukkit, 0, 3);
 
-        //UltimateCore web
-        Button ucweb = new Button("UltimateCore website");
+        //Main web
+        Button ucweb = new Button("Main website");
         ucweb.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
@@ -92,7 +92,7 @@ public class UltimateCore extends Application {
                     try {
                         Desktop.getDesktop().browse(new URI("http://ultimatecore.org"));
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Failed to open web page.", "Main", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     showErrorMessage("Opening web pages is not supported on your OS.");
@@ -135,7 +135,7 @@ public class UltimateCore extends Application {
                     try {
                         Desktop.getDesktop().browse(new URI("http://dev.bukkit.org/bukkit-plugins/ultimate_core/tickets/"));
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Failed to open web page.", "Main", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     showErrorMessage("Opening web pages is not supported on your OS.");
@@ -162,7 +162,7 @@ public class UltimateCore extends Application {
             }
         });
         features.getStyleClass().add("button-1");
-        features.setPrefWidth(142.0);
+        features.setPrefWidth(ucweb.getPrefWidth());
         GridPane.setConstraints(features, 1, 2);
 
         //Source
@@ -172,7 +172,7 @@ public class UltimateCore extends Application {
             public void handle(ActionEvent t) {
                 if (Desktop.isDesktopSupported()) {
                     try {
-                        Desktop.getDesktop().browse(new URI("https://github.com/Bammerbom/UltimateCore"));
+                        Desktop.getDesktop().browse(new URI("https://github.com/Bammerbom/Main"));
                     } catch (Exception ex) {
                         showErrorMessage("Failed to open web page.");
                     }
@@ -192,7 +192,7 @@ public class UltimateCore extends Application {
             public void handle(ActionEvent t) {
                 if (Desktop.isDesktopSupported()) {
                     try {
-                        Desktop.getDesktop().browse(new URI("http://mcstats.org/plugin/UltimateCore"));
+                        Desktop.getDesktop().browse(new URI("http://mcstats.org/plugin/Main"));
                     } catch (Exception ex) {
                         showErrorMessage("Failed to open web page.");
                     }
@@ -213,7 +213,7 @@ public class UltimateCore extends Application {
 
         Scene scene = new Scene(grid);
 
-        scene.getStylesheets().add("Style.css");
+        scene.getStylesheets().add("style.css");
 
         stage.setScene(scene);
         stage.show();
@@ -224,7 +224,7 @@ public class UltimateCore extends Application {
 
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("UltimateCore");
+        window.setTitle("Main");
         window.setWidth(250);
         window.setResizable(false);
 
@@ -246,7 +246,7 @@ public class UltimateCore extends Application {
 
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
-        scene.getStylesheets().add("Style.css");
+        scene.getStylesheets().add("style.css");
         window.setScene(scene);
         window.showAndWait();
     }

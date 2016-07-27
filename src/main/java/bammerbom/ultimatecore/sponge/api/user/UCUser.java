@@ -40,10 +40,12 @@ public class UCUser {
     }
 
     public <D extends UserData> Optional<D> get(Class<D> cl) {
+        return Optional.empty();
         //TODO impl
     }
 
     public boolean offer(UserData data){
+        return false;
         //TODO impl
     }
 }

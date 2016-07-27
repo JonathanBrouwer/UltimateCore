@@ -31,7 +31,7 @@ public class UserData {
 
     private UUID uuid;
 
-    UserData(User user) {
+    public UserData(User user) {
         this.uuid = user.getUniqueId();
     }
 }

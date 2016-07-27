@@ -53,7 +53,7 @@ public class Messages {
      */
     private static Map<String, String> loadFromFile(String lang) throws IOException {
         Asset asset = Sponge.getAssetManager().getAsset(UltimateCore.getInstance(), "messages/" + lang + ".properties").orElse(null);
-        File file = new File(UltimateCore.getInstance().getDataFolder().toURI() + "/messages", lang + ".properties");
+        File file = new File(UltimateCore.getInstance().getDataFolder().toUri().getPath() + "messages", lang + ".properties");
 
         if (!file.exists()) {
             asset.copyToFile(file.toPath());
@@ -86,7 +86,7 @@ public class Messages {
             }
             if (missing) {
                 FileOutputStream ostream = new FileOutputStream(file);
-                prop.store(ostream, "UltimateCore language file - " + lang);
+                prop.store(ostream, "Main language file - " + lang);
                 ostream.close();
             }
         }
@@ -185,11 +185,11 @@ public class Messages {
      * @param message The message to print
      */
     public static void log(Object message) {
-        Text logo = TextSerializers.FORMATTING_CODE.deserialize("&9[&bUC&9]&r");
+        Text logo = TextSerializers.FORMATTING_CODE.deserialize("&9[&bUC&9]&r ");
         if (message == null) {
             log("null");
             return;
         }
-        Sponge.getServer().getConsole().sendMessage(logo.toBuilder().append(Text.of(" " + message.toString())).build());
+        Sponge.getServer().getConsole().sendMessage(logo.toBuilder().append(Text.of(message)).build());
     }
 }

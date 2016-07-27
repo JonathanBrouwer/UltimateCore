@@ -23,13 +23,18 @@
  */
 package bammerbom.ultimatecore.sponge;
 
-import bammerbom.ultimatecore.sponge.api.command.impl.UCCommandService;
+import bammerbom.ultimatecore.sponge.api.command.CommandService;
+import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
+import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
+import bammerbom.ultimatecore.sponge.impl.sign.UCSignService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
+import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.ServerID;
 import com.google.inject.Inject;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
@@ -39,27 +44,28 @@ import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-@Plugin(id = "ultimatecore", name = "UltimateCore", version = "${project.version}", description = "All you need to set up a server and more!")
+@Plugin(id = "ultimatecore", name = "UltimateCore", version = "$version$", description = "All you need to set up a server and more!", url = "http://ultimatecore.org/index", authors =
+        {"Bammerbom"})
 public class UltimateCore {
 
+    @Inject
     @ConfigDir(sharedRoot = false)
-    public static File dir;
+    public Path dir;
     private static UltimateCore instance = null;
     @Inject
     private Logger logger;
     private ModuleService moduleService;
-    private UCCommandService commandService;
+    private CommandService commandService;
     private SignService signService;
     private UserService userService;
-
-    private UltimateCore() {
-    }
 
     public static UltimateCore getInstance() {
         if (instance == null) {
@@ -72,34 +78,35 @@ public class UltimateCore {
     public void onPreInit(GamePreInitializationEvent ev) {
         try {
             Long time = System.currentTimeMillis();
-            //Load core messages
-            Messages.reloadMessages();
+            //Save instance
+            instance = this;
             //Load services
-            moduleService = new ModuleService();
+            moduleService = new UCModuleService();
             commandService = new UCCommandService();
-            signService = new SignService();
-            userService = new UserService();
+            signService = new UCSignService();
+            userService = new UCUserService();
 
             //Load modules
             Sponge.getServiceManager().setProvider(this, ModuleService.class, moduleService);
-            File modfolder = new File(getDataFolder().toURI() + "/modules");
+            File modfolder = new File(getDataFolder().toUri().getPath() + "modules");
             modfolder.mkdirs();
             for (File f : modfolder.listFiles()) {
                 if (f.getName().endsWith(".jar") || f.getName().endsWith(".ucmodule")) {
                     Optional<Module> module = moduleService.load(f);
                     if (module.isPresent()) {
-                        Messages.log("Registered module: " + module.get().getIdentifier());
+                        Messages.log(Text.of("Registered module: ", module.get().getIdentifier()));
                     } else {
-                        Messages.log("Module failed to load: " + f.getName());
+                        Messages.log(Text.of("Module failed to load: " + f.getName()));
                     }
                 }
             }
             //
             time = System.currentTimeMillis() - time;
-            Messages.log(TextColors.GREEN + "Pre-initialized UltimateCore! (" + time + "ms)");
+            Messages.log(Text.of(TextColors.GREEN, "Pre-initialized UltimateCore! (" + time + "ms)"));
 
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to pre-initialize UltimateCore");
+            ex.printStackTrace();
+            //ErrorLogger.log(ex, "Failed to pre-initialize UltimateCore");
         }
     }
 
@@ -107,15 +114,20 @@ public class UltimateCore {
     public void onInit(GameInitializationEvent ev) {
         try {
             Long time = System.currentTimeMillis();
+            //Initilaze utils
+            //TODO here or in pre-init?
+            ServerID.start();
+            Messages.reloadMessages();
             //Initialize modules
             for (Module module : moduleService.getRegisteredModules()) {
                 module.onInit(ev);
             }
             //
             time = System.currentTimeMillis() - time;
-            Messages.log(TextColors.GREEN + "Initialized UltimateCore! (" + time + "ms)");
+            Messages.log(Text.of(TextColors.GREEN ,"Initialized UltimateCore! (" + time + "ms)"));
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to initialize UltimateCore");
+            ex.printStackTrace();
+            //ErrorLogger.log(ex, "Failed to initialize UltimateCore");
         }
     }
 
@@ -129,9 +141,10 @@ public class UltimateCore {
             }
             //
             time = System.currentTimeMillis() - time;
-            Messages.log(TextColors.GREEN + "Post-initialized UltimateCore! (" + time + "ms)");
+            Messages.log(Text.of(TextColors.GREEN, "Post-initialized UltimateCore! (" + time + "ms)"));
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to post-initialize UltimateCore");
+            ex.printStackTrace();
+            //ErrorLogger.log(ex, "Failed to post-initialize UltimateCore");
         }
     }
 
@@ -145,13 +158,14 @@ public class UltimateCore {
             }
             //
             time = System.currentTimeMillis() - time;
-            Messages.log(TextColors.GREEN + "Stopped UltimateCore! (" + time + "ms)");
+            Messages.log(Text.of(TextColors.GREEN, "Stopped UltimateCore! (" + time + "ms)"));
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to stop UltimateCore");
+            ex.printStackTrace();
+            //ErrorLogger.log(ex, "Failed to stop UltimateCore");
         }
     }
 
-    public File getDataFolder() {
+    public Path getDataFolder() {
         return dir;
     }
 
@@ -160,7 +174,7 @@ public class UltimateCore {
         return moduleService;
     }
 
-    public UCCommandService getCommandService() {
+    public CommandService getCommandService() {
         return commandService;
     }
 

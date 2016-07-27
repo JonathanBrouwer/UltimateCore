@@ -23,17 +23,34 @@
  */
 package bammerbom.ultimatecore.sponge.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
+import bammerbom.ultimatecore.sponge.UltimateCore;
 
-public class FileUtil {
-    public static List<String> readLines(File file) throws IOException {
-        return Files.readAllLines(file.toPath());
+import java.io.File;
+import java.util.Arrays;
+import java.util.UUID;
+
+public class ServerID {
+    static UUID uuid;
+
+    public static void start() {
+        try {
+            File file = new File(UltimateCore.getInstance().getDataFolder().toUri().getPath() + "data", "UUID.id");
+            file.getParentFile().mkdirs();
+            if (!file.exists()) {
+                file.createNewFile();
+                UUID u = UUID.randomUUID();
+                FileUtil.writeLines(file, Arrays.asList(u.toString()));
+                uuid = u;
+            } else {
+                String s = FileUtil.readLines(file).get(0);
+                uuid = UUID.fromString(s);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
-    public static void writeLines(File file, List<String> lines) throws IOException {
-        Files.write(file.toPath(), lines);
+    public static UUID getUUID() {
+        return uuid;
     }
 }
