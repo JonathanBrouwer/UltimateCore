@@ -23,8 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.impl.command;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.command.CommandService;
+import org.spongepowered.api.Sponge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,59 +38,65 @@ public class UCCommandService implements CommandService {
 
     /**
      * Get a list of all registered {@link Command}s.
+     *
      * @return The list of all commands.
      */
     @Override
-    public List<Command> getCommands(){
+    public List<Command> getCommands() {
         return commands;
     }
 
     /**
      * Register a new {@link Command}.
+     * This also registers it to the sponge command manager.
+     *
      * @param command The command to register
      */
     @Override
-    public void register(Command command){
+    public void register(Command command) {
         commands.add(command);
+        Sponge.getCommandManager().register(UltimateCore.getInstance(), new UCCommandCallable(command), command.getAliases());
     }
 
     /**
      * Unregisters the given {@link Command}.
-     * This also unregisters it from the sponge service.
+     * This also unregisters it from the sponge command manager.
+     *
      * @param command The {@link Command} to unregister
      * @return Whether the command was found
      */
     @Override
-    public boolean unregister(Command command){
+    public boolean unregister(Command command) {
         return commands.remove(command);
     }
 
     /**
      * Unregisters the given {@link Command}.
      * This also unregisters it from the sponge service.
-     *
+     * <p>
      * This is the same as calling unregister(get(id).get())
      *
      * @param id The {@link Command} to unregister
      * @return Whether the command was found
      */
     @Override
-    public boolean unregister(String id){
+    public boolean unregister(String id) {
         Optional<Command> cmd = get(id);
-        if(!cmd.isPresent()) return false;
+        if (!cmd.isPresent()) return false;
         return unregister(cmd.get());
     }
 
     /**
      * Search a command by the provided identifier.
      * This will search for the id first, and then for an alias.
+     *
      * @param id The id to search for
      * @return The command, or {@link Optional#empty()} if no results are found
      */
     @Override
-    public Optional<Command> get(String id){
+    public Optional<Command> get(String id) {
         List<Command> matches = commands.stream().filter(cmd -> cmd.getIdentifier().equalsIgnoreCase(id)).collect(Collectors.toList());
-        if(matches.isEmpty()){
+        if (matches.isEmpty()) {
             matches = commands.stream().filter(cmd -> cmd.getAliases().contains(id)).collect(Collectors.toList());
         }
         return matches.isEmpty() ? Optional.empty() : Optional.of(matches.get(0));

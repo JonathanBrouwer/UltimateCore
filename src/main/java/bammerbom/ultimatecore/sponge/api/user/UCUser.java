@@ -44,7 +44,7 @@ public class UCUser {
         //TODO impl
     }
 
-    public boolean offer(UserData data){
+    public boolean offer(UserData data) {
         return false;
         //TODO impl
     }

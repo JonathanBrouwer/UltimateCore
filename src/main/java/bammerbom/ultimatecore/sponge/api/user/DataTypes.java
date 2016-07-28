@@ -23,15 +23,21 @@
  */
 package bammerbom.ultimatecore.sponge.api.user;
 
-import bammerbom.ultimatecore.sponge.modules.afk.api.AfkData;
-
 /**
  * An enum of all enum types in the default modules
  * Usable in {@link UCUser#get(Class)} and {@link UCPlayer#get(Class)}
- *
+ * <p>
  * When not available, values will be equal to {@link Class<UserData>} or {@link Class<PlayerData>}
  * In the #get methods this will return an Optional.empty()
  */
 public class DataTypes {
-    public static Class<? extends PlayerData> AFK = AfkData.class;
+    public static Class<? extends PlayerData> AFK = null;
+
+    {
+        try {
+            AFK = (Class<? extends PlayerData>) Class.forName("bammerbom.ultimatecore.sponge.modules.afk.api.AfkData");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }

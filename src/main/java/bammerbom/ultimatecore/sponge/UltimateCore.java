@@ -24,15 +24,14 @@
 package bammerbom.ultimatecore.sponge;
 
 import bammerbom.ultimatecore.sponge.api.command.CommandService;
-import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
-import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
-import bammerbom.ultimatecore.sponge.impl.sign.UCSignService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
+import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
+import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
+import bammerbom.ultimatecore.sponge.impl.sign.UCSignService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
-import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
 import com.google.inject.Inject;
@@ -56,10 +55,10 @@ import java.util.logging.Logger;
         {"Bammerbom"})
 public class UltimateCore {
 
+    private static UltimateCore instance = null;
     @Inject
     @ConfigDir(sharedRoot = false)
     public Path dir;
-    private static UltimateCore instance = null;
     @Inject
     private Logger logger;
     private ModuleService moduleService;
@@ -88,7 +87,7 @@ public class UltimateCore {
 
             //Load modules
             Sponge.getServiceManager().setProvider(this, ModuleService.class, moduleService);
-            File modfolder = new File(getDataFolder().toUri().getPath() + "modules");
+            File modfolder = new File(getDataFolder().toUri().getPath() + "/modules");
             modfolder.mkdirs();
             for (File f : modfolder.listFiles()) {
                 if (f.getName().endsWith(".jar") || f.getName().endsWith(".ucmodule")) {
@@ -124,7 +123,7 @@ public class UltimateCore {
             }
             //
             time = System.currentTimeMillis() - time;
-            Messages.log(Text.of(TextColors.GREEN ,"Initialized UltimateCore! (" + time + "ms)"));
+            Messages.log(Text.of(TextColors.GREEN, "Initialized UltimateCore! (" + time + "ms)"));
         } catch (Exception ex) {
             ex.printStackTrace();
             //ErrorLogger.log(ex, "Failed to initialize UltimateCore");

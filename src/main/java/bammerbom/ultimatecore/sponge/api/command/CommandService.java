@@ -30,12 +30,14 @@ public interface CommandService {
 
     /**
      * Get a list of all registered {@link Command}s.
+     *
      * @return The list of all commands.
      */
     List<Command> getCommands();
 
     /**
      * Register a new {@link Command}.
+     *
      * @param command The command to register
      */
     void register(Command command);
@@ -43,6 +45,7 @@ public interface CommandService {
     /**
      * Unregisters the given {@link Command}.
      * This also unregisters it from the sponge service.
+     *
      * @param command The {@link Command} to unregister
      * @return Whether the command was found
      */
@@ -51,7 +54,7 @@ public interface CommandService {
     /**
      * Unregisters the given {@link Command}.
      * This also unregisters it from the sponge service.
-     *
+     * <p>
      * This is the same as calling unregister(get(id).get())
      *
      * @param id The {@link Command} to unregister
@@ -62,6 +65,7 @@ public interface CommandService {
     /**
      * Search a command by the provided identifier.
      * This will search for the id first, and then for an alias.
+     *
      * @param id The id to search for
      * @return The command, or {@link Optional#empty()} if no results are found
      */

@@ -48,7 +48,7 @@ public class ErrorLogger {
         //CONSOLE
         Sponge.getServer().getConsole().sendMessage(Text.of(" "));
         Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
-        Messages.log(Text.of(TextColors.RED ,"Main has run into an error "));
+        Messages.log(Text.of(TextColors.RED, "Main has run into an error "));
         Messages.log(Text.of(TextColors.RED, "Please report your error on "));
         Messages.log(Text.of(TextColors.YELLOW, "https://github.com/Bammerbom/Main/issues"));
         Messages.log(Text.of(TextColors.RED, "Include the file: "));

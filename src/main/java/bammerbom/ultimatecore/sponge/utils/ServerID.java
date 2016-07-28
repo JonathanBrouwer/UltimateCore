@@ -34,15 +34,15 @@ public class ServerID {
 
     public static void start() {
         try {
-            File file = new File(UltimateCore.getInstance().getDataFolder().toUri().getPath() + "data", "UUID.id");
+            File file = new File(UltimateCore.getInstance().getDataFolder().toUri().getPath() + "/data", "serverid.id");
             file.getParentFile().mkdirs();
             if (!file.exists()) {
                 file.createNewFile();
                 UUID u = UUID.randomUUID();
-                FileUtil.writeLines(file, Arrays.asList(u.toString()));
+                FileUtil.writeLines(file, Arrays.asList("This UUID is used by UltimateCore to identify your server while sending errors, stats, etc.", u.toString()));
                 uuid = u;
             } else {
-                String s = FileUtil.readLines(file).get(0);
+                String s = FileUtil.readLines(file).get(1);
                 uuid = UUID.fromString(s);
             }
         } catch (Exception ex) {

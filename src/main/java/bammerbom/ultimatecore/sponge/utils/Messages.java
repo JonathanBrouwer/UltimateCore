@@ -41,21 +41,27 @@ public class Messages {
     private static Map<String, String> custom;
 
     public static void reloadMessages() {
-
+        try {
+            en = loadFromFile("english");
+        } catch (IOException e) {
+            log(Text.of("Failed to load english messages file."));
+            e.printStackTrace();
+        }
     }
 
     /**
      * Retrieves a Map of all keys and values of a language file
      *
-     * @param lang The name of the language file, for example `EN`
+     * @param lang The name of the language file, for example `english` for the file 'english.properties'
      * @return A map of all keys and values
      * @throws IOException When the file was not found, was invalid, or failed to load in any other way
      */
     private static Map<String, String> loadFromFile(String lang) throws IOException {
-        Asset asset = Sponge.getAssetManager().getAsset(UltimateCore.getInstance(), "messages/" + lang + ".properties").orElse(null);
-        File file = new File(UltimateCore.getInstance().getDataFolder().toUri().getPath() + "messages", lang + ".properties");
+        Asset asset = Sponge.getAssetManager().getAsset(UltimateCore.getInstance(), "language/" + lang + ".properties").orElse(null);
+        File file = new File(UltimateCore.getInstance().getDataFolder().toUri().getPath() + "/language/", lang + ".properties");
 
         if (!file.exists()) {
+            file.getParentFile().mkdirs();
             asset.copyToFile(file.toPath());
         }
         //Properties of the file in the dir
@@ -81,12 +87,12 @@ public class Messages {
                     map.put(key, lmap.get(key));
                     prop.put(key, lmap.get(key));
                     missing = true;
-                    Messages.log("Added missing key " + key + " to language file " + lang);
+                    Messages.log("Added missing key " + key + "=" + lmap.get(key) + " to language file " + lang);
                 }
             }
             if (missing) {
                 FileOutputStream ostream = new FileOutputStream(file);
-                prop.store(ostream, "Main language file - " + lang);
+                prop.store(ostream, "UltimateCore language file - " + lang);
                 ostream.close();
             }
         }
@@ -97,7 +103,7 @@ public class Messages {
     private static Map<String, String> toMap(Properties prop) {
         Map<String, String> map = new HashMap<>();
         for (Object key : prop.keySet()) {
-            map.put(key.toString(), prop.getProperty(key.toString()).toString());
+            map.put(key.toString(), prop.getProperty(key.toString()));
         }
         return map;
     }
