@@ -34,7 +34,7 @@ public class ServerID {
 
     public static void start() {
         try {
-            File file = new File(UltimateCore.getInstance().getDataFolder().toUri().getPath() + "/data", "serverid.id");
+            File file = new File(UltimateCore.get().getDataFolder().toUri().getPath() + "/data", "serverid.id");
             file.getParentFile().mkdirs();
             if (!file.exists()) {
                 file.createNewFile();

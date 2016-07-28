@@ -23,7 +23,6 @@
  */
 package bammerbom.ultimatecore.sponge.api.user;
 
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.profile.GameProfile;
 
@@ -58,33 +57,7 @@ public interface UserService {
     UCUser getUser(User user);
 
     /**
-     * Retrieve a list of all online UltimatePlayers
+     * Retrieve a list of all online {@link UCUser}s.
      */
-    List<UCPlayer> getOnlinePlayers();
-
-    //TODO is UCPlayer really needed? Shit should work with just UCUser too.
-
-    /**
-     * Retrieve an UCPlayer by the player's uuid.
-     *
-     * @param uuid The uuid of the player to get
-     * @return The player, or Optional.empty() if not found
-     */
-    Optional<UCPlayer> getPlayer(UUID uuid);
-
-    /**
-     * Retrieve an UCPlayer by the player's gameprofile.
-     *
-     * @param profile The gameprofile of the player to get
-     * @return The UCPlayer, or Optional.empty() if not found
-     */
-    Optional<UCPlayer> getPlayer(GameProfile profile);
-
-    /**
-     * Retrieve an UCPlayer by the player's Player instance.
-     *
-     * @param player The Player instance of the player to get
-     * @return The UCPlayer, or Optional.empty() if not found
-     */
-    UCPlayer getPlayer(Player player);
+    List<UCUser> getOnlinePlayers();
 }

@@ -43,7 +43,7 @@ public interface Command {
     /**
      * Get the primary alias for this command.
      *
-     * @return the primary alias
+     * @return The primary alias
      */
     String getIdentifier();
 
@@ -51,7 +51,7 @@ public interface Command {
      * Get the base permission for this command.
      * For example: uc.home
      *
-     * @return the base permission
+     * @return The base permission
      */
     Permission getPermission();
 
@@ -64,28 +64,28 @@ public interface Command {
     /**
      * Get the usage for this command.
      *
-     * @return the usage
+     * @return The usage
      */
     Text getUsage();
 
     /**
      * Get an one-line description of this command.
      *
-     * @return a short description
+     * @return A short description
      */
     Text getShortDescription();
 
     /**
      * Get a long description for this command.
      *
-     * @return a long description
+     * @return A long description
      */
-    Text getDescription();
+    Text getLongDescription();
 
     /**
      * Get all aliases for this command/
      *
-     * @return all aliases
+     * @return All aliases
      */
     List<String> getAliases();
 

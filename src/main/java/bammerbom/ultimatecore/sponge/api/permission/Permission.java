@@ -23,25 +23,50 @@
  */
 package bammerbom.ultimatecore.sponge.api.permission;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class Permission {
     private Module module;
     private Optional<Command> command;
-    private String id;
+    private String identifier;
     private Text description;
     private PermissionLevel level;
 
-    public Permission(Module mod, Command command, String i, Text desc, PermissionLevel lev) {
+    private Permission(String id, Module mod, PermissionLevel lev, @Nullable Command com, Text desc) {
         this.module = mod;
-        this.command = command == null ? Optional.empty() : Optional.of(command);
-        this.id = i;
+        this.command = com == null ? Optional.empty() : Optional.of(com);
+        this.identifier = id;
         this.description = desc;
         this.level = lev;
+    }
+
+    public static Permission create(String identifier, Module module, PermissionLevel level, @Nullable Command command, Text description) {
+        Permission perm = new Permission(identifier, module, level, command, description);
+        UltimateCore.get().getPermissionService().register(perm);
+        return perm;
+    }
+
+    public static Permission create(String identifier, String moduleid, PermissionLevel level, @Nullable String commandid, Text description) {
+        Optional<Module> module = UltimateCore.get().getModuleService().getModule(moduleid);
+        Optional<Command> command = commandid == null ? null : UltimateCore.get().getCommandService().get(commandid);
+        if (!module.isPresent()) {
+            Messages.log("Failed to register permission " + identifier + ": Invalid module");
+            //TODO ErrorLogger?
+            return null;
+        }
+        if (!command.isPresent()) {
+            Messages.log("Semi-failed to register permission " + identifier + ": Invalid command");
+            //TODO ErrorLogger?
+            command = null;
+        }
+        return create(identifier, module.get(), level, command == null ? null : command.get(), description);
     }
 
     /**
@@ -54,13 +79,22 @@ public class Permission {
     }
 
     /**
+     * Get the command this {@link Permission} is associated with, or {@link Optional#empty()} when not associated with a command.
+     *
+     * @return The command
+     */
+    public Optional<Command> getCommand() {
+        return command;
+    }
+
+    /**
      * Get the permission's id. //TODO is id correct term?
      * For example: uc.kick
      *
      * @return The permission's id
      */
     public String get() {
-        return id;
+        return identifier;
     }
 
     /**

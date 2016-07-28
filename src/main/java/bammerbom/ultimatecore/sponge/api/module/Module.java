@@ -39,6 +39,7 @@ public interface Module {
 
     /**
      * This should return a class containing all api methods this module provides, or Optional.empty() when not available.
+     * This is only used for not player-specific data, like warps.
      */
     Optional<Object> getApi();
 

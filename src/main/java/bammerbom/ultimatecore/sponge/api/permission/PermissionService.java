@@ -21,23 +21,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.user;
+package bammerbom.ultimatecore.sponge.api.permission;
 
-/**
- * An enum of all enum types in the default modules
- * Usable in {@link UCUser#get(Class)} and {@link UCPlayer#get(Class)}
- * <p>
- * When not available, values will be equal to {@link Class<UserData>} or {@link Class<PlayerData>}
- * In the #get methods this will return an Optional.empty()
- */
-public class DataTypes {
-    public static Class<? extends PlayerData> AFK = null;
+import java.util.List;
+import java.util.Optional;
 
-    {
-        try {
-            AFK = (Class<? extends PlayerData>) Class.forName("bammerbom.ultimatecore.sponge.modules.afk.api.AfkData");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+public interface PermissionService {
+
+    /**
+     * Get a list of all registered permissions.
+     *
+     * @return The list
+     */
+    List<Permission> getPermissions();
+
+    /**
+     * Get a {@link Permission} from the provided id.
+     *
+     * @param id The id to search for
+     * @return The permission, or {@link Optional#empty()} when not found.
+     */
+    Optional<Permission> get(String id);
+
+    /**
+     * Register a new permission
+     *
+     * @param perm The permission to register
+     */
+    void register(Permission perm);
+
+    /**
+     * Unregister a certain permission
+     *
+     * @param perm The permission to unregister
+     * @return Whether the permission was unregister successfully
+     */
+    boolean unregister(Permission perm);
+
+    /**
+     * Search for a certain permission, and unregister it.
+     * <p>
+     * This is the same as calling:
+     * unregister(get(id).get())
+     *
+     * @param id
+     * @return Whether the permission was found and unregistered successfully
+     */
+    boolean unregister(String id);
 }

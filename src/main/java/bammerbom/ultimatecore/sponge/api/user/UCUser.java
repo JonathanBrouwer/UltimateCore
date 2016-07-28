@@ -23,30 +23,72 @@
  */
 package bammerbom.ultimatecore.sponge.api.user;
 
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.service.user.UserStorageService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class UCUser {
 
-    private List<UserData> data = new ArrayList<>();
+    private List<UserData> datas = new ArrayList<>();
     private UUID uuid; //TODO uuid or user?
 
     public UCUser(User user) {
         this.uuid = user.getUniqueId();
     }
 
+    public User getUser(){
+        if(getPlayer().isPresent()){
+            return getPlayer().get();
+        }
+        return Sponge.getServiceManager().provideUnchecked(UserStorageService.class).get(uuid).orElse(null);
+    }
+
+    public Optional<Player> getPlayer(){
+        return Sponge.getServer().getPlayer(uuid);
+    }
+
     public <D extends UserData> Optional<D> get(Class<D> cl) {
-        return Optional.empty();
-        //TODO impl
+        for (UserData dat : datas) {
+            if (dat.getClass().equals(cl)) {
+                return Optional.of((D) dat);
+            }
+        }
+        try {
+            UserData ndat = (UserData) cl.getConstructors()[0].newInstance(getUser());
+            datas.add(ndat);
+            return Optional.of((D) ndat);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
+
+    public boolean isCompatible(Class<UserData> cl) {
+        return Sponge.getServer().getPlayer(uuid).isPresent() || !cl.equals(PlayerData.class);
     }
 
     public boolean offer(UserData data) {
-        return false;
-        //TODO impl
+        if (!Sponge.getServer().getPlayer(uuid).isPresent() && data instanceof PlayerData) {
+            return false;
+        }
+        datas.removeAll(datas.stream().filter(dat -> dat.getClass().equals(data.getClass())).collect(Collectors.toList()));
+        return datas.add(data);
+    }
+
+    public boolean remove(Class<UserData> cl) {
+        List<UserData> data = datas.stream().filter(dat -> dat.getClass().equals(cl)).collect(Collectors.toList());
+        if (data.isEmpty()) {
+            return false;
+        }
+        return datas.removeAll(data);
     }
 }
 

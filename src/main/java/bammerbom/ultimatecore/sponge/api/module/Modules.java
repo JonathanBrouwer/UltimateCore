@@ -32,7 +32,7 @@ import java.util.Optional;
  */
 public class Modules {
 
-    private static ModuleService service = UltimateCore.getInstance().getModuleService();
+    private static ModuleService service = UltimateCore.get().getModuleService();
 
     //TODO create javadocs for a description of every module
     public static Optional<Module> AFK = service.getModule("afk");

@@ -12,7 +12,7 @@ group "bammerbom"
 
 sourceSets {
     main.java.srcDir("src/main/java")
-    main.java.exclude("bammerbom/ultimatecore/sponge/modules/**")
+    //main.java.exclude("bammerbom/ultimatecore/sponge/modules/**")
 }
 
 jar {

@@ -23,11 +23,9 @@
  */
 package bammerbom.ultimatecore.sponge.impl.user;
 
-import bammerbom.ultimatecore.sponge.api.user.UCPlayer;
 import bammerbom.ultimatecore.sponge.api.user.UCUser;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.user.UserStorageService;
@@ -40,7 +38,7 @@ import java.util.stream.Collectors;
 public class UCUserService implements UserService {
 
     /**
-     * Retrieve an UCUser by the user's uuid.
+     * Retrieve an {@link UCUser} by the user's uuid.
      *
      * @param uuid The uuid of the user to get
      * @return The user, or Optional.empty() if not found
@@ -56,7 +54,7 @@ public class UCUserService implements UserService {
     }
 
     /**
-     * Retrieve an UCUser by the user's gameprofile.
+     * Retrieve an {@link UCUser} by the user's gameprofile.
      *
      * @param profile The gameprofile of the user to get
      * @return The UCUser, or Optional.empty() if not found
@@ -67,7 +65,7 @@ public class UCUserService implements UserService {
     }
 
     /**
-     * Retrieve an UCUser by the user's User instance.
+     * Retrieve an {@link UCUser} by the user's User instance.
      *
      * @param user The User instance of the user to get
      * @return The UCUser, or Optional.empty() if not found
@@ -79,51 +77,10 @@ public class UCUserService implements UserService {
     }
 
     /**
-     * Retrieve a list of all online UltimatePlayers
+     * Retrieve a list of all online {@link UCUser}s
      */
     @Override
-    public List<UCPlayer> getOnlinePlayers() {
-        return Sponge.getServer().getOnlinePlayers().stream().map(this::getPlayer).collect(Collectors.toList());
-    }
-
-    //TODO is UCPlayer really needed? Shit should work with just UCUser too.
-
-    /**
-     * Retrieve an UCPlayer by the player's uuid.
-     *
-     * @param uuid The uuid of the player to get
-     * @return The player, or Optional.empty() if not found
-     */
-    @Override
-    public Optional<UCPlayer> getPlayer(UUID uuid) {
-        Optional<Player> player = Sponge.getServer().getPlayer(uuid);
-        if (!player.isPresent()) {
-            return Optional.empty();
-        }
-        UCPlayer uplayer = new UCPlayer(player.get());
-        return Optional.of(uplayer);
-    }
-
-    /**
-     * Retrieve an UCPlayer by the player's gameprofile.
-     *
-     * @param profile The gameprofile of the player to get
-     * @return The UCPlayer, or Optional.empty() if not found
-     */
-    @Override
-    public Optional<UCPlayer> getPlayer(GameProfile profile) {
-        return getPlayer(profile.getUniqueId());
-    }
-
-    /**
-     * Retrieve an UCPlayer by the player's Player instance.
-     *
-     * @param player The Player instance of the player to get
-     * @return The UCPlayer, or Optional.empty() if not found
-     */
-    @Override
-    public UCPlayer getPlayer(Player player) {
-        UCPlayer uplayer = new UCPlayer(player);
-        return uplayer;
+    public List<UCUser> getOnlinePlayers() {
+        return Sponge.getServer().getOnlinePlayers().stream().map(this::getUser).collect(Collectors.toList());
     }
 }

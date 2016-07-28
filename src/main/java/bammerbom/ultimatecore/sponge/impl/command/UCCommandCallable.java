@@ -133,7 +133,7 @@ public class UCCommandCallable implements CommandCallable {
      */
     @Override
     public Optional<Text> getHelp(CommandSource source) {
-        return Optional.of(command.getDescription());
+        return Optional.of(command.getLongDescription());
     }
 
     /**

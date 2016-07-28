@@ -26,12 +26,15 @@ package bammerbom.ultimatecore.sponge;
 import bammerbom.ultimatecore.sponge.api.command.CommandService;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
+import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
 import bammerbom.ultimatecore.sponge.impl.sign.UCSignService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
+import bammerbom.ultimatecore.sponge.modules.afk.AfkModule;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
 import com.google.inject.Inject;
@@ -43,6 +46,7 @@ import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.service.ServiceManager;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
@@ -65,8 +69,9 @@ public class UltimateCore {
     private CommandService commandService;
     private SignService signService;
     private UserService userService;
+    private PermissionService permissionService;
 
-    public static UltimateCore getInstance() {
+    public static UltimateCore get() {
         if (instance == null) {
             instance = new UltimateCore();
         }
@@ -84,6 +89,7 @@ public class UltimateCore {
             commandService = new UCCommandService();
             signService = new UCSignService();
             userService = new UCUserService();
+            permissionService = new UCPermissionService();
 
             //Load modules
             Sponge.getServiceManager().setProvider(this, ModuleService.class, moduleService);
@@ -99,6 +105,8 @@ public class UltimateCore {
                     }
                 }
             }
+            //TODO make seperate jars
+            moduleService.registerModule(new AfkModule());
             //
             time = System.currentTimeMillis() - time;
             Messages.log(Text.of(TextColors.GREEN, "Pre-initialized UltimateCore! (" + time + "ms)"));
@@ -113,6 +121,13 @@ public class UltimateCore {
     public void onInit(GameInitializationEvent ev) {
         try {
             Long time = System.currentTimeMillis();
+            //Register services
+            ServiceManager sm = Sponge.getServiceManager();
+            sm.setProvider(this, ModuleService.class, moduleService);
+            sm.setProvider(this, CommandService.class, commandService);
+            sm.setProvider(this, SignService.class, signService);
+            sm.setProvider(this, UserService.class, userService);
+            sm.setProvider(this, PermissionService.class, permissionService);
             //Initilaze utils
             //TODO here or in pre-init?
             ServerID.start();
@@ -183,5 +198,9 @@ public class UltimateCore {
 
     public UserService getUserService() {
         return userService;
+    }
+
+    public PermissionService getPermissionService() {
+        return permissionService;
     }
 }

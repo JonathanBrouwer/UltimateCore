@@ -36,6 +36,15 @@ public interface CommandService {
     List<Command> getCommands();
 
     /**
+     * Search a command by the provided identifier.
+     * This will search for the id first, and then for an alias.
+     *
+     * @param id The id to search for
+     * @return The command, or {@link Optional#empty()} if no results are found
+     */
+    Optional<Command> get(String id);
+
+    /**
      * Register a new {@link Command}.
      *
      * @param command The command to register
@@ -61,13 +70,4 @@ public interface CommandService {
      * @return Whether the command was found
      */
     boolean unregister(String id);
-
-    /**
-     * Search a command by the provided identifier.
-     * This will search for the id first, and then for an alias.
-     *
-     * @param id The id to search for
-     * @return The command, or {@link Optional#empty()} if no results are found
-     */
-    Optional<Command> get(String id);
 }

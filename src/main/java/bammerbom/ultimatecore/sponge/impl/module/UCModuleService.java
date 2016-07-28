@@ -140,7 +140,7 @@ public class UCModuleService implements ModuleService {
 
             if (keys.containsKey("main")) {
                 Module module = (Module) cl.loadClass(keys.get("main")).getConstructors()[0].newInstance();
-                UltimateCore.getInstance().getModuleService().registerModule(module);
+                UltimateCore.get().getModuleService().registerModule(module);
                 module.onRegister();
                 return Optional.of(module);
             } else {

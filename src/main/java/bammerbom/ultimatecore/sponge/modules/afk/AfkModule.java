@@ -23,7 +23,9 @@
  */
 package bammerbom.ultimatecore.sponge.modules.afk;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.modules.afk.commands.AfkCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -39,12 +41,12 @@ public class AfkModule implements Module {
 
     @Override
     public Optional<Object> getApi() {
-        return null;
+        return Optional.empty();
     }
 
     @Override
     public Optional<Object> getConfig() {
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -54,7 +56,7 @@ public class AfkModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-
+        UltimateCore.get().getCommandService().register(new AfkCommand());
     }
 
     @Override

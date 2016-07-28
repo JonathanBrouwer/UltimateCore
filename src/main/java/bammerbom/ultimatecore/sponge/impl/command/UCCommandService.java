@@ -55,7 +55,7 @@ public class UCCommandService implements CommandService {
     @Override
     public void register(Command command) {
         commands.add(command);
-        Sponge.getCommandManager().register(UltimateCore.getInstance(), new UCCommandCallable(command), command.getAliases());
+        Sponge.getCommandManager().register(UltimateCore.get(), new UCCommandCallable(command), command.getAliases());
     }
 
     /**

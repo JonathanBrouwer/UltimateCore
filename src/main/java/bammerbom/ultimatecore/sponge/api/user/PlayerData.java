@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.user;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 
 /**
@@ -32,5 +33,9 @@ public class PlayerData extends UserData {
 
     public PlayerData(Player p) {
         super(p);
+    }
+
+    public Player getUser() {
+        return Sponge.getServer().getPlayer(super.uuid).orElse(null);
     }
 }

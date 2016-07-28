@@ -23,15 +23,21 @@
  */
 package bammerbom.ultimatecore.sponge.api.user;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.service.user.UserStorageService;
 
 import java.util.UUID;
 
 public class UserData {
 
-    private UUID uuid;
+    protected UUID uuid;
 
     public UserData(User user) {
         this.uuid = user.getUniqueId();
+    }
+
+    public User getUser() {
+        return Sponge.getServiceManager().provideUnchecked(UserStorageService.class).get(uuid).orElse(null);
     }
 }

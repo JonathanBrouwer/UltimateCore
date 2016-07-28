@@ -23,34 +23,16 @@
  */
 package bammerbom.ultimatecore.sponge.modules.afk.api;
 
-import bammerbom.ultimatecore.sponge.api.user.PlayerData;
-import org.spongepowered.api.entity.living.player.Player;
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import org.spongepowered.api.text.Text;
 
-import java.util.Optional;
-
-public class AfkData extends PlayerData {
-
-    boolean afk = false;
-    String message = null;
-
-    public AfkData(Player user) {
-        super(user);
-    }
-
-    public boolean isAfk() {
-        return afk;
-    }
-
-    public void setAfk(boolean afk) {
-        this.afk = afk;
-    }
-
-    public Optional<String> getMessage(){
-        return Optional.ofNullable(message);
-    }
-
-    public void setMessage(String message){
-        this.message = message;
-    }
-
+public class AfkPermissions {
+    public static Permission UC_AFK = Permission.create("uc.afk", "afk", PermissionLevel.EVERYONE, "afk", Text.of("Allows you to toggle your own afk status."));
+    public static Permission UC_AFK_MESSAGE = Permission.create("uc.afk.message", "afk", PermissionLevel.EVERYONE, "afk", Text.of("Allows you to provide a reason for being afk."));
+    public static Permission UC_AFK_OTHERS = Permission.create("uc.afk.others", "afk", PermissionLevel.MOD, "afk", Text.of("Allows you to toggle another player's afk status."));
+    public static Permission UC_AFK_OTHERS_MESSAGE = Permission.create("uc.afk.others.message", "afk", PermissionLevel.MOD, "afk", Text.of("Allows you to provide an message while " +
+            "toggling" + " another " + "player's afk status."));
+    public static Permission UC_AFK_EXEMPT = Permission.create("uc.afk.exempt", "afk", PermissionLevel.VIP, "afk", Text.of("When you have this permission you can't be kicked for being " +
+            "afk" + "."));
 }
