@@ -76,7 +76,7 @@ public class UCUserService implements UserService {
     @Override
     public UltimateUser getUser(User user) {
         for (UltimateUser use : users) {
-            if (use.getIdentifier().equals(user.getUniqueId())){
+            if (use.getIdentifier().equals(user.getUniqueId())) {
                 return use;
             }
         }
@@ -115,10 +115,10 @@ public class UCUserService implements UserService {
      */
     @Override
     public boolean addToCache(UltimateUser user) {
-        if(removeFromCache(user.getIdentifier())) {
+        if (removeFromCache(user.getIdentifier())) {
             Messages.log("1");
             return users.add(user);
-        }else{
+        } else {
             Messages.log("2");
             return false;
         }

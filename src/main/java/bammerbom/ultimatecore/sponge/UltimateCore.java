@@ -34,7 +34,6 @@ import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
 import bammerbom.ultimatecore.sponge.impl.sign.UCSignService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
-import bammerbom.ultimatecore.sponge.modules.afk.AfkModule;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
 import bammerbom.ultimatecore.sponge.utils.Stats;

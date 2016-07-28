@@ -30,7 +30,7 @@ import org.spongepowered.api.event.game.state.GameStoppingEvent;
 
 import java.util.Optional;
 
-public class AutomessageModule implements Module{
+public class AutomessageModule implements Module {
     @Override
     public String getIdentifier() {
         return "automessage";

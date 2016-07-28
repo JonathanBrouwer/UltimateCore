@@ -7,6 +7,7 @@ plugins {
 }
 
 apply plugin: "java"
+apply plugin: "idea"
 apply plugin: "ninja.miserable.blossom"
 
 //Project details
@@ -16,7 +17,6 @@ version "3.0.0-SNAPSHOT"
 
 sourceSets {
     main.java.srcDir("src/main/java")
-    //main.java.exclude("bammerbom/ultimatecore/sponge/modules/**")
 }
 
 jar {
@@ -30,7 +30,7 @@ blossom {
 }
 
 //Modules
-task afkJar(dependsOn: jar,type: Jar) {
+task afkJar(dependsOn: jar, type: Jar) {
     from(sourceSets.main.output) {
         include "bammerbom/ultimatecore/sponge/modules/afk/**"
     }
@@ -38,7 +38,7 @@ task afkJar(dependsOn: jar,type: Jar) {
 }
 build.dependsOn(afkJar)
 
-task automessageJar(dependsOn: jar,type: Jar) {
+task automessageJar(dependsOn: jar, type: Jar) {
     from(sourceSets.main.output) {
         include "bammerbom/ultimatecore/sponge/modules/automessage/**"
     }
@@ -62,7 +62,7 @@ dependencies {
 }
 
 shadowJar {
-    archiveName="mods/UltimateCore.jar"
+    archiveName = "mods/UltimateCore.jar"
     classifier = null
     version = null
     dependencies {

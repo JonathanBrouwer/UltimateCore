@@ -63,7 +63,7 @@ public interface UserService {
 
     /**
      * Remove all users from the cache.
-     *
+     * <p>
      * <p>Warning: This will reset all {@link Key.Online}s!
      * (So afk players will no longer be afk, etc)</p>
      *
@@ -73,6 +73,7 @@ public interface UserService {
 
     /**
      * Add the {@link UltimateUser} to the cache. This will overwrite other users with the same UUID.
+     *
      * @param user The user to add to the cache
      * @return Whether the user was added to the cache successfully
      */
@@ -80,7 +81,7 @@ public interface UserService {
 
     /**
      * Remove the specified user from the cache.
-     *
+     * <p>
      * <p>Warning: This will reset all {@link Key.Online}s of the user!
      * (So afk player will no longer be afk, etc)</p>
      *

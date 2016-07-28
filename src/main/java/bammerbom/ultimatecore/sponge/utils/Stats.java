@@ -38,8 +38,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Stats {
     static boolean started = false;
-    public static void start(){
-        if(started){
+
+    public static void start() {
+        if (started) {
             return;
         }
         started = true;
@@ -47,7 +48,7 @@ public class Stats {
         Sponge.getScheduler().createTaskBuilder().name("UC stats task").delay(20, TimeUnit.SECONDS).interval(30, TimeUnit.MINUTES).execute(Stats::send).submit(UltimateCore.get());
     }
 
-    public static void send(){
+    public static void send() {
         //Sync
         final HashMap<String, Object> data = new HashMap<>();
         data.put("serverid", ServerID.getUUID());
@@ -70,7 +71,7 @@ public class Stats {
         data.put("onlinemode", Sponge.getServer().getOnlineMode());
         data.put("javaversion", System.getProperty("java.version"));
         StringBuilder modules = new StringBuilder();
-        for(Module mod : UltimateCore.get().getModuleService().getRegisteredModules()){
+        for (Module mod : UltimateCore.get().getModuleService().getRegisteredModules()) {
             modules.append(mod.getIdentifier()).append(",");
         }
         data.put("modules", modules.toString().isEmpty() ? "" : modules.substring(0, modules.length() - 1));
@@ -81,7 +82,7 @@ public class Stats {
         Optional<ProviderRegistration<EconomyService>> economyplugin = Sponge.getServiceManager().getRegistration(EconomyService.class);
         data.put("economyplugin", economyplugin.isPresent() ? (economyplugin.get().getPlugin().getName() + "|" + economyplugin.get().getPlugin().getVersion().orElse("")) : "Not Available");
         //Async
-        Sponge.getScheduler().createTaskBuilder().name("UC async stats task").delayTicks(1L).async().execute(new Runnable(){
+        Sponge.getScheduler().createTaskBuilder().name("UC async stats task").delayTicks(1L).async().execute(new Runnable() {
             @Override
             public void run() {
                 data.put("country", getCountryCode());
@@ -93,12 +94,12 @@ public class Stats {
         }).submit(UltimateCore.get());
     }
 
-    public static String getCountryCode(){
+    public static String getCountryCode() {
         // http://freegeoip.net/json/
         try {
             Webb webb = Webb.create();
             return webb.get("http://freegeoip.net/json/").asJsonObject().getBody().getString("country_code");
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return "unknown";
         }
     }

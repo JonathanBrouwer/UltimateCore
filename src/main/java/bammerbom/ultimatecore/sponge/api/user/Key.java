@@ -62,19 +62,21 @@ public class Key<C> {
 
     /**
      * This is a {@link Key} which is associated with an User.
+     *
      * @param <C>
      */
-    public static class User<C> extends Key<C>{
-        public User(String id, @Nullable C def){
+    public static class User<C> extends Key<C> {
+        public User(String id, @Nullable C def) {
             super(id, def);
         }
 
         /**
          * This is a temporary Key which will be removed once the player logs out.
+         *
          * @param <C> The type of data the key holds
          */
-        public static class Online<C> extends User<C>{
-            public Online(String id, @Nullable C def){
+        public static class Online<C> extends User<C> {
+            public Online(String id, @Nullable C def) {
                 super(id, def);
             }
         }
@@ -82,6 +84,7 @@ public class Key<C> {
 
     /**
      * This is a key which is not associated with an User, but instead is a key like a list of warps, or the global spawn.
+     *
      * @param <C> The type of data the key holds
      */
     public static class Global<C> extends Key<C> {
