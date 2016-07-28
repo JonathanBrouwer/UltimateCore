@@ -37,6 +37,7 @@ import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
 import bammerbom.ultimatecore.sponge.modules.afk.AfkModule;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
+import bammerbom.ultimatecore.sponge.utils.Stats;
 import com.google.inject.Inject;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
@@ -55,7 +56,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-@Plugin(id = "ultimatecore", name = "UltimateCore", version = "$version$", description = "All you need to set up a server and more!", url = "http://ultimatecore.org/index", authors =
+@Plugin(id = "ultimatecore", name = "UltimateCore", version = "3.0.0-SNAPSHOT", description = "All you need to set up a server and more!", url = "http://ultimatecore.org/index", authors =
         {"Bammerbom"})
 public class UltimateCore {
 
@@ -110,7 +111,6 @@ public class UltimateCore {
             //
             time = System.currentTimeMillis() - time;
             Messages.log(Text.of(TextColors.GREEN, "Pre-initialized UltimateCore! (" + time + "ms)"));
-
         } catch (Exception ex) {
             ex.printStackTrace();
             //ErrorLogger.log(ex, "Failed to pre-initialize UltimateCore");
@@ -153,6 +153,8 @@ public class UltimateCore {
             for (Module module : moduleService.getRegisteredModules()) {
                 module.onPostInit(ev);
             }
+            //Send stats
+            Stats.start();
             //
             time = System.currentTimeMillis() - time;
             Messages.log(Text.of(TextColors.GREEN, "Post-initialized UltimateCore! (" + time + "ms)"));

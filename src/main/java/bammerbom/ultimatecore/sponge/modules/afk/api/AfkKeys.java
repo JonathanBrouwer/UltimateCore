@@ -23,34 +23,9 @@
  */
 package bammerbom.ultimatecore.sponge.modules.afk.api;
 
-import bammerbom.ultimatecore.sponge.api.user.PlayerData;
-import org.spongepowered.api.entity.living.player.Player;
+import bammerbom.ultimatecore.sponge.api.user.Key;
 
-import java.util.Optional;
-
-public class AfkData extends PlayerData {
-
-    boolean afk = false;
-    String message = null;
-
-    public AfkData(Player user) {
-        super(user);
-    }
-
-    public boolean isAfk() {
-        return afk;
-    }
-
-    public void setAfk(boolean afk) {
-        this.afk = afk;
-    }
-
-    public Optional<String> getMessage(){
-        return Optional.ofNullable(message);
-    }
-
-    public void setMessage(String message){
-        this.message = message;
-    }
-
+public class AfkKeys {
+    public static Key.User.Online<Boolean> IS_AFK = new Key.User.Online<>("afk", false);
+    public static Key.User.Online<String> AFK_MESSAGE = new Key.User.Online<>("afk_message", null);
 }

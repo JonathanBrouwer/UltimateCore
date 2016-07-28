@@ -33,31 +33,59 @@ import java.util.UUID;
 public interface UserService {
 
     /**
-     * Retrieve an UCUser by the user's uuid.
+     * Retrieve an UltimateUser by the user's uuid.
      *
      * @param uuid The uuid of the user to get
      * @return The user, or Optional.empty() if not found
      */
-    Optional<UCUser> getUser(UUID uuid);
+    Optional<UltimateUser> getUser(UUID uuid);
 
     /**
-     * Retrieve an UCUser by the user's gameprofile.
+     * Retrieve an UltimateUser by the user's gameprofile.
      *
      * @param profile The gameprofile of the user to get
-     * @return The UCUser, or Optional.empty() if not found
+     * @return The UltimateUser, or Optional.empty() if not found
      */
-    Optional<UCUser> getUser(GameProfile profile);
+    Optional<UltimateUser> getUser(GameProfile profile);
 
     /**
-     * Retrieve an UCUser by the user's User instance.
+     * Retrieve an UltimateUser by the user's User instance.
      *
      * @param user The User instance of the user to get
-     * @return The UCUser, or Optional.empty() if not found
+     * @return The UltimateUser, or Optional.empty() if not found
      */
-    UCUser getUser(User user);
+    UltimateUser getUser(User user);
 
     /**
-     * Retrieve a list of all online {@link UCUser}s.
+     * Retrieve a list of all online {@link UltimateUser}s.
      */
-    List<UCUser> getOnlinePlayers();
+    List<UltimateUser> getOnlinePlayers();
+
+    /**
+     * Remove all users from the cache.
+     *
+     * <p>Warning: This will reset all {@link Key.Online}s!
+     * (So afk players will no longer be afk, etc)</p>
+     *
+     * @return Whether the reset was successful
+     */
+    boolean clearcache();
+
+    /**
+     * Add the {@link UltimateUser} to the cache. This will overwrite other users with the same UUID.
+     * @param user The user to add to the cache
+     * @return Whether the user was added to the cache successfully
+     */
+    boolean addToCache(UltimateUser user);
+
+    /**
+     * Remove the specified user from the cache.
+     *
+     * <p>Warning: This will reset all {@link Key.Online}s of the user!
+     * (So afk player will no longer be afk, etc)</p>
+     *
+     * @param user The user's uuid to remove from the cache
+     * @return Whether the reset was successful
+     */
+    boolean removeFromCache(UUID user);
 }

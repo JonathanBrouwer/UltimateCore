@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.modules.afk.api.AfkData;
+import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
 import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
@@ -89,10 +89,12 @@ public class AfkCommand implements Command {
             sender.sendMessage(Text.of("You are not a player..."));
             return CommandResult.empty();
         }
-        AfkData data = UltimateCore.get().getUserService().getUser((Player) sender).get(AfkData.class).get();
-        data.setAfk(!data.isAfk());
-        sender.sendMessage(Text.of("You are now " + (data.isAfk() ? "" : "no longer ") + "afk"));
-        UltimateCore.get().getUserService().getUser((Player) sender).offer(data);
+        boolean isafk = UltimateCore.get().getUserService().getUser((Player) sender).get(AfkKeys.IS_AFK).get();
+        if(UltimateCore.get().getUserService().getUser((Player) sender).offer(AfkKeys.IS_AFK, !isafk)){
+            sender.sendMessage(Text.of("You are now " + (isafk ? "" : "no longer ") + "afk"));
+        }else{
+            sender.sendMessage(Text.of("Inserting data failed!"));
+        }
         return CommandResult.success();
     }
 

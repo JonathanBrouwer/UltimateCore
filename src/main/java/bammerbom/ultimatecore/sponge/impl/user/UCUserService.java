@@ -23,13 +23,15 @@
  */
 package bammerbom.ultimatecore.sponge.impl.user;
 
-import bammerbom.ultimatecore.sponge.api.user.UCUser;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.user.UserStorageService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,50 +39,108 @@ import java.util.stream.Collectors;
 
 public class UCUserService implements UserService {
 
+    private List<UltimateUser> users = new ArrayList<>();
+
     /**
-     * Retrieve an {@link UCUser} by the user's uuid.
+     * Retrieve an {@link UltimateUser} by the user's uuid.
      *
      * @param uuid The uuid of the user to get
      * @return The user, or Optional.empty() if not found
      */
     @Override
-    public Optional<UCUser> getUser(UUID uuid) {
+    public Optional<UltimateUser> getUser(UUID uuid) {
         Optional<User> user = Sponge.getServiceManager().provideUnchecked(UserStorageService.class).get(uuid);
         if (!user.isPresent()) {
             return Optional.empty();
         }
-        UCUser uuser = new UCUser(user.get());
-        return Optional.of(uuser);
+        return Optional.of(getUser(user.get()));
     }
 
     /**
-     * Retrieve an {@link UCUser} by the user's gameprofile.
+     * Retrieve an {@link UltimateUser} by the user's gameprofile.
      *
      * @param profile The gameprofile of the user to get
-     * @return The UCUser, or Optional.empty() if not found
+     * @return The UltimateUser, or Optional.empty() if not found
      */
     @Override
-    public Optional<UCUser> getUser(GameProfile profile) {
+    public Optional<UltimateUser> getUser(GameProfile profile) {
         return getUser(profile.getUniqueId());
     }
 
     /**
-     * Retrieve an {@link UCUser} by the user's User instance.
+     * Retrieve an {@link UltimateUser} by the user's User instance.
      *
      * @param user The User instance of the user to get
-     * @return The UCUser, or Optional.empty() if not found
+     * @return The UltimateUser, or Optional.empty() if not found
      */
     @Override
-    public UCUser getUser(User user) {
-        UCUser ucuser = new UCUser(user);
+    public UltimateUser getUser(User user) {
+        for (UltimateUser use : users) {
+            if (use.getIdentifier().equals(user.getUniqueId())){
+                return use;
+            }
+        }
+        UltimateUser ucuser = new UltimateUser(user);
+        users.add(ucuser);
         return ucuser;
     }
 
     /**
-     * Retrieve a list of all online {@link UCUser}s
+     * Retrieve a list of all online {@link UltimateUser}s
      */
     @Override
-    public List<UCUser> getOnlinePlayers() {
+    public List<UltimateUser> getOnlinePlayers() {
         return Sponge.getServer().getOnlinePlayers().stream().map(this::getUser).collect(Collectors.toList());
+    }
+
+    /**
+     * Remove all users from the cache.
+     * <p>
+     * <p>Warning: This will reset all {@link bammerbom.ultimatecore.sponge.api.user.Key.Online}s!
+     * (So afk players will no longer be afk, etc)</p>
+     *
+     * @return Whether the reset was successful
+     */
+    @Override
+    public boolean clearcache() {
+        users.clear();
+        return true;
+    }
+
+    /**
+     * Add the {@link UltimateUser} to the cache. This will overwrite other users with the same UUID.
+     *
+     * @param user The user to add to the cache
+     * @return Whether the user was added to the cache successfully
+     */
+    @Override
+    public boolean addToCache(UltimateUser user) {
+        if(removeFromCache(user.getIdentifier())) {
+            Messages.log("1");
+            return users.add(user);
+        }else{
+            Messages.log("2");
+            return false;
+        }
+    }
+
+    /**
+     * Remove the specified user from the cache.
+     * <p>
+     * <p>Warning: This will reset all {@link bammerbom.ultimatecore.sponge.api.user.Key.Online}s of the user!
+     * (So afk player will no longer be afk, etc)</p>
+     *
+     * @param uuid The user's uuid to remove from the cache
+     * @return Whether the reset was successful
+     */
+    @Override
+    public boolean removeFromCache(UUID uuid) {
+        //A list in case for something went wrong and there are multiple instances of a player in the cache.
+        List<UltimateUser> rusers = new ArrayList<>();
+        users.stream().filter(user -> user.getIdentifier().equals(uuid)).forEach(user -> {
+            rusers.add(user);
+        });
+        Messages.log(rusers.isEmpty());
+        return !rusers.isEmpty() && users.remove(rusers);
     }
 }
