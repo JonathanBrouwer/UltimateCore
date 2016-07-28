@@ -3,12 +3,16 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '1.2.3'
+    id 'ninja.miserable.blossom' version '1.0.1'
 }
 
 apply plugin: "java"
+apply plugin: "ninja.miserable.blossom"
 
 //Project details
+description "All you need to set up a server and more!"
 group "bammerbom"
+version "3.0.0-SNAPSHOT"
 
 sourceSets {
     main.java.srcDir("src/main/java")
@@ -17,10 +21,30 @@ sourceSets {
 
 jar {
     manifest.attributes("Main-Class": "bammerbom.ultimatecore.Main")
-    //exclude("bammerbom/ultimate/")
-    classifier = null
-    version = null
+    exclude("bammerbom/ultimatecore/sponge/modules")
+    archiveName = "mods/UltimateCore.jar"
 }
+
+blossom {
+    replaceToken '@VERSION@', project.version, 'src/main/java/bammerbom/ultimatecore/sponge/UltimateCore.java'
+}
+
+//Modules
+task afkJar(dependsOn: jar,type: Jar) {
+    from(sourceSets.main.output) {
+        include "bammerbom/ultimatecore/sponge/modules/afk/**"
+    }
+    archiveName = "ultimatecore/modules/afk.jar"
+}
+build.dependsOn(afkJar)
+
+task automessageJar(dependsOn: jar,type: Jar) {
+    from(sourceSets.main.output) {
+        include "bammerbom/ultimatecore/sponge/modules/automessage/**"
+    }
+    archiveName = "ultimatecore/modules/automessage.jar"
+}
+build.dependsOn(automessageJar)
 
 //Dependencies
 repositories {
@@ -38,7 +62,7 @@ dependencies {
 }
 
 shadowJar {
-    baseName = 'UltimateCore'
+    archiveName="mods/UltimateCore.jar"
     classifier = null
     version = null
     dependencies {

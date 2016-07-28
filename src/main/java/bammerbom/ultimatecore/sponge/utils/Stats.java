@@ -73,7 +73,7 @@ public class Stats {
         for(Module mod : UltimateCore.get().getModuleService().getRegisteredModules()){
             modules.append(mod.getIdentifier()).append(",");
         }
-        data.put("modules", modules.substring(0, modules.length() - 1));
+        data.put("modules", modules.toString().isEmpty() ? "" : modules.substring(0, modules.length() - 1));
         data.put("language", "EN_US"); //TODO get language
         data.put("plugincount", Sponge.getPluginManager().getPlugins().size());
         Optional<ProviderRegistration<PermissionService>> permplugin = Sponge.getServiceManager().getRegistration(PermissionService.class);
@@ -89,11 +89,6 @@ public class Stats {
                 Response<String> response = webb.post("http://ultimatecore.org/postrequest/statistics.php").params(data).asString();
                 Messages.log("Sent stats to ultimatecore.org - " + response.getStatusLine());
                 Messages.log(response.getBody());
-                String url = response.getConnection().getURL().toString() + "?";
-                for(String key : data.keySet()){
-                    url = url + key + "=" + data.get(key).toString() + "&";
-                }
-                Messages.log(url);
             }
         }).submit(UltimateCore.get());
     }

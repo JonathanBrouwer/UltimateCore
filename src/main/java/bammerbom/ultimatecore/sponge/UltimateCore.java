@@ -56,7 +56,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-@Plugin(id = "ultimatecore", name = "UltimateCore", version = "3.0.0-SNAPSHOT", description = "All you need to set up a server and more!", url = "http://ultimatecore.org/index", authors =
+@Plugin(id = "ultimatecore", name = "UltimateCore", version = "@VERSION@", description = "All you need to set up a server and more!", url = "http://ultimatecore.org/index", authors =
         {"Bammerbom"})
 public class UltimateCore {
 
@@ -94,7 +94,7 @@ public class UltimateCore {
 
             //Load modules
             Sponge.getServiceManager().setProvider(this, ModuleService.class, moduleService);
-            File modfolder = new File(getDataFolder().toUri().getPath() + "/modules");
+            File modfolder = new File("ultimatecore/modules");
             modfolder.mkdirs();
             for (File f : modfolder.listFiles()) {
                 if (f.getName().endsWith(".jar") || f.getName().endsWith(".ucmodule")) {
@@ -106,8 +106,6 @@ public class UltimateCore {
                     }
                 }
             }
-            //TODO make seperate jars
-            moduleService.registerModule(new AfkModule());
             //
             time = System.currentTimeMillis() - time;
             Messages.log(Text.of(TextColors.GREEN, "Pre-initialized UltimateCore! (" + time + "ms)"));
