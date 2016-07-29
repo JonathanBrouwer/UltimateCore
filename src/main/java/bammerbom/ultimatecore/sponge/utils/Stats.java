@@ -32,6 +32,9 @@ import org.spongepowered.api.service.ProviderRegistration;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.permission.PermissionService;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -89,7 +92,17 @@ public class Stats {
                 Webb webb = Webb.create();
                 Response<String> response = webb.post("http://ultimatecore.org/postrequest/statistics.php").params(data).asString();
                 Messages.log("Sent stats to ultimatecore.org - " + response.getStatusLine());
-                Messages.log(response.getBody());
+                //TODO temp?
+                File file = new File(UltimateCore.get().getDataFolder().toFile(), "stats.html");
+                try {
+                    if(!file.exists()) {
+                        file.getParentFile().mkdirs();
+                        file.createNewFile();
+                    }
+                    FileUtil.writeLines(file, Arrays.asList(response.getBody()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }).submit(UltimateCore.get());
     }
