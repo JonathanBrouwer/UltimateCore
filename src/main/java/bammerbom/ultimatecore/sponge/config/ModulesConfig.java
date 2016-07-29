@@ -23,5 +23,5 @@
  */
 package bammerbom.ultimatecore.sponge.config;
 
-public class Modules {
+public class ModulesConfig {
 }

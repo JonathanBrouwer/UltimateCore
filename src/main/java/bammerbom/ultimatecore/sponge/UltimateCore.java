@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
-import bammerbom.ultimatecore.sponge.config.General;
+import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import bammerbom.ultimatecore.sponge.config.serializers.ExtendedLocationSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
@@ -53,8 +53,6 @@ import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.ServiceManager;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -137,7 +135,7 @@ public class UltimateCore {
             //Load configuration
             //TODO here or in separate class for config loading?
             TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ExtendedLocation.class), new ExtendedLocationSerializer());
-            General.reload();
+            GeneralConfig.reload();
             //Initialize modules
             for (Module module : moduleService.getRegisteredModules()) {
                 module.onInit(ev);

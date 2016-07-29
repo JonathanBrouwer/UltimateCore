@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.General;
+import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import com.goebl.david.Response;
 import com.goebl.david.Webb;
 import org.spongepowered.api.Sponge;
@@ -49,7 +49,7 @@ public class Stats {
             return;
         }
         started = true;
-        if(!General.get().getNode("stats", "enabled").getBoolean()){
+        if(!GeneralConfig.get().getNode("stats", "enabled").getBoolean()){
             return;
         }
         Sponge.getScheduler().createTaskBuilder().name("UC stats task").delay(20, TimeUnit.SECONDS).interval(30, TimeUnit.MINUTES).execute(Stats::send).submit(UltimateCore.get());

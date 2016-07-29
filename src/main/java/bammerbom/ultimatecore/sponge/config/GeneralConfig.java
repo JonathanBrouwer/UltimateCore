@@ -36,7 +36,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public class General {
+public class GeneralConfig {
     private static Path path = new File(UltimateCore.get().getDataFolder().toFile(), "general.conf").toPath();
     private static CommentedConfigurationNode node;
 
