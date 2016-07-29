@@ -96,7 +96,7 @@ public class UCUserService implements UserService {
     /**
      * Remove all users from the cache.
      * <p>
-     * <p>Warning: This will reset all {@link bammerbom.ultimatecore.sponge.api.user.Key.Online}s!
+     * <p>Warning: This will reset all {@link bammerbom.ultimatecore.sponge.api.user.Key.User.Online}s!
      * (So afk players will no longer be afk, etc)</p>
      *
      * @return Whether the reset was successful
@@ -116,10 +116,8 @@ public class UCUserService implements UserService {
     @Override
     public boolean addToCache(UltimateUser user) {
         if (removeFromCache(user.getIdentifier())) {
-            Messages.log("1");
             return users.add(user);
         } else {
-            Messages.log("2");
             return false;
         }
     }
@@ -127,7 +125,7 @@ public class UCUserService implements UserService {
     /**
      * Remove the specified user from the cache.
      * <p>
-     * <p>Warning: This will reset all {@link bammerbom.ultimatecore.sponge.api.user.Key.Online}s of the user!
+     * <p>Warning: This will reset all {@link bammerbom.ultimatecore.sponge.api.user.Key.User.Online}s of the user!
      * (So afk player will no longer be afk, etc)</p>
      *
      * @param uuid The user's uuid to remove from the cache
@@ -140,7 +138,6 @@ public class UCUserService implements UserService {
         users.stream().filter(user -> user.getIdentifier().equals(uuid)).forEach(user -> {
             rusers.add(user);
         });
-        Messages.log(rusers.isEmpty());
-        return !rusers.isEmpty() && users.remove(rusers);
+        return !rusers.isEmpty() && users.removeAll(rusers);
     }
 }
