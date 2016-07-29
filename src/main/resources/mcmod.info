@@ -1,9 +1,0 @@
-[{
-    "modid": "ultimatecore",
-    "name": "UltimateCore",
-    "version": "$version$",
-    "description": "All you need to set up a server and more!",
-    "authorList": [
-        "Bammerbom"
-    ]
-}]
