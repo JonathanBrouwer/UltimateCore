@@ -91,7 +91,7 @@ public class AfkCommand implements Command {
         }
         boolean isafk = UltimateCore.get().getUserService().getUser((Player) sender).get(AfkKeys.IS_AFK).get();
         if (UltimateCore.get().getUserService().getUser((Player) sender).offer(AfkKeys.IS_AFK, !isafk)) {
-            sender.sendMessage(Text.of("You are now " + (isafk ? "" : "no longer ") + "afk"));
+            sender.sendMessage(Text.of("You are now " + (isafk ? "no longer " : "") + "afk"));
         } else {
             sender.sendMessage(Text.of("Inserting data failed!"));
         }
