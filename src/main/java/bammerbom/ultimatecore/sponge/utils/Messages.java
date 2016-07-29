@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.asset.Asset;
 import org.spongepowered.api.text.Text;
@@ -40,11 +41,29 @@ public class Messages {
     private static Map<String, String> EN_US = new HashMap<>();
     private static Map<String, String> custom = new HashMap<>();
 
-    public static void reloadMessages() {
+    public static void reloadMessages(){
+        reloadEnglishMessages();
+        reloadCustomMessages();
+    }
+
+    public static void reloadEnglishMessages(){
         try {
             EN_US = loadFromFile("EN_US");
         } catch (IOException e) {
             log(Text.of("Failed to load english messages file."));
+            e.printStackTrace();
+        }
+    }
+
+    public static void reloadCustomMessages() {
+        String lang = GeneralConfig.get().getNode("language", "language").getString();
+        if(lang.equals("EN_US")){
+           return;
+        }
+        try {
+            custom = loadFromFile(lang);
+        } catch (IOException e) {
+            log(Text.of("Failed to load " + lang + " messages file."));
             e.printStackTrace();
         }
     }
