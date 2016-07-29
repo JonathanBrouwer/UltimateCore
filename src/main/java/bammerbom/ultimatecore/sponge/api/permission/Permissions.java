@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.permission;
 
 /**
- * This is an enum of default permissions of Main
+ * This is an enum of default permissions of UltimateCore
  * For the permissions of modules you have to go to:
  * bammerbom.ultimatecore.sponge.modules.[MODULE].api.[MODULE]Permissions.java
  */

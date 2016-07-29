@@ -48,11 +48,11 @@ public class ErrorLogger {
         //CONSOLE
         Sponge.getServer().getConsole().sendMessage(Text.of(" "));
         Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
-        Messages.log(Text.of(TextColors.RED, "Main has run into an error "));
+        Messages.log(Text.of(TextColors.RED, "UltimateCore has run into an error "));
         Messages.log(Text.of(TextColors.RED, "Please report your error on "));
-        Messages.log(Text.of(TextColors.YELLOW, "https://github.com/Bammerbom/Main/issues"));
+        Messages.log(Text.of(TextColors.YELLOW, "https://github.com/Bammerbom/UltimateCore/issues"));
         Messages.log(Text.of(TextColors.RED, "Include the file: "));
-        Messages.log(Text.of(TextColors.YELLOW, "mods/Main/Errors/" + time + ".txt "));
+        Messages.log(Text.of(TextColors.YELLOW, "mods/UltimateCore/Errors/" + time + ".txt "));
         Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
         if (t instanceof Exception) {
             Messages.log(Text.of(TextColors.RED, "Stacktrace: "));
@@ -68,18 +68,18 @@ public class ErrorLogger {
         if (writer != null) {
             writer.append("\n");
             writer.append("=======================================\n");
-            writer.append("Main has run into an error \n");
+            writer.append("UltimateCore has run into an error \n");
             writer.append("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket\n");
             writer.append("Sponge version: " + Sponge.getPlatform().getImplementation().getName() + " - " + Sponge.getPlatform().getImplementation().getVersion() + " - " + Sponge
                     .getPlatform().getApi().getVersion() + "\n");
-            writer.append("Main version: " + Sponge.getPluginManager().getPlugin("ultimatecore").get().getVersion() + "\n");
+            writer.append("UltimateCore version: " + Sponge.getPluginManager().getPlugin("ultimatecore").get().getVersion() + "\n");
             writer.append("Plugins loaded (" + Sponge.getPluginManager().getPlugins().size() + "): " + Sponge.getPluginManager().getPlugins() + "\n");
             writer.append("Java version: " + System.getProperty("java.version") + "\n");
             writer.append("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version") + "\n");
             writer.append("Online mode: " + Sponge.getServer().getOnlineMode() + "\n");
             writer.append("Time: " + time + "\n");
             writer.append("Error message: " + t.getMessage() + "\n");
-            writer.append("Main message: " + s + "\n");
+            writer.append("UltimateCore message: " + s + "\n");
             writer.append("=======================================\n");
             writer.append("Stacktrace: \n" + getStackTrace(t) + "\n");
             writer.append("=======================================\n");
@@ -92,18 +92,18 @@ public class ErrorLogger {
                         writer = new StringWriter();
                     }
                     writer.append("=======================================\n");
-                    writer.append("Main has run into an error \n");
+                    writer.append("UltimateCore has run into an error \n");
                     writer.append("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket\n");
                     writer.append("Sponge version: " + Sponge.getPlatform().getImplementation().getName() + " - " + Sponge.getPlatform().getImplementation().getVersion() + " - " + Sponge
                             .getPlatform().getApi().getVersion() + "\n");
-                    writer.append("Main version: " + Sponge.getPluginManager().getPlugin("ultimatecore").get().getVersion() + "\n");
+                    writer.append("UltimateCore version: " + Sponge.getPluginManager().getPlugin("ultimatecore").get().getVersion() + "\n");
                     writer.append("Plugins loaded (" + Sponge.getPluginManager().getPlugins().size() + "): " + Sponge.getPluginManager().getPlugins() + "\n");
                     writer.append("Java version: " + System.getProperty("java.version") + "\n");
                     writer.append("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version") + "\n");
                     writer.append("Online mode: " + Sponge.getServer().getOnlineMode() + "\n");
                     writer.append("Time: " + time + "\n");
                     writer.append("Error message: " + t.getMessage() + "\n");
-                    writer.append("Main message: " + s + "\n");
+                    writer.append("UltimateCore message: " + s + "\n");
                     writer.append("=======================================\n");
                     writer.append("Stacktrace: \n" + getStackTrace(t) + "\n");
                     writer.append("=======================================");

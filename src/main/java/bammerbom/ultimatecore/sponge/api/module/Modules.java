@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import java.util.Optional;
 
 /**
- * This is a enum containing all official modules of Main
+ * This is a enum containing all official modules of UltimateCore
  */
 public class Modules {
 
