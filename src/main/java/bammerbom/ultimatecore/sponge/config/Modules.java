@@ -21,56 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.utils;
+package bammerbom.ultimatecore.sponge.config;
 
-import com.flowpowered.math.vector.Vector3d;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
-
-public class ExtendedLocation {
-
-    Location<World> location;
-    Vector3d rotation;
-
-    public ExtendedLocation(Location<World> loc, Vector3d rot) {
-        location = loc;
-        rotation = rot;
-    }
-
-    public Location<World> getLocation() {
-        return location;
-    }
-
-    public Vector3d getRotation() {
-        return rotation;
-    }
-
-    public World getWorld() {
-        return location.getExtent();
-    }
-
-    public double getLocationX() {
-        return location.getX();
-    }
-
-    public double getLocationY() {
-        return location.getY();
-    }
-
-    public double getLocationZ() {
-        return location.getZ();
-    }
-
-    public double getRotationX() {
-        return rotation.getX();
-    }
-
-    public double getRotationY() {
-        return rotation.getY();
-    }
-
-    public double getRotationZ() {
-        return rotation.getZ();
-    }
-
+public class Modules {
 }

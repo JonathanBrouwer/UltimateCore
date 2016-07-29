@@ -25,9 +25,11 @@ package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.config.General;
 import com.goebl.david.Response;
 import com.goebl.david.Webb;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.ProviderRegistration;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.permission.PermissionService;
@@ -47,7 +49,9 @@ public class Stats {
             return;
         }
         started = true;
-
+        if(!General.get().getNode("stats", "enabled").getBoolean()){
+            return;
+        }
         Sponge.getScheduler().createTaskBuilder().name("UC stats task").delay(20, TimeUnit.SECONDS).interval(30, TimeUnit.MINUTES).execute(Stats::send).submit(UltimateCore.get());
     }
 
@@ -79,7 +83,11 @@ public class Stats {
         }
         data.put("modules", modules.toString().isEmpty() ? "" : modules.substring(0, modules.length() - 1));
         data.put("language", "EN_US"); //TODO get language
-        data.put("plugincount", Sponge.getPluginManager().getPlugins().size());
+        StringBuilder plugins = new StringBuilder();
+        for (PluginContainer plugin : Sponge.getPluginManager().getPlugins()) {
+            plugins.append(plugin.getId()).append("|").append(plugin.getVersion()).append(",");
+        }
+        data.put("plugins", plugins.toString().isEmpty() ? "" : plugins.substring(0, plugins.length() - 1));
         Optional<ProviderRegistration<PermissionService>> permplugin = Sponge.getServiceManager().getRegistration(PermissionService.class);
         data.put("permissionsplugin", permplugin.isPresent() ? (permplugin.get().getPlugin().getName() + "|" + permplugin.get().getPlugin().getVersion().orElse("")) : "Not Available");
         Optional<ProviderRegistration<EconomyService>> economyplugin = Sponge.getServiceManager().getRegistration(EconomyService.class);
@@ -91,8 +99,8 @@ public class Stats {
                 data.put("country", getCountryCode());
                 Webb webb = Webb.create();
                 Response<String> response = webb.post("http://ultimatecore.org/postrequest/statistics.php").params(data).asString();
-                Messages.log("Sent stats to ultimatecore.org - " + response.getStatusLine());
-                //TODO temp?
+                Messages.log(Messages.getFormatted("core.stats.sent", "%status%", response.getStatusLine()));
+                //TODO add file or not?
                 File file = new File(UltimateCore.get().getDataFolder().toFile(), "stats.html");
                 try {
                     if (!file.exists()) {

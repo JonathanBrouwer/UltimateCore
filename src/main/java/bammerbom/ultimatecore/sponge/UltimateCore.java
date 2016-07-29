@@ -29,18 +29,24 @@ import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
+import bammerbom.ultimatecore.sponge.config.General;
+import bammerbom.ultimatecore.sponge.config.serializers.ExtendedLocationSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
 import bammerbom.ultimatecore.sponge.impl.sign.UCSignService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
+import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
 import bammerbom.ultimatecore.sponge.utils.Stats;
+import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
@@ -78,12 +84,15 @@ public class UltimateCore {
         return instance;
     }
 
-    @Listener
+    @Listener(order = Order.LATE)
     public void onPreInit(GamePreInitializationEvent ev) {
         try {
             Long time = System.currentTimeMillis();
             //Save instance
             instance = this;
+            //Load utils
+            ServerID.start();
+            Messages.reloadMessages();
             //Load services
             moduleService = new UCModuleService();
             commandService = new UCCommandService();
@@ -99,15 +108,15 @@ public class UltimateCore {
                 if (f.getName().endsWith(".jar") || f.getName().endsWith(".ucmodule")) {
                     Optional<Module> module = moduleService.load(f);
                     if (module.isPresent()) {
-                        Messages.log(Text.of("Registered module: ", module.get().getIdentifier()));
+                        Messages.log(Messages.getFormatted("core.load.module.registered", "%module%", module.get().getIdentifier()));
                     } else {
-                        Messages.log(Text.of("Module failed to load: " + f.getName()));
+                        Messages.log(Messages.getFormatted("core.load.module.failed", "%module%", f.getName()));
                     }
                 }
             }
             //
             time = System.currentTimeMillis() - time;
-            Messages.log(Text.of(TextColors.GREEN, "Pre-initialized UltimateCore! (" + time + "ms)"));
+            Messages.log(Messages.getFormatted("core.load.preinit", "%ms%", time));
         } catch (Exception ex) {
             ex.printStackTrace();
             //ErrorLogger.log(ex, "Failed to pre-initialize UltimateCore");
@@ -125,17 +134,17 @@ public class UltimateCore {
             sm.setProvider(this, SignService.class, signService);
             sm.setProvider(this, UserService.class, userService);
             sm.setProvider(this, PermissionService.class, permissionService);
-            //Initilaze utils
-            //TODO here or in pre-init?
-            ServerID.start();
-            Messages.reloadMessages();
+            //Load configuration
+            //TODO here or in separate class for config loading?
+            TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ExtendedLocation.class), new ExtendedLocationSerializer());
+            General.reload();
             //Initialize modules
             for (Module module : moduleService.getRegisteredModules()) {
                 module.onInit(ev);
             }
             //
             time = System.currentTimeMillis() - time;
-            Messages.log(Text.of(TextColors.GREEN, "Initialized UltimateCore! (" + time + "ms)"));
+            Messages.log(Messages.getFormatted("core.load.init", "%ms%", time));
         } catch (Exception ex) {
             ex.printStackTrace();
             //ErrorLogger.log(ex, "Failed to initialize UltimateCore");
@@ -146,15 +155,15 @@ public class UltimateCore {
     public void onPostInit(GamePostInitializationEvent ev) {
         try {
             Long time = System.currentTimeMillis();
+            //Send stats
+            Stats.start();
             //Post-initialize modules
             for (Module module : moduleService.getRegisteredModules()) {
                 module.onPostInit(ev);
             }
-            //Send stats
-            Stats.start();
             //
             time = System.currentTimeMillis() - time;
-            Messages.log(Text.of(TextColors.GREEN, "Post-initialized UltimateCore! (" + time + "ms)"));
+            Messages.log(Messages.getFormatted("core.load.postinit", "%ms%", time));
         } catch (Exception ex) {
             ex.printStackTrace();
             //ErrorLogger.log(ex, "Failed to post-initialize UltimateCore");
@@ -171,7 +180,7 @@ public class UltimateCore {
             }
             //
             time = System.currentTimeMillis() - time;
-            Messages.log(Text.of(TextColors.GREEN, "Stopped UltimateCore! (" + time + "ms)"));
+            Messages.log(Messages.getFormatted("core.load.stop", "%ms%", time));
         } catch (Exception ex) {
             ex.printStackTrace();
             //ErrorLogger.log(ex, "Failed to stop UltimateCore");
