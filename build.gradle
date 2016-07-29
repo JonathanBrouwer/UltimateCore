@@ -36,7 +36,6 @@ task afkJar(dependsOn: jar, type: Jar) {
     }
     archiveName = "ultimatecore/modules/afk.jar"
 }
-build.dependsOn(afkJar)
 
 task automessageJar(dependsOn: jar, type: Jar) {
     from(sourceSets.main.output) {
@@ -44,7 +43,7 @@ task automessageJar(dependsOn: jar, type: Jar) {
     }
     archiveName = "ultimatecore/modules/automessage.jar"
 }
-build.dependsOn(automessageJar)
+build.dependsOn(afkJar, automessageJar)
 
 //Dependencies
 repositories {
