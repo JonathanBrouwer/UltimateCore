@@ -53,7 +53,7 @@ public class Main extends Application {
     public void start(Stage stag) throws Exception {
         stage = stag;
         stage.setTitle("UltimateCore");
-        stage.getIcons().add(new Image("icon.png"));
+        stage.getIcons().add(new Image("assets/ultimatecore/icon.png"));
 
         stage.setWidth(450);
         stage.setResizable(false);
@@ -213,7 +213,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(grid);
 
-        scene.getStylesheets().add("style.css");
+        scene.getStylesheets().add("assets/ultimatecore/style.css");
 
         stage.setScene(scene);
         stage.show();
@@ -246,7 +246,7 @@ public class Main extends Application {
 
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
-        scene.getStylesheets().add("style.css");
+        scene.getStylesheets().add("assets/ultimatecore/style.css");
         window.setScene(scene);
         window.showAndWait();
     }
