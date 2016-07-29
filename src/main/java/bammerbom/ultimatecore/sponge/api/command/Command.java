@@ -83,7 +83,7 @@ public interface Command {
     Text getLongDescription();
 
     /**
-     * Get all aliases for this command/
+     * Get all aliases for this command.
      *
      * @return All aliases
      */
@@ -91,9 +91,22 @@ public interface Command {
 
     /**
      * Execute this command.
+     * The first part of the run should contain all the permissions and argument checks, but actually do anything.
+     * After this the warmup time will start
      *
      * @param sender The CommandSource who executed the command
-     * @param args   The provided arguments, split by a space.
+     * @param args   The provided arguments, split by a space
+     * @return The result of the command, {@link #run(CommandSource, String[])} will only be executed when the CommandResult is {@link CommandResult#success()}
+     */
+    CommandResult runPre(CommandSource sender, String[] args);
+
+    /**
+     * Execute this command.
+     * The second part of the run should actually run the command.
+     * This will only be executed when the CommandResult of {@link #runPre(CommandSource, String[])} is {@link CommandResult#success()}
+     *
+     * @param sender The CommandSource who executed the command
+     * @param args   The provided arguments, split by a space
      * @return The result of the command
      */
     CommandResult run(CommandSource sender, String[] args);
@@ -105,7 +118,7 @@ public interface Command {
      * @param args   The provided arguments, split by a space, including the argument which is currently being typed
      * @param curs   The argument which is being completed
      * @param curn   The index of the argument which is being completed
-     * @return A list of all tab completions, including the ones which do not match what the user typed.
+     * @return A list of all tab completions, including the ones which do not match what the user typed
      */
     List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn);
 

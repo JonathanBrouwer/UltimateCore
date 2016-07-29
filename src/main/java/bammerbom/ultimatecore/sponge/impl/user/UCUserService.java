@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.sponge.impl.user;
 
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.profile.GameProfile;
@@ -96,7 +95,7 @@ public class UCUserService implements UserService {
     /**
      * Remove all users from the cache.
      * <p>
-     * <p>Warning: This will reset all {@link bammerbom.ultimatecore.sponge.api.user.Key.User.Online}s!
+     * Warning: This will reset all {@link bammerbom.ultimatecore.sponge.api.user.Key.User.Online}s!
      * (So afk players will no longer be afk, etc)</p>
      *
      * @return Whether the reset was successful
@@ -125,7 +124,7 @@ public class UCUserService implements UserService {
     /**
      * Remove the specified user from the cache.
      * <p>
-     * <p>Warning: This will reset all {@link bammerbom.ultimatecore.sponge.api.user.Key.User.Online}s of the user!
+     * Warning: This will reset all {@link bammerbom.ultimatecore.sponge.api.user.Key.User.Online}s of the user!
      * (So afk player will no longer be afk, etc)</p>
      *
      * @param uuid The user's uuid to remove from the cache

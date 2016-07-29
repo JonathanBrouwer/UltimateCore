@@ -95,7 +95,7 @@ public class Stats {
                 //TODO temp?
                 File file = new File(UltimateCore.get().getDataFolder().toFile(), "stats.html");
                 try {
-                    if(!file.exists()) {
+                    if (!file.exists()) {
                         file.getParentFile().mkdirs();
                         file.createNewFile();
                     }

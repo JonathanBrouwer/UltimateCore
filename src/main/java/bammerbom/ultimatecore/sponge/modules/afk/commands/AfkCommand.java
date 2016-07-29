@@ -84,11 +84,16 @@ public class AfkCommand implements Command {
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
+    public CommandResult runPre(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(Text.of("You are not a player..."));
             return CommandResult.empty();
         }
+        return CommandResult.success();
+    }
+
+    @Override
+    public CommandResult run(CommandSource sender, String[] args) {
         boolean isafk = UltimateCore.get().getUserService().getUser((Player) sender).get(AfkKeys.IS_AFK).get();
         if (UltimateCore.get().getUserService().getUser((Player) sender).offer(AfkKeys.IS_AFK, !isafk)) {
             sender.sendMessage(Text.of("You are now " + (isafk ? "no longer " : "") + "afk"));

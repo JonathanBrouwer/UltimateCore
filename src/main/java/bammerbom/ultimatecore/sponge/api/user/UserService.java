@@ -64,7 +64,7 @@ public interface UserService {
     /**
      * Remove all users from the cache.
      * <p>
-     * <p>Warning: This will reset all {@link Key.Online}s!
+     * Warning: This will reset all {@link Key.Online}s!
      * (So afk players will no longer be afk, etc)</p>
      *
      * @return Whether the reset was successful
@@ -82,7 +82,7 @@ public interface UserService {
     /**
      * Remove the specified user from the cache.
      * <p>
-     * <p>Warning: This will reset all {@link Key.Online}s of the user!
+     * Warning: This will reset all {@link Key.Online}s of the user!
      * (So afk player will no longer be afk, etc)</p>
      *
      * @param user The user's uuid to remove from the cache

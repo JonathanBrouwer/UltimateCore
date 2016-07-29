@@ -49,7 +49,7 @@ public class UCCommandCallable implements CommandCallable {
     /**
      * Execute the command based on input arguments.
      * <p>
-     * <p>The implementing class must perform the necessary permission
+     * The implementing class must perform the necessary permission
      * checks.</p>
      *
      * @param source    The caller of the command
@@ -59,13 +59,17 @@ public class UCCommandCallable implements CommandCallable {
      */
     @Override
     public CommandResult process(CommandSource source, String arguments) throws CommandException {
-        return command.run(source, arguments.split(" "));
+        CommandResult preResult = command.runPre(source, arguments.split(" "));
+        if (preResult.equals(CommandResult.success())) {
+            return command.run(source, arguments.split(" "));
+        }
+        return preResult;
     }
 
     /**
      * Get a list of suggestions based on input.
      * <p>
-     * <p>If a suggestion is chosen by the user, it will replace the last
+     * If a suggestion is chosen by the user, it will replace the last
      * word.</p>
      *
      * @param source    The command source
@@ -90,7 +94,7 @@ public class UCCommandCallable implements CommandCallable {
     /**
      * Test whether this command can probably be executed by the given source.
      * <p>
-     * <p>If implementations are unsure if the command can be executed by
+     * If implementations are unsure if the command can be executed by
      * the source, {@code true} should be returned. Return values of this method
      * may be used to determine whether this command is listed in command
      * listings.</p>
@@ -106,7 +110,7 @@ public class UCCommandCallable implements CommandCallable {
     /**
      * Get a short one-line description of this command.
      * <p>
-     * <p>The help system may display the description in the command list.</p>
+     * The help system may display the description in the command list.</p>
      *
      * @param source The source of the help request
      * @return A description
@@ -119,13 +123,13 @@ public class UCCommandCallable implements CommandCallable {
     /**
      * Get a longer formatted help message about this command.
      * <p>
-     * <p>It is recommended to use the default text color and style. Sections
+     * It is recommended to use the default text color and style. Sections
      * with text actions (e.g. hyperlinks) should be underlined.</p>
      * <p>
-     * <p>Multi-line messages can be created by separating the lines with
+     * Multi-line messages can be created by separating the lines with
      * {@code \n}.</p>
      * <p>
-     * <p>The help system may display this message when a source requests
+     * The help system may display this message when a source requests
      * detailed information about a command.</p>
      *
      * @param source The source of the help request
@@ -139,10 +143,10 @@ public class UCCommandCallable implements CommandCallable {
     /**
      * Get the usage string of this command.
      * <p>
-     * <p>A usage string may look like
+     * A usage string may look like
      * {@code [-w &lt;world&gt;] &lt;var1&gt; &lt;var2&gt;}.</p>
      * <p>
-     * <p>The string must not contain the command alias.</p>
+     * The string must not contain the command alias.</p>
      *
      * @param source The source of the help request
      * @return A usage string
