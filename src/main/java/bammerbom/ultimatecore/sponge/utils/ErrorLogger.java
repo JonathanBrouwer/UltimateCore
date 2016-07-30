@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import com.goebl.david.Response;
 import com.goebl.david.Webb;
 import org.spongepowered.api.Sponge;
@@ -61,8 +62,7 @@ public class ErrorLogger {
         }
         Sponge.getServer().getConsole().sendMessage(Text.of(" "));
         //SEND TO UC
-        //TODO make config option for sending errors
-        if (/*!r.getCnfg().getBoolean("ErrorSend")*/ false) {
+        if (!GeneralConfig.get().getNode("errors", "enabled").getBoolean()) {
             return;
         }
         if (writer != null) {
