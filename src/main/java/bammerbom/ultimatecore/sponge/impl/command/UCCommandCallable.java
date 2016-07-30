@@ -59,11 +59,7 @@ public class UCCommandCallable implements CommandCallable {
      */
     @Override
     public CommandResult process(CommandSource source, String arguments) throws CommandException {
-        CommandResult preResult = command.runPre(source, arguments.split(" "));
-        if (preResult.equals(CommandResult.success())) {
             return command.run(source, arguments.split(" "));
-        }
-        return preResult;
     }
 
     /**
