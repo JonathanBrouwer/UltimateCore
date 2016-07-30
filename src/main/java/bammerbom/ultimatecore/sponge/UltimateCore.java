@@ -91,6 +91,9 @@ public class UltimateCore {
             //Load utils
             ServerID.start();
             Messages.reloadEnglishMessages();
+            TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ExtendedLocation.class), new ExtendedLocationSerializer());
+            GeneralConfig.reload();
+            Messages.reloadCustomMessages();
             //Load services
             moduleService = new UCModuleService();
             commandService = new UCCommandService();
@@ -134,10 +137,7 @@ public class UltimateCore {
             sm.setProvider(this, PermissionService.class, permissionService);
             //Load configuration
             //TODO here or in separate class for config loading?
-            TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ExtendedLocation.class), new ExtendedLocationSerializer());
-            GeneralConfig.reload();
-            //Reload messages
-            Messages.reloadCustomMessages();
+
             //Initialize modules
             for (Module module : moduleService.getRegisteredModules()) {
                 module.onInit(ev);
