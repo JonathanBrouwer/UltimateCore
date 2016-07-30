@@ -35,6 +35,8 @@ import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
 import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
+import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.ModulesConfig;
 import bammerbom.ultimatecore.sponge.config.serializers.ExtendedLocationSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
@@ -100,6 +102,7 @@ public class UltimateCore {
             TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ExtendedLocation.class), new ExtendedLocationSerializer());
             GeneralConfig.reload();
             CommandsConfig.preload();
+            ModulesConfig.preload();
             Messages.reloadCustomMessages();
             //Load services
             moduleService = new UCModuleService();
@@ -170,6 +173,7 @@ public class UltimateCore {
             Long time = System.currentTimeMillis();
             //All commands should be registered by now
             CommandsConfig.postload();
+            ModulesConfig.postload();
             //Send stats
             Stats.start();
             //Post-initialize modules

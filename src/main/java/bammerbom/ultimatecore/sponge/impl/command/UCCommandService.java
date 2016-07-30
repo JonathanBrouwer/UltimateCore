@@ -56,7 +56,7 @@ public class UCCommandService implements CommandService {
      */
     @Override
     public boolean register(Command command) {
-        if(!CommandsConfig.get().getNode("commands", command.getIdentifier(), "enabled").getBoolean()){
+        if(!CommandsConfig.get().getNode("commands", command.getIdentifier(), "enabled").getBoolean(true)){
             return false;
         }
         commands.add(command);

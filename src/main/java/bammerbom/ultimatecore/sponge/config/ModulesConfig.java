@@ -23,6 +23,63 @@
  */
 package bammerbom.ultimatecore.sponge.config;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+
 public class ModulesConfig {
     //TODO forced enable
+    private static Path path = new File(UltimateCore.get().getDataFolder().toFile(), "modules.conf").toPath();
+    private static ConfigurationLoader<CommentedConfigurationNode> loader;
+    private static CommentedConfigurationNode node;
+
+    public static void preload(){
+        try {
+            File file = path.toFile();
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            }
+            loader = HoconConfigurationLoader.builder().setPath(path).build();
+            node = loader.load();
+        } catch (IOException e) {
+            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));
+            e.printStackTrace();
+        }
+    }
+
+    public static void postload() {
+        try {
+            boolean modified = false;
+            if(!node.getNode("modules").getComment().isPresent()){
+                node.getNode("modules").setComment("Set enabled to 'force', 'enabled' or 'disabled'\nForce will load the module even when another plugin blocks the loading process.");
+            }
+            for(Module mod : UltimateCore.get().getModuleService().getRegisteredModules()){
+                CommentedConfigurationNode modnode = node.getNode("modules", mod.getIdentifier());
+                if(modnode.getNode("enabled").getValue() == null){
+                    modified = true;
+                    modnode.getNode("enabled").setValue("enabled");
+                }
+            }
+            if(modified) {
+                loader.save(node);
+            }
+        } catch (IOException e) {
+            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));
+            e.printStackTrace();
+        }
+    }
+
+    public static CommentedConfigurationNode get() {
+        return node;
+    }
 }
+

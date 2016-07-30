@@ -91,19 +91,6 @@ public interface Command {
 
     /**
      * Execute this command.
-     * The first part of the run should contain all the permissions and argument checks, but actually do anything.
-     * After this the warmup time will start
-     *
-     * @param sender The CommandSource who executed the command
-     * @param args   The provided arguments, split by a space
-     * @return The result of the command, {@link #run(CommandSource, String[])} will only be executed when the CommandResult is {@link CommandResult#success()}
-     */
-    CommandResult runPre(CommandSource sender, String[] args);
-
-    /**
-     * Execute this command.
-     * The second part of the run should actually run the command.
-     * This will only be executed when the CommandResult of {@link #runPre(CommandSource, String[])} is {@link CommandResult#success()}
      *
      * @param sender The CommandSource who executed the command
      * @param args   The provided arguments, split by a space

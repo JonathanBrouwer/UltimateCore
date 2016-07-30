@@ -84,7 +84,7 @@ public class AfkCommand implements Command {
     }
 
     @Override
-    public CommandResult runPre(CommandSource sender, String[] args) {
+    public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
             return CommandResult.empty();
@@ -93,12 +93,9 @@ public class AfkCommand implements Command {
             sender.sendMessage(Messages.getFormatted("core.nopermissions", "%permission%", AfkPermissions.UC_AFK.get()));
             return CommandResult.empty();
         }
-        return CommandResult.success();
-    }
-
-    @Override
-    public CommandResult run(CommandSource sender, String[] args) {
+        //No isPresent() needed because IS_AFK has a default value
         boolean isafk = UltimateCore.get().getUserService().getUser((Player) sender).get(AfkKeys.IS_AFK).get();
+
         if (UltimateCore.get().getUserService().getUser((Player) sender).offer(AfkKeys.IS_AFK, !isafk)) {
             sender.sendMessage(Text.of("You are now " + (isafk ? "no longer " : "") + "afk"));
         } else {
