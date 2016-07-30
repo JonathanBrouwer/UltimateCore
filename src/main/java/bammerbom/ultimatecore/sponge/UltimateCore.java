@@ -24,11 +24,16 @@
 package bammerbom.ultimatecore.sponge;
 
 import bammerbom.ultimatecore.sponge.api.command.CommandService;
+import bammerbom.ultimatecore.sponge.api.event.module.ModuleInitializeEvent;
+import bammerbom.ultimatecore.sponge.api.event.module.ModulePostInitializeEvent;
+import bammerbom.ultimatecore.sponge.api.event.module.ModuleRegisterEvent;
+import bammerbom.ultimatecore.sponge.api.event.module.ModuleStoppingEvent;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
+import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import bammerbom.ultimatecore.sponge.config.serializers.ExtendedLocationSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
@@ -47,6 +52,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
@@ -93,6 +99,7 @@ public class UltimateCore {
             Messages.reloadEnglishMessages();
             TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ExtendedLocation.class), new ExtendedLocationSerializer());
             GeneralConfig.reload();
+            CommandsConfig.preload();
             Messages.reloadCustomMessages();
             //Load services
             moduleService = new UCModuleService();
@@ -109,7 +116,11 @@ public class UltimateCore {
                 if (f.getName().endsWith(".jar") || f.getName().endsWith(".ucmodule")) {
                     Optional<Module> module = moduleService.load(f);
                     if (module.isPresent()) {
-                        Messages.log(Messages.getFormatted("core.load.module.registered", "%module%", module.get().getIdentifier()));
+                        if(moduleService.registerModule(module.get())) {
+                            Messages.log(Messages.getFormatted("core.load.module.registered", "%module%", module.get().getIdentifier()));
+                        }else{
+                            Messages.log(Messages.getFormatted("core.load.module.blocked", "%module%", module.get().getIdentifier()));
+                        }
                     } else {
                         Messages.log(Messages.getFormatted("core.load.module.failed", "%module%", f.getName()));
                     }
@@ -140,6 +151,8 @@ public class UltimateCore {
 
             //Initialize modules
             for (Module module : moduleService.getRegisteredModules()) {
+                ModuleInitializeEvent event = new ModuleInitializeEvent(module, ev, Cause.builder().owner(this).build());
+                Sponge.getEventManager().post(event);
                 module.onInit(ev);
             }
             //
@@ -155,10 +168,14 @@ public class UltimateCore {
     public void onPostInit(GamePostInitializationEvent ev) {
         try {
             Long time = System.currentTimeMillis();
+            //All commands should be registered by now
+            CommandsConfig.postload();
             //Send stats
             Stats.start();
             //Post-initialize modules
             for (Module module : moduleService.getRegisteredModules()) {
+                ModulePostInitializeEvent event = new ModulePostInitializeEvent(module, ev, Cause.builder().owner(this).build());
+                Sponge.getEventManager().post(event);
                 module.onPostInit(ev);
             }
             //
@@ -171,11 +188,13 @@ public class UltimateCore {
     }
 
     @Listener
-    public void onGameStop(GameStoppingEvent ev) {
+    public void onStopping(GameStoppingEvent ev) {
         try {
             Long time = System.currentTimeMillis();
             //Stop modules
             for (Module module : moduleService.getRegisteredModules()) {
+                ModuleStoppingEvent event = new ModuleStoppingEvent(module, ev, Cause.builder().owner(this).build());
+                Sponge.getEventManager().post(event);
                 module.onStop(ev);
             }
             //

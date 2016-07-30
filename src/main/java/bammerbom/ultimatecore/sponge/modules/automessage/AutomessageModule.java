@@ -24,9 +24,11 @@
 package bammerbom.ultimatecore.sponge.modules.automessage;
 
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.scoreboard.objective.Objective;
 
 import java.util.Optional;
 
@@ -37,12 +39,12 @@ public class AutomessageModule implements Module {
     }
 
     @Override
-    public Optional<Object> getApi() {
+    public Optional<? extends Object> getApi() {
         return null;
     }
 
     @Override
-    public Optional<Object> getConfig() {
+    public Optional<? extends ModuleConfig> getConfig() {
         return null;
     }
 

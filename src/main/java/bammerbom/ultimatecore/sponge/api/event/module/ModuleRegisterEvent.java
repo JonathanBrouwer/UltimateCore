@@ -38,6 +38,7 @@ import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
  * When this is cancelled, the module will not be registered.
  */
 public class ModuleRegisterEvent extends ModuleEvent implements Cancellable {
+    boolean cancelled;
     public ModuleRegisterEvent(Module module, Cause cause) {
         super(module, cause);
     }
@@ -49,7 +50,7 @@ public class ModuleRegisterEvent extends ModuleEvent implements Cancellable {
      */
     @Override
     public boolean isCancelled() {
-        return false;
+        return cancelled;
     }
 
     /**
@@ -59,6 +60,6 @@ public class ModuleRegisterEvent extends ModuleEvent implements Cancellable {
      */
     @Override
     public void setCancelled(boolean cancel) {
-
+        cancelled = cancel;
     }
 }

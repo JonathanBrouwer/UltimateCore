@@ -24,4 +24,5 @@
 package bammerbom.ultimatecore.sponge.config;
 
 public class ModulesConfig {
+    //TODO forced enable
 }

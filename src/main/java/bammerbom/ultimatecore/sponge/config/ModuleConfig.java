@@ -21,12 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.afk.api;
+package bammerbom.ultimatecore.sponge.config;
 
-import bammerbom.ultimatecore.sponge.api.user.Key;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
-public class AfkKeys {
-    public static Key.User.Online<Boolean> IS_AFK = new Key.User.Online<>("afk", false);
-    public static Key.User.Online<Long> AFK_TIME = new Key.User.Online<>("afk_time", null);
-    public static Key.User.Online<String> AFK_MESSAGE = new Key.User.Online<>("afk_message", null);
+import java.nio.file.Path;
+
+public interface ModuleConfig {
+    /**
+     * Reload the {@link CommentedConfigurationNode} from the file.
+     */
+    void reload();
+
+    /**
+     * Gets the {@link Path} where this config file is located.
+     * @return The path
+     */
+    Path getPath();
+
+    /**
+     * Get the {@link CommentedConfigurationNode} for this config.
+     * @return The {@link CommentedConfigurationNode}.
+     */
+    CommentedConfigurationNode get();
 }

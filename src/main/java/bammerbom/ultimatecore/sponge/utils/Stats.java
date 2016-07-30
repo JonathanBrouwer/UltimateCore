@@ -49,7 +49,7 @@ public class Stats {
             return;
         }
         started = true;
-        if(!GeneralConfig.get().getNode("stats", "enabled").getBoolean()){
+        if (!GeneralConfig.get().getNode("stats", "enabled").getBoolean()) {
             return;
         }
         Sponge.getScheduler().createTaskBuilder().name("UC stats task").delay(20, TimeUnit.SECONDS).interval(30, TimeUnit.MINUTES).execute(Stats::send).submit(UltimateCore.get());

@@ -24,9 +24,13 @@
 package bammerbom.ultimatecore.sponge.impl.module;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.event.module.ModuleRegisterEvent;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -70,11 +74,16 @@ public class UCModuleService implements ModuleService {
     /**
      * Registers a new module
      *
-     * @param module
-     * @return
+     * @param module The module to register
+     * @return Whether it was successfully registered
      */
     @Override
     public boolean registerModule(Module module) {
+        ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().owner(UltimateCore.get()).build());
+        Sponge.getEventManager().post(event);
+        if(event.isCancelled()){
+            return false;
+        }
         modules.add(module);
         return true;
     }
@@ -87,7 +96,7 @@ public class UCModuleService implements ModuleService {
      */
     @Override
     public boolean unregisterModule(String id) {
-        return getModule(id).isPresent() ? unregisterModule(getModule(id).get()) : false;
+        return getModule(id).isPresent() && unregisterModule(getModule(id).get());
     }
 
     /**
@@ -106,7 +115,7 @@ public class UCModuleService implements ModuleService {
     }
 
     /**
-     * This loads module, registers it at the ModuleService and calls the onRegister() method for the module.
+     * This gets an Module instance from a jar file. This does not register it.
      *
      * @param file The .jar file for the module
      * @return The module, or Optional.empty() if not found
@@ -142,8 +151,6 @@ public class UCModuleService implements ModuleService {
             if (keys.containsKey("main")) {
                 Object omodule = cl.loadClass(keys.get("main")).getConstructors()[0].newInstance();
                 Module module = (Module) omodule;
-                UltimateCore.get().getModuleService().registerModule(module);
-                module.onRegister();
                 return Optional.of(module);
             } else {
                 Messages.log("The ucmodule.info file of " + file.getName() + " doesn't contain a main class reference.");

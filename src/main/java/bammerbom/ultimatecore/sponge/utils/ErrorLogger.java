@@ -53,13 +53,12 @@ public class ErrorLogger {
         Messages.log(Text.of(TextColors.RED, "Please report your error on "));
         Messages.log(Text.of(TextColors.YELLOW, "https://github.com/Bammerbom/UltimateCore/issues"));
         Messages.log(Text.of(TextColors.RED, "Include the file: "));
-        Messages.log(Text.of(TextColors.YELLOW, "mods/UltimateCore/Errors/" + time + ".txt "));
+        Messages.log(Text.of(TextColors.YELLOW, "config/ultimatecore/errors/" + time + ".txt "));
         Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
-        if (t instanceof Exception) {
-            Messages.log(Text.of(TextColors.RED, "Stacktrace: "));
-            t.printStackTrace();
-            Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
-        }
+        Messages.log(Text.of(TextColors.RED, "Stacktrace: "));
+        t.printStackTrace();
+        Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
+
         Sponge.getServer().getConsole().sendMessage(Text.of(" "));
         //SEND TO UC
         if (!GeneralConfig.get().getNode("errors", "enabled").getBoolean()) {

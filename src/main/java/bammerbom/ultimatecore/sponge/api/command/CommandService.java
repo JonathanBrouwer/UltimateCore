@@ -48,8 +48,9 @@ public interface CommandService {
      * Register a new {@link Command}.
      *
      * @param command The command to register
+     * @return Whether the command was successfully registered
      */
-    void register(Command command);
+    boolean register(Command command);
 
     /**
      * Unregisters the given {@link Command}.

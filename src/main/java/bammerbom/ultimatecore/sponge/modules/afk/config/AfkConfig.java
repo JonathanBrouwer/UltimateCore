@@ -21,9 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config;
+package bammerbom.ultimatecore.sponge.modules.afk.config;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -36,18 +37,19 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public class GeneralConfig {
-    private static Path path = new File(UltimateCore.get().getDataFolder().toFile(), "general.conf").toPath();
-    private static CommentedConfigurationNode node;
+public class AfkConfig implements ModuleConfig {
+    private static Path path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "modules/", "afk.conf").toPath();
+    CommentedConfigurationNode node;
 
-    public static void reload() {
+    @Override
+    public void reload() {
         try {
             File file = path.toFile();
             if (!file.exists()) {
                 file.getParentFile().mkdirs();
-                Optional<Asset> asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/general.conf");
+                Optional<Asset> asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/modules/afk.conf");
                 if (!asset.isPresent()) {
-                    Messages.log(Messages.getFormatted("core.config.invalidjar", "%conf%", "general.conf"));
+                    Messages.log(Messages.getFormatted("core.config.invalidjar", "%conf%", "modules/afk.conf"));
                     return;
                 }
                 asset.get().copyToFile(path);
@@ -56,12 +58,18 @@ public class GeneralConfig {
             ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(path).build();
             node = loader.load();
         } catch (IOException e) {
-            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "general.conf"));
+            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules/afk.conf"));
             e.printStackTrace();
         }
     }
 
-    public static CommentedConfigurationNode get() {
+    @Override
+    public Path getPath() {
+        return path;
+    }
+
+    @Override
+    public CommentedConfigurationNode get() {
         return node;
     }
 }

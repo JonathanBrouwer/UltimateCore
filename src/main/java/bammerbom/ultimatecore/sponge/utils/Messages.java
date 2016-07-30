@@ -41,12 +41,12 @@ public class Messages {
     private static Map<String, String> EN_US = new HashMap<>();
     private static Map<String, String> custom = new HashMap<>();
 
-    public static void reloadMessages(){
+    public static void reloadMessages() {
         reloadEnglishMessages();
         reloadCustomMessages();
     }
 
-    public static void reloadEnglishMessages(){
+    public static void reloadEnglishMessages() {
         try {
             EN_US = loadFromFile("EN_US");
         } catch (IOException e) {
@@ -57,8 +57,8 @@ public class Messages {
 
     public static void reloadCustomMessages() {
         String lang = GeneralConfig.get().getNode("language", "language").getString();
-        if(lang.equals("EN_US")){
-           return;
+        if (lang.equals("EN_US")) {
+            return;
         }
         try {
             custom = loadFromFile(lang);

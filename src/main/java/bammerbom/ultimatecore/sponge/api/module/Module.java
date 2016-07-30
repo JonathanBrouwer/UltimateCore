@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.module;
 
+import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -40,13 +41,14 @@ public interface Module {
     /**
      * This should return a class containing all api methods this module provides, or Optional.empty() when not available.
      * This is only used for not player-specific data, like warps.
+     * //TODO special interface?
      */
-    Optional<Object> getApi();
+    Optional<? extends Object> getApi();
 
     /**
      * This should return the config this module provides, or Optional.empty() when not available.
      */
-    Optional<Object> getConfig();
+    Optional<? extends ModuleConfig> getConfig();
 
     /**
      * Called when the module is registered, normally during Pre-initialization.
