@@ -23,5 +23,16 @@
  */
 package bammerbom.ultimatecore.sponge.api.event.data;
 
-public class DataRetrieveEvent {
+import bammerbom.ultimatecore.sponge.api.user.Key;
+import org.spongepowered.api.event.cause.Cause;
+
+import javax.annotation.Nullable;
+
+/**
+ * An event where the value associated with a {@link Key} is retrieved.
+ */
+public class DataRetrieveEvent<C> extends DataEvent<C> {
+    public DataRetrieveEvent(Key<C> key, @Nullable C value, Cause cause) {
+        super(key, value, cause);
+    }
 }

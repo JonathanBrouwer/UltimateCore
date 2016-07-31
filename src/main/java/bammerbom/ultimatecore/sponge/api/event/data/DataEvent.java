@@ -23,5 +23,50 @@
  */
 package bammerbom.ultimatecore.sponge.api.event.data;
 
-public class DataEvent {
+import bammerbom.ultimatecore.sponge.api.user.Key;
+import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.cause.Cause;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
+
+/**
+ * An event where a {@link Key} and it's value is involved.
+ */
+public class DataEvent<C> implements Event {
+    protected Key<C> key;
+    protected C orgvalue;
+    protected C value;
+    protected Cause cause;
+    public DataEvent(Key<C> key, @Nullable C value, Cause cause) {
+        this.key = key;
+        this.orgvalue = value;
+        this.value = value;
+        this.cause = cause;
+    }
+
+    public Key getKey() {
+        return key;
+    }
+
+    public Optional<C> getOriginalValue(){
+        return Optional.ofNullable(orgvalue);
+    }
+
+    public Optional<C> getValue(){
+        return Optional.ofNullable(value);
+    }
+
+    /**
+     * Set the value, this will not actually change the value associated with the key.
+     * @param value The value to set it to
+     */
+    public void setValue(C value){
+        this.value = value;
+    }
+
+    @Override
+    public Cause getCause() {
+        return cause;
+    }
 }

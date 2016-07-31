@@ -24,9 +24,12 @@
 package bammerbom.ultimatecore.sponge.api.user;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
+import bammerbom.ultimatecore.sponge.api.event.data.DataRetrieveEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.service.user.UserStorageService;
 
 import java.util.HashMap;
@@ -35,7 +38,7 @@ import java.util.UUID;
 
 public class UltimateUser {
 
-    private HashMap<String, Object> datas = new HashMap<>();
+    public HashMap<String, Object> datas = new HashMap<>();
     private UUID uuid; //TODO uuid or user?
 
     public UltimateUser(User user) {
@@ -84,10 +87,15 @@ public class UltimateUser {
         if (!isCompatible(key)) {
             return Optional.empty();
         }
+        Optional<C> rtrn;
         if (!datas.containsKey(key.getIdentifier())) {
-            return key.getDefaultValue();
+            rtrn = key.getDefaultValue();
+        }else {
+            rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
         }
-        return Optional.of((C) datas.get(key.getIdentifier()));
+        DataRetrieveEvent<C> event = new DataRetrieveEvent<C>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.get()).build());
+        Sponge.getEventManager().post(event);
+        return event.getValue();
     }
 
     /**
@@ -101,10 +109,15 @@ public class UltimateUser {
         if (!isCompatible(key)) {
             return Optional.empty();
         }
+        Optional<C> rtrn;
         if (!datas.containsKey(key.getIdentifier())) {
-            return Optional.empty();
+            rtrn = Optional.empty();
+        }else {
+            rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
         }
-        return Optional.of((C) datas.get(key.getIdentifier()));
+        DataRetrieveEvent<C> event = new DataRetrieveEvent<C>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.get()).build());
+        Sponge.getEventManager().post(event);
+        return event.getValue();
     }
 
     /**
@@ -130,22 +143,18 @@ public class UltimateUser {
         if (!isCompatible(key)) {
             return false;
         }
-        datas.put(key.getIdentifier(), value);
-        return UltimateCore.get().getUserService().addToCache(this);
-    }
-
-    /**
-     * Remove a key from the user.
-     *
-     * @param key The key to remove
-     * @param <C> The type of value the key holds
-     * @return The type of value the key had, or {@link Optional#empty()} when the key had no value or is incompatible
-     */
-    public <C> Optional<C> remove(Key<C> key) {
-        if (!isCompatible(key)) {
-            return Optional.empty();
+        DataOfferEvent<C> event = new DataOfferEvent<C>(key, (C) datas.get(key.getIdentifier()), value, Cause.builder().owner(UltimateCore.get()).build());
+        Sponge.getEventManager().post(event);
+        if(event.isCancelled()){
+            return false;
         }
-        return Optional.ofNullable((C) datas.remove(key.getIdentifier()));
+        value = event.getValue().orElse(null);
+        if(value == null){
+            datas.remove(key.getIdentifier());
+        }else {
+            datas.put(key.getIdentifier(), value);
+        }
+        return UltimateCore.get().getUserService().addToCache(this);
     }
 }
 
