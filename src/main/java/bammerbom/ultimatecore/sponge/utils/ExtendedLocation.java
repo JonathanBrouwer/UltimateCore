@@ -73,4 +73,34 @@ public class ExtendedLocation {
         return rotation.getZ();
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof ExtendedLocation)) {
+            return false;
+        }
+        ExtendedLocation eloc = (ExtendedLocation) object;
+        if (!(eloc.getLocation().getExtent().getUniqueId() == location.getExtent().getUniqueId())) {
+            return false;
+        }
+        if (!(eloc.getLocation().getX() == location.getX())) {
+            return false;
+        }
+        if (!(eloc.getLocation().getY() == location.getY())) {
+            return false;
+        }
+        if (!(eloc.getLocation().getZ() == location.getZ())) {
+            return false;
+        }
+        if (!(eloc.getRotation().getX() == rotation.getX())) {
+            return false;
+        }
+        if (!(eloc.getRotation().getY() == rotation.getY())) {
+            return false;
+        }
+        if (!(eloc.getRotation().getZ() == rotation.getZ())) {
+            return false;
+        }
+        return true;
+    }
+
 }

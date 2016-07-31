@@ -24,9 +24,11 @@
 package bammerbom.ultimatecore.sponge.modules.afk.api;
 
 import bammerbom.ultimatecore.sponge.api.user.Key;
+import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 
 public class AfkKeys {
     public static Key.User.Online<Boolean> IS_AFK = new Key.User.Online<>("afk", false);
     public static Key.User.Online<Long> AFK_TIME = new Key.User.Online<>("afk_time", null);
     public static Key.User.Online<String> AFK_MESSAGE = new Key.User.Online<>("afk_message", null);
+    public static Key.User.Online<ExtendedLocation> LAST_LOCATION = new Key.User.Online<>("afk_lastlocation", null);
 }

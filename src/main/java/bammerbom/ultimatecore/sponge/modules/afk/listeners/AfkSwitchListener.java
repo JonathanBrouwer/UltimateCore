@@ -36,7 +36,7 @@ import org.spongepowered.api.event.Order;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.title.Title;
 
-public class AfkListener {
+public class AfkSwitchListener {
     @Listener(order = Order.LAST)
     public void onAfkSwitch(DataOfferEvent<Boolean> event) {
         if (event.getKey().equals(AfkKeys.IS_AFK) && event.getValue().isPresent()) {
@@ -67,11 +67,17 @@ public class AfkListener {
                         //TODO refresh?
                         player.sendTitle(Title.builder().title(title).fadeIn(20).fadeOut(20).stay(config.getNode("title", "subtitle-refresh").getInt()).build());
                     }
+                    //Make sure the player is not un-afked instantly
+                    AfkDetectionListener.afktime.put(player.getUniqueId(), 0L);
                 } else {
                     //Player is no longer afk
                     player.sendTitle(Title.builder().clear().build());
+                    //Make sure the player is not afked instantly
+                    AfkDetectionListener.afktime.put(player.getUniqueId(), System.currentTimeMillis());
                 }
             }
         }
     }
+
+
 }

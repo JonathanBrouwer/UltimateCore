@@ -27,8 +27,9 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.afk.commands.AfkCommand;
 import bammerbom.ultimatecore.sponge.modules.afk.config.AfkConfig;
-import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkListener;
-import bammerbom.ultimatecore.sponge.modules.afk.runnable.AfkTask;
+import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
+import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkSwitchListener;
+import bammerbom.ultimatecore.sponge.modules.afk.runnable.AfkTitleTask;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -71,11 +72,12 @@ public class AfkModule implements Module {
         //Commands
         UltimateCore.get().getCommandService().register(new AfkCommand());
         //Listeners
-        Sponge.getEventManager().registerListeners(UltimateCore.get(), new AfkListener());
+        Sponge.getEventManager().registerListeners(UltimateCore.get(), new AfkSwitchListener());
+        AfkDetectionListener.start();
         //Runnables
         if (config.get().getNode("title", "enabled").getBoolean(true)) {
-            Sponge.getScheduler().createTaskBuilder().intervalTicks(config.get().getNode("title", "subtitle-refresh").getLong()).name("UC afk task").execute(new AfkTask()).submit
-                    (UltimateCore.get());
+            Sponge.getScheduler().createTaskBuilder().intervalTicks(config.get().getNode("title", "subtitle-refresh").getLong()).name("UC afk title task").execute(new AfkTitleTask())
+                    .submit(UltimateCore.get());
 
         }
     }

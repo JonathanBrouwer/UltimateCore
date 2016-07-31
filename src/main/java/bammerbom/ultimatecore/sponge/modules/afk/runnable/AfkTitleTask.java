@@ -36,7 +36,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.title.Title;
 
-public class AfkTask implements Runnable {
+public class AfkTitleTask implements Runnable {
     @Override
     public void run() {
         CommentedConfigurationNode config = Modules.AFK.get().getConfig().get().get();
@@ -46,10 +46,10 @@ public class AfkTask implements Runnable {
                 Text title = Messages.getFormatted("afk.title.title");
                 Text subtitle;
                 long timediff = (config.getNode("time", "kicktime").getInt() * 1000) - (System.currentTimeMillis() - user.get(AfkKeys.AFK_TIME).get());
-                if (timediff <= 0) {
+                if (config.getNode("time", "kicktime").getInt() != -1 && timediff <= 0 && !player.hasPermission(AfkPermissions.UC_AFK_EXEMPT.get())) {
                     player.kick(Messages.getFormatted("afk.kick.reason"));
                 }
-                if (player.hasPermission(AfkPermissions.UC_AFK_EXEMPT.get())) {
+                if (player.hasPermission(AfkPermissions.UC_AFK_EXEMPT.get()) || config.getNode("time", "kicktime").getInt() == -1) {
                     subtitle = Messages.getFormatted("afk.title.subtitle.exempt");
                 } else if (config.getNode("title", "subtitle-show-seconds").getBoolean(true)) {
                     subtitle = Messages.getFormatted("afk.title.subtitle.kick", "%time%", TimeUtil.format(timediff, 3, null));
