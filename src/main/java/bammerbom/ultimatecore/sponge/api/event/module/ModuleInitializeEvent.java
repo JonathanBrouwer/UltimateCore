@@ -33,6 +33,7 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
  */
 public class ModuleInitializeEvent extends ModuleEvent {
     private GameInitializationEvent event;
+
     public ModuleInitializeEvent(Module module, GameInitializationEvent event, Cause cause) {
         super(module, cause);
         this.event = event;

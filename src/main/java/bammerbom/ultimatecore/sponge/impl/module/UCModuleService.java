@@ -30,7 +30,6 @@ import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -81,7 +80,7 @@ public class UCModuleService implements ModuleService {
     public boolean registerModule(Module module) {
         ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().owner(UltimateCore.get()).build());
         Sponge.getEventManager().post(event);
-        if(event.isCancelled()){
+        if (event.isCancelled()) {
             return false;
         }
         modules.add(module);

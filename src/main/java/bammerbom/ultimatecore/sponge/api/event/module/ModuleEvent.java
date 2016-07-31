@@ -34,7 +34,7 @@ public class ModuleEvent implements Event {
     private Cause cause;
     private Module module;
 
-    public ModuleEvent(Module module, Cause cause){
+    public ModuleEvent(Module module, Cause cause) {
         this.module = module;
         this.cause = cause;
     }

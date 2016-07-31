@@ -60,7 +60,7 @@ public class UCCommandCallable implements CommandCallable {
     @Override
     public CommandResult process(CommandSource source, String arguments) throws CommandException {
         String[] args = arguments.split(" ");
-        if(arguments.isEmpty()){
+        if (arguments.isEmpty()) {
             args = new String[0];
         }
         return command.run(source, args);

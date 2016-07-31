@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
-import org.spongepowered.api.scoreboard.objective.Objective;
 
 import java.util.Optional;
 

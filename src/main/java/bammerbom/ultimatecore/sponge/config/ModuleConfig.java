@@ -35,12 +35,14 @@ public interface ModuleConfig {
 
     /**
      * Gets the {@link Path} where this config file is located.
+     *
      * @return The path
      */
     Path getPath();
 
     /**
      * Get the {@link CommentedConfigurationNode} for this config.
+     *
      * @return The {@link CommentedConfigurationNode}.
      */
     CommentedConfigurationNode get();

@@ -43,5 +43,5 @@ public enum PermissionLevel {
     OWNER, /**
      * Permissions that no-one should have, or do not fit in any other {@link PermissionLevel}
      */
-    OTHERS;
+    NOBODY
 }

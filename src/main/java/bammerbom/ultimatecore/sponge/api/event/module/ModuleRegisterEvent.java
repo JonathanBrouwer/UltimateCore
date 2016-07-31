@@ -27,18 +27,17 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 
 /**
  * This is called before a module is registered.
  * Normally, this is called during {@link GamePreInitializationEvent}
- *
+ * <p>
  * When this is cancelled, the module will not be registered.
  */
 public class ModuleRegisterEvent extends ModuleEvent implements Cancellable {
     boolean cancelled;
+
     public ModuleRegisterEvent(Module module, Cause cause) {
         super(module, cause);
     }

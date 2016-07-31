@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.sponge.api.event.module;
 
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 
 /**
@@ -34,6 +33,7 @@ import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
  */
 public class ModulePostInitializeEvent extends ModuleEvent {
     private GamePostInitializationEvent event;
+
     public ModulePostInitializeEvent(Module module, GamePostInitializationEvent event, Cause cause) {
         super(module, cause);
         this.event = event;

@@ -30,7 +30,7 @@ public class CommandEvent implements Event {
 
     private Cause cause;
 
-    public CommandEvent(Cause cause){
+    public CommandEvent(Cause cause) {
         this.cause = cause;
     }
 

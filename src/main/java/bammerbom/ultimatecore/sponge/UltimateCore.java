@@ -26,7 +26,6 @@ package bammerbom.ultimatecore.sponge;
 import bammerbom.ultimatecore.sponge.api.command.CommandService;
 import bammerbom.ultimatecore.sponge.api.event.module.ModuleInitializeEvent;
 import bammerbom.ultimatecore.sponge.api.event.module.ModulePostInitializeEvent;
-import bammerbom.ultimatecore.sponge.api.event.module.ModuleRegisterEvent;
 import bammerbom.ultimatecore.sponge.api.event.module.ModuleStoppingEvent;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
@@ -35,7 +34,6 @@ import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
 import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.config.ModulesConfig;
 import bammerbom.ultimatecore.sponge.config.serializers.ExtendedLocationSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
@@ -119,9 +117,9 @@ public class UltimateCore {
                 if (f.getName().endsWith(".jar") || f.getName().endsWith(".ucmodule")) {
                     Optional<Module> module = moduleService.load(f);
                     if (module.isPresent()) {
-                        if(moduleService.registerModule(module.get())) {
+                        if (moduleService.registerModule(module.get())) {
                             Messages.log(Messages.getFormatted("core.load.module.registered", "%module%", module.get().getIdentifier()));
-                        }else{
+                        } else {
                             Messages.log(Messages.getFormatted("core.load.module.blocked", "%module%", module.get().getIdentifier()));
                         }
                     } else {

@@ -51,7 +51,7 @@ public class DataOfferEvent<C> extends DataEvent<C> implements Cancellable {
         cancelled = cancel;
     }
 
-    public C getOverriddenValue(){
+    public C getOverriddenValue() {
         return prevalue;
     }
 }
