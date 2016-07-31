@@ -28,10 +28,14 @@ import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
 import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
@@ -85,21 +89,42 @@ public class AfkCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
-            return CommandResult.empty();
-        }
+        //Permission check
         if(!sender.hasPermission(AfkPermissions.UC_AFK.get())){
             sender.sendMessage(Messages.getFormatted("core.nopermissions", "%permission%", AfkPermissions.UC_AFK.get()));
             return CommandResult.empty();
         }
+        //Get the user
+        UltimateUser user;
+        if(args.length >= 1 && Sponge.getServer().getPlayer(args[0]).isPresent()){
+            user = UltimateCore.get().getUserService().getUser(Sponge.getServer().getPlayer(args[0]).get());
+        }else{
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
+                return CommandResult.empty();
+            }
+            user = UltimateCore.get().getUserService().getUser((Player) sender);
+        }
         //No isPresent() needed because IS_AFK has a default value
-        boolean isafk = UltimateCore.get().getUserService().getUser((Player) sender).get(AfkKeys.IS_AFK).get();
-
-        if (UltimateCore.get().getUserService().getUser((Player) sender).offer(AfkKeys.IS_AFK, !isafk)) {
-            sender.sendMessage(Text.of("You are now " + (isafk ? "no longer " : "") + "afk"));
+        boolean newafk = !user.get(AfkKeys.IS_AFK).get();
+        if (user.offer(AfkKeys.IS_AFK, newafk)) {
+            if(newafk){
+                user.offer(AfkKeys.AFK_TIME, System.currentTimeMillis());
+                if(args.length >= 2 || (args.length >= 1 && !Sponge.getServer().getPlayer(args[0]).isPresent())){
+                    String message = StringUtil.getFinalArg(args, Sponge.getServer().getPlayer(args[0]).isPresent() ? 1 : 0);
+                    user.offer(AfkKeys.AFK_MESSAGE, message);
+                    Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.afk.message", "%player%", user.getUser().getName(), "%message%", message));
+                }else {
+                    Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.afk", "%player%", user.getUser().getName()));
+                }
+            }else{
+                Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.nolonger", "%player%", user.getUser().getName(), "%time%", TimeUtil
+                        .formatDateDiff(user.get(AfkKeys.AFK_TIME).get())));
+                user.offer(AfkKeys.AFK_TIME, null);
+                user.offer(AfkKeys.AFK_MESSAGE, null);
+            }
         } else {
-            sender.sendMessage(Text.of("Inserting data failed!"));
+            sender.sendMessage(Messages.getFormatted("afk.command.afk.datafailed"));
         }
         return CommandResult.success();
     }

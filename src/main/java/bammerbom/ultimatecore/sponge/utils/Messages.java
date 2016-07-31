@@ -199,6 +199,7 @@ public class Messages {
                     var = TextSerializers.JSON.serialize(text); //TODO does this work?
                 }
                 raw = raw.replace(first, var.toString());
+                first = null;
             }
         }
         return raw;

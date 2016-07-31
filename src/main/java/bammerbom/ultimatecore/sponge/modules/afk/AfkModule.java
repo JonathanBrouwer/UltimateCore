@@ -46,7 +46,7 @@ public class AfkModule implements Module {
     }
 
     @Override
-    public Optional<Object> getApi() {
+    public Optional<? extends Object> getApi() {
         return Optional.empty();
     }
 
