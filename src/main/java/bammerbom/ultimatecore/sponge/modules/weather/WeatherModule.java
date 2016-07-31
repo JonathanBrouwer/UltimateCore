@@ -23,8 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.weather;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.weather.commands.WeatherCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -54,7 +56,7 @@ public class WeatherModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-
+        UltimateCore.get().getCommandService().register(new WeatherCommand());
     }
 
     @Override
