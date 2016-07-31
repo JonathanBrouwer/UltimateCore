@@ -29,20 +29,17 @@ import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.asset.Asset;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Optional;
 
 public class CommandsConfig {
     private static Path path = new File(UltimateCore.get().getDataFolder().toFile(), "commands.conf").toPath();
     private static ConfigurationLoader<CommentedConfigurationNode> loader;
     private static CommentedConfigurationNode node;
 
-    public static void preload(){
+    public static void preload() {
         try {
             File file = path.toFile();
             if (!file.exists()) {
@@ -60,9 +57,9 @@ public class CommandsConfig {
     public static void postload() {
         try {
             boolean modified = false;
-            for(Command cmd : UltimateCore.get().getCommandService().getCommands()){
+            for (Command cmd : UltimateCore.get().getCommandService().getCommands()) {
                 CommentedConfigurationNode cmdnode = node.getNode("commands", cmd.getIdentifier());
-                if(cmdnode.getNode("enabled").getValue() == null){
+                if (cmdnode.getNode("enabled").getValue() == null) {
                     modified = true;
                     cmdnode.setComment(cmd.getShortDescription().toPlain());
                     cmdnode.getNode("enabled").setValue(true);
@@ -71,7 +68,7 @@ public class CommandsConfig {
                     //TODO more options?
                 }
             }
-            if(modified) {
+            if (modified) {
                 loader.save(node);
             }
         } catch (IOException e) {

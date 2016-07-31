@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.utils;
 
+import javax.annotation.Nullable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
@@ -80,11 +81,11 @@ public class TimeUtil {
         }
     }
 
-    static boolean isInt(String time){
-        try{
+    static boolean isInt(String time) {
+        try {
             Integer.parseInt(time);
             return true;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return false;
         }
     }
@@ -103,21 +104,21 @@ public class TimeUtil {
     }
 
     public static String formatDateDiff(long date) {
-        return formatDateDiff(date, 3);
+        return formatDateDiff(date, 3, null);
     }
 
-    public static String formatDateDiff(long date, int maxacc) {
+    public static String formatDateDiff(long date, int maxacc, Integer disable) {
         Calendar c = new GregorianCalendar();
         c.setTimeInMillis(date);
         Calendar now = new GregorianCalendar();
-        return formatDateDiff(now, c, maxacc);
+        return formatDateDiff(now, c, maxacc, disable);
     }
 
     public static String formatDateDiff(Calendar fromDate, Calendar toDate) {
-        return formatDateDiff(fromDate, toDate, 3);
+        return formatDateDiff(fromDate, toDate, 3, null);
     }
 
-    public static String formatDateDiff(Calendar fromDate, Calendar toDate, int maxacc) {
+    public static String formatDateDiff(Calendar fromDate, Calendar toDate, int maxacc, @Nullable Integer disable) {
         boolean future = false;
         if (toDate.equals(fromDate)) {
             return Messages.getColored("core.time.now");
@@ -140,7 +141,11 @@ public class TimeUtil {
             int diff = dateDiff(types[i], fromDate, toDate, future);
             if (diff > 0) {
                 accuracy++;
-                sb.append(" ").append(diff).append(" ").append(names[((i * 2) + (diff == 1 ? 1 : 0))]);
+                int name = ((i * 2) + (diff == 1 ? 1 : 0));
+                if (disable != null && name >= disable) {
+                    continue;
+                }
+                sb.append(" ").append(diff).append(" ").append(names[name]);
             }
         }
         if (sb.length() == 0) {
@@ -150,14 +155,14 @@ public class TimeUtil {
     }
 
     public static String format(long date) {
-        return format(date, 3);
+        return format(date, 3, null);
     }
 
-    public static String format(long date, int maxacc) {
+    public static String format(long date, int maxacc, Integer disable) {
         Calendar c = new GregorianCalendar();
         c.setTimeInMillis(date + System.currentTimeMillis());
         Calendar now = new GregorianCalendar();
-        return formatDateDiff(now, c, maxacc);
+        return formatDateDiff(now, c, maxacc, disable);
     }
 
 }

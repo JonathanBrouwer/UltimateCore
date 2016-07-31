@@ -21,14 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.afk;
+package bammerbom.ultimatecore.sponge.defaultmodule;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.modules.afk.commands.AfkCommand;
-import bammerbom.ultimatecore.sponge.modules.afk.config.AfkConfig;
-import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkListener;
-import bammerbom.ultimatecore.sponge.modules.afk.runnable.AfkTask;
+import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.defaultmodule.listeners.DefaultListener;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -36,16 +34,10 @@ import org.spongepowered.api.event.game.state.GameStoppingEvent;
 
 import java.util.Optional;
 
-public class AfkModule implements Module {
-
-    //TODO is back after x time
-    //TODO "user may not respond" with chat/pm to user
-
-    AfkConfig config;
-
+public class DefaultModule implements Module {
     @Override
     public String getIdentifier() {
-        return "afk";
+        return "default";
     }
 
     @Override
@@ -54,8 +46,8 @@ public class AfkModule implements Module {
     }
 
     @Override
-    public Optional<AfkConfig> getConfig() {
-        return Optional.of(config);
+    public Optional<? extends ModuleConfig> getConfig() {
+        return Optional.empty();
     }
 
     @Override
@@ -65,19 +57,7 @@ public class AfkModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Config
-        config = new AfkConfig();
-        config.reload();
-        //Commands
-        UltimateCore.get().getCommandService().register(new AfkCommand());
-        //Listeners
-        Sponge.getEventManager().registerListeners(UltimateCore.get(), new AfkListener());
-        //Runnables
-        if (config.get().getNode("title", "enabled").getBoolean(true)) {
-            Sponge.getScheduler().createTaskBuilder().intervalTicks(config.get().getNode("title", "subtitle-refresh").getLong()).name("UC afk task").execute(new AfkTask()).submit
-                    (UltimateCore.get());
-
-        }
+        Sponge.getEventManager().registerListeners(UltimateCore.get(), new DefaultListener());
     }
 
     @Override

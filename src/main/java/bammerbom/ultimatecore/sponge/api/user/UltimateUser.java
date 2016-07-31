@@ -30,14 +30,14 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.service.user.UserStorageService;
 
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class UltimateUser {
 
+    public static List<String> onlinekeys = new ArrayList<>();
     public HashMap<String, Object> datas = new HashMap<>();
     private UUID uuid; //TODO uuid or user?
 
@@ -90,7 +90,7 @@ public class UltimateUser {
         Optional<C> rtrn;
         if (!datas.containsKey(key.getIdentifier())) {
             rtrn = key.getDefaultValue();
-        }else {
+        } else {
             rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
         }
         DataRetrieveEvent<C> event = new DataRetrieveEvent<C>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.get()).build());
@@ -112,7 +112,7 @@ public class UltimateUser {
         Optional<C> rtrn;
         if (!datas.containsKey(key.getIdentifier())) {
             rtrn = Optional.empty();
-        }else {
+        } else {
             rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
         }
         DataRetrieveEvent<C> event = new DataRetrieveEvent<C>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.get()).build());
@@ -143,15 +143,17 @@ public class UltimateUser {
         if (!isCompatible(key)) {
             return false;
         }
-        DataOfferEvent<C> event = new DataOfferEvent<C>(key, (C) datas.get(key.getIdentifier()), value, Cause.builder().owner(UltimateCore.get()).build());
+        Cause cause = getPlayer().isPresent() ? Cause.builder().owner(UltimateCore.get()).named(NamedCause.source(getPlayer().get())).build() : Cause.builder().owner(UltimateCore.get())
+                .named(NamedCause.source(getUser())).build();
+        DataOfferEvent<C> event = new DataOfferEvent<C>(key, (C) datas.get(key.getIdentifier()), value, cause);
         Sponge.getEventManager().post(event);
-        if(event.isCancelled()){
+        if (event.isCancelled()) {
             return false;
         }
         value = event.getValue().orElse(null);
-        if(value == null){
+        if (value == null) {
             datas.remove(key.getIdentifier());
-        }else {
+        } else {
             datas.put(key.getIdentifier(), value);
         }
         return UltimateCore.get().getUserService().addToCache(this);

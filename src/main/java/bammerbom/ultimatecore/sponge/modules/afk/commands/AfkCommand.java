@@ -90,15 +90,15 @@ public class AfkCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         //Permission check
-        if(!sender.hasPermission(AfkPermissions.UC_AFK.get())){
+        if (!sender.hasPermission(AfkPermissions.UC_AFK.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions", "%permission%", AfkPermissions.UC_AFK.get()));
             return CommandResult.empty();
         }
         //Get the user
         UltimateUser user;
-        if(args.length >= 1 && Sponge.getServer().getPlayer(args[0]).isPresent()){
+        if (args.length >= 1 && Sponge.getServer().getPlayer(args[0]).isPresent()) {
             user = UltimateCore.get().getUserService().getUser(Sponge.getServer().getPlayer(args[0]).get());
-        }else{
+        } else {
             if (!(sender instanceof Player)) {
                 sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
                 return CommandResult.empty();
@@ -108,18 +108,18 @@ public class AfkCommand implements Command {
         //No isPresent() needed because IS_AFK has a default value
         boolean newafk = !user.get(AfkKeys.IS_AFK).get();
         if (user.offer(AfkKeys.IS_AFK, newafk)) {
-            if(newafk){
+            if (newafk) {
                 user.offer(AfkKeys.AFK_TIME, System.currentTimeMillis());
-                if(args.length >= 2 || (args.length >= 1 && !Sponge.getServer().getPlayer(args[0]).isPresent())){
+                if (args.length >= 2 || (args.length >= 1 && !Sponge.getServer().getPlayer(args[0]).isPresent())) {
                     String message = StringUtil.getFinalArg(args, Sponge.getServer().getPlayer(args[0]).isPresent() ? 1 : 0);
                     user.offer(AfkKeys.AFK_MESSAGE, message);
                     Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.afk.message", "%player%", user.getUser().getName(), "%message%", message));
-                }else {
+                } else {
                     Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.afk", "%player%", user.getUser().getName()));
                 }
-            }else{
+            } else {
                 Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.nolonger", "%player%", user.getUser().getName(), "%time%", TimeUtil
-                        .formatDateDiff(user.get(AfkKeys.AFK_TIME).get())));
+                        .formatDateDiff(user.get(AfkKeys.AFK_TIME).get(), 2, null)));
                 user.offer(AfkKeys.AFK_TIME, null);
                 user.offer(AfkKeys.AFK_MESSAGE, null);
             }

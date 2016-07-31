@@ -78,6 +78,9 @@ public class Key<C> {
         public static class Online<C> extends User<C> {
             public Online(String id, @Nullable C def) {
                 super(id, def);
+                if (!UltimateUser.onlinekeys.contains(id)) {
+                    UltimateUser.onlinekeys.add(id);
+                }
             }
         }
     }

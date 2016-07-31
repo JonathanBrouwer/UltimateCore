@@ -36,6 +36,7 @@ import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import bammerbom.ultimatecore.sponge.config.ModulesConfig;
 import bammerbom.ultimatecore.sponge.config.serializers.ExtendedLocationSerializer;
+import bammerbom.ultimatecore.sponge.defaultmodule.DefaultModule;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
@@ -111,6 +112,7 @@ public class UltimateCore {
 
             //Load modules
             Sponge.getServiceManager().setProvider(this, ModuleService.class, moduleService);
+            moduleService.registerModule(new DefaultModule());
             File modfolder = new File("ultimatecore/modules");
             modfolder.mkdirs();
             for (File f : modfolder.listFiles()) {

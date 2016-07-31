@@ -23,5 +23,55 @@
  */
 package bammerbom.ultimatecore.sponge.modules.afk.listeners;
 
+import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
+import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
+import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.title.Title;
+
 public class AfkListener {
+    @Listener(order = Order.LAST)
+    public void onAfkSwitch(DataOfferEvent<Boolean> event) {
+        if (event.getKey().equals(AfkKeys.IS_AFK) && event.getValue().isPresent()) {
+            Player player = event.getCause().first(Player.class).orElse(null);
+            if (player == null) {
+                Messages.log("Invalid DataOfferEvent! (No player found)");
+                return;
+            }
+            CommentedConfigurationNode config = Modules.AFK.get().getConfig().get().get();
+            if (config.getNode("title", "enabled").getBoolean(true)) {
+                if (event.getValue().get()) {
+                    //Player went afk
+                    Text title = Messages.getFormatted("afk.title.title");
+                    Text subtitle;
+                    if (player.hasPermission(AfkPermissions.UC_AFK_EXEMPT.get())) {
+                        subtitle = Messages.getFormatted("afk.title.subtitle.exempt");
+                    } else if (config.getNode("title", "subtitle-show-seconds").getBoolean(true)) {
+                        subtitle = Messages.getFormatted("afk.title.subtitle.kick", "%time%", TimeUtil.format(config.getNode("time", "kicktime").getInt() * 1000, 3, null));
+                    } else {
+                        subtitle = Messages.getFormatted("afk.title.subtitle.kick", "%time%", TimeUtil.format(config.getNode("time", "kicktime").getInt() * 1000, 3, 11));
+                    }
+                    if (config.getNode("title", "subtitle").getBoolean(false) && (!player.hasPermission(AfkPermissions.UC_AFK_EXEMPT.get()) || config.getNode("title", "subtitle-exempt")
+                            .getBoolean(false))) {
+                        //Show subtitle
+                        player.sendTitle(Title.builder().title(title).subtitle(subtitle).fadeIn(20).fadeOut(20).stay(config.getNode("title", "subtitle-refresh").getInt()).build());
+                    } else {
+                        //Don't show subtitle
+                        //TODO refresh?
+                        player.sendTitle(Title.builder().title(title).fadeIn(20).fadeOut(20).stay(config.getNode("title", "subtitle-refresh").getInt()).build());
+                    }
+                } else {
+                    //Player is no longer afk
+                    player.sendTitle(Title.builder().clear().build());
+                }
+            }
+        }
+    }
 }

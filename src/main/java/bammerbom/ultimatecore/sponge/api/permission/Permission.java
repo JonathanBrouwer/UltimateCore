@@ -61,7 +61,8 @@ public class Permission {
             //TODO ErrorLogger?
             return null;
         }
-        if (!command.isPresent()) {
+        //When an invalid command is provided
+        if (command != null && !command.isPresent()) {
             Messages.log("Semi-failed to register permission " + identifier + ": Invalid command");
             //TODO ErrorLogger?
             command = null;
