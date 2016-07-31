@@ -111,7 +111,7 @@ public class WeatherCommand implements Command {
                 weathertype=Weathers.THUNDER_STORM;
                 break;
             default:
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted("weather.command.weather.invalidweathertype", "%weather%", args[0]));
                 return CommandResult.empty();
         }
         World world;
