@@ -23,10 +23,13 @@
  */
 package bammerbom.ultimatecore.sponge.modules.afk.listeners;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
+import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -45,6 +48,7 @@ public class AfkSwitchListener {
                 Messages.log("Invalid DataOfferEvent! (No player found)");
                 return;
             }
+            UltimateUser user = UltimateCore.get().getUserService().getUser(player);
             CommentedConfigurationNode config = Modules.AFK.get().getConfig().get().get();
             if (config.getNode("title", "enabled").getBoolean(true)) {
                 if (event.getValue().get()) {
@@ -69,6 +73,7 @@ public class AfkSwitchListener {
                     }
                     //Make sure the player is not un-afked instantly
                     AfkDetectionListener.afktime.put(player.getUniqueId(), 0L);
+                    user.offer(AfkKeys.LAST_LOCATION, new ExtendedLocation(player.getLocation(), player.getRotation()));
                 } else {
                     //Player is no longer afk
                     player.sendTitle(Title.builder().clear().build());
