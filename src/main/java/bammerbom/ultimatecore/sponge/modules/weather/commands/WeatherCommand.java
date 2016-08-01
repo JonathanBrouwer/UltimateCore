@@ -90,10 +90,6 @@ public class WeatherCommand implements Command {
             sender.sendMessage(getUsage());
             return CommandResult.empty();
         }
-        if (!(sender instanceof Player) && args.length != 2) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
-            return CommandResult.empty();
-        }
         Weather weathertype;
         switch (args[0].toLowerCase()) {
             case "sun":
@@ -123,6 +119,10 @@ public class WeatherCommand implements Command {
                 return CommandResult.empty();
             }
         } else {
+            if (!(sender instanceof Player) && args.length != 2) {
+                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                return CommandResult.empty();
+            }
             Player player = (Player) sender;
             world = player.getWorld();
         }
