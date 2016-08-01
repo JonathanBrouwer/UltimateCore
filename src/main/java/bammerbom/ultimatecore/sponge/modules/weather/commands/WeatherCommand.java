@@ -94,19 +94,35 @@ public class WeatherCommand implements Command {
         switch (args[0].toLowerCase()) {
             case "sun":
             case "clear":
+                if(!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_SUN.get())){
+                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    return CommandResult.empty();
+                }
                 weathertype = Weathers.CLEAR;
                 break;
             case "rain":
             case "snow":
             case "downfall":
+                if(!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_RAIN.get())){
+                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    return CommandResult.empty();
+                }
                 weathertype = Weathers.RAIN;
                 break;
             case "thunder":
             case "thunderstorm":
             case "storm":
+                if(!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_THUNDER.get())){
+                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    return CommandResult.empty();
+                }
                 weathertype = Weathers.THUNDER_STORM;
                 break;
             default:
+                if(!sender.hasPermission(WeatherPermissions.UC_WEATHER.get())){
+                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    return CommandResult.empty();
+                }
                 sender.sendMessage(Messages.getFormatted("weather.command.weather.invalidweathertype", "%weather%", args[0]));
                 return CommandResult.empty();
         }

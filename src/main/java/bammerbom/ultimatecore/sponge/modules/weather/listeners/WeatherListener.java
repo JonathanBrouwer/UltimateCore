@@ -31,9 +31,7 @@ import org.spongepowered.api.world.World;
 public class WeatherListener {
     @Listener
     public void onWeatherChange(ChangeWorldWeatherEvent event){
-        if(event.getCause().first(World.class).isPresent()){
-            Messages.log("World cause: ik ben gek doei");
-        }
+        Messages.log(event.getCause().toString());
     }
 
 }
