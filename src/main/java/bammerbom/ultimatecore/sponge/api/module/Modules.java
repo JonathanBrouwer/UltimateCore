@@ -50,6 +50,7 @@ public class Modules {
     public static Optional<Module> COMMANDLOG = service.getModule("commandlog");
     public static Optional<Module> COMMANDSIGNS = service.getModule("commandsigns");
     //Custom join & leave messages
+    //First join commands
     public static Optional<Module> CONNECTIONMESSAGES = service.getModule("connectionmessages");
     //Create custom commands which print specific text or execute other commands
     public static Optional<Module> CUSTOMCOMMANDS = service.getModule("customcommands");
@@ -87,6 +88,7 @@ public class Modules {
     public static Optional<Module> PLAYERINFO = service.getModule("playerinfo");
     public static Optional<Module> PLUGIN = service.getModule("plugin");
     public static Optional<Module> PERSONALMESSAGE = service.getModule("personalmessage");
+    public static Optional<Module> POKE = service.getModule("poke");
     //Create portals
     public static Optional<Module> PORTAL = service.getModule("portal");
     //Global and per person
@@ -113,6 +115,7 @@ public class Modules {
     //Better /stop and /restart commands (Time?)
     public static Optional<Module> STOPRESTART = service.getModule("stoprestart");
     public static Optional<Module> SUDO = service.getModule("sudo");
+    //Animated, refresh every x seconds
     public static Optional<Module> TABLIST = service.getModule("tablist");
     //Split the /teleport command better
     public static Optional<Module> TELEPORT = service.getModule("teleport");

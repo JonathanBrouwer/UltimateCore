@@ -86,44 +86,44 @@ public class WeatherCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if(args.length == 0){
+        if (args.length == 0) {
             sender.sendMessage(getUsage());
             return CommandResult.empty();
         }
-        if(!(sender instanceof Player) && args.length != 2){
+        if (!(sender instanceof Player) && args.length != 2) {
             sender.sendMessage(Messages.getFormatted("core.noplayer"));
             return CommandResult.empty();
         }
         Weather weathertype;
-        switch (args[0].toLowerCase()){
+        switch (args[0].toLowerCase()) {
             case "sun":
             case "clear":
-                weathertype= Weathers.CLEAR;
+                weathertype = Weathers.CLEAR;
                 break;
             case "rain":
             case "snow":
             case "downfall":
-                weathertype=Weathers.RAIN;
+                weathertype = Weathers.RAIN;
                 break;
             case "thunder":
             case "thunderstorm":
             case "storm":
-                weathertype=Weathers.THUNDER_STORM;
+                weathertype = Weathers.THUNDER_STORM;
                 break;
             default:
                 sender.sendMessage(Messages.getFormatted("weather.command.weather.invalidweathertype", "%weather%", args[0]));
                 return CommandResult.empty();
         }
         World world;
-        if(args.length >= 2){
-            if(Sponge.getServer().getWorld(args[1]).isPresent()){
+        if (args.length >= 2) {
+            if (Sponge.getServer().getWorld(args[1]).isPresent()) {
                 world = Sponge.getServer().getWorld(args[1]).get();
-            }else{
+            } else {
                 sender.sendMessage(Messages.getFormatted("core.worldnotfound", "%world%", args[1]));
                 return CommandResult.empty();
             }
-        }else{
-            Player player  = (Player) sender;
+        } else {
+            Player player = (Player) sender;
             world = player.getWorld();
         }
         world.setWeather(weathertype);
@@ -133,15 +133,15 @@ public class WeatherCommand implements Command {
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        if(curn == 0){
+        if (curn == 0) {
             return Arrays.asList("sun", "clear", "rain", "snow", "downfall", "thunder", "thunderstorm", "storm");
-        }else if(curn == 1){
+        } else if (curn == 1) {
             ArrayList<String> list = new ArrayList<>();
-            for(World world: Sponge.getServer().getWorlds()){
+            for (World world : Sponge.getServer().getWorlds()) {
                 list.add(world.getName());
             }
             return list;
-        }else{
+        } else {
             return new ArrayList<>();
         }
     }

@@ -38,6 +38,7 @@ import java.util.Optional;
 
 public class GeneralConfig {
     private static Path path = new File(UltimateCore.get().getDataFolder().toFile(), "general.conf").toPath();
+    private static ConfigurationLoader<CommentedConfigurationNode> loader;
     private static CommentedConfigurationNode node;
 
     public static void reload() {
@@ -53,12 +54,16 @@ public class GeneralConfig {
                 asset.get().copyToFile(path);
             }
 
-            ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(path).build();
+            loader = HoconConfigurationLoader.builder().setPath(path).build();
             node = loader.load();
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "general.conf"));
             e.printStackTrace();
         }
+    }
+
+    public static ConfigurationLoader<CommentedConfigurationNode> getLoader() {
+        return loader;
     }
 
     public static CommentedConfigurationNode get() {

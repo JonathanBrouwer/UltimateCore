@@ -32,6 +32,10 @@ import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import java.util.Optional;
 
 public class AutomessageModule implements Module {
+    //TODO random or top to bottom
+    //TODO random with no repeat
+    //TODO run command with automessage
+    //TODO per player variables
     @Override
     public String getIdentifier() {
         return "automessage";

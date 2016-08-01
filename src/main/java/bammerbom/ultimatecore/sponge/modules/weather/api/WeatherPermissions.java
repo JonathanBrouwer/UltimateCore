@@ -31,6 +31,6 @@ public class WeatherPermissions {
     public static Permission UC_WEATHER = Permission.create("uc.weather", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to anything."));
     public static Permission UC_WEATHER_SUN = Permission.create("uc.weather.sun", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to sun."));
     public static Permission UC_WEATHER_RAIN = Permission.create("uc.weather.rain", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to rain."));
-    public static Permission UC_WEATHER_THUNDER = Permission.create("uc.weather.thunder", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to thunder" +
-            "."));
+    public static Permission UC_WEATHER_THUNDER = Permission.create("uc.weather.thunder", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to " +
+            "thunder."));
 }
