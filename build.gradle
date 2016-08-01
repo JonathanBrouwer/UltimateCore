@@ -43,7 +43,14 @@ task automessageJar(dependsOn: jar, type: Jar) {
     }
     archiveName = "ultimatecore/modules/automessage.jar"
 }
-build.dependsOn(afkJar, automessageJar)
+
+task weatherJar(dependsOn: jar, type: Jar) {
+    from(sourceSets.main.output) {
+        include "bammerbom/ultimatecore/sponge/modules/weather/**"
+    }
+    archiveName = "ultimatecore/modules/weather.jar"
+}
+build.dependsOn(afkJar, automessageJar, weatherJar)
 
 //Dependencies
 repositories {
