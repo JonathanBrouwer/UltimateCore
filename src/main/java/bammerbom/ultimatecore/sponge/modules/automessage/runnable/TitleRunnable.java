@@ -21,7 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.weather.api;
+package bammerbom.ultimatecore.sponge.modules.automessage.runnable;
 
-public class WeatherKeys {
+public class TitleRunnable implements Runnable {
+    @Override
+    public void run() {
+
+    }
 }

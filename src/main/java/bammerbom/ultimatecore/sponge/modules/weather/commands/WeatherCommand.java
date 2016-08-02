@@ -42,6 +42,7 @@ import org.spongepowered.api.world.weather.Weathers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WeatherCommand implements Command {
     @Override
@@ -152,11 +153,7 @@ public class WeatherCommand implements Command {
         if (curn == 0) {
             return Arrays.asList("sun", "clear", "rain", "snow", "downfall", "thunder", "thunderstorm", "storm");
         } else if (curn == 1) {
-            ArrayList<String> list = new ArrayList<>();
-            for (World world : Sponge.getServer().getWorlds()) {
-                list.add(world.getName());
-            }
-            return list;
+            return Sponge.getServer().getWorlds().stream().map(World::getName).collect(Collectors.toCollection(ArrayList::new));
         } else {
             return new ArrayList<>();
         }

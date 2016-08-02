@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.automessage;
 
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.automessage.config.AutomessageConfig;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -36,6 +37,7 @@ public class AutomessageModule implements Module {
     //TODO random with no repeat
     //TODO run command with automessage
     //TODO per player variables
+    AutomessageConfig config;
     @Override
     public String getIdentifier() {
         return "automessage";
@@ -47,8 +49,8 @@ public class AutomessageModule implements Module {
     }
 
     @Override
-    public Optional<? extends ModuleConfig> getConfig() {
-        return null;
+    public Optional<AutomessageConfig> getConfig() {
+        return Optional.of(config);
     }
 
     @Override
@@ -58,6 +60,9 @@ public class AutomessageModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Config
+        config = new AutomessageConfig();
+        //Runnables
 
     }
 
