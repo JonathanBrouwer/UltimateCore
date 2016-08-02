@@ -23,14 +23,20 @@
  */
 package bammerbom.ultimatecore.sponge.modules.automessage;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.automessage.config.AutomessageConfig;
+import bammerbom.ultimatecore.sponge.modules.automessage.runnable.ActionbarRunnable;
+import bammerbom.ultimatecore.sponge.modules.automessage.runnable.BossbarRunnable;
+import bammerbom.ultimatecore.sponge.modules.automessage.runnable.ChatRunnable;
+import bammerbom.ultimatecore.sponge.modules.automessage.runnable.TitleRunnable;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public class AutomessageModule implements Module {
     //TODO random or top to bottom
@@ -38,6 +44,7 @@ public class AutomessageModule implements Module {
     //TODO run command with automessage
     //TODO per player variables
     AutomessageConfig config;
+
     @Override
     public String getIdentifier() {
         return "automessage";
@@ -62,8 +69,31 @@ public class AutomessageModule implements Module {
     public void onInit(GameInitializationEvent event) {
         //Config
         config = new AutomessageConfig();
+        config.reload();
         //Runnables
-
+        if (config.get().getNode("chat", "enable").getBoolean(false)) {
+            long time = config.get().getNode("chat", "time").getLong();
+            ChatRunnable run = new ChatRunnable();
+            run.init();
+            Sponge.getScheduler().createTaskBuilder().interval(time, TimeUnit.SECONDS).delay(time, TimeUnit.SECONDS).execute(run).name("UC chat automessage task").submit(UltimateCore.get());
+        }
+        if (config.get().getNode("actionbar", "enable").getBoolean(false)) {
+            long time = config.get().getNode("actionbar", "time").getLong();
+            ActionbarRunnable run = new ActionbarRunnable();
+            run.init();
+            Sponge.getScheduler().createTaskBuilder().interval(time, TimeUnit.SECONDS).delay(time, TimeUnit.SECONDS).execute(run).name("UC chat automessage task").submit(UltimateCore.get());
+        }
+        if (config.get().getNode("bossbar", "enable").getBoolean(false)) {
+            long time = config.get().getNode("bossbar", "time").getLong();
+            BossbarRunnable run = new BossbarRunnable();
+            run.init();
+            Sponge.getScheduler().createTaskBuilder().interval(time, TimeUnit.SECONDS).delay(time, TimeUnit.SECONDS).execute(run).name("UC chat automessage task").submit(UltimateCore.get());
+        }
+        if (config.get().getNode("title", "enable").getBoolean(false)) {
+            long time = config.get().getNode("title", "time").getLong();
+            TitleRunnable run = new TitleRunnable();
+            Sponge.getScheduler().createTaskBuilder().interval(time, TimeUnit.SECONDS).delay(time, TimeUnit.SECONDS).execute(run).name("UC chat automessage task").submit(UltimateCore.get());
+        }
     }
 
     @Override

@@ -25,9 +25,6 @@ package bammerbom.ultimatecore.sponge.modules.weather;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
-import bammerbom.ultimatecore.sponge.modules.afk.config.AfkConfig;
-import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkSwitchListener;
 import bammerbom.ultimatecore.sponge.modules.weather.commands.WeatherCommand;
 import bammerbom.ultimatecore.sponge.modules.weather.config.WeatherConfig;
 import bammerbom.ultimatecore.sponge.modules.weather.listeners.WeatherListener;

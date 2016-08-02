@@ -24,6 +24,11 @@
 package bammerbom.ultimatecore.sponge.modules.automessage.runnable;
 
 public class ActionbarRunnable implements Runnable {
+
+    public void init() {
+
+    }
+
     @Override
     public void run() {
 

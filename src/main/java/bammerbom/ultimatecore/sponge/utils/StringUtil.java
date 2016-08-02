@@ -23,6 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.utils;
 
+import java.util.Collection;
+
 public class StringUtil {
     public static String getFinalArg(String[] args, int start) {
         StringBuilder bldr = new StringBuilder();
@@ -34,4 +36,28 @@ public class StringUtil {
         }
         return bldr.toString();
     }
+
+    public static String join(String seperator, Object[] list) {
+        StringBuilder buf = new StringBuilder();
+        for (Object each : list) {
+            if (buf.length() > 0) {
+                buf.append(seperator);
+            }
+
+            if ((each instanceof Collection)) {
+                buf.append(join(seperator, ((Collection) each).toArray()));
+            } else {
+                try {
+                    buf.append(each.toString());
+                } catch (Exception e) {
+                }
+            }
+        }
+        return buf.toString();
+    }
+
+    public static String join(String separator, Collection<Object> parts) {
+        return join(separator, parts.toArray());
+    }
+
 }

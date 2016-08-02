@@ -218,4 +218,23 @@ public class Messages {
         }
         Sponge.getServer().getConsole().sendMessage(logo.toBuilder().append(Text.of(message)).build());
     }
+
+    /**
+     * Convert a String to a Text object
+     */
+    public static Text toText(String raw){
+        try {
+            return TextSerializers.JSON.deserialize(raw);
+        } catch (TextParseException ex) {
+            try {
+                return TextSerializers.TEXT_XML.deserialize(raw);
+            } catch (TextParseException ex2) {
+                try {
+                    return TextSerializers.FORMATTING_CODE.deserialize(raw);
+                } catch (Exception ex3) {
+                    return Text.of(raw);
+                }
+            }
+        }
+    }
 }

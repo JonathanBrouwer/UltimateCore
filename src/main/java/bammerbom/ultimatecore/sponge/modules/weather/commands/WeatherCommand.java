@@ -95,7 +95,7 @@ public class WeatherCommand implements Command {
         switch (args[0].toLowerCase()) {
             case "sun":
             case "clear":
-                if(!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_SUN.get())){
+                if (!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_SUN.get())) {
                     sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                     return CommandResult.empty();
                 }
@@ -104,7 +104,7 @@ public class WeatherCommand implements Command {
             case "rain":
             case "snow":
             case "downfall":
-                if(!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_RAIN.get())){
+                if (!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_RAIN.get())) {
                     sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                     return CommandResult.empty();
                 }
@@ -113,14 +113,14 @@ public class WeatherCommand implements Command {
             case "thunder":
             case "thunderstorm":
             case "storm":
-                if(!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_THUNDER.get())){
+                if (!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_THUNDER.get())) {
                     sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                     return CommandResult.empty();
                 }
                 weathertype = Weathers.THUNDER_STORM;
                 break;
             default:
-                if(!sender.hasPermission(WeatherPermissions.UC_WEATHER.get())){
+                if (!sender.hasPermission(WeatherPermissions.UC_WEATHER.get())) {
                     sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                     return CommandResult.empty();
                 }

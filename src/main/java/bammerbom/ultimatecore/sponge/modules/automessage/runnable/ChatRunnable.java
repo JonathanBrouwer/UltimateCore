@@ -23,7 +23,48 @@
  */
 package bammerbom.ultimatecore.sponge.modules.automessage.runnable;
 
+import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatRunnable implements Runnable {
+    //The order set in the config
+    static String order = "randomorder";
+    //Contains all messages
+    static List<String> messages = new ArrayList<>();
+    //Contains all messages excluding the already send messages
+    static List<String> tempmessages = new ArrayList<>();
+
+    public void init() {
+        CommentedConfigurationNode config = Modules.AUTOMESSAGE.get().getConfig().get().get();
+        messages.clear();
+        //Set order
+        order = config.getNode("chat", "order").getString();
+        //Set messages
+        Object mes = config.getNode("chat", "messages").getValue();
+        if (mes instanceof List) {
+            List<? extends Object> list = (List<? extends Object>) mes;
+            if (list.get(0) instanceof List) {
+                //A list of a list of Objects (use toString())
+                List<List> castedlist = (List<List>) list;
+                for (List messagelist : castedlist) {
+                    messages.add(StringUtil.join("\n", messagelist));
+                }
+            } else {
+                //A list of Objects (use toString())
+                for (Object message : list) {
+                    messages.add(message.toString());
+                }
+            }
+        } else {
+            messages.add(mes.toString());
+            return;
+        }
+    }
+
     @Override
     public void run() {
 
