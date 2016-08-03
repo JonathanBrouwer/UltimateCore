@@ -36,7 +36,7 @@ import java.nio.file.Path;
 
 public class ModulesConfig {
     //TODO forced enable
-    private static Path path = new File(UltimateCore.get().getDataFolder().toFile(), "modules.conf").toPath();
+    private static Path path = new File(UltimateCore.get().getConfigFolder().toFile().getPath(), "modules.conf").toPath();
     private static ConfigurationLoader<CommentedConfigurationNode> loader;
     private static CommentedConfigurationNode node;
 

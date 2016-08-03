@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class CommandsConfig {
-    private static Path path = new File(UltimateCore.get().getDataFolder().toFile(), "commands.conf").toPath();
+    private static Path path = new File(UltimateCore.get().getConfigFolder().toFile(), "commands.conf").toPath();
     private static ConfigurationLoader<CommentedConfigurationNode> loader;
     private static CommentedConfigurationNode node;
 

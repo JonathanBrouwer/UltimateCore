@@ -77,7 +77,7 @@ public class Messages {
      */
     private static Map<String, String> loadFromFile(String lang) throws IOException {
         Asset asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "language/" + lang + ".properties").orElse(null);
-        File file = new File(UltimateCore.get().getDataFolder().toUri().getPath() + "/language/", lang + ".properties");
+        File file = new File(UltimateCore.get().getConfigFolder().toUri().getPath() + "/language/", lang + ".properties");
 
         if (!file.exists()) {
             file.getParentFile().mkdirs();

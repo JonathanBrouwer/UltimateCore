@@ -210,8 +210,12 @@ public class UltimateCore {
         }
     }
 
-    public Path getDataFolder() {
+    public Path getConfigFolder() {
         return dir;
+    }
+
+    public Path getDataFolder(){
+        return new File("ultimatecore").toPath();
     }
 
     //TODO move these methods???

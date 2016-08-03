@@ -37,7 +37,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 public class GeneralConfig {
-    private static Path path = new File(UltimateCore.get().getDataFolder().toFile(), "general.conf").toPath();
+    private static Path path = new File(UltimateCore.get().getConfigFolder().toFile(), "general.conf").toPath();
     private static ConfigurationLoader<CommentedConfigurationNode> loader;
     private static CommentedConfigurationNode node;
 

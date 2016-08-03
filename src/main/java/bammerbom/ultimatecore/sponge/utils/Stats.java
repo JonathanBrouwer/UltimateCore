@@ -101,7 +101,7 @@ public class Stats {
                 Response<String> response = webb.post("http://ultimatecore.org/postrequest/statistics.php").params(data).asString();
                 Messages.log(Messages.getFormatted("core.stats.sent", "%status%", response.getStatusLine()));
                 //TODO add file or not?
-                File file = new File(UltimateCore.get().getDataFolder().toFile(), "stats.html");
+                File file = new File(UltimateCore.get().getConfigFolder().toFile(), "stats.html");
                 try {
                     if (!file.exists()) {
                         file.getParentFile().mkdirs();

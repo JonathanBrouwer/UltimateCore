@@ -38,7 +38,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 public class WeatherConfig implements ModuleConfig {
-    private static Path path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/modules/", "weather.conf").toPath();
+    private static Path path = new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", "weather.conf").toPath();
     CommentedConfigurationNode node;
 
     @Override
