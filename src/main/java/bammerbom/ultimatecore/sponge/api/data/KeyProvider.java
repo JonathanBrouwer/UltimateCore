@@ -23,9 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.api.data;
 
-import javax.annotation.Nullable;
-
 public interface KeyProvider<C, D> {
     C load(D arg);
+
     void save(D arg, C data);
 }

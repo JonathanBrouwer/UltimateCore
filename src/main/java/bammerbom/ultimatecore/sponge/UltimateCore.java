@@ -214,7 +214,7 @@ public class UltimateCore {
         return dir;
     }
 
-    public Path getDataFolder(){
+    public Path getDataFolder() {
         return new File("ultimatecore").toPath();
     }
 

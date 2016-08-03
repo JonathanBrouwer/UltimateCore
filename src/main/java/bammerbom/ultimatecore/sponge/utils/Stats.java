@@ -96,20 +96,20 @@ public class Stats {
         Sponge.getScheduler().createTaskBuilder().name("UC async stats task").delayTicks(1L).async().execute(new Runnable() {
             @Override
             public void run() {
-                data.put("country", getCountryCode());
-                Webb webb = Webb.create();
-                Response<String> response = webb.post("http://ultimatecore.org/postrequest/statistics.php").params(data).asString();
-                Messages.log(Messages.getFormatted("core.stats.sent", "%status%", response.getStatusLine()));
-                //TODO add file or not?
-                File file = new File(UltimateCore.get().getDataFolder().toFile(), "stats.html");
                 try {
+                    data.put("country", getCountryCode());
+                    Webb webb = Webb.create();
+                    Response<String> response = webb.post("http://ultimatecore.org/postrequest/statistics.php").params(data).asString();
+                    Messages.log(Messages.getFormatted("core.stats.sent", "%status%", response.getStatusLine()));
+                    //TODO add file or not?
+                    File file = new File(UltimateCore.get().getDataFolder().toFile(), "stats.html");
                     if (!file.exists()) {
                         file.getParentFile().mkdirs();
                         file.createNewFile();
                     }
                     FileUtil.writeLines(file, Arrays.asList(response.getBody()));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Messages.log(Messages.getFormatted("core.stats.failed", "%message%", e.getMessage()));
                 }
             }
         }).submit(UltimateCore.get());

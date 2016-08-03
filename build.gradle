@@ -43,14 +43,25 @@ task automessageJar(dependsOn: jar, type: Jar) {
     }
     archiveName = "ultimatecore/modules/automessage.jar"
 }
-
+task gamemodeJar(dependsOn: jar, type: Jar) {
+    from(sourceSets.main.output) {
+        include "bammerbom/ultimatecore/sponge/modules/gamemode/**"
+    }
+    archiveName = "ultimatecore/modules/gamemode.jar"
+}
 task weatherJar(dependsOn: jar, type: Jar) {
     from(sourceSets.main.output) {
         include "bammerbom/ultimatecore/sponge/modules/weather/**"
     }
     archiveName = "ultimatecore/modules/weather.jar"
 }
-build.dependsOn(afkJar, automessageJar, weatherJar)
+task warpJar(dependsOn: jar, type: Jar) {
+    from(sourceSets.main.output) {
+        include "bammerbom/ultimatecore/sponge/modules/warp/**"
+    }
+    archiveName = "ultimatecore/modules/warp.jar"
+}
+build.dependsOn(afkJar, automessageJar, gamemodeJar, weatherJar, warpJar)
 
 //Dependencies
 repositories {

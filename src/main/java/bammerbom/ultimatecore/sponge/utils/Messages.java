@@ -222,7 +222,7 @@ public class Messages {
     /**
      * Convert a String to a Text object
      */
-    public static Text toText(String raw){
+    public static Text toText(String raw) {
         try {
             return TextSerializers.JSON.deserialize(raw);
         } catch (TextParseException ex) {

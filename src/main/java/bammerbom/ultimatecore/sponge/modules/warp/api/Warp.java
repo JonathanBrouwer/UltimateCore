@@ -34,11 +34,17 @@ public class Warp {
     String description;
     ExtendedLocation location;
 
-    public String getName(){
+    public Warp(String name, String description, ExtendedLocation location) {
+        this.name = name;
+        this.description = description;
+        this.location = location;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
@@ -46,13 +52,7 @@ public class Warp {
         return location;
     }
 
-    public Warp(String name, String description, ExtendedLocation location){
-        this.name = name;
-        this.description = description;
-        this.location = location;
-    }
-
-    public static class WarpSerializer implements TypeSerializer<Warp>{
+    public static class WarpSerializer implements TypeSerializer<Warp> {
         @Override
         public Warp deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
             String name = node.getNode("name").getString();
@@ -65,7 +65,7 @@ public class Warp {
         public void serialize(TypeToken<?> type, Warp warp, ConfigurationNode node) throws ObjectMappingException {
             node.getNode("name").setValue(warp.getName());
             node.getNode("description").setValue(warp.getDescription());
-            node.getNode("location").setValue(warp.getLocation());
+            node.getNode("location").setValue(TypeToken.of(ExtendedLocation.class), warp.getLocation());
         }
     }
 }

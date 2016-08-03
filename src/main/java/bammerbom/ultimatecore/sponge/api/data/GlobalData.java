@@ -21,60 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.user;
+package bammerbom.ultimatecore.sponge.api.data;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
 import bammerbom.ultimatecore.sponge.api.event.data.DataRetrieveEvent;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
-import org.spongepowered.api.service.user.UserStorageService;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Optional;
 
-public class UltimateUser {
-
-    public static List<String> onlinekeys = new ArrayList<>();
-    public HashMap<String, Object> datas = new HashMap<>();
-    private UUID uuid; //TODO uuid or user?
-
-    public UltimateUser(User user) {
-        this.uuid = user.getUniqueId();
-    }
-
-    /**
-     * Get the UUID of the user.
-     *
-     * @return The UUID
-     */
-    public UUID getIdentifier() {
-        return uuid;
-    }
-
-    /**
-     * Get the {@link User} this class is associated with.
-     *
-     * @return The user
-     */
-    public User getUser() {
-        if (getPlayer().isPresent()) {
-            return getPlayer().get();
-        }
-        return Sponge.getServiceManager().provideUnchecked(UserStorageService.class).get(uuid).orElse(null);
-    }
-
-    /**
-     * Get the {@link Player} this class is associated with, or {@link Optional#empty()} when the player this class is associated with is offline.
-     *
-     * @return The player
-     */
-    public Optional<Player> getPlayer() {
-        return Sponge.getServer().getPlayer(uuid);
-    }
+public class GlobalData {
+    public static HashMap<String, Object> datas = new HashMap<>();
 
     /**
      * Get the value for the provided key, or the default value of the key when no value for the key was found in the map.
@@ -84,30 +43,18 @@ public class UltimateUser {
      * @param <C> The expected type of value to be returned
      * @return The value found, or {@link Optional#empty()} when no value was found.
      */
-    public <C> Optional<C> get(Key.User<C> key) {
-        if (!isCompatible(key)) {
-            return Optional.empty();
-        }
+    public static <C> Optional<C> get(Key.Global<C> key) {
         Optional<C> rtrn;
         if (!datas.containsKey(key.getIdentifier())) {
-            rtrn = key.getDefaultValue();
-        } else {
             if (key.getProvider().isPresent()) {
-                //Run the provider with getPlayer().get() as argument when possible
-                if (getPlayer().isPresent()) {
-                    if (key instanceof Key.User.Online) {
-                        Key.User.Online<C> newkey = (Key.User.Online<C>) key;
-                        rtrn = Optional.of(newkey.getProvider().get().load(getPlayer().get()));
-                    } else {
-                        rtrn = Optional.of(key.getProvider().get().load(getPlayer().get()));
-                    }
-                } else {
-                    rtrn = Optional.of(key.getProvider().get().load(getUser()));
-                }
+                //Run the provider
+                rtrn = Optional.of(key.getProvider().get().load(Sponge.getGame()));
             } else {
-                //Provider not available, get the default value
-                rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
+                rtrn = key.getDefaultValue();
             }
+        } else {
+            //Provider not available, get the default value
+            rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
         }
         DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.get()).build());
         Sponge.getEventManager().post(event);
@@ -121,10 +68,7 @@ public class UltimateUser {
      * @param <C> The expected type of value to be returned
      * @return The value found, or {@link Optional#empty()} when no value was found.
      */
-    public <C> Optional<C> getRaw(Key.User<C> key) {
-        if (!isCompatible(key)) {
-            return Optional.empty();
-        }
+    public static <C> Optional<C> getRaw(Key.Global<C> key) {
         Optional<C> rtrn;
         if (!datas.containsKey(key.getIdentifier())) {
             rtrn = Optional.empty();
@@ -137,17 +81,6 @@ public class UltimateUser {
     }
 
     /**
-     * Get whether a key is compatible with this user.
-     * This is false when the key is an {@link Key.User.Online} and this user is offline.
-     *
-     * @param key The key to check for
-     * @return Whether the key is compatible
-     */
-    public boolean isCompatible(Key.User key) {
-        return !(key instanceof Key.User.Online) || getPlayer().isPresent();
-    }
-
-    /**
      * Set the value of a key to the specified value.
      *
      * @param key   The key to set the value of
@@ -155,12 +88,8 @@ public class UltimateUser {
      * @param <C>   The type of value the key holds
      * @return Whether the value was accepted
      */
-    public <C> boolean offer(Key.User<C> key, C value) {
-        if (!isCompatible(key)) {
-            return false;
-        }
-        Cause cause = getPlayer().isPresent() ? Cause.builder().owner(UltimateCore.get()).named(NamedCause.source(getPlayer().get())).build() : Cause.builder().owner(UltimateCore.get())
-                .named(NamedCause.source(getUser())).build();
+    public static <C> boolean offer(Key.Global<C> key, C value) {
+        Cause cause = Cause.builder().owner(UltimateCore.get()).build();
         DataOfferEvent<C> event = new DataOfferEvent<>(key, (C) datas.get(key.getIdentifier()), value, cause);
         Sponge.getEventManager().post(event);
         if (event.isCancelled()) {
@@ -177,8 +106,6 @@ public class UltimateUser {
         } else {
             datas.put(key.getIdentifier(), value);
         }
-
-        return UltimateCore.get().getUserService().addToCache(this);
+        return true;
     }
 }
-

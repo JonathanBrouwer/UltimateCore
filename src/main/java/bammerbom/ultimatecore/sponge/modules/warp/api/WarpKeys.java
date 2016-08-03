@@ -26,36 +26,51 @@ package bammerbom.ultimatecore.sponge.modules.warp.api;
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
-import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.api.Game;
 
-import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class WarpKeys {
-    Key.Global<List<Warp>> warps = new Key.Global<>("warps", new KeyProvider<List<Warp>, Game>() {
+    public static Key.Global<List<Warp>> WARPS = new Key.Global<>("warps", new KeyProvider<List<Warp>, Game>() {
         @Override
         public List<Warp> load(Game arg) {
             CommentedConfigurationNode node = DataFile.get("warps");
-            try {
-                return node.getNode("warps").getList(TypeToken.of(Warp.class));
-            } catch (ObjectMappingException e) {
-                e.printStackTrace();
-                return new ArrayList<>();
+            List<Warp> warps = new ArrayList<>();
+            for (CommentedConfigurationNode wnode : node.getChildrenList()) {
+                try {
+                    warps.add(wnode.getValue(TypeToken.of(Warp.class)));
+                } catch (ObjectMappingException e) {
+                    e.printStackTrace();
+                }
             }
+            return warps;
         }
 
         @Override
         public void save(Game arg, List<Warp> data) {
             ConfigurationLoader<CommentedConfigurationNode> loader = DataFile.getLoader("warps");
             CommentedConfigurationNode node = DataFile.get("warps");
-            node.setValue(data);
+            //Remove all warps from node
+            node.getChildrenMap().keySet().forEach(node::removeChild);
+            //Set new warps to node
+            for (Warp warp : data) {
+                try {
+                    node.getNode(warp.getName()).setValue(TypeToken.of(Warp.class), warp);
+                } catch (ObjectMappingException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                loader.save(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     });
 }

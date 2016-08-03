@@ -27,12 +27,12 @@ import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.modules.gamemode.api.GamemodePermissions;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
 import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
@@ -82,6 +82,19 @@ public class WarpCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            return CommandResult.empty();
+        }
+        if (args.length == 0) {
+            sender.sendMessage(getUsage());
+            return CommandResult.empty();
+        }
+        
+//        List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();
+//        sender.sendMessage(Text.of(warps.toString()));
+//        warps.add(new Warp(UUID.randomUUID().toString(), "Random warp, just as random as I am.", ExtendedLocation.ZERO));
+//        GlobalData.offer(WarpKeys.WARPS, warps);
         return CommandResult.success();
     }
 

@@ -24,10 +24,16 @@
 package bammerbom.ultimatecore.sponge.utils;
 
 import com.flowpowered.math.vector.Vector3d;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 public class ExtendedLocation {
+
+    /**
+     * Only used for testing, shouldn't be used anywhere else
+     */
+    public static ExtendedLocation ZERO = new ExtendedLocation(Sponge.getServer().getWorlds().iterator().next(), 0, 0, 0, 0, 0, 0);
 
     Location<World> location;
     Vector3d rotation;
@@ -35,6 +41,10 @@ public class ExtendedLocation {
     public ExtendedLocation(Location<World> loc, Vector3d rot) {
         location = loc;
         rotation = rot;
+    }
+
+    public ExtendedLocation(World w, double lx, double ly, double lz, double rx, double ry, double rz) {
+        this(new Location<>(w, lx, ly, lz), new Vector3d(rx, ry, rz));
     }
 
     public Location<World> getLocation() {

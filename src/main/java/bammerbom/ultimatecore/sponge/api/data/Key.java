@@ -80,7 +80,7 @@ public class Key<C> {
     /**
      * Get the provider for default values, load and save actions
      */
-    public<D> Optional<KeyProvider<C, D>> getProvider(){
+    public <D> Optional<KeyProvider<C, D>> getProvider() {
         return Optional.ofNullable((KeyProvider<C, D>) provider);
     }
 
@@ -94,7 +94,7 @@ public class Key<C> {
             super(id, def);
         }
 
-        public User(String id, @Nullable KeyProvider<C, User> def) {
+        public User(String id, @Nullable KeyProvider<C, ? extends User> def) {
             super(id, def);
         }
 

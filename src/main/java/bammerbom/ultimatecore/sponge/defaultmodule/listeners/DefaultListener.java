@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.defaultmodule.listeners;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -36,7 +37,7 @@ import java.io.IOException;
 public class DefaultListener {
 
     @Listener
-    public void onJoin(ClientConnectionEvent.Join event){
+    public void onJoin(ClientConnectionEvent.Join event) {
         CommentedConfigurationNode node = PlayerDataFile.get(event.getTargetEntity().getUniqueId());
         node.getNode("lastconnect").setValue(System.currentTimeMillis());
         try {

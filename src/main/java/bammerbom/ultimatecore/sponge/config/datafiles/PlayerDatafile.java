@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.sponge.config.datafiles;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -33,16 +32,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-public class PlayerDatafile {
+public class PlayerDataFile {
     private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/playerdata");
 
     public static ConfigurationLoader<CommentedConfigurationNode> getLoader(UUID uuid) {
-        if(!path.exists()){
+        if (!path.exists()) {
             path.mkdirs();
         }
         File file = new File(path, uuid.toString() + ".data");
         try {
-            if(!file.exists()) {
+            if (!file.exists()) {
                 file.createNewFile();
             }
         } catch (IOException e) {

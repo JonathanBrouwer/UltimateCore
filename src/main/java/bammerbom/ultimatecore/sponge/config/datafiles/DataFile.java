@@ -30,18 +30,17 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 public class DataFile {
     private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data");
 
     public static ConfigurationLoader<CommentedConfigurationNode> getLoader(String filename) {
-        if(!path.exists()){
+        if (!path.exists()) {
             path.mkdirs();
         }
         File file = new File(path, filename + ".data");
         try {
-            if(!file.exists()) {
+            if (!file.exists()) {
                 file.createNewFile();
             }
         } catch (IOException e) {
