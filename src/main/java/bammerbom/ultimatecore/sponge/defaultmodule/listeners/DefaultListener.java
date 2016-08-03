@@ -25,13 +25,28 @@ package bammerbom.ultimatecore.sponge.defaultmodule.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDatafile;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
+import java.io.IOException;
+
 public class DefaultListener {
+
     @Listener
-    //Remove online keys on disconnect
+    public void onJoin(ClientConnectionEvent.Join event){
+        CommentedConfigurationNode node = PlayerDatafile.get(event.getTargetEntity().getUniqueId());
+        node.getNode("lastconnect").setValue(System.currentTimeMillis());
+        try {
+            PlayerDatafile.getLoader(event.getTargetEntity().getUniqueId()).save(node);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Listener
     public void onDisconnect(ClientConnectionEvent.Disconnect event) {
         Player p = event.getTargetEntity();
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);

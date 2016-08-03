@@ -119,11 +119,11 @@ public class ErrorLogger {
 
                     //File
                     String msg = writer.toString();
-                    File dir = new File(UltimateCore.get().getConfigFolder() + "/Errors");
+                    File dir = new File(UltimateCore.get().getDataFolder() + "/Errors");
                     if (!dir.exists()) {
                         dir.mkdir();
                     }
-                    File file = new File(UltimateCore.get().getConfigFolder() + "/Errors", time + ".txt");
+                    File file = new File(UltimateCore.get().getDataFolder() + "/Errors", time + ".txt");
                     if (!file.exists()) {
                         try {
                             file.createNewFile();

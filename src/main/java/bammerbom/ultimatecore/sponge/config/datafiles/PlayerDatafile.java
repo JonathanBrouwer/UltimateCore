@@ -21,36 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.utils;
+package bammerbom.ultimatecore.sponge.config.datafiles;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 import java.io.File;
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.UUID;
 
-public class ServerID {
-    static UUID uuid;
+public class PlayerDatafile {
+    private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/playerdata");
 
-    public static void start() {
-        try {
-            File file = new File(UltimateCore.get().getDataFolder().toUri().getPath() + "/data", "serverid.data");
-            file.getParentFile().mkdirs();
-            if (!file.exists()) {
-                file.createNewFile();
-                UUID u = UUID.randomUUID();
-                FileUtil.writeLines(file, Arrays.asList("This UUID is used by UltimateCore to identify your server while sending errors, stats, etc.", u.toString()));
-                uuid = u;
-            } else {
-                String s = FileUtil.readLines(file).get(1);
-                uuid = UUID.fromString(s);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    public static ConfigurationLoader<CommentedConfigurationNode> getLoader(UUID uuid) {
+        if(!path.exists()){
+            path.mkdirs();
         }
+        File file = new File(path, uuid.toString() + ".data");
+        try {
+            if(!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return HoconConfigurationLoader.builder().setFile(file).build();
     }
 
-    public static UUID getUUID() {
-        return uuid;
+    public static CommentedConfigurationNode get(UUID uuid) {
+        try {
+            return getLoader(uuid).load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
