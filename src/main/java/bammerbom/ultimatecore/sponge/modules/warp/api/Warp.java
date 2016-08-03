@@ -23,39 +23,49 @@
  */
 package bammerbom.ultimatecore.sponge.modules.warp.api;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
+import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.api.Game;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+public class Warp {
+    String name;
+    String description;
+    ExtendedLocation location;
 
-public class WarpKeys {
-    Key.Global<List<Warp>> warps = new Key.Global<>("warps", new KeyProvider<List<Warp>, Game>() {
+    public String getName(){
+        return name;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    public ExtendedLocation getLocation() {
+        return location;
+    }
+
+    public Warp(String name, String description, ExtendedLocation location){
+        this.name = name;
+        this.description = description;
+        this.location = location;
+    }
+
+    public static class WarpSerializer implements TypeSerializer<Warp>{
         @Override
-        public List<Warp> load(Game arg) {
-            CommentedConfigurationNode node = DataFile.get("warps");
-            try {
-                return node.getNode("warps").getList(TypeToken.of(Warp.class));
-            } catch (ObjectMappingException e) {
-                e.printStackTrace();
-                return new ArrayList<>();
-            }
+        public Warp deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
+            String name = node.getNode("name").getString();
+            String description = node.getNode("description").getString();
+            ExtendedLocation location = node.getNode("location").getValue(TypeToken.of(ExtendedLocation.class));
+            return new Warp(name, description, location);
         }
 
         @Override
-        public void save(Game arg, List<Warp> data) {
-            ConfigurationLoader<CommentedConfigurationNode> loader = DataFile.getLoader("warps");
-            CommentedConfigurationNode node = DataFile.get("warps");
-            node.setValue(data);
+        public void serialize(TypeToken<?> type, Warp warp, ConfigurationNode node) throws ObjectMappingException {
+            node.getNode("name").setValue(warp.getName());
+            node.getNode("description").setValue(warp.getDescription());
+            node.getNode("location").setValue(warp.getLocation());
         }
-    });
+    }
 }

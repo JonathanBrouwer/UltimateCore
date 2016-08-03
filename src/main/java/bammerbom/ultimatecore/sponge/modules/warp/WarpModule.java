@@ -23,8 +23,14 @@
  */
 package bammerbom.ultimatecore.sponge.modules.warp;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
+import bammerbom.ultimatecore.sponge.modules.warp.commands.WarpCommand;
+import com.google.common.reflect.TypeToken;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -54,7 +60,10 @@ public class WarpModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-
+        //Config
+        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Warp.class), new Warp.WarpSerializer());
+        //Commands
+        UltimateCore.get().getCommandService().register(new WarpCommand());
     }
 
     @Override

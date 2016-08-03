@@ -21,37 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.defaultmodule.listeners;
+package bammerbom.ultimatecore.sponge.config.datafiles;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.network.ClientConnectionEvent;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
-public class DefaultListener {
+public class DataFile {
+    private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data");
 
-    @Listener
-    public void onJoin(ClientConnectionEvent.Join event){
-        CommentedConfigurationNode node = PlayerDataFile.get(event.getTargetEntity().getUniqueId());
-        node.getNode("lastconnect").setValue(System.currentTimeMillis());
+    public static ConfigurationLoader<CommentedConfigurationNode> getLoader(String filename) {
+        if(!path.exists()){
+            path.mkdirs();
+        }
+        File file = new File(path, filename + ".data");
         try {
-            PlayerDataFile.getLoader(event.getTargetEntity().getUniqueId()).save(node);
+            if(!file.exists()) {
+                file.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return HoconConfigurationLoader.builder().setFile(file).build();
     }
 
-    @Listener
-    public void onDisconnect(ClientConnectionEvent.Disconnect event) {
-        Player p = event.getTargetEntity();
-        UltimateUser user = UltimateCore.get().getUserService().getUser(p);
-        for (String key : UltimateUser.onlinekeys) {
-            user.datas.remove(key);
+    public static CommentedConfigurationNode get(String filename) {
+        try {
+            return getLoader(filename).load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

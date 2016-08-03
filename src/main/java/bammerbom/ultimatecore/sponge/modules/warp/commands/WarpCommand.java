@@ -35,6 +35,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -81,11 +82,11 @@ public class WarpCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        return null;
+        return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
+        return new ArrayList<>(); //TODO
     }
 }
