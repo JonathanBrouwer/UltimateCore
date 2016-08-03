@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.event.data;
 
-import bammerbom.ultimatecore.sponge.api.user.Key;
+import bammerbom.ultimatecore.sponge.api.data.Key;
 import org.spongepowered.api.event.cause.Cause;
 
 import javax.annotation.Nullable;

@@ -67,7 +67,7 @@ public class GamemodeCommand implements Command {
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getColored("gamemode.command.gamemode.usage"));
+        return CMGenerator.usage(this, Messages.getFormatted("gamemode.command.gamemode.usage"));
     }
 
     @Override
@@ -77,12 +77,12 @@ public class GamemodeCommand implements Command {
 
     @Override
     public Text getLongDescription() {
-        return Messages.getFormatted("gamemode.command.gamemode.longdescription");
+        return CMGenerator.longDescription(this, Messages.getFormatted("gamemode.command.gamemode.longdescription"));
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("gm");
+        return Arrays.asList("gamemode", "gm");
     }
 
     @Override

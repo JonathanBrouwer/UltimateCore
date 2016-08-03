@@ -21,37 +21,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.data;
+package bammerbom.ultimatecore.sponge.modules.warp;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.cause.Cause;
+import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
+import org.spongepowered.api.event.game.state.GameStoppingEvent;
 
-import javax.annotation.Nullable;
+import java.util.Optional;
 
-/**
- * An event where the value associated with a {@link Key} changes.
- */
-public class DataOfferEvent<C> extends DataEvent<C> implements Cancellable {
-    protected boolean cancelled = false;
-    protected C prevalue;
-
-    public DataOfferEvent(Key<C> key, @Nullable C prevalue, C value, Cause cause) {
-        super(key, value, cause);
-        this.prevalue = prevalue;
+public class WarpModule implements Module {
+    @Override
+    public String getIdentifier() {
+        return "warp";
     }
 
     @Override
-    public boolean isCancelled() {
-        return cancelled;
+    public Optional<? extends Object> getApi() {
+        return Optional.empty();
     }
 
     @Override
-    public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+    public Optional<? extends ModuleConfig> getConfig() {
+        return Optional.empty();
     }
 
-    public C getOverriddenValue() {
-        return prevalue;
+    @Override
+    public void onRegister() {
+
+    }
+
+    @Override
+    public void onInit(GameInitializationEvent event) {
+
+    }
+
+    @Override
+    public void onPostInit(GamePostInitializationEvent event) {
+
+    }
+
+    @Override
+    public void onStop(GameStoppingEvent event) {
+
     }
 }

@@ -35,15 +35,15 @@ import java.net.URL;
  * Command message generator
  */
 public class CMGenerator {
-    public static Text usage(Command cmd, String usage) {
+    public static Text usage(Command cmd, Text usage) {
         try {
-            return Text.builder(usage).onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/"
+            return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/"
                     + cmd.getIdentifier()))).color(TextColors.RED).build();
         } catch (MalformedURLException e) {
             //Idk what happened here
             //TODO ErrorLogger
             e.printStackTrace();
-            return Text.builder(usage).onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).color(TextColors.RED).build();
+            return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).color(TextColors.RED).build();
         }
     }
 
@@ -57,5 +57,9 @@ public class CMGenerator {
             e.printStackTrace();
             return desc.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.shortdescription.hover"))).build();
         }
+    }
+
+    public static Text longDescription(Command cmd, Text desc) {
+        return shortDescription(cmd, desc);
     }
 }

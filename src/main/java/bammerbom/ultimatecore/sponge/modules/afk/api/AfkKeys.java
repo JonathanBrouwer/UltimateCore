@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.afk.api;
 
-import bammerbom.ultimatecore.sponge.api.user.Key;
+import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 
 public class AfkKeys {

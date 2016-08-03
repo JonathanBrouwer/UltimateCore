@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.user;
 
+import bammerbom.ultimatecore.sponge.api.data.Key;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.profile.GameProfile;
 

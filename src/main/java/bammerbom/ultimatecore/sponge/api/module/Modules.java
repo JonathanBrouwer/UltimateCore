@@ -49,7 +49,7 @@ public class Modules {
     public static Optional<Module> COMMANDTIMER = service.getModule("commandtimer");
     //Logs all commands to the console, should be filterable
     public static Optional<Module> COMMANDLOG = service.getModule("commandlog");
-    public static Optional<Module> COMMANDSIGNS = service.getModule("commandsigns");
+    public static Optional<Module> COMMANDSIGN = service.getModule("commandsigns");
     //Custom join & leave messages
     //First join commands
     public static Optional<Module> CONNECTIONMESSAGES = service.getModule("connectionmessages");
@@ -63,8 +63,8 @@ public class Modules {
     public static Optional<Module> FLY = service.getModule("fly");
     public static Optional<Module> FREEZE = service.getModule("freeze");
     public static Optional<Module> GAMEMODE = service.getModule("gamemode");
-    public static Optional<Module> HOLOGRAMS = service.getModule("holograms");
-    public static Optional<Module> HOMES = service.getModule("home");
+    public static Optional<Module> HOLOGRAM = service.getModule("holograms");
+    public static Optional<Module> HOME = service.getModule("home");
     //Exempt perm
     public static Optional<Module> IGNORE = service.getModule("ignore");
     public static Optional<Module> INSTANTRESPAWN = service.getModule("instantrespawn");
@@ -132,7 +132,7 @@ public class Modules {
     public static Optional<Module> VILLAGER = service.getModule("villager");
     //Votifier module
     public static Optional<Module> VOTE = service.getModule("vote");
-    public static Optional<Module> WARPS = service.getModule("warp");
+    public static Optional<Module> WARP = service.getModule("warp");
     public static Optional<Module> WEATHER = service.getModule("weather");
     //Stop using flags, use seperate commands & clickable chat interface
     public static Optional<Module> WORLD = service.getModule("world");

@@ -21,37 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.data;
+package bammerbom.ultimatecore.sponge.modules.warp.api;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.cause.Cause;
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import org.spongepowered.api.text.Text;
 
-import javax.annotation.Nullable;
-
-/**
- * An event where the value associated with a {@link Key} changes.
- */
-public class DataOfferEvent<C> extends DataEvent<C> implements Cancellable {
-    protected boolean cancelled = false;
-    protected C prevalue;
-
-    public DataOfferEvent(Key<C> key, @Nullable C prevalue, C value, Cause cause) {
-        super(key, value, cause);
-        this.prevalue = prevalue;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancel) {
-        cancelled = cancel;
-    }
-
-    public C getOverriddenValue() {
-        return prevalue;
-    }
+public class WarpPermissions {
+    public static Permission UC_WARP = Permission.create("uc.warp", "warp", PermissionLevel.EVERYONE, "warp",
+            Text.of("Allows you to use all warps."));
+    public static Permission UC_WARP_WARP = Permission.create("uc.warp.[WARP]", "warp", PermissionLevel.EVERYONE, "warp",
+            Text.of("Allows you to use a certain warp."));
 }

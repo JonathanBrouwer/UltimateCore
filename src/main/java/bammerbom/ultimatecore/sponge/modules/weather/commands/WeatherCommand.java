@@ -67,7 +67,7 @@ public class WeatherCommand implements Command {
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getColored("weather.command.weather.usage"));
+        return CMGenerator.usage(this, Messages.getFormatted("weather.command.weather.usage"));
     }
 
     @Override

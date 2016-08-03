@@ -69,7 +69,7 @@ public class AfkCommand implements Command {
     @Override
     public Text getUsage() {
         //TODO <command>?
-        return CMGenerator.usage(this, Messages.getColored("afk.command.afk.usage"));
+        return CMGenerator.usage(this, Messages.getFormatted("afk.command.afk.usage"));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class AfkCommand implements Command {
 
     @Override
     public Text getLongDescription() {
-        return Messages.getFormatted("afk.command.afk.longdescription");
+        return CMGenerator.longDescription(this, Messages.getFormatted("afk.command.afk.longdescription"));
     }
 
     @Override

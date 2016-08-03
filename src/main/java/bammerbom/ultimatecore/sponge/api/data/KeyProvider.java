@@ -21,37 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.data;
-
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.cause.Cause;
+package bammerbom.ultimatecore.sponge.api.data;
 
 import javax.annotation.Nullable;
 
-/**
- * An event where the value associated with a {@link Key} changes.
- */
-public class DataOfferEvent<C> extends DataEvent<C> implements Cancellable {
-    protected boolean cancelled = false;
-    protected C prevalue;
-
-    public DataOfferEvent(Key<C> key, @Nullable C prevalue, C value, Cause cause) {
-        super(key, value, cause);
-        this.prevalue = prevalue;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancel) {
-        cancelled = cancel;
-    }
-
-    public C getOverriddenValue() {
-        return prevalue;
-    }
+public interface KeyProvider<C, D> {
+    C load(D arg);
+    void save(D arg);
 }

@@ -21,37 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.data;
+package bammerbom.ultimatecore.sponge.modules.warp.api;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.cause.Cause;
+import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
+import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
+import org.spongepowered.api.Game;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-/**
- * An event where the value associated with a {@link Key} changes.
- */
-public class DataOfferEvent<C> extends DataEvent<C> implements Cancellable {
-    protected boolean cancelled = false;
-    protected C prevalue;
+public class WarpKeys {
+    Key.Global<List<ExtendedLocation>> warps = new Key.Global<>("warps", new KeyProvider<List<ExtendedLocation>, Game>() {
+        @Override
+        public List<ExtendedLocation> load(Game arg) {
+            return null;
+        }
 
-    public DataOfferEvent(Key<C> key, @Nullable C prevalue, C value, Cause cause) {
-        super(key, value, cause);
-        this.prevalue = prevalue;
-    }
+        @Override
+        public void save(Game arg) {
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancel) {
-        cancelled = cancel;
-    }
-
-    public C getOverriddenValue() {
-        return prevalue;
-    }
+        }
+    });
 }
