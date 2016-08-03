@@ -41,7 +41,7 @@ public class WarpKeys {
         }
 
         @Override
-        public void save(Game arg) {
+        public void save(Game arg, List<ExtendedLocation> data) {
 
         }
     });
