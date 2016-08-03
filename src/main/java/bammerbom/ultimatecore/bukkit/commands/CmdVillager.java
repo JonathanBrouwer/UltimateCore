@@ -77,7 +77,6 @@ public class CmdVillager implements UltimateCommand {
      * @return whether the event should be cancelled
      */
     public static boolean confirm(Player p, Villager v) {
-        r.log("Debug - confirm");
         if (!usedCommand.contains(p.getUniqueId())) {
             return false;
         }
@@ -106,8 +105,6 @@ public class CmdVillager implements UltimateCommand {
      * @return The inventory, which will already be opened by this method
      */
     public static Inventory openPage(Player p, int page) {
-        r.log(trades.get(p.getUniqueId()));
-        r.log("Debug - openPage - " + page);
         //Create inventory
         Inventory inv = Bukkit.createInventory(p, 54, "Villager Editor (Page " + page + ")");
 
@@ -119,12 +116,10 @@ public class CmdVillager implements UltimateCommand {
         inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.PAPER, 0, ChatColor.AQUA + "Buying item 1", new ArrayList<String>()), 0, 5);
         inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.PAPER, 0, ChatColor.AQUA + "Buying item 2", new ArrayList<String>()), 1, 6);
         inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.PAPER, 0, ChatColor.AQUA + "Selling item", new ArrayList<String>()), 2, 7);
-        r.log(trades.get(p.getUniqueId()));
         //Put the trades in the inventory
         for (int i = 1; i <= 9; i++) {
             inv = addTradeToInv(p, inv, page, i);
         }
-        r.log(trades.get(p.getUniqueId()));
         //Put page forward & backward arrows in inventory
         inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.FEATHER, 0, ChatColor.RED + "Previous page", new ArrayList<String>()), 50);
         inv = ItemUtil.putInInventory(inv, ItemUtil.createItem(Material.FEATHER, 0, ChatColor.GREEN + "Next page", new ArrayList<String>()), 51);
@@ -142,7 +137,6 @@ public class CmdVillager implements UltimateCommand {
      * @return The inventory, which will already be opened by this method
      */
     public static Inventory openSettings(Player p, int totalIndex) {
-        r.log("Debug - openSettings - " + totalIndex);
         //Update hashmaps
         inSettings.put(p.getUniqueId(), totalIndex);
         //Create inventory
@@ -186,7 +180,6 @@ public class CmdVillager implements UltimateCommand {
      * @return
      */
     public static Inventory addTradeToInv(Player p, Inventory inv, int page, int tradeIndex) {
-        r.log("Debug - addTradeToInv - " + page + " - " + tradeIndex);
         //Calculate indexes
         //totalIndex = index over all pages
         int totalIndex = ((page - 1) * 9) + (tradeIndex - 1);
@@ -221,7 +214,6 @@ public class CmdVillager implements UltimateCommand {
      * @return whether the event should be cancelled
      */
     public static boolean clickButton(final InventoryClickEvent e) {
-        r.log("Debug - clickButton - " + e.getSlot());
         final Player p = (Player) e.getWhoClicked();
         if (!villager.containsKey(p.getUniqueId())) {
             return false;
@@ -263,17 +255,13 @@ public class CmdVillager implements UltimateCommand {
         //If in trade settings screen
         else if (inv.getName().equals("Villager Trade Settings")) {
             //On click add of remove
-            r.log(0);
             if (e.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE)) {
                 boolean isAdd = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).startsWith("Add");
-                r.log(1);
                 if (Arrays.asList(new Integer[]{9, 18, 27, 36, 45, 11, 20, 29, 38, 47}).contains(Integer.valueOf(e.getSlot()))) {
-                    r.log(2);
                     int current = Integer.parseInt(ChatColor.stripColor(inv.getItem(28).getItemMeta().getDisplayName()).split("Uses: ")[1]);
                     int add = Integer.parseInt(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).split(" ")[1]) * (isAdd ? 1 : -1);
                     inv.setItem(28, ItemUtil.createItem(Material.PAPER, 0, ChatColor.DARK_AQUA + "Uses: " + ChatColor.AQUA + (current + add), new ArrayList<String>()));
                 } else if (Arrays.asList(new Integer[]{15, 24, 33, 42, 51, 17, 26, 35, 44, 53}).contains(Integer.valueOf(e.getSlot()))) {
-                    r.log(3);
                     int current = Integer.parseInt(ChatColor.stripColor(inv.getItem(34).getItemMeta().getDisplayName()).split("Max uses: ")[1]);
                     int add = Integer.parseInt(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).split(" ")[1]) * (isAdd ? 1 : -1);
                     inv.setItem(34, ItemUtil.createItem(Material.PAPER, 0, ChatColor.DARK_AQUA + "Max uses: " + ChatColor.AQUA + (current + add), new ArrayList<String>()));
@@ -301,7 +289,6 @@ public class CmdVillager implements UltimateCommand {
      * Save the current inventory to the hashmaps
      */
     public static void updateInventory(Player p, Inventory inv, int page) {
-        r.log("Debug - updateInventory - " + inv.getTitle() + " - " + page);
         //Loop trough all buying item 1 slots
         int relIndex = 1;
         for (int i : new int[]{9, 18, 27, 36, 45, 14, 23, 32, 41}) {
@@ -357,7 +344,6 @@ public class CmdVillager implements UltimateCommand {
                 HashMap<Integer, VillagerUtil.VillagerTrade> tlist = trades.get(p.getUniqueId());
                 tlist.put(totalIndex, trade);
                 trades.put(p.getUniqueId(), tlist);
-                r.log("Debug - updateCheck - " + i + " - " + "succes");
             } else if (one) {
                 //Set item
                 ItemStack edit = ItemUtil.createItem(Material.STAINED_GLASS_PANE, 14, ChatColor.DARK_AQUA + "Click to edit", Arrays.asList(ChatColor.RED + "Invalid trade."));
@@ -366,7 +352,6 @@ public class CmdVillager implements UltimateCommand {
                 HashMap<Integer, VillagerUtil.VillagerTrade> tlist = trades.get(p.getUniqueId());
                 tlist.remove(totalIndex);
                 trades.put(p.getUniqueId(), tlist);
-                r.log("Debug - updateCheck - " + i + " - " + "invalid");
             } else {
                 //Set item
                 inv.setItem(i + 3, null);
@@ -374,7 +359,6 @@ public class CmdVillager implements UltimateCommand {
                 HashMap<Integer, VillagerUtil.VillagerTrade> tlist = trades.get(p.getUniqueId());
                 tlist.remove(totalIndex);
                 trades.put(p.getUniqueId(), tlist);
-                r.log("Debug - updateCheck - " + i + " - " + "empty");
             }
         }
     }
@@ -383,7 +367,6 @@ public class CmdVillager implements UltimateCommand {
      * Save the current inventory to the villager
      */
     public static void saveInventory(Player p, Inventory inv, boolean main) {
-        r.log("Debug - saveInventory - " + inv.getTitle() + " - " + main);
         if (main) {
             updateInventory(p, inv, Integer.parseInt(inv.getName().split("Villager Editor \\(Page ")[1].split("\\)")[0]));
             HashMap<Integer, VillagerUtil.VillagerTrade> tlist = trades.get(p.getUniqueId());
@@ -429,7 +412,6 @@ public class CmdVillager implements UltimateCommand {
         if (!villager.containsKey(p.getUniqueId()) || ignoreClose) {
             return;
         }
-        r.log("Debug - closeInv - " + inv.getTitle());
         //If in main villager editor screen
         if (inv.getTitle().startsWith("Villager Editor (Page ") && !inSettings.containsKey(p.getUniqueId())) {
             saveInventory(p, inv, true);
