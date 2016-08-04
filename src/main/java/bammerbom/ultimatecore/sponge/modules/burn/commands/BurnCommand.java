@@ -77,7 +77,7 @@ public class BurnCommand implements Command {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("fire" , "ignite");
+        return Arrays.asList("burn", "fire", "ignite");
     }
 
     @Override
@@ -91,24 +91,24 @@ public class BurnCommand implements Command {
             return CommandResult.empty();
         }
         Player t;
-        if (Sponge.getServer().getPlayer(args[0]).isPresent() ) {
+        if (Sponge.getServer().getPlayer(args[0]).isPresent()) {
             t = Sponge.getServer().getPlayer(args[0]).get();
         } else {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound" , "%player%" , args[0]));
+            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
         Double time = 10.0;
         if (args.length >= 2) {
-            try{
+            try {
                 time = Double.parseDouble(args[1]);
-            } catch(Exception ex) {
-
+            } catch (Exception ex) {
             }
         }
-        t.offer(Keys.FIRE_TICKS,Double.valueOf(time*20).intValue());
-        sender.sendMessage(Messages.getFormatted("burn.command.burn.success", "%player%", t.getName(), "%time%", time ));
+        t.offer(Keys.FIRE_TICKS, Double.valueOf(time * 20).intValue());
+        sender.sendMessage(Messages.getFormatted("burn.command.burn.success", "%player%", t.getName(), "%time%", time));
 
-    return CommandResult.success(); }
+        return CommandResult.success();
+    }
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
