@@ -23,14 +23,13 @@
  */
 package bammerbom.ultimatecore.sponge.modules.weather.listeners;
 
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.world.ChangeWorldWeatherEvent;
 
 public class WeatherListener {
     @Listener
     public void onWeatherChange(ChangeWorldWeatherEvent event) {
-        Messages.log(event.getCause().toString());
+        //TODO wait for cause impl
     }
 
 }

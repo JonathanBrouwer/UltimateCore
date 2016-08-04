@@ -81,7 +81,8 @@ public class UCCommandCallable implements CommandCallable {
     @Override
     public List<String> getSuggestions(CommandSource source, String arguments, Location<World> loc) throws CommandException {
         String[] args = arguments.split(" ");
-        List<String> rtrn = command.onTabComplete(source, args, args[args.length - 1], args.length - 1);
+        //TODO how does this work?
+        List<String> rtrn = command.onTabComplete(source, args, args[args.length], args.length);
         if (rtrn == null) {
             rtrn = new ArrayList<>();
             for (Player p : Sponge.getServer().getOnlinePlayers()) {

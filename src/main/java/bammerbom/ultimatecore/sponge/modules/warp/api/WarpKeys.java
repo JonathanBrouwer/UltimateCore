@@ -42,7 +42,7 @@ public class WarpKeys {
         public List<Warp> load(Game arg) {
             CommentedConfigurationNode node = DataFile.get("warps");
             List<Warp> warps = new ArrayList<>();
-            for (CommentedConfigurationNode wnode : node.getChildrenList()) {
+            for (CommentedConfigurationNode wnode : node.getChildrenMap().values()) {
                 try {
                     warps.add(wnode.getValue(TypeToken.of(Warp.class)));
                 } catch (ObjectMappingException e) {
