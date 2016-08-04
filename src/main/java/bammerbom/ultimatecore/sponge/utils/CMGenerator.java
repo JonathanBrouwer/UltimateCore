@@ -49,8 +49,8 @@ public class CMGenerator {
 
     public static Text shortDescription(Command cmd, Text desc) {
         try {
-            return desc.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.shortdescription.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore" + "" + ""
-                    + ".org/features/cmd/" + cmd.getIdentifier()))).build();
+            return desc.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.shortdescription.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org" +
+                    "/features/cmd/" + cmd.getIdentifier()))).build();
         } catch (MalformedURLException e) {
             //Idk what happened here
             //TODO ErrorLogger
