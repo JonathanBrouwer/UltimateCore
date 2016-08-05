@@ -59,16 +59,16 @@ public class ModulesConfig {
         try {
             boolean modified = false;
             if (!node.getNode("modules").getComment().isPresent()) {
-                node.getNode("modules").setComment("Set enabled to 'force', 'enabled' or 'disabled'\nForce will load the module even when another plugin blocks the loading process.");
+                node.getNode("modules").setComment("Set state to 'force', 'enabled' or 'disabled'\nForce will load the module even when another plugin blocks the loading process.");
             }
             for (Module mod : UltimateCore.get().getModuleService().getRegisteredModules()) {
                 if (mod.getIdentifier().equals("default")) {
                     continue;
                 }
                 CommentedConfigurationNode modnode = node.getNode("modules", mod.getIdentifier());
-                if (modnode.getNode("enabled").getValue() == null) {
+                if (modnode.getNode("state").getValue() == null) {
                     modified = true;
-                    modnode.getNode("enabled").setValue("enabled");
+                    modnode.getNode("state").setValue("enabled");
                 }
             }
             if (modified) {

@@ -121,8 +121,6 @@ public class UltimateCore {
                     if (module.isPresent()) {
                         if (moduleService.registerModule(module.get())) {
                             Messages.log(Messages.getFormatted("core.load.module.registered", "%module%", module.get().getIdentifier()));
-                        } else {
-                            Messages.log(Messages.getFormatted("core.load.module.blocked", "%module%", module.get().getIdentifier()));
                         }
                     } else {
                         Messages.log(Messages.getFormatted("core.load.module.failed", "%module%", f.getName()));

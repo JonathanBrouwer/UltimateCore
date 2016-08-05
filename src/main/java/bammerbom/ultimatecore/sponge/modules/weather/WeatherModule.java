@@ -60,7 +60,7 @@ public class WeatherModule implements Module {
         config.reload();
         //Commands
         UltimateCore.get().getCommandService().register(new WeatherCommand());
-        //listeners
+        //Listeners
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new WeatherListener());
     }
 

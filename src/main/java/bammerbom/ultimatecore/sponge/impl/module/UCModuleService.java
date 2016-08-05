@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.event.module.ModuleRegisterEvent;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
+import bammerbom.ultimatecore.sponge.config.ModulesConfig;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
@@ -81,6 +82,11 @@ public class UCModuleService implements ModuleService {
         ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().owner(UltimateCore.get()).build());
         Sponge.getEventManager().post(event);
         if (event.isCancelled()) {
+            Messages.log(Messages.getFormatted("core.load.module.blocked", "%module%", module.getIdentifier()));
+            return false;
+        }
+        if (!ModulesConfig.get().getNode("modules", module.getIdentifier(), "state").getBoolean(true)) {
+            Messages.log(Messages.getFormatted("core.load.module.disabled", "%module%", module.getIdentifier()));
             return false;
         }
         modules.add(module);
