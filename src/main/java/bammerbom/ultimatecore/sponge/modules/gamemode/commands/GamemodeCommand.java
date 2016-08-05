@@ -119,7 +119,7 @@ public class GamemodeCommand implements Command {
                 return CommandResult.empty();
         }
         Player player;
-        if (args.length == 2) {
+        if (args.length >= 2) {
             if (Sponge.getServer().getPlayer(args[1]).isPresent()) {
                 player = Sponge.getServer().getPlayer(args[1]).get();
                 if (gm == GameModes.SURVIVAL && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions
@@ -139,8 +139,10 @@ public class GamemodeCommand implements Command {
                     sender.sendMessage(Messages.getFormatted("core.nopermssions"));
                     return CommandResult.empty();
                 }
-
-                player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes.others", "%sender%", sender.getName(), "%gamemode%", gm.getName()));
+                //Not uuids because a sender does not have an UUID.
+                if (!sender.getName().equals(player.getName())) {
+                    player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes.others", "%sender%", sender.getName(), "%gamemode%", gm.getName()));
+                }
                 sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes.self", "%player%", player.getName(), "%gamemode%", gm.getName()));
 
             } else {
@@ -178,6 +180,10 @@ public class GamemodeCommand implements Command {
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
+        if (curn == 0) {
+            return Arrays.asList("0", "1", "2", "3", "s", "c", "a", "sp", "spec", "survival", "creative", "adventure", "spectator");
+        } else {
+            return null;
+        }
     }
 }
