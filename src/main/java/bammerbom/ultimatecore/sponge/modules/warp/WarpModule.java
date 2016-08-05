@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
+import bammerbom.ultimatecore.sponge.modules.warp.commands.DelwarpCommand;
 import bammerbom.ultimatecore.sponge.modules.warp.commands.SetwarpCommand;
 import bammerbom.ultimatecore.sponge.modules.warp.commands.WarpCommand;
 import com.google.common.reflect.TypeToken;
@@ -65,6 +66,7 @@ public class WarpModule implements Module {
         //Commands
         UltimateCore.get().getCommandService().register(new WarpCommand());
         UltimateCore.get().getCommandService().register(new SetwarpCommand());
+        UltimateCore.get().getCommandService().register(new DelwarpCommand());
     }
 
     @Override
