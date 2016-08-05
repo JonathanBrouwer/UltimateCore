@@ -62,6 +62,9 @@ public class ModulesConfig {
                 node.getNode("modules").setComment("Set enabled to 'force', 'enabled' or 'disabled'\nForce will load the module even when another plugin blocks the loading process.");
             }
             for (Module mod : UltimateCore.get().getModuleService().getRegisteredModules()) {
+                if (mod.getIdentifier().equals("default")) {
+                    continue;
+                }
                 CommentedConfigurationNode modnode = node.getNode("modules", mod.getIdentifier());
                 if (modnode.getNode("enabled").getValue() == null) {
                     modified = true;
