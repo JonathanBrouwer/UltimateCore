@@ -30,8 +30,10 @@ import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
 import bammerbom.ultimatecore.sponge.modules.warp.commands.DelwarpCommand;
 import bammerbom.ultimatecore.sponge.modules.warp.commands.SetwarpCommand;
 import bammerbom.ultimatecore.sponge.modules.warp.commands.WarpCommand;
+import bammerbom.ultimatecore.sponge.modules.warp.commands.WarplistCommand;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -67,6 +69,7 @@ public class WarpModule implements Module {
         UltimateCore.get().getCommandService().register(new WarpCommand());
         UltimateCore.get().getCommandService().register(new SetwarpCommand());
         UltimateCore.get().getCommandService().register(new DelwarpCommand());
+        UltimateCore.get().getCommandService().register(new WarplistCommand());
     }
 
     @Override

@@ -32,4 +32,5 @@ public class WarpPermissions {
     public static Permission UC_WARP_WARP = Permission.create("uc.warp.[WARP]", "warp", PermissionLevel.EVERYONE, "warp", Text.of("Allows you to use a certain warp."));
     public static Permission UC_SETWARP = Permission.create("uc.setwarp", "warp", PermissionLevel.ADMIN, "setwarp", Text.of("Allows you to set a new warp."));
     public static Permission UC_DELWARP = Permission.create("uc.delwarp", "warp", PermissionLevel.ADMIN, "delwarp", Text.of("Allows you to remove a warp."));
+    public static Permission UC_WARPLIST = Permission.create("uc.warplist", "warp", PermissionLevel.EVERYONE, "warplist", Text.of("Allows you to see a list of all warps."));
 }
