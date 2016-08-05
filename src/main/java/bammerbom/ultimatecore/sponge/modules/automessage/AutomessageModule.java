@@ -51,11 +51,6 @@ public class AutomessageModule implements Module {
     }
 
     @Override
-    public Optional<? extends Object> getApi() {
-        return null;
-    }
-
-    @Override
     public Optional<AutomessageConfig> getConfig() {
         return Optional.of(config);
     }

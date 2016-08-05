@@ -44,11 +44,6 @@ public class WeatherModule implements Module {
     }
 
     @Override
-    public Optional<? extends Object> getApi() {
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<WeatherConfig> getConfig() {
         return Optional.of(config);
     }

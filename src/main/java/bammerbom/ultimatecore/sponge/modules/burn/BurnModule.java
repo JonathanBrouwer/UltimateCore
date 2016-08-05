@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.sponge.modules.burn;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.burn.commands.BurnCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -38,11 +37,6 @@ public class BurnModule implements Module {
     @Override
     public String getIdentifier() {
         return "burn";
-    }
-
-    @Override
-    public Optional<? extends Object> getApi() {
-        return Optional.empty();
     }
 
     @Override

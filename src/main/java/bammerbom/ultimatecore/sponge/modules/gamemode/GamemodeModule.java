@@ -40,11 +40,6 @@ public class GamemodeModule implements Module {
     }
 
     @Override
-    public Optional<? extends Object> getApi() {
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<? extends ModuleConfig> getConfig() {
         return Optional.empty();
     }
