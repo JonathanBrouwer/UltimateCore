@@ -141,9 +141,9 @@ public class GamemodeCommand implements Command {
                 }
                 //Not uuids because a sender does not have an UUID.
                 if (!sender.getName().equals(player.getName())) {
-                    player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes.others", "%sender%", sender.getName(), "%gamemode%", gm.getName()));
+                    player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", gm.getName()));
                 }
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes.self", "%player%", player.getName(), "%gamemode%", gm.getName()));
+                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.self", "%player%", player.getName(), "%gamemode%", gm.getName()));
 
             } else {
                 sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[1]));
@@ -168,7 +168,7 @@ public class GamemodeCommand implements Command {
                     sender.sendMessage(Messages.getFormatted("core.nopermssions"));
                     return CommandResult.empty();
                 }
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes", "%gamemode%", gm.getName()));
+                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success", "%gamemode%", gm.getName()));
             } else {
                 sender.sendMessage(Messages.getFormatted("core.noplayer"));
                 return CommandResult.empty();

@@ -97,9 +97,9 @@ public class SurvivalCommand implements Command {
                 player = Sponge.getServer().getPlayer(args[1]).get();
                 //Not uuids because a sender does not have an UUID.
                 if (!sender.getName().equals(player.getName())) {
-                    player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes.others", "%sender%", sender.getName(), "%gamemode%", "survival"));
+                    player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "survival"));
                 }
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes.self", "%player%", player.getName(), "%gamemode%", "survival"));
+                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.self", "%player%", player.getName(), "%gamemode%", "survival"));
             } else {
                 sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[1]));
                 return CommandResult.empty();
@@ -113,7 +113,7 @@ public class SurvivalCommand implements Command {
             //Send messages
             if (sender instanceof Player) {
                 player = (Player) sender;
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes", "%gamemode%", "survival"));
+                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success", "%gamemode%", "survival"));
             } else {
                 sender.sendMessage(Messages.getFormatted("core.noplayer"));
                 return CommandResult.empty();

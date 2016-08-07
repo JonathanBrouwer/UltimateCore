@@ -97,9 +97,9 @@ public class SpectatorCommand implements Command {
                 player = Sponge.getServer().getPlayer(args[1]).get();
                 //Not uuids because a sender does not have an UUID.
                 if (!sender.getName().equals(player.getName())) {
-                    player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes.others", "%sender%", sender.getName(), "%gamemode%", "spectator"));
+                    player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "spectator"));
                 }
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes.self", "%player%", player.getName(), "%gamemode%", "spectator"));
+                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.self", "%player%", player.getName(), "%gamemode%", "spectator"));
             } else {
                 sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[1]));
                 return CommandResult.empty();
@@ -113,7 +113,7 @@ public class SpectatorCommand implements Command {
             //Send messages
             if (sender instanceof Player) {
                 player = (Player) sender;
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.succes", "%gamemode%", "spectator"));
+                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success", "%gamemode%", "spectator"));
             } else {
                 sender.sendMessage(Messages.getFormatted("core.noplayer"));
                 return CommandResult.empty();
