@@ -40,6 +40,7 @@ public class ModuleConfig {
 
     private String module;
     private Path path;
+    private ConfigurationLoader<CommentedConfigurationNode> loader;
     private CommentedConfigurationNode node;
 
     public ModuleConfig(String id) {
@@ -61,7 +62,7 @@ public class ModuleConfig {
                 asset.get().copyToFile(path);
             }
 
-            ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(path).build();
+            loader = HoconConfigurationLoader.builder().setPath(path).build();
             node = loader.load();
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules/" + module + ".conf"));
@@ -73,7 +74,20 @@ public class ModuleConfig {
         return path;
     }
 
+    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
+        return loader;
+    }
+
     public CommentedConfigurationNode get() {
         return node;
+    }
+
+    public boolean save(CommentedConfigurationNode node) {
+        try {
+            getLoader().save(node);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 }

@@ -27,6 +27,8 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.fly.commands.FlyCommand;
+import bammerbom.ultimatecore.sponge.modules.fly.listeners.FlyListeners;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -34,6 +36,8 @@ import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import java.util.Optional;
 
 public class FlyModule implements Module {
+    ModuleConfig config;
+
     @Override
     public String getIdentifier() {
         return "fly";
@@ -41,7 +45,7 @@ public class FlyModule implements Module {
 
     @Override
     public Optional<ModuleConfig> getConfig() {
-        return Optional.empty();
+        return Optional.of(config);
     }
 
     @Override
@@ -51,8 +55,14 @@ public class FlyModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Config
+        config = new ModuleConfig("fly");
         //Commands
         UltimateCore.get().getCommandService().register(new FlyCommand());
+        //Listeners
+        if (!config.get().getNode("enable-autofly").getBoolean(false)) {
+            Sponge.getEventManager().registerListeners(UltimateCore.get(), new FlyListeners());
+        }
     }
 
     @Override

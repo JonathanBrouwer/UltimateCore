@@ -24,7 +24,27 @@
 package bammerbom.ultimatecore.sponge.modules.fly.api;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
+import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
+import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
 public class FlyKeys {
-    public static Key.User<Boolean> FLY = new Key.User<>("fly", false);
+    public static Key.User<Boolean> FLY = new Key.User<>("fly", new KeyProvider.User<Boolean>() {
+        @Override
+        public Boolean load(UltimateUser user) {
+            ModuleConfig config = Modules.FLY.get().getConfig().get();
+            CommentedConfigurationNode node = config.get();
+            return node.getNode("fly").getBoolean(false);
+        }
+
+        @Override
+        public void save(UltimateUser user, Boolean data) {
+            ModuleConfig config = Modules.FLY.get().getConfig().get();
+            CommentedConfigurationNode node = config.get();
+            node.getNode("fly").setValue(data);
+            config.save(node);
+        }
+    });
 }
