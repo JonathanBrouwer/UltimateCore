@@ -24,11 +24,40 @@
 package bammerbom.ultimatecore.sponge.modules.afk.api;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
+import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
 import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.text.title.Title;
 
 public class AfkKeys {
-    public static Key.User.Online<Boolean> IS_AFK = new Key.User.Online<>("afk", false);
-    public static Key.User.Online<Long> AFK_TIME = new Key.User.Online<>("afk_time", null);
-    public static Key.User.Online<String> AFK_MESSAGE = new Key.User.Online<>("afk_message", null);
-    public static Key.User.Online<ExtendedLocation> LAST_LOCATION = new Key.User.Online<>("afk_lastlocation", null);
+    public static Key.User.Online<Boolean> IS_AFK = new Key.User.Online<>("afk", new KeyProvider.User<Boolean>() {
+        @Override
+        public Boolean load(UltimateUser user) {
+            return false;
+        }
+
+        @Override
+        public void save(UltimateUser user, Boolean data) {
+            Messages.log("Afk of " + user.getUser().getName() + " changed to " + data);
+            if (data) {
+                //Make sure the player is not un-afked instantly
+                AfkDetectionListener.afktime.put(user.getIdentifier(), 0L);
+                if (user.getPlayer().isPresent()) {
+                    user.offer(AfkKeys.LAST_LOCATION, new ExtendedLocation(user.getPlayer().get().getLocation(), user.getPlayer().get().getRotation()));
+                }
+            } else {
+                //Player is no longer afk
+                if (user.getPlayer().isPresent()) {
+                    user.getPlayer().get().sendTitle(Title.builder().clear().build());
+                }
+                //Make sure the player is not afked instantly
+                AfkDetectionListener.afktime.put(user.getIdentifier(), System.currentTimeMillis());
+            }
+        }
+    });
+    public static Key.User.Online<Long> AFK_TIME = new Key.User.Online<>("afk_time");
+    public static Key.User.Online<String> AFK_MESSAGE = new Key.User.Online<>("afk_message");
+    public static Key.User.Online<ExtendedLocation> LAST_LOCATION = new Key.User.Online<>("afk_lastlocation");
 }

@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WarpKeys {
-    public static Key.Global<List<Warp>> WARPS = new Key.Global<>("warps", new KeyProvider<List<Warp>, Game>() {
+    public static Key.Global<List<Warp>> WARPS = new Key.Global<>("warps", new KeyProvider.Global<List<Warp>>() {
         @Override
         public List<Warp> load(Game arg) {
             CommentedConfigurationNode node = DataFile.get("warps");

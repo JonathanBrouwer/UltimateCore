@@ -89,24 +89,15 @@ public class UltimateUser {
             return Optional.empty();
         }
         Optional<C> rtrn;
-        if (!datas.containsKey(key.getIdentifier())) {
-            rtrn = key.getDefaultValue();
+        if (datas.containsKey(key.getIdentifier())) {
+            rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
         } else {
             if (key.getProvider().isPresent()) {
-                //Run the provider with getPlayer().get() as argument when possible
-                if (getPlayer().isPresent()) {
-                    if (key instanceof Key.User.Online) {
-                        Key.User.Online<C> newkey = (Key.User.Online<C>) key;
-                        rtrn = Optional.of(newkey.getProvider().get().load(getPlayer().get()));
-                    } else {
-                        rtrn = Optional.of(key.getProvider().get().load(getPlayer().get()));
-                    }
-                } else {
-                    rtrn = Optional.of(key.getProvider().get().load(getUser()));
-                }
+                //Run the provider
+                rtrn = Optional.of(key.getProvider().get().load(this));
             } else {
                 //Provider not available, get the default value
-                rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
+                rtrn = key.getDefaultValue();
             }
         }
         DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.get()).build());
@@ -169,7 +160,7 @@ public class UltimateUser {
         value = event.getValue().orElse(null);
         //Save to config if needed
         if (key.getProvider().isPresent()) {
-            key.getProvider().get().save(Sponge.getGame(), value);
+            key.getProvider().get().save(this, value);
         }
         //Save to map
         if (value == null) {

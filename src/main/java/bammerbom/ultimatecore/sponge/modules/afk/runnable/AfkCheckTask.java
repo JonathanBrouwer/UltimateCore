@@ -69,6 +69,7 @@ public class AfkCheckTask implements Runnable {
             long value = AfkDetectionListener.afktime.get(uuid);
             long diff = System.currentTimeMillis() - value;
             if (!user.get(AfkKeys.IS_AFK).get() && diff > afk) {
+                Messages.log("C");
                 user.offer(AfkKeys.IS_AFK, true);
                 user.offer(AfkKeys.AFK_TIME, System.currentTimeMillis());
                 Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("afk.broadcast.afk", "%player%", user.getUser().getName()));

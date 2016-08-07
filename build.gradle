@@ -21,52 +21,12 @@ sourceSets {
 
 jar {
     manifest.attributes("Main-Class": "bammerbom.ultimatecore.Main")
-    exclude("bammerbom/ultimatecore/sponge/modules")
-    archiveName = "mods/UltimateCore.jar"
+    archiveName = "UltimateCore.jar"
 }
 
 blossom {
     replaceToken '@VERSION@', project.version, 'src/main/java/bammerbom/ultimatecore/sponge/UltimateCore.java'
 }
-
-//Modules
-task afkJar(dependsOn: jar, type: Jar) {
-    from(sourceSets.main.output) {
-        include "bammerbom/ultimatecore/sponge/modules/afk/**"
-    }
-    archiveName = "ultimatecore/modules/afk.jar"
-}
-task automessageJar(dependsOn: jar, type: Jar) {
-    from(sourceSets.main.output) {
-        include "bammerbom/ultimatecore/sponge/modules/automessage/**"
-    }
-    archiveName = "ultimatecore/modules/automessage.jar"
-}
-task burnJar(dependsOn: jar, type: Jar) {
-    from(sourceSets.main.output) {
-        include "bammerbom/ultimatecore/sponge/modules/burn/**"
-    }
-    archiveName = "ultimatecore/modules/burn.jar"
-}
-task gamemodeJar(dependsOn: jar, type: Jar) {
-    from(sourceSets.main.output) {
-        include "bammerbom/ultimatecore/sponge/modules/gamemode/**"
-    }
-    archiveName = "ultimatecore/modules/gamemode.jar"
-}
-task weatherJar(dependsOn: jar, type: Jar) {
-    from(sourceSets.main.output) {
-        include "bammerbom/ultimatecore/sponge/modules/weather/**"
-    }
-    archiveName = "ultimatecore/modules/weather.jar"
-}
-task warpJar(dependsOn: jar, type: Jar) {
-    from(sourceSets.main.output) {
-        include "bammerbom/ultimatecore/sponge/modules/warp/**"
-    }
-    archiveName = "ultimatecore/modules/warp.jar"
-}
-build.dependsOn(afkJar, automessageJar, burnJar, gamemodeJar, weatherJar, warpJar)
 
 //Dependencies
 repositories {
@@ -84,7 +44,7 @@ dependencies {
 }
 
 shadowJar {
-    archiveName = "mods/UltimateCore.jar"
+    archiveName = "UltimateCore.jar"
     classifier = null
     version = null
     dependencies {

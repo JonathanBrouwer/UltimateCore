@@ -75,4 +75,11 @@ public interface ModuleService {
      * @return The module, or Optional.empty() if not found
      */
     Optional<Module> load(File file);
+
+    /**
+     * Finds all modules in both the jar and the custom directory.
+     * This won't actually load/register the modules.
+     */
+    List<Module> findModules();
+
 }

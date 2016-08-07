@@ -29,7 +29,6 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
-import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -71,14 +70,6 @@ public class AfkSwitchListener {
                         //TODO refresh?
                         player.sendTitle(Title.builder().title(title).fadeIn(20).fadeOut(20).stay(config.getNode("title", "subtitle-refresh").getInt()).build());
                     }
-                    //Make sure the player is not un-afked instantly
-                    AfkDetectionListener.afktime.put(player.getUniqueId(), 0L);
-                    user.offer(AfkKeys.LAST_LOCATION, new ExtendedLocation(player.getLocation(), player.getRotation()));
-                } else {
-                    //Player is no longer afk
-                    player.sendTitle(Title.builder().clear().build());
-                    //Make sure the player is not afked instantly
-                    AfkDetectionListener.afktime.put(player.getUniqueId(), System.currentTimeMillis());
                 }
             }
         }

@@ -23,8 +23,23 @@
  */
 package bammerbom.ultimatecore.sponge.api.data;
 
-public interface KeyProvider<C, D> {
-    C load(D arg);
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import org.spongepowered.api.Game;
 
-    void save(D arg, C data);
+public interface KeyProvider<C, E> {
+    C load(E ob);
+
+    void save(E ob, C data);
+
+    interface User<C> extends KeyProvider<C, UltimateUser> {
+        C load(UltimateUser user);
+
+        void save(UltimateUser user, C data);
+    }
+
+    interface Global<C> extends KeyProvider<C, Game> {
+        C load(Game game);
+
+        void save(Game game, C data);
+    }
 }

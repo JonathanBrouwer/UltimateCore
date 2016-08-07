@@ -36,7 +36,6 @@ import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import bammerbom.ultimatecore.sponge.config.ModulesConfig;
 import bammerbom.ultimatecore.sponge.config.serializers.ExtendedLocationSerializer;
-import bammerbom.ultimatecore.sponge.defaultmodule.DefaultModule;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
@@ -63,7 +62,6 @@ import org.spongepowered.api.service.ServiceManager;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @Plugin(id = "ultimatecore", name = "UltimateCore", version = "@VERSION@", description = "All you need to set up a server and more!", url = "http://ultimatecore.org/index", authors =
@@ -112,18 +110,10 @@ public class UltimateCore {
 
             //Load modules
             Sponge.getServiceManager().setProvider(this, ModuleService.class, moduleService);
-            moduleService.registerModule(new DefaultModule());
-            File modfolder = new File("ultimatecore/modules");
-            modfolder.mkdirs();
-            for (File f : modfolder.listFiles()) {
-                if (f.getName().endsWith(".jar") || f.getName().endsWith(".ucmodule")) {
-                    Optional<Module> module = moduleService.load(f);
-                    if (module.isPresent()) {
-                        if (moduleService.registerModule(module.get())) {
-                            Messages.log(Messages.getFormatted("core.load.module.registered", "%module%", module.get().getIdentifier()));
-                        }
-                    } else {
-                        Messages.log(Messages.getFormatted("core.load.module.failed", "%module%", f.getName()));
+            for (Module module : moduleService.findModules()) {
+                if (moduleService.registerModule(module)) {
+                    if (!module.getIdentifier().equals("default")) {
+                        Messages.log(Messages.getFormatted("core.load.module.registered", "%module%", module.getIdentifier()));
                     }
                 }
             }

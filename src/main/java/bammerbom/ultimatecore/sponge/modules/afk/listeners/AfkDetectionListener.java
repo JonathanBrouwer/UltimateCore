@@ -79,7 +79,7 @@ public class AfkDetectionListener {
         }
         if (config.getNode("events", "command").getBoolean(false)) {
             Sponge.getEventManager().registerListener(UltimateCore.get(), SendCommandEvent.class, event -> {
-                if (event.getCause().first(Player.class).isPresent()) {
+                if (event.getCause().first(Player.class).isPresent() && !UltimateCore.get().getCommandService().get("afk").get().getAliases().contains(event.getCommand())) {
                     Player p = event.getCause().first(Player.class).get();
                     afktime.put(p.getUniqueId(), System.currentTimeMillis());
                     unafkCheck(p);
@@ -139,6 +139,7 @@ public class AfkDetectionListener {
         long diff = System.currentTimeMillis() - value;
         if (user.get(AfkKeys.IS_AFK).get() && diff < afk) {
             user.offer(AfkKeys.IS_AFK, false);
+            Messages.log("B");
             Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("afk.broadcast.nolonger", "%player%", user.getUser().getName(), "%time%", TimeUtil.formatDateDiff(user.get
                     (AfkKeys.AFK_TIME).get(), 2, null)));
         }

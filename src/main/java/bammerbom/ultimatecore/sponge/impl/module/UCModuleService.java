@@ -28,7 +28,9 @@ import bammerbom.ultimatecore.sponge.api.event.module.ModuleRegisterEvent;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.config.ModulesConfig;
+import bammerbom.ultimatecore.sponge.defaultmodule.DefaultModule;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import com.google.common.reflect.ClassPath;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
 
@@ -165,5 +167,60 @@ public class UCModuleService implements ModuleService {
             ex.printStackTrace();
             return Optional.empty();
         }
+    }
+
+    /**
+     * Finds all modules in both the jar and the custom directory.
+     * This won't actually load/register the modules.
+     */
+    @Override
+    public List<Module> findModules() {
+        ModuleService moduleService = UltimateCore.get().getModuleService();
+        ArrayList<Module> modules = new ArrayList<>();
+        //Add the default module
+        modules.add(new DefaultModule());
+
+        //Load modules from jar
+        try {
+            //Get all classes
+            Set<ClassPath.ClassInfo> classinfo = ClassPath.from(UltimateCore.class.getClassLoader()).getTopLevelClassesRecursive("bammerbom.ultimatecore.sponge.modules");
+            Set<Class<?>> classes = new HashSet<>();
+            classes.addAll(classinfo.stream().map(ClassPath.ClassInfo::load).collect(Collectors.toSet()));
+
+            for (Class cl : classes) {
+                if (!cl.getPackage().getName().startsWith("bammerbom.ultimatecore.sponge.modules")) {
+                    continue;
+                }
+                if (Module.class.isAssignableFrom(cl)) {
+                    try {
+                        modules.add((Module) cl.getConstructors()[0].newInstance());
+                    } catch (Exception ex) {
+                        Messages.log(Messages.getFormatted("core.load.module.failed", "%module%", cl.getName()));
+                        ex.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (Exception ex) {
+            //TODO errorlogger
+            Messages.log("Failed to load modules from jar:");
+            ex.printStackTrace();
+        }
+
+        //Load modules from file
+        File modfolder = new File("ultimatecore/modules");
+        modfolder.mkdirs();
+        for (File f : modfolder.listFiles()) {
+            if (f.getName().endsWith(".jar") || f.getName().endsWith(".ucmodule")) {
+                Optional<Module> module = moduleService.load(f);
+                if (module.isPresent()) {
+                    modules.add(module.get());
+                } else {
+                    Messages.log(Messages.getFormatted("core.load.module.failed", "%module%", f.getName()));
+                }
+            }
+        }
+        //
+        return modules;
     }
 }

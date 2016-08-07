@@ -36,6 +36,17 @@ public class Key<C> {
     protected KeyProvider<C, ? extends Object> provider;
 
     /**
+     * Create a new Key with the provided id and no default value
+     *
+     * @param id The identifier, must be unique
+     */
+    public Key(String id) {
+        this.identifier = id;
+        this.defaul = null;
+        this.provider = null;
+    }
+
+    /**
      * Create a new Key with the provided id and default value
      *
      * @param id  The identifier, must be unique
@@ -80,8 +91,8 @@ public class Key<C> {
     /**
      * Get the provider for default values, load and save actions
      */
-    public <D> Optional<KeyProvider<C, D>> getProvider() {
-        return Optional.ofNullable((KeyProvider<C, D>) provider);
+    public <E> Optional<KeyProvider<C, E>> getProvider() {
+        return Optional.ofNullable((KeyProvider<C, E>) provider);
     }
 
     /**
@@ -90,12 +101,21 @@ public class Key<C> {
      * @param <C>
      */
     public static class User<C> extends Key<C> {
+
+        public User(String id) {
+            super(id);
+        }
+
         public User(String id, @Nullable C def) {
             super(id, def);
         }
 
-        public User(String id, @Nullable KeyProvider<C, ? extends User> def) {
+        public User(String id, @Nullable KeyProvider.User<C> def) {
             super(id, def);
+        }
+
+        public Optional<KeyProvider<C, UltimateUser>> getProvider() {
+            return Optional.ofNullable((KeyProvider<C, UltimateUser>) provider);
         }
 
         /**
@@ -104,6 +124,11 @@ public class Key<C> {
          * @param <C> The type of data the key holds
          */
         public static class Online<C> extends User<C> {
+
+            public Online(String id) {
+                super(id);
+            }
+
             public Online(String id, @Nullable C def) {
                 super(id, def);
                 if (!UltimateUser.onlinekeys.contains(id)) {
@@ -111,7 +136,7 @@ public class Key<C> {
                 }
             }
 
-            public Online(String id, @Nullable KeyProvider<C, User> def) {
+            public Online(String id, @Nullable KeyProvider.User<C> def) {
                 super(id, def);
                 if (!UltimateUser.onlinekeys.contains(id)) {
                     UltimateUser.onlinekeys.add(id);
@@ -126,6 +151,11 @@ public class Key<C> {
      * @param <C> The type of data the key holds
      */
     public static class Global<C> extends Key<C> {
+
+        public Global(String id) {
+            super(id);
+        }
+
         /**
          * Create a new Key with the provided id and default value
          *
@@ -142,8 +172,12 @@ public class Key<C> {
          * @param id  The identifier, must be unique
          * @param def The default value for this key, can be null
          */
-        public Global(String id, @Nullable KeyProvider<C, Game> def) {
+        public Global(String id, @Nullable KeyProvider.Global<C> def) {
             super(id, def);
+        }
+
+        public Optional<KeyProvider<C, Game>> getProvider() {
+            return Optional.ofNullable((KeyProvider<C, Game>) provider);
         }
     }
 

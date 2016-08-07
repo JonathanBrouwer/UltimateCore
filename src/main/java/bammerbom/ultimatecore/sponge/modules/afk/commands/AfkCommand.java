@@ -31,10 +31,8 @@ import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
-import bammerbom.ultimatecore.sponge.utils.CMGenerator;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
+import bammerbom.ultimatecore.sponge.utils.*;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -105,6 +103,7 @@ public class AfkCommand implements Command {
             }
             user = UltimateCore.get().getUserService().getUser((Player) sender);
         }
+        Messages.log("A");
         //No isPresent() needed because IS_AFK has a default value
         boolean newafk = !user.get(AfkKeys.IS_AFK).get();
         if (user.offer(AfkKeys.IS_AFK, newafk)) {
@@ -117,6 +116,9 @@ public class AfkCommand implements Command {
                 } else {
                     Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.afk", "%player%", user.getUser().getName()));
                 }
+                //Make sure the player is not un-afked instantly
+                AfkDetectionListener.afktime.put(user.getIdentifier(), 0L);
+                user.offer(AfkKeys.LAST_LOCATION, new ExtendedLocation(user.getPlayer().get().getLocation(), user.getPlayer().get().getRotation()));
             } else {
                 Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.nolonger", "%player%", user.getUser().getName(), "%time%", TimeUtil
                         .formatDateDiff(user.get(AfkKeys.AFK_TIME).get(), 2, null)));
