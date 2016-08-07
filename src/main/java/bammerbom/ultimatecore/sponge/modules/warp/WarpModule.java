@@ -46,7 +46,7 @@ public class WarpModule implements Module {
     }
 
     @Override
-    public Optional<? extends ModuleConfig> getConfig() {
+    public Optional<ModuleConfig> getConfig() {
         return Optional.empty();
     }
 

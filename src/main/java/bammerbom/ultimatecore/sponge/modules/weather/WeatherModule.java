@@ -25,8 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.weather;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.weather.commands.WeatherCommand;
-import bammerbom.ultimatecore.sponge.modules.weather.config.WeatherConfig;
 import bammerbom.ultimatecore.sponge.modules.weather.listeners.WeatherListener;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -36,7 +36,7 @@ import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import java.util.Optional;
 
 public class WeatherModule implements Module {
-    WeatherConfig config;
+    ModuleConfig config;
 
     @Override
     public String getIdentifier() {
@@ -44,7 +44,7 @@ public class WeatherModule implements Module {
     }
 
     @Override
-    public Optional<WeatherConfig> getConfig() {
+    public Optional<ModuleConfig> getConfig() {
         return Optional.of(config);
     }
 
@@ -56,8 +56,7 @@ public class WeatherModule implements Module {
     @Override
     public void onInit(GameInitializationEvent event) {
         //Config
-        config = new WeatherConfig();
-        config.reload();
+        config = new ModuleConfig("weather");
         //Commands
         UltimateCore.get().getCommandService().register(new WeatherCommand());
         //Listeners

@@ -25,8 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.afk;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.afk.commands.AfkCommand;
-import bammerbom.ultimatecore.sponge.modules.afk.config.AfkConfig;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkSwitchListener;
 import bammerbom.ultimatecore.sponge.modules.afk.runnable.AfkTitleTask;
@@ -42,7 +42,7 @@ public class AfkModule implements Module {
     //TODO is back after x time
     //TODO "user may not respond" with chat/pm to user
 
-    AfkConfig config;
+    ModuleConfig config;
 
     @Override
     public String getIdentifier() {
@@ -50,7 +50,7 @@ public class AfkModule implements Module {
     }
 
     @Override
-    public Optional<AfkConfig> getConfig() {
+    public Optional<ModuleConfig> getConfig() {
         return Optional.of(config);
     }
 
@@ -62,8 +62,7 @@ public class AfkModule implements Module {
     @Override
     public void onInit(GameInitializationEvent event) {
         //Config
-        config = new AfkConfig();
-        config.reload();
+        config = new ModuleConfig("afk");
         //Commands
         UltimateCore.get().getCommandService().register(new AfkCommand());
         //Listeners

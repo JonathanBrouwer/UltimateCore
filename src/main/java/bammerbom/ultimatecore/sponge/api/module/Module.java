@@ -41,7 +41,7 @@ public interface Module {
     /**
      * This should return the config this module provides, or Optional.empty() when not available.
      */
-    Optional<? extends ModuleConfig> getConfig();
+    Optional<ModuleConfig> getConfig();
 
     /**
      * Called when the module is registered, normally during Pre-initialization.

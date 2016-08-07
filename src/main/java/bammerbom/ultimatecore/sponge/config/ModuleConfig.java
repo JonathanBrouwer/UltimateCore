@@ -23,27 +23,57 @@
  */
 package bammerbom.ultimatecore.sponge.config;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.asset.Asset;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Optional;
 
-public interface ModuleConfig {
-    /**
-     * Reload the {@link CommentedConfigurationNode} from the file.
-     */
-    void reload();
+public class ModuleConfig {
 
-    /**
-     * Gets the {@link Path} where this config file is located.
-     *
-     * @return The path
-     */
-    Path getPath();
+    private String module;
+    private Path path;
+    private CommentedConfigurationNode node;
 
-    /**
-     * Get the {@link CommentedConfigurationNode} for this config.
-     *
-     * @return The {@link CommentedConfigurationNode}.
-     */
-    CommentedConfigurationNode get();
+    public ModuleConfig(String id) {
+        this.module = id;
+        this.path = new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", module + ".conf").toPath();
+        reload();
+    }
+
+    public void reload() {
+        try {
+            File file = path.toFile();
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                Optional<Asset> asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/modules/" + module + ".conf");
+                if (!asset.isPresent()) {
+                    Messages.log(Messages.getFormatted("core.config.invalidjar", "%conf%", "modules/" + module + ".conf"));
+                    return;
+                }
+                asset.get().copyToFile(path);
+            }
+
+            ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(path).build();
+            node = loader.load();
+        } catch (IOException e) {
+            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules/" + module + ".conf"));
+            e.printStackTrace();
+        }
+    }
+
+    public Path getPath() {
+        return path;
+    }
+
+    public CommentedConfigurationNode get() {
+        return node;
+    }
 }

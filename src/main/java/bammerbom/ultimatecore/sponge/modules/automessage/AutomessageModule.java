@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.automessage;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.modules.automessage.config.AutomessageConfig;
+import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.automessage.runnable.ActionbarRunnable;
 import bammerbom.ultimatecore.sponge.modules.automessage.runnable.BossbarRunnable;
 import bammerbom.ultimatecore.sponge.modules.automessage.runnable.ChatRunnable;
@@ -43,7 +43,7 @@ public class AutomessageModule implements Module {
     //TODO random with no repeat
     //TODO run command with automessage
     //TODO per player variables
-    AutomessageConfig config;
+    ModuleConfig config;
 
     @Override
     public String getIdentifier() {
@@ -51,7 +51,7 @@ public class AutomessageModule implements Module {
     }
 
     @Override
-    public Optional<AutomessageConfig> getConfig() {
+    public Optional<ModuleConfig> getConfig() {
         return Optional.of(config);
     }
 
@@ -63,8 +63,7 @@ public class AutomessageModule implements Module {
     @Override
     public void onInit(GameInitializationEvent event) {
         //Config
-        config = new AutomessageConfig();
-        config.reload();
+        config = new ModuleConfig("automessage");
         //Runnables
         if (config.get().getNode("chat", "enable").getBoolean(false)) {
             long time = config.get().getNode("chat", "time").getLong();

@@ -40,7 +40,7 @@ public class GamemodeModule implements Module {
     }
 
     @Override
-    public Optional<? extends ModuleConfig> getConfig() {
+    public Optional<ModuleConfig> getConfig() {
         return Optional.empty();
     }
 
