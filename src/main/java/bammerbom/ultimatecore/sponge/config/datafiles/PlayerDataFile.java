@@ -34,8 +34,13 @@ import java.util.UUID;
 
 public class PlayerDataFile {
     private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/playerdata");
+    private UUID uuid;
 
-    public static ConfigurationLoader<CommentedConfigurationNode> getLoader(UUID uuid) {
+    public PlayerDataFile(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
         if (!path.exists()) {
             path.mkdirs();
         }
@@ -50,12 +55,21 @@ public class PlayerDataFile {
         return HoconConfigurationLoader.builder().setFile(file).build();
     }
 
-    public static CommentedConfigurationNode get(UUID uuid) {
+    public CommentedConfigurationNode get() {
         try {
-            return getLoader(uuid).load();
+            return getLoader().load();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public boolean save(CommentedConfigurationNode node) {
+        try {
+            getLoader().save(node);
+            return true;
+        } catch (Exception ex) {
+            return false;
         }
     }
 }

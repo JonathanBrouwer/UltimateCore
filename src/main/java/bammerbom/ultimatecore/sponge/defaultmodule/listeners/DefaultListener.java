@@ -31,19 +31,14 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
-import java.io.IOException;
-
 public class DefaultListener {
 
     @Listener
     public void onJoin(ClientConnectionEvent.Join event) {
-        CommentedConfigurationNode node = PlayerDataFile.get(event.getTargetEntity().getUniqueId());
+        PlayerDataFile config = new PlayerDataFile(event.getTargetEntity().getUniqueId());
+        CommentedConfigurationNode node = config.get();
         node.getNode("lastconnect").setValue(System.currentTimeMillis());
-        try {
-            PlayerDataFile.getLoader(event.getTargetEntity().getUniqueId()).save(node);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        config.save(node);
     }
 
     @Listener

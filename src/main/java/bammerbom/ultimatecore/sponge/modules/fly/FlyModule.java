@@ -60,7 +60,7 @@ public class FlyModule implements Module {
         //Commands
         UltimateCore.get().getCommandService().register(new FlyCommand());
         //Listeners
-        if (!config.get().getNode("enable-autofly").getBoolean(false)) {
+        if (config.get().getNode("enable-autofly").getBoolean(false)) {
             Sponge.getEventManager().registerListeners(UltimateCore.get(), new FlyListeners());
         }
     }
