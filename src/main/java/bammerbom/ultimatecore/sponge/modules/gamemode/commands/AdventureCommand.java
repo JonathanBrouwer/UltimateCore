@@ -89,7 +89,7 @@ public class AdventureCommand implements Command {
         if (args.length >= 1) {
             //Check permissions
             if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_ADVENTURE.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermssions"));
+                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
             //Send messages
@@ -107,7 +107,7 @@ public class AdventureCommand implements Command {
         } else {
             //Check permissions
             if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermssions"));
+                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
             //Send messages
