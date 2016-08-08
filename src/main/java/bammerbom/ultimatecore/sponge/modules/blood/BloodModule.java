@@ -26,14 +26,15 @@ package bammerbom.ultimatecore.sponge.modules.blood;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffect;
+import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffects;
 import bammerbom.ultimatecore.sponge.modules.blood.listeners.BloodListener;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.block.BlockState;
-import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -63,10 +64,12 @@ public class BloodModule implements Module {
     @Override
     public void onInit(GameInitializationEvent event) {
         //Config
+        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(BloodEffect.class), new BloodEffect.BloodEffectSerializer());
         config = new ModuleConfig("blood");
         //Check if all entity types are in the config
         CommentedConfigurationNode node = config.get();
         boolean modified = false;
+        //For every entitytype, if it doesnt exist in the config add it
         for (EntityType type : Sponge.getRegistry().getAllOf(CatalogTypes.ENTITY_TYPE)) {
             if (!Living.class.isAssignableFrom(type.getEntityClass())) {
                 continue;
@@ -75,22 +78,8 @@ public class BloodModule implements Module {
             if (node.getNode("types", type.getId(), "enabled").getValue() == null) {
                 modified = true;
                 CommentedConfigurationNode typenode = node.getNode("types", type.getId());
-                //Save enabled
-                typenode.getNode("enabled").setValue(true);
-                //Save particle-offset
-                typenode.getNode("particle-offset", "x").setValue(0.3);
-                typenode.getNode("particle-offset", "y").setValue(0.3);
-                typenode.getNode("particle-offset", "z").setValue(0.3);
-                //Save center-offset
-                typenode.getNode("center-offset", "x").setValue(0.0);
-                typenode.getNode("center-offset", "y").setValue(1.0);
-                typenode.getNode("center-offset", "z").setValue(0.0);
-                //Save count
-                typenode.getNode("count").setValue(50);
-                //Save blockstate
-                BlockState state = BlockState.builder().blockType(BlockTypes.REDSTONE_BLOCK).build();
                 try {
-                    typenode.getNode("blockstate").setValue(TypeToken.of(BlockState.class), state);
+                    typenode.setValue(TypeToken.of(BloodEffect.class), BloodEffects.DEFAULT);
                 } catch (ObjectMappingException e) {
                     e.printStackTrace();
                 }
@@ -99,6 +88,8 @@ public class BloodModule implements Module {
         if (modified) {
             config.save(node);
         }
+        //Load blood effects from config
+        BloodEffects.reload();
         //Listeners
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new BloodListener());
     }

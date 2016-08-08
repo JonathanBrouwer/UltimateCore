@@ -21,27 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.blood.listeners;
+package bammerbom.ultimatecore.sponge.config.serializers;
 
-import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffect;
-import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffects;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.EntityType;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.entity.DamageEntityEvent;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
+import com.flowpowered.math.vector.Vector3d;
+import com.google.common.reflect.TypeToken;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 
-public class BloodListener {
-    @Listener
-    public void onDamage(DamageEntityEvent event) {
-        Entity en = event.getTargetEntity();
-        EntityType type = en.getType();
-        BloodEffect effect = BloodEffects.get(type).orElse(null);
-        if (effect == null || !effect.isEnabled()) {
-            return;
-        }
-        Location<World> loc = en.getLocation().add(effect.getCenterOffset());
-        loc.getExtent().spawnParticles(effect.getEffect(), loc.getPosition());
+public class Vector3dSerializer implements TypeSerializer<Vector3d> {
+    @Override
+    public Vector3d deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
+        double x = node.getNode("x").getDouble();
+        double y = node.getNode("y").getDouble();
+        double z = node.getNode("z").getDouble();
+        return new Vector3d(x, y, z);
+    }
+
+    @Override
+    public void serialize(TypeToken<?> type, Vector3d vector, ConfigurationNode node) throws ObjectMappingException {
+        node.getNode("x").setValue(vector.getX());
+        node.getNode("y").setValue(vector.getY());
+        node.getNode("z").setValue(vector.getZ());
     }
 }

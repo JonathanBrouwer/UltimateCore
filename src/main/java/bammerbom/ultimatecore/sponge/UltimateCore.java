@@ -36,6 +36,7 @@ import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import bammerbom.ultimatecore.sponge.config.ModulesConfig;
 import bammerbom.ultimatecore.sponge.config.serializers.ExtendedLocationSerializer;
+import bammerbom.ultimatecore.sponge.config.serializers.Vector3dSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
@@ -45,6 +46,7 @@ import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
 import bammerbom.ultimatecore.sponge.utils.Stats;
+import com.flowpowered.math.vector.Vector3d;
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
@@ -96,6 +98,7 @@ public class UltimateCore {
             //Load utils
             ServerID.start();
             Messages.reloadEnglishMessages();
+            TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Vector3d.class), new Vector3dSerializer());
             TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ExtendedLocation.class), new ExtendedLocationSerializer());
             GeneralConfig.reload();
             CommandsConfig.preload();
