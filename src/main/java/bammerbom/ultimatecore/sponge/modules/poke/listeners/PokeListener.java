@@ -35,14 +35,12 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 
-import java.util.Locale;
-
 public class PokeListener {
     @Listener
     public void onChat(MessageChannelEvent.Chat event) {
         String message = event.getRawMessage().toPlain();
-        for(Player p : Sponge.getServer().getOnlinePlayers()) {
-            if(message.contains(p.getName())){
+        for (Player p : Sponge.getServer().getOnlinePlayers()) {
+            if (message.contains(p.getName())) {
                 ModuleConfig config = Modules.POKE.get().getConfig().get();
                 CommentedConfigurationNode node = config.get();
                 String soundname = node.getNode("sound", "sound").getString();
@@ -50,10 +48,11 @@ public class PokeListener {
                 Double volume = node.getNode("sound", "volume").getDouble();
                 Double pitch = node.getNode("sound", "pitch").getDouble();
                 Double minVolume = node.getNode("sound", "minVolume").getDouble();
-                SoundType type = Sponge.getRegistry().getType(CatalogTypes.SOUND_TYPE, soundname).get();
-                SoundCategory category = Sponge.getRegistry().getType(SoundCategory.class, categoryname).get();
+                SoundType type = Sponge.getRegistry().getType(CatalogTypes.SOUND_TYPE, soundname.replace(".", "_").toUpperCase()).get();
+                //TODO wait for CatalogTypes.SOUND_CATEGORY to be added
+                SoundCategory category = SoundCategories.PLAYER; //Sponge.getRegistry().getType(SoundCategory.class, categoryname.toUpperCase()).get();
                 p.playSound(type, category, p.getLocation().getPosition(), volume, pitch, minVolume);
             }
-        };
+        }
     }
 }
