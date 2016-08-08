@@ -103,7 +103,6 @@ public class AfkCommand implements Command {
             }
             user = UltimateCore.get().getUserService().getUser((Player) sender);
         }
-        Messages.log("A");
         //No isPresent() needed because IS_AFK has a default value
         boolean newafk = !user.get(AfkKeys.IS_AFK).get();
         if (user.offer(AfkKeys.IS_AFK, newafk)) {

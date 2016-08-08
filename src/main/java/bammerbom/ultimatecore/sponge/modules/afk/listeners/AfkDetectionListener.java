@@ -139,7 +139,6 @@ public class AfkDetectionListener {
         long diff = System.currentTimeMillis() - value;
         if (user.get(AfkKeys.IS_AFK).get() && diff < afk) {
             user.offer(AfkKeys.IS_AFK, false);
-            Messages.log("B");
             Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("afk.broadcast.nolonger", "%player%", user.getUser().getName(), "%time%", TimeUtil.formatDateDiff(user.get
                     (AfkKeys.AFK_TIME).get(), 2, null)));
         }

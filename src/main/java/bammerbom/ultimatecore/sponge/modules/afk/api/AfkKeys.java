@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
 import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.text.title.Title;
 
 public class AfkKeys {
@@ -40,7 +39,6 @@ public class AfkKeys {
 
         @Override
         public void save(UltimateUser user, Boolean data) {
-            Messages.log("Afk of " + user.getUser().getName() + " changed to " + data);
             if (data) {
                 //Make sure the player is not un-afked instantly
                 AfkDetectionListener.afktime.put(user.getIdentifier(), 0L);

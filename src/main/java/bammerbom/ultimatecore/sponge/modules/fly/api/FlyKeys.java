@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
 public class FlyKeys {
@@ -44,7 +43,7 @@ public class FlyKeys {
             PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
             CommentedConfigurationNode node = config.get();
             node.getNode("fly").setValue(data);
-            Messages.log(config.save(node));
+            config.save(node);
         }
     });
 }
