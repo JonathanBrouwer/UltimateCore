@@ -220,6 +220,13 @@ public class Messages {
     }
 
     /**
+     * Does exactly the same as .log(), but can be found using ctrl + f so I can remove them later
+     */
+    public static void debug(Object message) {
+        log(message);
+    }
+
+    /**
      * Convert a String to a Text object
      */
     public static Text toText(String raw) {
