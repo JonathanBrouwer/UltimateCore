@@ -36,7 +36,6 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
-import org.spongepowered.api.world.weather.Weather;
 import org.spongepowered.api.world.weather.Weathers;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WeatherCommand implements Command {
+public class SunCommand implements Command {
     @Override
     public Module getModule() {
         return Modules.WEATHER.get();
@@ -52,7 +51,7 @@ public class WeatherCommand implements Command {
 
     @Override
     public String getIdentifier() {
-        return "weather";
+        return "sun";
     }
 
     @Override
@@ -62,77 +61,41 @@ public class WeatherCommand implements Command {
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(WeatherPermissions.UC_WEATHER, WeatherPermissions.UC_WEATHER_SUN, WeatherPermissions.UC_WEATHER_RAIN, WeatherPermissions.UC_WEATHER_THUNDER);
+        return Arrays.asList(WeatherPermissions.UC_WEATHER, WeatherPermissions.UC_WEATHER_SUN);
     }
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getFormatted("weather.command.weather.usage"));
+        return CMGenerator.usage(this, Messages.getFormatted("weather.command.sun.usage"));
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.shortDescription(this, Messages.getFormatted("weather.command.weather.shortdescription"));
+        return CMGenerator.shortDescription(this, Messages.getFormatted("weather.command.sun.shortdescription"));
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.longDescription(this, Messages.getFormatted("weather.command.weather.longdescription"));
+        return CMGenerator.longDescription(this, Messages.getFormatted("weather.command.sun.longdescription"));
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("weather", "downfall");
+        return Arrays.asList("sun", "clearweather");
     }
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage(getUsage());
+        if (!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_SUN.get())) {
+            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
-        Weather weathertype;
-        switch (args[0].toLowerCase()) {
-            case "sun":
-            case "clear":
-                if (!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_SUN.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
-                    return CommandResult.empty();
-                }
-                weathertype = Weathers.CLEAR;
-                break;
-            case "rain":
-            case "snow":
-            case "downfall":
-                if (!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_RAIN.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
-                    return CommandResult.empty();
-                }
-                weathertype = Weathers.RAIN;
-                break;
-            case "thunder":
-            case "thunderstorm":
-            case "storm":
-                if (!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_THUNDER.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
-                    return CommandResult.empty();
-                }
-                weathertype = Weathers.THUNDER_STORM;
-                break;
-            default:
-                if (!sender.hasPermission(WeatherPermissions.UC_WEATHER.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
-                    return CommandResult.empty();
-                }
-                sender.sendMessage(Messages.getFormatted("weather.command.weather.invalidweathertype", "%weather%", args[0]));
-                return CommandResult.empty();
-        }
         World world;
-        if (args.length >= 2) {
-            if (Sponge.getServer().getWorld(args[1]).isPresent()) {
-                world = Sponge.getServer().getWorld(args[1]).get();
+        if (args.length >= 1) {
+            if (Sponge.getServer().getWorld(args[0]).isPresent()) {
+                world = Sponge.getServer().getWorld(args[0]).get();
             } else {
-                sender.sendMessage(Messages.getFormatted("core.worldnotfound", "%world%", args[1]));
+                sender.sendMessage(Messages.getFormatted("core.worldnotfound", "%world%", args[0]));
                 return CommandResult.empty();
             }
         } else {
@@ -143,16 +106,14 @@ public class WeatherCommand implements Command {
             Player player = (Player) sender;
             world = player.getWorld();
         }
-        world.setWeather(weathertype);
-        sender.sendMessage(Messages.getFormatted("weather.command.weather.success", "%weather%", args[0].toLowerCase(), "%world%", world.getName()));
+        world.setWeather(Weathers.CLEAR);
+        sender.sendMessage(Messages.getFormatted("weather.command.weather.success", "%weather%", "sun", "%world%", world.getName()));
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
         if (curn == 0) {
-            return Arrays.asList("sun", "clear", "rain", "snow", "downfall", "thunder", "thunderstorm", "storm");
-        } else if (curn == 1) {
             return Sponge.getServer().getWorlds().stream().map(World::getName).collect(Collectors.toCollection(ArrayList::new));
         } else {
             return new ArrayList<>();

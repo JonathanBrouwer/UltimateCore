@@ -26,6 +26,9 @@ package bammerbom.ultimatecore.sponge.modules.weather;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.weather.commands.RainCommand;
+import bammerbom.ultimatecore.sponge.modules.weather.commands.SunCommand;
+import bammerbom.ultimatecore.sponge.modules.weather.commands.ThunderCommand;
 import bammerbom.ultimatecore.sponge.modules.weather.commands.WeatherCommand;
 import bammerbom.ultimatecore.sponge.modules.weather.listeners.WeatherListener;
 import org.spongepowered.api.Sponge;
@@ -59,6 +62,9 @@ public class WeatherModule implements Module {
         config = new ModuleConfig("weather");
         //Commands
         UltimateCore.get().getCommandService().register(new WeatherCommand());
+        UltimateCore.get().getCommandService().register(new SunCommand());
+        UltimateCore.get().getCommandService().register(new RainCommand());
+        UltimateCore.get().getCommandService().register(new ThunderCommand());
         //Listeners
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new WeatherListener());
     }
