@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.warp.api;
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -46,7 +47,7 @@ public class WarpKeys {
                 try {
                     warps.add(wnode.getValue(TypeToken.of(Warp.class)));
                 } catch (ObjectMappingException e) {
-                    e.printStackTrace();
+                    Messages.log(Messages.getFormatted("warp.command.warp.invalidwarp", "%warp%", wnode.getNode("name").getString()));
                 }
             }
             return warps;
