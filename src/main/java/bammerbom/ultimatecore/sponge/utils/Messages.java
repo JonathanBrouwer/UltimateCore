@@ -196,7 +196,7 @@ public class Messages {
             } else {
                 if (var instanceof Text) {
                     Text text = (Text) var;
-                    var = TextSerializers.JSON.serialize(text); //TODO does this work?
+                    var = TextSerializers.FORMATTING_CODE.serialize(text); //TODO does this work?
                 }
                 raw = raw.replace(first, var.toString());
                 first = null;
