@@ -93,15 +93,15 @@ public class CreativeCommand implements Command {
                 return CommandResult.empty();
             }
             //Send messages
-            if (Sponge.getServer().getPlayer(args[1]).isPresent()) {
-                player = Sponge.getServer().getPlayer(args[1]).get();
+            if (Sponge.getServer().getPlayer(args[0]).isPresent()) {
+                player = Sponge.getServer().getPlayer(args[0]).get();
                 //Not uuids because a sender does not have an UUID.
                 if (!sender.getName().equals(player.getName())) {
                     player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "creative"));
                 }
                 sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.self", "%player%", player.getName(), "%gamemode%", "creative"));
             } else {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[1]));
+                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
         } else {
