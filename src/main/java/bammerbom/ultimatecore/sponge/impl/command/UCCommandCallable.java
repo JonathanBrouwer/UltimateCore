@@ -37,6 +37,7 @@ import org.spongepowered.api.world.World;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UCCommandCallable implements CommandCallable {
 
@@ -92,6 +93,8 @@ public class UCCommandCallable implements CommandCallable {
                 rtrn.add(p.getName());
             }
         }
+        String start = args[args.length - 1];
+        rtrn = rtrn.stream().filter(name -> name.toLowerCase().startsWith(start.toLowerCase())).collect(Collectors.toList());
         return rtrn;
     }
 
