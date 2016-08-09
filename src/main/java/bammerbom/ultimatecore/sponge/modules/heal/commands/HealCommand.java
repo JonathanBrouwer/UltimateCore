@@ -36,6 +36,7 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -91,6 +92,10 @@ public class HealCommand implements Command {
                 sender.sendMessage(Messages.getFormatted("heal.command.heal.success"));
                 Player p = (Player) sender;
                 p.offer(Keys.HEALTH, p.get(Keys.MAX_HEALTH).orElse(20.0));
+                p.offer(Keys.POTION_EFFECTS, new ArrayList<>());
+                p.offer(Keys.REMAINING_AIR, p.get(Keys.MAX_AIR).orElse(10));
+                p.offer(Keys.FOOD_LEVEL, 20);
+                p.offer(Keys.FIRE_TICKS, 0);
 
                 return CommandResult.success();
             } else {
@@ -101,9 +106,13 @@ public class HealCommand implements Command {
         Player t;
         if (Sponge.getServer().getPlayer(args[0]).isPresent()) {
             t = Sponge.getServer().getPlayer(args[0]).get();
-            sender.sendMessage(Messages.getFormatted("heal.command.heal.success.self"));
-            t.sendMessage(Messages.getFormatted("heal.command.heal.success.others"));
+            sender.sendMessage(Messages.getFormatted("heal.command.heal.success.self", "%player%", t.getName()));
+            t.sendMessage(Messages.getFormatted("heal.command.heal.success.others", "%sender%", sender.getName()));
             t.offer(Keys.HEALTH, t.get(Keys.MAX_HEALTH).orElse(20.0));
+            t.offer(Keys.POTION_EFFECTS, new ArrayList<>());
+            t.offer(Keys.REMAINING_AIR, t.get(Keys.MAX_AIR).orElse(10));
+            t.offer(Keys.FOOD_LEVEL, 20);
+            t.offer(Keys.FIRE_TICKS, 0);
 
             return CommandResult.success();
         } else {
