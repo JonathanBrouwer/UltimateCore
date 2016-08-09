@@ -65,6 +65,7 @@ public class Modules {
     public static Optional<Module> GAMEMODE = service.getModule("gamemode");
     public static Optional<Module> HOLOGRAM = service.getModule("holograms");
     public static Optional<Module> HOME = service.getModule("home");
+    public static Optional<Module> HEAL = service.getModule("heal");
     //Exempt perm
     public static Optional<Module> IGNORE = service.getModule("ignore");
     public static Optional<Module> INSTANTRESPAWN = service.getModule("instantrespawn");
