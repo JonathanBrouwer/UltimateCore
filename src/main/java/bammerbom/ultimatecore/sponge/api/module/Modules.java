@@ -103,8 +103,6 @@ public class Modules {
     public static Optional<Module> REPAIR = service.getModule("repair");
     public static Optional<Module> REPORT = service.getModule("report");
     //Schedule commands at specific times of a day
-    public static Optional<Module> SETHEALTH = service.getModule("sethealth");
-    public static Optional<Module> SETMAXHEALTH = service.getModule("setmaxhealth");
     public static Optional<Module> SCHEDULER = service.getModule("scheduler");
     public static Optional<Module> SCOREBOARD = service.getModule("scoreboard");
     public static Optional<Module> SERVERLIST = service.getModule("serverlist");

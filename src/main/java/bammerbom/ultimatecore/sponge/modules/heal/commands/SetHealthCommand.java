@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
 import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
@@ -44,7 +43,7 @@ import java.util.List;
 public class SetHealthCommand implements Command {
     @Override
     public Module getModule() {
-        return Modules.SETHEALTH.get();
+        return Modules.HEAL.get();
     }
 
     @Override
