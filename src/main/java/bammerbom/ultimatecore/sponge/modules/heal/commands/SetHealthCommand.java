@@ -85,7 +85,6 @@ public class SetHealthCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-
         if (!sender.hasPermission(HealPermissions.UC_SETHEALTH.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
@@ -105,6 +104,12 @@ public class SetHealthCommand implements Command {
             try {
                 Player p = (Player) sender;
                 health = Double.parseDouble(args[0]);
+                if (health > p.get(Keys.MAX_HEALTH).orElse(20.0)) {
+                    health = p.get(Keys.MAX_HEALTH).orElse(20.0);
+                }
+                if (health <= 0) {
+                    health = 0.0;
+                }
                 p.offer(Keys.HEALTH, health);
                 sender.sendMessage(Messages.getFormatted("heal.command.sethealth.success", "%health%", health));
 
@@ -119,6 +124,12 @@ public class SetHealthCommand implements Command {
 
             try {
                 health = Double.parseDouble(args[0]);
+                if (health > t.get(Keys.MAX_HEALTH).orElse(20.0)) {
+                    health = t.get(Keys.MAX_HEALTH).orElse(20.0);
+                }
+                if (health <= 0) {
+                    health = 0.0;
+                }
                 t.offer(Keys.HEALTH, health);
                 sender.sendMessage(Messages.getFormatted("heal.command.sethealth.success.self", "%target%", t.getName(), "%health%", health));
                 t.sendMessage(Messages.getFormatted("heal.command.sethealth.success.others", "%player%", sender.getName(), "%health%", health));
