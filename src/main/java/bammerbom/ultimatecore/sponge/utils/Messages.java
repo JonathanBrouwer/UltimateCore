@@ -211,7 +211,7 @@ public class Messages {
      * @param message The message to print
      */
     public static void log(Object message) {
-        Text logo = TextSerializers.FORMATTING_CODE.deserialize("&9[&bUC&9]&r &f");
+        Text logo = Text.of("[UC] ");
         if (message == null) {
             log("null");
             return;
