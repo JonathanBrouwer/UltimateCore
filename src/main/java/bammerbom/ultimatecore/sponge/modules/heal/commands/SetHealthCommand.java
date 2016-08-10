@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
 import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
@@ -37,91 +38,104 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HealCommand implements Command {
+public class SetHealthCommand implements Command {
     @Override
     public Module getModule() {
-        return Modules.HEAL.get();
+        return Modules.SETHEALTH.get();
     }
 
     @Override
     public String getIdentifier() {
-        return "heal";
+        return "sethealth";
     }
 
     @Override
     public Permission getPermission() {
-        return HealPermissions.UC_HEAL;
+        return HealPermissions.UC_SETHEALTH;
+
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(HealPermissions.UC_HEAL, HealPermissions.UC_HEAL_OTHERS);
+        return Arrays.asList(HealPermissions.UC_SETHEALTH, HealPermissions.UC_SETHEALTH_OTHERS);
     }
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getFormatted("heal.command.heal.usage"));
+        return CMGenerator.usage(this, Messages.getFormatted("heal.command.sethealth.usage"));
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.shortDescription(this, Messages.getFormatted("heal.command.heal.shortdescription"));
+        return CMGenerator.shortDescription(this, Messages.getFormatted("heal.command.sethealth.shortdescription"));
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.longDescription(this, Messages.getFormatted("heal.command.heal.longdescription"));
+        return CMGenerator.longDescription(this, Messages.getFormatted("heal.command.sethealth.longdescription"));
+
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("heal");
+        return Arrays.asList("sethealth", "setlives");
     }
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(HealPermissions.UC_HEAL.get())) {
+
+        if (!sender.hasPermission(HealPermissions.UC_SETHEALTH.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
             if (sender instanceof Player) {
-                sender.sendMessage(Messages.getFormatted("heal.command.heal.success"));
-                Player p = (Player) sender;
-                p.offer(Keys.HEALTH, p.get(Keys.MAX_HEALTH).orElse(20.0));
-                p.offer(Keys.POTION_EFFECTS, new ArrayList<>());
-                p.offer(Keys.REMAINING_AIR, p.get(Keys.MAX_AIR).orElse(10));
-                p.offer(Keys.FOOD_LEVEL, 20);
-                p.offer(Keys.FIRE_TICKS, 0);
-
-                return CommandResult.success();
+                sender.sendMessage(Messages.getFormatted("heal.command.sethealth.usage"));
+                return CommandResult.empty();
             } else {
                 sender.sendMessage(Messages.getFormatted("core.noplayer"));
                 return CommandResult.empty();
             }
         }
         Player t;
-        if (Sponge.getServer().getPlayer(args[0]).isPresent()) {
-            t = Sponge.getServer().getPlayer(args[0]).get();
-            sender.sendMessage(Messages.getFormatted("heal.command.heal.success.self", "%player%", t.getName()));
-            t.sendMessage(Messages.getFormatted("heal.command.heal.success.others", "%sender%", sender.getName()));
-            t.offer(Keys.HEALTH, t.get(Keys.MAX_HEALTH).orElse(20.0));
-            t.offer(Keys.POTION_EFFECTS, new ArrayList<>());
-            t.offer(Keys.REMAINING_AIR, t.get(Keys.MAX_AIR).orElse(10));
-            t.offer(Keys.FOOD_LEVEL, 20);
-            t.offer(Keys.FIRE_TICKS, 0);
+        Double health;
+        if (args.length == 1) {
+            try {
+                Player p = (Player) sender;
+                health = Double.parseDouble(args[0]);
+                p.offer(Keys.HEALTH, health);
+                sender.sendMessage(Messages.getFormatted("heal.command.sethealth.success", "%health%", health));
 
-            return CommandResult.success();
+                return CommandResult.success();
+            } catch (Exception ex) {
+                sender.sendMessage(getUsage());
+
+                return CommandResult.empty();
+            }
+        } else if (Sponge.getServer().getPlayer(args[1]).isPresent()) {
+            t = Sponge.getServer().getPlayer(args[1]).get();
+
+            try {
+                health = Double.parseDouble(args[0]);
+                t.offer(Keys.HEALTH, health);
+                sender.sendMessage(Messages.getFormatted("heal.command.sethealth.success.self", "%target%", t.getName(), "%health%", health));
+                t.sendMessage(Messages.getFormatted("heal.command.sethealth.success.others", "%player%", sender.getName(), "%health%", health));
+
+                return CommandResult.success();
+            } catch (Exception ex) {
+                sender.sendMessage(getUsage());
+
+                return CommandResult.empty();
+            }
+
         } else {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound"));
+            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[1]));
 
             return CommandResult.empty();
         }
-
     }
 
     @Override

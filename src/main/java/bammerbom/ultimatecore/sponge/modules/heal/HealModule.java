@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.heal.commands.HealCommand;
+import bammerbom.ultimatecore.sponge.modules.heal.commands.SetHealthCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -51,7 +52,10 @@ public class HealModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //commands
         UltimateCore.get().getCommandService().register(new HealCommand());
+        UltimateCore.get().getCommandService().register(new SetHealthCommand());
+
 
     }
 

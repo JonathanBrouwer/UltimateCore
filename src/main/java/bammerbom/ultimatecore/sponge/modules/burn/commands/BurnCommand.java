@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.burn.api.BurnPermissions;
+import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -62,17 +63,17 @@ public class BurnCommand implements Command {
 
     @Override
     public Text getUsage() {
-        return Messages.getFormatted("burn.command.burn.usage");
+        return CMGenerator.usage(this, Messages.getFormatted("burn.command.burn.usage"));
     }
 
     @Override
     public Text getShortDescription() {
-        return Messages.getFormatted("burn.command.burn.shortdescription");
+        return CMGenerator.shortDescription(this, Messages.getFormatted("burn.command.burn.shortdescription"));
     }
 
     @Override
     public Text getLongDescription() {
-        return Messages.getFormatted("burn.command.burn.longdescription");
+        return CMGenerator.longDescription(this, Messages.getFormatted("burn.command.burn.longdescription"));
     }
 
     @Override

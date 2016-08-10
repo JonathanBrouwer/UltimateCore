@@ -30,4 +30,7 @@ import org.spongepowered.api.text.Text;
 public class HealPermissions {
     public static Permission UC_HEAL = Permission.create("uc.heal", "heal", PermissionLevel.ADMIN, "heal", Text.of("Allows you to use the heal command."));
     public static Permission UC_HEAL_OTHERS = Permission.create("uc.heal.others", "heal", PermissionLevel.ADMIN, "heal", Text.of("Allows you to use the heal command on other players."));
+    public static Permission UC_SETHEALTH = Permission.create("uc.sethealth", "sethealth", PermissionLevel.ADMIN, "sethealth", Text.of("Allows you to use the sethealth command."));
+    public static Permission UC_SETHEALTH_OTHERS = Permission.create("uc.sethealth.others", "sethealth", PermissionLevel.ADMIN, "sethealth", Text.of("Allows you to use the sethealth " +
+            "command on other players."));
 }
