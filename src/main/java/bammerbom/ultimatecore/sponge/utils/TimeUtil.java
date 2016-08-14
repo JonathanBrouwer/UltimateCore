@@ -72,7 +72,7 @@ public class TimeUtil {
                         break;
                 }
             }
-            if (isInt(time)) {
+            if (isNumber(time)) {
                 mil = mil + (Long.parseLong(time) * 1000 * 60 * 60);
             }
             return mil;
@@ -81,9 +81,9 @@ public class TimeUtil {
         }
     }
 
-    static boolean isInt(String time) {
+    public static boolean isNumber(String time) {
         try {
-            Integer.parseInt(time);
+            Long.parseLong(time);
             return true;
         } catch (Exception ex) {
             return false;
