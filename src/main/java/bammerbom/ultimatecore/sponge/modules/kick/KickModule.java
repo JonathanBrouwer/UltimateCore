@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.kick.commands.KickCommand;
+import bammerbom.ultimatecore.sponge.modules.kick.commands.KickallCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -52,6 +53,7 @@ public class KickModule implements Module {
     @Override
     public void onInit(GameInitializationEvent event) {
         UltimateCore.get().getCommandService().register(new KickCommand());
+        UltimateCore.get().getCommandService().register(new KickallCommand());
     }
 
     @Override
