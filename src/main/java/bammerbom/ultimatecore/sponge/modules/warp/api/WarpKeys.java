@@ -25,29 +25,34 @@ package bammerbom.ultimatecore.sponge.modules.warp.api;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.config.datafiles.WorldDataFile;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.world.World;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class WarpKeys {
     public static Key.Global<List<Warp>> WARPS = new Key.Global<>("warps", new KeyProvider.Global<List<Warp>>() {
         @Override
         public List<Warp> load(Game arg) {
-            CommentedConfigurationNode node = DataFile.get("warps");
             List<Warp> warps = new ArrayList<>();
-            for (CommentedConfigurationNode wnode : node.getChildrenMap().values()) {
-                try {
-                    warps.add(wnode.getValue(TypeToken.of(Warp.class)));
-                } catch (ObjectMappingException e) {
-                    Messages.log(Messages.getFormatted("warp.command.warp.invalidwarp", "%warp%", wnode.getNode("name").getString()));
+            for (World world : Sponge.getServer().getWorlds()) {
+                WorldDataFile loader = new WorldDataFile(world.getUniqueId());
+                CommentedConfigurationNode node = loader.get();
+                for (CommentedConfigurationNode wnode : node.getNode("warps").getChildrenMap().values()) {
+                    try {
+                        warps.add(wnode.getValue(TypeToken.of(Warp.class)));
+                    } catch (ObjectMappingException e) {
+                        Messages.log(Messages.getFormatted("warp.command.warp.invalidwarp", "%warp%", wnode.getNode("name").getString()));
+                    }
                 }
             }
             return warps;
@@ -55,23 +60,29 @@ public class WarpKeys {
 
         @Override
         public void save(Game arg, List<Warp> data) {
-            ConfigurationLoader<CommentedConfigurationNode> loader = DataFile.getLoader("warps");
-            CommentedConfigurationNode node = DataFile.get("warps");
-            //Remove all warps from node
-            node.getChildrenMap().keySet().forEach(node::removeChild);
-            //Set new warps to node
+            //Sort warps by world
+            HashMap<UUID, List<Warp>> worldWarps = new HashMap<>();
             for (Warp warp : data) {
-                try {
-                    node.getNode(warp.getName()).setValue(TypeToken.of(Warp.class), warp);
-                } catch (ObjectMappingException e) {
-                    e.printStackTrace();
+                List<Warp> warps = worldWarps.containsKey(warp.getLocation().getWorld().getUniqueId()) ? worldWarps.get(warp.getLocation().getWorld().getUniqueId()) : new ArrayList<>();
+                warps.add(warp);
+                worldWarps.put(warp.getLocation().getWorld().getUniqueId(), warps);
+            }
+
+            for (UUID uuid : worldWarps.keySet()) {
+                WorldDataFile loader = new WorldDataFile(uuid);
+                CommentedConfigurationNode node = loader.get();
+                node.getNode("warps").getChildrenMap().keySet().forEach(node.getNode("warps")::removeChild);
+                List<Warp> warps = worldWarps.get(uuid);
+                for (Warp warp : warps) {
+                    try {
+                        node.getNode("warps", warp.getName()).setValue(TypeToken.of(Warp.class), warp);
+                    } catch (ObjectMappingException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-            try {
                 loader.save(node);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+
         }
     });
 }
