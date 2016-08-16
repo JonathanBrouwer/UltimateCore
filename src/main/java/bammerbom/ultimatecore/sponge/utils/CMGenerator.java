@@ -26,7 +26,6 @@ package bammerbom.ultimatecore.sponge.utils;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
-import org.spongepowered.api.text.format.TextColors;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -38,12 +37,12 @@ public class CMGenerator {
     public static Text usage(Command cmd, Text usage) {
         try {
             return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/" +
-                    cmd.getIdentifier()))).color(TextColors.RED).build();
+                    cmd.getIdentifier()))).build();
         } catch (MalformedURLException e) {
             //Idk what happened here
             //TODO ErrorLogger
             e.printStackTrace();
-            return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).color(TextColors.RED).build();
+            return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).build();
         }
     }
 
