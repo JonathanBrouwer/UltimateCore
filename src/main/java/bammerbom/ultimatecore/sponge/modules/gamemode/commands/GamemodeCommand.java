@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.gamemode.api.GamemodePermissions;
-import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -61,23 +60,23 @@ public class GamemodeCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(GamemodePermissions.UC_GAMEMODE, GamemodePermissions.UC_GAMEMODE_ADVENTURE, GamemodePermissions.UC_GAMEMODE_CREATIVE, GamemodePermissions
-                .UC_GAMEMODE_SURVIVAL, GamemodePermissions.UC_GAMEMODE_SPECTATOR, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE, 
+                        .UC_GAMEMODE_SURVIVAL, GamemodePermissions.UC_GAMEMODE_SPECTATOR, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE,
                 GamemodePermissions.UC_GAMEMODE_OTHERS_CREATIVE, GamemodePermissions.UC_GAMEMODE_OTHERS_SURVIVAL, GamemodePermissions.UC_GAMEMODE_OTHERS_SPECTATOR);
     }
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getFormatted("gamemode.command.gamemode.usage"));
+        return Messages.getFormatted("gamemode.command.gamemode.usage");
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.shortDescription(this, Messages.getFormatted("gamemode.command.gamemode.shortdescription"));
+        return Messages.getFormatted("gamemode.command.gamemode.shortdescription");
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.longDescription(this, Messages.getFormatted("gamemode.command.gamemode.longdescription"));
+        return Messages.getFormatted("gamemode.command.gamemode.longdescription");
     }
 
     @Override

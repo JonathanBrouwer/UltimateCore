@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.sudo.api.SudoPermissions;
-import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.Sponge;
@@ -70,17 +69,17 @@ public class SudoCommand implements Command {
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getFormatted("sudo.command.sudo.usage"));
+        return Messages.getFormatted("sudo.command.sudo.usage");
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.usage(this, Messages.getFormatted("sudo.command.sudo.shortdescription"));
+        return Messages.getFormatted("sudo.command.sudo.shortdescription");
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.usage(this, Messages.getFormatted("sudo.command.sudo.longdescription"));
+        return Messages.getFormatted("sudo.command.sudo.longdescription");
     }
 
     @Override

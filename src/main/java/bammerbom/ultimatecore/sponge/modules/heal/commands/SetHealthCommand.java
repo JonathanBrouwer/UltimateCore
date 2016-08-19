@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
-import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -64,17 +63,17 @@ public class SetHealthCommand implements Command {
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getFormatted("heal.command.sethealth.usage"));
+        return Messages.getFormatted("heal.command.sethealth.usage");
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.shortDescription(this, Messages.getFormatted("heal.command.sethealth.shortdescription"));
+        return Messages.getFormatted("heal.command.sethealth.shortdescription");
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.longDescription(this, Messages.getFormatted("heal.command.sethealth.longdescription"));
+        return Messages.getFormatted("heal.command.sethealth.longdescription");
 
     }
 
@@ -91,7 +90,7 @@ public class SetHealthCommand implements Command {
         }
         if (args.length == 0) {
             if (sender instanceof Player) {
-                sender.sendMessage(Messages.getFormatted("heal.command.sethealth.usage"));
+                sender.sendMessage(getUsage());
                 return CommandResult.empty();
             } else {
                 sender.sendMessage(Messages.getFormatted("core.noplayer"));

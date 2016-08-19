@@ -31,7 +31,6 @@ import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpKeys;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
-import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -72,17 +71,17 @@ public class WarpCommand implements Command {
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getFormatted("warp.command.warp.usage"));
+        return Messages.getFormatted("warp.command.warp.usage");
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.shortDescription(this, Messages.getFormatted("warp.command.warp.shortdescription"));
+        return Messages.getFormatted("warp.command.warp.shortdescription");
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.longDescription(this, Messages.getFormatted("warp.command.warp.longdescription"));
+        return Messages.getFormatted("warp.command.warp.longdescription");
     }
 
     @Override

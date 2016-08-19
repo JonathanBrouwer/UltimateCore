@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
-import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -64,17 +63,17 @@ public class HealCommand implements Command {
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getFormatted("heal.command.heal.usage"));
+        return Messages.getFormatted("heal.command.heal.usage");
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.shortDescription(this, Messages.getFormatted("heal.command.heal.shortdescription"));
+        return Messages.getFormatted("heal.command.heal.shortdescription");
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.longDescription(this, Messages.getFormatted("heal.command.heal.longdescription"));
+        return Messages.getFormatted("heal.command.heal.longdescription");
     }
 
     @Override

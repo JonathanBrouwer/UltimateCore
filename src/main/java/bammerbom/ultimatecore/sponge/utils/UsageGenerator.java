@@ -33,7 +33,7 @@ import java.net.URL;
 /**
  * Command message generator
  */
-public class CMGenerator {
+public class UsageGenerator {
     public static Text usage(Command cmd, Text usage) {
         try {
             return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/" +

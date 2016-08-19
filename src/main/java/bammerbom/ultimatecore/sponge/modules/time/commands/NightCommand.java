@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.time.api.TimePermissions;
-import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -64,17 +63,17 @@ public class NightCommand implements Command {
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getFormatted("time.command.night.usage"));
+        return Messages.getFormatted("time.command.night.usage");
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.usage(this, Messages.getFormatted("time.command.night.shortdescription"));
+        return Messages.getFormatted("time.command.night.shortdescription");
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.usage(this, Messages.getFormatted("time.command.night.longdescription"));
+        return Messages.getFormatted("time.command.night.longdescription");
     }
 
     @Override

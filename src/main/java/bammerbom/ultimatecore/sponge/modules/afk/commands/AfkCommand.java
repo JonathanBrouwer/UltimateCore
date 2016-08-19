@@ -32,7 +32,10 @@ import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
-import bammerbom.ultimatecore.sponge.utils.*;
+import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -67,17 +70,17 @@ public class AfkCommand implements Command {
     @Override
     public Text getUsage() {
         //TODO <command>?
-        return CMGenerator.usage(this, Messages.getFormatted("afk.command.afk.usage"));
+        return Messages.getFormatted("afk.command.afk.usage");
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.shortDescription(this, Messages.getFormatted("afk.command.afk.shortdescription"));
+        return Messages.getFormatted("afk.command.afk.shortdescription");
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.longDescription(this, Messages.getFormatted("afk.command.afk.longdescription"));
+        return Messages.getFormatted("afk.command.afk.longdescription");
     }
 
     @Override

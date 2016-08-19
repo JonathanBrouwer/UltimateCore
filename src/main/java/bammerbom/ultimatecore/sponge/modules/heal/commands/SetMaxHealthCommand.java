@@ -28,7 +28,6 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
-import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -64,17 +63,17 @@ public class SetMaxHealthCommand implements Command {
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getFormatted("heal.command.setmaxhealth.usage"));
+        return Messages.getFormatted("heal.command.setmaxhealth.usage");
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.shortDescription(this, Messages.getFormatted("heal.command.setmaxhealth.shortdescription"));
+        return Messages.getFormatted("heal.command.setmaxhealth.shortdescription");
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.longDescription(this, Messages.getFormatted("heal.command.setmaxhealth.longdescription"));
+        return Messages.getFormatted("heal.command.setmaxhealth.longdescription");
     }
 
     @Override
@@ -85,7 +84,7 @@ public class SetMaxHealthCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(HealPermissions.UC_SETMAXHEALTH.get())) {
-            sender.sendMessage(Messages.getFormatted("Core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -97,19 +96,16 @@ public class SetMaxHealthCommand implements Command {
                 return CommandResult.empty();
             }
         }
-        Player t;
+
         Double health;
         if (args.length == 1) {
             try {
                 Player p = (Player) sender;
                 health = Double.parseDouble(args[0]);
-
                 if (health <= 0) {
-                    sender.sendMessage(Messages.getFormatted("heal.command.setmaxhealth.error"));
-                    p.offer(Keys.HEALTH, 0.5);
-                    return CommandResult.success();
+                    health = 1.0;
                 }
-                p.offer(Keys.HEALTH, health);
+                p.offer(Keys.MAX_HEALTH, health);
                 sender.sendMessage(Messages.getFormatted("heal.command.setmaxhealth.success", "%health%", health));
                 return CommandResult.success();
             } catch (Exception ex) {
@@ -117,17 +113,14 @@ public class SetMaxHealthCommand implements Command {
                 return CommandResult.empty();
             }
         } else if (Sponge.getServer().getPlayer(args[1]).isPresent()) {
-            t = Sponge.getServer().getPlayer(args[1]).get();
+            Player t = Sponge.getServer().getPlayer(args[1]).get();
 
             try {
                 health = Double.parseDouble(args[0]);
                 if (health <= 0) {
-                    sender.sendMessage(Messages.getFormatted("heal.command.setmaxhealth.error.self", "%target", t.getName()));
-                    t.sendMessage(Messages.getFormatted("heal.command.setmaxhealth.success.others", "%player%", sender.getName(), "%health%", 0.5));
-                    t.offer(Keys.HEALTH, 0.5);
-                    return CommandResult.success();
+                    health = 1.0;
                 }
-                t.offer(Keys.HEALTH, health);
+                t.offer(Keys.MAX_HEALTH, health);
                 sender.sendMessage(Messages.getFormatted("heal.command.setmaxhealth.success.self", "%target%", t.getName(), "%health%", health));
                 t.sendMessage(Messages.getFormatted("heal.command.setmaxhealth.success.others", "%player%", sender.getName(), "%health%", health));
 

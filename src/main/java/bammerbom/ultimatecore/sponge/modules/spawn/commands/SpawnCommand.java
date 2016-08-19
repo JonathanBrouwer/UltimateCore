@@ -21,93 +21,61 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.burn.commands;
+package bammerbom.ultimatecore.sponge.modules.spawn.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.modules.burn.api.BurnPermissions;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class BurnCommand implements Command {
+public class SpawnCommand implements Command {
     @Override
     public Module getModule() {
-        return Modules.BURN.get();
+        return null;
     }
 
     @Override
     public String getIdentifier() {
-        return "burn";
+        return null;
     }
 
     @Override
     public Permission getPermission() {
-        return BurnPermissions.UC_BURN;
+        return null;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(BurnPermissions.UC_BURN);
+        return null;
     }
 
     @Override
     public Text getUsage() {
-        return Messages.getFormatted("burn.command.burn.usage");
+        return null;
     }
 
     @Override
     public Text getShortDescription() {
-        return Messages.getFormatted("burn.command.burn.shortdescription");
+        return null;
     }
 
     @Override
     public Text getLongDescription() {
-        return Messages.getFormatted("burn.command.burn.longdescription");
+        return null;
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("burn", "fire", "ignite");
+        return null;
     }
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(BurnPermissions.UC_BURN.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage());
-            return CommandResult.empty();
-        }
-        Player t;
-        if (Sponge.getServer().getPlayer(args[0]).isPresent()) {
-            t = Sponge.getServer().getPlayer(args[0]).get();
-        } else {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
-            return CommandResult.empty();
-        }
-        Double time = 10.0;
-        if (args.length >= 2) {
-            try {
-                time = Double.parseDouble(args[1]);
-            } catch (Exception ex) {
-            }
-        }
-        t.offer(Keys.FIRE_TICKS, Double.valueOf(time * 20).intValue());
-        sender.sendMessage(Messages.getFormatted("burn.command.burn.success", "%player%", t.getName(), "%time%", time));
-
-        return CommandResult.success();
+        return null;
     }
 
     @Override

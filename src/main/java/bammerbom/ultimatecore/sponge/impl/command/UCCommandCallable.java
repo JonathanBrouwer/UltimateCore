@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.impl.command;
 
 import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.utils.UsageGenerator;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
@@ -124,7 +125,7 @@ public class UCCommandCallable implements CommandCallable {
      */
     @Override
     public Optional<Text> getShortDescription(CommandSource source) {
-        return Optional.of(command.getShortDescription());
+        return Optional.of(UsageGenerator.shortDescription(command, command.getShortDescription()));
     }
 
     /**
@@ -144,7 +145,7 @@ public class UCCommandCallable implements CommandCallable {
      */
     @Override
     public Optional<Text> getHelp(CommandSource source) {
-        return Optional.of(command.getLongDescription());
+        return Optional.of(UsageGenerator.longDescription(command, command.getLongDescription()));
     }
 
     /**
@@ -160,6 +161,6 @@ public class UCCommandCallable implements CommandCallable {
      */
     @Override
     public Text getUsage(CommandSource source) {
-        return command.getUsage();
+        return UsageGenerator.usage(command, command.getUsage());
     }
 }

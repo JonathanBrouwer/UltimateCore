@@ -30,7 +30,6 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyKeys;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyPermissions;
-import bammerbom.ultimatecore.sponge.utils.CMGenerator;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -65,17 +64,17 @@ public class FlyCommand implements Command {
 
     @Override
     public Text getUsage() {
-        return CMGenerator.usage(this, Messages.getFormatted("fly.command.fly.usage"));
+        return Messages.getFormatted("fly.command.fly.usage");
     }
 
     @Override
     public Text getShortDescription() {
-        return CMGenerator.usage(this, Messages.getFormatted("fly.command.fly.shortdescription"));
+        return Messages.getFormatted("fly.command.fly.shortdescription");
     }
 
     @Override
     public Text getLongDescription() {
-        return CMGenerator.usage(this, Messages.getFormatted("fly.command.fly.longdescription"));
+        return Messages.getFormatted("fly.command.fly.longdescription");
     }
 
     @Override
