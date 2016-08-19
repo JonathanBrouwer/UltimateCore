@@ -47,10 +47,13 @@ public class FileUtil {
             }
             Path path = Paths.get(file.getAbsolutePath());
             Charset ENCODING = StandardCharsets.UTF_8;
-            try (Scanner scanner = new Scanner(path, ENCODING.name())) {
+            Scanner scanner = new Scanner(path, ENCODING.name());
+            try {
                 while (scanner.hasNextLine()) {
                     lines.add(scanner.nextLine());
                 }
+            }finally {
+                scanner.close();
             }
             return lines;
         } catch (Exception ex) {

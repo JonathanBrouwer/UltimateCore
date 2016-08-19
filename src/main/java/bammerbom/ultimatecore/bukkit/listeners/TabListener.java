@@ -56,8 +56,6 @@ public class TabListener implements Listener {
     static HashMap<String, String> prefixes = new HashMap<>();
     static HashMap<String, String> suffixes = new HashMap<>();
 
-    static Scoreboard board;
-
     public static void start() {
         if (!r.getCnfg().getBoolean("Chat.Tab.Enabled")) {
             return;
@@ -95,6 +93,7 @@ public class TabListener implements Listener {
                     }
                     p.setPlayerListName(base);
                     if (abovehead) {
+                        Scoreboard board = p.getScoreboard();
                         if (board == null) {
                             board = Bukkit.getScoreboardManager().getNewScoreboard();
                         }
@@ -122,11 +121,9 @@ public class TabListener implements Listener {
                         team.setPrefix(prefix);
                         team.setSuffix(suffix);
                         team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
-                    }
-                }
-                if (abovehead) {
-                    for (Player pl : r.getOnlinePlayers()) {
-                        pl.setScoreboard(board);
+                        for (Player pl : r.getOnlinePlayers()) {
+                            pl.setScoreboard(board);
+                        }
                     }
                 }
             }

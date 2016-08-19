@@ -32,7 +32,7 @@
     <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-core:3.1.1" level="project" />
     <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-gson:3.1.1" level="project" />
     <orderEntry type="library" name="Maven: ninja.leaping.configurate:configurate-yaml:3.1.1" level="project" />
-    <orderEntry type="library" name="Maven: com.flowpowered:flow-math:1.0.2" level="project" />
+    <orderEntry type="library" name="Maven: com.flowpowered:flow-math:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: com.flowpowered:flow-noise:1.0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm:5.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.spongepowered:event-gen-core:2.0.0-SNAPSHOT" level="project" />
