@@ -143,7 +143,7 @@ public class WarpCommand implements Command {
             return CommandResult.empty();
         }
         //Teleport to the warp
-        p.setLocationAndRotation(warp.getLocation().getLocation(), warp.getLocation().getRotation());
+        p.setLocationAndRotationSafely(warp.getLocation().getLocation(), warp.getLocation().getRotation());
         //Send message
         sender.sendMessage(Messages.getFormatted("warp.command.warp.success", "%warp%", warp.getName()));
         return CommandResult.success();

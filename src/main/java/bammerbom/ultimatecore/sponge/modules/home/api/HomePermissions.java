@@ -21,19 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.utils;
+package bammerbom.ultimatecore.sponge.modules.home.api;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import org.spongepowered.api.text.Text;
 
-public class FileUtil {
-    public static List<String> readLines(File file) throws IOException {
-        return Files.readAllLines(file.toPath());
-    }
-
-    public static boolean writeLines(File file, List<String> lines) throws IOException {
-        return Files.write(file.toPath(), lines).toFile().exists();
-    }
+public class HomePermissions {
+    public static Permission UC_HOME = Permission.create("uc.home", "home", PermissionLevel.EVERYONE, "home", Text.of("Allows you to teleport to your own home."));
+    public static Permission UC_SETHOME = Permission.create("uc.sethome", "home", PermissionLevel.EVERYONE, "sethome", Text.of("Allows you to set your own home."));
+    public static Permission UC_SETHOME_UNLIMITED = Permission.create("uc.sethome.unlimited", "home", PermissionLevel.VIP, "sethome", Text.of("Allows you to set an unlimited amount " +
+            "of homes."));
+    public static Permission UC_DELHOME = Permission.create("uc.delhome", "home", PermissionLevel.EVERYONE, "delhome", Text.of("Allows you to remove one of your homes."));
 }
