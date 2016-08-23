@@ -55,8 +55,7 @@ public class Stats {
         Sponge.getScheduler().createTaskBuilder().name("UC stats task").delay(20, TimeUnit.SECONDS).interval(30, TimeUnit.MINUTES).execute(Stats::send).submit(UltimateCore.get());
     }
 
-    public static void send() {
-        //Sync
+    public static HashMap<String, Object> collect() {
         final HashMap<String, Object> data = new HashMap<>();
         data.put("serverid", ServerID.getUUID());
         data.put("statsversion", 1);
@@ -70,7 +69,7 @@ public class Stats {
         data.put("playersonline", Sponge.getServer().getOnlinePlayers().size());
         data.put("worldsloaded", Sponge.getServer().getWorlds().size());
         data.put("osname", System.getProperty("os.name"));
-        data.put("osarch", System.getProperty("os.arch").indexOf("64") == -1 ? 32 : 64);
+        data.put("osarch", System.getProperty("os.arch").contains("64") ? 64 : 32);
         data.put("osversion", System.getProperty("os.version"));
         data.put("cores", Runtime.getRuntime().availableProcessors());
         data.put("maxram", Runtime.getRuntime().maxMemory());
@@ -82,7 +81,7 @@ public class Stats {
             modules.append(mod.getIdentifier()).append(",");
         }
         data.put("modules", modules.toString().isEmpty() ? "" : modules.substring(0, modules.length() - 1));
-        data.put("language", "EN_US"); //TODO get language
+        data.put("language", GeneralConfig.get().getNode("language", "language").getString("EN_US"));
         StringBuilder plugins = new StringBuilder();
         for (PluginContainer plugin : Sponge.getPluginManager().getPlugins()) {
             plugins.append(plugin.getId()).append("|").append(plugin.getVersion()).append(",");
@@ -92,6 +91,12 @@ public class Stats {
         data.put("permissionsplugin", permplugin.isPresent() ? (permplugin.get().getPlugin().getName() + "|" + permplugin.get().getPlugin().getVersion().orElse("")) : "Not Available");
         Optional<ProviderRegistration<EconomyService>> economyplugin = Sponge.getServiceManager().getRegistration(EconomyService.class);
         data.put("economyplugin", economyplugin.isPresent() ? (economyplugin.get().getPlugin().getName() + "|" + economyplugin.get().getPlugin().getVersion().orElse("")) : "Not Available");
+        return data;
+    }
+
+    public static void send() {
+        //Sync
+        final HashMap<String, Object> data = collect();
         //Async
         Sponge.getScheduler().createTaskBuilder().name("UC async stats task").delayTicks(1L).async().execute(new Runnable() {
             @Override

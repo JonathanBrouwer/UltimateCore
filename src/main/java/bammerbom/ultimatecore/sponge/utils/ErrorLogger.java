@@ -23,29 +23,34 @@
  */
 package bammerbom.ultimatecore.sponge.utils;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
-import com.goebl.david.Response;
-import com.goebl.david.Webb;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class ErrorLogger {
 
     static StringWriter writer = null;
     static Long countdown = null;
 
-    public static void log(final Throwable t, final String s) {
+    public static void log(final Throwable t, final String ucmessage) {
         //Special exceptions
-        String error = getStackTrace(t);
+        String exception = getStackTrace(t);
 
         //FILE
         final String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(Calendar.getInstance().getTime());
+        HashMap<String, Object> stats = Stats.collect();
+        stats.put("exception", exception);
+        stats.put("time", System.currentTimeMillis());
+        stats.put("exmessage", t.getMessage());
+        stats.put("ucmessage", ucmessage);
+
         //CONSOLE
         Sponge.getServer().getConsole().sendMessage(Text.of(" "));
         Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
@@ -55,114 +60,26 @@ public class ErrorLogger {
         Messages.log(Text.of(TextColors.RED, "Include the file: "));
         Messages.log(Text.of(TextColors.YELLOW, "config/ultimatecore/errors/" + time + ".txt "));
         Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
-        Messages.log(Text.of(TextColors.RED, "Stacktrace: "));
-        t.printStackTrace();
-        Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
+        Messages.log(Text.of(TextColors.RED, "Stacktrace: \n", Text.of(TextColors.YELLOW, exception)));
+        //Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
 
-        Sponge.getServer().getConsole().sendMessage(Text.of(" "));
         //SEND TO UC
         if (!GeneralConfig.get().getNode("errors", "enabled").getBoolean()) {
             return;
         }
-        if (writer != null) {
-            writer.append("\n");
-            writer.append("=======================================\n");
-            writer.append("UltimateCore has run into an error \n");
-            writer.append("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket\n");
-            writer.append("Sponge version: " + Sponge.getPlatform().getImplementation().getName() + " - " + Sponge.getPlatform().getImplementation().getVersion() + " - " + Sponge
-                    .getPlatform().getApi().getVersion() + "\n");
-            writer.append("UltimateCore version: " + Sponge.getPluginManager().getPlugin("ultimatecore").get().getVersion() + "\n");
-            writer.append("Plugins loaded (" + Sponge.getPluginManager().getPlugins().size() + "): " + Sponge.getPluginManager().getPlugins() + "\n");
-            writer.append("Java version: " + System.getProperty("java.version") + "\n");
-            writer.append("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version") + "\n");
-            writer.append("Online mode: " + Sponge.getServer().getOnlineMode() + "\n");
-            writer.append("Time: " + time + "\n");
-            writer.append("Error message: " + t.getMessage() + "\n");
-            writer.append("UltimateCore message: " + s + "\n");
-            writer.append("=======================================\n");
-            writer.append("Stacktrace: \n" + getStackTrace(t) + "\n");
-            writer.append("=======================================\n");
-            countdown = System.currentTimeMillis();
-        } else {
-            Thread tr = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if (writer == null) {
-                        writer = new StringWriter();
-                    }
-                    writer.append("=======================================\n");
-                    writer.append("UltimateCore has run into an error \n");
-                    writer.append("Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket\n");
-                    writer.append("Sponge version: " + Sponge.getPlatform().getImplementation().getName() + " - " + Sponge.getPlatform().getImplementation().getVersion() + " - " + Sponge
-                            .getPlatform().getApi().getVersion() + "\n");
-                    writer.append("UltimateCore version: " + Sponge.getPluginManager().getPlugin("ultimatecore").get().getVersion() + "\n");
-                    writer.append("Plugins loaded (" + Sponge.getPluginManager().getPlugins().size() + "): " + Sponge.getPluginManager().getPlugins() + "\n");
-                    writer.append("Java version: " + System.getProperty("java.version") + "\n");
-                    writer.append("OS info: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version") + "\n");
-                    writer.append("Online mode: " + Sponge.getServer().getOnlineMode() + "\n");
-                    writer.append("Time: " + time + "\n");
-                    writer.append("Error message: " + t.getMessage() + "\n");
-                    writer.append("UltimateCore message: " + s + "\n");
-                    writer.append("=======================================\n");
-                    writer.append("Stacktrace: \n" + getStackTrace(t) + "\n");
-                    writer.append("=======================================");
-                    countdown = System.currentTimeMillis();
 
-                    while (System.currentTimeMillis() < countdown + 10000) {
-                        try {
-                            Thread.currentThread().wait(1000L);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            return;
-                        }
-                    }
 
-                    //File
-                    String msg = writer.toString();
-                    File dir = new File(UltimateCore.get().getDataFolder() + "/Errors");
-                    if (!dir.exists()) {
-                        dir.mkdir();
-                    }
-                    File file = new File(UltimateCore.get().getDataFolder() + "/Errors", time + ".txt");
-                    if (!file.exists()) {
-                        try {
-                            file.createNewFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    FileWriter outFile;
-                    try {
-                        outFile = new FileWriter(file);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-                    PrintWriter out = new PrintWriter(outFile);
-                    out.write(msg);
-                    try {
-                        outFile.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//        //
+//        Webb webb = Webb.create();
+//        Response<String> rtrn = webb.post("http://ultimatecore.org/postrequest/error.php").param("server_id", ServerID.getUUID().toString()).param("error_log", msg)
+//                .asString();
+//
+//        if (rtrn.getBody() != null && rtrn.getBody().equalsIgnoreCase("true")) {
+//            Messages.log("SEND ERROR SUCCESSFULLY");
+//        } else {
+//            Messages.log("SENDING ERROR FAILED (" + rtrn.getStatusCode() + " / " + rtrn.getResponseMessage() + " / " + rtrn.getBody() + ")");
+//        }
 
-                    //
-                    Webb webb = Webb.create();
-                    Response<String> rtrn = webb.post("http://ultimatecore.org/postrequest/error_report.php").param("server_id", ServerID.getUUID().toString()).param("error_log", msg)
-                            .asString();
-
-                    if (rtrn.getBody() != null && rtrn.getBody().equalsIgnoreCase("true")) {
-                        Messages.log("SEND ERROR SUCCESSFULLY");
-                    } else {
-                        Messages.log("SENDING ERROR FAILED (" + rtrn.getStatusCode() + " / " + rtrn.getResponseMessage() + " / " + rtrn.getBody() + ")");
-                    }
-
-                    countdown = null;
-                    writer = null;
-                }
-            });
-            tr.start();
-        }
     }
 
     private static String getStackTrace(Throwable throwable) {
