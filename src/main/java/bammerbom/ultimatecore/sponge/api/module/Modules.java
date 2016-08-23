@@ -57,6 +57,7 @@ public class Modules {
     public static Optional<Module> CUSTOMCOMMANDS = service.getModule("customcommands");
     public static Optional<Module> DEAF = service.getModule("deaf");
     public static Optional<Module> DEATHMESSAGE = service.getModule("deathmessage");
+    public static Optional<Module> DEFAULT = service.getModule("default");
     public static Optional<Module> ECONOMY = service.getModule("economy");
     public static Optional<Module> EXPERIENCE = service.getModule("experience");
     public static Optional<Module> EXPLOSION = service.getModule("explosion");

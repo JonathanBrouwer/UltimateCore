@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.defaultmodule;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.defaultmodule.commands.UltimatecoreCommand;
 import bammerbom.ultimatecore.sponge.defaultmodule.listeners.DefaultListener;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -52,6 +53,9 @@ public class DefaultModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Commands
+        UltimateCore.get().getCommandService().register(new UltimatecoreCommand());
+        //Listeners
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new DefaultListener());
     }
 

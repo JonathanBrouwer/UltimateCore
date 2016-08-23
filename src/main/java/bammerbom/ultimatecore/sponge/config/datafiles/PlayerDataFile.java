@@ -40,6 +40,21 @@ public class PlayerDataFile {
         this.uuid = uuid;
     }
 
+    public File getFile() {
+        if (!path.exists()) {
+            path.mkdirs();
+        }
+        File file = new File(path, uuid.toString() + ".data");
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
     public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
         if (!path.exists()) {
             path.mkdirs();
