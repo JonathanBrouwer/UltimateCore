@@ -92,6 +92,7 @@ public class UCModuleService implements ModuleService {
             return false;
         }
         modules.add(module);
+        module.onRegister();
         return true;
     }
 

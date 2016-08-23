@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.sign;
 
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
@@ -47,11 +48,11 @@ public interface UCSign {
 
     /**
      * The base permission for this sign.
-     * This should be equal to the permission needed to execute this sign.
+     * This should be the permission needed to execute this sign.
      *
      * @return the permission for this sign
      */
-    String getPermission();
+    Permission getPermission();
 
     /**
      * Called when a player executes the sign, normally by clicking it.
@@ -75,5 +76,5 @@ public interface UCSign {
      * @param p     The player who destroyed the sign
      * @param event The event which was thrown after destroying the sign
      */
-    void onDestroy(Player p, ChangeBlockEvent event);
+    void onDestroy(Player p, ChangeBlockEvent event, Sign sign);
 }

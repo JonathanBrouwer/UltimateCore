@@ -21,30 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.warp;
+package bammerbom.ultimatecore.sponge.modules.sign;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
-import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
-import bammerbom.ultimatecore.sponge.modules.warp.commands.DelwarpCommand;
-import bammerbom.ultimatecore.sponge.modules.warp.commands.SetwarpCommand;
-import bammerbom.ultimatecore.sponge.modules.warp.commands.WarpCommand;
-import bammerbom.ultimatecore.sponge.modules.warp.commands.WarplistCommand;
-import bammerbom.ultimatecore.sponge.modules.warp.signs.WarpSign;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import bammerbom.ultimatecore.sponge.modules.sign.impl.UCSignService;
+import bammerbom.ultimatecore.sponge.modules.sign.listeners.SignListener;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 
 import java.util.Optional;
 
-public class WarpModule implements Module {
+public class SignModule implements Module {
     @Override
     public String getIdentifier() {
-        return "warp";
+        return "sign";
     }
 
     @Override
@@ -54,23 +50,15 @@ public class WarpModule implements Module {
 
     @Override
     public void onRegister() {
-
+        SignService service = new UCSignService();
+        Sponge.getServiceManager().setProvider(UltimateCore.get(), SignService.class, service);
+        Messages.log("POEP");
     }
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Config
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Warp.class), new Warp.WarpSerializer());
-        //Commands
-        UltimateCore.get().getCommandService().register(new WarpCommand());
-        UltimateCore.get().getCommandService().register(new SetwarpCommand());
-        UltimateCore.get().getCommandService().register(new DelwarpCommand());
-        UltimateCore.get().getCommandService().register(new WarplistCommand());
-        //Signs
-        Optional<SignService> serv = UltimateCore.get().getSignService();
-        if (serv.isPresent()) {
-            serv.get().registerSign(new WarpSign());
-        }
+        //Listeners
+        Sponge.getEventManager().registerListeners(UltimateCore.get(), new SignListener());
     }
 
     @Override

@@ -23,10 +23,9 @@
  */
 package bammerbom.ultimatecore.sponge.api.sign;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-//TODO move sign service to sign module
 public interface SignService {
 
     /**
@@ -34,7 +33,7 @@ public interface SignService {
      *
      * @return the list
      */
-    List<UCSign> getRegisteredSigns();
+    Set<UCSign> getRegisteredSigns();
 
     /**
      * Retrieves a specific sign by id

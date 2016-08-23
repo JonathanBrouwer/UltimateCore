@@ -21,65 +21,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.spawn.commands;
+package bammerbom.ultimatecore.sponge.modules.warp.signs;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.CommandSource;
+import bammerbom.ultimatecore.sponge.api.sign.UCSign;
+import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.block.tileentity.Sign;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
-import java.util.List;
-
-public class SpawnCommand implements Command {
+public class WarpSign implements UCSign {
     @Override
     public Module getModule() {
-        return null;
+        return Modules.WARP.get();
     }
 
     @Override
     public String getIdentifier() {
-        return null;
+        return "warp";
     }
 
     @Override
     public Permission getPermission() {
-        return null;
+        return WarpPermissions.UC_WARP;
     }
 
     @Override
-    public List<Permission> getPermissions() {
-        return null;
+    public void onExecute(Player p, Sign sign) {
+        Messages.log("EXECUTE " + p.getName() + " " + sign.getSignData().get(0));
     }
 
     @Override
-    public Text getUsage() {
-        return null;
+    public void onCreate(Player p, ChangeSignEvent event) {
+        event.getText().set(Keys.SIGN_LINES, event.getText().setElement(1, Text.of(TextColors.RED, "Appeltaart")).asList());
     }
 
     @Override
-    public Text getShortDescription() {
-        return null;
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return null;
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return null;
-    }
-
-    @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        return null;
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
+    public void onDestroy(Player p, ChangeBlockEvent event, Sign sign) {
+        Messages.log("DESTROY " + p.getName() + " " + sign.getSignData().get(0));
     }
 }

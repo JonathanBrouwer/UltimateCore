@@ -21,19 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.sign;
+package bammerbom.ultimatecore.sponge.modules.sign.impl;
 
 
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.sign.UCSign;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
-//TODO move sign service to sign module
 public class UCSignService implements SignService {
-    List<UCSign> signs = new ArrayList<>();
+    Set<UCSign> signs = new HashSet<>();
 
     /**
      * Retrieves list of all registered signs
@@ -41,7 +40,7 @@ public class UCSignService implements SignService {
      * @return the list
      */
     @Override
-    public List<UCSign> getRegisteredSigns() {
+    public Set<UCSign> getRegisteredSigns() {
         return signs;
     }
 

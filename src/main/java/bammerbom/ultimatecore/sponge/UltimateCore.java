@@ -40,7 +40,6 @@ import bammerbom.ultimatecore.sponge.config.serializers.Vector3dSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
-import bammerbom.ultimatecore.sponge.impl.sign.UCSignService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
 import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import bammerbom.ultimatecore.sponge.utils.Messages;
@@ -64,6 +63,7 @@ import org.spongepowered.api.service.ServiceManager;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Plugin(id = "ultimatecore", name = "UltimateCore", version = "@VERSION@", description = "All you need to set up a server and more!", url = "http://ultimatecore.org/index", authors =
@@ -78,7 +78,6 @@ public class UltimateCore {
     private Logger logger;
     private ModuleService moduleService;
     private CommandService commandService;
-    private SignService signService;
     private UserService userService;
     private PermissionService permissionService;
 
@@ -107,7 +106,6 @@ public class UltimateCore {
             //Load services
             moduleService = new UCModuleService();
             commandService = new UCCommandService();
-            signService = new UCSignService();
             userService = new UCUserService();
             permissionService = new UCPermissionService();
 
@@ -137,11 +135,8 @@ public class UltimateCore {
             ServiceManager sm = Sponge.getServiceManager();
             sm.setProvider(this, ModuleService.class, moduleService);
             sm.setProvider(this, CommandService.class, commandService);
-            sm.setProvider(this, SignService.class, signService);
             sm.setProvider(this, UserService.class, userService);
             sm.setProvider(this, PermissionService.class, permissionService);
-            //Load configuration
-            //TODO here or in separate class for config loading?
 
             //Initialize modules
             for (Module module : moduleService.getRegisteredModules()) {
@@ -218,8 +213,9 @@ public class UltimateCore {
         return commandService;
     }
 
-    public SignService getSignService() {
-        return signService;
+    public Optional<SignService> getSignService() {
+        ServiceManager manager = Sponge.getServiceManager();
+        return manager.provide(SignService.class);
     }
 
     public UserService getUserService() {
