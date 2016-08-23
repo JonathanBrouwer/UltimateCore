@@ -24,15 +24,25 @@
 package bammerbom.ultimatecore.sponge.modules.sign.impl;
 
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.event.sign.SignRegisterEvent;
+import bammerbom.ultimatecore.sponge.api.event.sign.SignUnregisterEvent;
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.sign.UCSign;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.text.Text;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 public class UCSignService implements SignService {
     Set<UCSign> signs = new HashSet<>();
+    HashMap<String, PermissionTriset> perms = new HashMap<>();
 
     /**
      * Retrieves list of all registered signs
@@ -68,7 +78,19 @@ public class UCSignService implements SignService {
      */
     @Override
     public boolean registerSign(UCSign sign) {
+        SignRegisterEvent cevent = new SignRegisterEvent(sign, Cause.builder().owner(UltimateCore.get()).build());
+        Sponge.getEventManager().post(cevent);
+        if (cevent.isCancelled()) {
+            return false;
+        }
         signs.add(sign);
+        Permission use = Permission.create("uc.sign." + sign.getIdentifier() + ".use", sign.getModule(), PermissionLevel.EVERYONE, null, Text.of("Permission to use " + sign.getIdentifier
+                () + "signs."));
+        Permission create = Permission.create("uc.sign." + sign.getIdentifier() + ".create", sign.getModule(), PermissionLevel.ADMIN, null, Text.of("Permission to create " + sign
+                .getIdentifier() + "signs."));
+        Permission destroy = Permission.create("uc.sign." + sign.getIdentifier() + ".destroy", sign.getModule(), PermissionLevel.ADMIN, null, Text.of("Permission to destroy " + sign
+                .getIdentifier() + "signs."));
+        perms.put(sign.getIdentifier(), new PermissionTriset(use, create, destroy));
         return true;
     }
 
@@ -91,10 +113,51 @@ public class UCSignService implements SignService {
      */
     @Override
     public boolean unregisterSign(UCSign sign) {
-        if (signs.contains(sign)) {
-            signs.remove(sign);
-            return true;
+        SignUnregisterEvent cevent = new SignUnregisterEvent(sign, Cause.builder().owner(UltimateCore.get()).build());
+        Sponge.getEventManager().post(cevent);
+        if (cevent.isCancelled()) {
+            return false;
         }
-        return false;
+        perms.remove(sign.getIdentifier());
+        return signs.remove(sign);
+    }
+
+    @Override
+    public Permission getDefaultUsePermission(UCSign sign) {
+        return perms.get(sign.getIdentifier()).getUse();
+    }
+
+    @Override
+    public Permission getDefaultCreatePermission(UCSign sign) {
+        return perms.get(sign.getIdentifier()).getCreate();
+    }
+
+    @Override
+    public Permission getDefaultDestroyPermission(UCSign sign) {
+        return perms.get(sign.getIdentifier()).getDestroy();
+    }
+
+    public static class PermissionTriset {
+        Permission use;
+        Permission create;
+        Permission destroy;
+
+        public PermissionTriset(Permission use, Permission create, Permission destroy) {
+            this.use = use;
+            this.create = create;
+            this.destroy = destroy;
+        }
+
+        public Permission getCreate() {
+            return create;
+        }
+
+        public Permission getUse() {
+            return use;
+        }
+
+        public Permission getDestroy() {
+            return destroy;
+        }
     }
 }

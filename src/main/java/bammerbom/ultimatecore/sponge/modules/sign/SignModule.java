@@ -29,7 +29,6 @@ import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.sign.impl.UCSignService;
 import bammerbom.ultimatecore.sponge.modules.sign.listeners.SignListener;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -52,7 +51,6 @@ public class SignModule implements Module {
     public void onRegister() {
         SignService service = new UCSignService();
         Sponge.getServiceManager().setProvider(UltimateCore.get(), SignService.class, service);
-        Messages.log("POEP");
     }
 
     @Override

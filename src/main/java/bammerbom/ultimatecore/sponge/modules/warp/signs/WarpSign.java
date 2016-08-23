@@ -25,17 +25,14 @@ package bammerbom.ultimatecore.sponge.modules.warp.signs;
 
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
-import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.sign.UCSign;
-import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.block.tileentity.Sign;
-import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
+
+import java.util.List;
 
 public class WarpSign implements UCSign {
     @Override
@@ -49,22 +46,18 @@ public class WarpSign implements UCSign {
     }
 
     @Override
-    public Permission getPermission() {
-        return WarpPermissions.UC_WARP;
+    public boolean onExecute(Player p, Sign sign) {
+        return true;
     }
 
     @Override
-    public void onExecute(Player p, Sign sign) {
-        Messages.log("EXECUTE " + p.getName() + " " + sign.getSignData().get(0));
+    public boolean onCreate(Player p, ChangeSignEvent event) {
+        return true;
     }
 
     @Override
-    public void onCreate(Player p, ChangeSignEvent event) {
-        event.getText().set(Keys.SIGN_LINES, event.getText().setElement(1, Text.of(TextColors.RED, "Appeltaart")).asList());
+    public boolean onDestroy(Player p, ChangeBlockEvent event, List<Text> lines) {
+        return true;
     }
 
-    @Override
-    public void onDestroy(Player p, ChangeBlockEvent event, Sign sign) {
-        Messages.log("DESTROY " + p.getName() + " " + sign.getSignData().get(0));
-    }
 }

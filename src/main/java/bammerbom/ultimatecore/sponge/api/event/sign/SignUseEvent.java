@@ -23,5 +23,13 @@
  */
 package bammerbom.ultimatecore.sponge.api.event.sign;
 
-public class SignUseEvent {
+import bammerbom.ultimatecore.sponge.api.sign.UCSign;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+
+public class SignUseEvent extends SignEvent.Locatable {
+    public SignUseEvent(UCSign sign, Location<World> location, Cause cause) {
+        super(sign, location, cause);
+    }
 }

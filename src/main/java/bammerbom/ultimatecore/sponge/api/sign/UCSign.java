@@ -23,12 +23,16 @@
  */
 package bammerbom.ultimatecore.sponge.api.sign;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import org.spongepowered.api.block.tileentity.Sign;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
+import org.spongepowered.api.text.Text;
+
+import java.util.List;
 
 public interface UCSign {
 
@@ -42,39 +46,61 @@ public interface UCSign {
     /**
      * An unique lower-case string, normally the sign's name.
      *
-     * @return the identifier
+     * @return The identifier
      */
     String getIdentifier();
 
     /**
-     * The base permission for this sign.
-     * This should be the permission needed to execute this sign.
+     * The permission needed to use this sign.
      *
-     * @return the permission for this sign
+     * @return The permission
      */
-    Permission getPermission();
+    default Permission getUsePermission() {
+        return UltimateCore.get().getSignService().get().getDefaultUsePermission(this);
+    }
+
+    /**
+     * The permission needed to create this sign.
+     *
+     * @return The permission
+     */
+    default Permission getCreatePermission() {
+        return UltimateCore.get().getSignService().get().getDefaultCreatePermission(this);
+    }
+
+    /**
+     * The permission needed to destroy this sign.
+     *
+     * @return The permission
+     */
+    default Permission getDestroyPermission() {
+        return UltimateCore.get().getSignService().get().getDefaultDestroyPermission(this);
+    }
 
     /**
      * Called when a player executes the sign, normally by clicking it.
+     * Permission checks will be done by the implementation.
      *
      * @param p    The player who executed the sign
      * @param sign The sign which has been executed
      */
-    void onExecute(Player p, Sign sign);
+    boolean onExecute(Player p, Sign sign);
 
     /**
      * Called when a player creates a new sign, normally by clicking the confirm button after typing a sign.
+     * Permission checks and messages will be done by the implementation.
      *
      * @param p     The player who created the sign
      * @param event The event which was thrown after creating the sign
      */
-    void onCreate(Player p, ChangeSignEvent event);
+    boolean onCreate(Player p, ChangeSignEvent event);
 
     /**
      * Called when a player destroys a sign, normally by breaking it.
+     * Permission checks and messages will be done by the implementation.
      *
      * @param p     The player who destroyed the sign
      * @param event The event which was thrown after destroying the sign
      */
-    void onDestroy(Player p, ChangeBlockEvent event, Sign sign);
+    boolean onDestroy(Player p, ChangeBlockEvent event, List<Text> lines);
 }

@@ -34,7 +34,6 @@ import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
 import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -89,22 +88,22 @@ public class SethomeCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if(!(sender instanceof Player)){
+        if (!(sender instanceof Player)) {
             sender.sendMessage(Messages.getFormatted("core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if(!sender.hasPermission(HomePermissions.UC_SETHOME.get())){
+        if (!sender.hasPermission(HomePermissions.UC_SETHOME.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
-        if(args.length == 0){
+        if (args.length == 0) {
             sender.sendMessage(getUsage());
-            return  CommandResult.empty();
+            return CommandResult.empty();
         }
         //Home count, or else 1 home
         String shomecount = sender.getOption("home-count").orElse("1");
-        if(!TimeUtil.isNumber(shomecount)){
+        if (!TimeUtil.isNumber(shomecount)) {
             sender.sendMessage(Messages.getFormatted("home.command.sethome.invalidhomecount", "%homecount%", shomecount));
             return CommandResult.empty();
         }
@@ -113,7 +112,7 @@ public class SethomeCommand implements Command {
         List<Home> homes = user.get(HomeKeys.HOMES).orElse(new ArrayList<>());
         boolean replace = homes.stream().filter(home -> home.getName().equalsIgnoreCase(args[0])).count() >= 1;
         //If amount of homes (+1 if not replace) is higher than max amount of homes
-        if( (homes.size() + (replace ? 0 : 1)) > homecount && !sender.hasPermission(HomePermissions.UC_SETHOME_UNLIMITED.get())){
+        if ((homes.size() + (replace ? 0 : 1)) > homecount && !sender.hasPermission(HomePermissions.UC_SETHOME_UNLIMITED.get())) {
             sender.sendMessage(Messages.getFormatted("home.command.sethome.maxhomes"));
             return CommandResult.empty();
         }
@@ -122,9 +121,9 @@ public class SethomeCommand implements Command {
         homes.add(new Home(args[0].toLowerCase(), new ExtendedLocation(p.getLocation(), p.getRotation())));
         user.offer(HomeKeys.HOMES, homes);
 
-        if(replace){
+        if (replace) {
             sender.sendMessage(Messages.getFormatted("home.command.sethome.success.replace", "%home%", args[0].toLowerCase()));
-        }else{
+        } else {
             sender.sendMessage(Messages.getFormatted("home.command.sethome.success.set", "%home%", args[0].toLowerCase()));
         }
         return CommandResult.success();

@@ -23,6 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.api.sign;
 
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
+
 import java.util.Optional;
 import java.util.Set;
 
@@ -66,4 +68,10 @@ public interface SignService {
      * @return Whether the sign was found
      */
     boolean unregisterSign(UCSign sign);
+
+    Permission getDefaultUsePermission(UCSign sign);
+
+    Permission getDefaultCreatePermission(UCSign sign);
+
+    Permission getDefaultDestroyPermission(UCSign sign);
 }

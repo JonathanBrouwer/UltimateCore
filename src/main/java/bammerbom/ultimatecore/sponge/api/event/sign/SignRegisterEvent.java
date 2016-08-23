@@ -23,5 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.api.event.sign;
 
-public class SignRegisterEvent {
+import bammerbom.ultimatecore.sponge.api.sign.UCSign;
+import org.spongepowered.api.event.cause.Cause;
+
+public class SignRegisterEvent extends SignEvent {
+    public SignRegisterEvent(UCSign sign, Cause cause) {
+        super(sign, cause);
+    }
 }

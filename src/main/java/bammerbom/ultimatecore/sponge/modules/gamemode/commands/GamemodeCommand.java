@@ -60,7 +60,7 @@ public class GamemodeCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(GamemodePermissions.UC_GAMEMODE, GamemodePermissions.UC_GAMEMODE_ADVENTURE, GamemodePermissions.UC_GAMEMODE_CREATIVE, GamemodePermissions
-                        .UC_GAMEMODE_SURVIVAL, GamemodePermissions.UC_GAMEMODE_SPECTATOR, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE,
+                .UC_GAMEMODE_SURVIVAL, GamemodePermissions.UC_GAMEMODE_SPECTATOR, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE,
                 GamemodePermissions.UC_GAMEMODE_OTHERS_CREATIVE, GamemodePermissions.UC_GAMEMODE_OTHERS_SURVIVAL, GamemodePermissions.UC_GAMEMODE_OTHERS_SPECTATOR);
     }
 
