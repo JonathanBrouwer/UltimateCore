@@ -32,6 +32,7 @@ import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.defaultmodule.api.DefaultPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -41,6 +42,7 @@ import org.spongepowered.api.text.Text;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UltimatecoreCommand implements Command {
     @Override
@@ -116,6 +118,12 @@ public class UltimatecoreCommand implements Command {
             //Delete the user's file
             file.getFile().delete();
             sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.resetuser.success", "%player%", t.get().getName()));
+            return CommandResult.success();
+        }
+        if (args[0].equalsIgnoreCase("modules")) {
+            List<String> modules = UltimateCore.get().getModuleService().getRegisteredModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default"))
+                    .collect(Collectors.toList());
+            sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules)));
             return CommandResult.success();
         }
         sender.sendMessage(getLongDescription());

@@ -56,7 +56,7 @@ public class StringUtil {
         return buf.toString();
     }
 
-    public static String join(String separator, Collection<Object> parts) {
+    public static String join(String separator, Collection<? extends Object> parts) {
         return join(separator, parts.toArray());
     }
 
