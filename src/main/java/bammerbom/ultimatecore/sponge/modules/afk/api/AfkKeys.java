@@ -27,13 +27,14 @@ import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
-import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
+import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.text.title.Title;
+import org.spongepowered.api.world.World;
 
 public class AfkKeys {
     public static Key.User.Online<Long> AFK_TIME = new Key.User.Online<>("afk_time");
     public static Key.User.Online<String> AFK_MESSAGE = new Key.User.Online<>("afk_message");
-    public static Key.User.Online<ExtendedLocation> LAST_LOCATION = new Key.User.Online<>("afk_lastlocation");
+    public static Key.User.Online<Transform<World>> LAST_LOCATION = new Key.User.Online<>("afk_lastlocation");
     public static Key.User.Online<Boolean> IS_AFK = new Key.User.Online<>("afk", new KeyProvider.User<Boolean>() {
         @Override
         public Boolean load(UltimateUser user) {
@@ -46,7 +47,7 @@ public class AfkKeys {
                 //Make sure the player is not un-afked instantly
                 AfkDetectionListener.afktime.put(user.getIdentifier(), 0L);
                 if (user.getPlayer().isPresent()) {
-                    user.offer(AfkKeys.LAST_LOCATION, new ExtendedLocation(user.getPlayer().get().getLocation(), user.getPlayer().get().getRotation()));
+                    user.offer(AfkKeys.LAST_LOCATION, new Transform<>(user.getPlayer().get().getLocation(), user.getPlayer().get().getRotation(), user.getPlayer().get().getScale()));
                 }
             } else {
                 //Player is no longer afk

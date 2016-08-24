@@ -31,11 +31,11 @@ import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpKeys;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
-import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -109,7 +109,7 @@ public class SetwarpCommand implements Command {
             description = StringUtil.getFinalArg(args, 1);
         }
         //Create warp instance
-        Warp warp = new Warp(name, description, new ExtendedLocation(p.getLocation(), p.getRotation()));
+        Warp warp = new Warp(name, description, new Transform<>(p.getLocation(), p.getRotation(), p.getScale()));
         List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();
         warps = warps.stream().filter(w -> !w.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
         //Did the warp already exist?

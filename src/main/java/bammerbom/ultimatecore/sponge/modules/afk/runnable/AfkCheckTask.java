@@ -28,11 +28,12 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
-import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +54,12 @@ public class AfkCheckTask implements Runnable {
             UltimateUser user = UltimateCore.get().getUserService().getUser(player);
             //Location check
             if (config.getNode("events", "move", "enabled").getBoolean(false) && config.getNode("events", "move", "mode").getString("").equalsIgnoreCase("task")) {
-                ExtendedLocation nloc = new ExtendedLocation(player.getLocation(), player.getRotation());
+                Transform<World> nloc = new Transform<World>(player.getLocation(), player.getRotation(), player.getScale());
                 if (!user.get(AfkKeys.LAST_LOCATION).isPresent()) {
                     user.offer(AfkKeys.LAST_LOCATION, nloc);
                     AfkDetectionListener.unafkCheck(player);
                 }
-                ExtendedLocation oloc = user.get(AfkKeys.LAST_LOCATION).get();
+                Transform<World> oloc = user.get(AfkKeys.LAST_LOCATION).get();
                 if (!oloc.equals(nloc)) {
                     AfkDetectionListener.afktime.put(player.getUniqueId(), System.currentTimeMillis());
                     user.offer(AfkKeys.LAST_LOCATION, nloc);

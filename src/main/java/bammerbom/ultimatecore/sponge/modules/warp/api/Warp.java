@@ -23,18 +23,19 @@
  */
 package bammerbom.ultimatecore.sponge.modules.warp.api;
 
-import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.world.World;
 
 public class Warp {
     String name;
     String description;
-    ExtendedLocation location;
+    Transform<World> location;
 
-    public Warp(String name, String description, ExtendedLocation location) {
+    public Warp(String name, String description, Transform<World> location) {
         this.name = name;
         this.description = description;
         this.location = location;
@@ -48,7 +49,7 @@ public class Warp {
         return description;
     }
 
-    public ExtendedLocation getLocation() {
+    public Transform<World> getLocation() {
         return location;
     }
 
@@ -57,7 +58,7 @@ public class Warp {
         public Warp deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
             String name = node.getNode("name").getString();
             String description = node.getNode("description").getString();
-            ExtendedLocation location = node.getNode("location").getValue(TypeToken.of(ExtendedLocation.class));
+            Transform<World> location = node.getNode("location").getValue(TypeToken.of(Transform.class));
             return new Warp(name, description, location);
         }
 
@@ -65,7 +66,7 @@ public class Warp {
         public void serialize(TypeToken<?> type, Warp warp, ConfigurationNode node) throws ObjectMappingException {
             node.getNode("name").setValue(warp.getName());
             node.getNode("description").setValue(warp.getDescription());
-            node.getNode("location").setValue(TypeToken.of(ExtendedLocation.class), warp.getLocation());
+            node.getNode("location").setValue(TypeToken.of(Transform.class), warp.getLocation());
         }
     }
 }

@@ -23,17 +23,18 @@
  */
 package bammerbom.ultimatecore.sponge.modules.home.api;
 
-import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.world.World;
 
 public class Home {
     String name;
-    ExtendedLocation location;
+    Transform<World> location;
 
-    public Home(String name, ExtendedLocation location) {
+    public Home(String name, Transform<World> location) {
         this.name = name;
         this.location = location;
     }
@@ -42,7 +43,7 @@ public class Home {
         return name;
     }
 
-    public ExtendedLocation getLocation() {
+    public Transform<World> getLocation() {
         return location;
     }
 
@@ -50,14 +51,14 @@ public class Home {
         @Override
         public Home deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
             String name = node.getNode("name").getString();
-            ExtendedLocation location = node.getNode("location").getValue(TypeToken.of(ExtendedLocation.class));
+            Transform<World> location = node.getNode("location").getValue(TypeToken.of(Transform.class));
             return new Home(name, location);
         }
 
         @Override
         public void serialize(TypeToken<?> type, Home home, ConfigurationNode node) throws ObjectMappingException {
             node.getNode("name").setValue(home.getName());
-            node.getNode("location").setValue(TypeToken.of(ExtendedLocation.class), home.getLocation());
+            node.getNode("location").setValue(TypeToken.of(Transform.class), home.getLocation());
         }
     }
 }

@@ -21,48 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.spawn;
+package bammerbom.ultimatecore.sponge.modules.spawn.api;
 
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
-import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.world.World;
 
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.UUID;
 
-public class SpawnModule implements Module {
-    //spawn
-    //globalspawn, firstspawn, worldspawn, groupspawn
-    //(set/del)spawn g(roup):GROUP w(orld):WORLD -w(orld) -f(irst)
-    //(set/del)firstspawn
-    @Override
-    public String getIdentifier() {
-        return "spawn";
-    }
+public class SpawnData {
 
-    @Override
-    public Optional<ModuleConfig> getConfig() {
-        return Optional.empty();
-    }
-
-    @Override
-    public void onRegister() {
-
-    }
-
-    @Override
-    public void onInit(GameInitializationEvent event) {
-        
-    }
-
-    @Override
-    public void onPostInit(GamePostInitializationEvent event) {
-
-    }
-
-    @Override
-    public void onStop(GameStoppingEvent event) {
-
-    }
+    public Transform<World> global;
+    public HashMap<UUID, Transform<World>> world;
 }

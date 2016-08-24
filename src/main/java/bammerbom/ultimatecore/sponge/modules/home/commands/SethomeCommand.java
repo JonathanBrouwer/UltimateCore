@@ -32,13 +32,14 @@ import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
-import bammerbom.ultimatecore.sponge.utils.ExtendedLocation;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -118,7 +119,7 @@ public class SethomeCommand implements Command {
         }
         //Remove home with matching name
         homes = homes.stream().filter(home -> !home.getName().equalsIgnoreCase(args[0])).collect(Collectors.toList());
-        homes.add(new Home(args[0].toLowerCase(), new ExtendedLocation(p.getLocation(), p.getRotation())));
+        homes.add(new Home(args[0].toLowerCase(), new Transform<World>(p.getLocation(), p.getRotation(), p.getScale())));
         user.offer(HomeKeys.HOMES, homes);
 
         if (replace) {

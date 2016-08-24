@@ -63,9 +63,9 @@ public class WarpKeys {
             //Sort warps by world
             HashMap<UUID, List<Warp>> worldWarps = new HashMap<>();
             for (Warp warp : data) {
-                List<Warp> warps = worldWarps.containsKey(warp.getLocation().getWorld().getUniqueId()) ? worldWarps.get(warp.getLocation().getWorld().getUniqueId()) : new ArrayList<>();
+                List<Warp> warps = worldWarps.containsKey(warp.getLocation().getExtent().getUniqueId()) ? worldWarps.get(warp.getLocation().getExtent().getUniqueId()) : new ArrayList<>();
                 warps.add(warp);
-                worldWarps.put(warp.getLocation().getWorld().getUniqueId(), warps);
+                worldWarps.put(warp.getLocation().getExtent().getUniqueId(), warps);
             }
 
             for (UUID uuid : worldWarps.keySet()) {
