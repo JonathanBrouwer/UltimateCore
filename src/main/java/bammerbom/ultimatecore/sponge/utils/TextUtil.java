@@ -32,6 +32,13 @@ import java.util.HashSet;
 import java.util.List;
 
 public class TextUtil {
+    /**
+     * Get a list of Text objects, all containing a char from the text.
+     * This is the same as {@link String#toCharArray()}, but keeps formatting.
+     *
+     * @param text The text to get the characters for
+     * @return A list of formatted chars
+     */
     public static List<LiteralText> getFormattedChars(Text text) {
         //Split the text in a list of chars
         List<LiteralText> chars = new ArrayList<>();
@@ -53,6 +60,15 @@ public class TextUtil {
         return chars;
     }
 
+    /**
+     * This will get a specific piece of text, starting at {@code start} and ending at {@code end - 1}.
+     * This is the same as {@link String#substring(int, int)}, but keeps formatting.
+     *
+     * @param text  The text to get the subtext for
+     * @param start The beginning index, inclusive
+     * @param end   The ending index, exclusive
+     * @return The subtext
+     */
     public static LiteralText subtext(Text text, int start, int end) {
         if (start == end) {
             return Text.of("");
@@ -66,6 +82,16 @@ public class TextUtil {
         return sub.build();
     }
 
+    /**
+     * This will replace all literal matches of {@code find} with {@code replace}.
+     * This is the same as {@link String#replace(CharSequence, CharSequence)}, but keeps formatting.
+     * This does NOT support regex.
+     *
+     * @param text    The text to search & replace in.
+     * @param find    The string to search for.
+     * @param replace The text to replace the string with.
+     * @return The text, where every match has been replaced.
+     */
     public static Text replace(Text text, String find, Text replace) {
         int index = text.toPlain().indexOf(find);
         while (index != -1) {
@@ -77,6 +103,16 @@ public class TextUtil {
         return text;
     }
 
+    /**
+     * This will replace the first literal match of {@code find} with {@code replace}.
+     * This is the same as {@link String#replaceFirst(String, String)}, but keeps formatting.
+     * This does NOT support regex.
+     *
+     * @param text    The text to search & replace in.
+     * @param find    The string to search for.
+     * @param replace The text to replace the string with.
+     * @return The text, where the first match has been replaced.
+     */
     public static Text replaceFirst(Text text, String find, Text replace) {
         int index = text.toPlain().indexOf(find);
         Text front = subtext(text, 0, index);
@@ -84,6 +120,15 @@ public class TextUtil {
         return Text.of(front, replace, after);
     }
 
+    /**
+     * Get a list of all literal matches of {@code split}.
+     * The integer is the index of the first character of the found match.
+     * This does NOT support regex.
+     *
+     * @param text  The text to search in
+     * @param split The string to search for
+     * @return The list of found indexes, empty if none are found
+     */
     public static List<Integer> indexesOf(Text text, String split) {
         String string = text.toPlain();
         HashSet<Integer> results = new HashSet<>();
@@ -100,6 +145,15 @@ public class TextUtil {
         return new ArrayList<>(results);
     }
 
+    /**
+     * Split the text on {@code split}, and return all
+     * This is the same as {@link String#split(String)}, but keeps formatting.
+     * This does NOT support regex.
+     *
+     * @param text  The text to split.
+     * @param split The string to split on.
+     * @return All results of the split, or only the {@code text} if the {@code split} was not found.
+     */
     public static List<Text> split(Text text, String split) {
         List<Integer> found = indexesOf(text, split);
         if (found.isEmpty()) {
