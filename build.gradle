@@ -21,7 +21,6 @@ sourceSets {
 
 jar {
     manifest.attributes("Main-Class": "bammerbom.ultimatecore.Main")
-    rootProject.libsDirName = '/'
     archiveName = "UltimateCore.jar"
 }
 
