@@ -38,8 +38,9 @@ import org.spongepowered.api.service.permission.PermissionService;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -106,7 +107,7 @@ public class Stats {
         }
         JSONObject plugins = new JSONObject();
         try {
-            modules.put("plugins", pluginsarray);
+            plugins.put("plugins", pluginsarray);
         } catch (Exception ex) {
         }
         data.put("plugins", plugins.toString());
@@ -155,12 +156,19 @@ public class Stats {
                     Response<String> response = webb.post("http://ultimatecore.org/postrequest/statistics.php").params(data).asString();
                     Messages.log(Messages.getFormatted("core.stats.sent", "%status%", response.getStatusLine()));
                     //TODO add file or not?
-                    File file = new File(UltimateCore.get().getDataFolder().toFile(), "stats.html");
+                    File file = new File(UltimateCore.get().getDataFolder().toFile(), "stats.txt");
                     if (!file.exists()) {
                         file.getParentFile().mkdirs();
                         file.createNewFile();
                     }
-                    FileUtil.writeLines(file, Arrays.asList(response.getBody()));
+
+                    //Get lines
+                    List<String> lines = new ArrayList<>();
+                    for (String key : data.keySet()) {
+                        lines.add(key + " = " + data.get(key));
+                    }
+
+                    FileUtil.writeLines(file, lines);
                 } catch (IOException e) {
                     Messages.log(Messages.getFormatted("core.stats.failed", "%message%", e.getMessage()));
                 }
