@@ -37,7 +37,6 @@ import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.permission.PermissionService;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -169,7 +168,7 @@ public class Stats {
                     }
 
                     FileUtil.writeLines(file, lines);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Messages.log(Messages.getFormatted("core.stats.failed", "%message%", e.getMessage()));
                 }
             }
