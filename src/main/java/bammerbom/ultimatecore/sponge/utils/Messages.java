@@ -136,19 +136,35 @@ public class Messages {
      */
     public static Text getFormatted(String key, Object... vars) {
         String raw = get(key, vars);
+        Text text;
         try {
-            return TextSerializers.JSON.deserialize(raw);
+            text = TextSerializers.JSON.deserialize(raw);
         } catch (TextParseException ex) {
             try {
-                return TextSerializers.TEXT_XML.deserialize(raw);
+                text = TextSerializers.TEXT_XML.deserialize(raw);
             } catch (TextParseException ex2) {
                 try {
-                    return TextSerializers.FORMATTING_CODE.deserialize(raw);
+                    text = TextSerializers.FORMATTING_CODE.deserialize(raw);
                 } catch (Exception ex3) {
-                    return Text.of(raw);
+                    text = TextSerializers.PLAIN.deserialize(raw);
                 }
             }
         }
+
+        String first = null;
+        for (Object var : vars) {
+            if (first == null) {
+                first = var.toString();
+            } else {
+                if (var instanceof Text) {
+                    text = TextUtil.replace(text, first, (Text) var);
+                }
+                //Else will be at get()
+                first = null;
+            }
+        }
+
+        return text;
     }
 
     /**
@@ -178,7 +194,7 @@ public class Messages {
      *
      * @param key  The key of the message to get
      * @param vars The variables to replace. When {Banana, Apple} is provided Banana will be replaced with Apple
-     * @return The raw message
+     * @return The raw message, or null when not found
      */
     public static String get(String key, Object... vars) {
         String raw;
@@ -187,7 +203,7 @@ public class Messages {
         } else if (EN_US.containsKey(key)) {
             raw = EN_US.get(key);
         } else {
-            raw = ""; //TODO what to do? Optional?
+            return null;
         }
         String first = null;
         for (Object var : vars) {
@@ -195,10 +211,10 @@ public class Messages {
                 first = var.toString();
             } else {
                 if (var instanceof Text) {
-                    Text text = (Text) var;
-                    var = TextSerializers.FORMATTING_CODE.serialize(text); //TODO does this work?
+                    //Will replaced later if needed
+                } else {
+                    raw = raw.replace(first, var.toString());
                 }
-                raw = raw.replace(first, var.toString());
                 first = null;
             }
         }
