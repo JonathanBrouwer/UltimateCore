@@ -33,6 +33,7 @@ import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -41,7 +42,6 @@ import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
-import org.spongepowered.api.text.format.TextColors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,9 +113,22 @@ public class HomelistCommand implements Command {
         }
         Collections.sort(entries);
 
+        Text footer;
+        if (!p.hasPermission(HomePermissions.UC_SETHOME_UNLIMITED.get())) {
+            String shomecount = sender.getOption("home-count").orElse("1");
+            if (!TimeUtil.isNumber(shomecount)) {
+                sender.sendMessage(Messages.getFormatted("home.command.sethome.invalidhomecount", "%homecount%", shomecount));
+                return CommandResult.empty();
+            }
+            Integer homecount = Integer.parseInt(shomecount);
+            footer = Messages.getFormatted("home.command.homelist.footer", "%current%", homes.size(), "%max%", homecount);
+        } else {
+            footer = Messages.getFormatted("home.command.homelist.footer.unlimited");
+        }
+
         PaginationService paginationService = Sponge.getServiceManager().provide(PaginationService.class).get();
-        PaginationList paginationList = paginationService.builder().contents(entries).title(Messages.getFormatted("home.command.homelist.header").toBuilder().color(TextColors.DARK_GREEN)
-                .build()).build();
+        PaginationList paginationList = paginationService.builder().contents(entries).title(Messages.getFormatted("home.command.homelist.header").toBuilder().format(Messages.getFormatted
+                ("home.command.homelist.char").getFormat()).build()).footer(footer).padding(Messages.getFormatted("home.command.homelist.char")).build();
         paginationList.sendTo(sender);
         return CommandResult.success();
     }

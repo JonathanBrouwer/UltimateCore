@@ -40,7 +40,6 @@ import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
-import org.spongepowered.api.text.format.TextColors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,10 +115,10 @@ public class WarpCommand implements Command {
             }
             //Sort alphabetically
             Collections.sort(texts);
-            //Send page
+
             PaginationService paginationService = Sponge.getServiceManager().provide(PaginationService.class).get();
-            PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted("warp.command.warplist.header").toBuilder().color(TextColors
-                    .DARK_GREEN).build()).build();
+            PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted("warp.command.warplist.header").toBuilder().format(Messages
+                    .getFormatted("warp.command.warplist.char").getFormat()).build()).padding(Messages.getFormatted("warp.command.warplist.char")).build();
             paginationList.sendTo(sender);
             return CommandResult.empty();
         }
