@@ -40,6 +40,7 @@ public class TextUtil {
      * @return A list of formatted chars
      */
     public static List<LiteralText> getFormattedChars(Text text) {
+        Messages.debug(Text.of("getformattedchars ", text));
         //Split the text in a list of chars
         List<LiteralText> chars = new ArrayList<>();
         //Get all children
@@ -70,6 +71,7 @@ public class TextUtil {
      * @return The subtext
      */
     public static LiteralText subtext(Text text, int start, int end) {
+        Messages.debug(Text.of("subtext ", text, " " + start + " " + end));
         if (start == end) {
             return Text.of("");
         }
@@ -130,6 +132,7 @@ public class TextUtil {
      * @return The list of found indexes, empty if none are found
      */
     public static List<Integer> indexesOf(Text text, String split) {
+        Messages.debug(Text.of("indexesOf ", text, " " + split));
         String string = text.toPlain();
         HashSet<Integer> results = new HashSet<>();
 
@@ -155,6 +158,7 @@ public class TextUtil {
      * @return All results of the split, or only the {@code text} if the {@code split} was not found.
      */
     public static List<Text> split(Text text, String split) {
+        Messages.debug(Text.of("split ", text, " " + split));
         List<Integer> found = indexesOf(text, split);
         if (found.isEmpty()) {
             return Arrays.asList(text);
@@ -164,11 +168,13 @@ public class TextUtil {
         //firstmatch+split - secondmatch
         //secondmatch+split - thirdmatch
         //...
+        Messages.debug(Text.of("split found: " + found));
         List<Text> results = new ArrayList<>();
         results.add(subtext(text, 0, found.get(0)));
         int cur = 0;
         for (Integer res : found) {
             Integer next = found.size() > (cur + 1) ? found.get(cur + 1) : null;
+            Messages.debug("Split for " + (res + split.length()) + " - " + (next == null ? text.toPlain().length() : next));
             results.add(subtext(text, res + split.length(), next == null ? text.toPlain().length() : next));
             cur++;
         }

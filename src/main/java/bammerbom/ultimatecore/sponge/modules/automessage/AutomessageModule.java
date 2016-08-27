@@ -65,8 +65,8 @@ public class AutomessageModule implements Module {
         config = new ModuleConfig("automessage");
         //Runnables
         try {
-            for (Automessage message : config.get().getList(TypeToken.of(Automessage.class))) {
-
+            for (Automessage message : config.get().getNode("automessages").getList(TypeToken.of(Automessage.class))) {
+                message.start();
             }
         } catch (ObjectMappingException e) {
             e.printStackTrace();

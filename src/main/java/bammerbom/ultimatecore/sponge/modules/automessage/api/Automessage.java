@@ -23,18 +23,33 @@
  */
 package bammerbom.ultimatecore.sponge.modules.automessage.api;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.TextUtil;
+import com.google.common.collect.ImmutableList;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.boss.BossBarColor;
 import org.spongepowered.api.boss.BossBarOverlay;
+import org.spongepowered.api.boss.ServerBossBar;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.chat.ChatTypes;
+import org.spongepowered.api.text.title.Title;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class Automessage {
     //General
     public boolean enable;
     public int time;
     public String random;
-    public List<Text> messages;
+    public ImmutableList<Text> messages;
 
     //Chat
     public boolean chat;
@@ -56,6 +71,121 @@ public class Automessage {
     public int title_stay;
     public int title_fadeout;
 
+    //INTERNAL VALUES
+    //Contains all messages excluding the already send messages
+    static List<Integer> tempmessages = new ArrayList<>();
+    static Random rand = new Random();
+
     public Automessage() {
+    }
+
+    public void start() {
+        if (!enable || messages.isEmpty()) {
+            return;
+        }
+        Sponge.getScheduler().createTaskBuilder().interval(time, TimeUnit.SECONDS).delay(time, TimeUnit.SECONDS).execute(this::run).name("UC: Automessage Task").submit(UltimateCore.get());
+    }
+
+    public void run() {
+        //Get the message
+        Text message;
+        if (random.equalsIgnoreCase("random")) {
+            message = messages.get(rand.nextInt(messages.size()));
+        } else if (random.equalsIgnoreCase("order")) {
+            if (tempmessages.isEmpty()) {
+                tempmessages = new ArrayList<>();
+                int i = 0;
+                for (Text mes : messages) {
+                    tempmessages.add(i);
+                    i++;
+                }
+            }
+            message = messages.get(tempmessages.get(0));
+            tempmessages.remove(0);
+        } else if (random.equalsIgnoreCase("randomorder")) {
+            if (tempmessages.isEmpty()) {
+                tempmessages = new ArrayList<>();
+                int i = 0;
+                for (Text mes : messages) {
+                    tempmessages.add(i);
+                    i++;
+                }
+                Collections.shuffle(tempmessages);
+            }
+            message = messages.get(tempmessages.get(0));
+            tempmessages.remove(0);
+        } else {
+            Messages.log("Invalid random type in automessage config: " + random);
+            return;
+        }
+
+        //Chat
+        if (chat) {
+            Sponge.getServer().getBroadcastChannel().send(message);
+        }
+
+        //Actionbar
+        if (actionbar) {
+            //First send
+            Sponge.getServer().getBroadcastChannel().send(message, ChatTypes.ACTION_BAR);
+            //Last send
+            Sponge.getScheduler().createTaskBuilder().delay(actionbar_stay, TimeUnit.SECONDS).execute(new Runnable() {
+                @Override
+                public void run() {
+                    Sponge.getServer().getBroadcastChannel().send(message, ChatTypes.ACTION_BAR);
+                }
+            }).name("UC: Automessage actionbar delay task 1").submit(UltimateCore.get());
+            //Repeating send
+            int duration = actionbar_stay;
+            while (duration > 40) {
+                duration -= 40;
+                Sponge.getScheduler().createTaskBuilder().delay(duration, TimeUnit.SECONDS).execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Sponge.getServer().getBroadcastChannel().send(message, ChatTypes.ACTION_BAR);
+                    }
+                }).name("UC: Automessage actionbar delay task 2").submit(UltimateCore.get());
+            }
+        }
+
+        //Bossbar
+        if (bossbar) {
+            //First send
+            ServerBossBar bar = ServerBossBar.builder().color(bossbar_color).overlay(bossbar_style).playEndBossMusic(false).createFog(false).darkenSky(false).name(message).build();
+            Sponge.getServer().getOnlinePlayers().stream().map(bar::addPlayer);
+
+            final Task task = Sponge.getScheduler().createTaskBuilder().interval(1, TimeUnit.SECONDS).execute(new Consumer<Task>() {
+                int duration = bossbar_stay;
+
+                @Override
+                public void accept(Task task) {
+                    if (duration < 0) {
+                        task.cancel();
+                        bar.setVisible(false);
+                        return;
+                    }
+                    bar.setPercent(duration / bossbar_stay);
+                    duration--;
+                }
+            }).name("UC: Automessage bossbar task").submit(UltimateCore.get());
+        }
+
+        //Title
+        if (title) {
+            Text uptitle;
+            Text subtitle;
+            if (message.toPlain().contains("\r\n")) {
+                List<Text> split = TextUtil.split(message, "\r\n");
+                uptitle = split.get(0);
+                subtitle = split.get(1);
+            } else {
+                uptitle = message;
+                subtitle = Text.of();
+            }
+            Title title = Title.builder().title(uptitle).subtitle(subtitle).fadeIn(title_fadein).stay(title_stay).fadeOut(title_fadeout).build();
+            for (Player p : Sponge.getServer().getOnlinePlayers()) {
+                p.sendTitle(title);
+            }
+        }
     }
 }
