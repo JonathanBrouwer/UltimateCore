@@ -43,17 +43,12 @@ public class TextUtil {
         //Split the text in a list of chars
         List<LiteralText> chars = new ArrayList<>();
         //Get all children
-        List<Text> texts = new ArrayList<>();
-        if (text.getChildren().isEmpty()) {
-            texts.add(text);
-        } else {
-            texts.addAll(text.getChildren());
-        }
+        List<Text> children = getAllChildren(text, true);
         //Get all chars
-        for (Text tex : texts) {
-            for (char c : tex.toPlain().toCharArray()) {
-                LiteralText.Builder builder = LiteralText.builder(c).format(tex.getFormat()).onClick(tex.getClickAction().orElse(null)).onHover(tex.getHoverAction().orElse(null))
-                        .onShiftClick(tex.getShiftClickAction().orElse(null));
+        for (Text child : children) {
+            for (char c : child.toPlain().toCharArray()) {
+                LiteralText.Builder builder = LiteralText.builder(c).format(child.getFormat()).onClick(child.getClickAction().orElse(null)).onHover(child.getHoverAction().orElse(null))
+                        .onShiftClick(child.getShiftClickAction().orElse(null));
                 chars.add(builder.build());
             }
         }
@@ -143,6 +138,35 @@ public class TextUtil {
         }
 
         return new ArrayList<>(results);
+    }
+
+    /**
+     * This method gets all children of a text, including the children of the children of the children, etc....
+     *
+     * @param parent        The {@link Text} to get the children from
+     * @param includeParent Whether the parent itself should be included in the list
+     * @return A list of all the children the text has
+     */
+    public static List<Text> getAllChildren(Text parent, boolean includeParent) {
+        List<Text> children = new ArrayList<>();
+        //Parent
+        if (includeParent) {
+            children.add(parent);
+        }
+
+        //Children
+        Text curtext = parent;
+        while (!curtext.getChildren().isEmpty()) {
+            for (Text child : curtext.getChildren()) {
+                if (child.getChildren().isEmpty()) {
+                    children.add(child);
+                } else {
+                    children.addAll(getAllChildren(child, false));
+                }
+            }
+        }
+
+        return children;
     }
 
     /**

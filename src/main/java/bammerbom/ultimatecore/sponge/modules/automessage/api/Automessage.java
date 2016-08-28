@@ -34,6 +34,7 @@ import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.channel.MutableMessageChannel;
 import org.spongepowered.api.text.chat.ChatTypes;
 import org.spongepowered.api.text.title.Title;
 
@@ -119,6 +120,9 @@ public class Automessage {
             return;
         }
 
+        //Remove weird character from message
+        message = TextUtil.replace(message, "\r", Text.of());
+
         //Chat
         if (chat) {
             Sponge.getServer().getBroadcastChannel().send(message);
@@ -126,23 +130,26 @@ public class Automessage {
 
         //Actionbar
         if (actionbar) {
+            MutableMessageChannel channel = Sponge.getServer().getBroadcastChannel().asMutable();
+            channel.removeMember(Sponge.getServer().getConsole());
             //First send
-            Sponge.getServer().getBroadcastChannel().send(message, ChatTypes.ACTION_BAR);
+            Sponge.getServer().getBroadcastChannel().send(TextUtil.split(message, "\n").get(0), ChatTypes.ACTION_BAR);
             //Last send
+            final Text finalmessage = message;
             Sponge.getScheduler().createTaskBuilder().delay(actionbar_stay, TimeUnit.SECONDS).execute(new Runnable() {
                 @Override
                 public void run() {
-                    Sponge.getServer().getBroadcastChannel().send(message, ChatTypes.ACTION_BAR);
+                    channel.send(TextUtil.split(finalmessage, "\n").get(0), ChatTypes.ACTION_BAR);
                 }
             }).name("UC: Automessage actionbar delay task 1").submit(UltimateCore.get());
             //Repeating send
             int duration = actionbar_stay;
-            while (duration > 40) {
-                duration -= 40;
+            while (duration > 2) {
+                duration -= 2;
                 Sponge.getScheduler().createTaskBuilder().delay(duration, TimeUnit.SECONDS).execute(new Runnable() {
                     @Override
                     public void run() {
-                        Sponge.getServer().getBroadcastChannel().send(message, ChatTypes.ACTION_BAR);
+                        channel.send(TextUtil.split(finalmessage, "\n").get(0), ChatTypes.ACTION_BAR);
                     }
                 }).name("UC: Automessage actionbar delay task 2").submit(UltimateCore.get());
             }
@@ -151,10 +158,9 @@ public class Automessage {
         //Bossbar
         if (bossbar) {
             //First send
-            ServerBossBar bar = ServerBossBar.builder().color(bossbar_color).overlay(bossbar_style).playEndBossMusic(false).createFog(false).darkenSky(false).name(message).build();
-            Sponge.getServer().getOnlinePlayers().stream().map(bar::addPlayer);
-
-            final Task task = Sponge.getScheduler().createTaskBuilder().interval(1, TimeUnit.SECONDS).execute(new Consumer<Task>() {
+            ServerBossBar bar = ServerBossBar.builder().color(bossbar_color).overlay(bossbar_style).name(TextUtil.split(message, "\n").get(0)).percent(1.0f).build();
+            Sponge.getServer().getOnlinePlayers().forEach(bar::addPlayer);
+            Sponge.getScheduler().createTaskBuilder().interval(1, TimeUnit.SECONDS).execute(new Consumer<Task>() {
                 int duration = bossbar_stay;
 
                 @Override
@@ -174,15 +180,15 @@ public class Automessage {
         if (title) {
             Text uptitle;
             Text subtitle;
-            if (message.toPlain().contains("\r\n")) {
-                List<Text> split = TextUtil.split(message, "\r\n");
+            if (message.toPlain().contains("\n")) {
+                List<Text> split = TextUtil.split(message, "\n");
                 uptitle = split.get(0);
                 subtitle = split.get(1);
             } else {
                 uptitle = message;
                 subtitle = Text.of();
             }
-            Title title = Title.builder().title(uptitle).subtitle(subtitle).fadeIn(title_fadein).stay(title_stay).fadeOut(title_fadeout).build();
+            Title title = Title.builder().title(uptitle).subtitle(subtitle).fadeIn(title_fadein * 20).stay(title_stay * 20).fadeOut(title_fadeout * 20).build();
             for (Player p : Sponge.getServer().getOnlinePlayers()) {
                 p.sendTitle(title);
             }
