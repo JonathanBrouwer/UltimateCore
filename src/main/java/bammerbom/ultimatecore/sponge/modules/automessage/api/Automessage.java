@@ -74,7 +74,7 @@ public class Automessage {
 
     //INTERNAL VALUES
     //Contains all messages excluding the already send messages
-    static List<Integer> tempmessages = new ArrayList<>();
+    List<Integer> tempmessages = new ArrayList<>();
     static Random rand = new Random();
 
     public Automessage() {
