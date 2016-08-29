@@ -38,7 +38,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
@@ -65,21 +64,6 @@ public class SethomeCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(HomePermissions.UC_SETHOME, HomePermissions.UC_SETHOME_UNLIMITED);
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("home.command.sethome.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("home.command.sethome.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("home.command.sethome.longdescription");
     }
 
     @Override

@@ -34,7 +34,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -59,22 +58,6 @@ public class SetHealthCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(HealPermissions.UC_SETHEALTH, HealPermissions.UC_SETHEALTH_OTHERS);
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("heal.command.sethealth.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("heal.command.sethealth.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("heal.command.sethealth.longdescription");
-
     }
 
     @Override

@@ -36,7 +36,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,21 +59,6 @@ public class FlyCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(FlyPermissions.UC_FLY, FlyPermissions.UC_FLY_OTHERS);
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("fly.command.fly.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("fly.command.fly.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("fly.command.fly.longdescription");
     }
 
     @Override

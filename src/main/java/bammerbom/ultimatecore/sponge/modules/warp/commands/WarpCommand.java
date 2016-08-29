@@ -69,21 +69,6 @@ public class WarpCommand implements Command {
     }
 
     @Override
-    public Text getUsage() {
-        return Messages.getFormatted("warp.command.warp.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("warp.command.warp.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("warp.command.warp.longdescription");
-    }
-
-    @Override
     public List<String> getAliases() {
         return Arrays.asList("warp");
     }

@@ -33,7 +33,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.weather.Weathers;
 
@@ -61,21 +60,6 @@ public class SunCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(WeatherPermissions.UC_WEATHER, WeatherPermissions.UC_WEATHER_SUN);
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("weather.command.sun.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("weather.command.sun.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("weather.command.sun.longdescription");
     }
 
     @Override

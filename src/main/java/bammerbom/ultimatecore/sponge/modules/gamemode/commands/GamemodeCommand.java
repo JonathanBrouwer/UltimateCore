@@ -36,7 +36,6 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.gamemode.GameMode;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
-import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -62,21 +61,6 @@ public class GamemodeCommand implements Command {
         return Arrays.asList(GamemodePermissions.UC_GAMEMODE, GamemodePermissions.UC_GAMEMODE_ADVENTURE, GamemodePermissions.UC_GAMEMODE_CREATIVE, GamemodePermissions
                 .UC_GAMEMODE_SURVIVAL, GamemodePermissions.UC_GAMEMODE_SPECTATOR, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE,
                 GamemodePermissions.UC_GAMEMODE_OTHERS_CREATIVE, GamemodePermissions.UC_GAMEMODE_OTHERS_SURVIVAL, GamemodePermissions.UC_GAMEMODE_OTHERS_SPECTATOR);
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("gamemode.command.gamemode.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("gamemode.command.gamemode.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("gamemode.command.gamemode.longdescription");
     }
 
     @Override

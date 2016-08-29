@@ -35,7 +35,6 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
-import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,21 +59,6 @@ public class SurvivalCommand implements Command {
     public List<Permission> getPermissions() {
         return Arrays.asList(GamemodePermissions.UC_GAMEMODE, GamemodePermissions.UC_GAMEMODE_SURVIVAL, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions
                 .UC_GAMEMODE_OTHERS_SURVIVAL);
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("gamemode.command.survival.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("gamemode.command.survival.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("gamemode.command.survival.longdescription");
     }
 
     @Override

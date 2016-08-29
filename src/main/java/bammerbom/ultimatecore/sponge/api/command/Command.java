@@ -25,6 +25,8 @@ package bammerbom.ultimatecore.sponge.api.command;
 
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.UsageGenerator;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
@@ -66,21 +68,28 @@ public interface Command {
      *
      * @return The usage
      */
-    Text getUsage();
+    default Text getUsage() {
+        return UsageGenerator.usage(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".usage"));
+    }
 
     /**
      * Get an one-line description of this command.
      *
      * @return A short description
      */
-    Text getShortDescription();
+    default Text getShortDescription() {
+        return UsageGenerator.shortDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".shortdescription"));
+    }
 
     /**
      * Get a long description for this command.
      *
      * @return A long description
      */
-    Text getLongDescription();
+    default Text getLongDescription() {
+        //TODO automatically generate longdescription?
+        return UsageGenerator.longDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".longdescription"));
+    }
 
     /**
      * Get all aliases for this command.

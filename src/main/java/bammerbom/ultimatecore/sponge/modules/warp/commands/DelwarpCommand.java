@@ -34,7 +34,6 @@ import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,21 +58,6 @@ public class DelwarpCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(WarpPermissions.UC_DELWARP);
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("warp.command.delwarp.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("warp.command.delwarp.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("warp.command.delwarp.longdescription");
     }
 
     @Override

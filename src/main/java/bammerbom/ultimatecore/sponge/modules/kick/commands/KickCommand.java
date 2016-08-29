@@ -34,7 +34,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,21 +57,6 @@ public class KickCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(KickPermissions.UC_KICK);
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("kick.command.kick.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("kick.command.kick.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("kick.command.kick.longdescription");
     }
 
     @Override

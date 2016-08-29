@@ -33,7 +33,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.source.CommandBlockSource;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
@@ -59,21 +58,6 @@ public class NightCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(TimePermissions.UC_TIME_NIGHT, TimePermissions.UC_TIME);
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("time.command.night.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("time.command.night.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("time.command.night.longdescription");
     }
 
     @Override

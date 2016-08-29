@@ -68,21 +68,6 @@ public class SudoCommand implements Command {
     }
 
     @Override
-    public Text getUsage() {
-        return Messages.getFormatted("sudo.command.sudo.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("sudo.command.sudo.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("sudo.command.sudo.longdescription");
-    }
-
-    @Override
     public List<String> getAliases() {
         return Arrays.asList("sudo", "fcommand", "fcmd", "fchat", "forcechat", "forcecmd", "forcecommand");
     }

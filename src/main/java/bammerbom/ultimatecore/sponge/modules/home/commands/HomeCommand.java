@@ -71,21 +71,6 @@ public class HomeCommand implements Command {
     }
 
     @Override
-    public Text getUsage() {
-        return Messages.getFormatted("home.command.home.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("home.command.home.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("home.command.home.longdescription");
-    }
-
-    @Override
     public List<String> getAliases() {
         return Arrays.asList("home");
     }

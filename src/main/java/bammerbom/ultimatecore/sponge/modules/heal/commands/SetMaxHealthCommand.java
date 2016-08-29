@@ -34,7 +34,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -59,21 +58,6 @@ public class SetMaxHealthCommand implements Command {
     public List<Permission> getPermissions() {
         return Arrays.asList(HealPermissions.UC_SETMAXHEALTH, HealPermissions.UC_SETMAXHEALTH_OTHERS);
 
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("heal.command.setmaxhealth.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("heal.command.setmaxhealth.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("heal.command.setmaxhealth.longdescription");
     }
 
     @Override

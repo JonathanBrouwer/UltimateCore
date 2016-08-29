@@ -70,21 +70,6 @@ public class HomelistCommand implements Command {
     }
 
     @Override
-    public Text getUsage() {
-        return Messages.getFormatted("home.command.homelist.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("home.command.homelist.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("home.command.homelist.longdescription");
-    }
-
-    @Override
     public List<String> getAliases() {
         return Arrays.asList("homelist", "homes");
     }

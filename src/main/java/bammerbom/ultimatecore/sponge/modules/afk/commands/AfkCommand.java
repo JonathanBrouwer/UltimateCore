@@ -40,7 +40,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -65,22 +64,6 @@ public class AfkCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(AfkPermissions.UC_AFK, AfkPermissions.UC_AFK_MESSAGE, AfkPermissions.UC_AFK_OTHERS, AfkPermissions.UC_AFK_OTHERS_MESSAGE);
-    }
-
-    @Override
-    public Text getUsage() {
-        //TODO <command>?
-        return Messages.getFormatted("afk.command.afk.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("afk.command.afk.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("afk.command.afk.longdescription");
     }
 
     @Override

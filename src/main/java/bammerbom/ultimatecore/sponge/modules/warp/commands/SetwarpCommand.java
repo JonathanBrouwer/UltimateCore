@@ -37,7 +37,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,21 +62,6 @@ public class SetwarpCommand implements Command {
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(WarpPermissions.UC_SETWARP);
-    }
-
-    @Override
-    public Text getUsage() {
-        return Messages.getFormatted("warp.command.setwarp.usage");
-    }
-
-    @Override
-    public Text getShortDescription() {
-        return Messages.getFormatted("warp.command.setwarp.shortdescription");
-    }
-
-    @Override
-    public Text getLongDescription() {
-        return Messages.getFormatted("warp.command.setwarp.longdescription");
     }
 
     @Override
