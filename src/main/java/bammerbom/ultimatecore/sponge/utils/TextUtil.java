@@ -46,7 +46,7 @@ public class TextUtil {
         List<Text> children = getAllChildren(text);
         //Get all chars
         for (Text child : children) {
-            for (char c : child.toPlain().toCharArray()) {
+            for (char c : getContent(child).toCharArray()) {
                 LiteralText.Builder builder = LiteralText.builder(c).format(child.getFormat()).onClick(child.getClickAction().orElse(null)).onHover(child.getHoverAction().orElse(null))
                         .onShiftClick(child.getShiftClickAction().orElse(null));
                 chars.add(builder.build());
@@ -150,6 +150,19 @@ public class TextUtil {
         ArrayList<Text> list = new ArrayList<>();
         parent.withChildren().forEach(list::add);
         return list;
+    }
+
+    /**
+     * Get the content of a Text.
+     * This is the toPlain() without the text of any children.
+     * <p>
+     * //TODO Wait for: https://github.com/SpongePowered/SpongeAPI/issues/1347
+     *
+     * @param text The text to get the content of
+     * @return The plain content of the text
+     */
+    public static String getContent(Text text) {
+        return text.toBuilder().removeAll().build().toPlain();
     }
 
     /**
