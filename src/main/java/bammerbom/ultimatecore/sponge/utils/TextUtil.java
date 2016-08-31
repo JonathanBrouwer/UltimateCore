@@ -90,9 +90,12 @@ public class TextUtil {
     public static Text replace(Text text, String find, Text replace) {
         int index = text.toPlain().indexOf(find);
         while (index != -1) {
+            Text charr = getChar(text, index);
+            Text replacenew = merge(replace, charr);
+
             Text front = subtext(text, 0, index);
             Text after = subtext(text, index + find.length(), text.toPlain().length());
-            text = Text.of(front, replace, after);
+            text = Text.of(front, replacenew, after);
             index = text.toPlain().indexOf(find);
         }
         return text;
@@ -110,9 +113,13 @@ public class TextUtil {
      */
     public static Text replaceFirst(Text text, String find, Text replace) {
         int index = text.toPlain().indexOf(find);
+
+        Text charr = getChar(text, index);
+        Text replacenew = merge(replace, charr);
+
         Text front = subtext(text, 0, index);
         Text after = subtext(text, index + find.length(), text.toPlain().length());
-        return Text.of(front, replace, after);
+        return Text.of(front, replacenew, after);
     }
 
     /**
@@ -163,6 +170,59 @@ public class TextUtil {
      */
     public static String getContent(Text text) {
         return text.toBuilder().removeAll().build().toPlain();
+    }
+
+    /**
+     * Get the char at the specified index.
+     *
+     * @param text  The text to get the char in
+     * @param index The index the char is at
+     * @return The char
+     */
+    public static Text getChar(Text text, int index) {
+        return getFormattedChars(text).get(index);
+    }
+
+    /**
+     * Merge two texts to one Text
+     * This might not do what you expect it does, read below:
+     * <p>
+     * This will take the text of the first, plus any formatting and actions it has.
+     * It will ignore any text the second argument has, and then add formatting if the first argument has none, and add all actions the first argument doesn't have.
+     * Repeat until all texts have been merged.
+     * </p>
+     */
+    public static Text merge(Text... rawtexts) {
+        //Make a modifyable list of all texts
+        List<Text> texts = new ArrayList<>(Arrays.<Text>asList(rawtexts));
+
+        if (texts.isEmpty()) {
+            throw new IllegalArgumentException("Can not have zero arguments for merge.");
+        }
+
+        Text.Builder start = texts.get(0).toBuilder();
+        texts.remove(0);
+
+        while (!texts.isEmpty()) {
+            Text merge = texts.get(0);
+
+            if (start.getFormat().isEmpty()) {
+                start.format(merge.getFormat());
+            }
+            if (!start.getClickAction().isPresent()) {
+                start.onClick(merge.getClickAction().orElse(null));
+            }
+            if (!start.getHoverAction().isPresent()) {
+                start.onHover(merge.getHoverAction().orElse(null));
+            }
+            if (!start.getShiftClickAction().isPresent()) {
+                start.onShiftClick(merge.getShiftClickAction().orElse(null));
+            }
+
+            texts.remove(0);
+        }
+
+        return start.build();
     }
 
     /**
