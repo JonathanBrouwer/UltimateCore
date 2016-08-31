@@ -135,7 +135,7 @@ public class Automessage {
             Sponge.getScheduler().createTaskBuilder().delay(actionbar_stay, TimeUnit.SECONDS).execute(new Runnable() {
                 @Override
                 public void run() {
-                    channel.send(TextUtil.split(finalmessage, "\n").get(0), ChatTypes.ACTION_BAR);
+                    channel.send(Text.of(), ChatTypes.ACTION_BAR);
                 }
             }).name("UC: Automessage actionbar delay task 1").submit(UltimateCore.get());
             //Repeating send
@@ -161,12 +161,12 @@ public class Automessage {
 
                 @Override
                 public void accept(Task task) {
-                    if (duration < 0) {
+                    if (duration <= 0) {
                         task.cancel();
                         bar.setVisible(false);
                         return;
                     }
-                    bar.setPercent(duration / bossbar_stay);
+                    bar.setPercent(Float.valueOf(duration) / Float.valueOf(bossbar_stay));
                     duration--;
                 }
             }).name("UC: Automessage bossbar task").submit(UltimateCore.get());
