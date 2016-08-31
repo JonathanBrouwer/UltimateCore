@@ -27,10 +27,12 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.asset.Asset;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.serializer.TextParseException;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -134,8 +136,8 @@ public class Messages {
      * @param vars The variables to replace. When {Banana, Apple} is provided Banana will be replaced with Apple
      * @return The ampersand-formatted message
      */
-    public static Text getFormatted(String key, Object... vars) {
-        String raw = get(key, vars);
+    public static Text getFormatted(@Nullable CommandSource p, String key, Object... vars) {
+        String raw = get(p, key, vars);
         Text text;
         try {
             text = TextSerializers.JSON.deserialize(raw);
@@ -164,7 +166,33 @@ public class Messages {
             }
         }
 
+        //Replace default variables
+        //This will not override any other variables because they have been replaced by now
+        text = VariableUtil.replaceVariables(text, p);
+
         return text;
+    }
+
+    /**
+     * Get a string with all available formatting, including click and hover actions.
+     *
+     * @param key  The key of the message to get
+     * @param vars The variables to replace. When {Banana, Apple} is provided Banana will be replaced with Apple
+     * @return The ampersand-formatted message
+     */
+    public static Text getFormatted(String key, Object... vars) {
+        return getFormatted(null, key, vars);
+    }
+
+    /**
+     * Get a string which is formatted with Ampersands.
+     *
+     * @param key  The key of the message to get
+     * @param vars The variables to replace. When {Banana, Apple} is provided Banana will be replaced with Apple
+     * @return The ampersand-formatted message
+     */
+    public static String getColored(@Nullable CommandSource p, String key, Object... vars) {
+        return TextSerializers.FORMATTING_CODE.serialize(getFormatted(p, key, vars));
     }
 
     /**
@@ -175,7 +203,18 @@ public class Messages {
      * @return The ampersand-formatted message
      */
     public static String getColored(String key, Object... vars) {
-        return TextSerializers.FORMATTING_CODE.serialize(getFormatted(key, vars));
+        return getColored(null, key, vars);
+    }
+
+    /**
+     * Get the pure text without any formatting from the language file.
+     *
+     * @param key  The key of the message to get
+     * @param vars The variables to replace. When {Banana, Apple} is provided Banana will be replaced with Apple
+     * @return The plain-text message
+     */
+    public static String getPlain(@Nullable CommandSource p, String key, Object... vars) {
+        return getFormatted(p, key, vars).toPlain();
     }
 
     /**
@@ -186,7 +225,7 @@ public class Messages {
      * @return The plain-text message
      */
     public static String getPlain(String key, Object... vars) {
-        return getFormatted(key, vars).toPlain();
+        return getPlain(null, key, vars);
     }
 
     /**
@@ -196,7 +235,7 @@ public class Messages {
      * @param vars The variables to replace. When {Banana, Apple} is provided Banana will be replaced with Apple
      * @return The raw message, or null when not found
      */
-    public static String get(String key, Object... vars) {
+    public static String get(@Nullable CommandSource p, String key, Object... vars) {
         String raw;
         if (custom.containsKey(key)) {
             raw = custom.get(key);
@@ -219,6 +258,17 @@ public class Messages {
             }
         }
         return raw;
+    }
+
+    /**
+     * Get a raw message from the language file.
+     *
+     * @param key  The key of the message to get
+     * @param vars The variables to replace. When {Banana, Apple} is provided Banana will be replaced with Apple
+     * @return The raw message, or null when not found
+     */
+    public static String get(String key, Object... vars) {
+        return get(null, key, vars);
     }
 
     /**

@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -90,8 +91,8 @@ public class HealCommand implements Command {
         Player t;
         if (Sponge.getServer().getPlayer(args[0]).isPresent()) {
             t = Sponge.getServer().getPlayer(args[0]).get();
-            sender.sendMessage(Messages.getFormatted("heal.command.heal.success.self", "%player%", t.getName()));
-            t.sendMessage(Messages.getFormatted("heal.command.heal.success.others", "%sender%", sender.getName()));
+            sender.sendMessage(Messages.getFormatted("heal.command.heal.success.self", "%player%", VariableUtil.getName(t)));
+            t.sendMessage(Messages.getFormatted("heal.command.heal.success.others", "%sender%", VariableUtil.getName(sender)));
             t.offer(Keys.HEALTH, t.get(Keys.MAX_HEALTH).orElse(20.0));
             t.offer(Keys.POTION_EFFECTS, new ArrayList<>());
             t.offer(Keys.REMAINING_AIR, t.get(Keys.MAX_AIR).orElse(10));
