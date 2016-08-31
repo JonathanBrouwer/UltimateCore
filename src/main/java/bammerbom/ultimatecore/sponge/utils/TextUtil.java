@@ -90,9 +90,11 @@ public class TextUtil {
     public static Text replace(Text text, String find, Text replace) {
         int index = text.toPlain().indexOf(find);
         while (index != -1) {
+            //This will make sure the replacement get formatted correctly (see merge method)
             Text charr = getChar(text, index);
             Text replacenew = merge(replace, charr);
 
+            //Get the text before and after the found text, and put the replacement in
             Text front = subtext(text, 0, index);
             Text after = subtext(text, index + find.length(), text.toPlain().length());
             text = Text.of(front, replacenew, after);
@@ -114,9 +116,11 @@ public class TextUtil {
     public static Text replaceFirst(Text text, String find, Text replace) {
         int index = text.toPlain().indexOf(find);
 
+        //This will make sure the replacement get formatted correctly (see merge method)
         Text charr = getChar(text, index);
         Text replacenew = merge(replace, charr);
 
+        //Get the text before and after the found text, and put the replacement in
         Text front = subtext(text, 0, index);
         Text after = subtext(text, index + find.length(), text.toPlain().length());
         return Text.of(front, replacenew, after);
