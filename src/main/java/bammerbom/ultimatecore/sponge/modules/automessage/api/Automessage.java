@@ -46,36 +46,31 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class Automessage {
+    static Random rand = new Random();
     //General
     public boolean enable;
     public int time;
     public String random;
     public ImmutableList<Text> messages;
-
     //Chat
     public boolean chat;
-
     //Actionbar
     public boolean actionbar;
     public int actionbar_stay;
-
     //Bossbar
     public boolean bossbar;
     public int bossbar_stay;
     public boolean bossbar_decrease;
     public BossBarColor bossbar_color;
     public BossBarOverlay bossbar_style;
-
     //Title
     public boolean title;
     public int title_fadein;
     public int title_stay;
     public int title_fadeout;
-
     //INTERNAL VALUES
     //Contains all messages excluding the already send messages
     List<Text> tempmessages = new ArrayList<>();
-    static Random rand = new Random();
 
     public Automessage() {
     }

@@ -53,7 +53,7 @@ public class SpawnModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        
+
     }
 
     @Override
