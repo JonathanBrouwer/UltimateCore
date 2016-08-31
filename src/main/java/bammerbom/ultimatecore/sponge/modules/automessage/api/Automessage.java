@@ -74,7 +74,7 @@ public class Automessage {
 
     //INTERNAL VALUES
     //Contains all messages excluding the already send messages
-    List<Integer> tempmessages = new ArrayList<>();
+    List<Text> tempmessages = new ArrayList<>();
     static Random rand = new Random();
 
     public Automessage() {
@@ -95,25 +95,21 @@ public class Automessage {
         } else if (random.equalsIgnoreCase("order")) {
             if (tempmessages.isEmpty()) {
                 tempmessages = new ArrayList<>();
-                int i = 0;
                 for (Text mes : messages) {
-                    tempmessages.add(i);
-                    i++;
+                    tempmessages.add(mes);
                 }
             }
-            message = messages.get(tempmessages.get(0));
+            message = tempmessages.get(0);
             tempmessages.remove(0);
         } else if (random.equalsIgnoreCase("randomorder")) {
             if (tempmessages.isEmpty()) {
                 tempmessages = new ArrayList<>();
-                int i = 0;
                 for (Text mes : messages) {
-                    tempmessages.add(i);
-                    i++;
+                    tempmessages.add(mes);
                 }
                 Collections.shuffle(tempmessages);
             }
-            message = messages.get(tempmessages.get(0));
+            message = tempmessages.get(0);
             tempmessages.remove(0);
         } else {
             Messages.log("Invalid random type in automessage config: " + random);

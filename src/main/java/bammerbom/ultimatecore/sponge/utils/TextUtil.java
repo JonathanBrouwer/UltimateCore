@@ -43,7 +43,7 @@ public class TextUtil {
         //Split the text in a list of chars
         List<LiteralText> chars = new ArrayList<>();
         //Get all children
-        List<Text> children = getAllChildren(text, true);
+        List<Text> children = getAllChildren(text);
         //Get all chars
         for (Text child : children) {
             for (char c : child.toPlain().toCharArray()) {
@@ -143,30 +143,13 @@ public class TextUtil {
     /**
      * This method gets all children of a text, including the children of the children of the children, etc....
      *
-     * @param parent        The {@link Text} to get the children from
-     * @param includeParent Whether the parent itself should be included in the list
+     * @param parent The {@link Text} to get the children from
      * @return A list of all the children the text has
      */
-    public static List<Text> getAllChildren(Text parent, boolean includeParent) {
-        List<Text> children = new ArrayList<>();
-        //Parent
-        if (includeParent) {
-            children.add(parent);
-        }
-
-        //Children
-        Text curtext = parent;
-        while (!curtext.getChildren().isEmpty()) {
-            for (Text child : curtext.getChildren()) {
-                if (child.getChildren().isEmpty()) {
-                    children.add(child);
-                } else {
-                    children.addAll(getAllChildren(child, false));
-                }
-            }
-        }
-
-        return children;
+    public static List<Text> getAllChildren(Text parent) {
+        ArrayList<Text> list = new ArrayList<>();
+        parent.withChildren().forEach(list::add);
+        return list;
     }
 
     /**
