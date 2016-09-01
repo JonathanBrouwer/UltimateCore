@@ -3,12 +3,12 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '1.2.3'
-//    id 'ninja.miserable.blossom' version '1.0.1'
+    id 'ninja.miserable.blossom' version '1.0.1'
 }
 
 apply plugin: "java"
 apply plugin: "idea"
-//apply plugin: "ninja.miserable.blossom"
+apply plugin: "ninja.miserable.blossom"
 
 //Project details
 description "All you need to set up a server and more!"
@@ -24,9 +24,9 @@ jar {
     archiveName = "UltimateCore.jar"
 }
 
-//blossom {
-//    replaceToken '@VERSION@', project.version, 'src/main/java/bammerbom/ultimatecore/sponge/UltimateCore.java'
-//}
+blossom {
+    replaceToken '@VERSION@', project.version, 'src/ main / java / bammerbom / ultimatecore / sponge / UltimateCore.java '
+}
 
 //Dependencies
 repositories {
