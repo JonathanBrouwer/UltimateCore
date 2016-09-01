@@ -54,7 +54,7 @@ public class Stats {
         if (!GeneralConfig.get().getNode("stats", "enabled").getBoolean()) {
             return;
         }
-        Sponge.getScheduler().createTaskBuilder().name("UC stats task").delay(20, TimeUnit.SECONDS).interval(30, TimeUnit.MINUTES).execute(Stats::send).submit(UltimateCore.get());
+        Sponge.getScheduler().createTaskBuilder().name("UC stats task").delay(15, TimeUnit.MINUTES).interval(30, TimeUnit.MINUTES).execute(Stats::send).submit(UltimateCore.get());
     }
 
     public static HashMap<String, Object> collect() {
