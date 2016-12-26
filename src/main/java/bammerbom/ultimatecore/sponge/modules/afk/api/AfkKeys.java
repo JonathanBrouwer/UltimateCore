@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
 import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.title.Title;
 import org.spongepowered.api.world.World;
 
@@ -52,7 +53,7 @@ public class AfkKeys {
             } else {
                 //Player is no longer afk
                 if (user.getPlayer().isPresent()) {
-                    user.getPlayer().get().sendTitle(Title.builder().clear().build());
+                    user.getPlayer().get().sendTitle(Title.builder().clear().title(Text.EMPTY).subtitle(Text.EMPTY).build());
                 }
                 //Make sure the player is not afked instantly
                 AfkDetectionListener.afktime.put(user.getIdentifier(), System.currentTimeMillis());
