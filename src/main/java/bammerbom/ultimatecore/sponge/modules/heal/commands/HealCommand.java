@@ -101,7 +101,7 @@ public class HealCommand implements Command {
 
             return CommandResult.success();
         } else {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound"));
+            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
 
             return CommandResult.empty();
         }
