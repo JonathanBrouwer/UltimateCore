@@ -29,7 +29,8 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import org.spongepowered.api.block.BlockState;
-import org.spongepowered.api.effect.particle.BlockParticle;
+import org.spongepowered.api.effect.particle.ParticleEffect;
+import org.spongepowered.api.effect.particle.ParticleOptions;
 import org.spongepowered.api.effect.particle.ParticleTypes;
 
 public class BloodEffect {
@@ -48,8 +49,10 @@ public class BloodEffect {
         this.count = count;
     }
 
-    public BlockParticle getEffect() {
-        return BlockParticle.builder().type(ParticleTypes.BLOCK_CRACK).block(state).count(count).offset(p_offset).build();
+    public ParticleEffect getEffect() {
+        ParticleEffect particle = ParticleEffect.builder().type(ParticleTypes.BLOCK_CRACK).option(ParticleOptions.BLOCK_STATE, state).option(ParticleOptions.QUANTITY, count).offset
+                (p_offset).build();
+        return particle;
     }
 
     public boolean isEnabled() {
