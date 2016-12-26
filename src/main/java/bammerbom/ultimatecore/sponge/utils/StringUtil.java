@@ -60,4 +60,8 @@ public class StringUtil {
         return join(separator, parts.toArray());
     }
 
+    public static String firstUpperCase(String st) {
+        return st.substring(0, 1).toUpperCase() + st.substring(1, st.length()).toLowerCase();
+    }
+
 }

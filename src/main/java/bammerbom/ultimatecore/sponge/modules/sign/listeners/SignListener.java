@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.api.event.sign.SignDestroyEvent;
 import bammerbom.ultimatecore.sponge.api.event.sign.SignUseEvent;
 import bammerbom.ultimatecore.sponge.api.sign.UCSign;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.tileentity.Sign;
@@ -42,6 +43,7 @@ import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 import java.util.List;
 
@@ -57,6 +59,9 @@ public class SignListener {
                 SignCreateEvent cevent = new SignCreateEvent(sign, event.getTargetTile().getLocation(), Cause.builder().notifier(p).build());
                 Sponge.getEventManager().post(cevent);
                 if (!cevent.isCancelled() && sign.onCreate(p, event)) {
+                    //Color sign
+                    event.getTargetTile().offer(Keys.SIGN_LINES, event.getText().setElement(0, Text.of(TextColors.AQUA, "[" + StringUtil.firstUpperCase(sign.getIdentifier()) + "]"))
+                            .asList());
                     p.sendMessage(Messages.getFormatted("sign.create", "%sign%", sign.getIdentifier()));
                 }
             }
