@@ -108,7 +108,7 @@ public class PersonalmessageCommand implements Command {
                 return Arrays.asList(tf);
             }
         };
-        PersonalmessageEvent event = new PersonalmessageEvent(cause, formatter, channel, fmessage);
+        PersonalmessageEvent event = new PersonalmessageEvent(cause, sender, t, formatter, channel, message, fmessage);
         Sponge.getEventManager().post(event);
         if (!event.isMessageCancelled()) {
             Text received = event.getFormatter().toText();

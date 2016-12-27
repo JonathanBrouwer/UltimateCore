@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.personalmessage.api;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.text.Text;
@@ -34,21 +35,27 @@ import java.util.Optional;
 public class PersonalmessageEvent implements MessageChannelEvent {
 
     private Cause cause;
+    private CommandSource sender;
+    private CommandSource target;
     private boolean cancelled;
     private MessageFormatter formatter;
     private MessageChannel channel;
     private MessageChannel orgchannel;
     private Text message;
     private Text orgmessage;
+    private String text;
 
-    public PersonalmessageEvent(Cause cause, MessageFormatter formatter, MessageChannel channel, Text message) {
+    public PersonalmessageEvent(Cause cause, CommandSource sender, CommandSource target, MessageFormatter formatter, MessageChannel channel, String text, Text message) {
         this.cause = cause;
+        this.sender = sender;
+        this.target = target;
         this.cancelled = false;
         this.formatter = formatter;
         this.channel = channel;
         this.orgchannel = channel;
         this.message = message;
         this.orgmessage = message;
+        this.text = text;
     }
 
     /**
@@ -94,5 +101,17 @@ public class PersonalmessageEvent implements MessageChannelEvent {
     @Override
     public MessageFormatter getFormatter() {
         return formatter;
+    }
+
+    public CommandSource getPMSender() {
+        return sender;
+    }
+
+    public CommandSource getPMTarget() {
+        return target;
+    }
+
+    public String getPMUnformattedMessage() {
+        return text;
     }
 }

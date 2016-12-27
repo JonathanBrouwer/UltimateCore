@@ -28,6 +28,8 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.spy.commands.CommandspyCommand;
 import bammerbom.ultimatecore.sponge.modules.spy.commands.MessagespyCommand;
+import bammerbom.ultimatecore.sponge.modules.spy.listeners.SpyListener;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -54,6 +56,7 @@ public class SpyModule implements Module {
     public void onInit(GameInitializationEvent event) {
         UltimateCore.get().getCommandService().register(new CommandspyCommand());
         UltimateCore.get().getCommandService().register(new MessagespyCommand());
+        Sponge.getEventManager().registerListeners(UltimateCore.get(), new SpyListener());
     }
 
     @Override

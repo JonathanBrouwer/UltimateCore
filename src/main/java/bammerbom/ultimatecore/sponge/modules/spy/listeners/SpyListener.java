@@ -23,12 +23,38 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spy.listeners;
 
+import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessageEvent;
+import bammerbom.ultimatecore.sponge.modules.spy.api.SpyPermissions;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 
 public class SpyListener {
     @Listener
     public void onWhisper(MessageChannelEvent e) {
+        if (!Modules.PERSONALMESSAGE.isPresent()) {
+            return;
+        }
+        if (e instanceof PersonalmessageEvent) {
+            PersonalmessageEvent ev = (PersonalmessageEvent) e;
+            CommandSource s = ev.getPMSender();
+            CommandSource t = ev.getPMTarget();
 
+            for (Player p : Sponge.getServer().getOnlinePlayers()) {
+                if (!p.hasPermission(SpyPermissions.UC_MESSAGESPY_SEE.get())) {
+                    continue;
+                }
+                if (s.getIdentifier().equals(p.getIdentifier()) || t.getIdentifier().equals(p.getIdentifier())) {
+                    continue;
+                }
+                p.sendMessage(Messages.getFormatted("spy.format.messagespy", "%player%", VariableUtil.getName(s), "%target%", VariableUtil.getName(t), "%message%", ev
+                        .getPMUnformattedMessage()));
+            }
+        }
     }
 }
