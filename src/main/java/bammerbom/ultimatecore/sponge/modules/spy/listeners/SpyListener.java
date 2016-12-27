@@ -32,7 +32,11 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.command.SendCommandEvent;
 import org.spongepowered.api.event.message.MessageChannelEvent;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class SpyListener {
     @Listener
@@ -55,6 +59,24 @@ public class SpyListener {
                 p.sendMessage(Messages.getFormatted("spy.format.messagespy", "%player%", VariableUtil.getName(s), "%target%", VariableUtil.getName(t), "%message%", ev
                         .getPMUnformattedMessage()));
             }
+        }
+    }
+
+    @Listener
+    public void onCommand(SendCommandEvent e) {
+        Player t = e.getCause().first(Player.class).orElse(null);
+        if (t == null) return;
+        for (Player p : Sponge.getServer().getOnlinePlayers()) {
+            if (!p.hasPermission(SpyPermissions.UC_COMMANDSPY_SEE.get())) {
+                continue;
+            }
+            if (p == t) {
+                continue;
+            }
+            //Ignored commands
+            List<String> ignored = Arrays.asList("personalmessage", "pm", "dm", "msg", "w", "whisper", "tell", "reply", "respond", "r");
+            if (ignored.contains(e.getCommand())) continue;
+            p.sendMessage(Messages.getFormatted("spy.format.commandspy", "%player%", VariableUtil.getName(t), "%message%", e.getCommand() + " " + e.getArguments()));
         }
     }
 }
