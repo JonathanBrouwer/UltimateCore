@@ -71,11 +71,11 @@ public class VariableUtil {
         if (player instanceof Player) {
             return Text.builder(player.getName()).onHover(TextActions.showText(Messages.getFormatted("core.variable.player.hover", "%name%", player.getName(), "%rawname%", player.getName
                     (), "%uuid%", ((Player) player).getUniqueId(), "%language%", player.getLocale().getDisplayName(Locale.ENGLISH)))).onClick(TextActions.suggestCommand(Messages
-                    .getFormatted("core.variable.player.click").toPlain())).build();
+                    .getFormatted("core.variable.player.click", "%player%", player.getName()).toPlain())).build();
         } else {
             return Text.builder(player.getName()).onHover(TextActions.showText(Messages.getFormatted("core.variable.player.hover", "%name%", player.getName(), "%rawname%", player.getName
                     (), "%uuid%", player.getIdentifier(), "%language%", player.getLocale().getDisplayName(Locale.ENGLISH)))).onClick(TextActions.suggestCommand(Messages.getFormatted
-                    ("core" + ".variable.player.click").toPlain())).build();
+                    ("core" + ".variable.player.click", "%player%", player.getName()).toPlain())).build();
         }
     }
 }

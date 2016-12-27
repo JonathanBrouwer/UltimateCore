@@ -33,7 +33,13 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.message.MessageChannelEvent;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class ChatListener {
     @Listener(order = Order.FIRST)
@@ -43,15 +49,34 @@ public class ChatListener {
         CommandSource p = e.getCause().first(CommandSource.class).orElse(null);
         if (p == null) return;
 
-        Text generalheader = VariableUtil.replaceVariables(Messages.toText(node.getNode("default").getNode("header").getString()), p);
-        Text generalbody = VariableUtil.replaceVariables(Messages.toText(node.getNode("default").getNode("body").getString()), p);
-        Text generalfooter = VariableUtil.replaceVariables(Messages.toText(node.getNode("default").getNode("footer").getString()), p);
-        generalheader = TextUtil.replace(generalheader, "%message%", e.getRawMessage());
-        generalbody = TextUtil.replace(generalbody, "%message%", e.getRawMessage());
-        generalfooter = TextUtil.replace(generalfooter, "%message%", e.getRawMessage());
+        //First load general header/body/footer
+        String header = node.getNode("default").getNode("header").getString();
+        String body = node.getNode("default").getNode("body").getString();
+        String footer = node.getNode("default").getNode("footer").getString();
 
-        e.getFormatter().setHeader(generalheader);
-        e.getFormatter().setBody(generalbody);
-        e.getFormatter().setFooter(generalfooter);
+        //Check if the user is in any groups, if so replace the header/body/footer with that of the group
+        List<Subject> subjects = p.getSubjectData().getParents(new HashSet<>());
+        List<String> subjectnames = new ArrayList<>();
+        for (Subject su : subjects) {
+            subjectnames.add(su.getIdentifier());
+        }
+        Map<Object, ? extends CommentedConfigurationNode> children = node.getNode("groups").getChildrenMap();
+        for (Object o : children.keySet()) {
+            if (subjectnames.contains(o.toString())) {
+                CommentedConfigurationNode subnode = children.get(o);
+                header = subnode.getNode("header").getString(header);
+                body = subnode.getNode("body").getString(body);
+                footer = subnode.getNode("footer").getString(footer);
+            }
+        }
+
+        //Replace stuff
+        Text fheader = TextUtil.replace(VariableUtil.replaceVariables(Messages.toText(header), p), "%message%", e.getRawMessage());
+        Text fbody = TextUtil.replace(VariableUtil.replaceVariables(Messages.toText(body), p), "%message%", e.getRawMessage());
+        Text ffooter = TextUtil.replace(VariableUtil.replaceVariables(Messages.toText(footer), p), "%message%", e.getRawMessage());
+
+        e.getFormatter().setHeader(fheader);
+        e.getFormatter().setBody(fbody);
+        e.getFormatter().setFooter(ffooter);
     }
 }
