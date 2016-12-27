@@ -23,12 +23,15 @@
  */
 package bammerbom.ultimatecore.sponge.utils;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
 import javax.annotation.Nullable;
+import java.math.BigDecimal;
 import java.util.Locale;
 
 public class VariableUtil {
@@ -36,10 +39,29 @@ public class VariableUtil {
         //Player-specific variables
         if (player != null) {
             text = TextUtil.replace(text, "%player%", getName(player));
+            text = TextUtil.replace(text, "%name%", Text.of(player.getName()));
+            text = TextUtil.replace(text, "%displayname%", getName(player));
+            text = TextUtil.replace(text, "%prefix%", Text.of(player.getOption("prefix").orElse("")));
+            text = TextUtil.replace(text, "%suffix%", Text.of(player.getOption("suffix").orElse("")));
+            if (player instanceof Player) {
+                Player p = (Player) player;
+                text = TextUtil.replace(text, "%world%", Text.of(p.getWorld().getName()));
+                text = TextUtil.replace(text, "%worldalias%", Text.of(p.getWorld().getName().toCharArray()[0] + ""));
+                text = TextUtil.replace(text, "%ip%", Text.of(p.getConnection().getAddress().getAddress().toString().split("/")[1].split(":")[0]));
+                if (Sponge.getServiceManager().provide(EconomyService.class).isPresent()) {
+                    EconomyService es = Sponge.getServiceManager().provide(EconomyService.class).get();
+                    if (es.getOrCreateAccount(p.getUniqueId()).isPresent()) {
+                        BigDecimal balance = es.getOrCreateAccount(p.getUniqueId()).get().getBalance(es.getDefaultCurrency());
+                        text = TextUtil.replace(text, "%world%", Text.of(balance.toString()));
+                    }
+                }
+            }
         }
 
         //Not player-specific variables
-
+        text = TextUtil.replace(text, "%version%", Text.of(Sponge.getPlatform().getMinecraftVersion()));
+        text = TextUtil.replace(text, "%maxplayers%", Text.of(Sponge.getServer().getMaxPlayers()));
+        text = TextUtil.replace(text, "%onlineplayers%", Text.of(Sponge.getServer().getOnlinePlayers().size()));
 
         return text;
     }

@@ -89,6 +89,11 @@ public class TextUtil {
      */
     public static Text replace(Text text, String find, Text replace) {
         int index = text.toPlain().indexOf(find);
+        //TODO better escape
+        if (replace.toPlain().contains(find)) {
+            replace = replace(replace, find, Text.of());
+        }
+
         while (index != -1) {
             //This will make sure the replacement get formatted correctly (see merge method)
             Text charr = getChar(text, index);
@@ -98,9 +103,30 @@ public class TextUtil {
             Text front = subtext(text, 0, index);
             Text after = subtext(text, index + find.length(), text.toPlain().length());
             text = Text.of(front, replacenew, after);
-            index = text.toPlain().indexOf(find);
+            index = indexOf(text, find, true);
         }
         return text;
+    }
+
+    /**
+     * This is the same as indexOf for a string, but is for texts and supports exclusions.
+     *
+     * @param text       The text to search in
+     * @param find       The string to find
+     * @param exclusions If true if before the match is a backslash, it is skipped
+     * @return The first time the string is found.
+     */
+    public static int indexOf(Text text, String find, boolean exclusions) {
+        List<Integer> indexes = indexesOf(text, find);
+        String plain = text.toPlain();
+        for (Integer i : indexes) {
+            if (i == -1) return -1;
+            if (exclusions && plain.toCharArray()[i - 1] == '\\') {
+                continue;
+            }
+            return i;
+        }
+        return -1;
     }
 
     /**
@@ -111,10 +137,11 @@ public class TextUtil {
      * @param text    The text to search & replace in.
      * @param find    The string to search for.
      * @param replace The text to replace the string with.
+     * @param from    From which index to look for replacements.
      * @return The text, where the first match has been replaced.
      */
-    public static Text replaceFirst(Text text, String find, Text replace) {
-        int index = text.toPlain().indexOf(find);
+    public static Text replaceFirst(Text text, String find, Text replace, int from) {
+        int index = text.toPlain().indexOf(find, from);
 
         //This will make sure the replacement get formatted correctly (see merge method)
         Text charr = getChar(text, index);
