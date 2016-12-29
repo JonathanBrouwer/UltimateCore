@@ -27,26 +27,50 @@ import bammerbom.ultimatecore.sponge.api.teleport.TeleportRequest;
 import bammerbom.ultimatecore.sponge.api.teleport.TeleportService;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class UCTeleportService implements TeleportService {
+    private ArrayList<TeleportRequest> requests = new ArrayList<>();
     private ArrayList<Consumer<TeleportRequest>> handlers = new ArrayList<>();
 
-    public TeleportRequest createTeleportRequest(List<Entity> entities, Transform target, Consumer<TeleportRequest> complete) {
-        return new UCTeleportRequest(entities, target, complete);
+    @Override
+    public TeleportRequest createTeleportRequest(List<Entity> entities, Transform<World> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel) {
+        return createTeleportRequest(entities, new Supplier<Transform<World>>() {
+            @Override
+            public Transform get() {
+                return target;
+            }
+        }, complete, cancel);
     }
 
+    @Override
+    public TeleportRequest createTeleportRequest(List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel) {
+        TeleportRequest request = new UCTeleportRequest(entities, target, complete, cancel);
+        requests.add(request);
+        return request;
+    }
+
+    @Override
+    public List<TeleportRequest> getUnfinishedTeleportRequests() {
+        return requests;
+    }
+
+    @Override
     public void addHandler(Consumer<TeleportRequest> consumer) {
         handlers.add(consumer);
     }
 
+    @Override
     public List<Consumer<TeleportRequest>> getHandlers() {
         return handlers;
     }
 
+    @Override
     public void removeHandler(Consumer<TeleportRequest> handler) {
         handlers.remove(handler);
     }

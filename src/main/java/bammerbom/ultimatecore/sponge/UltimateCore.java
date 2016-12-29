@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
+import bammerbom.ultimatecore.sponge.api.teleport.TeleportService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
 import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
@@ -40,6 +41,7 @@ import bammerbom.ultimatecore.sponge.config.serializers.Vector3dSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
+import bammerbom.ultimatecore.sponge.impl.teleport.UCTeleportService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
@@ -76,10 +78,6 @@ public class UltimateCore {
     public Path dir;
     @Inject
     private Logger logger;
-    private ModuleService moduleService;
-    private CommandService commandService;
-    private UserService userService;
-    private PermissionService permissionService;
 
     public static UltimateCore get() {
         if (instance == null) {
@@ -103,14 +101,23 @@ public class UltimateCore {
             CommandsConfig.preload();
             ModulesConfig.preload();
             Messages.reloadCustomMessages();
+
             //Load services
-            moduleService = new UCModuleService();
-            commandService = new UCCommandService();
-            userService = new UCUserService();
-            permissionService = new UCPermissionService();
+            UCModuleService moduleService = new UCModuleService();
+            UCCommandService commandService = new UCCommandService();
+            UCUserService userService = new UCUserService();
+            UCPermissionService permissionService = new UCPermissionService();
+            UCTeleportService teleportService = new UCTeleportService();
+
+            //Register services
+            ServiceManager sm = Sponge.getServiceManager();
+            sm.setProvider(this, ModuleService.class, moduleService);
+            sm.setProvider(this, CommandService.class, commandService);
+            sm.setProvider(this, UserService.class, userService);
+            sm.setProvider(this, PermissionService.class, permissionService);
+            sm.setProvider(this, TeleportService.class, teleportService);
 
             //Load modules
-            Sponge.getServiceManager().setProvider(this, ModuleService.class, moduleService);
             for (Module module : moduleService.findModules()) {
                 if (moduleService.registerModule(module)) {
                     if (!module.getIdentifier().equals("default")) {
@@ -131,15 +138,9 @@ public class UltimateCore {
     public void onInit(GameInitializationEvent ev) {
         try {
             Long time = System.currentTimeMillis();
-            //Register services
-            ServiceManager sm = Sponge.getServiceManager();
-            sm.setProvider(this, ModuleService.class, moduleService);
-            sm.setProvider(this, CommandService.class, commandService);
-            sm.setProvider(this, UserService.class, userService);
-            sm.setProvider(this, PermissionService.class, permissionService);
 
             //Initialize modules
-            for (Module module : moduleService.getRegisteredModules()) {
+            for (Module module : getModuleService().getRegisteredModules()) {
                 ModuleInitializeEvent event = new ModuleInitializeEvent(module, ev, Cause.builder().owner(this).build());
                 Sponge.getEventManager().post(event);
                 module.onInit(ev);
@@ -163,7 +164,7 @@ public class UltimateCore {
             //Send stats
             Stats.start();
             //Post-initialize modules
-            for (Module module : moduleService.getRegisteredModules()) {
+            for (Module module : getModuleService().getRegisteredModules()) {
                 ModulePostInitializeEvent event = new ModulePostInitializeEvent(module, ev, Cause.builder().owner(this).build());
                 Sponge.getEventManager().post(event);
                 module.onPostInit(ev);
@@ -182,7 +183,7 @@ public class UltimateCore {
         try {
             Long time = System.currentTimeMillis();
             //Stop modules
-            for (Module module : moduleService.getRegisteredModules()) {
+            for (Module module : getModuleService().getRegisteredModules()) {
                 ModuleStoppingEvent event = new ModuleStoppingEvent(module, ev, Cause.builder().owner(this).build());
                 Sponge.getEventManager().post(event);
                 module.onStop(ev);
@@ -206,23 +207,32 @@ public class UltimateCore {
 
     //TODO move these methods???
     public ModuleService getModuleService() {
-        return moduleService;
+        ServiceManager manager = Sponge.getServiceManager();
+        return manager.provide(ModuleService.class).orElse(null);
     }
 
     public CommandService getCommandService() {
-        return commandService;
+        ServiceManager manager = Sponge.getServiceManager();
+        return manager.provide(CommandService.class).orElse(null);
+    }
+
+    public UserService getUserService() {
+        ServiceManager manager = Sponge.getServiceManager();
+        return manager.provide(UserService.class).orElse(null);
+    }
+
+    public PermissionService getPermissionService() {
+        ServiceManager manager = Sponge.getServiceManager();
+        return manager.provide(PermissionService.class).orElse(null);
+    }
+
+    public TeleportService getTeleportService() {
+        ServiceManager manager = Sponge.getServiceManager();
+        return manager.provide(TeleportService.class).orElse(null);
     }
 
     public Optional<SignService> getSignService() {
         ServiceManager manager = Sponge.getServiceManager();
         return manager.provide(SignService.class);
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public PermissionService getPermissionService() {
-        return permissionService;
     }
 }

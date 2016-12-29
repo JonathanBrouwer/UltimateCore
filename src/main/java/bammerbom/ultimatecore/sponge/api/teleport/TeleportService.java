@@ -25,9 +25,11 @@ package bammerbom.ultimatecore.sponge.api.teleport;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.world.World;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public interface TeleportService {
     /**
@@ -39,7 +41,25 @@ public interface TeleportService {
      * @param complete The consumer to be run when the teleport is completed
      * @return The teleport request
      */
-    TeleportRequest createTeleportRequest(List<Entity> entities, Transform target, Consumer<TeleportRequest> complete);
+    TeleportRequest createTeleportRequest(List<Entity> entities, Transform<World> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel);
+
+    /**
+     * Create a new teleport request, to teleport the entities to a target.
+     * The consumer will be run when the teleport has completed.
+     *
+     * @param entities The entities to teleport
+     * @param target   The target to teleport the entities to
+     * @param complete The consumer to be run when the teleport is completed
+     * @return The teleport request
+     */
+    TeleportRequest createTeleportRequest(List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel);
+
+    /**
+     * Returns a list of all unfinished teleport requests.
+     *
+     * @return A list of all unfinished teleport requests.
+     */
+    List<TeleportRequest> getUnfinishedTeleportRequests();
 
     /**
      * Register a handler.

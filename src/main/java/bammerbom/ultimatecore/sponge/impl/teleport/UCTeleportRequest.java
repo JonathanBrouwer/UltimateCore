@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.impl.teleport;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.teleport.TeleportRequest;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
@@ -33,28 +34,91 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class UCTeleportRequest implements TeleportRequest {
 
+    //0 = stopped, 1 = executing, 2 = paused / waiting, 3 = cancelled, 4 = completed
+    private int state = 0;
     private List<UUID> entities;
-    private Transform target;
+    private Supplier<Transform<World>> target;
+    private Consumer<TeleportRequest> cancel;
     private Consumer<TeleportRequest> complete;
+    private List<Consumer<TeleportRequest>> remainingHandlers;
 
-    public UCTeleportRequest(List<Entity> entities, Transform target, Consumer<TeleportRequest> complete) {
+    public UCTeleportRequest(List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel) {
         this.entities = new ArrayList<>();
         entities.forEach(en -> this.entities.add(en.getUniqueId()));
         this.target = target;
+        this.cancel = cancel;
         this.complete = complete;
     }
 
     @Override
     public void start() {
+        if (state != 0 && state != 3) {
+            throw new IllegalStateException();
+        }
+        state = 1;
+        remainingHandlers = UltimateCore.get().getTeleportService().getHandlers();
+        new ArrayList<>(remainingHandlers).forEach(handler -> {
+            handler.accept(this);
+            remainingHandlers.remove(handler);
+            if (state != 1) {
+                return;
+            }
+        });
+        complete();
+    }
 
+    @Override
+    public void pause() {
+        if (state != 1) {
+            throw new IllegalStateException();
+        }
+        state = 2;
+    }
+
+    @Override
+    public void resume() {
+        if (state != 2) {
+            throw new IllegalStateException();
+        }
+        state = 1;
+        new ArrayList<>(remainingHandlers).forEach(handler -> {
+            handler.accept(this);
+            remainingHandlers.remove(handler);
+            if (state != 1) {
+                return;
+            }
+        });
+        complete();
     }
 
     @Override
     public void cancel() {
+        if (state >= 3) {
+            throw new IllegalStateException();
+        }
+        state = 3;
+        getCancelConsumer().accept(this);
+    }
 
+    @Override
+    public void complete() {
+        state = 4;
+        Transform<World> t = target.get();
+        getEntities().forEach(en -> {
+            en.setLocationSafely(t.getLocation());
+            en.setRotation(t.getRotation());
+            en.setScale(t.getScale());
+        });
+        getCompleteConsumer().accept(this);
+    }
+
+    @Override
+    public int getState() {
+        return state;
     }
 
     @Override
@@ -69,12 +133,17 @@ public class UCTeleportRequest implements TeleportRequest {
     }
 
     @Override
-    public Transform getTarget() {
+    public Supplier<Transform<World>> getTarget() {
         return target;
     }
 
     @Override
     public Consumer<TeleportRequest> getCompleteConsumer() {
         return complete;
+    }
+
+    @Override
+    public Consumer<TeleportRequest> getCancelConsumer() {
+        return cancel;
     }
 }
