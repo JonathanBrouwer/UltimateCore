@@ -90,6 +90,15 @@ public class TimeUtil {
         }
     }
 
+    public static boolean isDecimal(String time) {
+        try {
+            Double.parseDouble(time);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     static int dateDiff(int type, Calendar fromDate, Calendar toDate, boolean future) {
         int diff = 0;
         long savedDate = fromDate.getTimeInMillis();

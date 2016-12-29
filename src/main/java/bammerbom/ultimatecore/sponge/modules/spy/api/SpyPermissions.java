@@ -37,7 +37,7 @@ public class SpyPermissions {
     public static Permission UC_MESSAGESPY_OTHERS = Permission.create("uc.messagespy.others", "spy", PermissionLevel.MOD, "messagespy", Text.of("Allows you to toggle whether someones " +
             "messagespy is enabled."));
     public static Permission UC_COMMANDSPY_SEE = Permission.create("uc.commandspy.see", "spy", PermissionLevel.EVERYONE, "commandspy", Text.of("Allows you to see commandspy messages if "
-            + "your " + "commandspy is toggled on."));
+            + "your commandspy is toggled on."));
     public static Permission UC_MESSAGESPY_SEE = Permission.create("uc.messagespy.see", "spy", PermissionLevel.EVERYONE, "messagespy", Text.of("Allows you to see messagespy messages if "
             + "your messagespy is toggled on."));
 }

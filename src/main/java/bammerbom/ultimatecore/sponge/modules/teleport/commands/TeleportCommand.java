@@ -28,12 +28,16 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
+import bammerbom.ultimatecore.sponge.utils.LocationUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
+import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
 import java.util.List;
@@ -89,6 +93,27 @@ public class TeleportCommand implements Command {
             //Teleport
             p.setTransform(t.getTransform());
             return CommandResult.success();
+        } else if (args.length == 2 && TimeUtil.isDecimal(args[0]) && TimeUtil.isDecimal(args[1])) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                return CommandResult.empty();
+            }
+            Player p = (Player) sender;
+            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_COORDINATES.get())) {
+                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                return CommandResult.empty();
+            }
+
+            Double x = Double.parseDouble(args[0]);
+            Double z = Double.parseDouble(args[1]);
+            Double y = Double.parseDouble(LocationUtil.getHighestY(p.getWorld(), x, z) + "");
+            if (y == -1) {
+                sender.sendMessage(Messages.getFormatted("teleport.command.teleport.noy"));
+                return CommandResult.empty();
+            }
+
+            Location<World> target = new Location<>(p.getWorld(), x, y, z);
+            p.setLocationSafely(target);
         } else if (args.length == 2) {
             if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_OTHERS.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));

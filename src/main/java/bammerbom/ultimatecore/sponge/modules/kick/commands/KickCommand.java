@@ -87,7 +87,7 @@ public class KickCommand implements Command {
             Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("kick.command.kick.broadcast", "%kicker%", sender.getName(), "%kicked%", target.getName(), "%reason%",
                     Messages.getFormatted("kick.command.kick.defaultreason")));
             target.kick(Messages.getFormatted("kick.command.kick.message", "%kicker%", sender.getName(), "%kicked%", target.getName(), "%reason%", Messages.getFormatted("kick.command" +
-                    "" + ".kick" + ".defaultreason")));
+                    "" + ".kick.defaultreason")));
         } else {
             Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("kick.command.kick.broadcast", "%kicker%", sender.getName(), "%kicked%", target.getName(), "%reason%",
                     StringUtil.getFinalArg(args, 1)));

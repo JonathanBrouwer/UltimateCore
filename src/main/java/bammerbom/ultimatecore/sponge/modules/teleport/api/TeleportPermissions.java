@@ -32,4 +32,8 @@ public class TeleportPermissions {
             "yourself to someone else."));
     public static Permission UC_TELEPORT_OTHERS = Permission.create("uc.teleport.others", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to use the teleport command "
             + "to teleport someone else to someone else."));
+    public static Permission UC_TELEPORT_COORDINATES = Permission.create("uc.teleport.coordinates", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to use the teleport"
+            + " command to teleport yourself to certain coordinates."));
+    public static Permission UC_TELEPORT_COORDINATES_OTHERS = Permission.create("uc.teleport.coordinates.others", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to " +
+            "use the teleport command to teleport someone else to certain coordinates."));
 }
