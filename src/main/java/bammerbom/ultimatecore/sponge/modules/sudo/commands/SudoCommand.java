@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.sudo.api.SudoPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -78,7 +79,7 @@ public class SudoCommand implements Command {
             sender.sendMessage(getLongDescription());
             return CommandResult.empty();
         }
-        Player t = Sponge.getServer().getPlayer(args[0]).orElse(null);
+        Player t = PlayerSelector.one(sender, args[0]).orElse(null);
         if (t == null) {
             sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();

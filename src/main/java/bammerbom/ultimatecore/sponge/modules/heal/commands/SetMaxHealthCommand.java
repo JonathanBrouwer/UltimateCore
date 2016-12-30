@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import org.spongepowered.api.Sponge;
+import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
@@ -96,8 +96,8 @@ public class SetMaxHealthCommand implements Command {
                 sender.sendMessage(getUsage());
                 return CommandResult.empty();
             }
-        } else if (Sponge.getServer().getPlayer(args[1]).isPresent()) {
-            Player t = Sponge.getServer().getPlayer(args[1]).get();
+        } else if (PlayerSelector.one(sender, args[1]).isPresent()) {
+            Player t = PlayerSelector.one(sender, args[1]).get();
 
             try {
                 health = Double.parseDouble(args[0]);

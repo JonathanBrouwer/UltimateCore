@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.kick.api.KickPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -74,7 +75,7 @@ public class KickCommand implements Command {
             sender.sendMessage(getUsage());
             return CommandResult.empty();
         }
-        Player target = Sponge.getServer().getPlayer(args[0]).orElse(null);
+        Player target = PlayerSelector.one(sender, args[0]).orElse(null);
         if (target == null) {
             sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();

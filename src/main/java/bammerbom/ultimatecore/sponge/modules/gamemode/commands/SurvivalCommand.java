@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.gamemode.api.GamemodePermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import org.spongepowered.api.Sponge;
+import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
@@ -76,8 +76,8 @@ public class SurvivalCommand implements Command {
                 return CommandResult.empty();
             }
             //Send messages
-            if (Sponge.getServer().getPlayer(args[0]).isPresent()) {
-                player = Sponge.getServer().getPlayer(args[0]).get();
+            if (PlayerSelector.one(sender, args[0]).isPresent()) {
+                player = PlayerSelector.one(sender, args[0]).get();
                 //Not uuids because a sender does not have an UUID.
                 if (!sender.getName().equals(player.getName())) {
                     player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "survival"));

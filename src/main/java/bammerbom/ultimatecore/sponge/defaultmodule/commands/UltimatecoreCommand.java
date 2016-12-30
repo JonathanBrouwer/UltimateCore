@@ -32,8 +32,8 @@ import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.defaultmodule.api.DefaultPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
@@ -90,7 +90,7 @@ public class UltimatecoreCommand implements Command {
                 sender.sendMessage(getLongDescription());
                 return CommandResult.empty();
             }
-            Optional<Player> t = Sponge.getServer().getPlayer(args[1]);
+            Optional<Player> t = PlayerSelector.one(sender, args[1]);
             if (!t.isPresent()) {
                 sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[1]));
                 return CommandResult.empty();

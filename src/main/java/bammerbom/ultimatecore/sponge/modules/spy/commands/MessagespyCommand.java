@@ -32,8 +32,8 @@ import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.spy.api.SpyKeys;
 import bammerbom.ultimatecore.sponge.modules.spy.api.SpyPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
@@ -93,7 +93,7 @@ public class MessagespyCommand implements Command {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
-            Player t = Sponge.getServer().getPlayer(args[0]).orElse(null);
+            Player t = PlayerSelector.one(sender, args[0]).orElse(null);
             if (t == null) {
                 sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
