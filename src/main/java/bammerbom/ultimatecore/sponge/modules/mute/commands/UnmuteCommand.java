@@ -32,7 +32,7 @@ import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.mute.api.MuteKeys;
 import bammerbom.ultimatecore.sponge.modules.mute.api.MutePermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
+import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -79,7 +79,7 @@ public class UnmuteCommand implements Command {
             sender.sendMessage(getUsage());
             return CommandResult.empty();
         }
-        Player t = PlayerSelector.one(sender, args[0]).orElse(null);
+        Player t = Selector.one(sender, args[0]).orElse(null);
         if (t == null) {
             sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();

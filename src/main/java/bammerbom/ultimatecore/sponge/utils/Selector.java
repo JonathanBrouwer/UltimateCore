@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class PlayerSelector {
+public class Selector {
     /**
      * Returns a list of all entities which satisfy the string.
      * This can be empty if no entities are found.
@@ -60,7 +60,7 @@ public class PlayerSelector {
         }
 
         if (s.startsWith("@")) {
-            Selector selector = Selector.parse(s);
+            org.spongepowered.api.text.selector.Selector selector = org.spongepowered.api.text.selector.Selector.parse(s);
             selector.resolve(source).forEach(matches::add);
         }
 

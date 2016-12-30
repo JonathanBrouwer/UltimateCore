@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
+import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -89,8 +89,8 @@ public class HealCommand implements Command {
             }
         }
         Player t;
-        if (PlayerSelector.one(sender, args[0]).isPresent()) {
-            t = PlayerSelector.one(sender, args[0]).get();
+        if (Selector.one(sender, args[0]).isPresent()) {
+            t = Selector.one(sender, args[0]).get();
             sender.sendMessage(Messages.getFormatted("heal.command.heal.success.self", "%player%", VariableUtil.getNameEntity(t)));
             t.sendMessage(Messages.getFormatted("heal.command.heal.success.others", "%sender%", VariableUtil.getNameSource(sender)));
             t.offer(Keys.HEALTH, t.get(Keys.MAX_HEALTH).orElse(20.0));

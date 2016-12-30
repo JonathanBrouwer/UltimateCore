@@ -85,7 +85,7 @@ public class TeleportCommand implements Command {
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
-            Entity t = PlayerSelector.oneEntity(sender, args[0]).orElse(null);
+            Entity t = Selector.oneEntity(sender, args[0]).orElse(null);
             if (t == null) {
                 sender.sendMessage(Messages.getFormatted("core.entitynotfound", "%entity%", args[0]));
                 return CommandResult.empty();
@@ -134,12 +134,12 @@ public class TeleportCommand implements Command {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
-            List<Entity> e = PlayerSelector.multipleEntities(sender, args[0]);
+            List<Entity> e = Selector.multipleEntities(sender, args[0]);
             if (e.isEmpty()) {
                 sender.sendMessage(Messages.getFormatted("core.entitynotfound", "%entity%", args[0]));
                 return CommandResult.empty();
             }
-            Entity t = PlayerSelector.oneEntity(sender, args[1]).orElse(null);
+            Entity t = Selector.oneEntity(sender, args[1]).orElse(null);
             if (t == null) {
                 sender.sendMessage(Messages.getFormatted("core.entitynotfound", "%entity%", args[1]));
                 return CommandResult.empty();
@@ -159,7 +159,7 @@ public class TeleportCommand implements Command {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
-            List<Entity> e = PlayerSelector.multipleEntities(sender, args[0]);
+            List<Entity> e = Selector.multipleEntities(sender, args[0]);
             if (e.isEmpty()) {
                 sender.sendMessage(Messages.getFormatted("core.entitynotfound", "%entity%", args[0]));
                 return CommandResult.empty();
@@ -212,7 +212,7 @@ public class TeleportCommand implements Command {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
-            List<Entity> e = PlayerSelector.multipleEntities(sender, args[0]);
+            List<Entity> e = Selector.multipleEntities(sender, args[0]);
             if (e.isEmpty()) {
                 sender.sendMessage(Messages.getFormatted("core.entitynotfound", "%entity%", args[0]));
                 return CommandResult.empty();

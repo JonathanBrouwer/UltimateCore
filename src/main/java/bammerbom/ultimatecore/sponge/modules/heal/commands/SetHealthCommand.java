@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
+import bammerbom.ultimatecore.sponge.utils.Selector;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
@@ -101,8 +101,8 @@ public class SetHealthCommand implements Command {
 
                 return CommandResult.empty();
             }
-        } else if (PlayerSelector.one(sender, args[1]).isPresent()) {
-            t = PlayerSelector.one(sender, args[1]).get();
+        } else if (Selector.one(sender, args[1]).isPresent()) {
+            t = Selector.one(sender, args[1]).get();
 
             try {
                 health = Double.parseDouble(args[0]);

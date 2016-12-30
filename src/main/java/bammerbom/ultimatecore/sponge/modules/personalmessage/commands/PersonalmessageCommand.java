@@ -33,7 +33,7 @@ import bammerbom.ultimatecore.sponge.modules.personalmessage.api.Personalmessage
 import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessageKeys;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessagePermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
+import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
@@ -87,7 +87,7 @@ public class PersonalmessageCommand implements Command {
             sender.sendMessage(getUsage());
             return CommandResult.empty();
         }
-        CommandSource t = PlayerSelector.one(sender, args[0]).orElse(null);
+        CommandSource t = Selector.one(sender, args[0]).orElse(null);
         if (t == null) {
             if (args[0].equalsIgnoreCase("server")) {
                 t = Sponge.getServer().getConsole();

@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.burn.api.BurnPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
+import bammerbom.ultimatecore.sponge.utils.Selector;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
@@ -75,8 +75,8 @@ public class BurnCommand implements Command {
             return CommandResult.empty();
         }
         Player t;
-        if (PlayerSelector.one(sender, args[0]).isPresent()) {
-            t = PlayerSelector.one(sender, args[0]).get();
+        if (Selector.one(sender, args[0]).isPresent()) {
+            t = Selector.one(sender, args[0]).get();
         } else {
             sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();

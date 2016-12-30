@@ -31,7 +31,7 @@ import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyKeys;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
+import bammerbom.ultimatecore.sponge.utils.Selector;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
@@ -74,7 +74,7 @@ public class FlyCommand implements Command {
         }
         if (args.length >= 1) {
             //Get the player
-            Player t = PlayerSelector.one(sender, args[0]).orElse(null);
+            Player t = Selector.one(sender, args[0]).orElse(null);
             if (t == null) {
                 sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();

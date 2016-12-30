@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.gamemode.api.GamemodePermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
+import bammerbom.ultimatecore.sponge.utils.Selector;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.key.Keys;
@@ -103,8 +103,8 @@ public class GamemodeCommand implements Command {
         }
         Player player;
         if (args.length >= 2) {
-            if (PlayerSelector.one(sender, args[1]).isPresent()) {
-                player = PlayerSelector.one(sender, args[1]).get();
+            if (Selector.one(sender, args[1]).isPresent()) {
+                player = Selector.one(sender, args[1]).get();
                 if (gm == GameModes.SURVIVAL && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions
                         .UC_GAMEMODE_OTHERS_SURVIVAL.get())) {
                     sender.sendMessage(Messages.getFormatted("core.nopermissions"));

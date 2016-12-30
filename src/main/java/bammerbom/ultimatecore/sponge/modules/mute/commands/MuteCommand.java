@@ -80,7 +80,7 @@ public class MuteCommand implements Command {
             sender.sendMessage(getUsage());
             return CommandResult.empty();
         }
-        Player t = PlayerSelector.one(sender, args[0]).orElse(null);
+        Player t = Selector.one(sender, args[0]).orElse(null);
         if (t == null) {
             sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();

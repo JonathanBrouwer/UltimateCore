@@ -33,7 +33,7 @@ import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
+import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.Sponge;
@@ -81,8 +81,8 @@ public class AfkCommand implements Command {
         }
         //Get the user
         UltimateUser user;
-        if (args.length >= 1 && PlayerSelector.one(sender, args[0]).isPresent()) {
-            user = UltimateCore.get().getUserService().getUser(PlayerSelector.one(sender, args[0]).get());
+        if (args.length >= 1 && Selector.one(sender, args[0]).isPresent()) {
+            user = UltimateCore.get().getUserService().getUser(Selector.one(sender, args[0]).get());
         } else {
             if (!(sender instanceof Player)) {
                 sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
@@ -95,8 +95,8 @@ public class AfkCommand implements Command {
         if (user.offer(AfkKeys.IS_AFK, newafk)) {
             if (newafk) {
                 user.offer(AfkKeys.AFK_TIME, System.currentTimeMillis());
-                if (args.length >= 2 || (args.length >= 1 && !PlayerSelector.one(sender, args[0]).isPresent())) {
-                    String message = StringUtil.getFinalArg(args, PlayerSelector.one(sender, args[0]).isPresent() ? 1 : 0);
+                if (args.length >= 2 || (args.length >= 1 && !Selector.one(sender, args[0]).isPresent())) {
+                    String message = StringUtil.getFinalArg(args, Selector.one(sender, args[0]).isPresent() ? 1 : 0);
                     user.offer(AfkKeys.AFK_MESSAGE, message);
                     Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.afk.message", "%player%", user.getUser().getName(), "%message%", message));
                 } else {
