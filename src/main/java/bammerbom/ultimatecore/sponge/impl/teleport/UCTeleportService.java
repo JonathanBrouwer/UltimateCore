@@ -43,12 +43,7 @@ public class UCTeleportService implements TeleportService {
     @Override
     public TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<TeleportRequest> complete,
                                                  Consumer<TeleportRequest> cancel, boolean safe) {
-        return createTeleportRequest(source, entities, new Supplier<Transform<World>>() {
-            @Override
-            public Transform get() {
-                return target;
-            }
-        }, complete, cancel, safe);
+        return createTeleportRequest(source, entities, () -> target, complete, cancel, safe);
     }
 
     @Override

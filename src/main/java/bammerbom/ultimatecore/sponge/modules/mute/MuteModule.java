@@ -29,8 +29,10 @@ import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
 import bammerbom.ultimatecore.sponge.modules.mute.commands.MuteCommand;
 import bammerbom.ultimatecore.sponge.modules.mute.commands.UnmuteCommand;
+import bammerbom.ultimatecore.sponge.modules.mute.listeners.MuteListener;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -58,6 +60,7 @@ public class MuteModule implements Module {
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Mute.class), new Mute.MuteSerializer());
         UltimateCore.get().getCommandService().register(new MuteCommand());
         UltimateCore.get().getCommandService().register(new UnmuteCommand());
+        Sponge.getEventManager().registerListeners(UltimateCore.get(), new MuteListener());
     }
 
     @Override
