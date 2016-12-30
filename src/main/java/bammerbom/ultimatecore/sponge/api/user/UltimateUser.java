@@ -94,7 +94,7 @@ public class UltimateUser {
         } else {
             if (key.getProvider().isPresent()) {
                 //Run the provider
-                rtrn = Optional.of(key.getProvider().get().load(this));
+                rtrn = Optional.ofNullable(key.getProvider().get().load(this));
             } else {
                 //Provider not available, get the default value
                 rtrn = key.getDefaultValue();
