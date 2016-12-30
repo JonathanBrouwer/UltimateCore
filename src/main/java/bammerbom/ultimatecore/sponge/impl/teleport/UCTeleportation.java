@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.impl.teleport;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.teleport.TeleportRequest;
+import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
@@ -39,20 +39,20 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class UCTeleportRequest implements TeleportRequest {
+public class UCTeleportation implements Teleportation {
 
     //0 = stopped, 1 = executing, 2 = paused / waiting, 3 = cancelled, 4 = completed
     private int state = 0;
     private CommandSource source;
     private List<UUID> entities;
     private Supplier<Transform<World>> target;
-    private Consumer<TeleportRequest> cancel;
-    private Consumer<TeleportRequest> complete;
-    private List<Consumer<TeleportRequest>> remainingHandlers;
+    private Consumer<Teleportation> cancel;
+    private Consumer<Teleportation> complete;
+    private List<Consumer<Teleportation>> remainingHandlers;
     private boolean safe;
 
-    public UCTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest>
-            cancel, boolean safe) {
+    public UCTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, Consumer<Teleportation> cancel,
+                           boolean safe) {
         this.source = source;
         this.entities = new ArrayList<>();
         entities.forEach(en -> this.entities.add(en.getUniqueId()));
@@ -155,12 +155,12 @@ public class UCTeleportRequest implements TeleportRequest {
     }
 
     @Override
-    public Consumer<TeleportRequest> getCompleteConsumer() {
+    public Consumer<Teleportation> getCompleteConsumer() {
         return complete;
     }
 
     @Override
-    public Consumer<TeleportRequest> getCancelConsumer() {
+    public Consumer<Teleportation> getCancelConsumer() {
         return cancel;
     }
 

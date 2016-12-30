@@ -35,57 +35,57 @@ import java.util.function.Supplier;
 
 public interface TeleportService {
     /**
-     * Create a new teleport request, to teleport the entities to a target.
+     * Create a new teleportation, to teleport the entities to a target.
      * The consumer will be run when the teleport has completed.
      *
      * @param source   The commandsource to send error messages to, can be null
      * @param entities The entities to teleport
      * @param target   The target to teleport the entities to
      * @param complete The consumer to be run when the teleport is completed
-     * @return The teleport request
+     * @return The teleportation
      */
-    TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest>
+    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<Teleportation> complete, Consumer<Teleportation> cancel,
+                                      boolean safe);
+
+    /**
+     * Create a new teleportation, to teleport the entities to a target.
+     * The consumer will be run when the teleport has completed.
+     *
+     * @param source   The commandsource to send error messages to, can be null
+     * @param entities The entities to teleport
+     * @param target   The target to teleport the entities to
+     * @param complete The consumer to be run when the teleport is completed
+     * @return The teleportation
+     */
+    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, Consumer<Teleportation>
             cancel, boolean safe);
 
     /**
-     * Create a new teleport request, to teleport the entities to a target.
-     * The consumer will be run when the teleport has completed.
+     * Returns a list of all unfinished teleportations.
      *
-     * @param source   The commandsource to send error messages to, can be null
-     * @param entities The entities to teleport
-     * @param target   The target to teleport the entities to
-     * @param complete The consumer to be run when the teleport is completed
-     * @return The teleport request
+     * @return A list of all unfinished teleportations.
      */
-    TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete,
-                                          Consumer<TeleportRequest> cancel, boolean safe);
-
-    /**
-     * Returns a list of all unfinished teleport requests.
-     *
-     * @return A list of all unfinished teleport requests.
-     */
-    List<TeleportRequest> getUnfinishedTeleportRequests();
+    List<Teleportation> getUnfinishedTeleportations();
 
     /**
      * Register a handler.
-     * This will be run when the teleport request has started.
+     * This will be run when the teleportation has started.
      *
      * @param consumer The consumer which will be run
      */
-    void addHandler(Consumer<TeleportRequest> consumer);
+    void addHandler(Consumer<Teleportation> consumer);
 
     /**
      * Get a list of all registered handlers.
      *
      * @return A list of all registered handlers
      */
-    List<Consumer<TeleportRequest>> getHandlers();
+    List<Consumer<Teleportation>> getHandlers();
 
     /**
      * Unregister a handler.
      *
      * @param handler The handler to unregister
      */
-    void removeHandler(Consumer<TeleportRequest> handler);
+    void removeHandler(Consumer<Teleportation> handler);
 }

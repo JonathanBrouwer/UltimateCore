@@ -23,8 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.impl.teleport;
 
-import bammerbom.ultimatecore.sponge.api.teleport.TeleportRequest;
 import bammerbom.ultimatecore.sponge.api.teleport.TeleportService;
+import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
@@ -37,40 +37,40 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class UCTeleportService implements TeleportService {
-    private ArrayList<TeleportRequest> requests = new ArrayList<>();
-    private ArrayList<Consumer<TeleportRequest>> handlers = new ArrayList<>();
+    private ArrayList<Teleportation> requests = new ArrayList<>();
+    private ArrayList<Consumer<Teleportation>> handlers = new ArrayList<>();
 
     @Override
-    public TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<TeleportRequest> complete,
-                                                 Consumer<TeleportRequest> cancel, boolean safe) {
-        return createTeleportRequest(source, entities, () -> target, complete, cancel, safe);
+    public Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<Teleportation> complete, Consumer<Teleportation>
+            cancel, boolean safe) {
+        return createTeleportation(source, entities, () -> target, complete, cancel, safe);
     }
 
     @Override
-    public TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete,
-                                                 Consumer<TeleportRequest> cancel, boolean safe) {
-        TeleportRequest request = new UCTeleportRequest(source, entities, target, complete, cancel, safe);
+    public Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete,
+                                             Consumer<Teleportation> cancel, boolean safe) {
+        Teleportation request = new UCTeleportation(source, entities, target, complete, cancel, safe);
         requests.add(request);
         return request;
     }
 
     @Override
-    public List<TeleportRequest> getUnfinishedTeleportRequests() {
+    public List<Teleportation> getUnfinishedTeleportations() {
         return requests;
     }
 
     @Override
-    public void addHandler(Consumer<TeleportRequest> consumer) {
+    public void addHandler(Consumer<Teleportation> consumer) {
         handlers.add(consumer);
     }
 
     @Override
-    public List<Consumer<TeleportRequest>> getHandlers() {
+    public List<Consumer<Teleportation>> getHandlers() {
         return handlers;
     }
 
     @Override
-    public void removeHandler(Consumer<TeleportRequest> handler) {
+    public void removeHandler(Consumer<Teleportation> handler) {
         handlers.remove(handler);
     }
 }

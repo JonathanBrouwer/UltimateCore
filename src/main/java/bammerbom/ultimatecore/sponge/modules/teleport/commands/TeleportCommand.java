@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.api.teleport.TeleportRequest;
+import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
 import bammerbom.ultimatecore.sponge.utils.*;
 import org.spongepowered.api.command.CommandResult;
@@ -92,7 +92,7 @@ public class TeleportCommand implements Command {
             }
 
             //Teleport
-            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, Arrays.asList(p), t::getTransform, teleportRequest -> {
+            Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), t::getTransform, teleportRequest -> {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.self", "%target%", VariableUtil.getNameEntity(t)));
             }, teleportRequest -> {
@@ -120,7 +120,7 @@ public class TeleportCommand implements Command {
             }
 
             Location<World> target = new Location<>(p.getWorld(), x, y, z);
-            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()),
+            Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()),
                     teleportRequest -> {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
@@ -146,7 +146,7 @@ public class TeleportCommand implements Command {
             }
 
             //Teleport
-            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, e, t::getTransform, teleportRequest -> {
+            Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, e, t::getTransform, teleportRequest -> {
                 //Complete
                 sender.sendMessage(Messages.getFormatted("teleport.command.teleport.others", "%target1%", VariableUtil.getNamesEntity(e), "%target2%", VariableUtil.getNameEntity(t)));
             }, teleportRequest -> {
@@ -174,7 +174,7 @@ public class TeleportCommand implements Command {
             }
 
             Location<World> target = new Location<>(w, x, y, z);
-            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, e, new Transform<>(target), teleportRequest -> {
+            Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, e, new Transform<>(target), teleportRequest -> {
                 //Complete
                 sender.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
             }, teleportRequest -> {
@@ -198,7 +198,7 @@ public class TeleportCommand implements Command {
             Double z = Double.parseDouble(args[2]);
 
             Location<World> target = new Location<>(p.getWorld(), x, y, z);
-            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()),
+            Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()),
                     teleportRequest -> {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
@@ -224,7 +224,7 @@ public class TeleportCommand implements Command {
             Double z = Double.parseDouble(args[3]);
 
             Location<World> target = new Location<>(w, x, y, z);
-            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, e, new Transform<>(target), teleportRequest -> {
+            Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, e, new Transform<>(target), teleportRequest -> {
                 //Complete
                 sender.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
             }, teleportRequest -> {
