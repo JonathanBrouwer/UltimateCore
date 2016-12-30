@@ -21,15 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.afk;
+package bammerbom.ultimatecore.sponge.modules.tablist;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
-import bammerbom.ultimatecore.sponge.modules.afk.commands.AfkCommand;
-import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
-import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkSwitchListener;
-import bammerbom.ultimatecore.sponge.modules.afk.runnables.AfkTitleTask;
+import bammerbom.ultimatecore.sponge.modules.tablist.runnables.TablistRunnable;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -37,16 +34,12 @@ import org.spongepowered.api.event.game.state.GameStoppingEvent;
 
 import java.util.Optional;
 
-public class AfkModule implements Module {
-
-    //TODO is back after x time
-    //TODO "user may not respond" with chat/pm to user
-
+public class TablistModule implements Module {
     ModuleConfig config;
 
     @Override
     public String getIdentifier() {
-        return "afk";
+        return "tablist";
     }
 
     @Override
@@ -61,19 +54,9 @@ public class AfkModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Config
-        config = new ModuleConfig("afk");
-        //Commands
-        UltimateCore.get().getCommandService().register(new AfkCommand());
-        //Listeners
-        Sponge.getEventManager().registerListeners(UltimateCore.get(), new AfkSwitchListener());
-        AfkDetectionListener.start();
-        //Runnables
-        if (config.get().getNode("title", "enabled").getBoolean(true)) {
-            Sponge.getScheduler().createTaskBuilder().intervalTicks(config.get().getNode("title", "subtitle-refresh").getLong()).name("UC afk title task").execute(new AfkTitleTask())
-                    .submit(UltimateCore.get());
-
-        }
+        config = new ModuleConfig("tablist");
+        int delay = config.get().getNode("refresh").getInt();
+        Sponge.getScheduler().createTaskBuilder().execute(new TablistRunnable()).name("UltimateCore tablist task").delayTicks(delay).intervalTicks(delay).submit(UltimateCore.get());
     }
 
     @Override
