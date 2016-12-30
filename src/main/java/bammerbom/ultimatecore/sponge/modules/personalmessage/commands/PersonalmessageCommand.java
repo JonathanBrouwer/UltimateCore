@@ -114,13 +114,15 @@ public class PersonalmessageCommand implements Command {
             Text received = event.getFormatter().toText();
             t.sendMessage(received);
             //Reply
+            UUID uuid_s = sender instanceof Player ? ((Player) sender).getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000");
+            UUID uuid_t = t instanceof Player ? ((Player) t).getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000");
             if (t instanceof Player) {
                 UltimateUser user = UltimateCore.get().getUserService().getUser((Player) t);
-                user.offer(PersonalmessageKeys.REPLY, sender instanceof Player ? ((Player) sender).getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000"));
+                user.offer(PersonalmessageKeys.REPLY, uuid_s);
             }
             if (sender instanceof Player) {
                 UltimateUser user2 = UltimateCore.get().getUserService().getUser((Player) sender);
-                user2.offer(PersonalmessageKeys.REPLY, ((Player) sender).getUniqueId());
+                user2.offer(PersonalmessageKeys.REPLY, uuid_t);
             }
             //TODO better system for this message?
             Text send = Messages.getFormatted("personalmessage.command.personalmessage.format.send", "%player%", VariableUtil.getNameSource(t), "%message%", message);
