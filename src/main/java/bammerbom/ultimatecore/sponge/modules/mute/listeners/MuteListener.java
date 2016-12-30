@@ -21,37 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.utils;
+package bammerbom.ultimatecore.sponge.modules.mute.listeners;
 
-import org.spongepowered.api.data.property.AbstractProperty;
-import org.spongepowered.api.data.property.block.PassableProperty;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.mute.api.MuteKeys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.message.MessageChannelEvent;
 
-import java.util.Optional;
-
-public class LocationUtil {
-    /**
-     * Gets the highest y of the specified location, or -1 if not possible.
-     *
-     * @param w The world
-     * @param x The x coordinate
-     * @param z The z coordinate
-     * @return The y coordinate of the highest solid block
-     */
-    public static int getHighestY(World w, Double x, Double z) {
-        int y = w.getBlockMax().getY();
-        while (isPassable(w, x, y, z)) {
-            y = y - 1;
-            if (y <= 0) {
-                return -1;
-            }
+public class MuteListener {
+    @Listener
+    public void onChat(MessageChannelEvent.Chat event) {
+        Player p = event.getCause().first(Player.class).orElse(null);
+        if (p == null) return;
+        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+        if (up.get(MuteKeys.MUTE).isPresent()) {
+            event.setCancelled(true);
         }
-        return y;
-    }
-
-    private static boolean isPassable(World w, Double x, int y, Double z) {
-        Optional<PassableProperty> prop = new Location<>(w, x, y, z).getBlock().getProperty(PassableProperty.class);
-        return prop.map(AbstractProperty::getValue).orElse(false);
     }
 }
