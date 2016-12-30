@@ -90,4 +90,9 @@ public interface TeleportRequest {
      * @return The consumer
      */
     Consumer<TeleportRequest> getCancelConsumer();
+
+    /**
+     * Whether the teleportation should be safe
+     */
+    boolean isSafe();
 }

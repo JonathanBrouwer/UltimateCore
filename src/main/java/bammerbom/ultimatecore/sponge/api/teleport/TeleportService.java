@@ -45,7 +45,7 @@ public interface TeleportService {
      * @return The teleport request
      */
     TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest>
-            cancel);
+            cancel, boolean safe);
 
     /**
      * Create a new teleport request, to teleport the entities to a target.
@@ -58,7 +58,7 @@ public interface TeleportService {
      * @return The teleport request
      */
     TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete,
-                                          Consumer<TeleportRequest> cancel);
+                                          Consumer<TeleportRequest> cancel, boolean safe);
 
     /**
      * Returns a list of all unfinished teleport requests.

@@ -79,6 +79,7 @@ public class TeleportCommand implements Command {
             sender.sendMessage(getUsage());
             return CommandResult.empty();
         } else if (args.length == 1) {
+            //tp user
             if (!(sender instanceof Player)) {
                 sender.sendMessage(Messages.getFormatted("core.noplayer"));
                 return CommandResult.empty();
@@ -95,10 +96,11 @@ public class TeleportCommand implements Command {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.self", "%target%", VariableUtil.getNameEntity(t)));
             }, teleportRequest -> {
-            });
+            }, true);
             request.start();
             return CommandResult.success();
         } else if (args.length == 2 && TimeUtil.isDecimal(args[0]) && TimeUtil.isDecimal(args[1])) {
+            //tp x z
             if (!(sender instanceof Player)) {
                 sender.sendMessage(Messages.getFormatted("core.noplayer"));
                 return CommandResult.empty();
@@ -118,14 +120,16 @@ public class TeleportCommand implements Command {
             }
 
             Location<World> target = new Location<>(p.getWorld(), x, y, z);
-            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, Arrays.asList(p), new Transform<>(target), teleportRequest -> {
+            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()),
+                    teleportRequest -> {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
             }, teleportRequest -> {
-            });
+            }, false);
             request.start();
             return CommandResult.success();
         } else if (args.length == 2) {
+            //tp user user
             if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_OTHERS.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
@@ -146,7 +150,85 @@ public class TeleportCommand implements Command {
                 //Complete
                 sender.sendMessage(Messages.getFormatted("teleport.command.teleport.others", "%target1%", VariableUtil.getNamesEntity(e), "%target2%", VariableUtil.getNameEntity(t)));
             }, teleportRequest -> {
-            });
+            }, true);
+            request.start();
+            return CommandResult.success();
+        } else if (args.length == 3 && !TimeUtil.isDecimal(args[0])) {
+            // tp user x z
+            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_COORDINATES_OTHERS.get())) {
+                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                return CommandResult.empty();
+            }
+            List<Entity> e = PlayerSelector.multipleEntities(sender, args[0]);
+            if (e.isEmpty()) {
+                sender.sendMessage(Messages.getFormatted("core.entitynotfound", "%entity%", args[0]));
+                return CommandResult.empty();
+            }
+            World w = sender instanceof Player ? ((Player) sender).getWorld() : e.get(0).getWorld();
+            Double x = Double.parseDouble(args[0]);
+            Double z = Double.parseDouble(args[1]);
+            Double y = Double.parseDouble(LocationUtil.getHighestY(w, x, z) + "") + 1;
+            if (y == -1) {
+                sender.sendMessage(Messages.getFormatted("teleport.command.teleport.noy"));
+                return CommandResult.empty();
+            }
+
+            Location<World> target = new Location<>(w, x, y, z);
+            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, e, new Transform<>(target), teleportRequest -> {
+                //Complete
+                sender.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
+            }, teleportRequest -> {
+            }, false);
+            request.start();
+            return CommandResult.success();
+        } else if (args.length == 3) {
+            //tp x y z
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                return CommandResult.empty();
+            }
+            Player p = (Player) sender;
+            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_COORDINATES.get())) {
+                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                return CommandResult.empty();
+            }
+
+            Double x = Double.parseDouble(args[0]);
+            Double y = Double.parseDouble(args[1]);
+            Double z = Double.parseDouble(args[2]);
+
+            Location<World> target = new Location<>(p.getWorld(), x, y, z);
+            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()),
+                    teleportRequest -> {
+                //Complete
+                p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
+            }, teleportRequest -> {
+            }, false);
+            request.start();
+            return CommandResult.success();
+        } else if (args.length == 4) {
+            //tp user x y z
+            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_COORDINATES_OTHERS.get())) {
+                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                return CommandResult.empty();
+            }
+            List<Entity> e = PlayerSelector.multipleEntities(sender, args[0]);
+            if (e.isEmpty()) {
+                sender.sendMessage(Messages.getFormatted("core.entitynotfound", "%entity%", args[0]));
+                return CommandResult.empty();
+            }
+
+            World w = sender instanceof Player ? ((Player) sender).getWorld() : e.get(0).getWorld();
+            Double x = Double.parseDouble(args[1]);
+            Double y = Double.parseDouble(args[2]);
+            Double z = Double.parseDouble(args[3]);
+
+            Location<World> target = new Location<>(w, x, y, z);
+            TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(sender, e, new Transform<>(target), teleportRequest -> {
+                //Complete
+                sender.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
+            }, teleportRequest -> {
+            }, false);
             request.start();
             return CommandResult.success();
         }

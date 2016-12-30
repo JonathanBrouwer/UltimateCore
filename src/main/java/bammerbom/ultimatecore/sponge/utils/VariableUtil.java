@@ -86,7 +86,7 @@ public class VariableUtil {
         if (en instanceof CommandSource) {
             return getNameSource((CommandSource) en);
         } else {
-            return Text.of(en.getTranslation().get());
+            return Text.of(en.getTranslation().get(Locale.ENGLISH));
         }
     }
 
