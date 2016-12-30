@@ -23,8 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spy.listeners;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessageEvent;
+import bammerbom.ultimatecore.sponge.modules.spy.api.SpyKeys;
 import bammerbom.ultimatecore.sponge.modules.spy.api.SpyPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
@@ -56,6 +58,9 @@ public class SpyListener {
                 if (s.getIdentifier().equals(p.getIdentifier()) || t.getIdentifier().equals(p.getIdentifier())) {
                     continue;
                 }
+                if (!UltimateCore.get().getUserService().getUser(p).get(SpyKeys.MESSAGESPY_ENABLED).get()) {
+                    continue;
+                }
                 p.sendMessage(Messages.getFormatted("spy.format.messagespy", "%player%", VariableUtil.getNameSource(s), "%target%", VariableUtil.getNameSource(t), "%message%", ev
                         .getPMUnformattedMessage()));
             }
@@ -71,6 +76,9 @@ public class SpyListener {
                 continue;
             }
             if (p == t) {
+                continue;
+            }
+            if (!UltimateCore.get().getUserService().getUser(p).get(SpyKeys.COMMANDSPY_ENABLED).get()) {
                 continue;
             }
             //Ignored commands
