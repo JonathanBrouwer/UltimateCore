@@ -49,6 +49,7 @@ public class WorldDataFile {
         if (!path.exists()) {
             path.mkdirs();
         }
+        //TODO maybe move file to world folder when world#getdirectory is implemented?
         File file = new File(path, uuid.toString() + ".data");
         try {
             if (!file.exists()) {
