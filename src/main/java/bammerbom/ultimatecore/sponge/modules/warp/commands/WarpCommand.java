@@ -23,11 +23,13 @@
  */
 package bammerbom.ultimatecore.sponge.modules.warp.commands;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.teleport.TeleportRequest;
 import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpKeys;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
@@ -127,9 +129,11 @@ public class WarpCommand implements Command {
             return CommandResult.empty();
         }
         //Teleport to the warp
-        p.setLocationAndRotationSafely(warp.getLocation().getLocation(), warp.getLocation().getRotation());
-        //Send message
-        sender.sendMessage(Messages.getFormatted("warp.command.warp.success", "%warp%", warp.getName()));
+        TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(p, Arrays.asList(p), warp.getLocation(), req -> {
+            sender.sendMessage(Messages.getFormatted("warp.command.warp.success", "%warp%", warp.getName()));
+        }, req -> {
+        }, true);
+        request.start();
         return CommandResult.success();
     }
 

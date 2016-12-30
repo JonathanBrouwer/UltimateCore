@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.teleport.TeleportRequest;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
@@ -125,8 +126,12 @@ public class HomeCommand implements Command {
             return CommandResult.empty();
         }
         Home home = matches.get(0); //Ignore other results if there are more than one
-        p.setLocationAndRotationSafely(home.getLocation().getLocation(), home.getLocation().getRotation());
-        sender.sendMessage(Messages.getFormatted("home.command.home.success", "%home%", home.getName()));
+        //Teleport
+        TeleportRequest request = UltimateCore.get().getTeleportService().createTeleportRequest(p, Arrays.asList(p), home.getLocation(), req -> {
+            sender.sendMessage(Messages.getFormatted("home.command.home.success", "%home%", home.getName()));
+        }, req -> {
+        }, true);
+        request.start();
         return CommandResult.success();
     }
 
