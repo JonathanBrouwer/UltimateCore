@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.utils;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
@@ -32,15 +33,17 @@ import org.spongepowered.api.text.action.TextActions;
 
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class VariableUtil {
     public static Text replaceVariables(Text text, @Nullable CommandSource player) {
         //Player-specific variables
         if (player != null) {
-            text = TextUtil.replace(text, "%player%", getName(player));
+            text = TextUtil.replace(text, "%player%", getNameSource(player));
             text = TextUtil.replace(text, "%name%", Text.of(player.getName()));
-            text = TextUtil.replace(text, "%displayname%", getName(player));
+            text = TextUtil.replace(text, "%displayname%", getNameSource(player));
             text = TextUtil.replace(text, "%prefix%", Text.of(player.getOption("prefix").orElse("")));
             text = TextUtil.replace(text, "%suffix%", Text.of(player.getOption("suffix").orElse("")));
             if (player instanceof Player) {
@@ -66,7 +69,7 @@ public class VariableUtil {
         return text;
     }
 
-    public static Text getName(CommandSource player) {
+    public static Text getNameSource(CommandSource player) {
         //TODO nickname
         if (player instanceof Player) {
             return Text.builder(player.getName()).onHover(TextActions.showText(Messages.getFormatted("core.variable.player.hover", "%name%", player.getName(), "%rawname%", player.getName
@@ -77,5 +80,21 @@ public class VariableUtil {
                     (), "%uuid%", player.getIdentifier(), "%language%", player.getLocale().getDisplayName(Locale.ENGLISH)))).onClick(TextActions.suggestCommand(Messages.getFormatted
                     ("core" + ".variable.player.click", "%player%", player.getName()).toPlain())).build();
         }
+    }
+
+    public static Text getNameEntity(Entity en) {
+        if (en instanceof CommandSource) {
+            return getNameSource((CommandSource) en);
+        } else {
+            return Text.of(en.getTranslation().get());
+        }
+    }
+
+    public static Text getNamesEntity(List<Entity> ens) {
+        List<Text> texts = new ArrayList<>();
+        for (Entity en : ens) {
+            texts.add(getNameEntity(en));
+        }
+        return Text.joinWith(Text.of(", "), texts);
     }
 }

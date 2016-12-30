@@ -26,12 +26,15 @@ package bammerbom.ultimatecore.sponge.impl.teleport;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.teleport.TeleportRequest;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -40,13 +43,15 @@ public class UCTeleportRequest implements TeleportRequest {
 
     //0 = stopped, 1 = executing, 2 = paused / waiting, 3 = cancelled, 4 = completed
     private int state = 0;
+    private CommandSource source;
     private List<UUID> entities;
     private Supplier<Transform<World>> target;
     private Consumer<TeleportRequest> cancel;
     private Consumer<TeleportRequest> complete;
     private List<Consumer<TeleportRequest>> remainingHandlers;
 
-    public UCTeleportRequest(List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel) {
+    public UCTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel) {
+        this.source = source;
         this.entities = new ArrayList<>();
         entities.forEach(en -> this.entities.add(en.getUniqueId()));
         this.target = target;
@@ -119,6 +124,11 @@ public class UCTeleportRequest implements TeleportRequest {
     @Override
     public int getState() {
         return state;
+    }
+
+    @Override
+    public Optional<CommandSource> getCommandSource() {
+        return Optional.ofNullable(source);
     }
 
     @Override

@@ -25,10 +25,12 @@ package bammerbom.ultimatecore.sponge.impl.teleport;
 
 import bammerbom.ultimatecore.sponge.api.teleport.TeleportRequest;
 import bammerbom.ultimatecore.sponge.api.teleport.TeleportService;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -39,8 +41,9 @@ public class UCTeleportService implements TeleportService {
     private ArrayList<Consumer<TeleportRequest>> handlers = new ArrayList<>();
 
     @Override
-    public TeleportRequest createTeleportRequest(List<Entity> entities, Transform<World> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel) {
-        return createTeleportRequest(entities, new Supplier<Transform<World>>() {
+    public TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<TeleportRequest> complete,
+                                                 Consumer<TeleportRequest> cancel) {
+        return createTeleportRequest(source, entities, new Supplier<Transform<World>>() {
             @Override
             public Transform get() {
                 return target;
@@ -49,8 +52,9 @@ public class UCTeleportService implements TeleportService {
     }
 
     @Override
-    public TeleportRequest createTeleportRequest(List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel) {
-        TeleportRequest request = new UCTeleportRequest(entities, target, complete, cancel);
+    public TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete,
+                                                 Consumer<TeleportRequest> cancel) {
+        TeleportRequest request = new UCTeleportRequest(source, entities, target, complete, cancel);
         requests.add(request);
         return request;
     }

@@ -23,8 +23,12 @@
  */
 package bammerbom.ultimatecore.sponge.modules.teleport;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.teleport.commands.TeleportCommand;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -49,7 +53,14 @@ public class TeleportModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Unregister default minecraft commands, because of conflict
+        //TODO reregister under alternative alias?
+        CommandManager cm = Sponge.getCommandManager();
+        cm.get("teleport").ifPresent(cm::removeMapping);
+        cm.get("tp").ifPresent(cm::removeMapping);
 
+        //Register commands
+        UltimateCore.get().getCommandService().register(new TeleportCommand());
     }
 
     @Override

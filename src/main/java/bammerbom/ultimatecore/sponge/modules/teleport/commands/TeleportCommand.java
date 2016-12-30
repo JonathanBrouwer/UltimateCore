@@ -23,18 +23,17 @@
  */
 package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
-import bammerbom.ultimatecore.sponge.utils.LocationUtil;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.PlayerSelector;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import bammerbom.ultimatecore.sponge.utils.*;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -91,7 +90,11 @@ public class TeleportCommand implements Command {
             }
 
             //Teleport
-            p.setTransform(t.getTransform());
+            UltimateCore.get().getTeleportService().createTeleportRequest(sender, Arrays.asList(p), t::getTransform, teleportRequest -> {
+                //Complete
+                p.sendMessage(Messages.getFormatted("teleport.command.teleport.self", "%target%", VariableUtil.getNameEntity(t)));
+            }, teleportRequest -> {
+            });
             return CommandResult.success();
         } else if (args.length == 2 && TimeUtil.isDecimal(args[0]) && TimeUtil.isDecimal(args[1])) {
             if (!(sender instanceof Player)) {
@@ -113,7 +116,12 @@ public class TeleportCommand implements Command {
             }
 
             Location<World> target = new Location<>(p.getWorld(), x, y, z);
-            p.setLocationSafely(target);
+            UltimateCore.get().getTeleportService().createTeleportRequest(sender, Arrays.asList(p), new Transform<>(target), teleportRequest -> {
+                //Complete
+                p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
+            }, teleportRequest -> {
+                //Cancel
+            });
         } else if (args.length == 2) {
             if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_OTHERS.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
@@ -131,7 +139,11 @@ public class TeleportCommand implements Command {
             }
 
             //Teleport
-            e.forEach(en -> en.setTransform(t.getTransform()));
+            UltimateCore.get().getTeleportService().createTeleportRequest(sender, e, t::getTransform, teleportRequest -> {
+                //Complete
+                sender.sendMessage(Messages.getFormatted("teleport.command.teleport.others", "%target1%", VariableUtil.getNamesEntity(e), "%target2%", VariableUtil.getNameEntity(t)));
+            }, teleportRequest -> {
+            });
             return CommandResult.success();
         }
         sender.sendMessage(getUsage());

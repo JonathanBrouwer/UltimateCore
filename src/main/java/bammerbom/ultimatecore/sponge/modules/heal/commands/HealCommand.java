@@ -91,8 +91,8 @@ public class HealCommand implements Command {
         Player t;
         if (Sponge.getServer().getPlayer(args[0]).isPresent()) {
             t = Sponge.getServer().getPlayer(args[0]).get();
-            sender.sendMessage(Messages.getFormatted("heal.command.heal.success.self", "%player%", VariableUtil.getName(t)));
-            t.sendMessage(Messages.getFormatted("heal.command.heal.success.others", "%sender%", VariableUtil.getName(sender)));
+            sender.sendMessage(Messages.getFormatted("heal.command.heal.success.self", "%player%", VariableUtil.getNameEntity(t)));
+            t.sendMessage(Messages.getFormatted("heal.command.heal.success.others", "%sender%", VariableUtil.getNameSource(sender)));
             t.offer(Keys.HEALTH, t.get(Keys.MAX_HEALTH).orElse(20.0));
             t.offer(Keys.POTION_EFFECTS, new ArrayList<>());
             t.offer(Keys.REMAINING_AIR, t.get(Keys.MAX_AIR).orElse(10));

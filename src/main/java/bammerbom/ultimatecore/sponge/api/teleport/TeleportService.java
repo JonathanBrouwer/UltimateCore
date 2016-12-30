@@ -23,10 +23,12 @@
  */
 package bammerbom.ultimatecore.sponge.api.teleport;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -36,23 +38,27 @@ public interface TeleportService {
      * Create a new teleport request, to teleport the entities to a target.
      * The consumer will be run when the teleport has completed.
      *
+     * @param source   The commandsource to send error messages to, can be null
      * @param entities The entities to teleport
      * @param target   The target to teleport the entities to
      * @param complete The consumer to be run when the teleport is completed
      * @return The teleport request
      */
-    TeleportRequest createTeleportRequest(List<Entity> entities, Transform<World> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel);
+    TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest>
+            cancel);
 
     /**
      * Create a new teleport request, to teleport the entities to a target.
      * The consumer will be run when the teleport has completed.
      *
+     * @param source   The commandsource to send error messages to, can be null
      * @param entities The entities to teleport
      * @param target   The target to teleport the entities to
      * @param complete The consumer to be run when the teleport is completed
      * @return The teleport request
      */
-    TeleportRequest createTeleportRequest(List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete, Consumer<TeleportRequest> cancel);
+    TeleportRequest createTeleportRequest(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<TeleportRequest> complete,
+                                          Consumer<TeleportRequest> cancel);
 
     /**
      * Returns a list of all unfinished teleport requests.

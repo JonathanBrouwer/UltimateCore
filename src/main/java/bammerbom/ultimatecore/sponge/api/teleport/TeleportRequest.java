@@ -1,10 +1,12 @@
 package bammerbom.ultimatecore.sponge.api.teleport;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -54,6 +56,12 @@ public interface TeleportRequest {
      * @return The current state.
      */
     int getState();
+
+    /**
+     * Returns the command source to send error messages to, when something goes wrong.
+     * This can be absent.
+     */
+    Optional<CommandSource> getCommandSource();
 
     /**
      * Returns a list of entities which will be teleported to the {@link #getTarget() target} when the request has been completed.

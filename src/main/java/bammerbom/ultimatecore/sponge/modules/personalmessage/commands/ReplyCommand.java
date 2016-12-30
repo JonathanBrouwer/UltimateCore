@@ -106,7 +106,7 @@ public class ReplyCommand implements Command {
         }
 
         String message = StringUtil.getFinalArg(args, 0);
-        Text fmessage = Messages.getFormatted("personalmessage.command.personalmessage.format.receive", "%player%", VariableUtil.getName(sender), "%message%", message);
+        Text fmessage = Messages.getFormatted("personalmessage.command.personalmessage.format.receive", "%player%", VariableUtil.getNameSource(sender), "%message%", message);
 
         //Event
         Cause cause = Cause.builder().owner(UltimateCore.get()).named("sender", sender).named("target", t).build();
@@ -133,7 +133,7 @@ public class ReplyCommand implements Command {
                 user2.offer(PersonalmessageKeys.REPLY, sender instanceof Player ? ((Player) sender).getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000"));
             }
             //TODO better system for this message?
-            Text send = Messages.getFormatted("personalmessage.command.personalmessage.format.send", "%player%", VariableUtil.getName(t), "%message%", message);
+            Text send = Messages.getFormatted("personalmessage.command.personalmessage.format.send", "%player%", VariableUtil.getNameSource(t), "%message%", message);
             sender.sendMessage(send);
             return CommandResult.success();
         } else {

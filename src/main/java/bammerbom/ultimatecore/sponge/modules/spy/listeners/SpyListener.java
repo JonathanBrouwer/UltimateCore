@@ -56,7 +56,7 @@ public class SpyListener {
                 if (s.getIdentifier().equals(p.getIdentifier()) || t.getIdentifier().equals(p.getIdentifier())) {
                     continue;
                 }
-                p.sendMessage(Messages.getFormatted("spy.format.messagespy", "%player%", VariableUtil.getName(s), "%target%", VariableUtil.getName(t), "%message%", ev
+                p.sendMessage(Messages.getFormatted("spy.format.messagespy", "%player%", VariableUtil.getNameSource(s), "%target%", VariableUtil.getNameSource(t), "%message%", ev
                         .getPMUnformattedMessage()));
             }
         }
@@ -76,7 +76,7 @@ public class SpyListener {
             //Ignored commands
             List<String> ignored = Arrays.asList("personalmessage", "pm", "dm", "msg", "w", "whisper", "tell", "reply", "respond", "r");
             if (ignored.contains(e.getCommand())) continue;
-            p.sendMessage(Messages.getFormatted("spy.format.commandspy", "%player%", VariableUtil.getName(t), "%message%", e.getCommand() + " " + e.getArguments()));
+            p.sendMessage(Messages.getFormatted("spy.format.commandspy", "%player%", VariableUtil.getNameEntity(t), "%message%", e.getCommand() + " " + e.getArguments()));
         }
     }
 }
