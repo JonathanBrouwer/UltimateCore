@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
 import bammerbom.ultimatecore.sponge.modules.mute.commands.MuteCommand;
 import bammerbom.ultimatecore.sponge.modules.mute.commands.UnmuteCommand;
 import bammerbom.ultimatecore.sponge.modules.mute.listeners.MuteListener;
+import bammerbom.ultimatecore.sponge.modules.mute.runnables.MuteTickRunnable;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Sponge;
@@ -61,6 +62,7 @@ public class MuteModule implements Module {
         UltimateCore.get().getCommandService().register(new MuteCommand());
         UltimateCore.get().getCommandService().register(new UnmuteCommand());
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new MuteListener());
+        UltimateCore.get().getTickService().addRunnable("mute", new MuteTickRunnable());
     }
 
     @Override
