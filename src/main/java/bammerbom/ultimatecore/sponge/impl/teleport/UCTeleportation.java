@@ -68,7 +68,7 @@ public class UCTeleportation implements Teleportation {
             throw new IllegalStateException();
         }
         state = 1;
-        remainingHandlers = UltimateCore.get().getTeleportService().getHandlers();
+        remainingHandlers = new ArrayList<>(UltimateCore.get().getTeleportService().getHandlers());
         new ArrayList<>(remainingHandlers).forEach(handler -> {
             handler.accept(this);
             remainingHandlers.remove(handler);

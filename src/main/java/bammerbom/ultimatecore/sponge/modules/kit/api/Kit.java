@@ -51,40 +51,40 @@ public class Kit {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public Text getDescription() {
         return description;
-    }
-
-    public List<ItemStackSnapshot> getItems() {
-        return items;
-    }
-
-    public List<String> getCommands() {
-        return commands;
-    }
-
-    public Long getCooldown() {
-        return cooldown;
-    }
-
-    public void setCommands(List<String> commands) {
-        this.commands = commands;
-    }
-
-    public void setCooldown(Long cooldown) {
-        this.cooldown = cooldown;
     }
 
     public void setDescription(Text description) {
         this.description = description;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public List<ItemStackSnapshot> getItems() {
+        return items;
     }
 
     public void setItems(List<ItemStackSnapshot> items) {
         this.items = items;
+    }
+
+    public List<String> getCommands() {
+        return commands;
+    }
+
+    public void setCommands(List<String> commands) {
+        this.commands = commands;
+    }
+
+    public Long getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(Long cooldown) {
+        this.cooldown = cooldown;
     }
 
     public static class KitSerializer implements TypeSerializer<Kit> {

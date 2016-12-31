@@ -64,6 +64,7 @@ public class Modules {
     public static Optional<Module> FLY = service.getModule("fly");
     public static Optional<Module> FREEZE = service.getModule("freeze");
     public static Optional<Module> GAMEMODE = service.getModule("gamemode");
+    public static Optional<Module> GEOIP = service.getModule("geoip");
     public static Optional<Module> HOLOGRAM = service.getModule("holograms");
     public static Optional<Module> HOME = service.getModule("home");
     public static Optional<Module> HEAL = service.getModule("heal");
