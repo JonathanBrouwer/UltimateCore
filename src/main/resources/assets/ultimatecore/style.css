@@ -1,18 +1,28 @@
 .root {
-    background-color: #383838;
+    -fx-background-color: #383838;
+}
+
+.label {
+    -fx-text-fill: #e8e8e8;
 }
 
 .button-1 {
-    background-color: #57964B;
-    font-weight: bold;
+    -fx-background-color: #57964B;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 4;
+    -fx-font-weight: bold;
 }
 
 .button-2 {
-    background-color: #0EA181;
-    font-weight: bold;
+    -fx-background-color: #0EA181;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 4;
+    -fx-font-weight: bold;
 }
 
 .button-close {
-    background-color: #AB4642;
-    font-weight: bold;
+    -fx-background-color: #AB4642;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 4;
+    -fx-font-weight: bold;
 }
