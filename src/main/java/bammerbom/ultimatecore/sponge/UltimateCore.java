@@ -37,6 +37,7 @@ import bammerbom.ultimatecore.sponge.api.user.UserService;
 import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import bammerbom.ultimatecore.sponge.config.ModulesConfig;
+import bammerbom.ultimatecore.sponge.config.serializers.ItemStackSnapshotSerializer;
 import bammerbom.ultimatecore.sponge.config.serializers.TransformSerializer;
 import bammerbom.ultimatecore.sponge.config.serializers.Vector3dSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
@@ -62,6 +63,7 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.ServiceManager;
 
@@ -97,6 +99,7 @@ public class UltimateCore {
             //Load utils
             ServerID.start();
             Messages.reloadEnglishMessages();
+            TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ItemStackSnapshot.class), new ItemStackSnapshotSerializer());
             TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Vector3d.class), new Vector3dSerializer());
             TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Transform.class), new TransformSerializer());
             GeneralConfig.reload();
