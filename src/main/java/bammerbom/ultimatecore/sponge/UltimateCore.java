@@ -32,6 +32,7 @@ import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.teleport.TeleportService;
+import bammerbom.ultimatecore.sponge.api.tick.TickService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
 import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
@@ -42,6 +43,7 @@ import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
 import bammerbom.ultimatecore.sponge.impl.teleport.UCTeleportService;
+import bammerbom.ultimatecore.sponge.impl.tick.UCTickService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
@@ -108,6 +110,8 @@ public class UltimateCore {
             UCUserService userService = new UCUserService();
             UCPermissionService permissionService = new UCPermissionService();
             UCTeleportService teleportService = new UCTeleportService();
+            UCTickService tickService = new UCTickService();
+            tickService.start();
 
             //Register services
             ServiceManager sm = Sponge.getServiceManager();
@@ -116,6 +120,7 @@ public class UltimateCore {
             sm.setProvider(this, UserService.class, userService);
             sm.setProvider(this, PermissionService.class, permissionService);
             sm.setProvider(this, TeleportService.class, teleportService);
+            sm.setProvider(this, TickService.class, tickService);
 
             //Load modules
             for (Module module : moduleService.findModules()) {
@@ -229,6 +234,11 @@ public class UltimateCore {
     public TeleportService getTeleportService() {
         ServiceManager manager = Sponge.getServiceManager();
         return manager.provide(TeleportService.class).orElse(null);
+    }
+
+    public TickService getTickService() {
+        ServiceManager manager = Sponge.getServiceManager();
+        return manager.provide(TickService.class).orElse(null);
     }
 
     public Optional<SignService> getSignService() {
