@@ -29,4 +29,7 @@ import org.spongepowered.api.text.Text;
 
 public class ItemPermissions {
     public static Permission UC_MORE = Permission.create("uc.more", "item", PermissionLevel.ADMIN, "more", Text.of("Allows you to use the more command."));
+    public static Permission UC_REPAIR = Permission.create("uc.repair", "item", PermissionLevel.ADMIN, "repair", Text.of("Allows you to use the repair command for both all and one item."));
+    public static Permission UC_REPAIR_ALL = Permission.create("uc.repair.all", "item", PermissionLevel.ADMIN, "repair", Text.of("Allows you to use the repair command for all items."));
+    public static Permission UC_REPAIR_ONE = Permission.create("uc.repair.one", "item", PermissionLevel.ADMIN, "repair", Text.of("Allows you to use the repair command for one item."));
 }

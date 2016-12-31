@@ -48,7 +48,7 @@ public class ConnectionmessagesListener {
 
         //TODO better way. User files?
         //TODO https://github.com/SpongePowered/SpongeAPI/issues/1446
-        if (diff < 5 && diff > -5) {
+        if (diff < 2 && diff > -2) {
             //User joined for the first time
             if (config.get().getNode("firstjoin", "enable").getBoolean()) {
                 Text fjmessage = Messages.toText(config.get().getNode("firstjoin", "format").getString());
