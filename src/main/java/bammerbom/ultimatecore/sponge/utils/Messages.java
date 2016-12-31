@@ -29,6 +29,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.asset.Asset;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextParseException;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
@@ -242,6 +243,7 @@ public class Messages {
         } else if (EN_US.containsKey(key)) {
             raw = EN_US.get(key);
         } else {
+            Messages.log(Text.of(TextColors.RED, "ERROR: Failed to get message for key " + key));
             return null;
         }
         String first = null;
