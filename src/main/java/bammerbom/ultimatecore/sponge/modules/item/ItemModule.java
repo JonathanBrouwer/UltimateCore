@@ -41,7 +41,7 @@ public class ItemModule implements Module {
 
     @Override
     public Optional<ModuleConfig> getConfig() {
-        return null;
+        return Optional.empty();
     }
 
     @Override
