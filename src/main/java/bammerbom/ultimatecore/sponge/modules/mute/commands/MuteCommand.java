@@ -105,8 +105,7 @@ public class MuteCommand implements Command {
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
         ut.offer(MuteKeys.MUTE, mute);
 
-        sender.sendMessage(Messages.getFormatted("mute.command.mute.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil
-                .format(time)), "%reason%", reason));
+        sender.sendMessage(Messages.getFormatted("mute.command.mute.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
         t.sendMessage(Messages.getFormatted("mute.muted", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
         return CommandResult.success();
     }

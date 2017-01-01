@@ -31,11 +31,8 @@ public class HealPermissions {
     public static Permission UC_HEAL = Permission.create("uc.heal", "heal", PermissionLevel.ADMIN, "heal", Text.of("Allows you to use the heal command."));
     public static Permission UC_HEAL_OTHERS = Permission.create("uc.heal.others", "heal", PermissionLevel.ADMIN, "heal", Text.of("Allows you to use the heal command on other players."));
     public static Permission UC_SETHEALTH = Permission.create("uc.sethealth", "heal", PermissionLevel.ADMIN, "sethealth", Text.of("Allows you to use the sethealth command."));
-    public static Permission UC_SETHEALTH_OTHERS = Permission.create("uc.sethealth.others", "heal", PermissionLevel.ADMIN, "sethealth", Text.of("Allows you to use the sethealth command on " +
-            "other players."));
-    public static Permission UC_SETMAXHEALTH = Permission.create("uc.setmaxhealth", "heal", PermissionLevel.ADMIN, "setmaxhealth", Text.of("Allows you to use the setmaxhealth command on other " +
-            "players."));
-    public static Permission UC_SETMAXHEALTH_OTHERS = Permission.create("uc.setmaxhealth.others", "heal", PermissionLevel.ADMIN, "setmaxhealth", Text.of("Allows you to use the setmaxhealth " +
-            "command on other players."));
+    public static Permission UC_SETHEALTH_OTHERS = Permission.create("uc.sethealth.others", "heal", PermissionLevel.ADMIN, "sethealth", Text.of("Allows you to use the sethealth command on other players."));
+    public static Permission UC_SETMAXHEALTH = Permission.create("uc.setmaxhealth", "heal", PermissionLevel.ADMIN, "setmaxhealth", Text.of("Allows you to use the setmaxhealth command on other players."));
+    public static Permission UC_SETMAXHEALTH_OTHERS = Permission.create("uc.setmaxhealth.others", "heal", PermissionLevel.ADMIN, "setmaxhealth", Text.of("Allows you to use the setmaxhealth command on other players."));
 
 }

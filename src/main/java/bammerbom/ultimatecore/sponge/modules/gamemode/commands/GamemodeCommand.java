@@ -58,9 +58,7 @@ public class GamemodeCommand implements Command {
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(GamemodePermissions.UC_GAMEMODE, GamemodePermissions.UC_GAMEMODE_ADVENTURE, GamemodePermissions.UC_GAMEMODE_CREATIVE, GamemodePermissions.UC_GAMEMODE_SURVIVAL,
-                GamemodePermissions.UC_GAMEMODE_SPECTATOR, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE, GamemodePermissions.UC_GAMEMODE_OTHERS_CREATIVE,
-                GamemodePermissions.UC_GAMEMODE_OTHERS_SURVIVAL, GamemodePermissions.UC_GAMEMODE_OTHERS_SPECTATOR);
+        return Arrays.asList(GamemodePermissions.UC_GAMEMODE, GamemodePermissions.UC_GAMEMODE_ADVENTURE, GamemodePermissions.UC_GAMEMODE_CREATIVE, GamemodePermissions.UC_GAMEMODE_SURVIVAL, GamemodePermissions.UC_GAMEMODE_SPECTATOR, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE, GamemodePermissions.UC_GAMEMODE_OTHERS_CREATIVE, GamemodePermissions.UC_GAMEMODE_OTHERS_SURVIVAL, GamemodePermissions.UC_GAMEMODE_OTHERS_SPECTATOR);
     }
 
     @Override
@@ -108,16 +106,13 @@ public class GamemodeCommand implements Command {
                 if (gm == GameModes.SURVIVAL && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS_SURVIVAL.get())) {
                     sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                     return CommandResult.empty();
-                } else if (gm == GameModes.CREATIVE && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS_CREATIVE
-                        .get())) {
+                } else if (gm == GameModes.CREATIVE && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS_CREATIVE.get())) {
                     sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                     return CommandResult.empty();
-                } else if (gm == GameModes.ADVENTURE && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE
-                        .get())) {
+                } else if (gm == GameModes.ADVENTURE && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE.get())) {
                     sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                     return CommandResult.empty();
-                } else if (gm == GameModes.SPECTATOR && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS_SPECTATOR
-                        .get())) {
+                } else if (gm == GameModes.SPECTATOR && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS_SPECTATOR.get())) {
                     sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                     return CommandResult.empty();
                 }

@@ -105,8 +105,7 @@ public class UltimatecoreCommand implements Command {
             return CommandResult.success();
         }
         if (args[0].equalsIgnoreCase("modules")) {
-            List<String> modules = UltimateCore.get().getModuleService().getRegisteredModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default")).collect
-                    (Collectors.toList());
+            List<String> modules = UltimateCore.get().getModuleService().getRegisteredModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default")).collect(Collectors.toList());
             sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules)));
             return CommandResult.success();
         }

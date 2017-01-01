@@ -43,8 +43,7 @@ public class MuteListener {
         if (up.get(MuteKeys.MUTE).isPresent()) {
             Mute mute = up.get(MuteKeys.MUTE).get();
             event.setCancelled(true);
-            p.sendMessage(Messages.getFormatted("mute.muted", "%time%", (mute.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : Text.of(TimeUtil.formatDateDiff(mute.getEndtime()))),
-                    "%reason%", mute.getReason()));
+            p.sendMessage(Messages.getFormatted("mute.muted", "%time%", (mute.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : Text.of(TimeUtil.formatDateDiff(mute.getEndtime()))), "%reason%", mute.getReason()));
         }
     }
 }

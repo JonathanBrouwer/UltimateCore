@@ -36,8 +36,7 @@ import java.net.URL;
 public class UsageGenerator {
     public static Text usage(Command cmd, Text usage) {
         try {
-            return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/" + cmd
-                    .getIdentifier()))).build();
+            return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/" + cmd.getIdentifier()))).build();
         } catch (MalformedURLException e) {
             //Idk what happened here
             //TODO ErrorLogger
@@ -48,8 +47,7 @@ public class UsageGenerator {
 
     public static Text shortDescription(Command cmd, Text desc) {
         try {
-            return desc.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.shortdescription.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org" +
-                    "/features/cmd/" + cmd.getIdentifier()))).build();
+            return desc.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.shortdescription.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/" + cmd.getIdentifier()))).build();
         } catch (MalformedURLException e) {
             //Idk what happened here
             //TODO ErrorLogger

@@ -56,8 +56,7 @@ public class AfkTitleTask implements Runnable {
                 } else {
                     subtitle = Messages.getFormatted("afk.title.subtitle.kick", "%time%", TimeUtil.format(timediff, 3, 11));
                 }
-                if (config.getNode("title", "subtitle").getBoolean(false) && (!player.hasPermission(AfkPermissions.UC_AFK_EXEMPT.get()) || config.getNode("title", "subtitle-exempt").getBoolean
-                        (false))) {
+                if (config.getNode("title", "subtitle").getBoolean(false) && (!player.hasPermission(AfkPermissions.UC_AFK_EXEMPT.get()) || config.getNode("title", "subtitle-exempt").getBoolean(false))) {
                     //Show subtitle
                     player.sendTitle(Title.builder().title(title).subtitle(subtitle).fadeIn(0).fadeOut(20).stay(config.getNode("title", "subtitle-refresh").getInt()).build());
                 } else {

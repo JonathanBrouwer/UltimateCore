@@ -47,8 +47,7 @@ public class TextUtil {
         //Get all chars
         for (Text child : children) {
             for (char c : getContent(child).toCharArray()) {
-                LiteralText.Builder builder = LiteralText.builder(c).format(child.getFormat()).onClick(child.getClickAction().orElse(null)).onHover(child.getHoverAction().orElse(null)).onShiftClick
-                        (child.getShiftClickAction().orElse(null));
+                LiteralText.Builder builder = LiteralText.builder(c).format(child.getFormat()).onClick(child.getClickAction().orElse(null)).onHover(child.getHoverAction().orElse(null)).onShiftClick(child.getShiftClickAction().orElse(null));
                 chars.add(builder.build());
             }
         }

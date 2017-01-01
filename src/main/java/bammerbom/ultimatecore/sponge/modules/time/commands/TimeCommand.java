@@ -83,24 +83,21 @@ public class TimeCommand implements Command {
                 Long result;
                 //Parsing & Permission checks
                 if (args[1].equalsIgnoreCase("daytime")) {
-                    if (!sender.hasPermission(TimePermissions.UC_TIME.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY.get()) && !sender.hasPermission(TimePermissions
-                            .UC_TIME_QUERY_DAYTIME.get())) {
+                    if (!sender.hasPermission(TimePermissions.UC_TIME.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY_DAYTIME.get())) {
                         sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                         return CommandResult.empty();
                     }
                     result = world.getProperties().getWorldTime() % 24000;
                     sender.sendMessage(Messages.getFormatted("time.command.time.query.daytime", "%daytime%", result));
                 } else if (args[1].equalsIgnoreCase("day") || args[1].equalsIgnoreCase("days")) {
-                    if (!sender.hasPermission(TimePermissions.UC_TIME.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY.get()) && !sender.hasPermission(TimePermissions
-                            .UC_TIME_QUERY_DAYS.get())) {
+                    if (!sender.hasPermission(TimePermissions.UC_TIME.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY_DAYS.get())) {
                         sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                         return CommandResult.empty();
                     }
                     result = world.getProperties().getWorldTime() / 24000;
                     sender.sendMessage(Messages.getFormatted("time.command.time.query.day", "%days%", result));
                 } else if (args[1].equalsIgnoreCase("gametime")) {
-                    if (!sender.hasPermission(TimePermissions.UC_TIME.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY.get()) && !sender.hasPermission(TimePermissions
-                            .UC_TIME_QUERY_GAMETIME.get())) {
+                    if (!sender.hasPermission(TimePermissions.UC_TIME.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY_GAMETIME.get())) {
                         sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                         return CommandResult.empty();
                     }
@@ -112,8 +109,7 @@ public class TimeCommand implements Command {
                 }
                 return CommandResult.builder().queryResult(result.intValue()).build();
             } else {
-                if (!sender.hasPermission(TimePermissions.UC_TIME.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY.get()) && !sender.hasPermission(TimePermissions
-                        .UC_TIME_QUERY_FORMATTED.get())) {
+                if (!sender.hasPermission(TimePermissions.UC_TIME.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY.get()) && !sender.hasPermission(TimePermissions.UC_TIME_QUERY_FORMATTED.get())) {
                     sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                     return CommandResult.empty();
                 }

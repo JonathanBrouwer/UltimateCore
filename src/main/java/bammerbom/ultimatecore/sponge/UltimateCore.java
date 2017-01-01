@@ -76,6 +76,7 @@ import java.util.logging.Logger;
 public class UltimateCore {
 
     private static UltimateCore instance = null;
+
     @Inject
     @ConfigDir(sharedRoot = false)
     public Path dir;

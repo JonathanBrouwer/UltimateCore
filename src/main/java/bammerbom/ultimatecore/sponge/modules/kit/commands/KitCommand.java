@@ -98,8 +98,7 @@ public class KitCommand implements Command {
                 if (!sender.hasPermission(KitPermissions.UC_KIT.get()) && !sender.hasPermission("uc.kit." + kit.getId().toLowerCase())) {
                     continue;
                 }
-                texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getId(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages
-                        .getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getId()))).onClick(TextActions.runCommand("/kit " + kit.getId())).build());
+                texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getId(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getId()))).onClick(TextActions.runCommand("/kit " + kit.getId())).build());
             }
             //If empty send message
             if (texts.isEmpty()) {
@@ -110,8 +109,7 @@ public class KitCommand implements Command {
             Collections.sort(texts);
 
             PaginationService paginationService = Sponge.getServiceManager().provide(PaginationService.class).get();
-            PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted("kit.command.kitlist.header").toBuilder().format(Messages.getFormatted(
-                    "kit.command.kitlist.char").getFormat()).build()).padding(Messages.getFormatted("kit.command.kitlist.char")).build();
+            PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted("kit.command.kitlist.header").toBuilder().format(Messages.getFormatted("kit.command.kitlist.char").getFormat()).build()).padding(Messages.getFormatted("kit.command.kitlist.char")).build();
             paginationList.sendTo(sender);
             return CommandResult.empty();
         }

@@ -105,8 +105,7 @@ public class MessagespyCommand implements Command {
             user.offer(SpyKeys.MESSAGESPY_ENABLED, status);
 
             t.sendMessage(Messages.getFormatted("spy.command.messagespy.self", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled")));
-            sender.sendMessage(Messages.getFormatted("spy.command.messagespy.others", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled"), "%player%",
-                    VariableUtil.getNameEntity(t)));
+            sender.sendMessage(Messages.getFormatted("spy.command.messagespy.others", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled"), "%player%", VariableUtil.getNameEntity(t)));
             return CommandResult.success();
         }
     }

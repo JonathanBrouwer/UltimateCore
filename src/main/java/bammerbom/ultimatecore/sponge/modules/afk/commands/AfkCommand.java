@@ -106,8 +106,7 @@ public class AfkCommand implements Command {
                 AfkDetectionListener.afktime.put(user.getIdentifier(), 0L);
                 user.offer(AfkKeys.LAST_LOCATION, new Transform<>(user.getPlayer().get().getLocation(), user.getPlayer().get().getRotation(), user.getPlayer().get().getScale()));
             } else {
-                Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.nolonger", "%player%", user.getUser().getName(), "%time%", TimeUtil.formatDateDiff(user
-                        .get(AfkKeys.AFK_TIME).get(), 2, null)));
+                Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.nolonger", "%player%", user.getUser().getName(), "%time%", TimeUtil.formatDateDiff(user.get(AfkKeys.AFK_TIME).get(), 2, null)));
                 user.offer(AfkKeys.AFK_TIME, null);
                 user.offer(AfkKeys.AFK_MESSAGE, null);
             }
