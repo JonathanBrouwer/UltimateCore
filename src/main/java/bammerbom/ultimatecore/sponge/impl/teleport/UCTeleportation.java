@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -46,13 +47,14 @@ public class UCTeleportation implements Teleportation {
     private CommandSource source;
     private List<UUID> entities;
     private Supplier<Transform<World>> target;
-    private Consumer<Teleportation> cancel;
+    private BiConsumer<Teleportation, String> cancel;
     private Consumer<Teleportation> complete;
     private List<Consumer<Teleportation>> remainingHandlers;
     private boolean safe;
+    private Long createTime;
 
-    public UCTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, Consumer<Teleportation> cancel,
-                           boolean safe) {
+    public UCTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String>
+            cancel, boolean safe) {
         this.source = source;
         this.entities = new ArrayList<>();
         entities.forEach(en -> this.entities.add(en.getUniqueId()));
@@ -60,6 +62,7 @@ public class UCTeleportation implements Teleportation {
         this.cancel = cancel;
         this.complete = complete;
         this.safe = safe;
+        this.createTime = System.currentTimeMillis();
     }
 
     @Override
@@ -104,12 +107,13 @@ public class UCTeleportation implements Teleportation {
     }
 
     @Override
-    public void cancel() {
+    public void cancel(String reason) {
         if (state >= 3) {
             throw new IllegalStateException();
         }
         state = 3;
-        getCancelConsumer().accept(this);
+        getCancelConsumer().accept(this, reason);
+        UltimateCore.get().getTeleportService().getUnfinishedTeleportations().remove(this);
     }
 
     @Override
@@ -126,6 +130,7 @@ public class UCTeleportation implements Teleportation {
             en.setScale(t.getScale());
         });
         getCompleteConsumer().accept(this);
+        UltimateCore.get().getTeleportService().getUnfinishedTeleportations().remove(this);
     }
 
     @Override
@@ -160,12 +165,17 @@ public class UCTeleportation implements Teleportation {
     }
 
     @Override
-    public Consumer<Teleportation> getCancelConsumer() {
+    public BiConsumer<Teleportation, String> getCancelConsumer() {
         return cancel;
     }
 
     @Override
     public boolean isSafe() {
         return safe;
+    }
+
+    @Override
+    public Long getCreationTime() {
+        return createTime;
     }
 }

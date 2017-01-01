@@ -27,6 +27,8 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.teleport.commands.TeleportCommand;
+import bammerbom.ultimatecore.sponge.modules.teleport.commands.TeleportacceptCommand;
+import bammerbom.ultimatecore.sponge.modules.teleport.commands.TeleportaskCommand;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.event.Listener;
@@ -56,6 +58,8 @@ public class TeleportModule implements Module {
     @Override
     public void onInit(GameInitializationEvent event) {
         Sponge.getEventManager().registerListeners(UltimateCore.get(), this);
+        UltimateCore.get().getCommandService().register(new TeleportaskCommand());
+        UltimateCore.get().getCommandService().register(new TeleportacceptCommand());
     }
 
     @Override

@@ -36,4 +36,12 @@ public class TeleportPermissions {
             + " command to teleport yourself to certain coordinates."));
     public static Permission UC_TELEPORT_COORDINATES_OTHERS = Permission.create("uc.teleport.coordinates.others", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to " +
             "use the teleport command to teleport someone else to certain coordinates."));
+
+    public static Permission UC_TELEPORTASK = Permission.create("uc.teleportask", "teleport", PermissionLevel.EVERYONE, "teleportask", Text.of("Allows you to use the teleportask command"));
+    public static Permission UC_TELEPORTACCEPT = Permission.create("uc.teleportaccept", "teleport", PermissionLevel.EVERYONE, "teleportaccept", Text.of("Allows you to use the " +
+            "teleportaccept command"));
+    public static Permission UC_TELEPORTDENY = Permission.create("uc.teleportdeny", "teleport", PermissionLevel.EVERYONE, "teleportdeny", Text.of("Allows you to use the " + "teleportdeny " +
+            "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" +
+            "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" +
+            "" + "" + "" + "" + "" + "command"));
 }

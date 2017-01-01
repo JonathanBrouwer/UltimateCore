@@ -25,45 +25,68 @@ package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
+import bammerbom.ultimatecore.sponge.modules.teleport.api.TpaRequest;
+import bammerbom.ultimatecore.sponge.modules.teleport.utils.TeleportUtil;
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class TeleportnativeCommand implements Command {
+public class TeleportacceptCommand implements Command {
     @Override
     public Module getModule() {
-        return null;
+        return Modules.TELEPORT.get();
     }
 
     @Override
     public String getIdentifier() {
-        return null;
+        return "teleportaccept";
     }
 
     @Override
     public Permission getPermission() {
-        return null;
+        return TeleportPermissions.UC_TELEPORTACCEPT;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return null;
+        return Arrays.asList(TeleportPermissions.UC_TELEPORTACCEPT);
     }
 
     @Override
     public List<String> getAliases() {
-        return null;
+        return Arrays.asList("teleportaccept", "tpaccept", "tpyes");
     }
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        return null;
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            return CommandResult.empty();
+        }
+        Player p = (Player) sender;
+        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORTACCEPT.get())) {
+            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            return CommandResult.empty();
+        }
+
+        //Find request
+        TpaRequest request = TeleportUtil.getTpaRequestFor(p, args.length >= 1 ? args[0] : null).orElse(null);
+        request.getTeleportation().start();
+        //The teleportask or teleportaskhere command handles the message
+        return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
         return null;
     }
+
+
 }

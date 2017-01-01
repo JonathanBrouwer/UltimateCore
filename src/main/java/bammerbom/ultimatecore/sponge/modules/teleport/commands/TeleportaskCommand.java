@@ -21,53 +21,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.back.commands;
+package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.modules.back.api.BackKeys;
-import bammerbom.ultimatecore.sponge.modules.back.api.BackPermissions;
+import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportKeys;
+import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
+import bammerbom.ultimatecore.sponge.modules.teleport.api.TpaRequest;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.Selector;
+import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.world.World;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
-public class BackCommand implements Command {
+public class TeleportaskCommand implements Command {
     @Override
     public Module getModule() {
-        return Modules.BACK.get();
+        return Modules.TELEPORT.get();
     }
 
     @Override
     public String getIdentifier() {
-        return "back";
+        return "teleportask";
     }
 
     @Override
     public Permission getPermission() {
-        return BackPermissions.UC_BACK;
+        return TeleportPermissions.UC_TELEPORTASK;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(BackPermissions.UC_BACK, BackPermissions.UC_BACK_ONDEATH);
+        return Arrays.asList(TeleportPermissions.UC_TELEPORTASK);
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("back", "return");
+        return Arrays.asList("teleportask", "teleporta", "tpa", "asktp", "askteleport");
     }
 
     @Override
@@ -76,28 +77,38 @@ public class BackCommand implements Command {
             sender.sendMessage(Messages.getFormatted("core.noplayer"));
             return CommandResult.empty();
         }
-        if (!sender.hasPermission(BackPermissions.UC_BACK.get())) {
+        Player p = (Player) sender;
+        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORTASK.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
-        Player p = (Player) sender;
-        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-        Optional<Transform<World>> loc = up.get(BackKeys.BACK);
-        if (!loc.isPresent()) {
-            sender.sendMessage(Messages.getFormatted("back.command.back.notfound"));
+        if (args.length == 0) {
+            sender.sendMessage(getUsage());
+            return CommandResult.empty();
+        }
+        Player t = Selector.one(sender, args[0]).orElse(null);
+        if (t == null) {
+            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
 
-        Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc.get(), tel -> {
-            sender.sendMessage(Messages.getFormatted("back.command.back.success"));
-        }, (tel, reason) -> {
+        UUID tpid = UUID.randomUUID();
+        Teleportation tel = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), t::getTransform, tele -> {
+            p.sendMessage(Messages.getFormatted("teleport.command.teleportask.accept", "%player%", t.getName()));
+        }, (tele, reason) -> {
+            p.sendMessage(Messages.getFormatted("teleport.command.teleportask.deny", "%player%", t.getName()));
         }, true);
-        tp.start();
+        HashMap<UUID, TpaRequest> tels = GlobalData.get(TeleportKeys.TELEPORT_ASK_REQUESTS).get();
+        tels.put(tpid, new TpaRequest(p, t, tel));
+        GlobalData.offer(TeleportKeys.TELEPORT_ASK_REQUESTS, tels);
+
+        sender.sendMessage(Messages.getFormatted("teleport.command.teleportask.send", "%player%", VariableUtil.getNameEntity(t)));
+        t.sendMessage(Messages.getFormatted("teleport.command.teleportask.receive", "%player%", VariableUtil.getNameSource(sender), "%tpid%", tpid));
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return new ArrayList<>();
+        return null;
     }
 }

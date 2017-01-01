@@ -95,7 +95,7 @@ public class TeleportCommand implements Command {
             Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), t::getTransform, teleportRequest -> {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.self", "%target%", VariableUtil.getNameEntity(t)));
-            }, teleportRequest -> {
+            }, (teleportRequest, reason) -> {
             }, true);
             request.start();
             return CommandResult.success();
@@ -124,7 +124,7 @@ public class TeleportCommand implements Command {
                     teleportRequest -> {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
-            }, teleportRequest -> {
+            }, (teleportRequest, reason) -> {
             }, false);
             request.start();
             return CommandResult.success();
@@ -149,7 +149,7 @@ public class TeleportCommand implements Command {
             Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, e, t::getTransform, teleportRequest -> {
                 //Complete
                 sender.sendMessage(Messages.getFormatted("teleport.command.teleport.others", "%target1%", VariableUtil.getNamesEntity(e), "%target2%", VariableUtil.getNameEntity(t)));
-            }, teleportRequest -> {
+            }, (teleportRequest, reason) -> {
             }, true);
             request.start();
             return CommandResult.success();
@@ -177,7 +177,7 @@ public class TeleportCommand implements Command {
             Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, e, new Transform<>(target), teleportRequest -> {
                 //Complete
                 sender.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
-            }, teleportRequest -> {
+            }, (teleportRequest, reason) -> {
             }, false);
             request.start();
             return CommandResult.success();
@@ -202,7 +202,7 @@ public class TeleportCommand implements Command {
                     teleportRequest -> {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
-            }, teleportRequest -> {
+            }, (teleportRequest, reason) -> {
             }, false);
             request.start();
             return CommandResult.success();
@@ -227,7 +227,7 @@ public class TeleportCommand implements Command {
             Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, e, new Transform<>(target), teleportRequest -> {
                 //Complete
                 sender.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
-            }, teleportRequest -> {
+            }, (teleportRequest, reason) -> {
             }, false);
             request.start();
             return CommandResult.success();

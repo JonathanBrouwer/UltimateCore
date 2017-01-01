@@ -30,6 +30,7 @@ import org.spongepowered.api.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -44,8 +45,8 @@ public interface TeleportService {
      * @param complete The consumer to be run when the teleport is completed
      * @return The teleportation
      */
-    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<Teleportation> complete, Consumer<Teleportation> cancel,
-                                      boolean safe);
+    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String>
+            cancel, boolean safe);
 
     /**
      * Create a new teleportation, to teleport the entities to a target.
@@ -57,8 +58,8 @@ public interface TeleportService {
      * @param complete The consumer to be run when the teleport is completed
      * @return The teleportation
      */
-    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, Consumer<Teleportation>
-            cancel, boolean safe);
+    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation,
+            String> cancel, boolean safe);
 
     /**
      * Returns a list of all unfinished teleportations.

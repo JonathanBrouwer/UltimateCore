@@ -7,6 +7,7 @@ import org.spongepowered.api.world.World;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -41,7 +42,7 @@ public interface Teleportation {
      * <p>
      * An {@link IllegalStateException} is thrown when the teleportation has already been cancelled.
      */
-    void cancel();
+    void cancel(String reason);
 
     /**
      * This will skip all remaining handlers and force complete the teleportation.
@@ -86,13 +87,21 @@ public interface Teleportation {
 
     /**
      * Returns the consumer which will be run after the teleportation has been cancelled.
+     * The arguments for the consumer are the teleportation and the reason of failure.
      *
      * @return The consumer
      */
-    Consumer<Teleportation> getCancelConsumer();
+    BiConsumer<Teleportation, String> getCancelConsumer();
 
     /**
      * Whether the teleportation should be safe
      */
     boolean isSafe();
+
+    /**
+     * Get the utc timestamp of when this teleportation was created.
+     *
+     * @return The utc timestamp of when this teleportation was created
+     */
+    Long getCreationTime();
 }
