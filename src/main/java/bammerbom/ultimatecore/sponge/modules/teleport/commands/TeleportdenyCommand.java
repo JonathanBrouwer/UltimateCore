@@ -23,29 +23,22 @@
  */
 package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
-import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportKeys;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TpaRequest;
+import bammerbom.ultimatecore.sponge.modules.teleport.utils.TeleportUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
-public class TeleportaskCommand implements Command {
+public class TeleportdenyCommand implements Command {
     @Override
     public Module getModule() {
         return Modules.TELEPORT.get();
@@ -53,22 +46,22 @@ public class TeleportaskCommand implements Command {
 
     @Override
     public String getIdentifier() {
-        return "teleportask";
+        return "teleportdeny";
     }
 
     @Override
     public Permission getPermission() {
-        return TeleportPermissions.UC_TELEPORTASK;
+        return TeleportPermissions.UC_TELEPORTDENY;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(TeleportPermissions.UC_TELEPORTASK);
+        return Arrays.asList(TeleportPermissions.UC_TELEPORTDENY);
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("teleportask", "teleporta", "tpa", "asktp", "askteleport");
+        return Arrays.asList("teleportdeny", "tpdeny", "tpno");
     }
 
     @Override
@@ -78,34 +71,20 @@ public class TeleportaskCommand implements Command {
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORTASK.get())) {
+        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORTDENY.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage());
+
+        //Find request
+        List<TpaRequest> requests = TeleportUtil.getTpdenyRequestFor(p, args.length >= 1 ? args[0] : null);
+        if (requests.isEmpty()) {
+            sender.sendMessage(Messages.getFormatted("teleport.command.teleportdeny.none"));
             return CommandResult.empty();
         }
-        Player t = Selector.one(sender, args[0]).orElse(null);
-        if (t == null) {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
-            return CommandResult.empty();
-        }
+        requests.forEach(request -> request.getTeleportation().cancel("tpdeny"));
 
-        UUID tpid = UUID.randomUUID();
-        Teleportation tel = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), t::getTransform, tele -> {
-            p.sendMessage(Messages.getFormatted("teleport.command.teleportask.accept", "%player%", t.getName()));
-        }, (tele, reason) -> {
-            if (reason.equalsIgnoreCase("tpdeny")) {
-                p.sendMessage(Messages.getFormatted("teleport.command.teleportask.deny", "%player%", t.getName()));
-            }
-        }, true);
-        HashMap<UUID, TpaRequest> tels = GlobalData.get(TeleportKeys.TELEPORT_ASK_REQUESTS).get();
-        tels.put(tpid, new TpaRequest(p, t, tel));
-        GlobalData.offer(TeleportKeys.TELEPORT_ASK_REQUESTS, tels);
-
-        sender.sendMessage(Messages.getFormatted("teleport.command.teleportask.send", "%player%", VariableUtil.getNameEntity(t)));
-        t.sendMessage(Messages.getFormatted("teleport.command.teleportask.receive", "%player%", VariableUtil.getNameSource(sender), "%tpid%", tpid));
+        sender.sendMessage(Messages.getFormatted("teleport.command.teleportdeny.success"));
         return CommandResult.success();
     }
 
@@ -113,4 +92,6 @@ public class TeleportaskCommand implements Command {
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
         return null;
     }
+
+
 }

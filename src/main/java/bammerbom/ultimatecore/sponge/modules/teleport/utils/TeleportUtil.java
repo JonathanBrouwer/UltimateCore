@@ -30,12 +30,10 @@ import bammerbom.ultimatecore.sponge.utils.Selector;
 import org.spongepowered.api.entity.living.player.Player;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class TeleportUtil {
-    public static Optional<TpaRequest> getTpaRequestFor(Player p, @Nullable String arg) {
+    public static Optional<TpaRequest> getTpacceptRequestFor(Player p, @Nullable String arg) {
         HashMap<UUID, TpaRequest> requests = GlobalData.get(TeleportKeys.TELEPORT_ASK_REQUESTS).get();
         HashMap<UUID, TpaRequest> requests2 = GlobalData.get(TeleportKeys.TELEPORT_ASKHERE_REQUESTS).get();
 
@@ -44,10 +42,10 @@ public class TeleportUtil {
             try {
 
                 UUID uuid = UUID.fromString(arg);
-                if (requests.containsKey(uuid) && requests.get(uuid).getAskerUUID() == p.getUniqueId()) {
+                if (requests.containsKey(uuid) && requests.get(uuid).getAskerUUID() == p.getUniqueId() && requests.get(uuid).getTeleportation().getState() == 0) {
                     return Optional.of(requests.get(uuid));
                 }
-                if (requests2.containsKey(uuid) && requests2.get(uuid).getAskerUUID() == p.getUniqueId()) {
+                if (requests2.containsKey(uuid) && requests2.get(uuid).getAskerUUID() == p.getUniqueId() && requests2.get(uuid).getTeleportation().getState() == 0) {
                     return Optional.of(requests2.get(uuid));
                 }
             } catch (Exception ignore) {
@@ -62,7 +60,7 @@ public class TeleportUtil {
         Long time = 0L;
         for (TpaRequest req : requests.values()) {
             if (t == null || (p.getUniqueId() == req.getReceiverUUID() && t.getUniqueId() == req.getAskerUUID())) {
-                if (req.getTeleportation().getCreationTime() > time) {
+                if (req.getTeleportation().getCreationTime() > time && req.getTeleportation().getState() == 0) {
                     request = req;
                     time = req.getTeleportation().getCreationTime();
                 }
@@ -70,12 +68,54 @@ public class TeleportUtil {
         }
         for (TpaRequest req : requests2.values()) {
             if (t == null || (p.getUniqueId() == req.getReceiverUUID() && t.getUniqueId() == req.getAskerUUID())) {
-                if (req.getTeleportation().getCreationTime() > time) {
+                if (req.getTeleportation().getCreationTime() > time && req.getTeleportation().getState() == 0) {
                     request = req;
                     time = req.getTeleportation().getCreationTime();
                 }
             }
         }
         return Optional.ofNullable(request);
+    }
+
+    //Seperate method, because if empty for tpdeny cancel all requests to the player
+    public static List<TpaRequest> getTpdenyRequestFor(Player p, @Nullable String arg) {
+        HashMap<UUID, TpaRequest> requests = GlobalData.get(TeleportKeys.TELEPORT_ASK_REQUESTS).get();
+        HashMap<UUID, TpaRequest> requests2 = GlobalData.get(TeleportKeys.TELEPORT_ASKHERE_REQUESTS).get();
+
+        if (arg != null) {
+            //Teleport id entered
+            try {
+
+                UUID uuid = UUID.fromString(arg);
+                if (requests.containsKey(uuid) && requests.get(uuid).getAskerUUID() == p.getUniqueId() && requests.get(uuid).getTeleportation().getState() == 0) {
+                    return Arrays.asList(requests.get(uuid));
+                }
+                if (requests2.containsKey(uuid) && requests2.get(uuid).getAskerUUID() == p.getUniqueId() && requests2.get(uuid).getTeleportation().getState() == 0) {
+                    return Arrays.asList(requests2.get(uuid));
+                }
+            } catch (Exception ignore) {
+            }
+        }
+
+        //Player entered
+        Player t = arg != null ? Selector.one(p, arg).orElse(null) : null;
+
+        //Select all valid requests
+        ArrayList<TpaRequest> crequest = new ArrayList<>();
+        for (TpaRequest req : requests.values()) {
+            if (t == null || (p.getUniqueId() == req.getReceiverUUID() && t.getUniqueId() == req.getAskerUUID())) {
+                if (req.getTeleportation().getState() == 0) {
+                    crequest.add(req);
+                }
+            }
+        }
+        for (TpaRequest req : requests2.values()) {
+            if (t == null || (p.getUniqueId() == req.getReceiverUUID() && t.getUniqueId() == req.getAskerUUID())) {
+                if (req.getTeleportation().getState() == 0) {
+                    crequest.add(req);
+                }
+            }
+        }
+        return crequest;
     }
 }

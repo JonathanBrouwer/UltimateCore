@@ -77,7 +77,11 @@ public class TeleportacceptCommand implements Command {
         }
 
         //Find request
-        TpaRequest request = TeleportUtil.getTpaRequestFor(p, args.length >= 1 ? args[0] : null).orElse(null);
+        TpaRequest request = TeleportUtil.getTpacceptRequestFor(p, args.length >= 1 ? args[0] : null).orElse(null);
+        if (request == null) {
+            sender.sendMessage(Messages.getFormatted("teleport.command.teleportaccept.none"));
+            return CommandResult.empty();
+        }
         request.getTeleportation().start();
         //The teleportask or teleportaskhere command handles the message
         return CommandResult.success();
