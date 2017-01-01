@@ -120,8 +120,7 @@ public class TeleportCommand implements Command {
             }
 
             Location<World> target = new Location<>(p.getWorld(), x, y, z);
-            Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()),
-                    teleportRequest -> {
+            Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()), teleportRequest -> {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
             }, (teleportRequest, reason) -> {
@@ -198,8 +197,7 @@ public class TeleportCommand implements Command {
             Double z = Double.parseDouble(args[2]);
 
             Location<World> target = new Location<>(p.getWorld(), x, y, z);
-            Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()),
-                    teleportRequest -> {
+            Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()), teleportRequest -> {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
             }, (teleportRequest, reason) -> {
