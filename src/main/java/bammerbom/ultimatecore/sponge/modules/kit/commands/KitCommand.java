@@ -110,8 +110,8 @@ public class KitCommand implements Command {
             Collections.sort(texts);
 
             PaginationService paginationService = Sponge.getServiceManager().provide(PaginationService.class).get();
-            PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted("kit.command.kitlist.header").toBuilder().format(Messages.getFormatted("kit" + "" +
-                    ".command.kitlist.char").getFormat()).build()).padding(Messages.getFormatted("kit.command.kitlist.char")).build();
+            PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted("kit.command.kitlist.header").toBuilder().format(Messages.getFormatted(
+                    "kit.command.kitlist.char").getFormat()).build()).padding(Messages.getFormatted("kit.command.kitlist.char")).build();
             paginationList.sendTo(sender);
             return CommandResult.empty();
         }

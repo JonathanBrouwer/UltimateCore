@@ -84,8 +84,8 @@ public class UCSignService implements SignService {
             return false;
         }
         signs.add(sign);
-        Permission use = Permission.create("uc.sign." + sign.getIdentifier() + ".use", sign.getModule(), PermissionLevel.EVERYONE, null, Text.of("Permission to use " + sign.getIdentifier() + "signs" +
-                "."));
+        Permission use = Permission.create("uc.sign." + sign.getIdentifier() + ".use", sign.getModule(), PermissionLevel.EVERYONE, null, Text.of("Permission to use " + sign.getIdentifier() +
+                "signs."));
         Permission create = Permission.create("uc.sign." + sign.getIdentifier() + ".create", sign.getModule(), PermissionLevel.ADMIN, null, Text.of("Permission to create " + sign.getIdentifier() +
                 "signs."));
         Permission destroy = Permission.create("uc.sign." + sign.getIdentifier() + ".destroy", sign.getModule(), PermissionLevel.ADMIN, null, Text.of("Permission to destroy " + sign.getIdentifier()

@@ -96,8 +96,8 @@ public class HomeCommand implements Command {
             }
             List<Text> entries = new ArrayList<>();
             for (Home home : homes) {
-                entries.add(Messages.getFormatted("home.command.homelist.entry", "%home%", home.getName()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("home.command" + ".homelist" +
-                        ".hoverentry", "%home%", home.getName()))).onClick(TextActions.runCommand("/home " + home.getName())).build());
+                entries.add(Messages.getFormatted("home.command.homelist.entry", "%home%", home.getName()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("home." +
+                        "command.homelist.hoverentry", "%home%", home.getName()))).onClick(TextActions.runCommand("/home " + home.getName())).build());
             }
             Collections.sort(entries);
 
