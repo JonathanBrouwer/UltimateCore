@@ -38,7 +38,9 @@ public class TeleportPermissions {
             "teleport command to teleport someone else to certain coordinates."));
 
     public static Permission UC_TELEPORTASK = Permission.create("uc.teleportask", "teleport", PermissionLevel.EVERYONE, "teleportask", Text.of("Allows you to use the teleportask command"));
-    public static Permission UC_TELEPORTACCEPT = Permission.create("uc.teleportaccept", "teleport", PermissionLevel.EVERYONE, "teleportaccept", Text.of("Allows you to use the teleportaccept "
-            + "command"));
+    public static Permission UC_TELEPORTASKHERE = Permission.create("uc.teleportaskhere", "teleport", PermissionLevel.EVERYONE, "teleportaskhere", Text.of("Allows you to use the teleportaskhere " +
+            "command"));
+    public static Permission UC_TELEPORTACCEPT = Permission.create("uc.teleportaccept", "teleport", PermissionLevel.EVERYONE, "teleportaccept", Text.of("Allows you to use the teleportaccept " +
+            "command"));
     public static Permission UC_TELEPORTDENY = Permission.create("uc.teleportdeny", "teleport", PermissionLevel.EVERYONE, "teleportdeny", Text.of("Allows you to use the teleportdeny command"));
 }

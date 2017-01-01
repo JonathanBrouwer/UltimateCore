@@ -79,8 +79,8 @@ public class TablistRunnable implements Runnable {
             //Names
             if (enablenames) {
                 new ArrayList<>(list.getEntries()).forEach(entry -> list.removeEntry(entry.getProfile().getUniqueId()));
-                names.forEach((player, name) -> list.addEntry(TabListEntry.builder().displayName(name).gameMode(player.gameMode().get()).latency(player.getConnection().getLatency()).list
-                        (list).profile(player.getProfile()).build()));
+                names.forEach((player, name) -> list.addEntry(TabListEntry.builder().displayName(name).gameMode(player.gameMode().get()).latency(player.getConnection().getLatency()).list(list)
+                        .profile(player.getProfile()).build()));
             }
         }
     }

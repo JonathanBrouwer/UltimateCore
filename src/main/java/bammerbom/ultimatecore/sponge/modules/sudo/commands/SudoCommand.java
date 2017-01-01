@@ -102,8 +102,8 @@ public class SudoCommand implements Command {
             }
         } else {
             //CHAT
-            MessageChannelEvent.Chat event = SpongeEventFactory.createMessageChannelEventChat(Cause.source(t).named(NamedCause.notifier(sender)).build(), t.getMessageChannel(), Optional
-                    .of(t.getMessageChannel()), new MessageEvent.MessageFormatter(Text.of(t.getName()), Text.of(message)), Text.of(message), false);
+            MessageChannelEvent.Chat event = SpongeEventFactory.createMessageChannelEventChat(Cause.source(t).named(NamedCause.notifier(sender)).build(), t.getMessageChannel(), Optional.of(t
+                    .getMessageChannel()), new MessageEvent.MessageFormatter(Text.of(t.getName()), Text.of(message)), Text.of(message), false);
             if (!Sponge.getEventManager().post(event)) {
                 //Success
                 t.getMessageChannel().send(t, event.getMessage(), ChatTypes.CHAT);

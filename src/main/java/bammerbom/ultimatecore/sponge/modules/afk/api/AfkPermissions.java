@@ -31,8 +31,7 @@ public class AfkPermissions {
     public static Permission UC_AFK = Permission.create("uc.afk", "afk", PermissionLevel.EVERYONE, "afk", Text.of("Allows you to toggle your own afk status."));
     public static Permission UC_AFK_MESSAGE = Permission.create("uc.afk.message", "afk", PermissionLevel.EVERYONE, "afk", Text.of("Allows you to provide a reason for being afk."));
     public static Permission UC_AFK_OTHERS = Permission.create("uc.afk.others", "afk", PermissionLevel.MOD, "afk", Text.of("Allows you to toggle another player's afk status."));
-    public static Permission UC_AFK_OTHERS_MESSAGE = Permission.create("uc.afk.others.message", "afk", PermissionLevel.MOD, "afk", Text.of("Allows you to provide an message while " +
-            "toggling another player's afk status."));
-    public static Permission UC_AFK_EXEMPT = Permission.create("uc.afk.exempt", "afk", PermissionLevel.VIP, null, Text.of("When you have this permission you can't be kicked for being " +
-            "afk."));
+    public static Permission UC_AFK_OTHERS_MESSAGE = Permission.create("uc.afk.others.message", "afk", PermissionLevel.MOD, "afk", Text.of("Allows you to provide an message while toggling " +
+            "another player's afk status."));
+    public static Permission UC_AFK_EXEMPT = Permission.create("uc.afk.exempt", "afk", PermissionLevel.VIP, null, Text.of("When you have this permission you can't be kicked for being afk."));
 }

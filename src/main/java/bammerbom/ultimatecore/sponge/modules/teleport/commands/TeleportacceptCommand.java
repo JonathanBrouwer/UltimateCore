@@ -83,7 +83,7 @@ public class TeleportacceptCommand implements Command {
             return CommandResult.empty();
         }
         request.getTeleportation().start();
-        //The teleportask or teleportaskhere command handles the message
+        sender.sendMessage(Messages.getFormatted("teleport.command.teleportaccept.success"));
         return CommandResult.success();
     }
 

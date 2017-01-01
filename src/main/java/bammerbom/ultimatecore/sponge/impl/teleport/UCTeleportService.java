@@ -42,14 +42,14 @@ public class UCTeleportService implements TeleportService {
     private ArrayList<Consumer<Teleportation>> handlers = new ArrayList<>();
 
     @Override
-    public Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<Teleportation> complete, BiConsumer<Teleportation,
-            String> cancel, boolean safe) {
+    public Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String>
+            cancel, boolean safe) {
         return createTeleportation(source, entities, () -> target, complete, cancel, safe);
     }
 
     @Override
-    public Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete,
-                                             BiConsumer<Teleportation, String> cancel, boolean safe) {
+    public Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation,
+            String> cancel, boolean safe) {
         Teleportation request = new UCTeleportation(source, entities, target, complete, cancel, safe);
         requests.add(request);
         return request;

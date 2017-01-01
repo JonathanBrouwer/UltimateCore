@@ -92,8 +92,8 @@ public class WarpCommand implements Command {
                 if (!sender.hasPermission(WarpPermissions.UC_WARP.get()) && !sender.hasPermission("uc.warp." + warp.getName().toLowerCase())) {
                     continue;
                 }
-                texts.add(Messages.getFormatted("warp.command.warplist.entry", "%warp%", warp.getName(), "%description%", warp.getDescription()).toBuilder().onHover(TextActions.showText
-                        (Messages.getFormatted("warp.command.warplist.hoverentry", "%warp%", warp.getName()))).onClick(TextActions.runCommand("/warp " + warp.getName())).build());
+                texts.add(Messages.getFormatted("warp.command.warplist.entry", "%warp%", warp.getName(), "%description%", warp.getDescription()).toBuilder().onHover(TextActions.showText(Messages
+                        .getFormatted("warp.command.warplist.hoverentry", "%warp%", warp.getName()))).onClick(TextActions.runCommand("/warp " + warp.getName())).build());
             }
             //If empty send message
             if (texts.isEmpty()) {
@@ -104,8 +104,8 @@ public class WarpCommand implements Command {
             Collections.sort(texts);
 
             PaginationService paginationService = Sponge.getServiceManager().provide(PaginationService.class).get();
-            PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted("warp.command.warplist.header").toBuilder().format(Messages
-                    .getFormatted("warp.command.warplist.char").getFormat()).build()).padding(Messages.getFormatted("warp.command.warplist.char")).build();
+            PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted("warp.command.warplist.header").toBuilder().format(Messages.getFormatted("warp" +
+                    ".command.warplist.char").getFormat()).build()).padding(Messages.getFormatted("warp.command.warplist.char")).build();
             paginationList.sendTo(sender);
             return CommandResult.empty();
         }

@@ -28,6 +28,6 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class InstantrespawnPermissions {
-    public static Permission UC_INSTANTRESPAWN = Permission.create("uc.instantrespawn", "instantrespawn", PermissionLevel.EVERYONE, null, Text.of("When the permission is enabled in the "
-            + "config and you have this permission, you instantly respawn."));
+    public static Permission UC_INSTANTRESPAWN = Permission.create("uc.instantrespawn", "instantrespawn", PermissionLevel.EVERYONE, null, Text.of("When the permission is enabled in the config " +
+            "and you have this permission, you instantly respawn."));
 }

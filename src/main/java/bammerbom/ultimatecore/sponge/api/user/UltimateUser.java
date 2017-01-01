@@ -150,8 +150,8 @@ public class UltimateUser {
         if (!isCompatible(key)) {
             return false;
         }
-        Cause cause = getPlayer().isPresent() ? Cause.builder().owner(UltimateCore.get()).named(NamedCause.source(getPlayer().get())).build() : Cause.builder().owner(UltimateCore.get())
-                .named(NamedCause.source(getUser())).build();
+        Cause cause = getPlayer().isPresent() ? Cause.builder().owner(UltimateCore.get()).named(NamedCause.source(getPlayer().get())).build() : Cause.builder().owner(UltimateCore.get()).named
+                (NamedCause.source(getUser())).build();
         DataOfferEvent<C> event = new DataOfferEvent<>(key, (C) datas.get(key.getIdentifier()), value, cause);
         Sponge.getEventManager().post(event);
         if (event.isCancelled()) {

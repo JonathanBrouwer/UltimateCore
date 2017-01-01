@@ -70,8 +70,8 @@ public class AfkModule implements Module {
         AfkDetectionListener.start();
         //Runnables
         if (config.get().getNode("title", "enabled").getBoolean(true)) {
-            Sponge.getScheduler().createTaskBuilder().intervalTicks(config.get().getNode("title", "subtitle-refresh").getLong()).name("UC afk title task").execute(new AfkTitleTask())
-                    .submit(UltimateCore.get());
+            Sponge.getScheduler().createTaskBuilder().intervalTicks(config.get().getNode("title", "subtitle-refresh").getLong()).name("UC afk title task").execute(new AfkTitleTask()).submit
+                    (UltimateCore.get());
 
         }
     }

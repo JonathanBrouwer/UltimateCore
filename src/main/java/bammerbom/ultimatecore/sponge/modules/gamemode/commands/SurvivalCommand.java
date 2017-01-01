@@ -57,8 +57,7 @@ public class SurvivalCommand implements Command {
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(GamemodePermissions.UC_GAMEMODE, GamemodePermissions.UC_GAMEMODE_SURVIVAL, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions
-                .UC_GAMEMODE_OTHERS_SURVIVAL);
+        return Arrays.asList(GamemodePermissions.UC_GAMEMODE, GamemodePermissions.UC_GAMEMODE_SURVIVAL, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions.UC_GAMEMODE_OTHERS_SURVIVAL);
     }
 
     @Override

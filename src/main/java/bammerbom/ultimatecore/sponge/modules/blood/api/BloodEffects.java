@@ -42,8 +42,8 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class BloodEffects {
-    public static BloodEffect DEFAULT = new BloodEffect(true, BlockState.builder().blockType(BlockTypes.STAINED_HARDENED_CLAY).add(Keys.DYE_COLOR, DyeColors.RED).build(), new Vector3d
-            (0.0, 1.0, 0.0), new Vector3d(0.3, 0.3, 0.3), 50);
+    public static BloodEffect DEFAULT = new BloodEffect(true, BlockState.builder().blockType(BlockTypes.STAINED_HARDENED_CLAY).add(Keys.DYE_COLOR, DyeColors.RED).build(), new Vector3d(0.0, 1.0,
+            0.0), new Vector3d(0.3, 0.3, 0.3), 50);
     public static HashMap<EntityType, BloodEffect> effects = new HashMap<>();
 
     public static void reload() {

@@ -52,8 +52,8 @@ public class AfkDetectionListener {
     public static void start() {
         CommentedConfigurationNode config = Modules.AFK.get().getConfig().get().get();
         //Start check task
-        Sponge.getScheduler().createTaskBuilder().intervalTicks(config.getNode("time", "afk-check-interval").getInt(60)).name("UC Afk check task").execute(new AfkCheckTask()).submit
-                (UltimateCore.get());
+        Sponge.getScheduler().createTaskBuilder().intervalTicks(config.getNode("time", "afk-check-interval").getInt(60)).name("UC Afk check task").execute(new AfkCheckTask()).submit(UltimateCore
+                .get());
         //Register events
         Sponge.getEventManager().registerListener(UltimateCore.get(), ClientConnectionEvent.Join.class, event -> {
             Player p = event.getTargetEntity();
@@ -139,8 +139,8 @@ public class AfkDetectionListener {
         long diff = System.currentTimeMillis() - value;
         if (user.get(AfkKeys.IS_AFK).get() && diff < afk) {
             user.offer(AfkKeys.IS_AFK, false);
-            Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("afk.broadcast.nolonger", "%player%", user.getUser().getName(), "%time%", TimeUtil.formatDateDiff(user.get
-                    (AfkKeys.AFK_TIME).get(), 2, null)));
+            Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("afk.broadcast.nolonger", "%player%", user.getUser().getName(), "%time%", TimeUtil.formatDateDiff(user.get(AfkKeys
+                    .AFK_TIME).get(), 2, null)));
         }
     }
 }

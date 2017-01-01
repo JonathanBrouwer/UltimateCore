@@ -28,6 +28,5 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class DefaultPermissions {
-    public static Permission UC_ULTIMATECORE = Permission.create("uc.ultimatecore", "default", PermissionLevel.OWNER, "ultimatecore", Text.of("Allows you to use the /ultimatecore command"
-            + "."));
+    public static Permission UC_ULTIMATECORE = Permission.create("uc.ultimatecore", "default", PermissionLevel.OWNER, "ultimatecore", Text.of("Allows you to use the /ultimatecore command."));
 }

@@ -26,10 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.teleport;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
-import bammerbom.ultimatecore.sponge.modules.teleport.commands.TeleportCommand;
-import bammerbom.ultimatecore.sponge.modules.teleport.commands.TeleportacceptCommand;
-import bammerbom.ultimatecore.sponge.modules.teleport.commands.TeleportaskCommand;
-import bammerbom.ultimatecore.sponge.modules.teleport.commands.TeleportdenyCommand;
+import bammerbom.ultimatecore.sponge.modules.teleport.commands.*;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.event.Listener;
@@ -60,6 +57,7 @@ public class TeleportModule implements Module {
     public void onInit(GameInitializationEvent event) {
         Sponge.getEventManager().registerListeners(UltimateCore.get(), this);
         UltimateCore.get().getCommandService().register(new TeleportaskCommand());
+        UltimateCore.get().getCommandService().register(new TeleportaskhereCommand());
         UltimateCore.get().getCommandService().register(new TeleportacceptCommand());
         UltimateCore.get().getCommandService().register(new TeleportdenyCommand());
     }

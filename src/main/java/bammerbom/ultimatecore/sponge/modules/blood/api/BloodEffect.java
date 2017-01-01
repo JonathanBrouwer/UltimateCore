@@ -50,8 +50,7 @@ public class BloodEffect {
     }
 
     public ParticleEffect getEffect() {
-        ParticleEffect particle = ParticleEffect.builder().type(ParticleTypes.BLOCK_CRACK).option(ParticleOptions.BLOCK_STATE, state).option(ParticleOptions.QUANTITY, count).offset
-                (p_offset).build();
+        ParticleEffect particle = ParticleEffect.builder().type(ParticleTypes.BLOCK_CRACK).option(ParticleOptions.BLOCK_STATE, state).option(ParticleOptions.QUANTITY, count).offset(p_offset).build();
         return particle;
     }
 

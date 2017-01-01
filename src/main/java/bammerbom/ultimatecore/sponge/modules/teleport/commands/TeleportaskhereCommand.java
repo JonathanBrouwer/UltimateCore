@@ -21,58 +21,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.mute.commands;
+package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
-import bammerbom.ultimatecore.sponge.modules.mute.api.MuteKeys;
-import bammerbom.ultimatecore.sponge.modules.mute.api.MutePermissions;
-import bammerbom.ultimatecore.sponge.utils.*;
+import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportKeys;
+import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
+import bammerbom.ultimatecore.sponge.modules.teleport.api.TpaRequest;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.Selector;
+import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class MuteCommand implements Command {
+public class TeleportaskhereCommand implements Command {
     @Override
     public Module getModule() {
-        return Modules.MUTE.get();
+        return Modules.TELEPORT.get();
     }
 
     @Override
     public String getIdentifier() {
-        return "mute";
+        return "teleportaskhere";
     }
 
     @Override
     public Permission getPermission() {
-        return MutePermissions.UC_MUTE;
+        return TeleportPermissions.UC_TELEPORTASKHERE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(MutePermissions.UC_MUTE);
+        return Arrays.asList(TeleportPermissions.UC_TELEPORTASKHERE);
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("mute");
+        return Arrays.asList("teleportaskhere", "teleportah", "tpahere", "asktphere", "askteleporthere");
     }
 
-    //mute <Player> [Time] [Reason]
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(MutePermissions.UC_MUTE.get())) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            return CommandResult.empty();
+        }
+        Player p = (Player) sender;
+        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORTASKHERE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
@@ -85,35 +91,26 @@ public class MuteCommand implements Command {
             sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
-        Long time = -1L;
-        if (args.length >= 2 && TimeUtil.parseDateDiff(args[1]) != -1) {
-            time = TimeUtil.parseDateDiff(args[1]);
-        }
-        Text reason = Messages.getFormatted("mute.command.mute.defaultreason");
-        if (args.length >= 2 && time == -1L) {
-            reason = Text.of(StringUtil.getFinalArg(args, 1));
-        } else if (args.length >= 3) {
-            reason = Text.of(StringUtil.getFinalArg(args, 2));
-        }
 
-        Long endtime = time == -1L ? -1L : System.currentTimeMillis() + time;
-        Long starttime = System.currentTimeMillis();
-        UUID muter = sender instanceof Player ? ((Player) sender).getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000");
-        UUID muted = t.getUniqueId();
+        UUID tpid = UUID.randomUUID();
+        Teleportation tel = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), p::getTransform, tele -> {
+            p.sendMessage(Messages.getFormatted("teleport.command.teleportaskhere.accept", "%player%", t.getName()));
+        }, (tele, reason) -> {
+            if (reason.equalsIgnoreCase("tpdeny")) {
+                p.sendMessage(Messages.getFormatted("teleport.command.teleportaskhere.deny", "%player%", t.getName()));
+            }
+        }, true);
+        HashMap<UUID, TpaRequest> tels = GlobalData.get(TeleportKeys.TELEPORT_ASKHERE_REQUESTS).get();
+        tels.put(tpid, new TpaRequest(p, t, tel));
+        GlobalData.offer(TeleportKeys.TELEPORT_ASKHERE_REQUESTS, tels);
 
-        Mute mute = new Mute(muted, muter, endtime, starttime, reason);
-        UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
-        ut.offer(MuteKeys.MUTE, mute);
-
-        sender.sendMessage(Messages.getFormatted("mute.command.mute.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil
-                .format(time)), "%reason%", reason));
-        t.sendMessage(Messages.getFormatted("mute.muted", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        sender.sendMessage(Messages.getFormatted("teleport.command.teleportaskhere.send", "%player%", VariableUtil.getNameEntity(t)));
+        t.sendMessage(Messages.getFormatted("teleport.command.teleportaskhere.receive", "%player%", VariableUtil.getNameSource(sender), "%tpid%", tpid));
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        if (curn == 0) return null;
-        return new ArrayList<>();
+        return null;
     }
 }

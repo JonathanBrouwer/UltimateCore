@@ -60,8 +60,7 @@ public class SignListener {
                 Sponge.getEventManager().post(cevent);
                 if (!cevent.isCancelled() && sign.onCreate(p, event)) {
                     //Color sign
-                    event.getTargetTile().offer(Keys.SIGN_LINES, event.getText().setElement(0, Text.of(TextColors.AQUA, "[" + StringUtil.firstUpperCase(sign.getIdentifier()) + "]"))
-                            .asList());
+                    event.getTargetTile().offer(Keys.SIGN_LINES, event.getText().setElement(0, Text.of(TextColors.AQUA, "[" + StringUtil.firstUpperCase(sign.getIdentifier()) + "]")).asList());
                     p.sendMessage(Messages.getFormatted("sign.create", "%sign%", sign.getIdentifier()));
                 }
             }

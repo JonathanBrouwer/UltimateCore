@@ -29,21 +29,21 @@ import org.spongepowered.api.text.Text;
 
 public class GamemodePermissions {
     public static Permission UC_GAMEMODE = Permission.create("uc.gamemode", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode"));
-    public static Permission UC_GAMEMODE_SURVIVAL = Permission.create("uc.gamemode.survival", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own " +
-            "gamemode to survival"));
-    public static Permission UC_GAMEMODE_CREATIVE = Permission.create("uc.gamemode.creative", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own " +
-            "gamemode to creative"));
-    public static Permission UC_GAMEMODE_ADVENTURE = Permission.create("uc.gamemode.adventure", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own " +
-            "gamemode to adventure"));
-    public static Permission UC_GAMEMODE_SPECTATOR = Permission.create("uc.gamemode.spectator", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own " +
-            "gamemode to spectator"));
+    public static Permission UC_GAMEMODE_SURVIVAL = Permission.create("uc.gamemode.survival", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode to " +
+            "survival"));
+    public static Permission UC_GAMEMODE_CREATIVE = Permission.create("uc.gamemode.creative", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode to " +
+            "creative"));
+    public static Permission UC_GAMEMODE_ADVENTURE = Permission.create("uc.gamemode.adventure", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode " +
+            "to adventure"));
+    public static Permission UC_GAMEMODE_SPECTATOR = Permission.create("uc.gamemode.spectator", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode " +
+            "to spectator"));
     public static Permission UC_GAMEMODE_OTHERS = Permission.create("uc.gamemode.others", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change a player's gamemode"));
-    public static Permission UC_GAMEMODE_OTHERS_SURVIVAL = Permission.create("uc.gamemode.others.survival", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change a"
-            + " player's gamemode to survival"));
-    public static Permission UC_GAMEMODE_OTHERS_CREATIVE = Permission.create("uc.gamemode.others.creative", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change a"
-            + " player's gamemode to creative"));
-    public static Permission UC_GAMEMODE_OTHERS_ADVENTURE = Permission.create("uc.gamemode.others.adventure", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change"
-            + " a player's gamemode to adventure"));
-    public static Permission UC_GAMEMODE_OTHERS_SPECTATOR = Permission.create("uc.gamemode.others.spectator", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change"
-            + " a player's gamemode to spectator"));
+    public static Permission UC_GAMEMODE_OTHERS_SURVIVAL = Permission.create("uc.gamemode.others.survival", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change a " +
+            "player's gamemode to survival"));
+    public static Permission UC_GAMEMODE_OTHERS_CREATIVE = Permission.create("uc.gamemode.others.creative", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change a " +
+            "player's gamemode to creative"));
+    public static Permission UC_GAMEMODE_OTHERS_ADVENTURE = Permission.create("uc.gamemode.others.adventure", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change a " +
+            "player's gamemode to adventure"));
+    public static Permission UC_GAMEMODE_OTHERS_SPECTATOR = Permission.create("uc.gamemode.others.spectator", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change a " +
+            "player's gamemode to spectator"));
 }
