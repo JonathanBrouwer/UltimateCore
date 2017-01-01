@@ -28,17 +28,17 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class TeleportPermissions {
-    public static Permission UC_TELEPORT = Permission.create("uc.teleport", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to use the teleport command to teleport " + "yourself " +
-            "" + "" + "" + "" + "" + "" + "to someone else."));
-    public static Permission UC_TELEPORT_OTHERS = Permission.create("uc.teleport.others", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to use the teleport command " + "to " +
+    public static Permission UC_TELEPORT = Permission.create("uc.teleport", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to use the teleport command to teleport yourself " +
+            "to someone else."));
+    public static Permission UC_TELEPORT_OTHERS = Permission.create("uc.teleport.others", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to use the teleport command to " +
             "teleport someone else to someone else."));
-    public static Permission UC_TELEPORT_COORDINATES = Permission.create("uc.teleport.coordinates", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to use the teleport" + " " +
+    public static Permission UC_TELEPORT_COORDINATES = Permission.create("uc.teleport.coordinates", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to use the teleport " +
             "command to teleport yourself to certain coordinates."));
-    public static Permission UC_TELEPORT_COORDINATES_OTHERS = Permission.create("uc.teleport.coordinates.others", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to " + "use the " +
-            "" + "" + "" + "" + "" + "" + "teleport command to teleport someone else to certain coordinates."));
+    public static Permission UC_TELEPORT_COORDINATES_OTHERS = Permission.create("uc.teleport.coordinates.others", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to use the " +
+            "teleport command to teleport someone else to certain coordinates."));
 
     public static Permission UC_TELEPORTASK = Permission.create("uc.teleportask", "teleport", PermissionLevel.EVERYONE, "teleportask", Text.of("Allows you to use the teleportask command"));
-    public static Permission UC_TELEPORTACCEPT = Permission.create("uc.teleportaccept", "teleport", PermissionLevel.EVERYONE, "teleportaccept", Text.of("Allows you to use the " + "teleportaccept "
+    public static Permission UC_TELEPORTACCEPT = Permission.create("uc.teleportaccept", "teleport", PermissionLevel.EVERYONE, "teleportaccept", Text.of("Allows you to use the teleportaccept "
             + "command"));
-    public static Permission UC_TELEPORTDENY = Permission.create("uc.teleportdeny", "teleport", PermissionLevel.EVERYONE, "teleportdeny", Text.of("Allows you to use the teleportdeny " + "command"));
+    public static Permission UC_TELEPORTDENY = Permission.create("uc.teleportdeny", "teleport", PermissionLevel.EVERYONE, "teleportdeny", Text.of("Allows you to use the teleportdeny command"));
 }
