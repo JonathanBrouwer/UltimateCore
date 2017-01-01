@@ -23,8 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.impl.permission;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
+import org.spongepowered.api.Sponge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +70,8 @@ public class UCPermissionService implements PermissionService {
     @Override
     public void register(Permission perm) {
         permissions.add(perm);
+        org.spongepowered.api.service.permission.PermissionService service = Sponge.getServiceManager().provide(org.spongepowered.api.service.permission.PermissionService.class).get();
+        service.newDescriptionBuilder(UltimateCore.get()).get().id(perm.get()).description(perm.getDescription()).register();
     }
 
     /**
