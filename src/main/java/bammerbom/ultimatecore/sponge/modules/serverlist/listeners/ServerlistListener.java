@@ -34,8 +34,10 @@ import com.google.common.reflect.TypeToken;
 import net.minecrell.statusprotocol.StatusProtocol;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
 import org.spongepowered.api.profile.GameProfile;
@@ -50,9 +52,20 @@ import java.util.UUID;
 public class ServerlistListener {
     static Random random = new Random();
 
-    @Listener
+    @Listener(order = Order.LATE)
     public void onJoin(ClientConnectionEvent.Join event) {
-
+        try {
+            Player p = event.getTargetEntity();
+            ModuleConfig config = Modules.SERVERLIST.get().getConfig().get();
+            //Join motd
+            if (config.get().getNode("joinmessage", "enable").getBoolean()) {
+                List<String> joinmsgs = config.get().getNode("joinmessage", "joinmessages").getList(TypeToken.of(String.class));
+                Text joinmsg = VariableUtil.replaceVariablesUser(Messages.toText(joinmsgs.get(random.nextInt(joinmsgs.size()))), p);
+                p.sendMessage(joinmsg);
+            }
+        } catch (ObjectMappingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Listener
