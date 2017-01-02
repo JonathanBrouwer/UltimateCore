@@ -21,28 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.mute.runnables;
+package bammerbom.ultimatecore.sponge.modules.deaf.api;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
-import bammerbom.ultimatecore.sponge.modules.mute.api.MuteKeys;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.entity.living.player.Player;
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import org.spongepowered.api.text.Text;
 
-public class MuteTickRunnable implements Runnable {
-    @Override
-    public void run() {
-        for (Player p : Sponge.getServer().getOnlinePlayers()) {
-            UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-            if (up.get(MuteKeys.MUTE).isPresent()) {
-                Mute mute = up.get(MuteKeys.MUTE).get();
-                if (System.currentTimeMillis() > mute.getEndtime() && mute.getEndtime() != -1L) {
-                    up.offer(MuteKeys.MUTE, null);
-                    p.sendMessage(Messages.getFormatted("mute.unmuted"));
-                }
-            }
-        }
-    }
+public class DeafPermissions {
+    public static Permission UC_DEAF = Permission.create("uc.deaf", "deaf", PermissionLevel.MOD, "deaf", Text.of("Allows you to deaf someone."));
+    public static Permission UC_UNDEAF = Permission.create("uc.undeaf", "deaf", PermissionLevel.MOD, "undeaf", Text.of("Allows you to undeaf someone."));
 }

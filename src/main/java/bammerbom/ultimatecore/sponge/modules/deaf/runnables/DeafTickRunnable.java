@@ -21,26 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.mute.runnables;
+package bammerbom.ultimatecore.sponge.modules.deaf.runnables;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
-import bammerbom.ultimatecore.sponge.modules.mute.api.MuteKeys;
+import bammerbom.ultimatecore.sponge.modules.deaf.api.Deaf;
+import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafKeys;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 
-public class MuteTickRunnable implements Runnable {
+public class DeafTickRunnable implements Runnable {
     @Override
     public void run() {
         for (Player p : Sponge.getServer().getOnlinePlayers()) {
             UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-            if (up.get(MuteKeys.MUTE).isPresent()) {
-                Mute mute = up.get(MuteKeys.MUTE).get();
-                if (System.currentTimeMillis() > mute.getEndtime() && mute.getEndtime() != -1L) {
-                    up.offer(MuteKeys.MUTE, null);
-                    p.sendMessage(Messages.getFormatted("mute.unmuted"));
+            if (up.get(DeafKeys.DEAF).isPresent()) {
+                Deaf deaf = up.get(DeafKeys.DEAF).get();
+                if (System.currentTimeMillis() > deaf.getEndtime() && deaf.getEndtime() != -1L) {
+                    up.offer(DeafKeys.DEAF, null);
+                    p.sendMessage(Messages.getFormatted("deaf.undeafed"));
                 }
             }
         }
