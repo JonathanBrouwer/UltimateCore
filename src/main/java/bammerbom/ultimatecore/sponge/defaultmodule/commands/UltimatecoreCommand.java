@@ -72,7 +72,7 @@ public class UltimatecoreCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(getLongDescription());
+            sender.sendMessage(getUsage());
             return CommandResult.empty();
         }
         if (!sender.hasPermission(getPermission().get())) {
@@ -87,7 +87,7 @@ public class UltimatecoreCommand implements Command {
         }
         if (args[0].equalsIgnoreCase("resetuser")) {
             if (args.length == 1) {
-                sender.sendMessage(getLongDescription());
+                sender.sendMessage(getUsage());
                 return CommandResult.empty();
             }
             Optional<Player> t = Selector.one(sender, args[1]);
@@ -109,7 +109,7 @@ public class UltimatecoreCommand implements Command {
             sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules)));
             return CommandResult.success();
         }
-        sender.sendMessage(getLongDescription());
+        sender.sendMessage(getUsage());
         return CommandResult.empty();
     }
 

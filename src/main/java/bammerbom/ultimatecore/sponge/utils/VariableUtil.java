@@ -27,6 +27,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
@@ -55,17 +56,39 @@ public class VariableUtil {
                     EconomyService es = Sponge.getServiceManager().provide(EconomyService.class).get();
                     if (es.getOrCreateAccount(p.getUniqueId()).isPresent()) {
                         BigDecimal balance = es.getOrCreateAccount(p.getUniqueId()).get().getBalance(es.getDefaultCurrency());
-                        text = TextUtil.replace(text, "%world%", Text.of(balance.toString()));
+                        text = TextUtil.replace(text, "%money%", Text.of(balance.toString()));
                     }
                 }
             }
         }
 
         //Not player-specific variables
-        text = TextUtil.replace(text, "%version%", Text.of(Sponge.getPlatform().getMinecraftVersion()));
+        text = TextUtil.replace(text, "%version%", Text.of(Sponge.getPlatform().getMinecraftVersion().getName()));
+        List<String> names = new ArrayList<>();
+        Sponge.getServer().getOnlinePlayers().forEach(p -> names.add(p.getName()));
+        text = TextUtil.replace(text, "%players%", !names.isEmpty() ? Text.of(StringUtil.join(", ", names)) : Messages.getFormatted("core.none"));
         text = TextUtil.replace(text, "%maxplayers%", Text.of(Sponge.getServer().getMaxPlayers()));
         text = TextUtil.replace(text, "%onlineplayers%", Text.of(Sponge.getServer().getOnlinePlayers().size()));
 
+        return text;
+    }
+
+    public static Text replaceVariablesUser(Text text, @Nullable User player) {
+        text = replaceVariables(text, null);
+        if (player != null) {
+            text = TextUtil.replace(text, "%player%", getNameUser(player));
+            text = TextUtil.replace(text, "%name%", Text.of(player.getName()));
+            text = TextUtil.replace(text, "%displayname%", getNameUser(player));
+            text = TextUtil.replace(text, "%prefix%", Text.of(player.getOption("prefix").orElse("")));
+            text = TextUtil.replace(text, "%suffix%", Text.of(player.getOption("suffix").orElse("")));
+            if (Sponge.getServiceManager().provide(EconomyService.class).isPresent()) {
+                EconomyService es = Sponge.getServiceManager().provide(EconomyService.class).get();
+                if (es.getOrCreateAccount(player.getUniqueId()).isPresent()) {
+                    BigDecimal balance = es.getOrCreateAccount(player.getUniqueId()).get().getBalance(es.getDefaultCurrency());
+                    text = TextUtil.replace(text, "%money%", Text.of(balance.toString()));
+                }
+            }
+        }
         return text;
     }
 
@@ -92,5 +115,13 @@ public class VariableUtil {
             texts.add(getNameEntity(en));
         }
         return Text.joinWith(Text.of(", "), texts);
+    }
+
+    public static Text getNameUser(User player) {
+        if (player instanceof Player) {
+            return getNameSource((CommandSource) player);
+        }
+        //TODO language?
+        return Text.builder(player.getName()).onHover(TextActions.showText(Messages.getFormatted("core.variable.player.hover", "%name%", player.getName(), "%rawname%", player.getName(), "%uuid%", player.getUniqueId(), "%language%", "?"))).onClick(TextActions.suggestCommand(Messages.getFormatted("core.variable.player.click", "%player%", player.getName()).toPlain())).build();
     }
 }

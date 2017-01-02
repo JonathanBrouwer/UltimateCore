@@ -34,11 +34,32 @@ import java.io.IOException;
 public class DataFile {
     private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data");
 
-    public static ConfigurationLoader<CommentedConfigurationNode> getLoader(String filename) {
+    private String id;
+
+    public DataFile(String id) {
+        this.id = id;
+    }
+
+    public File getFile() {
         if (!path.exists()) {
             path.mkdirs();
         }
-        File file = new File(path, filename + ".data");
+        File file = new File(path, id + ".data");
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
+        if (!path.exists()) {
+            path.mkdirs();
+        }
+        File file = new File(path, id + ".data");
         try {
             if (!file.exists()) {
                 file.createNewFile();
@@ -49,12 +70,21 @@ public class DataFile {
         return HoconConfigurationLoader.builder().setFile(file).build();
     }
 
-    public static CommentedConfigurationNode get(String filename) {
+    public CommentedConfigurationNode get() {
         try {
-            return getLoader(filename).load();
+            return getLoader().load();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public boolean save(CommentedConfigurationNode node) {
+        try {
+            getLoader().save(node);
+            return true;
+        } catch (Exception ex) {
+            return false;
         }
     }
 }

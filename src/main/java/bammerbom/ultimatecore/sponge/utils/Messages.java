@@ -169,7 +169,10 @@ public class Messages {
 
         //Replace default variables
         //This will not override any other variables because they have been replaced by now
-        text = VariableUtil.replaceVariables(text, p);
+        //Don't replace core.none to avoid infinite loop
+        if (!key.equalsIgnoreCase("core.none")) {
+            text = VariableUtil.replaceVariables(text, p);
+        }
 
         return text;
     }

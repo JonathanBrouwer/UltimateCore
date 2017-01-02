@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.defaultmodule.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.entity.living.player.Player;
@@ -35,10 +36,22 @@ public class DefaultListener {
 
     @Listener
     public void onJoin(ClientConnectionEvent.Join event) {
+        Player p = event.getTargetEntity();
+
+        //Player file
         PlayerDataFile config = new PlayerDataFile(event.getTargetEntity().getUniqueId());
         CommentedConfigurationNode node = config.get();
         node.getNode("lastconnect").setValue(System.currentTimeMillis());
+        String ip = event.getTargetEntity().getConnection().getAddress().getAddress().toString().replace("/", "");
+        node.getNode("lastip").setValue(ip);
         config.save(node);
+
+        //Ipcache file
+        DataFile file = new DataFile("ipcache");
+        CommentedConfigurationNode node2 = file.get();
+        node2.getNode(ip, "name").setValue(p.getName());
+        node2.getNode(ip, "uuid").setValue(p.getUniqueId().toString());
+        file.save(node2);
     }
 
     @Listener
