@@ -61,6 +61,7 @@ public class Modules {
     public static Optional<Module> ECONOMY = service.getModule("economy");
     public static Optional<Module> EXPERIENCE = service.getModule("experience");
     public static Optional<Module> EXPLOSION = service.getModule("explosion");
+    public static Optional<Module> FOOD = service.getModule("food");
     public static Optional<Module> FLY = service.getModule("fly");
     public static Optional<Module> FREEZE = service.getModule("freeze");
     public static Optional<Module> GAMEMODE = service.getModule("gamemode");

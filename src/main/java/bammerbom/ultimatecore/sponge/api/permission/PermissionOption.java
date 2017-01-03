@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
@@ -35,42 +36,42 @@ import java.util.Optional;
 /**
  * Permission ids should be in the format uc.[Module].[Command].otherstuff
  */
-public class Permission {
+public class PermissionOption {
     private Module module;
     private Optional<Command> command;
     private String identifier;
     private Text description;
-    private PermissionLevel level;
+    private String def;
 
-    private Permission(String id, Module mod, PermissionLevel lev, @Nullable Command com, Text desc) {
+    private PermissionOption(String id, Module mod, @Nullable Command com, String def, Text desc) {
         this.module = mod;
         this.command = com == null ? Optional.empty() : Optional.of(com);
         this.identifier = id;
         this.description = desc;
-        this.level = lev;
+        this.def = def;
     }
 
-    public static Permission create(String identifier, Module module, PermissionLevel level, @Nullable Command command, Text description) {
-        Permission perm = new Permission(identifier, module, level, command, description);
-        UltimateCore.get().getPermissionService().register(perm);
+    public static PermissionOption create(String identifier, Module module, @Nullable Command command, String def, Text description) {
+        PermissionOption perm = new PermissionOption(identifier, module, command, def, description);
+        UltimateCore.get().getPermissionService().registerOption(perm);
         return perm;
     }
 
-    public static Permission create(String identifier, String moduleid, PermissionLevel level, @Nullable String commandid, Text description) {
+    public static PermissionOption create(String identifier, String moduleid, @Nullable String commandid, String def, Text description) {
         Optional<Module> module = UltimateCore.get().getModuleService().getModule(moduleid);
         Optional<Command> command = commandid == null ? null : UltimateCore.get().getCommandService().get(commandid);
         if (!module.isPresent()) {
-            Messages.log("Failed to register permission " + identifier + ": Invalid module");
+            Messages.log("Failed to register permissionoption " + identifier + ": Invalid module");
             //TODO ErrorLogger?
             return null;
         }
         //When an invalid command is provided
         if (command != null && !command.isPresent()) {
-            Messages.log("Semi-failed to register permission " + identifier + ": Invalid command");
+            Messages.log("Semi-failed to register permissionoption " + identifier + ": Invalid command");
             //TODO ErrorLogger?
             command = null;
         }
-        return create(identifier, module.get(), level, command == null ? null : command.get(), description);
+        return create(identifier, module.get(), command == null ? null : command.get(), def, description);
     }
 
     /**
@@ -83,7 +84,7 @@ public class Permission {
     }
 
     /**
-     * Get the command this {@link Permission} is associated with, or {@link Optional#empty()} when not associated with a command.
+     * Get the command this {@link PermissionOption} is associated with, or {@link Optional#empty()} when not associated with a command.
      *
      * @return The command
      */
@@ -111,11 +112,13 @@ public class Permission {
     }
 
     /**
-     * Get the {@link PermissionLevel} of this permission.
-     *
-     * @return The {@link PermissionLevel}
+     * Get the default value of this permission option
      */
-    public PermissionLevel getLevel() {
-        return level;
+    public Optional<String> getDefault() {
+        return Optional.ofNullable(def);
+    }
+
+    public String getFor(Subject subject) {
+        return subject.getOption(get()).orElse(getDefault().orElse(null));
     }
 }

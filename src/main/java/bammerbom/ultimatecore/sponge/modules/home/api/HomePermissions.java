@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.home.api;
 
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
 import org.spongepowered.api.text.Text;
 
 public class HomePermissions {
@@ -32,4 +33,6 @@ public class HomePermissions {
     public static Permission UC_HOME_SETHOME = Permission.create("uc.home.sethome", "home", PermissionLevel.EVERYONE, "sethome", Text.of("Allows you to set your own home."));
     public static Permission UC_HOME_SETHOME_UNLIMITED = Permission.create("uc.home.sethome.unlimited", "home", PermissionLevel.VIP, "sethome", Text.of("Allows you to set an unlimited amount of homes."));
     public static Permission UC_HOME_DELHOME = Permission.create("uc.home.delhome", "home", PermissionLevel.EVERYONE, "delhome", Text.of("Allows you to remove one of your homes."));
+
+    public static PermissionOption UC_HOME_HOMECOUNT = PermissionOption.create("uc.home.homecount", "home", "home", "1", Text.of("The amount of homes the player can have."));
 }

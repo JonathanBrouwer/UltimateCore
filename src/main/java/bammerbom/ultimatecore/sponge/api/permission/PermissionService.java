@@ -68,4 +68,45 @@ public interface PermissionService {
      * @return Whether the permission was found and unregistered successfully
      */
     boolean unregister(String id);
+
+    /**
+     * Get a list of all registered permissions.
+     *
+     * @return The list
+     */
+    List<PermissionOption> getPermissionOptions();
+
+    /**
+     * Get a {@link Permission} from the provided id.
+     *
+     * @param id The id to search for
+     * @return The permission, or {@link Optional#empty()} when not found.
+     */
+    Optional<PermissionOption> getOption(String id);
+
+    /**
+     * Register a new permission
+     *
+     * @param perm The permission to register
+     */
+    void registerOption(PermissionOption perm);
+
+    /**
+     * Unregister a certain permission
+     *
+     * @param perm The permission to unregister
+     * @return Whether the permission was unregister successfully
+     */
+    boolean unregisterOption(PermissionOption perm);
+
+    /**
+     * Search for a certain permission, and unregister it.
+     * <p>
+     * This is the same as calling:
+     * unregister(get(id).get())
+     *
+     * @param id
+     * @return Whether the permission was found and unregistered successfully
+     */
+    boolean unregisterOption(String id);
 }

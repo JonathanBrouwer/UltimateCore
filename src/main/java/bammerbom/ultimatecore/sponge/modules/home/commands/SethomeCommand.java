@@ -38,7 +38,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,8 +85,7 @@ public class SethomeCommand implements Command {
             sender.sendMessage(getUsage());
             return CommandResult.empty();
         }
-        //Home count, or else 1 home
-        String shomecount = sender.getOption("home-count").orElse("1");
+        String shomecount = HomePermissions.UC_HOME_HOMECOUNT.getFor(sender);
         if (!TimeUtil.isNumber(shomecount)) {
             sender.sendMessage(Messages.getFormatted("home.command.sethome.invalidhomecount", "%homecount%", shomecount));
             return CommandResult.empty();
@@ -103,7 +101,7 @@ public class SethomeCommand implements Command {
         }
         //Remove home with matching name
         homes = homes.stream().filter(home -> !home.getName().equalsIgnoreCase(args[0])).collect(Collectors.toList());
-        homes.add(new Home(args[0].toLowerCase(), new Transform<World>(p.getLocation(), p.getRotation(), p.getScale())));
+        homes.add(new Home(args[0].toLowerCase(), new Transform<>(p.getLocation(), p.getRotation(), p.getScale())));
         user.offer(HomeKeys.HOMES, homes);
 
         if (replace) {

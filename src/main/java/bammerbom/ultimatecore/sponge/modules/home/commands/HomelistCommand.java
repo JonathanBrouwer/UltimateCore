@@ -99,7 +99,7 @@ public class HomelistCommand implements Command {
 
         Text footer;
         if (!p.hasPermission(HomePermissions.UC_HOME_SETHOME_UNLIMITED.get())) {
-            String shomecount = sender.getOption("home-count").orElse("1");
+            String shomecount = HomePermissions.UC_HOME_HOMECOUNT.getFor(sender);
             if (!TimeUtil.isNumber(shomecount)) {
                 sender.sendMessage(Messages.getFormatted("home.command.sethome.invalidhomecount", "%homecount%", shomecount));
                 return CommandResult.empty();

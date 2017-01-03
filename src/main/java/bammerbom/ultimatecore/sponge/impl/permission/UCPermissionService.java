@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.impl.permission;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
 import org.spongepowered.api.Sponge;
 
@@ -35,23 +36,13 @@ import java.util.Optional;
 public class UCPermissionService implements PermissionService {
 
     List<Permission> permissions = new ArrayList<>();
+    List<PermissionOption> permissionoptions = new ArrayList<>();
 
-    /**
-     * Get a list of all registered permissions.
-     *
-     * @return The list
-     */
     @Override
     public List<Permission> getPermissions() {
         return permissions;
     }
 
-    /**
-     * Get a {@link Permission} from the provided id.
-     *
-     * @param id The id to search for
-     * @return The permission, or {@link Optional#empty()} when not found.
-     */
     @Override
     public Optional<Permission> get(String id) {
         for (Permission perm : permissions) {
@@ -62,11 +53,6 @@ public class UCPermissionService implements PermissionService {
         return Optional.empty();
     }
 
-    /**
-     * Register a new permission
-     *
-     * @param perm The permission to register
-     */
     @Override
     public void register(Permission perm) {
         permissions.add(perm);
@@ -74,30 +60,48 @@ public class UCPermissionService implements PermissionService {
         service.newDescriptionBuilder(UltimateCore.get()).get().id(perm.get()).description(perm.getDescription()).register();
     }
 
-    /**
-     * Unregister a certain permission
-     *
-     * @param perm The permission to unregister
-     * @return Whether the permission was unregister successfully
-     */
     @Override
     public boolean unregister(Permission perm) {
         return permissions.remove(perm);
     }
 
-    /**
-     * Search for a certain permission, and unregister it.
-     * <p>
-     * This is the same as calling:
-     * unregister(get(id).get())
-     *
-     * @param id
-     * @return Whether the permission was found and unregistered successfully
-     */
     @Override
     public boolean unregister(String id) {
         Optional<Permission> perm = get(id);
         if (!perm.isPresent()) return false;
         return unregister(perm.get());
+    }
+
+    @Override
+    public List<PermissionOption> getPermissionOptions() {
+        return permissionoptions;
+    }
+
+    @Override
+    public Optional<PermissionOption> getOption(String id) {
+        for (PermissionOption perm : permissionoptions) {
+            if (perm.get().equalsIgnoreCase(id)) {
+                return Optional.of(perm);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void registerOption(PermissionOption perm) {
+        permissionoptions.add(perm);
+        //TODO do I have to register it somewhere in sponge?
+    }
+
+    @Override
+    public boolean unregisterOption(PermissionOption perm) {
+        return permissionoptions.remove(perm);
+    }
+
+    @Override
+    public boolean unregisterOption(String id) {
+        Optional<PermissionOption> perm = getOption(id);
+        if (!perm.isPresent()) return false;
+        return unregisterOption(perm.get());
     }
 }
