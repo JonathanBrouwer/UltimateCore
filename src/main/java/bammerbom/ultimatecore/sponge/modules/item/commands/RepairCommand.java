@@ -54,12 +54,12 @@ public class RepairCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return ItemPermissions.UC_REPAIR;
+        return ItemPermissions.UC_ITEM_REPAIR_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(ItemPermissions.UC_REPAIR, ItemPermissions.UC_REPAIR_ONE, ItemPermissions.UC_REPAIR_ALL);
+        return Arrays.asList(ItemPermissions.UC_ITEM_REPAIR_BASE, ItemPermissions.UC_ITEM_REPAIR_ONE, ItemPermissions.UC_ITEM_REPAIR_ALL);
     }
 
     @Override

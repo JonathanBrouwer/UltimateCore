@@ -53,12 +53,12 @@ public class FlyCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return FlyPermissions.UC_FLY;
+        return FlyPermissions.UC_FLY_FLY_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(FlyPermissions.UC_FLY, FlyPermissions.UC_FLY_OTHERS);
+        return Arrays.asList(FlyPermissions.UC_FLY_FLY_BASE, FlyPermissions.UC_FLY_FLY_OTHERS);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class FlyCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(FlyPermissions.UC_FLY.get())) {
+        if (!sender.hasPermission(FlyPermissions.UC_FLY_FLY_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

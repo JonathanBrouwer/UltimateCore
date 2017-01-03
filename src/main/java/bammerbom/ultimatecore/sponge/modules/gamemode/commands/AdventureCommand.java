@@ -52,12 +52,12 @@ public class AdventureCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return GamemodePermissions.UC_GAMEMODE_ADVENTURE;
+        return GamemodePermissions.UC_GAMEMODE_GAMEMODE_ADVENTURE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(GamemodePermissions.UC_GAMEMODE, GamemodePermissions.UC_GAMEMODE_ADVENTURE, GamemodePermissions.UC_GAMEMODE_OTHERS, GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE);
+        return Arrays.asList(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE, GamemodePermissions.UC_GAMEMODE_GAMEMODE_ADVENTURE, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_ADVENTURE);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class AdventureCommand implements Command {
         Player player;
         if (args.length >= 1) {
             //Check permissions
-            if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_ADVENTURE.get())) {
+            if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_ADVENTURE.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
@@ -88,7 +88,7 @@ public class AdventureCommand implements Command {
             }
         } else {
             //Check permissions
-            if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_OTHERS_ADVENTURE.get())) {
+            if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_ADVENTURE.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }

@@ -52,12 +52,12 @@ public class MoreCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return ItemPermissions.UC_MORE;
+        return ItemPermissions.UC_ITEM_MORE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(ItemPermissions.UC_MORE);
+        return Arrays.asList(ItemPermissions.UC_ITEM_MORE);
     }
 
     @Override

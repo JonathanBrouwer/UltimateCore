@@ -57,12 +57,12 @@ public class BackCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return BackPermissions.UC_BACK;
+        return BackPermissions.UC_BACK_BACK_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(BackPermissions.UC_BACK, BackPermissions.UC_BACK_ONDEATH);
+        return Arrays.asList(BackPermissions.UC_BACK_BACK_BASE, BackPermissions.UC_BACK_BACK_ONDEATH);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class BackCommand implements Command {
             sender.sendMessage(Messages.getFormatted("core.noplayer"));
             return CommandResult.empty();
         }
-        if (!sender.hasPermission(BackPermissions.UC_BACK.get())) {
+        if (!sender.hasPermission(BackPermissions.UC_BACK_BACK_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

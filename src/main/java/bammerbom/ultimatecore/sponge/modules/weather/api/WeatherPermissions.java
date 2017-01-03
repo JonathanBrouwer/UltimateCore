@@ -28,8 +28,8 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class WeatherPermissions {
-    public static Permission UC_WEATHER = Permission.create("uc.weather", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to anything."));
-    public static Permission UC_WEATHER_SUN = Permission.create("uc.weather.sun", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to sun."));
-    public static Permission UC_WEATHER_RAIN = Permission.create("uc.weather.rain", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to rain."));
-    public static Permission UC_WEATHER_THUNDER = Permission.create("uc.weather.thunder", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to thunder."));
+    public static Permission UC_WEATHER_WEATHER_BASE = Permission.create("uc.weather.weather.base", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to use the base weather command" + "."));
+    public static Permission UC_WEATHER_WEATHER_SUN = Permission.create("uc.weather.weather.sun", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to sun."));
+    public static Permission UC_WEATHER_WEATHER_RAIN = Permission.create("uc.weather.weather.rain", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to rain."));
+    public static Permission UC_WEATHER_WEATHER_THUNDER = Permission.create("uc.weather.weather.thunder", "weather", PermissionLevel.ADMIN, "weather", Text.of("Allows you to change the weather to thunder."));
 }

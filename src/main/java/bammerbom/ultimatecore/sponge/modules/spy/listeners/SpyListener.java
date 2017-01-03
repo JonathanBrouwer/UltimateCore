@@ -52,7 +52,7 @@ public class SpyListener {
             CommandSource t = ev.getPMTarget();
 
             for (Player p : Sponge.getServer().getOnlinePlayers()) {
-                if (!p.hasPermission(SpyPermissions.UC_MESSAGESPY_SEE.get())) {
+                if (!p.hasPermission(SpyPermissions.UC_SPY_MESSAGESPY_SEE.get())) {
                     continue;
                 }
                 if (s.getIdentifier().equals(p.getIdentifier()) || t.getIdentifier().equals(p.getIdentifier())) {
@@ -71,7 +71,7 @@ public class SpyListener {
         Player t = e.getCause().first(Player.class).orElse(null);
         if (t == null) return;
         for (Player p : Sponge.getServer().getOnlinePlayers()) {
-            if (!p.hasPermission(SpyPermissions.UC_COMMANDSPY_SEE.get())) {
+            if (!p.hasPermission(SpyPermissions.UC_SPY_COMMANDSPY_SEE.get())) {
                 continue;
             }
             if (p == t) {

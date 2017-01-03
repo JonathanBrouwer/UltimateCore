@@ -56,12 +56,12 @@ public class DeafCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return DeafPermissions.UC_DEAF;
+        return DeafPermissions.UC_DEAF_DEAF;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(DeafPermissions.UC_DEAF);
+        return Arrays.asList(DeafPermissions.UC_DEAF_DEAF);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class DeafCommand implements Command {
     //deaf <Player> [Time] [Reason]
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(DeafPermissions.UC_DEAF.get())) {
+        if (!sender.hasPermission(DeafPermissions.UC_DEAF_DEAF.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

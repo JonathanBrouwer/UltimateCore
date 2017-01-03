@@ -52,12 +52,12 @@ public class DayCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return TimePermissions.UC_TIME_DAY;
+        return TimePermissions.UC_TIME_TIME_DAY;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(TimePermissions.UC_TIME_DAY, TimePermissions.UC_TIME);
+        return Arrays.asList(TimePermissions.UC_TIME_TIME_DAY, TimePermissions.UC_TIME_TIME_BASE);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class DayCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(TimePermissions.UC_TIME.get()) && !sender.hasPermission(TimePermissions.UC_TIME_DAY.get())) {
+        if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_BASE.get()) && !sender.hasPermission(TimePermissions.UC_TIME_TIME_DAY.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

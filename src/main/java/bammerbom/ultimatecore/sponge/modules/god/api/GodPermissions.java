@@ -28,6 +28,6 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class GodPermissions {
-    public static Permission UC_GOD = Permission.create("uc.god", "god", PermissionLevel.ADMIN, "god", Text.of("Allows you to toggle your own god mode."));
-    public static Permission UC_GOD_OTHERS = Permission.create("uc.god.others", "god", PermissionLevel.ADMIN, "god", Text.of("Allows you to toggle other people's god mode."));
+    public static Permission UC_GOD_GOD_BASE = Permission.create("uc.god.god.base", "god", PermissionLevel.ADMIN, "god", Text.of("Allows you to toggle your own god mode."));
+    public static Permission UC_GOD_GOD_OTHERS = Permission.create("uc.god.god.others", "god", PermissionLevel.ADMIN, "god", Text.of("Allows you to toggle other people's god mode."));
 }

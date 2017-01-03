@@ -54,12 +54,12 @@ public class GodCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return GodPermissions.UC_GOD;
+        return GodPermissions.UC_GOD_GOD_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(GodPermissions.UC_GOD, GodPermissions.UC_GOD_OTHERS);
+        return Arrays.asList(GodPermissions.UC_GOD_GOD_BASE, GodPermissions.UC_GOD_GOD_OTHERS);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class GodCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(GodPermissions.UC_GOD.get())) {
+        if (!sender.hasPermission(GodPermissions.UC_GOD_GOD_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
@@ -86,7 +86,7 @@ public class GodCommand implements Command {
             sender.sendMessage(Messages.getFormatted("god.command.god.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled")));
             return CommandResult.success();
         } else {
-            if (!sender.hasPermission(GodPermissions.UC_GOD_OTHERS.get())) {
+            if (!sender.hasPermission(GodPermissions.UC_GOD_GOD_OTHERS.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }

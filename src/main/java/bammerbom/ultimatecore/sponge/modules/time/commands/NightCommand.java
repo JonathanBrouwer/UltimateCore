@@ -52,12 +52,12 @@ public class NightCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return TimePermissions.UC_TIME_NIGHT;
+        return TimePermissions.UC_TIME_TIME_NIGHT;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(TimePermissions.UC_TIME_NIGHT, TimePermissions.UC_TIME);
+        return Arrays.asList(TimePermissions.UC_TIME_TIME_NIGHT, TimePermissions.UC_TIME_TIME_BASE);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class NightCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(TimePermissions.UC_TIME.get()) && !sender.hasPermission(TimePermissions.UC_TIME_NIGHT.get())) {
+        if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_BASE.get()) && !sender.hasPermission(TimePermissions.UC_TIME_TIME_NIGHT.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

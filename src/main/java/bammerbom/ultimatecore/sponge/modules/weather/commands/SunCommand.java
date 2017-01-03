@@ -54,12 +54,12 @@ public class SunCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return WeatherPermissions.UC_WEATHER;
+        return WeatherPermissions.UC_WEATHER_WEATHER_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(WeatherPermissions.UC_WEATHER, WeatherPermissions.UC_WEATHER_SUN);
+        return Arrays.asList(WeatherPermissions.UC_WEATHER_WEATHER_BASE, WeatherPermissions.UC_WEATHER_WEATHER_SUN);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class SunCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(WeatherPermissions.UC_WEATHER.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_SUN.get())) {
+        if (!sender.hasPermission(WeatherPermissions.UC_WEATHER_WEATHER_BASE.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_WEATHER_SUN.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

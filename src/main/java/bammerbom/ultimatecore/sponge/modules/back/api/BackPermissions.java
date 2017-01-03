@@ -28,6 +28,6 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class BackPermissions {
-    public static Permission UC_BACK = Permission.create("uc.back", "back", PermissionLevel.EVERYONE, "back", Text.of("Allows you to use the back command."));
-    public static Permission UC_BACK_ONDEATH = Permission.create("uc.back.ondeath", "back", PermissionLevel.EVERYONE, "back", Text.of("Allows you to use the back command after you died."));
+    public static Permission UC_BACK_BACK_BASE = Permission.create("uc.back.back.base", "back", PermissionLevel.EVERYONE, "back", Text.of("Allows you to use the back command."));
+    public static Permission UC_BACK_BACK_ONDEATH = Permission.create("uc.back.back.ondeath", "back", PermissionLevel.EVERYONE, "back", Text.of("Allows you to use the back command after you died."));
 }

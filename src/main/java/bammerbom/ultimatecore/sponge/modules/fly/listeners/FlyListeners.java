@@ -38,7 +38,7 @@ public class FlyListeners {
     public void onJoin(ClientConnectionEvent.Join event) {
         Player p = event.getTargetEntity();
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);
-        if (p.hasPermission(FlyPermissions.UC_FLY.get()) && user.get(FlyKeys.FLY).orElse(false)) {
+        if (p.hasPermission(FlyPermissions.UC_FLY_FLY_BASE.get()) && user.get(FlyKeys.FLY).orElse(false)) {
             if (p.getLocation().add(0, -1, 0).getBlockType().equals(BlockTypes.AIR)) {
                 p.offer(Keys.CAN_FLY, true);
                 p.offer(Keys.IS_FLYING, true);

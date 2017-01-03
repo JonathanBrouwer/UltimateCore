@@ -28,5 +28,5 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class BurnPermissions {
-    public static Permission UC_BURN = Permission.create("uc.burn", "burn", PermissionLevel.ADMIN, "burn", Text.of("Allows you to use the burn command."));
+    public static Permission UC_BURN_BURN = Permission.create("uc.burn.burn", "burn", PermissionLevel.ADMIN, "burn", Text.of("Allows you to use the burn command."));
 }

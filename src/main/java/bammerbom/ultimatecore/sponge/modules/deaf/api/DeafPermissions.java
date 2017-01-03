@@ -28,6 +28,6 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class DeafPermissions {
-    public static Permission UC_DEAF = Permission.create("uc.deaf", "deaf", PermissionLevel.MOD, "deaf", Text.of("Allows you to deaf someone."));
-    public static Permission UC_UNDEAF = Permission.create("uc.undeaf", "deaf", PermissionLevel.MOD, "undeaf", Text.of("Allows you to undeaf someone."));
+    public static Permission UC_DEAF_DEAF = Permission.create("uc.deaf.deaf", "deaf", PermissionLevel.MOD, "deaf", Text.of("Allows you to deaf someone."));
+    public static Permission UC_DEAF_UNDEAF = Permission.create("uc.deaf.undeaf", "deaf", PermissionLevel.MOD, "undeaf", Text.of("Allows you to undeaf someone."));
 }

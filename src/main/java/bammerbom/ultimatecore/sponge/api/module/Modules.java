@@ -81,7 +81,6 @@ public class Modules {
     public static Optional<Module> MOBTP = service.getModule("mobtp");
     //Commands like /accountstatus, /mcservers, etc
     public static Optional<Module> MOJANGSERVICE = service.getModule("mojangservice");
-    public static Optional<Module> MOTD = service.getModule("motd");
     public static Optional<Module> MUTE = service.getModule("mute");
     //Change player's nametag
     public static Optional<Module> NAMETAG = service.getModule("nametag");
@@ -103,7 +102,6 @@ public class Modules {
     public static Optional<Module> PROTECT = service.getModule("protect");
     //Generate random numbers, booleans, strings, etc
     public static Optional<Module> RANDOM = service.getModule("random");
-    public static Optional<Module> REPAIR = service.getModule("repair");
     public static Optional<Module> REPORT = service.getModule("report");
     //Schedule commands at specific times of a day
     public static Optional<Module> SCHEDULER = service.getModule("scheduler");

@@ -28,6 +28,6 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class KickPermissions {
-    public static Permission UC_KICK = Permission.create("uc.kick", "kick", PermissionLevel.MOD, "kick", Text.of("Allows you to use the kick command."));
-    public static Permission UC_KICKALL = Permission.create("uc.kickall", "kick", PermissionLevel.ADMIN, "kickall", Text.of("Allows you to use the kickall command."));
+    public static Permission UC_KICK_KICK = Permission.create("uc.kick.kick", "kick", PermissionLevel.MOD, "kick", Text.of("Allows you to use the kick command."));
+    public static Permission UC_KICK_KICKALL = Permission.create("uc.kick.kickall", "kick", PermissionLevel.ADMIN, "kickall", Text.of("Allows you to use the kickall command."));
 }

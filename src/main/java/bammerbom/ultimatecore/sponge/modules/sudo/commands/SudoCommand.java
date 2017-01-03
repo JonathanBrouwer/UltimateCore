@@ -60,12 +60,12 @@ public class SudoCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return SudoPermissions.UC_SUDO;
+        return SudoPermissions.UC_SUDO_SUDO_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(SudoPermissions.UC_SUDO, SudoPermissions.UC_SUDO_CHAT, SudoPermissions.UC_SUDO_COMMAND);
+        return Arrays.asList(SudoPermissions.UC_SUDO_SUDO_BASE, SudoPermissions.UC_SUDO_SUDO_CHAT, SudoPermissions.UC_SUDO_SUDO_COMMAND);
     }
 
     @Override

@@ -68,12 +68,12 @@ public class KitCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return KitPermissions.UC_KIT;
+        return KitPermissions.UC_KIT_KIT_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(KitPermissions.UC_KIT, KitPermissions.UC_KIT_KIT, KitPermissions.UC_KITLIST);
+        return Arrays.asList(KitPermissions.UC_KIT_KIT_BASE, KitPermissions.UC_KIT_KIT_KIT, KitPermissions.UC_KIT_KITLIST);
     }
 
     @Override
@@ -83,10 +83,14 @@ public class KitCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
+        if (!sender.hasPermission(KitPermissions.UC_KIT_KIT_BASE.get())) {
+            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            return CommandResult.empty();
+        }
         //Send the player a paginated list of all kits
         if (args.length == 0) {
             //Permissions
-            if (!sender.hasPermission(KitPermissions.UC_KITLIST.get())) {
+            if (!sender.hasPermission(KitPermissions.UC_KIT_KITLIST.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
@@ -95,7 +99,7 @@ public class KitCommand implements Command {
             List<Text> texts = new ArrayList<>();
             //Add entry to texts for every kit
             for (Kit kit : kits) {
-                if (!sender.hasPermission(KitPermissions.UC_KIT.get()) && !sender.hasPermission("uc.kit." + kit.getId().toLowerCase())) {
+                if (!sender.hasPermission("uc.kit.kit." + kit.getId().toLowerCase())) {
                     continue;
                 }
                 texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getId(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getId()))).onClick(TextActions.runCommand("/kit " + kit.getId())).build());
@@ -128,7 +132,7 @@ public class KitCommand implements Command {
         }
         Kit kit = results.get(0);
         //Check permissions
-        if (!sender.hasPermission(KitPermissions.UC_KIT.get()) && !sender.hasPermission("uc.kit." + kit.getId().toLowerCase())) {
+        if (!sender.hasPermission(KitPermissions.UC_KIT_KIT_BASE.get()) && !sender.hasPermission("uc.kit." + kit.getId().toLowerCase())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

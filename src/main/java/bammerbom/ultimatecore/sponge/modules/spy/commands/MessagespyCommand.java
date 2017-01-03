@@ -54,12 +54,12 @@ public class MessagespyCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return SpyPermissions.UC_MESSAGESPY;
+        return SpyPermissions.UC_SPY_MESSAGESPY_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(SpyPermissions.UC_MESSAGESPY, SpyPermissions.UC_MESSAGESPY_OTHERS);
+        return Arrays.asList(SpyPermissions.UC_SPY_MESSAGESPY_BASE, SpyPermissions.UC_SPY_MESSAGESPY_OTHERS);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class MessagespyCommand implements Command {
             return CommandResult.success();
         } else {
             //Toggle someone else
-            if (!sender.hasPermission(SpyPermissions.UC_MESSAGESPY_OTHERS.get())) {
+            if (!sender.hasPermission(SpyPermissions.UC_SPY_MESSAGESPY_OTHERS.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }

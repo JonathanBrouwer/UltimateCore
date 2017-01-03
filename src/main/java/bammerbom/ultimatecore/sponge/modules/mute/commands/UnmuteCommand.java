@@ -55,12 +55,12 @@ public class UnmuteCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return MutePermissions.UC_UNMUTE;
+        return MutePermissions.UC_MUTE_UNMUTE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(MutePermissions.UC_UNMUTE);
+        return Arrays.asList(MutePermissions.UC_MUTE_UNMUTE);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class UnmuteCommand implements Command {
     //mute <Player> [Time] [Reason]
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(MutePermissions.UC_UNMUTE.get())) {
+        if (!sender.hasPermission(MutePermissions.UC_MUTE_UNMUTE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

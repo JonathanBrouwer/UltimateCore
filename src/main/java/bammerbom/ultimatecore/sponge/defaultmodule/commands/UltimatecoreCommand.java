@@ -56,12 +56,12 @@ public class UltimatecoreCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return DefaultPermissions.UC_ULTIMATECORE;
+        return DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(DefaultPermissions.UC_ULTIMATECORE);
+        return Arrays.asList(DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE);
     }
 
     @Override

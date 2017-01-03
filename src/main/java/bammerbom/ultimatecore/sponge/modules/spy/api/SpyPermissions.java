@@ -28,10 +28,10 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class SpyPermissions {
-    public static Permission UC_COMMANDSPY = Permission.create("uc.commandspy", "spy", PermissionLevel.MOD, "commandspy", Text.of("Allows you to toggle whether your commandspy is enabled."));
-    public static Permission UC_MESSAGESPY = Permission.create("uc.messagespy", "spy", PermissionLevel.MOD, "messagespy", Text.of("Allows you to toggle whether your messagespy is enabled."));
-    public static Permission UC_COMMANDSPY_OTHERS = Permission.create("uc.commandspy.others", "spy", PermissionLevel.MOD, "commandspy", Text.of("Allows you to toggle whether someones commandspy is enabled."));
-    public static Permission UC_MESSAGESPY_OTHERS = Permission.create("uc.messagespy.others", "spy", PermissionLevel.MOD, "messagespy", Text.of("Allows you to toggle whether someones messagespy is enabled."));
-    public static Permission UC_COMMANDSPY_SEE = Permission.create("uc.commandspy.see", "spy", PermissionLevel.EVERYONE, "commandspy", Text.of("Allows you to see commandspy messages if your commandspy is toggled on."));
-    public static Permission UC_MESSAGESPY_SEE = Permission.create("uc.messagespy.see", "spy", PermissionLevel.EVERYONE, "messagespy", Text.of("Allows you to see messagespy messages if your messagespy is toggled on."));
+    public static Permission UC_SPY_COMMANDSPY_BASE = Permission.create("uc.spy.commandspy.base", "spy", PermissionLevel.MOD, "commandspy", Text.of("Allows you to toggle whether your commandspy is enabled."));
+    public static Permission UC_SPY_MESSAGESPY_BASE = Permission.create("uc.spy.messagespy.base", "spy", PermissionLevel.MOD, "messagespy", Text.of("Allows you to toggle whether your messagespy is enabled."));
+    public static Permission UC_SPY_COMMANDSPY_OTHERS = Permission.create("uc.spy.commandspy.others", "spy", PermissionLevel.MOD, "commandspy", Text.of("Allows you to toggle whether someones commandspy is enabled."));
+    public static Permission UC_SPY_MESSAGESPY_OTHERS = Permission.create("uc.spy.messagespy.others", "spy", PermissionLevel.MOD, "messagespy", Text.of("Allows you to toggle whether someones messagespy is enabled."));
+    public static Permission UC_SPY_COMMANDSPY_SEE = Permission.create("uc.spy.commandspy.see", "spy", PermissionLevel.EVERYONE, "commandspy", Text.of("Allows you to see commandspy messages if your commandspy is toggled on."));
+    public static Permission UC_SPY_MESSAGESPY_SEE = Permission.create("uc.spy.messagespy.see", "spy", PermissionLevel.EVERYONE, "messagespy", Text.of("Allows you to see messagespy messages if your messagespy is toggled on."));
 }

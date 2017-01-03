@@ -52,12 +52,12 @@ public class KickCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return KickPermissions.UC_KICK;
+        return KickPermissions.UC_KICK_KICK;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(KickPermissions.UC_KICK);
+        return Arrays.asList(KickPermissions.UC_KICK_KICK);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class KickCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(KickPermissions.UC_KICK.get())) {
+        if (!sender.hasPermission(KickPermissions.UC_KICK_KICK.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

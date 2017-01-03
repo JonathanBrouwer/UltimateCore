@@ -53,12 +53,12 @@ public class HealCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return HealPermissions.UC_HEAL;
+        return HealPermissions.UC_HEAL_HEAL_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(HealPermissions.UC_HEAL, HealPermissions.UC_HEAL_OTHERS);
+        return Arrays.asList(HealPermissions.UC_HEAL_HEAL_BASE, HealPermissions.UC_HEAL_HEAL_OTHERS);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class HealCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(HealPermissions.UC_HEAL.get())) {
+        if (!sender.hasPermission(HealPermissions.UC_HEAL_HEAL_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

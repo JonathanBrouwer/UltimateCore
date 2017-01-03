@@ -51,12 +51,12 @@ public class SetMaxHealthCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return HealPermissions.UC_SETMAXHEALTH;
+        return HealPermissions.UC_HEAL_SETMAXHEALTH_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(HealPermissions.UC_SETMAXHEALTH, HealPermissions.UC_SETMAXHEALTH_OTHERS);
+        return Arrays.asList(HealPermissions.UC_HEAL_SETMAXHEALTH_BASE, HealPermissions.UC_HEAL_SETMAXHEALTH_OTHERS);
 
     }
 
@@ -67,7 +67,7 @@ public class SetMaxHealthCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(HealPermissions.UC_SETMAXHEALTH.get())) {
+        if (!sender.hasPermission(HealPermissions.UC_HEAL_SETMAXHEALTH_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

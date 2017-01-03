@@ -28,6 +28,6 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class FlyPermissions {
-    public static Permission UC_FLY = Permission.create("uc.fly", "fly", PermissionLevel.ADMIN, "fly", Text.of("Allows you to change your own fly state."));
-    public static Permission UC_FLY_OTHERS = Permission.create("uc.fly.others", "fly", PermissionLevel.ADMIN, "fly", Text.of("Allows you to change other player's fly state."));
+    public static Permission UC_FLY_FLY_BASE = Permission.create("uc.fly.fly.base", "fly", PermissionLevel.ADMIN, "fly", Text.of("Allows you to change your own fly state."));
+    public static Permission UC_FLY_FLY_OTHERS = Permission.create("uc.fly.fly.others", "fly", PermissionLevel.ADMIN, "fly", Text.of("Allows you to change other player's fly state."));
 }

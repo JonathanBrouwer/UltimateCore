@@ -61,12 +61,12 @@ public class HomelistCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return HomePermissions.UC_HOME;
+        return HomePermissions.UC_HOME_HOME;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(HomePermissions.UC_HOME);
+        return Arrays.asList(HomePermissions.UC_HOME_HOME);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class HomelistCommand implements Command {
         }
         Player p = (Player) sender;
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);
-        if (!sender.hasPermission(HomePermissions.UC_HOME.get())) {
+        if (!sender.hasPermission(HomePermissions.UC_HOME_HOME.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
@@ -98,7 +98,7 @@ public class HomelistCommand implements Command {
         Collections.sort(entries);
 
         Text footer;
-        if (!p.hasPermission(HomePermissions.UC_SETHOME_UNLIMITED.get())) {
+        if (!p.hasPermission(HomePermissions.UC_HOME_SETHOME_UNLIMITED.get())) {
             String shomecount = sender.getOption("home-count").orElse("1");
             if (!TimeUtil.isNumber(shomecount)) {
                 sender.sendMessage(Messages.getFormatted("home.command.sethome.invalidhomecount", "%homecount%", shomecount));

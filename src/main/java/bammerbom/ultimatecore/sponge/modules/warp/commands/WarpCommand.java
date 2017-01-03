@@ -62,12 +62,12 @@ public class WarpCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return WarpPermissions.UC_WARP;
+        return WarpPermissions.UC_WARP_WARP_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(WarpPermissions.UC_WARP, WarpPermissions.UC_WARP_WARP);
+        return Arrays.asList(WarpPermissions.UC_WARP_WARP_BASE, WarpPermissions.UC_WARP_WARP_WARP);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class WarpCommand implements Command {
         //Send the player a paginated list of all warps
         if (args.length == 0) {
             //Permissions
-            if (!sender.hasPermission(WarpPermissions.UC_WARPLIST.get())) {
+            if (!sender.hasPermission(WarpPermissions.UC_WARP_WARPLIST.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
@@ -89,7 +89,7 @@ public class WarpCommand implements Command {
             List<Text> texts = new ArrayList<>();
             //Add entry to texts for every warp
             for (Warp warp : warps) {
-                if (!sender.hasPermission(WarpPermissions.UC_WARP.get()) && !sender.hasPermission("uc.warp." + warp.getName().toLowerCase())) {
+                if (!sender.hasPermission(WarpPermissions.UC_WARP_WARP_BASE.get()) && !sender.hasPermission("uc.warp.warp." + warp.getName().toLowerCase())) {
                     continue;
                 }
                 texts.add(Messages.getFormatted("warp.command.warplist.entry", "%warp%", warp.getName(), "%description%", warp.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("warp.command.warplist.hoverentry", "%warp%", warp.getName()))).onClick(TextActions.runCommand("/warp " + warp.getName())).build());
@@ -122,7 +122,7 @@ public class WarpCommand implements Command {
         }
         Warp warp = results.get(0);
         //Check permissions
-        if (!sender.hasPermission(WarpPermissions.UC_WARP.get()) && !sender.hasPermission("uc.warp." + warp.getName().toLowerCase())) {
+        if (!sender.hasPermission(WarpPermissions.UC_WARP_WARP_BASE.get()) && !sender.hasPermission("uc.warp.warp." + warp.getName().toLowerCase())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

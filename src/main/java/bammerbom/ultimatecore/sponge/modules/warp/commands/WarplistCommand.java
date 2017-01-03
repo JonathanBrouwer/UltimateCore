@@ -60,12 +60,12 @@ public class WarplistCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return WarpPermissions.UC_WARPLIST;
+        return WarpPermissions.UC_WARP_WARPLIST;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(WarpPermissions.UC_WARPLIST);
+        return Arrays.asList(WarpPermissions.UC_WARP_WARPLIST);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class WarplistCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(WarpPermissions.UC_WARPLIST.get())) {
+        if (!sender.hasPermission(WarpPermissions.UC_WARP_WARPLIST.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
@@ -84,7 +84,7 @@ public class WarplistCommand implements Command {
         List<Text> texts = new ArrayList<>();
         //Add entry to texts for every warp
         for (Warp warp : warps) {
-            if (!sender.hasPermission(WarpPermissions.UC_WARP.get()) && !sender.hasPermission("uc.warp." + warp.getName().toLowerCase())) {
+            if (!sender.hasPermission(WarpPermissions.UC_WARP_WARP_BASE.get()) && !sender.hasPermission("uc.warp." + warp.getName().toLowerCase())) {
                 continue;
             }
             texts.add(Messages.getFormatted("warp.command.warplist.entry", "%warp%", warp.getName(), "%description%", warp.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("warp.command.warplist.hoverentry", "%warp%", warp.getName()))).onClick(TextActions.runCommand("/warp " + warp.getName())).build());

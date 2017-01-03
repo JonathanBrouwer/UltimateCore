@@ -28,8 +28,8 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class ItemPermissions {
-    public static Permission UC_MORE = Permission.create("uc.more", "item", PermissionLevel.ADMIN, "more", Text.of("Allows you to use the more command."));
-    public static Permission UC_REPAIR = Permission.create("uc.repair", "item", PermissionLevel.ADMIN, "repair", Text.of("Allows you to use the repair command for both all and one item."));
-    public static Permission UC_REPAIR_ALL = Permission.create("uc.repair.all", "item", PermissionLevel.ADMIN, "repair", Text.of("Allows you to use the repair command for all items."));
-    public static Permission UC_REPAIR_ONE = Permission.create("uc.repair.one", "item", PermissionLevel.ADMIN, "repair", Text.of("Allows you to use the repair command for one item."));
+    public static Permission UC_ITEM_MORE = Permission.create("uc.item.more", "item", PermissionLevel.ADMIN, "more", Text.of("Allows you to use the more command."));
+    public static Permission UC_ITEM_REPAIR_BASE = Permission.create("uc.item.repair.base", "item", PermissionLevel.ADMIN, "repair", Text.of("Allows you to use the repair command for both all and one item."));
+    public static Permission UC_ITEM_REPAIR_ALL = Permission.create("uc.item.repair.all", "item", PermissionLevel.ADMIN, "repair", Text.of("Allows you to use the repair command for all items."));
+    public static Permission UC_ITEM_REPAIR_ONE = Permission.create("uc.item.repair.one", "item", PermissionLevel.ADMIN, "repair", Text.of("Allows you to use the repair command for one item."));
 }

@@ -58,12 +58,12 @@ public class SethomeCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return HomePermissions.UC_SETHOME;
+        return HomePermissions.UC_HOME_SETHOME;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(HomePermissions.UC_SETHOME, HomePermissions.UC_SETHOME_UNLIMITED);
+        return Arrays.asList(HomePermissions.UC_HOME_SETHOME, HomePermissions.UC_HOME_SETHOME_UNLIMITED);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class SethomeCommand implements Command {
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if (!sender.hasPermission(HomePermissions.UC_SETHOME.get())) {
+        if (!sender.hasPermission(HomePermissions.UC_HOME_SETHOME.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
@@ -97,7 +97,7 @@ public class SethomeCommand implements Command {
         List<Home> homes = user.get(HomeKeys.HOMES).orElse(new ArrayList<>());
         boolean replace = homes.stream().filter(home -> home.getName().equalsIgnoreCase(args[0])).count() >= 1;
         //If amount of homes (+1 if not replace) is higher than max amount of homes
-        if ((homes.size() + (replace ? 0 : 1)) > homecount && !sender.hasPermission(HomePermissions.UC_SETHOME_UNLIMITED.get())) {
+        if ((homes.size() + (replace ? 0 : 1)) > homecount && !sender.hasPermission(HomePermissions.UC_HOME_SETHOME_UNLIMITED.get())) {
             sender.sendMessage(Messages.getFormatted("home.command.sethome.maxhomes"));
             return CommandResult.empty();
         }

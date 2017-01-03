@@ -55,12 +55,12 @@ public class DelhomeCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return HomePermissions.UC_DELHOME;
+        return HomePermissions.UC_HOME_DELHOME;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(HomePermissions.UC_DELHOME);
+        return Arrays.asList(HomePermissions.UC_HOME_DELHOME);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class DelhomeCommand implements Command {
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if (!sender.hasPermission(HomePermissions.UC_DELHOME.get())) {
+        if (!sender.hasPermission(HomePermissions.UC_HOME_DELHOME.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

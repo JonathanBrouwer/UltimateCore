@@ -59,12 +59,12 @@ public class AfkCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return AfkPermissions.UC_AFK;
+        return AfkPermissions.UC_AFK_AFK_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(AfkPermissions.UC_AFK, AfkPermissions.UC_AFK_MESSAGE, AfkPermissions.UC_AFK_OTHERS, AfkPermissions.UC_AFK_OTHERS_MESSAGE);
+        return Arrays.asList(AfkPermissions.UC_AFK_AFK_BASE, AfkPermissions.UC_AFK_AFK_BASE_MESSAGE, AfkPermissions.UC_AFK_AFK_OTHERS, AfkPermissions.UC_AFK_AFK_OTHERS_MESSAGE);
     }
 
     @Override
@@ -75,8 +75,8 @@ public class AfkCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         //Permission check
-        if (!sender.hasPermission(AfkPermissions.UC_AFK.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions", "%permission%", AfkPermissions.UC_AFK.get()));
+        if (!sender.hasPermission(AfkPermissions.UC_AFK_AFK_BASE.get())) {
+            sender.sendMessage(Messages.getFormatted("core.nopermissions", "%permission%", AfkPermissions.UC_AFK_AFK_BASE.get()));
             return CommandResult.empty();
         }
         //Get the user

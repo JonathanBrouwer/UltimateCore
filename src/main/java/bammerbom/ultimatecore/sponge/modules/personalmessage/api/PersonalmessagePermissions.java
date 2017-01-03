@@ -28,6 +28,6 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class PersonalmessagePermissions {
-    public static Permission UC_PERSONALMESSAGE = Permission.create("uc.personalmessage", "personalmessage", PermissionLevel.EVERYONE, "personalmessage", Text.of("Allows you to send private messages to people."));
-    public static Permission UC_REPLY = Permission.create("uc.reply", "personalmessage", PermissionLevel.EVERYONE, "reply", Text.of("Allows you to reply to people's personal message using /reply."));
+    public static Permission UC_PERSONALMESSAGE_PERSONALMESSAGE = Permission.create("uc.personalmessage.personalmessage", "personalmessage", PermissionLevel.EVERYONE, "personalmessage", Text.of("Allows you to send private messages to people."));
+    public static Permission UC_PERSONALMESSAGE_REPLY = Permission.create("uc.personalmessage.reply", "personalmessage", PermissionLevel.EVERYONE, "reply", Text.of("Allows you to reply to people's personal message using /reply."));
 }

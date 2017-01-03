@@ -28,8 +28,8 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class HomePermissions {
-    public static Permission UC_HOME = Permission.create("uc.home", "home", PermissionLevel.EVERYONE, "home", Text.of("Allows you to teleport to your own home."));
-    public static Permission UC_SETHOME = Permission.create("uc.sethome", "home", PermissionLevel.EVERYONE, "sethome", Text.of("Allows you to set your own home."));
-    public static Permission UC_SETHOME_UNLIMITED = Permission.create("uc.sethome.unlimited", "home", PermissionLevel.VIP, "sethome", Text.of("Allows you to set an unlimited amount of homes."));
-    public static Permission UC_DELHOME = Permission.create("uc.delhome", "home", PermissionLevel.EVERYONE, "delhome", Text.of("Allows you to remove one of your homes."));
+    public static Permission UC_HOME_HOME = Permission.create("uc.home.home", "home", PermissionLevel.EVERYONE, "home", Text.of("Allows you to teleport to your own home."));
+    public static Permission UC_HOME_SETHOME = Permission.create("uc.home.sethome", "home", PermissionLevel.EVERYONE, "sethome", Text.of("Allows you to set your own home."));
+    public static Permission UC_HOME_SETHOME_UNLIMITED = Permission.create("uc.home.sethome.unlimited", "home", PermissionLevel.VIP, "sethome", Text.of("Allows you to set an unlimited amount of homes."));
+    public static Permission UC_HOME_DELHOME = Permission.create("uc.home.delhome", "home", PermissionLevel.EVERYONE, "delhome", Text.of("Allows you to remove one of your homes."));
 }

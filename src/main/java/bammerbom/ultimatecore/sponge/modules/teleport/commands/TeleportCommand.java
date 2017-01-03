@@ -55,12 +55,12 @@ public class TeleportCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return TeleportPermissions.UC_TELEPORT;
+        return TeleportPermissions.UC_TELEPORT_TELEPORT_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(TeleportPermissions.UC_TELEPORT, TeleportPermissions.UC_TELEPORT_OTHERS);
+        return Arrays.asList(TeleportPermissions.UC_TELEPORT_TELEPORT_BASE, TeleportPermissions.UC_TELEPORT_TELEPORT_OTHERS);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class TeleportCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT.get())) {
+        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
@@ -106,7 +106,7 @@ public class TeleportCommand implements Command {
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
-            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_COORDINATES.get())) {
+            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_COORDINATES.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
@@ -129,7 +129,7 @@ public class TeleportCommand implements Command {
             return CommandResult.success();
         } else if (args.length == 2) {
             //tp user user
-            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_OTHERS.get())) {
+            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_OTHERS.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
@@ -154,7 +154,7 @@ public class TeleportCommand implements Command {
             return CommandResult.success();
         } else if (args.length == 3 && !TimeUtil.isDecimal(args[0])) {
             // tp user x z
-            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_COORDINATES_OTHERS.get())) {
+            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_COORDINATES_OTHERS.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
@@ -187,7 +187,7 @@ public class TeleportCommand implements Command {
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
-            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_COORDINATES.get())) {
+            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_COORDINATES.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }
@@ -206,7 +206,7 @@ public class TeleportCommand implements Command {
             return CommandResult.success();
         } else if (args.length == 4) {
             //tp user x y z
-            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_COORDINATES_OTHERS.get())) {
+            if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_COORDINATES_OTHERS.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }

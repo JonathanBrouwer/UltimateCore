@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class KitPermissions {
-    public static Permission UC_KIT = Permission.create("uc.kit", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to use the kit command for all kits."));
-    public static Permission UC_KIT_KIT = Permission.create("uc.kit.[KIT]", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to use the kit command for a specific kit."));
-    public static Permission UC_KITLIST = Permission.create("uc.kitlist", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to see a list of all kits."));
+    public static Permission UC_KIT_KIT_BASE = Permission.create("uc.kit.kit.base", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to use the kit command for all kits."));
+    public static Permission UC_KIT_KIT_KIT = Permission.create("uc.kit.kit.[KIT]", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to use the kit command for a specific kit."));
+    public static Permission UC_KIT_KITLIST = Permission.create("uc.kitlist", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to see a list of all kits."));
 }

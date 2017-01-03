@@ -51,13 +51,13 @@ public class SetHealthCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return HealPermissions.UC_SETHEALTH;
+        return HealPermissions.UC_HEAL_SETHEALTH_BASE;
 
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(HealPermissions.UC_SETHEALTH, HealPermissions.UC_SETHEALTH_OTHERS);
+        return Arrays.asList(HealPermissions.UC_HEAL_SETHEALTH_BASE, HealPermissions.UC_SETHEALTH_OTHERS);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class SetHealthCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(HealPermissions.UC_SETHEALTH.get())) {
+        if (!sender.hasPermission(HealPermissions.UC_HEAL_SETHEALTH_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
