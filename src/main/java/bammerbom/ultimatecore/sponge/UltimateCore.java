@@ -77,6 +77,9 @@ public class UltimateCore {
 
     private static UltimateCore instance = null;
 
+    //Config files
+    private GeneralConfig generalConfig;
+
     @Inject
     @ConfigDir(sharedRoot = false)
     public Path dir;
@@ -102,7 +105,10 @@ public class UltimateCore {
             TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ItemStackSnapshot.class), new ItemStackSnapshotSerializer());
             TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Vector3d.class), new Vector3dSerializer());
             TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Transform.class), new TransformSerializer());
-            GeneralConfig.reload();
+
+            //Config
+            generalConfig = new GeneralConfig();
+            generalConfig.reload();
             CommandsConfig.preload();
             ModulesConfig.preload();
             Messages.reloadCustomMessages();
@@ -247,5 +253,10 @@ public class UltimateCore {
     public Optional<SignService> getSignService() {
         ServiceManager manager = Sponge.getServiceManager();
         return manager.provide(SignService.class);
+    }
+
+    //Get configs
+    public GeneralConfig getGeneralConfig() {
+        return generalConfig;
     }
 }

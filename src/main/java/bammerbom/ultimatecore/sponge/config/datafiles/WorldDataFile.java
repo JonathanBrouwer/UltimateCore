@@ -33,7 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-public class WorldDataFile {
+public class WorldDataFile implements DataFile {
     private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/worlddata");
     private UUID uuid;
 
@@ -45,7 +45,8 @@ public class WorldDataFile {
         this.uuid = uuid;
     }
 
-    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
+    @Override
+    public File getFile() {
         if (!path.exists()) {
             path.mkdirs();
         }
@@ -58,9 +59,16 @@ public class WorldDataFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return file;
+    }
+
+    @Override
+    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
+        File file = getFile();
         return HoconConfigurationLoader.builder().setFile(file).build();
     }
 
+    @Override
     public CommentedConfigurationNode get() {
         try {
             return getLoader().load();
@@ -70,6 +78,7 @@ public class WorldDataFile {
         }
     }
 
+    @Override
     public boolean save(CommentedConfigurationNode node) {
         try {
             getLoader().save(node);

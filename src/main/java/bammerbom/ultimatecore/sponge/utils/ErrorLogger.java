@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.utils;
 
-import bammerbom.ultimatecore.sponge.config.GeneralConfig;
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -64,7 +64,7 @@ public class ErrorLogger {
         //Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
 
         //SEND TO UC
-        if (!GeneralConfig.get().getNode("errors", "enabled").getBoolean()) {
+        if (!UltimateCore.get().getGeneralConfig().get().getNode("errors", "enabled").getBoolean()) {
             return;
         }
 

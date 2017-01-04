@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
-import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.config.datafiles.GlobalDataFile;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import com.google.common.reflect.TypeToken;
@@ -72,7 +72,7 @@ public class ServerlistListener {
     public void onMotdSend(ClientPingServerEvent event) {
         try {
             String ip = event.getClient().getAddress().getAddress().toString().replace("/", "");
-            DataFile file = new DataFile("ipcache");
+            GlobalDataFile file = new GlobalDataFile("ipcache");
             ModuleConfig config = Modules.SERVERLIST.get().getConfig().get();
             if (file.get().getChildrenMap().keySet().contains(ip)) {
                 //Player

@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.config;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -36,37 +37,58 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public class GeneralConfig {
+public class GeneralConfig implements DataFile {
     private static Path path = new File(UltimateCore.get().getConfigFolder().toFile(), "general.conf").toPath();
     private static ConfigurationLoader<CommentedConfigurationNode> loader;
     private static CommentedConfigurationNode node;
 
-    public static void reload() {
+    public void reload() {
         try {
             File file = path.toFile();
+            Optional<Asset> asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/general.conf");
+            if (!asset.isPresent()) {
+                Messages.log(Messages.getFormatted("core.config.invalidjar", "%conf%", "general.conf"));
+                return;
+            }
             if (!file.exists()) {
                 file.getParentFile().mkdirs();
-                Optional<Asset> asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/general.conf");
-                if (!asset.isPresent()) {
-                    Messages.log(Messages.getFormatted("core.config.invalidjar", "%conf%", "general.conf"));
-                    return;
-                }
                 asset.get().copyToFile(path);
             }
 
             loader = HoconConfigurationLoader.builder().setPath(path).build();
             node = loader.load();
+
+            //Complete
+            ConfigCompleter.complete(this, asset.get());
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "general.conf"));
             e.printStackTrace();
         }
     }
 
-    public static ConfigurationLoader<CommentedConfigurationNode> getLoader() {
+    @Override
+    public File getFile() {
+        return path.toFile();
+    }
+
+    @Override
+    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
         return loader;
     }
 
-    public static CommentedConfigurationNode get() {
+    @Override
+    public CommentedConfigurationNode get() {
         return node;
+    }
+
+    @Override
+    public boolean save(CommentedConfigurationNode node) {
+        try {
+            loader.save(node);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

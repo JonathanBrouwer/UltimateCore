@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.spawn.api;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.config.datafiles.GlobalDataFile;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -39,7 +39,7 @@ public class SpawnKeys {
     public static Key.Global<Transform<World>> FIRST_SPAWN = new Key.Global<>("firstspawn", new KeyProvider.Global<Transform<World>>() {
         @Override
         public Transform<World> load(Game game) {
-            DataFile config = new DataFile("spawns");
+            GlobalDataFile config = new GlobalDataFile("spawns");
             CommentedConfigurationNode node = config.get();
             try {
                 return node.getNode("first").getValue(new TypeToken<Transform<World>>() {
@@ -52,7 +52,7 @@ public class SpawnKeys {
 
         @Override
         public void save(Game game, Transform<World> data) {
-            DataFile config = new DataFile("spawns");
+            GlobalDataFile config = new GlobalDataFile("spawns");
             CommentedConfigurationNode node = config.get();
             try {
                 node.getNode("first").setValue(new TypeToken<Transform<World>>() {
@@ -66,7 +66,7 @@ public class SpawnKeys {
     public static Key.Global<Transform<World>> GLOBAL_SPAWN = new Key.Global<>("globalspawn", new KeyProvider.Global<Transform<World>>() {
         @Override
         public Transform<World> load(Game game) {
-            DataFile config = new DataFile("spawns");
+            GlobalDataFile config = new GlobalDataFile("spawns");
             CommentedConfigurationNode node = config.get();
             try {
                 return node.getNode("global").getValue(new TypeToken<Transform<World>>() {
@@ -79,7 +79,7 @@ public class SpawnKeys {
 
         @Override
         public void save(Game game, Transform<World> data) {
-            DataFile config = new DataFile("spawns");
+            GlobalDataFile config = new GlobalDataFile("spawns");
             CommentedConfigurationNode node = config.get();
             try {
                 node.getNode("global").setValue(new TypeToken<Transform<World>>() {
@@ -93,7 +93,7 @@ public class SpawnKeys {
     public static Key.Global<HashMap<String, Transform<World>>> GROUP_SPAWNS = new Key.Global<>("groupspawns", new KeyProvider.Global<HashMap<String, Transform<World>>>() {
         @Override
         public HashMap<String, Transform<World>> load(Game game) {
-            DataFile config = new DataFile("spawns");
+            GlobalDataFile config = new GlobalDataFile("spawns");
             CommentedConfigurationNode node = config.get();
             try {
                 return node.getNode("groups").getValue(new TypeToken<HashMap<String, Transform<World>>>() {
@@ -106,7 +106,7 @@ public class SpawnKeys {
 
         @Override
         public void save(Game game, HashMap<String, Transform<World>> data) {
-            DataFile config = new DataFile("spawns");
+            GlobalDataFile config = new GlobalDataFile("spawns");
             CommentedConfigurationNode node = config.get();
             try {
                 node.getNode("groups").setValue(new TypeToken<HashMap<String, Transform<World>>>() {

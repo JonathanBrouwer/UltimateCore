@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import com.goebl.david.Response;
 import com.goebl.david.Webb;
 import org.json.JSONArray;
@@ -52,7 +51,7 @@ public class Stats {
             return;
         }
         started = true;
-        if (!GeneralConfig.get().getNode("stats", "enabled").getBoolean()) {
+        if (!UltimateCore.get().getGeneralConfig().get().getNode("stats", "enabled").getBoolean()) {
             return;
         }
         Sponge.getScheduler().createTaskBuilder().name("UC stats task").delay(15, TimeUnit.MINUTES).interval(30, TimeUnit.MINUTES).execute(Stats::send).submit(UltimateCore.get());
@@ -92,7 +91,7 @@ public class Stats {
         }
         data.put("modules", modules.toString());
         //
-        data.put("language", GeneralConfig.get().getNode("language", "language").getString("EN_US"));
+        data.put("language", UltimateCore.get().getGeneralConfig().get().getNode("language", "language").getString("EN_US"));
         //Plugins
         JSONArray pluginsarray = new JSONArray();
         for (PluginContainer plugin : Sponge.getPluginManager().getPlugins()) {

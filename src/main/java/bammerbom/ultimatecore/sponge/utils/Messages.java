@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.asset.Asset;
 import org.spongepowered.api.command.CommandSource;
@@ -59,7 +58,7 @@ public class Messages {
     }
 
     public static void reloadCustomMessages() {
-        String lang = GeneralConfig.get().getNode("language", "language").getString();
+        String lang = UltimateCore.get().getGeneralConfig().get().getNode("language", "language").getString();
         if (lang.equals("EN_US")) {
             return;
         }

@@ -30,14 +30,14 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
-public class PlayerDataFile implements DataFile {
-    private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/playerdata");
-    private UUID uuid;
+public class GlobalDataFile implements DataFile {
+    private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data");
 
-    public PlayerDataFile(UUID uuid) {
-        this.uuid = uuid;
+    private String id;
+
+    public GlobalDataFile(String id) {
+        this.id = id;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PlayerDataFile implements DataFile {
         if (!path.exists()) {
             path.mkdirs();
         }
-        File file = new File(path, uuid.toString() + ".data");
+        File file = new File(path, id + ".data");
         try {
             if (!file.exists()) {
                 file.createNewFile();
@@ -61,7 +61,7 @@ public class PlayerDataFile implements DataFile {
         if (!path.exists()) {
             path.mkdirs();
         }
-        File file = new File(path, uuid.toString() + ".data");
+        File file = new File(path, id + ".data");
         try {
             if (!file.exists()) {
                 file.createNewFile();

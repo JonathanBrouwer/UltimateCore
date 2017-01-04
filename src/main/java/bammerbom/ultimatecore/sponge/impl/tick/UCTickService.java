@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.sponge.impl.tick;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.tick.TickService;
-import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 
@@ -36,8 +35,8 @@ public class UCTickService implements TickService {
     HashMap<String, Runnable> runnables = new HashMap<>();
 
     public void start() {
-        if (!GeneralConfig.get().getNode("tick", "enable").getBoolean()) return;
-        int interval = GeneralConfig.get().getNode("tick", "interval").getInt();
+        if (!UltimateCore.get().getGeneralConfig().get().getNode("tick", "enable").getBoolean()) return;
+        int interval = UltimateCore.get().getGeneralConfig().get().getNode("tick", "interval").getInt();
         Sponge.getScheduler().createTaskBuilder().name("UltimateCore tick task").intervalTicks(interval).execute(() -> {
             for (String id : runnables.keySet()) {
                 Runnable runnable = runnables.get(id);

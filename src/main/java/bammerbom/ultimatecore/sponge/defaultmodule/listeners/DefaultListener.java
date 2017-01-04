@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.defaultmodule.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.config.datafiles.GlobalDataFile;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.entity.living.player.Player;
@@ -47,7 +47,7 @@ public class DefaultListener {
         config.save(node);
 
         //Ipcache file
-        DataFile file = new DataFile("ipcache");
+        GlobalDataFile file = new GlobalDataFile("ipcache");
         CommentedConfigurationNode node2 = file.get();
         node2.getNode(ip, "name").setValue(p.getName());
         node2.getNode(ip, "uuid").setValue(p.getUniqueId().toString());

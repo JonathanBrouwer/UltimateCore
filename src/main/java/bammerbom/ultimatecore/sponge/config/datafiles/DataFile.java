@@ -23,68 +23,17 @@
  */
 package bammerbom.ultimatecore.sponge.config.datafiles;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 import java.io.File;
-import java.io.IOException;
 
-public class DataFile {
-    private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data");
+public interface DataFile {
+    File getFile();
 
-    private String id;
+    ConfigurationLoader<CommentedConfigurationNode> getLoader();
 
-    public DataFile(String id) {
-        this.id = id;
-    }
+    CommentedConfigurationNode get();
 
-    public File getFile() {
-        if (!path.exists()) {
-            path.mkdirs();
-        }
-        File file = new File(path, id + ".data");
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
-    }
-
-    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
-        if (!path.exists()) {
-            path.mkdirs();
-        }
-        File file = new File(path, id + ".data");
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return HoconConfigurationLoader.builder().setFile(file).build();
-    }
-
-    public CommentedConfigurationNode get() {
-        try {
-            return getLoader().load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public boolean save(CommentedConfigurationNode node) {
-        try {
-            getLoader().save(node);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
+    boolean save(CommentedConfigurationNode node);
 }
