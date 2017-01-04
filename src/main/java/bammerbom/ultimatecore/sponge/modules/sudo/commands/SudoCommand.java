@@ -75,6 +75,10 @@ public class SudoCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
+        if (!sender.hasPermission(SudoPermissions.UC_SUDO_SUDO_BASE.get())) {
+            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            return CommandResult.empty();
+        }
         if (!(args.length >= 2)) {
             sender.sendMessage(getLongDescription());
             return CommandResult.empty();
@@ -88,6 +92,10 @@ public class SudoCommand implements Command {
         boolean cmd = message.startsWith("/");
         if (cmd) {
             //COMMAND
+            if (!sender.hasPermission(SudoPermissions.UC_SUDO_SUDO_COMMAND.get())) {
+                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                return CommandResult.empty();
+            }
             try {
                 if (Sponge.getCommandManager().process(sender, message.replaceFirst("/", "")).getSuccessCount().orElse(0) >= 1) {
                     //Success
@@ -102,6 +110,10 @@ public class SudoCommand implements Command {
             }
         } else {
             //CHAT
+            if (!sender.hasPermission(SudoPermissions.UC_SUDO_SUDO_CHAT.get())) {
+                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                return CommandResult.empty();
+            }
             MessageChannelEvent.Chat event = SpongeEventFactory.createMessageChannelEventChat(Cause.source(t).named(NamedCause.notifier(sender)).build(), t.getMessageChannel(), Optional.of(t.getMessageChannel()), new MessageEvent.MessageFormatter(Text.of(t.getName()), Text.of(message)), Text.of(message), false);
             if (!Sponge.getEventManager().post(event)) {
                 //Success
