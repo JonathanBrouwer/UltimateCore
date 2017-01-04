@@ -23,8 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spawn;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.spawn.command.*;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -33,9 +35,9 @@ import java.util.Optional;
 
 public class SpawnModule implements Module {
     //spawn
-    //globalspawn, firstspawn, worldspawn, groupspawn
-    //(set/del)spawn g(roup):GROUP w(orld):WORLD -w(orld) -f(irst)
-    //(set/del)firstspawn
+    //globalspawn, firstspawn, groupspawn
+    //set(global)spawn, setfirstspawn, setgroupspawn
+    //del(global)spawn, delfirstspawn, delgroupspawn
     @Override
     public String getIdentifier() {
         return "spawn";
@@ -53,7 +55,16 @@ public class SpawnModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-
+        UltimateCore.get().getCommandService().register(new DelfirstspawnCommand());
+        UltimateCore.get().getCommandService().register(new DelglobalspawnCommand());
+        UltimateCore.get().getCommandService().register(new DelgroupspawnCommand());
+        UltimateCore.get().getCommandService().register(new SetfirstspawnCommand());
+        UltimateCore.get().getCommandService().register(new SetglobalspawnCommand());
+        UltimateCore.get().getCommandService().register(new SetgroupspawnCommand());
+        UltimateCore.get().getCommandService().register(new GlobalspawnCommand());
+        UltimateCore.get().getCommandService().register(new FirstspawnCommand());
+        UltimateCore.get().getCommandService().register(new GroupspawnCommand());
+        UltimateCore.get().getCommandService().register(new SpawnCommand());
     }
 
     @Override

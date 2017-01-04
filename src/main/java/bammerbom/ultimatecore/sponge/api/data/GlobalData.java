@@ -48,7 +48,7 @@ public class GlobalData {
         if (!datas.containsKey(key.getIdentifier())) {
             if (key.getProvider().isPresent()) {
                 //Run the provider
-                rtrn = Optional.of(key.getProvider().get().load(Sponge.getGame()));
+                rtrn = Optional.ofNullable(key.getProvider().get().load(Sponge.getGame()));
             } else {
                 rtrn = key.getDefaultValue();
             }

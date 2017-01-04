@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class SudoPermissions {
-    public static Permission UC_SUDO_SUDO_BASE = Permission.create("uc.sudo.sudo.base", "sudo", PermissionLevel.ADMIN, "sudo", Text.of("Allows you to use the sudo command for both chatting and " + "commands."));
-    public static Permission UC_SUDO_SUDO_COMMAND = Permission.create("uc.sudo.sudo.command", "sudo", PermissionLevel.ADMIN, "sudo", Text.of("Allows you to use the sudo command to force a command" + "."));
+    public static Permission UC_SUDO_SUDO_BASE = Permission.create("uc.sudo.sudo.base", "sudo", PermissionLevel.ADMIN, "sudo", Text.of("Allows you to use the sudo command for both chatting and commands."));
+    public static Permission UC_SUDO_SUDO_COMMAND = Permission.create("uc.sudo.sudo.command", "sudo", PermissionLevel.ADMIN, "sudo", Text.of("Allows you to use the sudo command to force a command."));
     public static Permission UC_SUDO_SUDO_CHAT = Permission.create("uc.sudo.sudo.chat", "sudo", PermissionLevel.ADMIN, "sudo", Text.of("Allows you to use the sudo command to force chatting."));
 }

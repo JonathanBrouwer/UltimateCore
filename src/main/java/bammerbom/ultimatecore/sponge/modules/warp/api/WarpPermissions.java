@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class WarpPermissions {
-    public static Permission UC_WARP_WARP_BASE = Permission.create("uc.warp.warp", "warp", PermissionLevel.EVERYONE, "warp", Text.of("Allows you to use all warps."));
+    public static Permission UC_WARP_WARP_BASE = Permission.create("uc.warp.warp.base", "warp", PermissionLevel.EVERYONE, "warp", Text.of("Allows you to use the warp command."));
     public static Permission UC_WARP_WARP_WARP = Permission.create("uc.warp.warp.[WARP]", "warp", PermissionLevel.EVERYONE, "warp", Text.of("Allows you to use a certain warp."));
     public static Permission UC_WARP_SETWARP = Permission.create("uc.warp.setwarp", "warp", PermissionLevel.ADMIN, "setwarp", Text.of("Allows you to set a new warp."));
     public static Permission UC_WARP_DELWARP = Permission.create("uc.warp.delwarp", "warp", PermissionLevel.ADMIN, "delwarp", Text.of("Allows you to remove a warp."));
