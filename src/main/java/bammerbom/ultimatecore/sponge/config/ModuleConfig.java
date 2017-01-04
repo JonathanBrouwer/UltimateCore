@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.config;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.config.serializers.BlockStateSerializer;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import com.google.common.reflect.TypeToken;
@@ -42,7 +43,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public class ModuleConfig {
+public class ModuleConfig implements DataFile {
 
     private String module;
     private Path path;
@@ -86,14 +87,22 @@ public class ModuleConfig {
         return path;
     }
 
+    @Override
+    public File getFile() {
+        return path.toFile();
+    }
+
+    @Override
     public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
         return loader;
     }
 
+    @Override
     public CommentedConfigurationNode get() {
         return node;
     }
 
+    @Override
     public boolean save(CommentedConfigurationNode node) {
         try {
             getLoader().save(node);

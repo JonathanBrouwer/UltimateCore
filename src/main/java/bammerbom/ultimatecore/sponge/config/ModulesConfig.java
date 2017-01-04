@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.config;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -34,13 +35,13 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class ModulesConfig {
+public class ModulesConfig implements DataFile {
     //TODO forced enable
-    private static Path path = new File(UltimateCore.get().getConfigFolder().toFile().getPath(), "modules.conf").toPath();
-    private static ConfigurationLoader<CommentedConfigurationNode> loader;
-    private static CommentedConfigurationNode node;
+    private Path path = new File(UltimateCore.get().getConfigFolder().toFile().getPath(), "modules.conf").toPath();
+    private ConfigurationLoader<CommentedConfigurationNode> loader;
+    private CommentedConfigurationNode node;
 
-    public static void preload() {
+    public void preload() {
         try {
             File file = path.toFile();
             if (!file.exists()) {
@@ -55,7 +56,7 @@ public class ModulesConfig {
         }
     }
 
-    public static void postload() {
+    public void postload() {
         try {
             boolean modified = false;
             if (!node.getNode("modules").getComment().isPresent()) {
@@ -80,8 +81,29 @@ public class ModulesConfig {
         }
     }
 
-    public static CommentedConfigurationNode get() {
+    @Override
+    public File getFile() {
+        return path.toFile();
+    }
+
+    @Override
+    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
+        return loader;
+    }
+
+    public CommentedConfigurationNode get() {
         return node;
+    }
+
+    @Override
+    public boolean save(CommentedConfigurationNode node) {
+        try {
+            loader.save(node);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
 
