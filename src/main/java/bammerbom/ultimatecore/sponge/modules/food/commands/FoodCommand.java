@@ -98,7 +98,7 @@ public class FoodCommand implements Command {
                 return CommandResult.empty();
             }
             t.offer(Keys.FOOD_LEVEL, t.get(FoodData.class).get().foodLevel().getMaxValue());
-            t.offer(Keys.SATURATION, ItemTypes.COOKED_BEEF.getDefaultProperty(SaturationProperty.class).get().getValue());
+            t.offer(Keys.SATURATION, ItemStack.builder().itemType(ItemTypes.COOKED_BEEF).build().getProperty(SaturationProperty.class).get().getValue());
             sender.sendMessage(Messages.getFormatted("food.command.food.success.others.self", "%player%", VariableUtil.getNameSource(t)));
             t.sendMessage(Messages.getFormatted("food.command.food.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
             return CommandResult.success();
