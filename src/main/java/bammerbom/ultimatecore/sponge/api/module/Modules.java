@@ -37,7 +37,6 @@ public class Modules {
     //TODO create javadocs for a description of every module
     public static Optional<Module> AFK = service.getModule("afk");
     public static Optional<Module> AUTOMESSAGE = service.getModule("automessage");
-    public static Optional<Module> AUTOSAVE = service.getModule("autosave");
     public static Optional<Module> BACK = service.getModule("back");
     public static Optional<Module> BACKUP = service.getModule("backup");
     public static Optional<Module> BAN = service.getModule("ban");
