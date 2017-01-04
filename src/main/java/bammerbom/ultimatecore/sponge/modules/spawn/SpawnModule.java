@@ -27,6 +27,8 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.spawn.command.*;
+import bammerbom.ultimatecore.sponge.modules.spawn.listeners.SpawnListener;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -65,6 +67,8 @@ public class SpawnModule implements Module {
         UltimateCore.get().getCommandService().register(new FirstspawnCommand());
         UltimateCore.get().getCommandService().register(new GroupspawnCommand());
         UltimateCore.get().getCommandService().register(new SpawnCommand());
+
+        Sponge.getEventManager().registerListeners(UltimateCore.get(), new SpawnListener());
     }
 
     @Override

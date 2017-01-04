@@ -47,7 +47,6 @@ public class ConnectionmessagesListener {
         Long diff = first.getEpochSecond() - last.getEpochSecond();
 
         //TODO better way. User files?
-        //TODO https://github.com/SpongePowered/SpongeAPI/issues/1446
         if (diff < 2 && diff > -2) {
             //User joined for the first time
             if (config.get().getNode("firstjoin", "enable").getBoolean()) {
