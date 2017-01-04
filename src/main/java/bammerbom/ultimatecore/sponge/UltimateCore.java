@@ -79,6 +79,8 @@ public class UltimateCore {
 
     //Config files
     private GeneralConfig generalConfig;
+    private CommandsConfig commandsConfig;
+    private ModulesConfig modulesConfig;
 
     @Inject
     @ConfigDir(sharedRoot = false)
@@ -109,8 +111,10 @@ public class UltimateCore {
             //Config
             generalConfig = new GeneralConfig();
             generalConfig.reload();
-            CommandsConfig.preload();
-            ModulesConfig.preload();
+            commandsConfig = new CommandsConfig();
+            commandsConfig.preload();
+            modulesConfig = new ModulesConfig();
+            modulesConfig.preload();
             Messages.reloadCustomMessages();
 
             //Load services
@@ -173,8 +177,8 @@ public class UltimateCore {
         try {
             Long time = System.currentTimeMillis();
             //All commands should be registered by now
-            CommandsConfig.postload();
-            ModulesConfig.postload();
+            commandsConfig.postload();
+            modulesConfig.postload();
             //Send stats
             Stats.start();
             //Post-initialize modules
@@ -258,5 +262,13 @@ public class UltimateCore {
     //Get configs
     public GeneralConfig getGeneralConfig() {
         return generalConfig;
+    }
+
+    public CommandsConfig getCommandsConfig() {
+        return commandsConfig;
+    }
+
+    public ModulesConfig getModulesConfig() {
+        return modulesConfig;
     }
 }

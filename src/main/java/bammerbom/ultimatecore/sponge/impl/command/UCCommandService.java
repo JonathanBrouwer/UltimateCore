@@ -26,7 +26,6 @@ package bammerbom.ultimatecore.sponge.impl.command;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.command.CommandService;
-import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import org.spongepowered.api.Sponge;
 
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class UCCommandService implements CommandService {
      */
     @Override
     public boolean register(Command command) {
-        if (!CommandsConfig.get().getNode("commands", command.getIdentifier(), "enabled").getBoolean(true)) {
+        if (!UltimateCore.get().getCommandsConfig().get().getNode("commands", command.getIdentifier(), "enabled").getBoolean(true)) {
             return false;
         }
         commands.add(command);
