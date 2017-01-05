@@ -56,9 +56,9 @@ public class RandomModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        UltimateCore.get().getCommandService().register(new RandomCommand());
         //Register permissions
         new RandomPermissions();
-        UltimateCore.get().getCommandService().register(new RandomCommand());
     }
 
     @Override

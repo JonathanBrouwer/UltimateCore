@@ -60,8 +60,6 @@ public class WarpModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new WarpPermissions();
         //Config
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Warp.class), new Warp.WarpSerializer());
         //Commands
@@ -74,6 +72,8 @@ public class WarpModule implements Module {
         if (serv.isPresent()) {
             serv.get().registerSign(new WarpSign());
         }
+        //Register permissions
+        new WarpPermissions();
     }
 
     @Override

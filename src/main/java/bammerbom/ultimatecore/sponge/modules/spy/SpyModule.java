@@ -55,11 +55,11 @@ public class SpyModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new SpyPermissions();
         UltimateCore.get().getCommandService().register(new CommandspyCommand());
         UltimateCore.get().getCommandService().register(new MessagespyCommand());
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new SpyListener());
+        //Register permissions
+        new SpyPermissions();
     }
 
     @Override

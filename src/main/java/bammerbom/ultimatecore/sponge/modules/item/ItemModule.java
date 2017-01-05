@@ -53,10 +53,10 @@ public class ItemModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new ItemPermissions();
         UltimateCore.get().getCommandService().register(new MoreCommand());
         UltimateCore.get().getCommandService().register(new RepairCommand());
+        //Register permissions
+        new ItemPermissions();
     }
 
     @Override

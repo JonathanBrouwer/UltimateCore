@@ -58,8 +58,6 @@ public class SpawnModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new SpawnPermissions();
         UltimateCore.get().getCommandService().register(new DelfirstspawnCommand());
         UltimateCore.get().getCommandService().register(new DelglobalspawnCommand());
         UltimateCore.get().getCommandService().register(new DelgroupspawnCommand());
@@ -72,6 +70,9 @@ public class SpawnModule implements Module {
         UltimateCore.get().getCommandService().register(new SpawnCommand());
 
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new SpawnListener());
+
+        //Register permissions
+        new SpawnPermissions();
     }
 
     @Override

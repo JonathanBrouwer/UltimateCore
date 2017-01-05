@@ -52,9 +52,9 @@ public class SudoModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        UltimateCore.get().getCommandService().register(new SudoCommand());
         //Register permissions
         new SudoPermissions();
-        UltimateCore.get().getCommandService().register(new SudoCommand());
     }
 
     @Override

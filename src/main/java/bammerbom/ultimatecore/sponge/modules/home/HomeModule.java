@@ -60,8 +60,6 @@ public class HomeModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new HomePermissions();
         //Config
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Home.class), new Home.HomeSerializer());
         //Commands
@@ -69,6 +67,8 @@ public class HomeModule implements Module {
         UltimateCore.get().getCommandService().register(new HomeCommand());
         UltimateCore.get().getCommandService().register(new DelhomeCommand());
         UltimateCore.get().getCommandService().register(new SethomeCommand());
+        //Register permissions
+        new HomePermissions();
     }
 
     @Override

@@ -54,10 +54,10 @@ public class GodModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new GodPermissions();
         UltimateCore.get().getCommandService().register(new GodCommand());
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new GodListener());
+        //Register permissions
+        new GodPermissions();
     }
 
     @Override

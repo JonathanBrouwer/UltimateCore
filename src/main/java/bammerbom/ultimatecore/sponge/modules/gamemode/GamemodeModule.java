@@ -52,13 +52,13 @@ public class GamemodeModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new GamemodePermissions();
         UltimateCore.get().getCommandService().register(new GamemodeCommand());
         UltimateCore.get().getCommandService().register(new SurvivalCommand());
         UltimateCore.get().getCommandService().register(new CreativeCommand());
         UltimateCore.get().getCommandService().register(new AdventureCommand());
         UltimateCore.get().getCommandService().register(new SpectatorCommand());
+        //Register permissions
+        new GamemodePermissions();
     }
 
     @Override

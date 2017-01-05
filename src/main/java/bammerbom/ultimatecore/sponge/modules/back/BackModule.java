@@ -55,10 +55,10 @@ public class BackModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new BackPermissions();
         UltimateCore.get().getTeleportService().addHandler(new BackTeleportHandler());
         UltimateCore.get().getCommandService().register(new BackCommand());
+        //Register permissions
+        new BackPermissions();
     }
 
     @Override

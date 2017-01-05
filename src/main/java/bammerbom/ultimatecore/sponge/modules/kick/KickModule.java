@@ -53,10 +53,10 @@ public class KickModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new KickPermissions();
         UltimateCore.get().getCommandService().register(new KickCommand());
         UltimateCore.get().getCommandService().register(new KickallCommand());
+        //Register permissions
+        new KickPermissions();
     }
 
     @Override

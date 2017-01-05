@@ -59,8 +59,6 @@ public class WeatherModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new WeatherPermissions();
         //Config
         config = new ModuleConfig("weather");
         //Commands
@@ -70,6 +68,8 @@ public class WeatherModule implements Module {
         UltimateCore.get().getCommandService().register(new ThunderCommand());
         //Listeners
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new WeatherListener());
+        //Register permissions
+        new WeatherPermissions();
     }
 
     @Override

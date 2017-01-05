@@ -56,8 +56,6 @@ public class FlyModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new FlyPermissions();
         //Config
         config = new ModuleConfig("fly");
         //Commands
@@ -66,6 +64,8 @@ public class FlyModule implements Module {
         if (config.get().getNode("enable-autofly").getBoolean(false)) {
             Sponge.getEventManager().registerListeners(UltimateCore.get(), new FlyListeners());
         }
+        //Register permissions
+        new FlyPermissions();
     }
 
     @Override

@@ -54,11 +54,11 @@ public class TimeModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new TimePermissions();
         UltimateCore.get().getCommandService().register(new TimeCommand());
         UltimateCore.get().getCommandService().register(new DayCommand());
         UltimateCore.get().getCommandService().register(new NightCommand());
+        //Register permissions
+        new TimePermissions();
     }
 
     @Override

@@ -56,8 +56,6 @@ public class TeleportModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new TeleportPermissions();
         Sponge.getEventManager().registerListeners(UltimateCore.get(), this);
         UltimateCore.get().getCommandService().register(new TeleportaskCommand());
         UltimateCore.get().getCommandService().register(new TeleportaskhereCommand());
@@ -83,5 +81,7 @@ public class TeleportModule implements Module {
         cm.get("teleport").ifPresent(cm::removeMapping);
         cm.get("tp").ifPresent(cm::removeMapping);
         UltimateCore.get().getCommandService().register(new TeleportCommand());
+        //Register permissions
+        new TeleportPermissions();
     }
 }

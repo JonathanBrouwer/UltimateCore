@@ -53,10 +53,10 @@ public class PersonalmessageModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new PersonalmessagePermissions();
         UltimateCore.get().getCommandService().register(new PersonalmessageCommand());
         UltimateCore.get().getCommandService().register(new ReplyCommand());
+        //Register permissions
+        new PersonalmessagePermissions();
     }
 
     @Override

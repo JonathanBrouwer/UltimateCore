@@ -59,13 +59,13 @@ public class MuteModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new MutePermissions();
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Mute.class), new Mute.MuteSerializer());
         UltimateCore.get().getCommandService().register(new MuteCommand());
         UltimateCore.get().getCommandService().register(new UnmuteCommand());
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new MuteListener());
         UltimateCore.get().getTickService().addRunnable("mute", new MuteTickRunnable());
+        //Register permissions
+        new MutePermissions();
     }
 
     @Override

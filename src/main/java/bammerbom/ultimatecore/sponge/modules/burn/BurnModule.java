@@ -52,9 +52,9 @@ public class BurnModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        UltimateCore.get().getCommandService().register(new BurnCommand());
         //Register permissions
         new BurnPermissions();
-        UltimateCore.get().getCommandService().register(new BurnCommand());
     }
 
     @Override

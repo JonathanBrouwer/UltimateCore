@@ -62,8 +62,6 @@ public class AfkModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new AfkPermissions();
         //Config
         config = new ModuleConfig("afk");
         //Commands
@@ -76,6 +74,8 @@ public class AfkModule implements Module {
             Sponge.getScheduler().createTaskBuilder().intervalTicks(config.get().getNode("title", "subtitle-refresh").getLong()).name("UC afk title task").execute(new AfkTitleTask()).submit(UltimateCore.get());
 
         }
+        //Register permissions
+        new AfkPermissions();
     }
 
     @Override

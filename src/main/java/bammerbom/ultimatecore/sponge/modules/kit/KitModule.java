@@ -58,14 +58,15 @@ public class KitModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new KitPermissions();
         config = new ModuleConfig("kit");
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Kit.class), new Kit.KitSerializer());
 
-        //Test
+        //Commands
         UltimateCore.get().getCommandService().register(new KitCommand());
         UltimateCore.get().getCommandService().register(new KitlistCommand());
+
+        //Register permissions
+        new KitPermissions();
     }
 
     @Override

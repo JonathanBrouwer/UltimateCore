@@ -59,13 +59,13 @@ public class DeafModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new DeafPermissions();
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Deaf.class), new Deaf.DeafSerializer());
         UltimateCore.get().getCommandService().register(new DeafCommand());
         UltimateCore.get().getCommandService().register(new UndeafCommand());
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new DeafListener());
         UltimateCore.get().getTickService().addRunnable("deaf", new DeafTickRunnable());
+        //Register permissions
+        new DeafPermissions();
     }
 
     @Override

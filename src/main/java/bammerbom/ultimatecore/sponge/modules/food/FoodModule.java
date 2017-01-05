@@ -52,9 +52,9 @@ public class FoodModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        UltimateCore.get().getCommandService().register(new FoodCommand());
         //Register permissions
         new FoodPermissions();
-        UltimateCore.get().getCommandService().register(new FoodCommand());
     }
 
     @Override

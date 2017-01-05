@@ -54,14 +54,12 @@ public class HealModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Register permissions
-        new HealPermissions();
         //commands
         UltimateCore.get().getCommandService().register(new HealCommand());
         UltimateCore.get().getCommandService().register(new SetHealthCommand());
         UltimateCore.get().getCommandService().register(new SetMaxHealthCommand());
-
-
+        //Register permissions
+        new HealPermissions();
     }
 
     @Override
