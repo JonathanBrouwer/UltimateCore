@@ -1,19 +1,12 @@
-UltimateCore is all you need to setup a server and more! ![Travis-ci](https://travis-ci.org/Bammerbom/UltimateCore.svg?branch=master)
+UltimateCore
+====
+UltimateCore is an essentials plugin which aims to be simple, powerful and configurable.
+It has an extensive API, all messages are configurable and is easy to use.
 
-In maven, to add UltimateCore as dependency add this to your pom:
-```
-<repositories>
-  <repository>
-    <id>ultimatecore-repo</id>
-    <url>https://raw.github.com/Bammerbom/UltimateCore/master/mvn-repo/</url>
-  </repository>
-</repositories>
+Travis-ci: ![Travis-ci](https://travis-ci.org/Bammerbom/UltimateCore.svg?branch=master)
 
-<dependencies>
-  <dependency>
-    <groupId>bammerbom</groupId>
-    <artifactId>UltimateCore</artifactId>
-    <version>(USE THE LATEST VERSION)</version>
-  </dependency>
-</dependencies>
-```
+## Building UltimateCore
+UltimateCore uses gradle to build. Just run the build.gradle like all other gradle projects.
+
+## Using UltimateCore as Library
+UltimateCore currently does not have a repository. 

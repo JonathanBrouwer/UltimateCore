@@ -134,7 +134,7 @@ public class Messages {
      *
      * @param key  The key of the message to get
      * @param vars The variables to replace. When {Banana, Apple} is provided Banana will be replaced with Apple
-     * @return The ampersand-formatted message
+     * @return The formatted message
      */
     public static Text getFormatted(@Nullable CommandSource p, String key, Object... vars) {
         String raw = get(p, key, vars);
@@ -181,7 +181,7 @@ public class Messages {
      *
      * @param key  The key of the message to get
      * @param vars The variables to replace. When {Banana, Apple} is provided Banana will be replaced with Apple
-     * @return The ampersand-formatted message
+     * @return The formatted message
      */
     public static Text getFormatted(String key, Object... vars) {
         return getFormatted(null, key, vars);

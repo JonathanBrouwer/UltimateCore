@@ -82,11 +82,12 @@ public class UCModuleService implements ModuleService {
     public boolean registerModule(Module module) {
         ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().owner(UltimateCore.get()).build());
         Sponge.getEventManager().post(event);
-        if (event.isCancelled()) {
+        String state = UltimateCore.get().getModulesConfig().get().getNode("modules", module.getIdentifier(), "state").getString();
+        if (event.isCancelled() && !module.getIdentifier().equalsIgnoreCase("default") && !state.equalsIgnoreCase("force")) {
             Messages.log(Messages.getFormatted("core.load.module.blocked", "%module%", module.getIdentifier()));
             return false;
         }
-        if (!UltimateCore.get().getModulesConfig().get().getNode("modules", module.getIdentifier(), "state").getBoolean(true)) {
+        if (!module.getIdentifier().equalsIgnoreCase("default") && state.equalsIgnoreCase("disabled")) {
             Messages.log(Messages.getFormatted("core.load.module.disabled", "%module%", module.getIdentifier()));
             return false;
         }
