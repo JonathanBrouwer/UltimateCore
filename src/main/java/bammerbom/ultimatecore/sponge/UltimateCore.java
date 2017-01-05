@@ -155,8 +155,6 @@ public class UltimateCore {
             ex.printStackTrace();
             //ErrorLogger.log(ex, "Failed to pre-initialize UltimateCore");
         }
-
-        //Test
     }
 
     @Listener
@@ -201,6 +199,48 @@ public class UltimateCore {
             ex.printStackTrace();
             //ErrorLogger.log(ex, "Failed to post-initialize UltimateCore");
         }
+
+        //This is some code I use to generate the temporary docs
+        //Shouldnt really be runned on a normal server
+//        File file = new File(UltimateCore.get().getDataFolder().toFile(), "DOCS.md");
+//        StringWriter writer = new StringWriter();
+//        for (Module mod : getModuleService().getRegisteredModules()) {
+//            writer.write("## " + StringUtil.firstUpperCase(mod.getIdentifier()) + "\n");
+//            //Commands
+//            CommandService service = getCommandService();
+//            List<Command> commands = service.getCommands().stream().filter(cmd -> cmd.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
+//            if (!commands.isEmpty()) {
+//                writer.write("### Commands<br>\n");
+//                for (Command cmd : commands) {
+//                    writer.write("* " + cmd.getUsage().toPlain() + ": " + cmd.getLongDescription().toPlain() + "<br>\n");
+//                }
+//            }
+//            //Permissions
+//            PermissionService service2 = getPermissionService();
+//            List<Permission> perms = service2.getPermissions().stream().filter(cmd -> cmd.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
+//            if (!perms.isEmpty()) {
+//                writer.write("### Permissions<br>\n");
+//                for (Permission perm : perms) {
+//                    writer.write("* " + perm.get() + ": " + perm.getDescription().toPlain() + " (Recommended for " + perm.getLevel().name() + ")<br>\n");
+//                }
+//            }
+//            //Permission options
+//            List<PermissionOption> permops = service2.getPermissionOptions().stream().filter(cmd -> cmd.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
+//            if (!permops.isEmpty()) {
+//                writer.write("### Permissions options<br>\n");
+//                for (PermissionOption perm : permops) {
+//                    writer.write("* " + perm.get() + ": " + perm.getDescription().toPlain() + "<br>\n");
+//                }
+//            }
+//            if (commands.isEmpty() && perms.isEmpty() && permops.isEmpty()) {
+//                writer.write("This module has no commands or permissions.<br>\n");
+//            }
+//        }
+//        try {
+//            FileUtil.writeLines(file, Arrays.asList(writer.toString().split("\n")));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Listener
