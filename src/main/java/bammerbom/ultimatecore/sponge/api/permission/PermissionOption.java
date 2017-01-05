@@ -67,7 +67,7 @@ public class PermissionOption {
         }
         //When an invalid command is provided
         if (command != null && !command.isPresent()) {
-            Messages.log("Semi-failed to register permissionoption " + identifier + ": Invalid command");
+            //Messages.log("Semi-failed to register permissionoption " + identifier + ": Invalid command");
             //TODO ErrorLogger?
             command = null;
         }
