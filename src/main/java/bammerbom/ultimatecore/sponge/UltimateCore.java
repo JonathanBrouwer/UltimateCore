@@ -212,7 +212,7 @@ public class UltimateCore {
 //            if (!commands.isEmpty()) {
 //                writer.write("### Commands<br>\n");
 //                for (Command cmd : commands) {
-//                    writer.write("* " + cmd.getUsage().toPlain() + ": " + cmd.getLongDescription().toPlain() + "<br>\n");
+//                    writer.write("**" + cmd.getUsage().toPlain() + "**: " + cmd.getLongDescription().toPlain() + "<br>\n");
 //                }
 //            }
 //            //Permissions
@@ -221,7 +221,7 @@ public class UltimateCore {
 //            if (!perms.isEmpty()) {
 //                writer.write("### Permissions<br>\n");
 //                for (Permission perm : perms) {
-//                    writer.write("* " + perm.get() + ": " + perm.getDescription().toPlain() + " (Recommended for " + perm.getLevel().name() + ")<br>\n");
+//                    writer.write("**" + perm.get() + "**: " + perm.getDescription().toPlain() + " (Recommended for " + perm.getLevel().name() + ")<br>\n");
 //                }
 //            }
 //            //Permission options
@@ -229,7 +229,7 @@ public class UltimateCore {
 //            if (!permops.isEmpty()) {
 //                writer.write("### Permissions options<br>\n");
 //                for (PermissionOption perm : permops) {
-//                    writer.write("* " + perm.get() + ": " + perm.getDescription().toPlain() + "<br>\n");
+//                    writer.write("**" + perm.get() + "**: " + perm.getDescription().toPlain() + "<br>\n");
 //                }
 //            }
 //            if (commands.isEmpty() && perms.isEmpty() && permops.isEmpty()) {
