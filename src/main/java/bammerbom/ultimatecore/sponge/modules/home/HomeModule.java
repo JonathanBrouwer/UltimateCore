@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
+import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
 import bammerbom.ultimatecore.sponge.modules.home.commands.DelhomeCommand;
 import bammerbom.ultimatecore.sponge.modules.home.commands.HomeCommand;
 import bammerbom.ultimatecore.sponge.modules.home.commands.HomelistCommand;
@@ -59,6 +60,8 @@ public class HomeModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new HomePermissions();
         //Config
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Home.class), new Home.HomeSerializer());
         //Commands

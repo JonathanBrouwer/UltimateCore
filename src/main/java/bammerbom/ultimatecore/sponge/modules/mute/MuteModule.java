@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
+import bammerbom.ultimatecore.sponge.modules.mute.api.MutePermissions;
 import bammerbom.ultimatecore.sponge.modules.mute.commands.MuteCommand;
 import bammerbom.ultimatecore.sponge.modules.mute.commands.UnmuteCommand;
 import bammerbom.ultimatecore.sponge.modules.mute.listeners.MuteListener;
@@ -58,6 +59,8 @@ public class MuteModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new MutePermissions();
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Mute.class), new Mute.MuteSerializer());
         UltimateCore.get().getCommandService().register(new MuteCommand());
         UltimateCore.get().getCommandService().register(new UnmuteCommand());

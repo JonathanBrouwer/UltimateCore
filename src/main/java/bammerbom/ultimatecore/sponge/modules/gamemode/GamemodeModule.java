@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.gamemode;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.gamemode.api.GamemodePermissions;
 import bammerbom.ultimatecore.sponge.modules.gamemode.commands.*;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -51,6 +52,8 @@ public class GamemodeModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new GamemodePermissions();
         UltimateCore.get().getCommandService().register(new GamemodeCommand());
         UltimateCore.get().getCommandService().register(new SurvivalCommand());
         UltimateCore.get().getCommandService().register(new CreativeCommand());

@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.item;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
 import bammerbom.ultimatecore.sponge.modules.item.commands.MoreCommand;
 import bammerbom.ultimatecore.sponge.modules.item.commands.RepairCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -52,6 +53,8 @@ public class ItemModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new ItemPermissions();
         UltimateCore.get().getCommandService().register(new MoreCommand());
         UltimateCore.get().getCommandService().register(new RepairCommand());
     }

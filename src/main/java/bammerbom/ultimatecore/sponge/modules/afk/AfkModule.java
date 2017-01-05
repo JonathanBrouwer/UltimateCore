@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.afk;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
 import bammerbom.ultimatecore.sponge.modules.afk.commands.AfkCommand;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkSwitchListener;
@@ -61,6 +62,8 @@ public class AfkModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new AfkPermissions();
         //Config
         config = new ModuleConfig("afk");
         //Commands

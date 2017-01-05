@@ -155,6 +155,8 @@ public class UltimateCore {
             ex.printStackTrace();
             //ErrorLogger.log(ex, "Failed to pre-initialize UltimateCore");
         }
+
+        //Test
     }
 
     @Listener

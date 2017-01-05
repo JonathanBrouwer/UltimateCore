@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.time;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.time.api.TimePermissions;
 import bammerbom.ultimatecore.sponge.modules.time.commands.DayCommand;
 import bammerbom.ultimatecore.sponge.modules.time.commands.NightCommand;
 import bammerbom.ultimatecore.sponge.modules.time.commands.TimeCommand;
@@ -53,6 +54,8 @@ public class TimeModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new TimePermissions();
         UltimateCore.get().getCommandService().register(new TimeCommand());
         UltimateCore.get().getCommandService().register(new DayCommand());
         UltimateCore.get().getCommandService().register(new NightCommand());

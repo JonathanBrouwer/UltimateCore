@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.back;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.back.api.BackPermissions;
 import bammerbom.ultimatecore.sponge.modules.back.commands.BackCommand;
 import bammerbom.ultimatecore.sponge.modules.back.runnables.BackTeleportHandler;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -54,6 +55,8 @@ public class BackModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new BackPermissions();
         UltimateCore.get().getTeleportService().addHandler(new BackTeleportHandler());
         UltimateCore.get().getCommandService().register(new BackCommand());
     }

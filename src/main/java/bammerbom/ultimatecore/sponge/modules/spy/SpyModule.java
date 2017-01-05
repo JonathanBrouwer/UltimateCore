@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.spy;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.spy.api.SpyPermissions;
 import bammerbom.ultimatecore.sponge.modules.spy.commands.CommandspyCommand;
 import bammerbom.ultimatecore.sponge.modules.spy.commands.MessagespyCommand;
 import bammerbom.ultimatecore.sponge.modules.spy.listeners.SpyListener;
@@ -54,6 +55,8 @@ public class SpyModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new SpyPermissions();
         UltimateCore.get().getCommandService().register(new CommandspyCommand());
         UltimateCore.get().getCommandService().register(new MessagespyCommand());
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new SpyListener());

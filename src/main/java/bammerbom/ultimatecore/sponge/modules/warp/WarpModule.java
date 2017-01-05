@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
+import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
 import bammerbom.ultimatecore.sponge.modules.warp.commands.DelwarpCommand;
 import bammerbom.ultimatecore.sponge.modules.warp.commands.SetwarpCommand;
 import bammerbom.ultimatecore.sponge.modules.warp.commands.WarpCommand;
@@ -59,6 +60,8 @@ public class WarpModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new WarpPermissions();
         //Config
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Warp.class), new Warp.WarpSerializer());
         //Commands

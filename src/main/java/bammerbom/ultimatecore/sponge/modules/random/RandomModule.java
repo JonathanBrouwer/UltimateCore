@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.random;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.random.api.RandomPermissions;
 import bammerbom.ultimatecore.sponge.modules.random.commands.RandomCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -55,6 +56,8 @@ public class RandomModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new RandomPermissions();
         UltimateCore.get().getCommandService().register(new RandomCommand());
     }
 

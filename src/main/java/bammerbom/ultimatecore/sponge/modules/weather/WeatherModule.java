@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.weather;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.weather.api.WeatherPermissions;
 import bammerbom.ultimatecore.sponge.modules.weather.commands.RainCommand;
 import bammerbom.ultimatecore.sponge.modules.weather.commands.SunCommand;
 import bammerbom.ultimatecore.sponge.modules.weather.commands.ThunderCommand;
@@ -58,6 +59,8 @@ public class WeatherModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new WeatherPermissions();
         //Config
         config = new ModuleConfig("weather");
         //Commands

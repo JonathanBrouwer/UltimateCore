@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.god;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.god.api.GodPermissions;
 import bammerbom.ultimatecore.sponge.modules.god.commands.GodCommand;
 import bammerbom.ultimatecore.sponge.modules.god.listeners.GodListener;
 import org.spongepowered.api.Sponge;
@@ -53,6 +54,8 @@ public class GodModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new GodPermissions();
         UltimateCore.get().getCommandService().register(new GodCommand());
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new GodListener());
     }

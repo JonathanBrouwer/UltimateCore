@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.burn;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.burn.api.BurnPermissions;
 import bammerbom.ultimatecore.sponge.modules.burn.commands.BurnCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -51,6 +52,8 @@ public class BurnModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new BurnPermissions();
         UltimateCore.get().getCommandService().register(new BurnCommand());
     }
 

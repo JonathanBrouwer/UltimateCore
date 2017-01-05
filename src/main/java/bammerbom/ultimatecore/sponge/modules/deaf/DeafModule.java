@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.Deaf;
+import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafPermissions;
 import bammerbom.ultimatecore.sponge.modules.deaf.commands.DeafCommand;
 import bammerbom.ultimatecore.sponge.modules.deaf.commands.UndeafCommand;
 import bammerbom.ultimatecore.sponge.modules.deaf.listeners.DeafListener;
@@ -58,6 +59,8 @@ public class DeafModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new DeafPermissions();
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Deaf.class), new Deaf.DeafSerializer());
         UltimateCore.get().getCommandService().register(new DeafCommand());
         UltimateCore.get().getCommandService().register(new UndeafCommand());

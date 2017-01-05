@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.personalmessage;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessagePermissions;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.commands.PersonalmessageCommand;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.commands.ReplyCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -52,6 +53,8 @@ public class PersonalmessageModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new PersonalmessagePermissions();
         UltimateCore.get().getCommandService().register(new PersonalmessageCommand());
         UltimateCore.get().getCommandService().register(new ReplyCommand());
     }

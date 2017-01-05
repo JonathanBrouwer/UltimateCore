@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.spawn;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
 import bammerbom.ultimatecore.sponge.modules.spawn.command.*;
 import bammerbom.ultimatecore.sponge.modules.spawn.listeners.SpawnListener;
 import org.spongepowered.api.Sponge;
@@ -57,6 +58,8 @@ public class SpawnModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new SpawnPermissions();
         UltimateCore.get().getCommandService().register(new DelfirstspawnCommand());
         UltimateCore.get().getCommandService().register(new DelglobalspawnCommand());
         UltimateCore.get().getCommandService().register(new DelgroupspawnCommand());

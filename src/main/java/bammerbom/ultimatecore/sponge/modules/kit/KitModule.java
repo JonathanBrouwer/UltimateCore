@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
+import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.KitCommand;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.KitlistCommand;
 import com.google.common.reflect.TypeToken;
@@ -57,6 +58,8 @@ public class KitModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //Register permissions
+        new KitPermissions();
         config = new ModuleConfig("kit");
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Kit.class), new Kit.KitSerializer());
 
