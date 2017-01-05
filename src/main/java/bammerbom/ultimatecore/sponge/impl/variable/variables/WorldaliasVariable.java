@@ -21,50 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.random;
+package bammerbom.ultimatecore.sponge.impl.variable.variables;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
-import bammerbom.ultimatecore.sponge.modules.random.commands.RandomCommand;
-import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import bammerbom.ultimatecore.sponge.api.variable.Variable;
+import bammerbom.ultimatecore.sponge.utils.TextUtil;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.text.Text;
 
-import java.util.Optional;
-
-public class RandomModule implements Module {
-    //random init end
-    //randomboolean
-    //randomtext length
-    //dice
+public class WorldaliasVariable implements Variable {
     @Override
-    public String getIdentifier() {
-        return "random";
+    public String getKey() {
+        return "%worldalias%";
     }
 
     @Override
-    public Optional<ModuleConfig> getConfig() {
-        return Optional.empty();
+    public Text replace(Text text) {
+        return TextUtil.replace(text, "%worldalias%", Text.of());
     }
 
     @Override
-    public void onRegister() {
-
+    public Text replaceUser(Text text, User p) {
+        if (p.getPlayer().isPresent()) {
+            return TextUtil.replace(text, "%worldalias%", Text.of(p.getPlayer().get().getWorld().getName().toCharArray()[0] + ""));
+        }
+        return TextUtil.replace(text, "%worldalias%", Text.of(""));
     }
 
     @Override
-    public void onInit(GameInitializationEvent event) {
-        UltimateCore.get().getCommandService().register(new RandomCommand());
+    public Text replaceSource(Text text, CommandSource p) {
+        return TextUtil.replace(text, "%worldalias%", Text.of(""));
     }
 
     @Override
-    public void onPostInit(GamePostInitializationEvent event) {
-
-    }
-
-    @Override
-    public void onStop(GameStoppingEvent event) {
-
+    public Text replacePlayer(Text text, Player p) {
+        return TextUtil.replace(text, "%worldalias%", Text.of(p.getWorld().getName().toCharArray()[0] + ""));
     }
 }

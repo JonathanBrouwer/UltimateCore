@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 public interface Teleportation {
 
     /**
-     * This will start handling the teleportation.
+     * This will init handling the teleportation.
      * This means all registered handlers will be runned and then the targets will be teleported.
      * <p>
      * An {@link IllegalStateException} is thrown when the teleportation has already started.

@@ -55,7 +55,7 @@ public class TextUtil {
     }
 
     /**
-     * This will get a specific piece of text, starting at {@code start} and ending at {@code end - 1}.
+     * This will get a specific piece of text, starting at {@code init} and ending at {@code end - 1}.
      * This is the same as {@link String#substring(int, int)}, but keeps formatting.
      *
      * @param text  The text to get the subtext for

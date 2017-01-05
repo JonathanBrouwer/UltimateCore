@@ -21,50 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.random;
+package bammerbom.ultimatecore.sponge.impl.variable.variables;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
-import bammerbom.ultimatecore.sponge.modules.random.commands.RandomCommand;
-import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import bammerbom.ultimatecore.sponge.api.variable.Variable;
+import bammerbom.ultimatecore.sponge.utils.TextUtil;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.text.Text;
 
-import java.util.Optional;
-
-public class RandomModule implements Module {
-    //random init end
-    //randomboolean
-    //randomtext length
-    //dice
+public class OnlineplayersVariable implements Variable {
     @Override
-    public String getIdentifier() {
-        return "random";
+    public String getKey() {
+        return "%onlineplayers%";
     }
 
     @Override
-    public Optional<ModuleConfig> getConfig() {
-        return Optional.empty();
+    public Text replace(Text text) {
+        return TextUtil.replace(text, "%onlineplayers%", Text.of(Sponge.getServer().getOnlinePlayers().size()));
     }
 
     @Override
-    public void onRegister() {
-
+    public Text replaceUser(Text text, User user) {
+        return replace(text);
     }
 
     @Override
-    public void onInit(GameInitializationEvent event) {
-        UltimateCore.get().getCommandService().register(new RandomCommand());
+    public Text replaceSource(Text text, CommandSource source) {
+        return replace(text);
     }
 
     @Override
-    public void onPostInit(GamePostInitializationEvent event) {
-
-    }
-
-    @Override
-    public void onStop(GameStoppingEvent event) {
-
+    public Text replacePlayer(Text text, Player player) {
+        return replace(text);
     }
 }

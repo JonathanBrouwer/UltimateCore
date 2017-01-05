@@ -31,7 +31,7 @@ import org.spongepowered.api.text.Text;
 public class SpawnPermissions {
     //Spawn self
     public static Permission UC_SPAWN_SPAWN_BASE = Permission.create("uc.spawn.spawn.base", "spawn", PermissionLevel.EVERYONE, "spawn", Text.of("Allows you to use the spawn command."));
-    public static Permission UC_SPAWN_GLOBALSPAWN_BASE = Permission.create("uc.spawn.globalspawn.base", "spawn", PermissionLevel.ADMIN, "globalspawn", Text.of("Allows you to use the globalspawn " + "command."));
+    public static Permission UC_SPAWN_GLOBALSPAWN_BASE = Permission.create("uc.spawn.globalspawn.base", "spawn", PermissionLevel.ADMIN, "globalspawn", Text.of("Allows you to use the globalspawn command."));
     public static Permission UC_SPAWN_GROUPSPAWN_BASE = Permission.create("uc.spawn.groupspawn.base", "spawn", PermissionLevel.ADMIN, "groupspawn", Text.of("Allows you to use the groupspawn command."));
     public static Permission UC_SPAWN_GROUPSPAWN_GROUP = Permission.create("uc.spawn.groupspawn.group.<Group>", "spawn", PermissionLevel.ADMIN, "groupspawn", Text.of("Allows you to use the groupspawn command for a certain group."));
     public static Permission UC_SPAWN_FIRSTSPAWN_BASE = Permission.create("uc.spawn.firstspawn.base", "spawn", PermissionLevel.ADMIN, "firstspawn", Text.of("Allows you to use the firstspawn command."));

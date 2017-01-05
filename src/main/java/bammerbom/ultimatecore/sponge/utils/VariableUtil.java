@@ -23,73 +23,34 @@
  */
 package bammerbom.ultimatecore.sponge.utils;
 
-import org.spongepowered.api.Sponge;
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
-import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
 import javax.annotation.Nullable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class VariableUtil {
     public static Text replaceVariables(Text text, @Nullable CommandSource player) {
-        //Player-specific variables
         if (player != null) {
-            text = TextUtil.replace(text, "%player%", getNameSource(player));
-            text = TextUtil.replace(text, "%name%", Text.of(player.getName()));
-            text = TextUtil.replace(text, "%displayname%", getNameSource(player));
-            text = TextUtil.replace(text, "%prefix%", Text.of(player.getOption("prefix").orElse("")));
-            text = TextUtil.replace(text, "%suffix%", Text.of(player.getOption("suffix").orElse("")));
-            if (player instanceof Player) {
-                Player p = (Player) player;
-                text = TextUtil.replace(text, "%world%", Text.of(p.getWorld().getName()));
-                text = TextUtil.replace(text, "%worldalias%", Text.of(p.getWorld().getName().toCharArray()[0] + ""));
-                text = TextUtil.replace(text, "%ip%", Text.of(p.getConnection().getAddress().getAddress().toString().split("/")[1].split(":")[0]));
-                if (Sponge.getServiceManager().provide(EconomyService.class).isPresent()) {
-                    EconomyService es = Sponge.getServiceManager().provide(EconomyService.class).get();
-                    if (es.getOrCreateAccount(p.getUniqueId()).isPresent()) {
-                        BigDecimal balance = es.getOrCreateAccount(p.getUniqueId()).get().getBalance(es.getDefaultCurrency());
-                        text = TextUtil.replace(text, "%money%", Text.of(balance.toString()));
-                    }
-                }
-            }
+            return UltimateCore.get().getVariableService().replaceSource(text, player);
+        } else {
+            return UltimateCore.get().getVariableService().replace(text);
         }
-
-        //Not player-specific variables
-        text = TextUtil.replace(text, "%version%", Text.of(Sponge.getPlatform().getMinecraftVersion().getName()));
-        List<String> names = new ArrayList<>();
-        Sponge.getServer().getOnlinePlayers().forEach(p -> names.add(p.getName()));
-        text = TextUtil.replace(text, "%players%", !names.isEmpty() ? Text.of(StringUtil.join(", ", names)) : Messages.getFormatted("core.none"));
-        text = TextUtil.replace(text, "%maxplayers%", Text.of(Sponge.getServer().getMaxPlayers()));
-        text = TextUtil.replace(text, "%onlineplayers%", Text.of(Sponge.getServer().getOnlinePlayers().size()));
-
-        return text;
     }
 
     public static Text replaceVariablesUser(Text text, @Nullable User player) {
-        text = replaceVariables(text, null);
         if (player != null) {
-            text = TextUtil.replace(text, "%player%", getNameUser(player));
-            text = TextUtil.replace(text, "%name%", Text.of(player.getName()));
-            text = TextUtil.replace(text, "%displayname%", getNameUser(player));
-            text = TextUtil.replace(text, "%prefix%", Text.of(player.getOption("prefix").orElse("")));
-            text = TextUtil.replace(text, "%suffix%", Text.of(player.getOption("suffix").orElse("")));
-            if (Sponge.getServiceManager().provide(EconomyService.class).isPresent()) {
-                EconomyService es = Sponge.getServiceManager().provide(EconomyService.class).get();
-                if (es.getOrCreateAccount(player.getUniqueId()).isPresent()) {
-                    BigDecimal balance = es.getOrCreateAccount(player.getUniqueId()).get().getBalance(es.getDefaultCurrency());
-                    text = TextUtil.replace(text, "%money%", Text.of(balance.toString()));
-                }
-            }
+            return UltimateCore.get().getVariableService().replaceUser(text, player);
+        } else {
+            return UltimateCore.get().getVariableService().replace(text);
         }
-        return text;
     }
 
     public static Text getNameSource(CommandSource player) {

@@ -21,52 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.tick;
+package bammerbom.ultimatecore.sponge.impl.variable.variables;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.tick.TickService;
+import bammerbom.ultimatecore.sponge.api.variable.Variable;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.text.Text;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UCTickService implements TickService {
-
-    HashMap<String, Runnable> runnables = new HashMap<>();
-
-    public void init() {
-        if (!UltimateCore.get().getGeneralConfig().get().getNode("tick", "enable").getBoolean()) return;
-        int interval = UltimateCore.get().getGeneralConfig().get().getNode("tick", "interval").getInt();
-        Sponge.getScheduler().createTaskBuilder().name("UltimateCore tick task").intervalTicks(interval).execute(() -> {
-            for (String id : runnables.keySet()) {
-                Runnable runnable = runnables.get(id);
-                try {
-                    runnable.run();
-                } catch (Exception ex) {
-                    Messages.log("Failed to run tick for " + id);
-                    ex.printStackTrace();
-                }
-            }
-        }).submit(UltimateCore.get());
+public class PlayersVariable implements Variable {
+    @Override
+    public String getKey() {
+        return "%players%";
     }
 
     @Override
-    public void addRunnable(String id, Runnable runnable) {
-        runnables.put(id, runnable);
+    public Text replace(Text text) {
+        List<String> names = new ArrayList<>();
+        Sponge.getServer().getOnlinePlayers().forEach(p -> names.add(p.getName()));
+        return TextUtil.replace(text, "%players%", !names.isEmpty() ? Text.of(StringUtil.join(", ", names)) : Messages.getFormatted("core.none"));
     }
 
     @Override
-    public void removeRunnable(String id) {
-        runnables.remove(id);
+    public Text replaceUser(Text text, User user) {
+        return replace(text);
     }
 
     @Override
-    public HashMap<String, Runnable> getRunnables() {
-        return runnables;
+    public Text replaceSource(Text text, CommandSource source) {
+        return replace(text);
     }
 
     @Override
-    public void clearRunnables() {
-        runnables = new HashMap<>();
+    public Text replacePlayer(Text text, Player player) {
+        return replace(text);
     }
 }
