@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.commands.DeljailCommand;
+import bammerbom.ultimatecore.sponge.modules.jail.commands.JailCommand;
 import bammerbom.ultimatecore.sponge.modules.jail.commands.JaillistCommand;
 import bammerbom.ultimatecore.sponge.modules.jail.commands.SetjailCommand;
 import com.google.common.reflect.TypeToken;
@@ -69,6 +70,7 @@ public class JailModule implements Module {
         UltimateCore.get().getCommandService().register(new SetjailCommand());
         UltimateCore.get().getCommandService().register(new DeljailCommand());
         UltimateCore.get().getCommandService().register(new JaillistCommand());
+        UltimateCore.get().getCommandService().register(new JailCommand());
     }
 
     @Override

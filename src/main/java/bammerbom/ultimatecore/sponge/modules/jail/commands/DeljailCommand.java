@@ -92,7 +92,7 @@ public class DeljailCommand implements Command {
                 return CommandResult.success();
             }
         }
-        sender.sendMessage(Messages.getFormatted("jail.command.deljail.notfound", "%jail%", args[0]));
+        sender.sendMessage(Messages.getFormatted("jail.notfound", "%jail%", args[0]));
         return CommandResult.empty();
     }
 
