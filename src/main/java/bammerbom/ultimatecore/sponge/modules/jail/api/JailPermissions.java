@@ -32,4 +32,5 @@ public class JailPermissions {
     public static Permission UC_JAIL_UNJAIL_BASE = Permission.create("uc.jail.unjail.base", "jail", PermissionLevel.ADMIN, "unjail", Text.of("Allows you to use the unjail command."));
     public static Permission UC_JAIL_SETJAIL_BASE = Permission.create("uc.jail.setjail.base", "jail", PermissionLevel.ADMIN, "setjail", Text.of("Allows you to use the setjail command."));
     public static Permission UC_JAIL_DELJAIL_BASE = Permission.create("uc.jail.deljail.base", "jail", PermissionLevel.ADMIN, "deljail", Text.of("Allows you to use the deljail command."));
+    public static Permission UC_JAIL_JAILLIST_BASE = Permission.create("uc.jail.jaillist.base", "jail", PermissionLevel.ADMIN, "jaillist", Text.of("Allows you to use the jaillist command."));
 }

@@ -23,10 +23,14 @@
  */
 package bammerbom.ultimatecore.sponge.modules.jail;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
+import bammerbom.ultimatecore.sponge.modules.jail.commands.DeljailCommand;
+import bammerbom.ultimatecore.sponge.modules.jail.commands.JaillistCommand;
+import bammerbom.ultimatecore.sponge.modules.jail.commands.SetjailCommand;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -41,6 +45,7 @@ public class JailModule implements Module {
     //setjail
     //deljail
     //jails
+    //jailtp
     @Override
     public String getIdentifier() {
         return "jail";
@@ -60,6 +65,10 @@ public class JailModule implements Module {
     public void onInit(GameInitializationEvent event) {
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Jail.class), new Jail.JailSerializer());
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(JailData.class), new JailData.JailDataSerializer());
+
+        UltimateCore.get().getCommandService().register(new SetjailCommand());
+        UltimateCore.get().getCommandService().register(new DeljailCommand());
+        UltimateCore.get().getCommandService().register(new JaillistCommand());
     }
 
     @Override
