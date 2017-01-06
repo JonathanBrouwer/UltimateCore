@@ -32,6 +32,8 @@ import bammerbom.ultimatecore.sponge.utils.Messages;
 import com.google.common.reflect.ClassPath;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -80,20 +82,27 @@ public class UCModuleService implements ModuleService {
      */
     @Override
     public boolean registerModule(Module module) {
-        ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().owner(UltimateCore.get()).build());
-        Sponge.getEventManager().post(event);
-        String state = UltimateCore.get().getModulesConfig().get().getNode("modules", module.getIdentifier(), "state").getString();
-        if (event.isCancelled() && !module.getIdentifier().equalsIgnoreCase("default") && !state.equalsIgnoreCase("force")) {
-            Messages.log(Messages.getFormatted("core.load.module.blocked", "%module%", module.getIdentifier()));
+        try {
+            ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().owner(UltimateCore.get()).build());
+            Sponge.getEventManager().post(event);
+            String state = UltimateCore.get().getModulesConfig().get().getNode("modules", module.getIdentifier(), "state").getString();
+            //state != null because state is null when module is first loaded
+            if (event.isCancelled() && !module.getIdentifier().equalsIgnoreCase("default") && state != null && !state.equalsIgnoreCase("force")) {
+                Messages.log(Messages.getFormatted("core.load.module.blocked", "%module%", module.getIdentifier()));
+                return false;
+            }
+            if (!module.getIdentifier().equalsIgnoreCase("default") && state != null && state.equalsIgnoreCase("disabled")) {
+                Messages.log(Messages.getFormatted("core.load.module.disabled", "%module%", module.getIdentifier()));
+                return false;
+            }
+            modules.add(module);
+            module.onRegister();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Messages.log(Text.of(TextColors.RED, "An error occured while registering the module '" + module.getIdentifier() + "'"));
             return false;
         }
-        if (!module.getIdentifier().equalsIgnoreCase("default") && state.equalsIgnoreCase("disabled")) {
-            Messages.log(Messages.getFormatted("core.load.module.disabled", "%module%", module.getIdentifier()));
-            return false;
-        }
-        modules.add(module);
-        module.onRegister();
-        return true;
     }
 
     /**

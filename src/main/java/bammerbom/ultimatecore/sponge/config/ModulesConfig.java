@@ -67,7 +67,7 @@ public class ModulesConfig implements DataFile {
                     continue;
                 }
                 CommentedConfigurationNode modnode = node.getNode("modules", mod.getIdentifier());
-                if (modnode.getNode("state").getValue() == null) {
+                if (modnode.getNode("state").isVirtual()) {
                     modified = true;
                     modnode.getNode("state").setValue("enabled");
                 }
