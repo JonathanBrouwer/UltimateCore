@@ -23,5 +23,85 @@
  */
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
-public class JailtpCommand {
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
+import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
+import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class JailtpCommand implements Command {
+    @Override
+    public Module getModule() {
+        return Modules.JAIL.get();
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "jailtp";
+    }
+
+    @Override
+    public Permission getPermission() {
+        return JailPermissions.UC_JAIL_JAILTP_BASE;
+    }
+
+    @Override
+    public List<Permission> getPermissions() {
+        return Arrays.asList(JailPermissions.UC_JAIL_DELJAIL_BASE);
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList("jailtp", "jailteleport", "tpjail", "teleportjail");
+    }
+
+    @Override
+    public CommandResult run(CommandSource sender, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
+            return CommandResult.empty();
+        }
+        if (!sender.hasPermission(JailPermissions.UC_JAIL_JAILTP_BASE.get())) {
+            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            return CommandResult.empty();
+        }
+        Player p = (Player) sender;
+        if (args.length == 0) {
+            sender.sendMessage(getUsage());
+            return CommandResult.empty();
+        }
+        String name = args[0].toLowerCase();
+        //Remove jail
+        List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
+        Jail jail = jails.stream().filter(jail1 -> jail1.getName().equalsIgnoreCase(name)).findAny().orElse(null);
+        if (jail == null) {
+            sender.sendMessage(Messages.getFormatted("jail.notfound", "%jail%", args[0]));
+            return CommandResult.empty();
+        }
+
+        Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), jail.getLocation(), tel -> {
+        }, (tel, reason) -> {
+        }, false, false);
+        tp.start();
+
+        sender.sendMessage(Messages.getFormatted("jail.command.jailtp.success", "%jail%", jail.getName()));
+        return CommandResult.success();
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
+        return null;
+    }
 }

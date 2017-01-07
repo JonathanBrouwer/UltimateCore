@@ -41,8 +41,11 @@ import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.command.SendCommandEvent;
-import org.spongepowered.api.event.filter.cause.Root;
+import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.event.message.MessageChannelEvent;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
@@ -50,15 +53,40 @@ import java.util.List;
 
 public class JailListener {
 
+    @Listener
+    public void onJoin(ClientConnectionEvent.Join event) {
+        Player p = event.getTargetEntity();
+        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+        if (up.get(JailKeys.JAIL).isPresent()) {
+            if (Modules.JAIL.get().getConfig().get().get().getNode("teleport-on-join").getBoolean()) {
+                JailData data = up.get(JailKeys.JAIL).get();
+                Jail jail = GlobalData.get(JailKeys.JAILS).get().stream().filter(j -> j.getName().equalsIgnoreCase(data.getJail())).findAny().orElse(null);
+                if (jail != null) {
+                    Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), jail.getLocation(), tel -> {
+                    }, (tel, reason) -> {
+                    }, false, true);
+                    tp.start();
+                }
+            }
+        }
+    }
+
     @Listener(order = Order.POST)
-    public void onJailSwitch(DataOfferEvent<JailData> event, @Root Player p) {
+    public void onJailSwitch(DataOfferEvent<JailData> event) {
         if (event.getKey().equals(JailKeys.JAIL)) {
+            Player p = event.getCause().first(Player.class).orElse(null);
+            if (p == null) {
+                return;
+            }
             if (event.getValue().isPresent()) {
                 //Player is jailed
                 JailData data = event.getValue().get();
                 Jail jail = GlobalData.get(JailKeys.JAILS).get().stream().filter(j -> j.getName().equalsIgnoreCase(data.getJail())).findAny().orElse(null);
                 if (jail != null) {
-                    p.setTransform(jail.getLocation());
+                    Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), jail.getLocation(), tel -> {
+                    }, (tel, reason) -> {
+                    }, false, true);
+                    tp.start();
                 }
             } else {
                 //Player is unjailed
@@ -79,7 +107,7 @@ public class JailListener {
     }
 
     @Listener
-    public void onCommand(SendCommandEvent event, @Root Player p) {
+    public void onCommand(SendCommandEvent event, @First Player p) {
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
         JailData data = up.get(JailKeys.JAIL).orElse(null);
         if (data != null) {
@@ -87,10 +115,37 @@ public class JailListener {
                 List<String> allowedcommands = Modules.JAIL.get().getConfig().get().get().getNode("allowed-commands").getList(TypeToken.of(String.class));
                 if (!allowedcommands.contains(event.getCommand())) {
                     event.setCancelled(true);
-                    p.sendMessage(Messages.getFormatted("jail.event.command", "%time%", TimeUtil.formatDateDiff(data.getEndtime()), "%reason%", data.getReason()));
+                    p.sendMessage(Messages.getFormatted("jail.event.command", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
                 }
             } catch (ObjectMappingException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    @Listener
+    public void onBlockChange(ChangeBlockEvent event, @First Player p) {
+        if (event instanceof ChangeBlockEvent.Pre || event instanceof ChangeBlockEvent.Post) {
+            return;
+        }
+        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+        if (up.get(JailKeys.JAIL).isPresent()) {
+            if (!Modules.JAIL.get().getConfig().get().get().getNode("allow-block-modify").getBoolean()) {
+                JailData data = up.get(JailKeys.JAIL).get();
+                event.setCancelled(true);
+                p.sendMessage(Messages.getFormatted("jail.event.block", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
+            }
+        }
+    }
+
+    @Listener
+    public void onChat(MessageChannelEvent.Chat event, @First Player p) {
+        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+        if (up.get(JailKeys.JAIL).isPresent()) {
+            if (!Modules.JAIL.get().getConfig().get().get().getNode("allow-chat").getBoolean()) {
+                JailData data = up.get(JailKeys.JAIL).get();
+                event.setCancelled(true);
+                p.sendMessage(Messages.getFormatted("jail.event.chat", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
             }
         }
     }
