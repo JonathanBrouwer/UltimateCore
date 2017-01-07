@@ -51,9 +51,10 @@ public class UCTeleportation implements Teleportation {
     private Consumer<Teleportation> complete;
     private List<Consumer<Teleportation>> remainingHandlers;
     private boolean safe;
+    private boolean instant;
     private Long createTime;
 
-    public UCTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe) {
+    public UCTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe, boolean instant) {
         this.source = source;
         this.entities = new ArrayList<>();
         entities.forEach(en -> this.entities.add(en.getUniqueId()));
@@ -61,6 +62,7 @@ public class UCTeleportation implements Teleportation {
         this.cancel = cancel;
         this.complete = complete;
         this.safe = safe;
+        this.instant = instant;
         this.createTime = System.currentTimeMillis();
     }
 
@@ -171,6 +173,11 @@ public class UCTeleportation implements Teleportation {
     @Override
     public boolean isSafe() {
         return safe;
+    }
+
+    @Override
+    public boolean isInstant() {
+        return instant;
     }
 
     @Override

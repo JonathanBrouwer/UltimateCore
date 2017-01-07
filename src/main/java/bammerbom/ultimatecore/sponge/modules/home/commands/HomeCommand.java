@@ -128,7 +128,7 @@ public class HomeCommand implements Command {
         Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), home.getLocation(), req -> {
             sender.sendMessage(Messages.getFormatted("home.command.home.success", "%home%", home.getName()));
         }, (red, reason) -> {
-        }, true);
+        }, true, false);
         request.start();
         return CommandResult.success();
     }

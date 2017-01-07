@@ -43,9 +43,11 @@ public interface TeleportService {
      * @param entities The entities to teleport
      * @param target   The target to teleport the entities to
      * @param complete The consumer to be run when the teleport is completed
+     * @param safe     Whether the teleportation should be safe
+     * @param instant  Whether the teleportation should be instant or can be delayed by teleport delays, etc
      * @return The teleportation
      */
-    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe);
+    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe, boolean instant);
 
     /**
      * Create a new teleportation, to teleport the entities to a target.
@@ -54,10 +56,12 @@ public interface TeleportService {
      * @param source   The commandsource to send error messages to, can be null
      * @param entities The entities to teleport
      * @param target   The target to teleport the entities to
-     * @param complete The consumer to be run when the teleport is completed
+     * @param complete The consumer to be run when the teleport is complete
+     * @param safe     Whether the teleportation should be safe
+     * @param instant  Whether the teleportation should be instant or can be delayed by teleport delays, etc
      * @return The teleportation
      */
-    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe);
+    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe, boolean instant);
 
     /**
      * Returns a list of all unfinished teleportations.

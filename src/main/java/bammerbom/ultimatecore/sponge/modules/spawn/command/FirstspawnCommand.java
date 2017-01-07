@@ -116,7 +116,7 @@ public class FirstspawnCommand implements Command {
                 t.sendMessage(Messages.getFormatted("spawn.command.firstspawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
             }
         }, (tel, reason) -> {
-        }, false);
+        }, false, false);
         tp.start();
         return CommandResult.success();
     }

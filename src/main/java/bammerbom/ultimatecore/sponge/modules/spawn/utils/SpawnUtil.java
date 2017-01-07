@@ -21,42 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.spawn.listeners;
+package bammerbom.ultimatecore.sponge.modules.spawn.utils;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
+import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.network.ClientConnectionEvent;
+import org.spongepowered.api.world.World;
 
-import java.time.Instant;
-import java.util.Arrays;
+import java.util.HashMap;
 
-public class SpawnListener {
-    @Listener
-    public void onJoin(ClientConnectionEvent.Join event) {
-        Player p = event.getTargetEntity();
+public class SpawnUtil {
+    public static Transform<World> getSpawnLocation(Player p) {
+        //Global spawn
+        Transform<World> loc = GlobalData.get(SpawnKeys.GLOBAL_SPAWN).orElse(null);
 
-        //TODO beter first join detection
-        //Firstjoin message
-        Instant first = p.getJoinData().firstPlayed().get();
-        Instant last = p.getJoinData().lastPlayed().get();
-        Long diff = first.getEpochSecond() - last.getEpochSecond();
-
-        if (diff < 2 && diff > -2) {
-            //User joined for the first time
-            //If first spawn is set
-            if (GlobalData.get(SpawnKeys.FIRST_SPAWN).isPresent()) {
-                //Teleport
-                Transform loc = GlobalData.get(SpawnKeys.FIRST_SPAWN).get();
-                Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), loc, tel -> {
-                }, (tel, reason) -> {
-                }, false, true);
-                tp.start();
-            }
+        //Check group spawn
+        HashMap<String, Transform<World>> spawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
+        String group = SpawnPermissions.UC_SPAWN_GROUPSPAWN.getFor(p);
+        if (group != null && spawns.containsKey(group.toLowerCase())) {
+            loc = spawns.get(group);
         }
+
+        //World spawn
+        if (loc == null) {
+            loc = new Transform<>(p.getWorld().getSpawnLocation());
+        }
+
+        return loc;
     }
 }

@@ -175,7 +175,7 @@ public class GroupspawnCommand implements Command {
                 t2.sendMessage(Messages.getFormatted("spawn.command.groupspawn.success.others.others", "%player%", VariableUtil.getNameSource(sender), "%group%", g2));
             }
         }, (tel, reason) -> {
-        }, false);
+        }, false, false);
         tp.start();
         return CommandResult.success();
     }

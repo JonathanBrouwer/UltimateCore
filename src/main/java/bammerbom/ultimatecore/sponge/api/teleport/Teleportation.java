@@ -99,6 +99,11 @@ public interface Teleportation {
     boolean isSafe();
 
     /**
+     * Whether the teleportation should be instant or can be delayed by teleport delays, etc
+     */
+    boolean isInstant();
+
+    /**
      * Get the utc timestamp of when this teleportation was created.
      *
      * @return The utc timestamp of when this teleportation was created

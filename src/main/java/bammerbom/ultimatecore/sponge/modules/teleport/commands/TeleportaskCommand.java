@@ -99,7 +99,7 @@ public class TeleportaskCommand implements Command {
             if (reason.equalsIgnoreCase("tpdeny")) {
                 p.sendMessage(Messages.getFormatted("teleport.command.teleportask.deny", "%player%", t.getName()));
             }
-        }, true);
+        }, true, false);
         HashMap<UUID, TpaRequest> tels = GlobalData.get(TeleportKeys.TELEPORT_ASK_REQUESTS).get();
         tels.put(tpid, new TpaRequest(p, t, tel));
         GlobalData.offer(TeleportKeys.TELEPORT_ASK_REQUESTS, tels);

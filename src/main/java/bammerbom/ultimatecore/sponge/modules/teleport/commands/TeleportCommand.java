@@ -96,7 +96,7 @@ public class TeleportCommand implements Command {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.self", "%target%", VariableUtil.getNameEntity(t)));
             }, (teleportRequest, reason) -> {
-            }, true);
+            }, true, false);
             request.start();
             return CommandResult.success();
         } else if (args.length == 2 && TimeUtil.isDecimal(args[0]) && TimeUtil.isDecimal(args[1])) {
@@ -124,7 +124,7 @@ public class TeleportCommand implements Command {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
             }, (teleportRequest, reason) -> {
-            }, false);
+            }, false, false);
             request.start();
             return CommandResult.success();
         } else if (args.length == 2) {
@@ -149,7 +149,7 @@ public class TeleportCommand implements Command {
                 //Complete
                 sender.sendMessage(Messages.getFormatted("teleport.command.teleport.others", "%target1%", VariableUtil.getNamesEntity(e), "%target2%", VariableUtil.getNameEntity(t)));
             }, (teleportRequest, reason) -> {
-            }, true);
+            }, true, false);
             request.start();
             return CommandResult.success();
         } else if (args.length == 3 && !TimeUtil.isDecimal(args[0])) {
@@ -177,7 +177,7 @@ public class TeleportCommand implements Command {
                 //Complete
                 sender.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
             }, (teleportRequest, reason) -> {
-            }, false);
+            }, false, false);
             request.start();
             return CommandResult.success();
         } else if (args.length == 3) {
@@ -201,7 +201,7 @@ public class TeleportCommand implements Command {
                 //Complete
                 p.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
             }, (teleportRequest, reason) -> {
-            }, false);
+            }, false, false);
             request.start();
             return CommandResult.success();
         } else if (args.length == 4) {
@@ -226,7 +226,7 @@ public class TeleportCommand implements Command {
                 //Complete
                 sender.sendMessage(Messages.getFormatted("teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
             }, (teleportRequest, reason) -> {
-            }, false);
+            }, false, false);
             request.start();
             return CommandResult.success();
         }

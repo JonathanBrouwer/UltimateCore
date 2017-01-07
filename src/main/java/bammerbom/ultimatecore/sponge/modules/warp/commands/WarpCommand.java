@@ -130,7 +130,7 @@ public class WarpCommand implements Command {
         Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), warp.getLocation(), req -> {
             sender.sendMessage(Messages.getFormatted("warp.command.warp.success", "%warp%", warp.getName()));
         }, (red, reason) -> {
-        }, true);
+        }, true, false);
         request.start();
         return CommandResult.success();
     }

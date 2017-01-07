@@ -115,7 +115,7 @@ public class GlobalspawnCommand implements Command {
                 t.sendMessage(Messages.getFormatted("spawn.command.globalspawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
             }
         }, (tel, reason) -> {
-        }, false);
+        }, false, false);
         tp.start();
         return CommandResult.success();
     }

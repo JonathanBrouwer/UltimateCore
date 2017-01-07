@@ -25,13 +25,12 @@ package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
-import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
+import bammerbom.ultimatecore.sponge.modules.spawn.utils.SpawnUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
@@ -42,7 +41,6 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class SpawnCommand implements Command {
@@ -100,21 +98,8 @@ public class SpawnCommand implements Command {
             }
         }
 
-        //Global spawn
-        Transform<World> loc = GlobalData.get(SpawnKeys.GLOBAL_SPAWN).orElse(null);
-
-        //Check group spawn
-        HashMap<String, Transform<World>> spawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
-        String group = SpawnPermissions.UC_SPAWN_GROUPSPAWN.getFor(t);
-        if (group != null && spawns.containsKey(group.toLowerCase())) {
-            loc = spawns.get(group);
-        }
-
-        //If there is no spawn set for both global and group, say there is no global spawn
-        if (loc == null) {
-            sender.sendMessage(Messages.getFormatted("spawn.command.spawn.notset", "%group%", group));
-            return CommandResult.empty();
-        }
+        //Get group spawn, or global spawn, or world spawn
+        Transform<World> loc = SpawnUtil.getSpawnLocation(t);
 
         Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
             if (self) {
@@ -124,7 +109,7 @@ public class SpawnCommand implements Command {
                 t.sendMessage(Messages.getFormatted("spawn.command.spawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
             }
         }, (tel, reason) -> {
-        }, false);
+        }, false, false);
         tp.start();
         return CommandResult.success();
     }
