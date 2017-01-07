@@ -149,6 +149,7 @@ public class Automessage {
         //Bossbar
         if (bossbar) {
             //First send
+            //TODO multi line messages on multiple bossbars
             ServerBossBar bar = ServerBossBar.builder().color(bossbar_color).overlay(bossbar_style).name(TextUtil.split(message, "\n").get(0)).percent(1.0f).build();
             Sponge.getServer().getOnlinePlayers().forEach(bar::addPlayer);
             Sponge.getScheduler().createTaskBuilder().interval(1, TimeUnit.SECONDS).execute(new Consumer<Task>() {
