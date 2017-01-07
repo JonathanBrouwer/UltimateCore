@@ -49,8 +49,8 @@ import bammerbom.ultimatecore.sponge.impl.tick.UCTickService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
 import bammerbom.ultimatecore.sponge.impl.variable.UCVariableService;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.Metrics;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
-import bammerbom.ultimatecore.sponge.utils.Stats;
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -89,6 +89,10 @@ public class UltimateCore {
     public Path dir;
     @Inject
     private Logger logger;
+
+    //Bstats
+    @Inject
+    private Metrics metrics;
 
     public static UltimateCore get() {
         if (instance == null) {
@@ -185,7 +189,8 @@ public class UltimateCore {
             commandsConfig.postload();
             modulesConfig.postload();
             //Send stats
-            Stats.start();
+            //TODO wait for website
+            //Stats.start();
             //Post-initialize modules
             for (Module module : getModuleService().getRegisteredModules()) {
                 ModulePostInitializeEvent event = new ModulePostInitializeEvent(module, ev, Cause.builder().owner(this).build());
