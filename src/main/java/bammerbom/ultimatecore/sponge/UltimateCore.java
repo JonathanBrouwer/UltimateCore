@@ -55,16 +55,14 @@ import com.flowpowered.math.vector.Vector3d;
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import org.spongepowered.api.Platform;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.event.game.state.*;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.ServiceManager;
@@ -90,6 +88,9 @@ public class UltimateCore {
     @Inject
     private Logger logger;
 
+    //Did uc start yet?
+    boolean started = false;
+
     //Bstats
     @Inject
     private Metrics metrics;
@@ -104,6 +105,9 @@ public class UltimateCore {
     @Listener(order = Order.LATE)
     public void onPreInit(GamePreInitializationEvent ev) {
         try {
+            if (Sponge.getPlatform().getType().equals(Platform.Type.CLIENT)) {
+                return;
+            }
             Long time = System.currentTimeMillis();
             //Save instance
             instance = this;
@@ -164,6 +168,11 @@ public class UltimateCore {
     @Listener
     public void onInit(GameInitializationEvent ev) {
         try {
+            if (Sponge.getPlatform().getType().equals(Platform.Type.CLIENT)) {
+                System.out.println("[UC] You are running UC on a client. Waiting with starting the game until getServer() is available.");
+                return;
+            }
+            started = true;
             Long time = System.currentTimeMillis();
 
             //Initialize modules
@@ -184,6 +193,9 @@ public class UltimateCore {
     @Listener
     public void onPostInit(GamePostInitializationEvent ev) {
         try {
+            if (Sponge.getPlatform().getType().equals(Platform.Type.CLIENT)) {
+                return;
+            }
             Long time = System.currentTimeMillis();
             //All commands should be registered by now
             commandsConfig.postload();
@@ -246,6 +258,17 @@ public class UltimateCore {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+    }
+
+    @Listener
+    public void onStart(GameStartingServerEvent ev) {
+        //On a client, wait until the Sponge.getServer() is available and then load UC
+        if (Sponge.getPlatform().getType().equals(Platform.Type.CLIENT) && !started) {
+            onPreInit(null);
+            onInit(null);
+            onPostInit(null);
+            return;
+        }
     }
 
     @Listener

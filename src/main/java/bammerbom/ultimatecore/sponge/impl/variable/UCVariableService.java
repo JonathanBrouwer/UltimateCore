@@ -70,8 +70,11 @@ public class UCVariableService implements VariableService {
 
     @Override
     public Text replace(Text text) {
+        String plain = text.toPlain();
         for (Variable var : variables) {
-            text = var.replace(text);
+            if (plain.contains(var.getKey())) {
+                text = var.replace(text);
+            }
         }
         return text;
     }
@@ -81,8 +84,11 @@ public class UCVariableService implements VariableService {
         if (user instanceof Player) {
             return replacePlayer(text, (Player) user);
         }
+        String plain = text.toPlain();
         for (Variable var : variables) {
-            text = var.replaceUser(text, user);
+            if (plain.contains(var.getKey())) {
+                text = var.replaceUser(text, user);
+            }
         }
         return text;
     }
@@ -92,16 +98,22 @@ public class UCVariableService implements VariableService {
         if (source instanceof Player) {
             return replacePlayer(text, (Player) source);
         }
+        String plain = text.toPlain();
         for (Variable var : variables) {
-            text = var.replaceSource(text, source);
+            if (plain.contains(var.getKey())) {
+                text = var.replaceSource(text, source);
+            }
         }
         return text;
     }
 
     @Override
     public Text replacePlayer(Text text, Player player) {
+        String plain = text.toPlain();
         for (Variable var : variables) {
-            text = var.replacePlayer(text, player);
+            if (plain.contains(var.getKey())) {
+                text = var.replacePlayer(text, player);
+            }
         }
         return text;
     }
