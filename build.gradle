@@ -13,7 +13,7 @@ apply plugin: "ninja.miserable.blossom"
 //Project details
 description "All you need to set up a server and more!"
 group "bammerbom"
-version "3.0.1-SNAPSHOT"
+version "3.0.1"
 
 sourceSets {
     main.java.srcDir("src/main/java")
