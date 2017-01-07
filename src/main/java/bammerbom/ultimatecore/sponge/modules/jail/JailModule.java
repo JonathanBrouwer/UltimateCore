@@ -28,9 +28,12 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
+import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.modules.jail.commands.*;
+import bammerbom.ultimatecore.sponge.modules.jail.listeners.JailListener;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -44,6 +47,8 @@ public class JailModule implements Module {
     //deljail
     //jails
     //jailtp
+    ModuleConfig config;
+
     @Override
     public String getIdentifier() {
         return "jail";
@@ -51,7 +56,7 @@ public class JailModule implements Module {
 
     @Override
     public Optional<ModuleConfig> getConfig() {
-        return Optional.empty();
+        return Optional.of(config);
     }
 
     @Override
@@ -61,6 +66,7 @@ public class JailModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        config = new ModuleConfig("jail");
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Jail.class), new Jail.JailSerializer());
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(JailData.class), new JailData.JailDataSerializer());
 
@@ -69,6 +75,10 @@ public class JailModule implements Module {
         UltimateCore.get().getCommandService().register(new JaillistCommand());
         UltimateCore.get().getCommandService().register(new JailCommand());
         UltimateCore.get().getCommandService().register(new UnjailCommand());
+
+        Sponge.getEventManager().registerListeners(UltimateCore.get(), new JailListener());
+
+        new JailPermissions();
     }
 
     @Override
