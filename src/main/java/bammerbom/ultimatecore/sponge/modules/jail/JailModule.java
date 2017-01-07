@@ -75,6 +75,7 @@ public class JailModule implements Module {
         UltimateCore.get().getCommandService().register(new JaillistCommand());
         UltimateCore.get().getCommandService().register(new JailCommand());
         UltimateCore.get().getCommandService().register(new UnjailCommand());
+        UltimateCore.get().getCommandService().register(new JailtpCommand());
 
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new JailListener());
 
