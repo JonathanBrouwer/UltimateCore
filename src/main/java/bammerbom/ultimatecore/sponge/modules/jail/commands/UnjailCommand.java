@@ -95,7 +95,7 @@ public class UnjailCommand implements Command {
         }
 
         ut.offer(JailKeys.JAIL, null);
-        sender.sendMessage(Messages.getFormatted("jail.command.unjail.success", "%player%", VariableUtil.getNameSource(sender)));
+        sender.sendMessage(Messages.getFormatted("jail.command.unjail.success", "%player%", VariableUtil.getNameSource(t)));
         t.sendMessage(Messages.getFormatted("jail.target.unjailed"));
         return CommandResult.success();
     }
