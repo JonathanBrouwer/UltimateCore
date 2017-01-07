@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.deathmessage.listeners;
 
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TextUtil;
+import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
@@ -65,12 +66,11 @@ public class DeathmessageListener {
             String id_uc = id_mc.toLowerCase().replaceFirst("death\\.", "deathmessage.message.");
 
             //Item
-            Text item = Text.of();
             ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.of(ItemTypes.NONE, 1));
-            item = stack.get(Keys.DISPLAY_NAME).orElse(Text.of(stack.getTranslation().get()));
+            Text item = stack.get(Keys.DISPLAY_NAME).orElse(Text.of(stack.getTranslation().get()));
 
             //Final message //TODO hover
-            Text message = Messages.getFormatted(id_uc, "%player%", p.getName(), "%item%", item);
+            Text message = Messages.getFormatted(id_uc, "%player%", VariableUtil.getNameSource(p), "%item%", item);
 
             //Custom args
             int i = 1;
