@@ -2,7 +2,7 @@ Deaf
 ====
 Make a player deaf, for a certain time and reason.
 
-Usage: /deaf <Player> [Time] [Reason]<br>
+Usage: /deaf \<Player\> \[Time\] \[Reason\]<br>
 Aliases: undeaf<br>
 Module: [deaf](../modules/deaf.md)<br>
 

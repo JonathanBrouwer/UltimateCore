@@ -2,7 +2,7 @@ Setgroupspawn
 ====
 Set a group spawn.
 
-Usage: /setgroupspawn <Group><br>
+Usage: /setgroupspawn \<Group\><br>
 Aliases: setgroupspawn<br>
 Module: [spawn](../modules/spawn.md)<br>
 

@@ -2,7 +2,7 @@ Deljail
 ====
 Remove the jail with the provided name.
 
-Usage: /deljail <Jail><br>
+Usage: /deljail \<Jail\><br>
 Aliases: deljail, removejail<br>
 Module: [jail](../modules/jail.md)<br>
 

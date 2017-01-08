@@ -2,7 +2,7 @@ Groupspawn
 ====
 Teleport someone to a group spawn.
 
-Usage: /groupspawn [Player] [Group]<br>
+Usage: /groupspawn \[Player\] \[Group\]<br>
 Aliases: groupspawn<br>
 Module: [spawn](../modules/spawn.md)<br>
 

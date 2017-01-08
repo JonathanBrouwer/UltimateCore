@@ -2,7 +2,7 @@ Fly
 ====
 Toggle someone's fly status.
 
-Usage: /fly [Player]<br>
+Usage: /fly \[Player\]<br>
 Aliases: fly, flight<br>
 Module: [fly](../modules/fly.md)<br>
 

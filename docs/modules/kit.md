@@ -3,8 +3,8 @@ Kit
 Give players certain items on use of a command.
 
 Commands: <br>
-* **kit**<br>Use a certain kit.
-* **kitlist**<br>Get a paginated list of all kits.
+* **[/kit \<Kit\>](../commands/kit.md)**<br>Use a certain kit.
+* **[/kitlist](../commands/kitlist.md)**<br>Get a paginated list of all kits.
 
 Permissions: <br>
 * **uc.kit.kit.base** - Recommended role: everyone<br>Allows you to use the kit command for all kits.

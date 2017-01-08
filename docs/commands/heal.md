@@ -2,7 +2,7 @@ Heal
 ====
 Heal a player.
 
-Usage: /heal [Player]<br>
+Usage: /heal \[Player\]<br>
 Aliases: heal<br>
 Module: [heal](../modules/heal.md)<br>
 

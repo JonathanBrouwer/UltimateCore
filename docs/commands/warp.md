@@ -2,7 +2,7 @@ Warp
 ====
 Teleport yourself to the specified warp.
 
-Usage: /warp <Warp><br>
+Usage: /warp \<Warp\><br>
 Aliases: warp<br>
 Module: [warp](../modules/warp.md)<br>
 

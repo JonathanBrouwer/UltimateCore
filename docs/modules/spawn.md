@@ -3,16 +3,16 @@ Spawn
 Set global or group spawns, and set a location where players will spawn when they join for the first time.
 
 Commands: <br>
-* **delfirstspawn**<br>Delete the new player spawn.
-* **delglobalspawn**<br>Delete the global spawn.
-* **delgroupspawn**<br>Delete a group spawn.
-* **setfirstspawn**<br>Set the new player spawn.
-* **setglobalspawn**<br>Set the global spawn.
-* **setgroupspawn**<br>Set a group spawn.
-* **globalspawn**<br>Teleport someone to the global spawn.
-* **firstspawn**<br>Teleport someone to the new player spawn.
-* **groupspawn**<br>Teleport someone to a group spawn.
-* **spawn**<br>Teleport someone to the spawn.
+* **[/delfirstspawn](../commands/delfirstspawn.md)**<br>Delete the new player spawn.
+* **[/delglobalspawn](../commands/delglobalspawn.md)**<br>Delete the global spawn.
+* **[/delgroupspawn \<Group\>](../commands/delgroupspawn.md)**<br>Delete a group spawn.
+* **[/setfirstspawn](../commands/setfirstspawn.md)**<br>Set the new player spawn.
+* **[/setglobalspawn](../commands/setglobalspawn.md)**<br>Set the global spawn.
+* **[/setgroupspawn \<Group\>](../commands/setgroupspawn.md)**<br>Set a group spawn.
+* **[/globalspawn \[Player\]](../commands/globalspawn.md)**<br>Teleport someone to the global spawn.
+* **[/firstspawn \[Player\]](../commands/firstspawn.md)**<br>Teleport someone to the new player spawn.
+* **[/groupspawn \[Player\] \[Group\]](../commands/groupspawn.md)**<br>Teleport someone to a group spawn.
+* **[/spawn \[Player\]](../commands/spawn.md)**<br>Teleport someone to the spawn.
 
 Permissions: <br>
 * **uc.spawn.spawn.base** - Recommended role: everyone<br>Allows you to use the spawn command.
@@ -31,3 +31,6 @@ Permissions: <br>
 * **uc.spawn.delglobalspawn.base** - Recommended role: admin<br>Allows you to delete the globalspawn command.
 * **uc.spawn.delgroupspawn.base** - Recommended role: admin<br>Allows you to delete the groupspawn command.
 * **uc.spawn.delfirstspawn.base** - Recommended role: admin<br>Allows you to delete the firstspawn command.
+
+Permission options: <br>
+* **uc.spawn.groupspawn**<br>The name of the group spawn the player should spawn at.

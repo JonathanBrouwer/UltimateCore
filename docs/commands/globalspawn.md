@@ -2,7 +2,7 @@ Globalspawn
 ====
 Teleport someone to the global spawn.
 
-Usage: /globalspawn [Player]<br>
+Usage: /globalspawn \[Player\]<br>
 Aliases: globalspawn<br>
 Module: [spawn](../modules/spawn.md)<br>
 

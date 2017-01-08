@@ -2,7 +2,7 @@ Thunder
 ====
 Change the weather to thunder.
 
-Usage: /thunder [World]<br>
+Usage: /thunder \[World\]<br>
 Aliases: thunder, thunderstorm, storm<br>
 Module: [weather](../modules/weather.md)<br>
 

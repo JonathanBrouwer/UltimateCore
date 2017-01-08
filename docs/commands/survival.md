@@ -2,7 +2,7 @@ Survival
 ====
 Change someone's gamemode to survival.
 
-Usage: /survival [Player]<br>
+Usage: /survival \[Player\]<br>
 Aliases: survival, s<br>
 Module: [gamemode](../modules/gamemode.md)<br>
 

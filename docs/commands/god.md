@@ -2,7 +2,7 @@ God
 ====
 Toggle your or someone else's god mode.
 
-Usage: /god [Player]<br>
+Usage: /god \[Player\]<br>
 Aliases: god, godmode<br>
 Module: [god](../modules/god.md)<br>
 

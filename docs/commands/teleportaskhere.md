@@ -2,7 +2,7 @@ Teleportaskhere
 ====
 Ask to teleport a player to you.
 
-Usage: /teleportaskhere <Player><br>
+Usage: /teleportaskhere \<Player\><br>
 Aliases: teleportaskhere, teleportah, tpahere, asktphere, askteleporthere<br>
 Module: [teleport](../modules/teleport.md)<br>
 

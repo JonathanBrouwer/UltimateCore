@@ -72,7 +72,6 @@ public class UltimatecoreCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        Docgen.generateDocs();
         if (!sender.hasPermission(getPermission().get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
@@ -109,6 +108,11 @@ public class UltimatecoreCommand implements Command {
         if (args[0].equalsIgnoreCase("modules")) {
             List<String> modules = UltimateCore.get().getModuleService().getModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default")).collect(Collectors.toList());
             sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules)));
+            return CommandResult.success();
+        }
+        if (args[0].equalsIgnoreCase("gendocs")) {
+            Docgen.generateDocs();
+
             return CommandResult.success();
         }
         sender.sendMessage(getUsage());

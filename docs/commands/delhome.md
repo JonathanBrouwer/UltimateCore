@@ -2,7 +2,7 @@ Delhome
 ====
 Remove a home.
 
-Usage: /delhome <Name><br>
+Usage: /delhome \<Name\><br>
 Aliases: delhome, removehome<br>
 Module: [home](../modules/home.md)<br>
 

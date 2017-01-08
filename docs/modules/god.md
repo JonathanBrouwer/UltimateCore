@@ -3,7 +3,7 @@ God
 Allows you to make a player invincible.
 
 Commands: <br>
-* **god**<br>Toggle your or someone else's god mode.
+* **[/god \[Player\]](../commands/god.md)**<br>Toggle your or someone else's god mode.
 
 Permissions: <br>
 * **uc.god.god.base** - Recommended role: admin<br>Allows you to toggle your own god mode.

@@ -2,7 +2,7 @@ Repair
 ====
 Repair the item in your hand, or all items in your inventory.
 
-Usage: /repair [All/Hand]<br>
+Usage: /repair \[All/Hand\]<br>
 Aliases: repair, fix<br>
 Module: [item](../modules/item.md)<br>
 

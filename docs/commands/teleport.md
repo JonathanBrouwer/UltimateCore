@@ -2,7 +2,7 @@ Teleport
 ====
 Teleport a player or yourself to another player or certain coordinates.
 
-Usage: /teleport [Player] <Player> OR /teleport [Player] <X> [Y] <Z> [<Yaw> <Pitch>]<br>
+Usage: /teleport \[Player\] \<Player\> OR /teleport \[Player\] \<X\> \[Y\] \<Z\> \[\<Yaw\> \<Pitch\>\]<br>
 Aliases: teleport, tp<br>
 Module: [teleport](../modules/teleport.md)<br>
 

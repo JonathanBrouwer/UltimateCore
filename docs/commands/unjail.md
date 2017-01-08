@@ -2,7 +2,7 @@ Unjail
 ====
 Unjail a player.
 
-Usage: /unjail <Player><br>
+Usage: /unjail \<Player\><br>
 Aliases: unjail<br>
 Module: [jail](../modules/jail.md)<br>
 

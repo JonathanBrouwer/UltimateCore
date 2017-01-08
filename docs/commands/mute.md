@@ -2,7 +2,7 @@ Mute
 ====
 Mute a player, for a certain time and reason.
 
-Usage: /mute <Player> [Time] [Reason]<br>
+Usage: /mute \<Player\> \[Time\] \[Reason\]<br>
 Aliases: unmute<br>
 Module: [mute](../modules/mute.md)<br>
 

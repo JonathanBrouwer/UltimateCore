@@ -2,7 +2,7 @@ Food
 ====
 Fill a player's food bar.
 
-Usage: /food [Player]<br>
+Usage: /food \[Player\]<br>
 Aliases: food, feed, eat<br>
 Module: [food](../modules/food.md)<br>
 

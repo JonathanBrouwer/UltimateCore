@@ -2,7 +2,7 @@ Adventure
 ====
 Change someone's gamemode to adventure.
 
-Usage: /adventure [Player]<br>
+Usage: /adventure \[Player\]<br>
 Aliases: adventure, a<br>
 Module: [gamemode](../modules/gamemode.md)<br>
 

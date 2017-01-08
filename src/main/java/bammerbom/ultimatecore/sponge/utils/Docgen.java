@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,7 +73,7 @@ public class Docgen {
         Command[] commands = commandslist.toArray(new Command[commandslist.size()]);
         Arrays.sort(commands, Comparator.comparing(Command::getIdentifier));
         for (Command mod : commands) {
-            builder.append("[" + mod.getUsage().toPlain() + " - " + mod.getShortDescription().toPlain() + "](commands/" + mod.getIdentifier() + ".md)<br>\n");
+            builder.append("[" + escape(mod.getUsage().toPlain()) + " - " + mod.getShortDescription().toPlain() + "](commands/" + mod.getIdentifier() + ".md)<br>\n");
         }
 
         //Save to file
@@ -111,18 +112,32 @@ public class Docgen {
             builder.append(StringUtil.firstUpperCase(mod.getIdentifier()) + "\n====\n");
             builder.append(mod.getDescription().toPlain() + "\n\n");
 
-            builder.append("Commands: " + "<br>\n");
             List<Command> cmds = UltimateCore.get().getCommandService().getCommands().stream().filter(perm -> perm.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
-            for (Command cmd : cmds) {
-                builder.append("* **" + cmd.getIdentifier() + "**<br>");
-                builder.append(cmd.getLongDescription().toPlain() + "\n");
+            if (!cmds.isEmpty()) {
+                builder.append("Commands: " + "<br>\n");
+
+                for (Command cmd : cmds) {
+                    builder.append("* **[" + escape(cmd.getUsage().toPlain()) + "](../commands/" + cmd.getIdentifier() + ".md)**<br>");
+                    builder.append(cmd.getLongDescription().toPlain() + "\n");
+                }
             }
 
-            builder.append("\nPermissions: " + "<br>\n");
             List<Permission> perms = UltimateCore.get().getPermissionService().getPermissions().stream().filter(perm -> perm.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
-            for (Permission perm : perms) {
-                builder.append("* **" + perm.get() + "** - Recommended role: " + perm.getLevel().name().toLowerCase() + "<br>");
-                builder.append(perm.getDescription().toPlain() + "\n");
+            if (!perms.isEmpty()) {
+                builder.append("\nPermissions: " + "<br>\n");
+                for (Permission perm : perms) {
+                    builder.append("* **" + perm.get() + "** - Recommended role: " + perm.getLevel().name().toLowerCase() + "<br>");
+                    builder.append(perm.getDescription().toPlain() + "\n");
+                }
+            }
+
+            List<PermissionOption> permops = UltimateCore.get().getPermissionService().getPermissionOptions().stream().filter(perm -> perm.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
+            if (!permops.isEmpty()) {
+                builder.append("\nPermission options: " + "<br>\n");
+                for (PermissionOption perm : permops) {
+                    builder.append("* **" + perm.get() + "**<br>");
+                    builder.append(perm.getDescription().toPlain() + "\n");
+                }
             }
 
             //Save to file
@@ -142,16 +157,26 @@ public class Docgen {
             builder.append(StringUtil.firstUpperCase(cmd.getIdentifier()) + "\n====\n");
             builder.append(cmd.getLongDescription().toPlain() + "\n\n");
 
-            builder.append("Usage: " + cmd.getUsage().toPlain() + "<br>\n");
+            builder.append("Usage: " + escape(cmd.getUsage().toPlain()) + "<br>\n");
             builder.append("Aliases: " + StringUtil.join(", ", cmd.getAliases()) + "<br>\n");
             builder.append("Module: [" + cmd.getModule().getIdentifier() + "](../modules/" + cmd.getModule().getIdentifier() + ".md)<br>\n\n");
 
             builder.append("Basic permission: " + cmd.getPermission().get() + "<br>\n");
             builder.append("Basic role: " + cmd.getPermission().getLevel().name().toLowerCase() + "<br>\n\n");
+
             builder.append("Permissions: " + "<br>\n");
             for (Permission perm : cmd.getPermissions()) {
                 builder.append("* **" + perm.get() + "** - Recommended role: " + perm.getLevel().name().toLowerCase() + "<br>");
                 builder.append(perm.getDescription().toPlain() + "\n");
+            }
+
+            List<PermissionOption> permops = UltimateCore.get().getPermissionService().getPermissionOptions().stream().filter(perm -> perm.getCommand().isPresent() && perm.getCommand().get().getIdentifier().equalsIgnoreCase(cmd.getIdentifier())).collect(Collectors.toList());
+            if (!permops.isEmpty()) {
+                builder.append("\nPermission options: " + "<br>\n");
+                for (PermissionOption perm : permops) {
+                    builder.append("* **" + perm.get() + "**<br>");
+                    builder.append(perm.getDescription().toPlain() + "\n");
+                }
             }
 
             //Save to file
@@ -162,5 +187,9 @@ public class Docgen {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static String escape(String string) {
+        return string.replace("<", "\\<").replace(">", "\\>").replace("[", "\\[").replace("]", "\\]");
     }
 }

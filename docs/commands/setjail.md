@@ -2,7 +2,7 @@ Setjail
 ====
 Create a new jail with your current location.
 
-Usage: /setjail <Jail> [Description]<br>
+Usage: /setjail \<Jail\> \[Description\]<br>
 Aliases: setjail, addjail, modifyjail<br>
 Module: [jail](../modules/jail.md)<br>
 

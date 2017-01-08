@@ -2,7 +2,7 @@ Burn
 ====
 Set people on fire.
 
-Usage: /burn <Player> [Time]<br>
+Usage: /burn \<Player\> \[Time\]<br>
 Aliases: burn, fire, ignite<br>
 Module: [burn](../modules/burn.md)<br>
 

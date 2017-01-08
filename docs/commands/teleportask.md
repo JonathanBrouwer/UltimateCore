@@ -2,7 +2,7 @@ Teleportask
 ====
 Ask to teleport to a player.
 
-Usage: /teleportask <Player><br>
+Usage: /teleportask \<Player\><br>
 Aliases: teleportask, teleporta, tpa, asktp, askteleport<br>
 Module: [teleport](../modules/teleport.md)<br>
 

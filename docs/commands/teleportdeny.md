@@ -2,7 +2,7 @@ Teleportdeny
 ====
 Deny the specified request, or the most recent one.
 
-Usage: /tpdeny [TPID/Player]<br>
+Usage: /tpdeny \[TPID/Player\]<br>
 Aliases: teleportdeny, tpdeny, tpno<br>
 Module: [teleport](../modules/teleport.md)<br>
 

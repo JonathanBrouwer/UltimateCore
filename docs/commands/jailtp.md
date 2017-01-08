@@ -2,7 +2,7 @@ Jailtp
 ====
 Teleport to a jail without jailing yourself.
 
-Usage: /jailtp <Jail><br>
+Usage: /jailtp \<Jail\><br>
 Aliases: jailtp, jailteleport, tpjail, teleportjail<br>
 Module: [jail](../modules/jail.md)<br>
 

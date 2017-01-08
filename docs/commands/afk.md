@@ -2,7 +2,7 @@ Afk
 ====
 Toggle whether a player is marked as away-from-keyboard.
 
-Usage: /afk [Player] [Message]<br>
+Usage: /afk \[Player\] \[Message\]<br>
 Aliases: afk, idle, away<br>
 Module: [afk](../modules/afk.md)<br>
 

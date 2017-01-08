@@ -3,10 +3,10 @@ Warp
 Let the admin set certain locations where a player can teleport to.
 
 Commands: <br>
-* **warp**<br>Teleport yourself to the specified warp.
-* **setwarp**<br>Create a new warp with the specified name and description.
-* **delwarp**<br>Remove the specified warp.
-* **warplist**<br>Get a paginated list of all warps.
+* **[/warp \<Warp\>](../commands/warp.md)**<br>Teleport yourself to the specified warp.
+* **[/setwarp \<Name\> \[Description\]](../commands/setwarp.md)**<br>Create a new warp with the specified name and description.
+* **[/delwarp \<Warp\>](../commands/delwarp.md)**<br>Remove the specified warp.
+* **[/warplist](../commands/warplist.md)**<br>Get a paginated list of all warps.
 
 Permissions: <br>
 * **uc.sign.warp.use** - Recommended role: everyone<br>Permission to use warpsigns.

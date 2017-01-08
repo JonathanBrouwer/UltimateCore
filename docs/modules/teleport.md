@@ -3,11 +3,11 @@ Teleport
 A module with multiple teleport command.
 
 Commands: <br>
-* **teleportask**<br>Ask to teleport to a player.
-* **teleportaskhere**<br>Ask to teleport a player to you.
-* **teleportaccept**<br>Accept the specified request, or the most recent one.
-* **teleportdeny**<br>Deny the specified request, or the most recent one.
-* **teleport**<br>Teleport a player or yourself to another player or certain coordinates.
+* **[/teleportask \<Player\>](../commands/teleportask.md)**<br>Ask to teleport to a player.
+* **[/teleportaskhere \<Player\>](../commands/teleportaskhere.md)**<br>Ask to teleport a player to you.
+* **[/tpaccept \[TPID/Player\]](../commands/teleportaccept.md)**<br>Accept the specified request, or the most recent one.
+* **[/tpdeny \[TPID/Player\]](../commands/teleportdeny.md)**<br>Deny the specified request, or the most recent one.
+* **[/teleport \[Player\] \<Player\> OR /teleport \[Player\] \<X\> \[Y\] \<Z\> \[\<Yaw\> \<Pitch\>\]](../commands/teleport.md)**<br>Teleport a player or yourself to another player or certain coordinates.
 
 Permissions: <br>
 * **uc.teleport.teleport.base** - Recommended role: admin<br>Allows you to use the teleport command to teleport yourself to someone else.

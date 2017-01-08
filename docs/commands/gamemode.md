@@ -2,7 +2,7 @@ Gamemode
 ====
 Change a player's gamemode.
 
-Usage: /gamemode <Survival/Creative/Adventure/Spectator> [Player]<br>
+Usage: /gamemode \<Survival/Creative/Adventure/Spectator\> \[Player\]<br>
 Aliases: gamemode, gm<br>
 Module: [gamemode](../modules/gamemode.md)<br>
 

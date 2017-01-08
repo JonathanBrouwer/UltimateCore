@@ -2,7 +2,7 @@ Kit
 ====
 Use a certain kit.
 
-Usage: /kit <Kit><br>
+Usage: /kit \<Kit\><br>
 Aliases: kit<br>
 Module: [kit](../modules/kit.md)<br>
 

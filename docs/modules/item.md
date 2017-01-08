@@ -3,8 +3,8 @@ Item
 Give yourself items, repair items, and the more command.
 
 Commands: <br>
-* **more**<br>Set the quantity of the item in your hand to the maximum.
-* **repair**<br>Repair the item in your hand, or all items in your inventory.
+* **[/more](../commands/more.md)**<br>Set the quantity of the item in your hand to the maximum.
+* **[/repair \[All/Hand\]](../commands/repair.md)**<br>Repair the item in your hand, or all items in your inventory.
 
 Permissions: <br>
 * **uc.item.more** - Recommended role: admin<br>Allows you to use the more command.

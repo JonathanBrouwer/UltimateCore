@@ -2,7 +2,7 @@ Spectator
 ====
 Change someone's gamemode to spectator.
 
-Usage: /spectator [Player]<br>
+Usage: /spectator \[Player\]<br>
 Aliases: spectator, spec<br>
 Module: [gamemode](../modules/gamemode.md)<br>
 

@@ -2,7 +2,7 @@ Sethealth
 ====
 Set the health of a player.
 
-Usage: /sethealth <Amount> [Player]<br>
+Usage: /sethealth \<Amount\> \[Player\]<br>
 Aliases: sethealth, setlives<br>
 Module: [heal](../modules/heal.md)<br>
 

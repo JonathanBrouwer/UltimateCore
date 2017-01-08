@@ -2,7 +2,7 @@ Sun
 ====
 Change the weather to sun.
 
-Usage: /sun [World]<br>
+Usage: /sun \[World\]<br>
 Aliases: sun, clearweather<br>
 Module: [weather](../modules/weather.md)<br>
 

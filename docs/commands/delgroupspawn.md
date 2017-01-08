@@ -2,7 +2,7 @@ Delgroupspawn
 ====
 Delete a group spawn.
 
-Usage: /delgroupspawn <Group><br>
+Usage: /delgroupspawn \<Group\><br>
 Aliases: delgroupspawn<br>
 Module: [spawn](../modules/spawn.md)<br>
 

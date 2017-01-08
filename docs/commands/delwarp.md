@@ -2,7 +2,7 @@ Delwarp
 ====
 Remove the specified warp.
 
-Usage: /delwarp <Warp><br>
+Usage: /delwarp \<Warp\><br>
 Aliases: delwarp, removewarp<br>
 Module: [warp](../modules/warp.md)<br>
 

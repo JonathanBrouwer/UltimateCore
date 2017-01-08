@@ -2,7 +2,7 @@ Firstspawn
 ====
 Teleport someone to the new player spawn.
 
-Usage: /firstspawn [Player]<br>
+Usage: /firstspawn \[Player\]<br>
 Aliases: firstspawn<br>
 Module: [spawn](../modules/spawn.md)<br>
 

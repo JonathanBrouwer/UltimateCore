@@ -4,7 +4,7 @@ Time
 /time enable/disable - Enable or disable time.
 /time query - View the time.
 
-Usage: /time (set/add) day/night/<ticks>/enable/disable/query<br>
+Usage: /time (set/add) day/night/\<ticks\>/enable/disable/query<br>
 Aliases: time, settime<br>
 Module: [time](../modules/time.md)<br>
 

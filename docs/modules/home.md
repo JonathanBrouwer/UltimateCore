@@ -3,13 +3,16 @@ Home
 Allows players set custom locations 'homes' where they can later teleport back to.
 
 Commands: <br>
-* **homelist**<br>View a list of your homes.
-* **home**<br>Teleport to your home.
-* **delhome**<br>Remove a home.
-* **sethome**<br>Set a new home or move the location of a home.
+* **[/homelist](../commands/homelist.md)**<br>View a list of your homes.
+* **[/home \<Name\>](../commands/home.md)**<br>Teleport to your home.
+* **[/delhome \<Name\>](../commands/delhome.md)**<br>Remove a home.
+* **[/sethome \<Name\>](../commands/sethome.md)**<br>Set a new home or move the location of a home.
 
 Permissions: <br>
 * **uc.home.home** - Recommended role: everyone<br>Allows you to teleport to your own home.
 * **uc.home.sethome** - Recommended role: everyone<br>Allows you to set your own home.
 * **uc.home.sethome.unlimited** - Recommended role: vip<br>Allows you to set an unlimited amount of homes.
 * **uc.home.delhome** - Recommended role: everyone<br>Allows you to remove one of your homes.
+
+Permission options: <br>
+* **uc.home.homecount**<br>The amount of homes the player can have.

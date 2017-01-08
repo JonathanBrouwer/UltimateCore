@@ -2,7 +2,7 @@ Rain
 ====
 Change the weather to rain.
 
-Usage: /rain [World]<br>
+Usage: /rain \[World\]<br>
 Aliases: rain, snow<br>
 Module: [weather](../modules/weather.md)<br>
 

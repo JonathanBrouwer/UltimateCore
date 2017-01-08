@@ -2,7 +2,7 @@ Creative
 ====
 Change someone's gamemode to creative.
 
-Usage: /creative [Player]<br>
+Usage: /creative \[Player\]<br>
 Aliases: creative, c<br>
 Module: [gamemode](../modules/gamemode.md)<br>
 

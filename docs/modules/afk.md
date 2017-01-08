@@ -3,7 +3,7 @@ Afk
 Management of what happens to idle players.
 
 Commands: <br>
-* **afk**<br>Toggle whether a player is marked as away-from-keyboard.
+* **[/afk \[Player\] \[Message\]](../commands/afk.md)**<br>Toggle whether a player is marked as away-from-keyboard.
 
 Permissions: <br>
 * **uc.afk.afk.base** - Recommended role: everyone<br>Allows you to toggle your own afk status.
