@@ -38,6 +38,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -45,6 +46,11 @@ public class MuteModule implements Module {
     @Override
     public String getIdentifier() {
         return "mute";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Allows you to mute a player and the player won't be able to send chat, but will be able to see the chat.");
     }
 
     @Override

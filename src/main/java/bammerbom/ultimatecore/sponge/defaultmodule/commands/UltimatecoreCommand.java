@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.defaultmodule.api.DefaultPermissions;
+import bammerbom.ultimatecore.sponge.utils.Docgen;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
@@ -71,12 +72,13 @@ public class UltimatecoreCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage(getUsage());
-            return CommandResult.empty();
-        }
+        Docgen.generateDocs();
         if (!sender.hasPermission(getPermission().get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            return CommandResult.empty();
+        }
+        if (args.length == 0) {
+            sender.sendMessage(getUsage());
             return CommandResult.empty();
         }
 
@@ -105,7 +107,7 @@ public class UltimatecoreCommand implements Command {
             return CommandResult.success();
         }
         if (args[0].equalsIgnoreCase("modules")) {
-            List<String> modules = UltimateCore.get().getModuleService().getRegisteredModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default")).collect(Collectors.toList());
+            List<String> modules = UltimateCore.get().getModuleService().getModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default")).collect(Collectors.toList());
             sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules)));
             return CommandResult.success();
         }

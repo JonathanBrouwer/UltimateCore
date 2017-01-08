@@ -34,7 +34,7 @@ public interface ModuleService {
      *
      * @return the list
      */
-    List<Module> getRegisteredModules();
+    List<Module> getModules();
 
     /**
      * Retrieves a specific module by id

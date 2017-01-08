@@ -34,6 +34,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -42,6 +43,12 @@ public class SpyModule implements Module {
     public String getIdentifier() {
         return "spy";
     }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Ability to see other people's private messages and command usage.");
+    }
+
 
     @Override
     public Optional<ModuleConfig> getConfig() {

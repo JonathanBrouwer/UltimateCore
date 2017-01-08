@@ -62,7 +62,7 @@ public class ModulesConfig implements DataFile {
             if (!node.getNode("modules").getComment().isPresent()) {
                 node.getNode("modules").setComment("Set state to 'force', 'enabled' or 'disabled'\nForce will load the module even when another plugin blocks the loading process.");
             }
-            for (Module mod : UltimateCore.get().getModuleService().getRegisteredModules()) {
+            for (Module mod : UltimateCore.get().getModuleService().getModules()) {
                 if (mod.getIdentifier().equals("default")) {
                     continue;
                 }

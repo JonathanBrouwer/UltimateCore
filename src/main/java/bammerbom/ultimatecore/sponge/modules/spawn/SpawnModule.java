@@ -33,6 +33,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -44,6 +45,11 @@ public class SpawnModule implements Module {
     @Override
     public String getIdentifier() {
         return "spawn";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Set global or group spawns, and set a location where players will spawn when they join for the first time.");
     }
 
     @Override

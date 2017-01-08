@@ -31,6 +31,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -40,6 +41,11 @@ public class ServerlistModule implements Module {
     @Override
     public String getIdentifier() {
         return "serverlist";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Make your server look nice in the server list.");
     }
 
     @Override

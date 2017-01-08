@@ -33,6 +33,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -40,6 +41,11 @@ public class SignModule implements Module {
     @Override
     public String getIdentifier() {
         return "sign";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Allows you to make signs which do certain things.");
     }
 
     @Override

@@ -33,6 +33,7 @@ import bammerbom.ultimatecore.sponge.modules.time.commands.TimeCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -40,6 +41,11 @@ public class TimeModule implements Module {
     @Override
     public String getIdentifier() {
         return "time";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Change the time of the minecraft world to day, night, or anything in between.");
     }
 
     @Override

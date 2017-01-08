@@ -32,6 +32,7 @@ import bammerbom.ultimatecore.sponge.modules.personalmessage.commands.ReplyComma
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -39,6 +40,11 @@ public class PersonalmessageModule implements Module {
     @Override
     public String getIdentifier() {
         return "personalmessage";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Send private messages to other players.");
     }
 
     @Override

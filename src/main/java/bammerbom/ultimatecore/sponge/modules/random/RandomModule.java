@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.modules.random.commands.RandomCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -42,6 +43,11 @@ public class RandomModule implements Module {
     @Override
     public String getIdentifier() {
         return "random";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Generate random numbers with a simple command");
     }
 
     @Override

@@ -32,6 +32,7 @@ import bammerbom.ultimatecore.sponge.modules.back.runnables.BackTeleportHandler;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -41,6 +42,11 @@ public class BackModule implements Module {
     @Override
     public String getIdentifier() {
         return "back";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Teleport back to where you were before you teleported to somewhere.");
     }
 
     @Override

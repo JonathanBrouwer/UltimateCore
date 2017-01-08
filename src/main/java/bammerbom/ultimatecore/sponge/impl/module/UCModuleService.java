@@ -54,7 +54,7 @@ public class UCModuleService implements ModuleService {
      * @return the list
      */
     @Override
-    public List<Module> getRegisteredModules() {
+    public List<Module> getModules() {
         return modules;
     }
 

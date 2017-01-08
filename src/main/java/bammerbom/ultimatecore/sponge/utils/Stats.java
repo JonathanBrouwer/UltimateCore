@@ -80,7 +80,7 @@ public class Stats {
         data.put("javaversion", System.getProperty("java.version"));
         //Modules
         JSONArray modulesarray = new JSONArray();
-        for (Module mod : UltimateCore.get().getModuleService().getRegisteredModules()) {
+        for (Module mod : UltimateCore.get().getModuleService().getModules()) {
             if (mod.getIdentifier().equalsIgnoreCase("default")) continue;
             modulesarray.put(mod.getIdentifier());
         }

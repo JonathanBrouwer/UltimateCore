@@ -37,15 +37,21 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
 public class HomeModule implements Module {
     //home, sethome, delhome
-    //homeothers, sethomeothers, delhomeothers
+    //TODO homeothers, sethomeothers, delhomeothers
     @Override
     public String getIdentifier() {
         return "home";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Allows players set custom locations 'homes' where they can later teleport back to.");
     }
 
     @Override

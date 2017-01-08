@@ -35,6 +35,7 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -44,6 +45,11 @@ public class KitModule implements Module {
     @Override
     public String getIdentifier() {
         return "kit";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Give players certain items on use of a command.");
     }
 
     @Override

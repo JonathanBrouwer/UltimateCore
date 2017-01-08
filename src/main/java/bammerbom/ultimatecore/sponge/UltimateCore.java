@@ -176,7 +176,7 @@ public class UltimateCore {
             Long time = System.currentTimeMillis();
 
             //Initialize modules
-            for (Module module : getModuleService().getRegisteredModules()) {
+            for (Module module : getModuleService().getModules()) {
                 ModuleInitializeEvent event = new ModuleInitializeEvent(module, ev, Cause.builder().owner(this).build());
                 Sponge.getEventManager().post(event);
                 module.onInit(ev);
@@ -204,7 +204,7 @@ public class UltimateCore {
             //TODO wait for website
             //Stats.start();
             //Post-initialize modules
-            for (Module module : getModuleService().getRegisteredModules()) {
+            for (Module module : getModuleService().getModules()) {
                 ModulePostInitializeEvent event = new ModulePostInitializeEvent(module, ev, Cause.builder().owner(this).build());
                 Sponge.getEventManager().post(event);
                 module.onPostInit(ev);
@@ -216,8 +216,6 @@ public class UltimateCore {
             ex.printStackTrace();
             //ErrorLogger.log(ex, "Failed to post-initialize UltimateCore");
         }
-
-
     }
 
     @Listener
@@ -236,7 +234,7 @@ public class UltimateCore {
         try {
             Long time = System.currentTimeMillis();
             //Stop modules
-            for (Module module : getModuleService().getRegisteredModules()) {
+            for (Module module : getModuleService().getModules()) {
                 ModuleStoppingEvent event = new ModuleStoppingEvent(module, ev, Cause.builder().owner(this).build());
                 Sponge.getEventManager().post(event);
                 module.onStop(ev);

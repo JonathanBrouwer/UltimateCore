@@ -31,6 +31,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -38,6 +39,11 @@ public class UnknowncommandModule implements Module {
     @Override
     public String getIdentifier() {
         return "unknowncommand";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Allows you to change the message send to a player when a command is not found.");
     }
 
     @Override

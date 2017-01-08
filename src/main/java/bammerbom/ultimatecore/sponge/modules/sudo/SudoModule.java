@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.modules.sudo.commands.SudoCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -38,6 +39,11 @@ public class SudoModule implements Module {
     @Override
     public String getIdentifier() {
         return "sudo";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Force a player to run a command.");
     }
 
     @Override

@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.modules.food.commands.FoodCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -38,6 +39,11 @@ public class FoodModule implements Module {
     @Override
     public String getIdentifier() {
         return "food";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Allows you to refill or change a player's food bar.");
     }
 
     @Override

@@ -25,61 +25,142 @@ package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.command.CommandService;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
-import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Docgen {
     public static void generateDocs() {
-        //This is some code I use to generate the temporary docs
-        //Shouldnt really be runned on a normal server
-        File file = new File(UltimateCore.get().getDataFolder().toFile(), "DOCS.md");
-        StringWriter writer = new StringWriter();
-        for (Module mod : UltimateCore.get().getModuleService().getRegisteredModules()) {
-            writer.write("## " + StringUtil.firstUpperCase(mod.getIdentifier()) + "\n");
-            //Commands
-            CommandService service = UltimateCore.get().getCommandService();
-            List<Command> commands = service.getCommands().stream().filter(cmd -> cmd.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
-            if (!commands.isEmpty()) {
-                writer.write("### Commands<br>\n");
-                for (Command cmd : commands) {
-                    writer.write("**" + cmd.getUsage().toPlain() + "**: " + cmd.getLongDescription().toPlain() + "<br>\n");
-                }
-            }
-            //Permissions
-            PermissionService service2 = UltimateCore.get().getPermissionService();
-            List<Permission> perms = service2.getPermissions().stream().filter(cmd -> cmd.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
-            if (!perms.isEmpty()) {
-                writer.write("### Permissions<br>\n");
-                for (Permission perm : perms) {
-                    writer.write("**" + perm.get() + "**: " + perm.getDescription().toPlain() + " (Recommended for " + perm.getLevel().name() + ")<br>\n");
-                }
-            }
-            //Permission options
-            List<PermissionOption> permops = service2.getPermissionOptions().stream().filter(cmd -> cmd.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
-            if (!permops.isEmpty()) {
-                writer.write("### Permissions options<br>\n");
-                for (PermissionOption perm : permops) {
-                    writer.write("**" + perm.get() + "**: " + perm.getDescription().toPlain() + "<br>\n");
-                }
-            }
-            if (commands.isEmpty() && perms.isEmpty() && permops.isEmpty()) {
-                writer.write("This module has no commands or permissions.<br>\n");
-            }
+        generateModulesOverview();
+        generateCommandsOverview();
+        generatePermissionsOverview();
+        generateModules();
+        generateCommands();
+    }
+
+    private static void generateModulesOverview() {
+        File file = new File(UltimateCore.get().getDataFolder().toFile() + "/docs/", "modules.md");
+        StringBuilder builder = new StringBuilder();
+        builder.append("Modules\n====\n\n");
+        List<Module> moduleslist = UltimateCore.get().getModuleService().getModules();
+        Module[] modules = moduleslist.toArray(new Module[moduleslist.size()]);
+        Arrays.sort(modules, Comparator.comparing(Module::getIdentifier));
+        for (Module mod : modules) {
+            builder.append("[" + mod.getIdentifier() + " - " + mod.getDescription().toPlain() + "](modules/" + mod.getIdentifier() + ".md)<br>\n");
         }
+
+        //Save to file
         try {
-            FileUtil.writeLines(file, Arrays.asList(writer.toString().split("\n")));
+            file.getParentFile().mkdirs();
+            FileUtil.writeLines(file, Arrays.asList(builder.toString().split("\n")));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void generateCommandsOverview() {
+        File file = new File(UltimateCore.get().getDataFolder().toFile() + "/docs/", "commands.md");
+        StringBuilder builder = new StringBuilder();
+        builder.append("Commands\n====\n\n");
+        List<Command> commandslist = UltimateCore.get().getCommandService().getCommands();
+        Command[] commands = commandslist.toArray(new Command[commandslist.size()]);
+        Arrays.sort(commands, Comparator.comparing(Command::getIdentifier));
+        for (Command mod : commands) {
+            builder.append("[" + mod.getUsage().toPlain() + " - " + mod.getShortDescription().toPlain() + "](commands/" + mod.getIdentifier() + ".md)<br>\n");
+        }
+
+        //Save to file
+        try {
+            file.getParentFile().mkdirs();
+            FileUtil.writeLines(file, Arrays.asList(builder.toString().split("\n")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void generatePermissionsOverview() {
+        File file = new File(UltimateCore.get().getDataFolder().toFile() + "/docs/", "permissions.md");
+        StringBuilder builder = new StringBuilder();
+        builder.append("Permissions\n====\n\n");
+        List<Permission> permissionslist = UltimateCore.get().getPermissionService().getPermissions();
+        Permission[] permissions = permissionslist.toArray(new Permission[permissionslist.size()]);
+        Arrays.sort(permissions, Comparator.comparing(Permission::get));
+        for (Permission mod : permissions) {
+            builder.append(mod.get() + " - " + mod.getDescription().toPlain() + " (Recommended for " + mod.getLevel().name().toLowerCase() + ")<br>\n");
+        }
+
+        //Save to file
+        try {
+            file.getParentFile().mkdirs();
+            FileUtil.writeLines(file, Arrays.asList(builder.toString().split("\n")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void generateModules() {
+        for (Module mod : UltimateCore.get().getModuleService().getModules()) {
+            File file = new File(UltimateCore.get().getDataFolder().toFile() + "/docs/modules/", mod.getIdentifier() + ".md");
+            StringBuilder builder = new StringBuilder();
+            builder.append(StringUtil.firstUpperCase(mod.getIdentifier()) + "\n====\n");
+            builder.append(mod.getDescription().toPlain() + "\n\n");
+
+            builder.append("Commands: " + "<br>\n");
+            List<Command> cmds = UltimateCore.get().getCommandService().getCommands().stream().filter(perm -> perm.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
+            for (Command cmd : cmds) {
+                builder.append("* **" + cmd.getIdentifier() + "**<br>");
+                builder.append(cmd.getLongDescription().toPlain() + "\n");
+            }
+
+            builder.append("\nPermissions: " + "<br>\n");
+            List<Permission> perms = UltimateCore.get().getPermissionService().getPermissions().stream().filter(perm -> perm.getModule().getIdentifier().equalsIgnoreCase(mod.getIdentifier())).collect(Collectors.toList());
+            for (Permission perm : perms) {
+                builder.append("* **" + perm.get() + "** - Recommended role: " + perm.getLevel().name().toLowerCase() + "<br>");
+                builder.append(perm.getDescription().toPlain() + "\n");
+            }
+
+            //Save to file
+            try {
+                file.getParentFile().mkdirs();
+                FileUtil.writeLines(file, Arrays.asList(builder.toString().split("\n")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static void generateCommands() {
+        for (Command cmd : UltimateCore.get().getCommandService().getCommands()) {
+            File file = new File(UltimateCore.get().getDataFolder().toFile() + "/docs/commands/", cmd.getIdentifier() + ".md");
+            StringBuilder builder = new StringBuilder();
+            builder.append(StringUtil.firstUpperCase(cmd.getIdentifier()) + "\n====\n");
+            builder.append(cmd.getLongDescription().toPlain() + "\n\n");
+
+            builder.append("Usage: " + cmd.getUsage().toPlain() + "<br>\n");
+            builder.append("Aliases: " + StringUtil.join(", ", cmd.getAliases()) + "<br>\n");
+            builder.append("Module: [" + cmd.getModule().getIdentifier() + "](../modules/" + cmd.getModule().getIdentifier() + ".md)<br>\n\n");
+
+            builder.append("Basic permission: " + cmd.getPermission().get() + "<br>\n");
+            builder.append("Basic role: " + cmd.getPermission().getLevel().name().toLowerCase() + "<br>\n\n");
+            builder.append("Permissions: " + "<br>\n");
+            for (Permission perm : cmd.getPermissions()) {
+                builder.append("* **" + perm.get() + "** - Recommended role: " + perm.getLevel().name().toLowerCase() + "<br>");
+                builder.append(perm.getDescription().toPlain() + "\n");
+            }
+
+            //Save to file
+            try {
+                file.getParentFile().mkdirs();
+                FileUtil.writeLines(file, Arrays.asList(builder.toString().split("\n")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

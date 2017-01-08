@@ -33,6 +33,7 @@ import bammerbom.ultimatecore.sponge.modules.heal.commands.SetMaxHealthCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -40,6 +41,11 @@ public class HealModule implements Module {
     @Override
     public String getIdentifier() {
         return "heal";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Allows you to refill or change a player's health bar.");
     }
 
     @Override

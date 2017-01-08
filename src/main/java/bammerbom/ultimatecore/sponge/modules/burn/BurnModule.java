@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.modules.burn.commands.BurnCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -38,6 +39,11 @@ public class BurnModule implements Module {
     @Override
     public String getIdentifier() {
         return "burn";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Set a player on fire using the /burn command.");
     }
 
     @Override

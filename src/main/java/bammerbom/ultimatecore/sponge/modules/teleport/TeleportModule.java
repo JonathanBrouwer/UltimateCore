@@ -35,6 +35,7 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -42,6 +43,11 @@ public class TeleportModule implements Module {
     @Override
     public String getIdentifier() {
         return "teleport";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("A module with multiple teleport command.");
     }
 
     @Override

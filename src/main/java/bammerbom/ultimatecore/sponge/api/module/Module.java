@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -37,6 +38,14 @@ public interface Module {
      * For example: afk, ban, etc
      */
     String getIdentifier();
+
+    /**
+     * Returns a (short) description of the module.
+     * Should be only one sentence.
+     *
+     * @return The description
+     */
+    Text getDescription();
 
     /**
      * This should return the config this module provides, or Optional.empty() when not available.

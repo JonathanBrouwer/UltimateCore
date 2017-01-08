@@ -35,12 +35,12 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
 public class AfkModule implements Module {
 
-    //TODO is back after x time
     //TODO "user may not respond" with chat/pm to user
 
     ModuleConfig config;
@@ -48,6 +48,11 @@ public class AfkModule implements Module {
     @Override
     public String getIdentifier() {
         return "afk";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Management of what happens to idle players.");
     }
 
     @Override

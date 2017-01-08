@@ -32,6 +32,7 @@ import bammerbom.ultimatecore.sponge.modules.item.commands.RepairCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -40,6 +41,12 @@ public class ItemModule implements Module {
     public String getIdentifier() {
         return "item";
     }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Give yourself items, repair items, and the more command.");
+    }
+
 
     @Override
     public Optional<ModuleConfig> getConfig() {

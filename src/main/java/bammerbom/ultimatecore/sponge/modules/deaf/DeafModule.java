@@ -38,6 +38,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -45,6 +46,11 @@ public class DeafModule implements Module {
     @Override
     public String getIdentifier() {
         return "deaf";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Allows you to make a player deaf. The player won't be able to send chat and see the chat.");
     }
 
     @Override

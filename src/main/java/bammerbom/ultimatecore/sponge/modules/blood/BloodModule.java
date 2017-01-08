@@ -42,6 +42,7 @@ import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -51,6 +52,11 @@ public class BloodModule implements Module {
     @Override
     public String getIdentifier() {
         return "blood";
+    }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("Custom 'blood' particles when a player gets damaged");
     }
 
     @Override
