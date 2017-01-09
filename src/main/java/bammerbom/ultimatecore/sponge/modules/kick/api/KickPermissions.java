@@ -25,9 +25,13 @@ package bammerbom.ultimatecore.sponge.modules.kick.api;
 
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
 import org.spongepowered.api.text.Text;
 
 public class KickPermissions {
     public static Permission UC_KICK_KICK = Permission.create("uc.kick.kick", "kick", PermissionLevel.MOD, "kick", Text.of("Allows you to use the kick command."));
     public static Permission UC_KICK_KICKALL = Permission.create("uc.kick.kickall", "kick", PermissionLevel.ADMIN, "kickall", Text.of("Allows you to use the kickall command."));
+
+    public static PermissionOption UC_KICK_EXEMPTPOWER = PermissionOption.create("uc.kick.exemptpower", "kick", "kick", "0", Text.of("The amount of exemptpower the player has. If a player's kickpower is higher than or equal to the targets exemptpower he can kick the target."));
+    public static PermissionOption UC_KICK_POWER = PermissionOption.create("uc.kick.power", "kick", "kick", "0", Text.of("The amount of kickpower the player has. If a player's kickpower is higher than or equal to the targets exemptpower he can kick the target."));
 }

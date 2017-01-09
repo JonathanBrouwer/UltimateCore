@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.modules.kick.api.KickPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -82,6 +83,10 @@ public class KickCommand implements Command {
         }
         if (sender.getName().equalsIgnoreCase(target.getName())) {
             sender.sendMessage(Messages.getFormatted("kick.command.kick.self"));
+            return CommandResult.empty();
+        }
+        if ((KickPermissions.UC_KICK_EXEMPTPOWER.getIntFor(target) > KickPermissions.UC_KICK_POWER.getIntFor(sender)) && sender instanceof Player) {
+            sender.sendMessage(Messages.getFormatted("kick.command.kick.exempt", "%player%", VariableUtil.getNameSource(target)));
             return CommandResult.empty();
         }
         if (args.length == 1) {
