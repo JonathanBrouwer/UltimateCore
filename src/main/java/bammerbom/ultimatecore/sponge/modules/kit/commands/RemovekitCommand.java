@@ -32,22 +32,14 @@ import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.item.ItemTypes;
-import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.ItemStackSnapshot;
-import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class CreatekitCommand implements Command {
+public class RemovekitCommand implements Command {
     @Override
     public Module getModule() {
         return Modules.KIT.get();
@@ -55,64 +47,41 @@ public class CreatekitCommand implements Command {
 
     @Override
     public String getIdentifier() {
-        return "createkit";
+        return "removekit";
     }
 
     @Override
     public Permission getPermission() {
-        return KitPermissions.UC_KIT_CREATEKIT_BASE;
+        return KitPermissions.UC_KIT_REMOVEKIT_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(KitPermissions.UC_KIT_CREATEKIT_BASE);
+        return Arrays.asList(KitPermissions.UC_KIT_REMOVEKIT_BASE);
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("createkit", "kitcreate", "addkit", "kitadd");
+        return Arrays.asList("removekit", "kitremove", "deletekit", "kitdelete", "delkit", "kitdel");
     }
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(KitPermissions.UC_KIT_CREATEKIT_BASE.get())) {
+        if (!sender.hasPermission(KitPermissions.UC_KIT_REMOVEKIT_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
-            return CommandResult.empty();
-        }
-        Player p = (Player) sender;
-        if (args.length == 0) {
-            sender.sendMessage(getUsage());
-            return CommandResult.empty();
-        }
-        long delay = -1;
-        Text description = Messages.getFormatted("kit.defaultdescription");
-        if (args.length >= 2) {
-            if (TimeUtil.isNumber(args[1])) {
-                delay = Long.parseLong(args[1]);
-            }
-            int dstart = delay == -1 ? 1 : 2;
-            if (args.length >= (dstart + 1)) {
-                description = Text.of(StringUtil.getFinalArg(args, dstart));
-            }
-        }
 
-        List<ItemStackSnapshot> items = new ArrayList<>();
-        p.getInventory().slots().forEach(slot -> {
-            Optional<ItemStack> stack = slot.peek();
-            if (stack.isPresent() && !stack.get().getItem().equals(ItemTypes.AIR)) {
-                items.add(stack.get().createSnapshot());
-            }
-        });
-
-        Kit kit = new Kit(args[0].toLowerCase(), description, items, new ArrayList<>(), delay);
         List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
-        kits.add(kit);
+        List<Kit> results = kits.stream().filter(war -> args[0].toLowerCase().equalsIgnoreCase(war.getId().toLowerCase())).collect(Collectors.toList());
+        if (results.isEmpty()) {
+            sender.sendMessage(Messages.getFormatted("kit.command.kit.notfound", "%kit%", args[0]));
+            return CommandResult.empty();
+        }
+
+        kits.removeAll(results);
         GlobalData.offer(KitKeys.KITS, kits);
-        sender.sendMessage(Messages.getFormatted("kit.command.createkit.success", "%name%", args[0].toLowerCase()));
+        sender.sendMessage(Messages.getFormatted("kit.command.removekit.success", "%kit%", args[0].toLowerCase()));
         return CommandResult.success();
     }
 

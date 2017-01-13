@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.CreatekitCommand;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.KitCommand;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.KitlistCommand;
+import bammerbom.ultimatecore.sponge.modules.kit.commands.RemovekitCommand;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -72,6 +73,7 @@ public class KitModule implements Module {
         UltimateCore.get().getCommandService().register(new KitCommand());
         UltimateCore.get().getCommandService().register(new KitlistCommand());
         UltimateCore.get().getCommandService().register(new CreatekitCommand());
+        UltimateCore.get().getCommandService().register(new RemovekitCommand());
 
         //Register permissions
         new KitPermissions();
