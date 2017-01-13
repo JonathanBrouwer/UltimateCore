@@ -151,7 +151,7 @@ public class TeleportCommand implements Command {
             }, (teleportRequest, reason) -> {
             }, true, false);
             request.start();
-            return CommandResult.success();
+            return CommandResult.successCount(e.size());
         } else if (args.length == 3 && !TimeUtil.isDecimal(args[0])) {
             // tp user x z
             if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_COORDINATES_OTHERS.get())) {
@@ -179,7 +179,7 @@ public class TeleportCommand implements Command {
             }, (teleportRequest, reason) -> {
             }, false, false);
             request.start();
-            return CommandResult.success();
+            return CommandResult.successCount(e.size());
         } else if (args.length == 3) {
             //tp x y z
             if (!(sender instanceof Player)) {
@@ -228,7 +228,7 @@ public class TeleportCommand implements Command {
             }, (teleportRequest, reason) -> {
             }, false, false);
             request.start();
-            return CommandResult.success();
+            return CommandResult.successCount(e.size());
         }
         sender.sendMessage(getUsage());
         return CommandResult.empty();
