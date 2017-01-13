@@ -73,7 +73,7 @@ public class Messages {
     /**
      * Retrieves a Map of all keys and values of a language file
      *
-     * @param lang The name of the language file, for example `english` for the file 'EN_US.properties'
+     * @param lang The name of the language file, for example `EN_US` for the file 'EN_US.properties'
      * @return A map of all keys and values
      * @throws IOException When the file was not found, was invalid, or failed to load in any other way
      */

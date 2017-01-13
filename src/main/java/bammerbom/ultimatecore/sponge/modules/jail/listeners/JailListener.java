@@ -72,12 +72,8 @@ public class JailListener {
     }
 
     @Listener(order = Order.POST)
-    public void onJailSwitch(DataOfferEvent<JailData> event) {
+    public void onJailSwitch(DataOfferEvent<JailData> event, @First Player p) {
         if (event.getKey().equals(JailKeys.JAIL)) {
-            Player p = event.getCause().first(Player.class).orElse(null);
-            if (p == null) {
-                return;
-            }
             if (event.getValue().isPresent()) {
                 //Player is jailed
                 JailData data = event.getValue().get();
