@@ -79,6 +79,10 @@ public class Kit {
         this.commands = commands;
     }
 
+    public boolean hasCooldown() {
+        return cooldown > 0;
+    }
+
     public Long getCooldown() {
         return cooldown;
     }

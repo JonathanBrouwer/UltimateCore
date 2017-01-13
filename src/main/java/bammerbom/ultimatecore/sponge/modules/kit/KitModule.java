@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
+import bammerbom.ultimatecore.sponge.modules.kit.commands.CreatekitCommand;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.KitCommand;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.KitlistCommand;
 import com.google.common.reflect.TypeToken;
@@ -70,6 +71,7 @@ public class KitModule implements Module {
         //Commands
         UltimateCore.get().getCommandService().register(new KitCommand());
         UltimateCore.get().getCommandService().register(new KitlistCommand());
+        UltimateCore.get().getCommandService().register(new CreatekitCommand());
 
         //Register permissions
         new KitPermissions();
