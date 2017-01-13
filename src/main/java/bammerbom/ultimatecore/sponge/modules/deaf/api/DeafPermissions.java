@@ -25,9 +25,13 @@ package bammerbom.ultimatecore.sponge.modules.deaf.api;
 
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
 import org.spongepowered.api.text.Text;
 
 public class DeafPermissions {
     public static Permission UC_DEAF_DEAF = Permission.create("uc.deaf.deaf", "deaf", PermissionLevel.MOD, "deaf", Text.of("Allows you to deaf someone."));
     public static Permission UC_DEAF_UNDEAF = Permission.create("uc.deaf.undeaf", "deaf", PermissionLevel.MOD, "undeaf", Text.of("Allows you to undeaf someone."));
+
+    public static PermissionOption UC_DEAF_EXEMPTPOWER = PermissionOption.create("uc.deaf.exemptpower", "deaf", "deaf", "0", Text.of("The amount of exemptpower the player has. If a player's deafpower is higher than or equal to the targets exemptpower he can deaf the target."));
+    public static PermissionOption UC_DEAF_POWER = PermissionOption.create("uc.deaf.power", "deaf", "deaf", "0", Text.of("The amount of deafpower the player has. If a player's deafpower is higher than or equal to the targets exemptpower he can deaf the target."));
 }

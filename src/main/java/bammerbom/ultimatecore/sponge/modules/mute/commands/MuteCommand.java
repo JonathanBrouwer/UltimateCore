@@ -85,6 +85,12 @@ public class MuteCommand implements Command {
             sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
+
+        if ((MutePermissions.UC_MUTE_EXEMPTPOWER.getIntFor(t) > MutePermissions.UC_MUTE_POWER.getIntFor(sender)) && sender instanceof Player) {
+            sender.sendMessage(Messages.getFormatted("mute.command.mute.exempt", "%player%", VariableUtil.getNameSource(t)));
+            return CommandResult.empty();
+        }
+
         Long time = -1L;
         if (args.length >= 2 && TimeUtil.parseDateDiff(args[1]) != -1) {
             time = TimeUtil.parseDateDiff(args[1]);

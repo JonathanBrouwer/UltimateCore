@@ -93,6 +93,11 @@ public class JailCommand implements Command {
         }
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
 
+        if ((JailPermissions.UC_JAIL_EXEMPTPOWER.getIntFor(t) > JailPermissions.UC_JAIL_POWER.getIntFor(sender)) && sender instanceof Player) {
+            sender.sendMessage(Messages.getFormatted("jail.command.jail.exempt", "%player%", VariableUtil.getNameSource(t)));
+            return CommandResult.empty();
+        }
+
         //Find jail, time and reason
         List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
         Jail jail = jails.get(random.nextInt(jails.size()));

@@ -25,9 +25,13 @@ package bammerbom.ultimatecore.sponge.modules.mute.api;
 
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
 import org.spongepowered.api.text.Text;
 
 public class MutePermissions {
     public static Permission UC_MUTE_MUTE = Permission.create("uc.mute.mute", "mute", PermissionLevel.MOD, "mute", Text.of("Allows you to mute someone."));
     public static Permission UC_MUTE_UNMUTE = Permission.create("uc.mute.unmute", "mute", PermissionLevel.MOD, "unmute", Text.of("Allows you to unmute someone."));
+
+    public static PermissionOption UC_MUTE_EXEMPTPOWER = PermissionOption.create("uc.mute.exemptpower", "mute", "mute", "0", Text.of("The amount of exemptpower the player has. If a player's mutepower is higher than or equal to the targets exemptpower he can mute the target."));
+    public static PermissionOption UC_MUTE_POWER = PermissionOption.create("uc.mute.power", "mute", "mute", "0", Text.of("The amount of mutepower the player has. If a player's mutepower is higher than or equal to the targets exemptpower he can mute the target."));
 }

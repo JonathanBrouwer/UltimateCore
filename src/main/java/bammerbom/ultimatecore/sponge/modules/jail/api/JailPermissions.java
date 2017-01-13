@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.jail.api;
 
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
 import org.spongepowered.api.text.Text;
 
 public class JailPermissions {
@@ -34,4 +35,7 @@ public class JailPermissions {
     public static Permission UC_JAIL_DELJAIL_BASE = Permission.create("uc.jail.deljail.base", "jail", PermissionLevel.ADMIN, "deljail", Text.of("Allows you to use the deljail command."));
     public static Permission UC_JAIL_JAILLIST_BASE = Permission.create("uc.jail.jaillist.base", "jail", PermissionLevel.ADMIN, "jaillist", Text.of("Allows you to use the jaillist command."));
     public static Permission UC_JAIL_JAILTP_BASE = Permission.create("uc.jail.jailtp.base", "jail", PermissionLevel.ADMIN, "jailtp", Text.of("Allows you to use the jailtp command."));
+
+    public static PermissionOption UC_JAIL_EXEMPTPOWER = PermissionOption.create("uc.jail.exemptpower", "jail", "jail", "0", Text.of("The amount of exemptpower the player has. If a player's jailpower is higher than or equal to the targets exemptpower he can jail the target."));
+    public static PermissionOption UC_JAIL_POWER = PermissionOption.create("uc.jail.power", "jail", "jail", "0", Text.of("The amount of jailpower the player has. If a player's jailpower is higher than or equal to the targets exemptpower he can jail the target."));
 }
