@@ -49,8 +49,10 @@ uc.jail.setjail.base - Allows you to use the setjail command. (Recommended for a
 uc.jail.unjail.base - Allows you to use the unjail command. (Recommended for admin)<br>
 uc.kick.kick - Allows you to use the kick command. (Recommended for mod)<br>
 uc.kick.kickall - Allows you to use the kickall command. (Recommended for admin)<br>
+uc.kit.createkit.base - Allows you to use the createkit command. (Recommended for admin)<br>
 uc.kit.kit.[KIT] - Allows you to use the kit command for a specific kit. (Recommended for everyone)<br>
-uc.kit.kit.base - Allows you to use the kit command for all kits. (Recommended for everyone)<br>
+uc.kit.kit.base - Allows you to use the kit command. (Recommended for everyone)<br>
+uc.kit.removekit.base - Allows you to use the removekit command. (Recommended for admin)<br>
 uc.kitlist - Allows you to see a list of all kits. (Recommended for everyone)<br>
 uc.mute.mute - Allows you to mute someone. (Recommended for mod)<br>
 uc.mute.unmute - Allows you to unmute someone. (Recommended for mod)<br>
@@ -106,6 +108,8 @@ uc.time.time.query.formatted - Allows you to see the formatted time. (Recommende
 uc.time.time.query.gametime - Allows you to use query how many ticks have passed in the server. (Recommended for admin)<br>
 uc.time.time.ticks - Allows you to set the time to a certain amount of ticks. (Recommended for admin)<br>
 uc.ultimatecore.ultimatecore - Allows you to use the /ultimatecore command. (Recommended for owner)<br>
+uc.vanish.vanish.base - Allows you to use the vanish command. (Recommended for everyone)<br>
+uc.vanish.vanish.base - Allows you to use the vanish command on other players. (Recommended for everyone)<br>
 uc.warp.delwarp - Allows you to remove a warp. (Recommended for admin)<br>
 uc.warp.setwarp - Allows you to set a new warp. (Recommended for admin)<br>
 uc.warp.warp.[WARP] - Allows you to use a certain warp. (Recommended for everyone)<br>

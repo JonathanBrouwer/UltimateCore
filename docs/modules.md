@@ -34,5 +34,6 @@ Modules
 [teleport - A module with multiple teleport command.](modules/teleport.md)<br>
 [time - Change the time of the minecraft world to day, night, or anything in between.](modules/time.md)<br>
 [unknowncommand - Allows you to change the message send to a player when a command is not found.](modules/unknowncommand.md)<br>
+[vanish - Make players invisible.](modules/vanish.md)<br>
 [warp - Let the admin set certain locations where a player can teleport to.](modules/warp.md)<br>
 [weather - Change the minecraft world's weather, or disable it.](modules/weather.md)<br>

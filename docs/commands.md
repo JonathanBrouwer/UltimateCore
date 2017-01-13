@@ -6,6 +6,7 @@ Commands
 [/back - Teleport back to the location you were before you teleported.](commands/back.md)<br>
 [/burn \<Player\> \[Time\] - Set people on fire.](commands/burn.md)<br>
 [/commandspy \[Player\] - Toggle a player's or your own commandspy status.](commands/commandspy.md)<br>
+[/createkit \<Name\> \[Time\] \[Description\] - Create a kit with the contents of your inventory.](commands/createkit.md)<br>
 [/creative \[Player\] - Change someone's gamemode to creative.](commands/creative.md)<br>
 [/day - Set the time in a certain world to day.](commands/day.md)<br>
 [/deaf \<Player\> \[Time\] \[Reason\] - Make a player deaf, for a certain time and reason.](commands/deaf.md)<br>
@@ -41,6 +42,7 @@ Commands
 [/personalmessage \<Player\> \<Message\> - Send a private message to an other player.](commands/personalmessage.md)<br>
 [/rain \[World\] - Change the weather to rain.](commands/rain.md)<br>
 [/random \[Min\] \<Max\> - Generate a random number between two values.](commands/random.md)<br>
+[/removekit \<Kit\> - Permanently delete a kit.](commands/removekit.md)<br>
 [/repair \[All/Hand\] - Repair the item in your hand, or all items in your inventory.](commands/repair.md)<br>
 [/reply \<Message\> - Send a private message to the person who last private messaged you.](commands/reply.md)<br>
 [/setfirstspawn - Set the new player spawn.](commands/setfirstspawn.md)<br>
@@ -67,6 +69,7 @@ Commands
 [/time (set/add) day/night/\<ticks\>/enable/disable/query - Time-related actions.](commands/time.md)<br>
 [/ultimatecore modules/resetuser/clearcache - The UltimateCore base command.](commands/ultimatecore.md)<br>
 [/unjail \<Player\> - Unjail a player.](commands/unjail.md)<br>
+[/vanish \[Player\] - Toggle whether a player is vanished.](commands/vanish.md)<br>
 [/warp \<Warp\> - Teleport yourself to the specified warp.](commands/warp.md)<br>
 [/warplist - Get a paginated list of all warps.](commands/warplist.md)<br>
 [/weather \<Sun/Rain/Thunder\> \[World\] - Change the weather to sun, rain or thunder.](commands/weather.md)<br>

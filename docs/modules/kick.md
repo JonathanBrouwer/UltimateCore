@@ -9,3 +9,7 @@ Commands: <br>
 Permissions: <br>
 * **uc.kick.kick** - Recommended role: mod<br>Allows you to use the kick command.
 * **uc.kick.kickall** - Recommended role: admin<br>Allows you to use the kickall command.
+
+Permission options: <br>
+* **uc.kick.exemptpower**<br>The amount of exemptpower the player has. If a player's kickpower is higher than or equal to the targets exemptpower he can kick the target.
+* **uc.kick.power**<br>The amount of kickpower the player has. If a player's kickpower is higher than or equal to the targets exemptpower he can kick the target.
