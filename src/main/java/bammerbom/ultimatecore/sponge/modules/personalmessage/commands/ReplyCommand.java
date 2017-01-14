@@ -60,12 +60,12 @@ public class ReplyCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return PersonalmessagePermissions.UC_PERSONALMESSAGE_REPLY;
+        return PersonalmessagePermissions.UC_PERSONALMESSAGE_REPLY_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(PersonalmessagePermissions.UC_PERSONALMESSAGE_REPLY);
+        return Arrays.asList(PersonalmessagePermissions.UC_PERSONALMESSAGE_REPLY_BASE);
     }
 
     @Override

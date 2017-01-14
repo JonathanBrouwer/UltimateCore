@@ -58,12 +58,12 @@ public class KitlistCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return KitPermissions.UC_KIT_KITLIST;
+        return KitPermissions.UC_KIT_KITLIST_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(KitPermissions.UC_KIT_KITLIST);
+        return Arrays.asList(KitPermissions.UC_KIT_KITLIST_BASE);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class KitlistCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         //Permissions
-        if (!sender.hasPermission(KitPermissions.UC_KIT_KITLIST.get())) {
+        if (!sender.hasPermission(KitPermissions.UC_KIT_KITLIST_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

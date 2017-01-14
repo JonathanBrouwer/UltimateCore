@@ -52,12 +52,12 @@ public class CreativeCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return GamemodePermissions.UC_GAMEMODE_GAMEMODE_CREATIVE;
+        return GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_CREATIVE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE, GamemodePermissions.UC_GAMEMODE_GAMEMODE_CREATIVE, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_CREATIVE);
+        return Arrays.asList(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE, GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_CREATIVE, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_CREATIVE);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class CreativeCommand implements Command {
         Player player;
         if (args.length >= 1) {
             //Check permissions
-            if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_CREATIVE.get())) {
+            if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_CREATIVE.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }

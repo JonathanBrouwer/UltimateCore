@@ -58,12 +58,12 @@ public class TeleportaskCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return TeleportPermissions.UC_TELEPORT_TELEPORTASK;
+        return TeleportPermissions.UC_TELEPORT_TELEPORTASK_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(TeleportPermissions.UC_TELEPORT_TELEPORTASK);
+        return Arrays.asList(TeleportPermissions.UC_TELEPORT_TELEPORTASK_BASE);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class TeleportaskCommand implements Command {
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORTASK.get())) {
+        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORTASK_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

@@ -57,12 +57,12 @@ public class SethomeCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return HomePermissions.UC_HOME_SETHOME;
+        return HomePermissions.UC_HOME_SETHOME_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(HomePermissions.UC_HOME_SETHOME, HomePermissions.UC_HOME_SETHOME_UNLIMITED);
+        return Arrays.asList(HomePermissions.UC_HOME_SETHOME_BASE, HomePermissions.UC_HOME_SETHOME_UNLIMITED);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class SethomeCommand implements Command {
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if (!sender.hasPermission(HomePermissions.UC_HOME_SETHOME.get())) {
+        if (!sender.hasPermission(HomePermissions.UC_HOME_SETHOME_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

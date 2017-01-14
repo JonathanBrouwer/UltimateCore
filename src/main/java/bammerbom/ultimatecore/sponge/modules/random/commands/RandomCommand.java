@@ -53,12 +53,12 @@ public class RandomCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return RandomPermissions.UC_RANDOM_RANDOM;
+        return RandomPermissions.UC_RANDOM_RANDOM_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(RandomPermissions.UC_RANDOM_RANDOM);
+        return Arrays.asList(RandomPermissions.UC_RANDOM_RANDOM_BASE);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class RandomCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(RandomPermissions.UC_RANDOM_RANDOM.get())) {
+        if (!sender.hasPermission(RandomPermissions.UC_RANDOM_RANDOM_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

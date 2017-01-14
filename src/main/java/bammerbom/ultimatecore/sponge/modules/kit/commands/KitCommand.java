@@ -73,7 +73,7 @@ public class KitCommand implements Command {
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(KitPermissions.UC_KIT_KIT_BASE, KitPermissions.UC_KIT_KIT_KIT, KitPermissions.UC_KIT_KITLIST);
+        return Arrays.asList(KitPermissions.UC_KIT_KIT_BASE, KitPermissions.UC_KIT_KIT_KIT, KitPermissions.UC_KIT_KITLIST_BASE);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class KitCommand implements Command {
         //Send the player a paginated list of all kits
         if (args.length == 0) {
             //Permissions
-            if (!sender.hasPermission(KitPermissions.UC_KIT_KITLIST.get())) {
+            if (!sender.hasPermission(KitPermissions.UC_KIT_KITLIST_BASE.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }

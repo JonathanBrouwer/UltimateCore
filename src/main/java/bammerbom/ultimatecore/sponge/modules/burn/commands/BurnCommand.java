@@ -51,12 +51,12 @@ public class BurnCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return BurnPermissions.UC_BURN_BURN;
+        return BurnPermissions.UC_BURN_BURN_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(BurnPermissions.UC_BURN_BURN);
+        return Arrays.asList(BurnPermissions.UC_BURN_BURN_BASE);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class BurnCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(BurnPermissions.UC_BURN_BURN.get())) {
+        if (!sender.hasPermission(BurnPermissions.UC_BURN_BURN_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

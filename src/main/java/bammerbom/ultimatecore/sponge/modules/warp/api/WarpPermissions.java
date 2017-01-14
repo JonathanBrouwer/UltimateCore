@@ -30,7 +30,7 @@ import org.spongepowered.api.text.Text;
 public class WarpPermissions {
     public static Permission UC_WARP_WARP_BASE = Permission.create("uc.warp.warp.base", "warp", PermissionLevel.EVERYONE, "warp", Text.of("Allows you to use the warp command."));
     public static Permission UC_WARP_WARP_WARP = Permission.create("uc.warp.warp.[WARP]", "warp", PermissionLevel.EVERYONE, "warp", Text.of("Allows you to use a certain warp."));
-    public static Permission UC_WARP_SETWARP = Permission.create("uc.warp.setwarp", "warp", PermissionLevel.ADMIN, "setwarp", Text.of("Allows you to set a new warp."));
-    public static Permission UC_WARP_DELWARP = Permission.create("uc.warp.delwarp", "warp", PermissionLevel.ADMIN, "delwarp", Text.of("Allows you to remove a warp."));
-    public static Permission UC_WARP_WARPLIST = Permission.create("uc.warp.warplist", "warp", PermissionLevel.EVERYONE, "warplist", Text.of("Allows you to see a list of all warps."));
+    public static Permission UC_WARP_SETWARP_BASE = Permission.create("uc.warp.setwarp.base", "warp", PermissionLevel.ADMIN, "setwarp", Text.of("Allows you to set a new warp."));
+    public static Permission UC_WARP_DELWARP_BASE = Permission.create("uc.warp.delwarp.base", "warp", PermissionLevel.ADMIN, "delwarp", Text.of("Allows you to remove a warp."));
+    public static Permission UC_WARP_WARPLIST_BASE = Permission.create("uc.warp.warplist.base", "warp", PermissionLevel.EVERYONE, "warplist", Text.of("Allows you to see a list of all warps."));
 }

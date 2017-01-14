@@ -56,12 +56,12 @@ public class SetwarpCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return WarpPermissions.UC_WARP_SETWARP;
+        return WarpPermissions.UC_WARP_SETWARP_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(WarpPermissions.UC_WARP_SETWARP);
+        return Arrays.asList(WarpPermissions.UC_WARP_SETWARP_BASE);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class SetwarpCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         //Has permission
-        if (!sender.hasPermission(WarpPermissions.UC_WARP_SETWARP.get())) {
+        if (!sender.hasPermission(WarpPermissions.UC_WARP_SETWARP_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

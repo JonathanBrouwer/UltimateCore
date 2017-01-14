@@ -52,12 +52,12 @@ public class DelwarpCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return WarpPermissions.UC_WARP_DELWARP;
+        return WarpPermissions.UC_WARP_DELWARP_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(WarpPermissions.UC_WARP_DELWARP);
+        return Arrays.asList(WarpPermissions.UC_WARP_DELWARP_BASE);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class DelwarpCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         //Has permission
-        if (!sender.hasPermission(WarpPermissions.UC_WARP_DELWARP.get())) {
+        if (!sender.hasPermission(WarpPermissions.UC_WARP_DELWARP_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

@@ -60,12 +60,12 @@ public class WarplistCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return WarpPermissions.UC_WARP_WARPLIST;
+        return WarpPermissions.UC_WARP_WARPLIST_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(WarpPermissions.UC_WARP_WARPLIST);
+        return Arrays.asList(WarpPermissions.UC_WARP_WARPLIST_BASE);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class WarplistCommand implements Command {
 
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(WarpPermissions.UC_WARP_WARPLIST.get())) {
+        if (!sender.hasPermission(WarpPermissions.UC_WARP_WARPLIST_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }

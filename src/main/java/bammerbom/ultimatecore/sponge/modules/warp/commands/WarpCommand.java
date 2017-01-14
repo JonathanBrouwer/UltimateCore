@@ -80,7 +80,7 @@ public class WarpCommand implements Command {
         //Send the player a paginated list of all warps
         if (args.length == 0) {
             //Permissions
-            if (!sender.hasPermission(WarpPermissions.UC_WARP_WARPLIST.get())) {
+            if (!sender.hasPermission(WarpPermissions.UC_WARP_WARPLIST_BASE.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));
                 return CommandResult.empty();
             }

@@ -28,5 +28,5 @@ import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import org.spongepowered.api.text.Text;
 
 public class RandomPermissions {
-    public static Permission UC_RANDOM_RANDOM = Permission.create("uc.random.random", "random", PermissionLevel.EVERYONE, "random", Text.of("Allows you to use the random command."));
+    public static Permission UC_RANDOM_RANDOM_BASE = Permission.create("uc.random.random.base", "random", PermissionLevel.EVERYONE, "random", Text.of("Allows you to use the random command."));
 }

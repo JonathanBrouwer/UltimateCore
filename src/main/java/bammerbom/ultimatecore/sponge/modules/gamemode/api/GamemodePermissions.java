@@ -29,10 +29,10 @@ import org.spongepowered.api.text.Text;
 
 public class GamemodePermissions {
     public static Permission UC_GAMEMODE_GAMEMODE_BASE = Permission.create("uc.gamemode.gamemode.base", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode"));
-    public static Permission UC_GAMEMODE_GAMEMODE_SURVIVAL = Permission.create("uc.gamemode.gamemode.survival", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode to survival"));
-    public static Permission UC_GAMEMODE_GAMEMODE_CREATIVE = Permission.create("uc.gamemode.gamemode.creative", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode to creative"));
-    public static Permission UC_GAMEMODE_GAMEMODE_ADVENTURE = Permission.create("uc.gamemode.gamemode.adventure", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode to adventure"));
-    public static Permission UC_GAMEMODE_GAMEMODE_SPECTATOR = Permission.create("uc.gamemode.gamemode.spectator", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode to spectator"));
+    public static Permission UC_GAMEMODE_GAMEMODE_SELF_SURVIVAL = Permission.create("uc.gamemode.gamemode.self.survival", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode to survival"));
+    public static Permission UC_GAMEMODE_GAMEMODE_SELF_CREATIVE = Permission.create("uc.gamemode.gamemode.self.creative", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode to creative"));
+    public static Permission UC_GAMEMODE_GAMEMODE_SELF_ADVENTURE = Permission.create("uc.gamemode.gamemode.self.adventure", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode to adventure"));
+    public static Permission UC_GAMEMODE_GAMEMODE_SELF_SPECTATOR = Permission.create("uc.gamemode.gamemode.self.spectator", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change your own gamemode to spectator"));
     public static Permission UC_GAMEMODE_GAMEMODE_OTHERS_BASE = Permission.create("uc.gamemode.gamemode.others.base", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change a player's gamemode"));
     public static Permission UC_GAMEMODE_GAMEMODE_OTHERS_SURVIVAL = Permission.create("uc.gamemode.gamemode.others.survival", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change a player's gamemode to survival"));
     public static Permission UC_GAMEMODE_GAMEMODE_OTHERS_CREATIVE = Permission.create("uc.gamemode.gamemode.others.creative", "gamemode", PermissionLevel.ADMIN, "gamemode", Text.of("Allows you to change a player's gamemode to creative"));

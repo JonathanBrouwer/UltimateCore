@@ -30,7 +30,7 @@ import org.spongepowered.api.text.Text;
 public class KitPermissions {
     public static Permission UC_KIT_KIT_BASE = Permission.create("uc.kit.kit.base", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to use the kit command."));
     public static Permission UC_KIT_KIT_KIT = Permission.create("uc.kit.kit.[KIT]", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to use the kit command for a specific kit."));
-    public static Permission UC_KIT_KITLIST = Permission.create("uc.kitlist", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to see a list of all kits."));
+    public static Permission UC_KIT_KITLIST_BASE = Permission.create("uc.kitlist.base", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to see a list of all kits."));
     public static Permission UC_KIT_CREATEKIT_BASE = Permission.create("uc.kit.createkit.base", "kit", PermissionLevel.ADMIN, "createkit", Text.of("Allows you to use the createkit command."));
     public static Permission UC_KIT_REMOVEKIT_BASE = Permission.create("uc.kit.removekit.base", "kit", PermissionLevel.ADMIN, "removekit", Text.of("Allows you to use the removekit command."));
 }

@@ -63,12 +63,12 @@ public class HomeCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return HomePermissions.UC_HOME_HOME;
+        return HomePermissions.UC_HOME_HOME_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(HomePermissions.UC_HOME_HOME);
+        return Arrays.asList(HomePermissions.UC_HOME_HOME_BASE);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class HomeCommand implements Command {
         }
         Player p = (Player) sender;
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);
-        if (!sender.hasPermission(HomePermissions.UC_HOME_HOME.get())) {
+        if (!sender.hasPermission(HomePermissions.UC_HOME_HOME_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
