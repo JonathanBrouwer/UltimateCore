@@ -51,6 +51,7 @@ import bammerbom.ultimatecore.sponge.impl.variable.UCVariableService;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.Metrics;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -69,6 +70,7 @@ import org.spongepowered.api.service.ServiceManager;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -208,9 +210,35 @@ public class UltimateCore {
             //All commands should be registered by now
             commandsConfig.postload();
             modulesConfig.postload();
-            //Send stats
-            //TODO wait for website
-            //Stats.start();
+            //Add custom bstats charts
+            metrics.addCustomChart(new Metrics.AdvancedPie("modules") {
+                @Override
+                public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap) {
+                    HashMap<String, Integer> modules = new HashMap<>();
+                    UltimateCore.get().getModuleService().getModules().forEach(module -> {
+                        modules.put(module.getIdentifier(), 1);
+                    });
+                    return modules;
+                }
+            });
+            metrics.addCustomChart(new Metrics.SimplePie("language") {
+                @Override
+                public String getValue() {
+                    return getGeneralConfig().get().getNode("language", "language").getString();
+                }
+            });
+            metrics.addCustomChart(new Metrics.SimplePie("platform") {
+                @Override
+                public String getValue() {
+                    return StringUtil.firstUpperCase(Sponge.getPlatform().getType().name());
+                }
+            });
+            metrics.addCustomChart(new Metrics.SimplePie("implementation") {
+                @Override
+                public String getValue() {
+                    return Sponge.getPlatform().getContainer(Platform.Component.IMPLEMENTATION).getName();
+                }
+            });
             //Post-initialize modules
             for (Module module : getModuleService().getModules()) {
                 try {
