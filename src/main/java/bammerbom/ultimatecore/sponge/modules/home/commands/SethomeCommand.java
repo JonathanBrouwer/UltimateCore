@@ -73,12 +73,12 @@ public class SethomeCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(HomePermissions.UC_HOME_SETHOME_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -87,7 +87,7 @@ public class SethomeCommand implements Command {
         }
         String shomecount = HomePermissions.UC_HOME_HOMECOUNT.getFor(sender);
         if (!ArgumentUtil.isNumber(shomecount)) {
-            sender.sendMessage(Messages.getFormatted("home.command.sethome.invalidhomecount", "%homecount%", shomecount));
+            sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.invalidhomecount", "%homecount%", shomecount));
             return CommandResult.empty();
         }
         Integer homecount = Integer.parseInt(shomecount);
@@ -96,7 +96,7 @@ public class SethomeCommand implements Command {
         boolean replace = homes.stream().filter(home -> home.getName().equalsIgnoreCase(args[0])).count() >= 1;
         //If amount of homes (+1 if not replace) is higher than max amount of homes
         if ((homes.size() + (replace ? 0 : 1)) > homecount && !sender.hasPermission(HomePermissions.UC_HOME_SETHOME_UNLIMITED.get())) {
-            sender.sendMessage(Messages.getFormatted("home.command.sethome.maxhomes"));
+            sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.maxhomes"));
             return CommandResult.empty();
         }
         //Remove home with matching name
@@ -105,9 +105,9 @@ public class SethomeCommand implements Command {
         user.offer(HomeKeys.HOMES, homes);
 
         if (replace) {
-            sender.sendMessage(Messages.getFormatted("home.command.sethome.success.replace", "%home%", args[0].toLowerCase()));
+            sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.success.replace", "%home%", args[0].toLowerCase()));
         } else {
-            sender.sendMessage(Messages.getFormatted("home.command.sethome.success.set", "%home%", args[0].toLowerCase()));
+            sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.success.set", "%home%", args[0].toLowerCase()));
         }
         return CommandResult.success();
     }

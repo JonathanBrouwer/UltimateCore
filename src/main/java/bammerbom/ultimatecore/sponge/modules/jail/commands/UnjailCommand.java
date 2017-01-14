@@ -73,7 +73,7 @@ public class UnjailCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(JailPermissions.UC_JAIL_UNJAIL_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -84,19 +84,19 @@ public class UnjailCommand implements Command {
         //Find player
         Player t = Selector.one(sender, args[0]).orElse(null);
         if (t == null) {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
 
         if (!ut.get(JailKeys.JAIL).isPresent()) {
-            sender.sendMessage(Messages.getFormatted("jail.command.unjail.notjailed", "%player%", VariableUtil.getNameSource(t)));
+            sender.sendMessage(Messages.getFormatted(sender, "jail.command.unjail.notjailed", "%player%", VariableUtil.getNameSource(t)));
             return CommandResult.success();
         }
 
         ut.offer(JailKeys.JAIL, null);
-        sender.sendMessage(Messages.getFormatted("jail.command.unjail.success", "%player%", VariableUtil.getNameSource(t)));
-        t.sendMessage(Messages.getFormatted("jail.target.unjailed"));
+        sender.sendMessage(Messages.getFormatted(sender, "jail.command.unjail.success", "%player%", VariableUtil.getNameSource(t)));
+        t.sendMessage(Messages.getFormatted(t, "jail.target.unjailed"));
         return CommandResult.success();
     }
 

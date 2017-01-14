@@ -76,7 +76,7 @@ public class JailCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(JailPermissions.UC_JAIL_JAIL_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -88,13 +88,13 @@ public class JailCommand implements Command {
         UUID suuid = sender instanceof Player ? ((Player) sender).getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000");
         Player t = Selector.one(sender, args[0]).orElse(null);
         if (t == null) {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
 
         if ((JailPermissions.UC_JAIL_EXEMPTPOWER.getIntFor(t) > JailPermissions.UC_JAIL_POWER.getIntFor(sender)) && sender instanceof Player) {
-            sender.sendMessage(Messages.getFormatted("jail.command.jail.exempt", "%player%", VariableUtil.getNameSource(t)));
+            sender.sendMessage(Messages.getFormatted(sender, "jail.command.jail.exempt", "%player%", VariableUtil.getNameSource(t)));
             return CommandResult.empty();
         }
 
@@ -132,8 +132,8 @@ public class JailCommand implements Command {
 
         JailData data = new JailData(t.getUniqueId(), suuid, time == -1 ? -1 : (time + System.currentTimeMillis()), System.currentTimeMillis(), reason, jail.getName());
         ut.offer(JailKeys.JAIL, data);
-        sender.sendMessage(Messages.getFormatted("jail.command.jail.success", "%player%", VariableUtil.getNameSource(t), "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
-        t.sendMessage(Messages.getFormatted("jail.target.jailed", "%player%", VariableUtil.getNameSource(sender), "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        sender.sendMessage(Messages.getFormatted(sender, "jail.command.jail.success", "%player%", VariableUtil.getNameSource(t), "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        t.sendMessage(Messages.getFormatted(t, "jail.target.jailed", "%player%", VariableUtil.getNameSource(sender), "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
         return CommandResult.success();
     }
 

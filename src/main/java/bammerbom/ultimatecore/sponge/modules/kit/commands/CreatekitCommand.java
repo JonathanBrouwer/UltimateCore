@@ -76,11 +76,11 @@ public class CreatekitCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(KitPermissions.UC_KIT_CREATEKIT_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
@@ -112,7 +112,7 @@ public class CreatekitCommand implements Command {
         List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
         kits.add(kit);
         GlobalData.offer(KitKeys.KITS, kits);
-        sender.sendMessage(Messages.getFormatted("kit.command.createkit.success", "%name%", args[0].toLowerCase()));
+        sender.sendMessage(Messages.getFormatted(sender, "kit.command.createkit.success", "%name%", args[0].toLowerCase()));
         return CommandResult.success();
     }
 

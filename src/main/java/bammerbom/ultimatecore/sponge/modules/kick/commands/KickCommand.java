@@ -69,7 +69,7 @@ public class KickCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(KickPermissions.UC_KICK_KICK_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -78,15 +78,15 @@ public class KickCommand implements Command {
         }
         Player target = Selector.one(sender, args[0]).orElse(null);
         if (target == null) {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
         if (sender.getName().equalsIgnoreCase(target.getName())) {
-            sender.sendMessage(Messages.getFormatted("kick.command.kick.self"));
+            sender.sendMessage(Messages.getFormatted(sender, "kick.command.kick.self"));
             return CommandResult.empty();
         }
         if ((KickPermissions.UC_KICK_EXEMPTPOWER.getIntFor(target) > KickPermissions.UC_KICK_POWER.getIntFor(sender)) && sender instanceof Player) {
-            sender.sendMessage(Messages.getFormatted("kick.command.kick.exempt", "%player%", VariableUtil.getNameSource(target)));
+            sender.sendMessage(Messages.getFormatted(sender, "kick.command.kick.exempt", "%player%", VariableUtil.getNameSource(target)));
             return CommandResult.empty();
         }
         if (args.length == 1) {

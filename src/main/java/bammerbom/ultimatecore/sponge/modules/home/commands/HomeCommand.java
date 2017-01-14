@@ -79,19 +79,19 @@ public class HomeCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);
         if (!sender.hasPermission(HomePermissions.UC_HOME_HOME_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         List<Home> homes = user.get(HomeKeys.HOMES).orElse(new ArrayList<>());
         if (args.length == 0) {
             if (homes.isEmpty()) {
-                sender.sendMessage(Messages.getFormatted("home.command.homelist.empty"));
+                sender.sendMessage(Messages.getFormatted(sender, "home.command.homelist.empty"));
                 return CommandResult.empty();
             }
             List<Text> entries = new ArrayList<>();
@@ -104,7 +104,7 @@ public class HomeCommand implements Command {
             if (!p.hasPermission(HomePermissions.UC_HOME_SETHOME_UNLIMITED.get())) {
                 String shomecount = HomePermissions.UC_HOME_HOMECOUNT.getFor(sender);
                 if (!ArgumentUtil.isNumber(shomecount)) {
-                    sender.sendMessage(Messages.getFormatted("home.command.sethome.invalidhomecount", "%homecount%", shomecount));
+                    sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.invalidhomecount", "%homecount%", shomecount));
                     return CommandResult.empty();
                 }
                 Integer homecount = Integer.parseInt(shomecount);
@@ -120,13 +120,13 @@ public class HomeCommand implements Command {
         }
         List<Home> matches = homes.stream().filter(hom -> hom.getName().equalsIgnoreCase(args[0])).collect(Collectors.toList());
         if (matches.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted("home.command.home.notfound", "%home%", args[0].toLowerCase()));
+            sender.sendMessage(Messages.getFormatted(sender, "home.command.home.notfound", "%home%", args[0].toLowerCase()));
             return CommandResult.empty();
         }
         Home home = matches.get(0); //Ignore other results if there are more than one
         //Teleport
         Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), home.getLocation(), req -> {
-            sender.sendMessage(Messages.getFormatted("home.command.home.success", "%home%", home.getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "home.command.home.success", "%home%", home.getName()));
         }, (red, reason) -> {
         }, true, false);
         request.start();

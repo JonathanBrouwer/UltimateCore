@@ -72,7 +72,7 @@ public class SpawnCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_SPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         //Find player to teleport
@@ -80,20 +80,20 @@ public class SpawnCommand implements Command {
         boolean self;
         if (args.length == 0) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             t = (Player) sender;
             self = true;
         } else {
             if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_SPAWN_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             t = Selector.one(sender, args[0]).orElse(null);
             self = false;
             if (t == null) {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
         }
@@ -103,10 +103,10 @@ public class SpawnCommand implements Command {
 
         Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
             if (self) {
-                sender.sendMessage(Messages.getFormatted("spawn.command.spawn.success.self"));
+                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.spawn.success.self"));
             } else {
-                sender.sendMessage(Messages.getFormatted("spawn.command.spawn.success.others.self", "%player%", VariableUtil.getNameSource(t)));
-                t.sendMessage(Messages.getFormatted("spawn.command.spawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
+                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.spawn.success.others.self", "%player%", VariableUtil.getNameSource(t)));
+                t.sendMessage(Messages.getFormatted(t, "spawn.command.spawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
             }
         }, (tel, reason) -> {
         }, false, false);

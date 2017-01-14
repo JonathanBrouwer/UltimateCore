@@ -73,12 +73,12 @@ public class SetwarpCommand implements Command {
     public CommandResult run(CommandSource sender, String[] args) {
         //Has permission
         if (!sender.hasPermission(WarpPermissions.UC_WARP_SETWARP_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         //Is player
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
@@ -101,9 +101,9 @@ public class SetwarpCommand implements Command {
         warps.add(warp);
         GlobalData.offer(WarpKeys.WARPS, warps);
         if (replace) {
-            sender.sendMessage(Messages.getFormatted("warp.command.setwarp.replace", "%warp%", warp.getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "warp.command.setwarp.replace", "%warp%", warp.getName()));
         } else {
-            sender.sendMessage(Messages.getFormatted("warp.command.setwarp.set", "%warp%", warp.getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "warp.command.setwarp.set", "%warp%", warp.getName()));
         }
         return CommandResult.success();
     }

@@ -74,12 +74,12 @@ public class TeleportaskCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORTASK_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -88,24 +88,24 @@ public class TeleportaskCommand implements Command {
         }
         Player t = Selector.one(sender, args[0]).orElse(null);
         if (t == null) {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
 
         UUID tpid = UUID.randomUUID();
         Teleportation tel = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), t::getTransform, tele -> {
-            p.sendMessage(Messages.getFormatted("teleport.command.teleportask.accept", "%player%", t.getName()));
+            p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportask.accept", "%player%", t.getName()));
         }, (tele, reason) -> {
             if (reason.equalsIgnoreCase("tpdeny")) {
-                p.sendMessage(Messages.getFormatted("teleport.command.teleportask.deny", "%player%", t.getName()));
+                p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportask.deny", "%player%", t.getName()));
             }
         }, true, false);
         HashMap<UUID, TpaRequest> tels = GlobalData.get(TeleportKeys.TELEPORT_ASK_REQUESTS).get();
         tels.put(tpid, new TpaRequest(p, t, tel));
         GlobalData.offer(TeleportKeys.TELEPORT_ASK_REQUESTS, tels);
 
-        sender.sendMessage(Messages.getFormatted("teleport.command.teleportask.send", "%player%", VariableUtil.getNameEntity(t)));
-        t.sendMessage(Messages.getFormatted("teleport.command.teleportask.receive", "%player%", VariableUtil.getNameSource(sender), "%tpid%", tpid));
+        sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportask.send", "%player%", VariableUtil.getNameEntity(t)));
+        t.sendMessage(Messages.getFormatted(t, "teleport.command.teleportask.receive", "%player%", VariableUtil.getNameSource(sender), "%tpid%", tpid));
         return CommandResult.success();
     }
 

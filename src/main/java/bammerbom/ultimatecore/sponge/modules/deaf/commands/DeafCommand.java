@@ -73,7 +73,7 @@ public class DeafCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(DeafPermissions.UC_DEAF_DEAF_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -82,12 +82,12 @@ public class DeafCommand implements Command {
         }
         Player t = Selector.one(sender, args[0]).orElse(null);
         if (t == null) {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
 
         if ((DeafPermissions.UC_DEAF_EXEMPTPOWER.getIntFor(t) > DeafPermissions.UC_DEAF_POWER.getIntFor(sender)) && sender instanceof Player) {
-            sender.sendMessage(Messages.getFormatted("deaf.command.deaf.exempt", "%player%", VariableUtil.getNameSource(t)));
+            sender.sendMessage(Messages.getFormatted(sender, "deaf.command.deaf.exempt", "%player%", VariableUtil.getNameSource(t)));
             return CommandResult.empty();
         }
 
@@ -111,8 +111,8 @@ public class DeafCommand implements Command {
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
         ut.offer(DeafKeys.DEAF, deaf);
 
-        sender.sendMessage(Messages.getFormatted("deaf.command.deaf.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
-        t.sendMessage(Messages.getFormatted("deaf.deafed", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        sender.sendMessage(Messages.getFormatted(sender, "deaf.command.deaf.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        t.sendMessage(Messages.getFormatted(t, "deaf.deafed", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
         return CommandResult.success();
     }
 

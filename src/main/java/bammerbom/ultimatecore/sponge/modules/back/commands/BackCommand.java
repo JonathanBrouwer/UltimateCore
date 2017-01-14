@@ -73,23 +73,23 @@ public class BackCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         if (!sender.hasPermission(BackPermissions.UC_BACK_BACK_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
         Optional<Transform<World>> loc = up.get(BackKeys.BACK);
         if (!loc.isPresent()) {
-            sender.sendMessage(Messages.getFormatted("back.command.back.notfound"));
+            sender.sendMessage(Messages.getFormatted(sender, "back.command.back.notfound"));
             return CommandResult.empty();
         }
 
         Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc.get(), tel -> {
-            sender.sendMessage(Messages.getFormatted("back.command.back.success"));
+            sender.sendMessage(Messages.getFormatted(sender, "back.command.back.success"));
         }, (tel, reason) -> {
         }, true, false);
         tp.start();

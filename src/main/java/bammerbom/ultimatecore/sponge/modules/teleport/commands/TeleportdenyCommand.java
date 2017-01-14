@@ -67,24 +67,24 @@ public class TeleportdenyCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORTDENY_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
 
         //Find request
         List<TpaRequest> requests = TeleportUtil.getTpdenyRequestFor(p, args.length >= 1 ? args[0] : null);
         if (requests.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted("teleport.command.teleportdeny.none"));
+            sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportdeny.none"));
             return CommandResult.empty();
         }
         requests.forEach(request -> request.getTeleportation().cancel("tpdeny"));
 
-        sender.sendMessage(Messages.getFormatted("teleport.command.teleportdeny.success"));
+        sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportdeny.success"));
         return CommandResult.success();
     }
 

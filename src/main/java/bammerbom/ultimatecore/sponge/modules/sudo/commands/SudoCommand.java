@@ -76,7 +76,7 @@ public class SudoCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(SudoPermissions.UC_SUDO_SUDO_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (!(args.length >= 2)) {
@@ -85,7 +85,7 @@ public class SudoCommand implements Command {
         }
         Player t = Selector.one(sender, args[0]).orElse(null);
         if (t == null) {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
         String message = StringUtil.getFinalArg(args, 1);
@@ -93,35 +93,35 @@ public class SudoCommand implements Command {
         if (cmd) {
             //COMMAND
             if (!sender.hasPermission(SudoPermissions.UC_SUDO_SUDO_COMMAND.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             try {
                 if (Sponge.getCommandManager().process(sender, message.replaceFirst("/", "")).getSuccessCount().orElse(0) >= 1) {
                     //Success
-                    sender.sendMessage(Messages.getFormatted("sudo.command.sudo.command.success", "%target%", t.getName(), "%command%", message));
+                    sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.command.success", "%target%", t.getName(), "%command%", message));
                 } else {
                     //Failed
-                    sender.sendMessage(Messages.getFormatted("sudo.command.sudo.command.failed"));
+                    sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.command.failed"));
                 }
             } catch (Exception ex) {
                 //Error
-                sender.sendMessage(Messages.getFormatted("sudo.command.sudo.command.error"));
+                sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.command.error"));
             }
         } else {
             //CHAT
             if (!sender.hasPermission(SudoPermissions.UC_SUDO_SUDO_CHAT.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             MessageChannelEvent.Chat event = SpongeEventFactory.createMessageChannelEventChat(Cause.source(t).named(NamedCause.notifier(sender)).build(), t.getMessageChannel(), Optional.of(t.getMessageChannel()), new MessageEvent.MessageFormatter(Text.of(t.getName()), Text.of(message)), Text.of(message), false);
             if (!Sponge.getEventManager().post(event)) {
                 //Success
                 t.getMessageChannel().send(t, event.getMessage(), ChatTypes.CHAT);
-                sender.sendMessage(Messages.getFormatted("sudo.command.sudo.chat.success", "%target%", t.getName(), "%message%", message));
+                sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.chat.success", "%target%", t.getName(), "%message%", message));
             } else {
                 //Failed
-                sender.sendMessage(Messages.getFormatted("sudo.command.sudo.chat.failed"));
+                sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.chat.failed"));
             }
         }
         return CommandResult.success();

@@ -74,7 +74,7 @@ public class GlobalspawnCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_GLOBALSPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         //Find player to teleport
@@ -82,20 +82,20 @@ public class GlobalspawnCommand implements Command {
         boolean self;
         if (args.length == 0) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             t = (Player) sender;
             self = true;
         } else {
             if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_GLOBALSPAWN_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             t = Selector.one(sender, args[0]).orElse(null);
             self = false;
             if (t == null) {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
         }
@@ -103,16 +103,16 @@ public class GlobalspawnCommand implements Command {
         //
         Optional<Transform<World>> loc = GlobalData.get(SpawnKeys.GLOBAL_SPAWN);
         if (!loc.isPresent()) {
-            sender.sendMessage(Messages.getFormatted("spawn.command.globalspawn.notset"));
+            sender.sendMessage(Messages.getFormatted(sender, "spawn.command.globalspawn.notset"));
             return CommandResult.empty();
         }
 
         Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc.get(), tel -> {
             if (self) {
-                sender.sendMessage(Messages.getFormatted("spawn.command.globalspawn.success.self"));
+                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.globalspawn.success.self"));
             } else {
-                sender.sendMessage(Messages.getFormatted("spawn.command.globalspawn.success.others.self", "%player%", VariableUtil.getNameSource(t)));
-                t.sendMessage(Messages.getFormatted("spawn.command.globalspawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
+                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.globalspawn.success.others.self", "%player%", VariableUtil.getNameSource(t)));
+                t.sendMessage(Messages.getFormatted(t, "spawn.command.globalspawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
             }
         }, (tel, reason) -> {
         }, false, false);

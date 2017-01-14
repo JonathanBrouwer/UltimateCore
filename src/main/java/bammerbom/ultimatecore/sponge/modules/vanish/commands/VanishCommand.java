@@ -70,12 +70,12 @@ public class VanishCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(VanishPermissions.UC_VANISH_VANISH_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
@@ -83,30 +83,30 @@ public class VanishCommand implements Command {
             boolean vanish = !up.get(VanishKeys.VANISH).get();
             up.offer(VanishKeys.VANISH, vanish);
             if (vanish) {
-                sender.sendMessage(Messages.getFormatted("vanish.command.vanish.self.on"));
+                sender.sendMessage(Messages.getFormatted(sender, "vanish.command.vanish.self.on"));
             } else {
-                sender.sendMessage(Messages.getFormatted("vanish.command.vanish.self.off"));
+                sender.sendMessage(Messages.getFormatted(sender, "vanish.command.vanish.self.off"));
             }
             return CommandResult.success();
         } else {
             if (!sender.hasPermission(VanishPermissions.UC_VANISH_VANISH_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             Player t = Selector.one(sender, args[0]).orElse(null);
             if (t == null) {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
             UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
             boolean vanish = !ut.get(VanishKeys.VANISH).get();
             ut.offer(VanishKeys.VANISH, vanish);
             if (vanish) {
-                sender.sendMessage(Messages.getFormatted("vanish.command.vanish.others.self.on", "%player%", VariableUtil.getNameEntity(t)));
-                t.sendMessage(Messages.getFormatted("vanish.command.vanish.others.others.on", "%player%", VariableUtil.getNameSource(sender)));
+                sender.sendMessage(Messages.getFormatted(sender, "vanish.command.vanish.others.self.on", "%player%", VariableUtil.getNameEntity(t)));
+                t.sendMessage(Messages.getFormatted(t, "vanish.command.vanish.others.others.on", "%player%", VariableUtil.getNameSource(sender)));
             } else {
-                sender.sendMessage(Messages.getFormatted("vanish.command.vanish.others.self.off", "%player%", VariableUtil.getNameEntity(t)));
-                t.sendMessage(Messages.getFormatted("vanish.command.vanish.others.others.off", "%player%", VariableUtil.getNameSource(sender)));
+                sender.sendMessage(Messages.getFormatted(sender, "vanish.command.vanish.others.self.off", "%player%", VariableUtil.getNameEntity(t)));
+                t.sendMessage(Messages.getFormatted(t, "vanish.command.vanish.others.others.off", "%player%", VariableUtil.getNameSource(sender)));
             }
             return CommandResult.success();
         }

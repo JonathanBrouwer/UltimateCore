@@ -70,13 +70,13 @@ public class CommandspyCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(getPermission().get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
             //Toggle own
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
@@ -85,17 +85,17 @@ public class CommandspyCommand implements Command {
             status = !status;
             user.offer(SpyKeys.COMMANDSPY_ENABLED, status);
 
-            sender.sendMessage(Messages.getFormatted("spy.command.commandspy.self", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled")));
+            sender.sendMessage(Messages.getFormatted(sender, "spy.command.commandspy.self", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled")));
             return CommandResult.success();
         } else {
             //Toggle someone else
             if (!sender.hasPermission(SpyPermissions.UC_SPY_COMMANDSPY_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             Player t = Selector.one(sender, args[0]).orElse(null);
             if (t == null) {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
 
@@ -104,8 +104,8 @@ public class CommandspyCommand implements Command {
             status = !status;
             user.offer(SpyKeys.COMMANDSPY_ENABLED, status);
 
-            t.sendMessage(Messages.getFormatted("spy.command.commandspy.self", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled")));
-            sender.sendMessage(Messages.getFormatted("spy.command.commandspy.others", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled"), "%player%", VariableUtil.getNameEntity(t)));
+            t.sendMessage(Messages.getFormatted(t, "spy.command.commandspy.self", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled")));
+            sender.sendMessage(Messages.getFormatted(sender, "spy.command.commandspy.others", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled"), "%player%", VariableUtil.getNameEntity(t)));
             return CommandResult.success();
         }
     }

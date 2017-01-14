@@ -73,12 +73,12 @@ public class ItemhidetagsCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMHIDETAGS_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length <= 1) {
@@ -87,7 +87,7 @@ public class ItemhidetagsCommand implements Command {
         }
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted("item.noiteminhand"));
+            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
@@ -123,14 +123,14 @@ public class ItemhidetagsCommand implements Command {
         }
 
         if (!ArgumentUtil.isBoolean(args[1])) {
-            sender.sendMessage(Messages.getFormatted("item.booleaninvalid", "%argument%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "item.booleaninvalid", "%argument%", args[0]));
             return CommandResult.empty();
         }
         boolean value = Boolean.parseBoolean(args[1]);
 
         stack.offer(key, value);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted("item.command.itemhidetags.success", "%tag%", key.getName(), "%status%", Messages.getFormatted(value ? "item.command.itemhidetags.hidden" : "item.command.itemhidetags.shown")));
+        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemhidetags.success", "%tag%", key.getName(), "%status%", Messages.getFormatted(value ? "item.command.itemhidetags.hidden" : "item.command.itemhidetags.shown")));
         return CommandResult.success();
     }
 

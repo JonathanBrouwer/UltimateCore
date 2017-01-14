@@ -70,11 +70,11 @@ public class JailtpCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
             return CommandResult.empty();
         }
         if (!sender.hasPermission(JailPermissions.UC_JAIL_JAILTP_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
@@ -87,7 +87,7 @@ public class JailtpCommand implements Command {
         List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
         Jail jail = jails.stream().filter(jail1 -> jail1.getName().equalsIgnoreCase(name)).findAny().orElse(null);
         if (jail == null) {
-            sender.sendMessage(Messages.getFormatted("jail.notfound", "%jail%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "jail.notfound", "%jail%", args[0]));
             return CommandResult.empty();
         }
 
@@ -96,7 +96,7 @@ public class JailtpCommand implements Command {
         }, false, false);
         tp.start();
 
-        sender.sendMessage(Messages.getFormatted("jail.command.jailtp.success", "%jail%", jail.getName()));
+        sender.sendMessage(Messages.getFormatted(sender, "jail.command.jailtp.success", "%jail%", jail.getName()));
         return CommandResult.success();
     }
 

@@ -69,7 +69,7 @@ public class RandomCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(RandomPermissions.UC_RANDOM_RANDOM_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -77,19 +77,19 @@ public class RandomCommand implements Command {
             return CommandResult.empty();
         } else if (args.length == 1 || args.length == 2) {
             if (!ArgumentUtil.isNumber(args[0])) {
-                sender.sendMessage(Messages.getFormatted("core.nonumber", "%number%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nonumber", "%number%", args[0]));
                 return CommandResult.empty();
             }
 
             int min = args.length == 2 ? Integer.parseInt(args[0]) : 1;
             int max = args.length == 2 ? Integer.parseInt(args[1]) : Integer.parseInt(args[0]);
             if (min > max) {
-                sender.sendMessage(Messages.getFormatted("random.command.random.invalid", "%min%", min, "%max%", max));
+                sender.sendMessage(Messages.getFormatted(sender, "random.command.random.invalid", "%min%", min, "%max%", max));
                 return CommandResult.empty();
             }
             int rand = random.nextInt((max + 1) - min) + min;
 
-            sender.sendMessage(Messages.getFormatted("random.command.random.success", "%min%", min, "%max%", max, "%value%", rand));
+            sender.sendMessage(Messages.getFormatted(sender, "random.command.random.success", "%min%", min, "%max%", max, "%value%", rand));
             return CommandResult.success();
         }
         sender.sendMessage(getUsage());

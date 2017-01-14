@@ -70,7 +70,7 @@ public class SunCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(WeatherPermissions.UC_WEATHER_WEATHER_BASE.get()) && !sender.hasPermission(WeatherPermissions.UC_WEATHER_WEATHER_SUN.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         World world;
@@ -78,19 +78,19 @@ public class SunCommand implements Command {
             if (Sponge.getServer().getWorld(args[0]).isPresent()) {
                 world = Sponge.getServer().getWorld(args[0]).get();
             } else {
-                sender.sendMessage(Messages.getFormatted("core.worldnotfound", "%world%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.worldnotfound", "%world%", args[0]));
                 return CommandResult.empty();
             }
         } else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             Player player = (Player) sender;
             world = player.getWorld();
         }
         world.setWeather(Weathers.CLEAR);
-        sender.sendMessage(Messages.getFormatted("weather.command.weather.success", "%weather%", "sun", "%world%", world.getName()));
+        sender.sendMessage(Messages.getFormatted(sender, "weather.command.weather.success", "%weather%", "sun", "%world%", world.getName()));
         return CommandResult.success();
     }
 

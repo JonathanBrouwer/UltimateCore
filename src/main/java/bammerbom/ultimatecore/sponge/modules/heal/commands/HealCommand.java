@@ -69,12 +69,12 @@ public class HealCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(HealPermissions.UC_HEAL_HEAL_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
             if (sender instanceof Player) {
-                sender.sendMessage(Messages.getFormatted("heal.command.heal.success"));
+                sender.sendMessage(Messages.getFormatted(sender, "heal.command.heal.success"));
                 Player p = (Player) sender;
                 p.offer(Keys.HEALTH, p.get(Keys.MAX_HEALTH).orElse(20.0));
                 p.offer(Keys.POTION_EFFECTS, new ArrayList<>());
@@ -84,15 +84,15 @@ public class HealCommand implements Command {
 
                 return CommandResult.success();
             } else {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
         }
         Player t;
         if (Selector.one(sender, args[0]).isPresent()) {
             t = Selector.one(sender, args[0]).get();
-            sender.sendMessage(Messages.getFormatted("heal.command.heal.success.self", "%player%", VariableUtil.getNameEntity(t)));
-            t.sendMessage(Messages.getFormatted("heal.command.heal.success.others", "%sender%", VariableUtil.getNameSource(sender)));
+            sender.sendMessage(Messages.getFormatted(sender, "heal.command.heal.success.self", "%player%", VariableUtil.getNameEntity(t)));
+            t.sendMessage(Messages.getFormatted(t, "heal.command.heal.success.others", "%sender%", VariableUtil.getNameSource(sender)));
             t.offer(Keys.HEALTH, t.get(Keys.MAX_HEALTH).orElse(20.0));
             t.offer(Keys.POTION_EFFECTS, new ArrayList<>());
             t.offer(Keys.REMAINING_AIR, t.get(Keys.MAX_AIR).orElse(10));
@@ -101,7 +101,7 @@ public class HealCommand implements Command {
 
             return CommandResult.success();
         } else {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
 
             return CommandResult.empty();
         }

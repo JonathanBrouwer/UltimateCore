@@ -69,12 +69,12 @@ public class ItemquantityCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMQUANTITY_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -82,25 +82,25 @@ public class ItemquantityCommand implements Command {
             return CommandResult.empty();
         }
         if (!ArgumentUtil.isNumber(args[0])) {
-            sender.sendMessage(Messages.getFormatted("core.nonumber", "%number%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nonumber", "%number%", args[0]));
             return CommandResult.empty();
         }
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted("item.noiteminhand"));
+            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
         int quantity = Integer.parseInt(args[0]);
 
         if (quantity < 0 || quantity > stack.getMaxStackQuantity()) {
-            sender.sendMessage(Messages.getFormatted("item.numberinvalid", "%number%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "item.numberinvalid", "%number%", args[0]));
             return CommandResult.empty();
         }
 
         stack.setQuantity(quantity);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted("item.command.itemquantity.success", "%arg%", args[0]));
+        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemquantity.success", "%arg%", args[0]));
         return CommandResult.success();
     }
 

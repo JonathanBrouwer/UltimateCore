@@ -76,11 +76,11 @@ public class ReplyCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(getPermission().get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         if (args.length < 1) {
@@ -92,7 +92,7 @@ public class ReplyCommand implements Command {
         UltimateUser pu = UltimateCore.get().getUserService().getUser(p);
         Optional<UUID> tu = pu.get(PersonalmessageKeys.REPLY);
         if (!tu.isPresent()) {
-            sender.sendMessage(Messages.getFormatted("personalmessage.command.reply.notarget"));
+            sender.sendMessage(Messages.getFormatted(sender, "personalmessage.command.reply.notarget"));
             return CommandResult.empty();
         }
         CommandSource t = Sponge.getServer().getPlayer(tu.get()).orElse(null);
@@ -100,7 +100,7 @@ public class ReplyCommand implements Command {
             if (tu.get() == UUID.fromString("00000000-0000-0000-0000-000000000000")) {
                 t = Sponge.getServer().getConsole();
             } else {
-                sender.sendMessage(Messages.getFormatted("personalmessage.command.reply.notarget"));
+                sender.sendMessage(Messages.getFormatted(sender, "personalmessage.command.reply.notarget"));
                 return CommandResult.empty();
             }
         }
@@ -137,7 +137,7 @@ public class ReplyCommand implements Command {
             sender.sendMessage(send);
             return CommandResult.success();
         } else {
-            t.sendMessage(Messages.getFormatted("personalmessage.command.personalmessage.cancelled"));
+            t.sendMessage(Messages.getFormatted(t, "personalmessage.command.personalmessage.cancelled"));
             return CommandResult.empty();
         }
     }

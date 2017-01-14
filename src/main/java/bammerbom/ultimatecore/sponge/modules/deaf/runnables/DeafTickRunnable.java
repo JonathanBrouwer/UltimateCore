@@ -40,7 +40,7 @@ public class DeafTickRunnable implements Runnable {
                 Deaf deaf = up.get(DeafKeys.DEAF).get();
                 if (System.currentTimeMillis() > deaf.getEndtime() && deaf.getEndtime() != -1L) {
                     up.offer(DeafKeys.DEAF, null);
-                    p.sendMessage(Messages.getFormatted("deaf.undeafed"));
+                    p.sendMessage(Messages.getFormatted(p, "deaf.undeafed"));
                 }
             }
         }

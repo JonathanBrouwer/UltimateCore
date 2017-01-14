@@ -67,7 +67,7 @@ public class BurnCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(BurnPermissions.UC_BURN_BURN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -78,7 +78,7 @@ public class BurnCommand implements Command {
         if (Selector.one(sender, args[0]).isPresent()) {
             t = Selector.one(sender, args[0]).get();
         } else {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
         Double time = 10.0;
@@ -89,7 +89,7 @@ public class BurnCommand implements Command {
             }
         }
         t.offer(Keys.FIRE_TICKS, Double.valueOf(time * 20).intValue());
-        sender.sendMessage(Messages.getFormatted("burn.command.burn.success", "%player%", t.getName(), "%time%", time));
+        sender.sendMessage(Messages.getFormatted(sender, "burn.command.burn.success", "%player%", t.getName(), "%time%", time));
 
         return CommandResult.success();
     }

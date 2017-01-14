@@ -68,18 +68,18 @@ public class MoreCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted("item.noiteminhand"));
+            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
         stack.setQuantity(stack.getMaxStackQuantity());
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        p.sendMessage(Messages.getFormatted("item.command.more.success", "%amount%", stack.getMaxStackQuantity()));
+        p.sendMessage(Messages.getFormatted(p, "item.command.more.success", "%amount%", stack.getMaxStackQuantity()));
         return CommandResult.success();
     }
 

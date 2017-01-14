@@ -71,12 +71,12 @@ public class ItemunbreakableCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMUNBREAKABLE_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -84,24 +84,24 @@ public class ItemunbreakableCommand implements Command {
             return CommandResult.empty();
         }
         if (!ArgumentUtil.isBoolean(args[0])) {
-            sender.sendMessage(Messages.getFormatted("item.booleaninvalid", "%argument%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "item.booleaninvalid", "%argument%", args[0]));
             return CommandResult.empty();
         }
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted("item.noiteminhand"));
+            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
 
         if (!stack.supports(Keys.UNBREAKABLE)) {
-            sender.sendMessage(Messages.getFormatted("item.command.itemunbreakable.notsupported"));
+            sender.sendMessage(Messages.getFormatted(sender, "item.command.itemunbreakable.notsupported"));
             return CommandResult.empty();
         }
 
         stack.offer(Keys.UNBREAKABLE, Boolean.parseBoolean(args[0]));
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted("item.command.itemunbreakable.success", "%arg%", Messages.toText(StringUtil.getFinalArg(args, 0))));
+        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemunbreakable.success", "%arg%", Messages.toText(StringUtil.getFinalArg(args, 0))));
         return CommandResult.success();
     }
 

@@ -80,7 +80,7 @@ public class PersonalmessageCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(getPermission().get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length < 2) {
@@ -92,7 +92,7 @@ public class PersonalmessageCommand implements Command {
             if (args[0].equalsIgnoreCase("server")) {
                 t = Sponge.getServer().getConsole();
             } else {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
         }
@@ -130,7 +130,7 @@ public class PersonalmessageCommand implements Command {
             sender.sendMessage(send);
             return CommandResult.success();
         } else {
-            t.sendMessage(Messages.getFormatted("personalmessage.command.personalmessage.cancelled"));
+            t.sendMessage(Messages.getFormatted(t, "personalmessage.command.personalmessage.cancelled"));
             return CommandResult.empty();
         }
     }

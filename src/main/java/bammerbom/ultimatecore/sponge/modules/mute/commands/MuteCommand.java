@@ -73,7 +73,7 @@ public class MuteCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(MutePermissions.UC_MUTE_MUTE_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -82,12 +82,12 @@ public class MuteCommand implements Command {
         }
         Player t = Selector.one(sender, args[0]).orElse(null);
         if (t == null) {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
 
         if ((MutePermissions.UC_MUTE_EXEMPTPOWER.getIntFor(t) > MutePermissions.UC_MUTE_POWER.getIntFor(sender)) && sender instanceof Player) {
-            sender.sendMessage(Messages.getFormatted("mute.command.mute.exempt", "%player%", VariableUtil.getNameSource(t)));
+            sender.sendMessage(Messages.getFormatted(sender, "mute.command.mute.exempt", "%player%", VariableUtil.getNameSource(t)));
             return CommandResult.empty();
         }
 
@@ -111,8 +111,8 @@ public class MuteCommand implements Command {
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
         ut.offer(MuteKeys.MUTE, mute);
 
-        sender.sendMessage(Messages.getFormatted("mute.command.mute.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
-        t.sendMessage(Messages.getFormatted("mute.muted", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        sender.sendMessage(Messages.getFormatted(sender, "mute.command.mute.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        t.sendMessage(Messages.getFormatted(t, "mute.muted", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
         return CommandResult.success();
     }
 

@@ -73,7 +73,7 @@ public class UltimatecoreCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(getPermission().get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -83,7 +83,7 @@ public class UltimatecoreCommand implements Command {
 
         if (args[0].equalsIgnoreCase("clearcache")) {
             UltimateCore.get().getUserService().clearcache();
-            sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.clearcache.success"));
+            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.clearcache.success"));
             return CommandResult.success();
         }
         if (args[0].equalsIgnoreCase("resetuser")) {
@@ -93,7 +93,7 @@ public class UltimatecoreCommand implements Command {
             }
             Optional<Player> t = Selector.one(sender, args[1]);
             if (!t.isPresent()) {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[1]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[1]));
                 return CommandResult.empty();
             }
             UltimateUser user = UltimateCore.get().getUserService().getUser(t.get());
@@ -102,12 +102,12 @@ public class UltimatecoreCommand implements Command {
             PlayerDataFile file = new PlayerDataFile(user.getIdentifier());
             //Delete the user's file
             file.getFile().delete();
-            sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.resetuser.success", "%player%", t.get().getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.resetuser.success", "%player%", t.get().getName()));
             return CommandResult.success();
         }
         if (args[0].equalsIgnoreCase("modules")) {
             List<String> modules = UltimateCore.get().getModuleService().getModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default")).collect(Collectors.toList());
-            sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules)));
+            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules)));
             return CommandResult.success();
         }
         if (args[0].equalsIgnoreCase("gendocs")) {

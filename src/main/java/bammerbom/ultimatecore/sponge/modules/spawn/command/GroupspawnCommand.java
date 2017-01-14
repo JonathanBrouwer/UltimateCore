@@ -74,7 +74,7 @@ public class GroupspawnCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_GROUPSPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
 
@@ -87,7 +87,7 @@ public class GroupspawnCommand implements Command {
             //groupspawn
             //Player
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             t = (Player) sender;
@@ -96,7 +96,7 @@ public class GroupspawnCommand implements Command {
             //Group
             group = SpawnPermissions.UC_SPAWN_GROUPSPAWN.getFor(t);
             if (group == null || !spawns.containsKey(group.toLowerCase())) {
-                sender.sendMessage(Messages.getFormatted("spawn.command.groupspawn.nogroup", "%player%", VariableUtil.getNameSource(t)));
+                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.nogroup", "%player%", VariableUtil.getNameSource(t)));
                 return CommandResult.empty();
             }
             group = group.toLowerCase();
@@ -108,27 +108,27 @@ public class GroupspawnCommand implements Command {
                 self = true;
                 //Player
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                     return CommandResult.empty();
                 }
                 t = (Player) sender;
                 //Group
                 group = args[0].toLowerCase();
                 if (!spawns.containsKey(group)) {
-                    sender.sendMessage(Messages.getFormatted("spawn.command.groupspawn.noplayerorgroup", "%arg%", args[0]));
+                    sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.noplayerorgroup", "%arg%", args[0]));
                     return CommandResult.empty();
                 }
             } else {
                 //groupspawn player
                 self = false;
                 if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_GROUPSPAWN_OTHERS_BASE.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 //Group
                 group = SpawnPermissions.UC_SPAWN_GROUPSPAWN.getFor(t);
                 if (group == null || !spawns.containsKey(group.toLowerCase())) {
-                    sender.sendMessage(Messages.getFormatted("spawn.command.groupspawn.nogroup", "%player%", VariableUtil.getNameSource(t)));
+                    sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.nogroup", "%player%", VariableUtil.getNameSource(t)));
                     return CommandResult.empty();
                 }
                 group = group.toLowerCase();
@@ -139,13 +139,13 @@ public class GroupspawnCommand implements Command {
             self = false;
             t = Selector.one(sender, args[0]).orElse(null);
             if (t == null) {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
             //Group
             group = args[1].toLowerCase();
             if (!spawns.containsKey(group)) {
-                sender.sendMessage(Messages.getFormatted("spawn.command.groupspawn.noplayerorgroup", "%arg%", args[1]));
+                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.noplayerorgroup", "%arg%", args[1]));
                 return CommandResult.empty();
             }
         }
@@ -153,12 +153,12 @@ public class GroupspawnCommand implements Command {
         //Perm check
         if (self) {
             if (!sender.hasPermission("uc.spawn.groupspawn.group." + group.toLowerCase())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
         } else {
             if (!sender.hasPermission("uc.spawn.groupspawn.others.group." + group.toLowerCase())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
         }
@@ -169,10 +169,10 @@ public class GroupspawnCommand implements Command {
         final String g2 = group;
         Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
             if (self) {
-                sender.sendMessage(Messages.getFormatted("spawn.command.groupspawn.success.self", "%group%", g2));
+                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.success.self", "%group%", g2));
             } else {
-                sender.sendMessage(Messages.getFormatted("spawn.command.groupspawn.success.others.self", "%player%", VariableUtil.getNameSource(t2), "%group%", g2));
-                t2.sendMessage(Messages.getFormatted("spawn.command.groupspawn.success.others.others", "%player%", VariableUtil.getNameSource(sender), "%group%", g2));
+                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.success.others.self", "%player%", VariableUtil.getNameSource(t2), "%group%", g2));
+                t2.sendMessage(Messages.getFormatted(t2, "spawn.command.groupspawn.success.others.others", "%player%", VariableUtil.getNameSource(sender), "%group%", g2));
             }
         }, (tel, reason) -> {
         }, false, false);

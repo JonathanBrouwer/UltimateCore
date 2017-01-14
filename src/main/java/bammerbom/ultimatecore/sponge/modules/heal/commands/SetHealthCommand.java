@@ -68,7 +68,7 @@ public class SetHealthCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(HealPermissions.UC_HEAL_SETHEALTH_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -76,7 +76,7 @@ public class SetHealthCommand implements Command {
                 sender.sendMessage(getUsage());
                 return CommandResult.empty();
             } else {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
         }
@@ -93,7 +93,7 @@ public class SetHealthCommand implements Command {
                     health = 0.0;
                 }
                 p.offer(Keys.HEALTH, health);
-                sender.sendMessage(Messages.getFormatted("heal.command.sethealth.success", "%health%", health));
+                sender.sendMessage(Messages.getFormatted(sender, "heal.command.sethealth.success", "%health%", health));
 
                 return CommandResult.success();
             } catch (Exception ex) {
@@ -113,8 +113,8 @@ public class SetHealthCommand implements Command {
                     health = 0.0;
                 }
                 t.offer(Keys.HEALTH, health);
-                sender.sendMessage(Messages.getFormatted("heal.command.sethealth.success.self", "%target%", t.getName(), "%health%", health));
-                t.sendMessage(Messages.getFormatted("heal.command.sethealth.success.others", "%player%", sender.getName(), "%health%", health));
+                sender.sendMessage(Messages.getFormatted(sender, "heal.command.sethealth.success.self", "%target%", t.getName(), "%health%", health));
+                t.sendMessage(Messages.getFormatted(t, "heal.command.sethealth.success.others", "%player%", sender.getName(), "%health%", health));
 
                 return CommandResult.success();
             } catch (Exception ex) {
@@ -124,7 +124,7 @@ public class SetHealthCommand implements Command {
             }
 
         } else {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[1]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[1]));
 
             return CommandResult.empty();
         }

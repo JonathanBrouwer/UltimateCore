@@ -69,14 +69,14 @@ public class FlyCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(FlyPermissions.UC_FLY_FLY_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length >= 1) {
             //Get the player
             Player t = Selector.one(sender, args[0]).orElse(null);
             if (t == null) {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
             //Toggle the fly state
@@ -84,16 +84,16 @@ public class FlyCommand implements Command {
             t.offer(Keys.CAN_FLY, fly);
 
             if (fly) {
-                sender.sendMessage(Messages.getFormatted("fly.command.fly.success.self", "%player%", t.getName(), "%state%", Messages.getColored("fly.command.fly.enabled")));
-                t.sendMessage(Messages.getFormatted("fly.command.fly.success.others", "%player%", sender.getName(), "%state%", Messages.getColored("fly.command.fly.enabled")));
+                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success.self", "%player%", t.getName(), "%state%", Messages.getColored("fly.command.fly.enabled")));
+                t.sendMessage(Messages.getFormatted(t, "fly.command.fly.success.others", "%player%", sender.getName(), "%state%", Messages.getColored("fly.command.fly.enabled")));
             } else {
-                sender.sendMessage(Messages.getFormatted("fly.command.fly.success.self", "%player%", t.getName(), "%state%", Messages.getColored("fly.command.fly.disabled")));
-                t.sendMessage(Messages.getFormatted("fly.command.fly.success.others", "%player%", sender.getName(), "%state%", Messages.getColored("fly.command.fly.disabled")));
+                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success.self", "%player%", t.getName(), "%state%", Messages.getColored("fly.command.fly.disabled")));
+                t.sendMessage(Messages.getFormatted(t, "fly.command.fly.success.others", "%player%", sender.getName(), "%state%", Messages.getColored("fly.command.fly.disabled")));
             }
             return CommandResult.success();
         } else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
@@ -103,10 +103,10 @@ public class FlyCommand implements Command {
             UltimateCore.get().getUserService().getUser(p).offer(FlyKeys.FLY, fly);
 
             if (fly) {
-                sender.sendMessage(Messages.getFormatted("fly.command.fly.success", "%state%", Messages.getColored("fly.command.fly.enabled")));
+                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success", "%state%", Messages.getColored("fly.command.fly.enabled")));
             } else {
                 p.offer(Keys.IS_FLYING, false);
-                sender.sendMessage(Messages.getFormatted("fly.command.fly.success", "%state%", Messages.getColored("fly.command.fly.disabled")));
+                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success", "%state%", Messages.getColored("fly.command.fly.disabled")));
             }
             return CommandResult.success();
         }

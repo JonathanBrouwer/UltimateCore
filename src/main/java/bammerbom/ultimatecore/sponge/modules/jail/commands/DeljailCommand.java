@@ -69,11 +69,11 @@ public class DeljailCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
             return CommandResult.empty();
         }
         if (!sender.hasPermission(JailPermissions.UC_JAIL_DELJAIL_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
@@ -88,11 +88,11 @@ public class DeljailCommand implements Command {
             if (jail.getName().equalsIgnoreCase(name)) {
                 jails.remove(jail);
                 GlobalData.offer(JailKeys.JAILS, jails);
-                sender.sendMessage(Messages.getFormatted("jail.command.deljail.success", "%jail%", name));
+                sender.sendMessage(Messages.getFormatted(sender, "jail.command.deljail.success", "%jail%", name));
                 return CommandResult.success();
             }
         }
-        sender.sendMessage(Messages.getFormatted("jail.notfound", "%jail%", args[0]));
+        sender.sendMessage(Messages.getFormatted(sender, "jail.notfound", "%jail%", args[0]));
         return CommandResult.empty();
     }
 

@@ -72,12 +72,12 @@ public class ItemdurabilityCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMDURABILITY_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -85,30 +85,30 @@ public class ItemdurabilityCommand implements Command {
             return CommandResult.empty();
         }
         if (!ArgumentUtil.isNumber(args[0])) {
-            sender.sendMessage(Messages.getFormatted("core.nonumber", "%number%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nonumber", "%number%", args[0]));
             return CommandResult.empty();
         }
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted("item.noiteminhand"));
+            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
         int quantity = Integer.parseInt(args[0]);
 
         if (!stack.supports(DurabilityData.class)) {
-            sender.sendMessage(Messages.getFormatted("item.command.itemdurability.notsupported"));
+            sender.sendMessage(Messages.getFormatted(sender, "item.command.itemdurability.notsupported"));
             return CommandResult.empty();
         }
 
         if (quantity < stack.get(DurabilityData.class).get().durability().getMinValue() || quantity > stack.get(DurabilityData.class).get().durability().getMaxValue()) {
-            sender.sendMessage(Messages.getFormatted("item.numberinvalid", "%number%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "item.numberinvalid", "%number%", args[0]));
             return CommandResult.empty();
         }
 
         stack.offer(Keys.ITEM_DURABILITY, quantity);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted("item.command.itemdurability.success", "%arg%", Messages.toText(StringUtil.getFinalArg(args, 0))));
+        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemdurability.success", "%arg%", Messages.toText(StringUtil.getFinalArg(args, 0))));
         return CommandResult.success();
     }
 

@@ -72,7 +72,7 @@ public class UnmuteCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(MutePermissions.UC_MUTE_UNMUTE_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -81,18 +81,18 @@ public class UnmuteCommand implements Command {
         }
         Player t = Selector.one(sender, args[0]).orElse(null);
         if (t == null) {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
             return CommandResult.empty();
         }
 
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
         if (!ut.get(MuteKeys.MUTE).isPresent()) {
-            sender.sendMessage(Messages.getFormatted("mute.command.unmute.notmuted", "%player%", VariableUtil.getNameEntity(t)));
+            sender.sendMessage(Messages.getFormatted(sender, "mute.command.unmute.notmuted", "%player%", VariableUtil.getNameEntity(t)));
             return CommandResult.empty();
         }
         ut.offer(MuteKeys.MUTE, null);
 
-        sender.sendMessage(Messages.getFormatted("mute.command.unmute.success", "%player%", VariableUtil.getNameEntity(t)));
+        sender.sendMessage(Messages.getFormatted(sender, "mute.command.unmute.success", "%player%", VariableUtil.getNameEntity(t)));
         return CommandResult.success();
     }
 

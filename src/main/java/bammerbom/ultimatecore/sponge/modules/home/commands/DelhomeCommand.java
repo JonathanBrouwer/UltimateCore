@@ -71,12 +71,12 @@ public class DelhomeCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(HomePermissions.UC_HOME_DELHOME_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -89,7 +89,7 @@ public class DelhomeCommand implements Command {
         homes = homes.stream().filter(home -> !home.getName().equalsIgnoreCase(args[0])).collect(Collectors.toList());
         user.offer(HomeKeys.HOMES, homes);
 
-        sender.sendMessage(Messages.getFormatted("home.command.delhome.success", "%home%", args[0].toLowerCase()));
+        sender.sendMessage(Messages.getFormatted(sender, "home.command.delhome.success", "%home%", args[0].toLowerCase()));
         return CommandResult.success();
     }
 

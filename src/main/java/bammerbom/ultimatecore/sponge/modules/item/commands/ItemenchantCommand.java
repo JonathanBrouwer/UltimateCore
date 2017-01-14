@@ -78,12 +78,12 @@ public class ItemenchantCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMENCHANT_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -92,7 +92,7 @@ public class ItemenchantCommand implements Command {
         }
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted("item.noiteminhand"));
+            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
@@ -100,12 +100,12 @@ public class ItemenchantCommand implements Command {
         Optional<Enchantment> ench = Sponge.getRegistry().getType(CatalogTypes.ENCHANTMENT, args[0]);
         int level = 1;
         if (!ench.isPresent()) {
-            sender.sendMessage(Messages.getFormatted("item.command.itemenchant.notfound", "%enchantment%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "item.command.itemenchant.notfound", "%enchantment%", args[0]));
             return CommandResult.empty();
         }
         if (args.length >= 2) {
             if (!ArgumentUtil.isNumber(args[1])) {
-                sender.sendMessage(Messages.getFormatted("core.nonumber", "%number%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nonumber", "%number%", args[0]));
                 return CommandResult.empty();
             }
             level = Integer.parseInt(args[1]);
@@ -116,13 +116,13 @@ public class ItemenchantCommand implements Command {
             enchs.add(new ItemEnchantment(ench.get(), level));
             stack.offer(Keys.ITEM_ENCHANTMENTS, enchs);
             p.setItemInHand(HandTypes.MAIN_HAND, stack);
-            sender.sendMessage(Messages.getFormatted("item.command.itemenchant.success", "%enchant%", ench.get().getTranslation().get(), "%level%", level));
+            sender.sendMessage(Messages.getFormatted(sender, "item.command.itemenchant.success", "%enchant%", ench.get().getTranslation().get(), "%level%", level));
             return CommandResult.success();
         } else {
             enchs = enchs.stream().filter(e -> !e.getEnchantment().equals(ench.get())).collect(Collectors.toList());
             stack.offer(Keys.ITEM_ENCHANTMENTS, enchs);
             p.setItemInHand(HandTypes.MAIN_HAND, stack);
-            sender.sendMessage(Messages.getFormatted("item.command.itemenchant.success2", "%enchant%", ench.get().getTranslation().get(), "%level%", level));
+            sender.sendMessage(Messages.getFormatted(sender, "item.command.itemenchant.success2", "%enchant%", ench.get().getTranslation().get(), "%level%", level));
             return CommandResult.success();
         }
     }

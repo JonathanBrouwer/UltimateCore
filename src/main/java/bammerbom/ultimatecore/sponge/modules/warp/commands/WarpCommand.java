@@ -81,7 +81,7 @@ public class WarpCommand implements Command {
         if (args.length == 0) {
             //Permissions
             if (!sender.hasPermission(WarpPermissions.UC_WARP_WARPLIST_BASE.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             //Get all warps
@@ -96,7 +96,7 @@ public class WarpCommand implements Command {
             }
             //If empty send message
             if (texts.isEmpty()) {
-                sender.sendMessage(Messages.getFormatted("warp.command.warplist.empty"));
+                sender.sendMessage(Messages.getFormatted(sender, "warp.command.warplist.empty"));
                 return CommandResult.empty();
             }
             //Sort alphabetically
@@ -110,25 +110,25 @@ public class WarpCommand implements Command {
         //Teleport the player to a warp
         //Check is the sender is a player
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         //Try to find warp
         List<Warp> results = GlobalData.get(WarpKeys.WARPS).get().stream().filter(war -> args[0].toLowerCase().equalsIgnoreCase(war.getName().toLowerCase())).collect(Collectors.toList());
         if (results.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted("warp.command.warp.notfound", "%warp%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "warp.command.warp.notfound", "%warp%", args[0]));
             return CommandResult.empty();
         }
         Warp warp = results.get(0);
         //Check permissions
         if (!sender.hasPermission(WarpPermissions.UC_WARP_WARP_BASE.get()) && !sender.hasPermission("uc.warp.warp." + warp.getName().toLowerCase())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         //Teleport to the warp
         Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), warp.getLocation(), req -> {
-            sender.sendMessage(Messages.getFormatted("warp.command.warp.success", "%warp%", warp.getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "warp.command.warp.success", "%warp%", warp.getName()));
         }, (red, reason) -> {
         }, true, false);
         request.start();

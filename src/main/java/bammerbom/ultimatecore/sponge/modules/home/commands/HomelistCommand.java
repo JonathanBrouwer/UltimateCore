@@ -77,18 +77,18 @@ public class HomelistCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);
         if (!sender.hasPermission(HomePermissions.UC_HOME_HOME_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         List<Home> homes = user.get(HomeKeys.HOMES).orElse(new ArrayList<>());
         if (homes.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted("home.command.homelist.empty"));
+            sender.sendMessage(Messages.getFormatted(sender, "home.command.homelist.empty"));
             return CommandResult.empty();
         }
         List<Text> entries = new ArrayList<>();
@@ -101,7 +101,7 @@ public class HomelistCommand implements Command {
         if (!p.hasPermission(HomePermissions.UC_HOME_SETHOME_UNLIMITED.get())) {
             String shomecount = HomePermissions.UC_HOME_HOMECOUNT.getFor(sender);
             if (!ArgumentUtil.isNumber(shomecount)) {
-                sender.sendMessage(Messages.getFormatted("home.command.sethome.invalidhomecount", "%homecount%", shomecount));
+                sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.invalidhomecount", "%homecount%", shomecount));
                 return CommandResult.empty();
             }
             Integer homecount = Integer.parseInt(shomecount);

@@ -68,7 +68,7 @@ public class NightCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_BASE.get()) && !sender.hasPermission(TimePermissions.UC_TIME_TIME_NIGHT.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         World world;
@@ -77,13 +77,13 @@ public class NightCommand implements Command {
         } else if (sender instanceof CommandBlockSource) {
             world = ((CommandBlockSource) sender).getWorld();
         } else {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         //Players can enter their bed at 12541 ticks
         Long ticks = 12541 - (world.getProperties().getWorldTime() % 24000);
         world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
-        sender.sendMessage(Messages.getFormatted("time.command.time.set.night"));
+        sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.night"));
         return CommandResult.success();
     }
 

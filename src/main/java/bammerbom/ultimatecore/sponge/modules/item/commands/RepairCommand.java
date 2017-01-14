@@ -70,7 +70,7 @@ public class RepairCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
@@ -92,21 +92,21 @@ public class RepairCommand implements Command {
                 stack.offer(Keys.ITEM_DURABILITY, stack.get(DurabilityData.class).get().durability().getMaxValue());
                 slot.set(stack);
             });
-            sender.sendMessage(Messages.getFormatted("item.command.repair.success.all"));
+            sender.sendMessage(Messages.getFormatted(sender, "item.command.repair.success.all"));
             return CommandResult.success();
         } else {
             if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-                p.sendMessage(Messages.getFormatted("item.noiteminhand"));
+                p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
                 return CommandResult.empty();
             }
             ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
             if (!stack.supports(DurabilityData.class)) {
-                sender.sendMessage(Messages.getFormatted("item.command.repair.nodurability"));
+                sender.sendMessage(Messages.getFormatted(sender, "item.command.repair.nodurability"));
                 return CommandResult.empty();
             }
             stack.offer(Keys.ITEM_DURABILITY, stack.get(DurabilityData.class).get().durability().getMaxValue());
             p.setItemInHand(HandTypes.MAIN_HAND, stack);
-            sender.sendMessage(Messages.getFormatted("item.command.repair.success.one"));
+            sender.sendMessage(Messages.getFormatted(sender, "item.command.repair.success.one"));
             return CommandResult.success();
         }
     }

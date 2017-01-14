@@ -69,7 +69,7 @@ public class GamemodeCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -100,7 +100,7 @@ public class GamemodeCommand implements Command {
                 gm = GameModes.SPECTATOR;
                 break;
             default:
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.invalidgamemode", "%gamemode%", args[0].toLowerCase()));
+                sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.invalidgamemode", "%gamemode%", args[0].toLowerCase()));
                 return CommandResult.empty();
         }
         Player player;
@@ -108,51 +108,51 @@ public class GamemodeCommand implements Command {
             if (Selector.one(sender, args[1]).isPresent()) {
                 player = Selector.one(sender, args[1]).get();
                 if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 if (gm == GameModes.SURVIVAL && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_SURVIVAL.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 } else if (gm == GameModes.CREATIVE && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_CREATIVE.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 } else if (gm == GameModes.ADVENTURE && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_ADVENTURE.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 } else if (gm == GameModes.SPECTATOR && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_SPECTATOR.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 //Not uuids because a sender does not have an UUID.
                 if (!sender.getName().equals(player.getName())) {
-                    player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", gm.getName()));
+                    player.sendMessage(Messages.getFormatted(player, "gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", gm.getName()));
                 }
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.self", "%player%", player.getName(), "%gamemode%", gm.getName()));
+                sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", player.getName(), "%gamemode%", gm.getName()));
 
             } else {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[1]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[1]));
                 return CommandResult.empty();
             }
         } else {
             if (sender instanceof Player) {
                 player = (Player) sender;
                 if (gm == GameModes.SURVIVAL && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_SURVIVAL.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 } else if (gm == GameModes.CREATIVE && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_CREATIVE.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 } else if (gm == GameModes.ADVENTURE && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_ADVENTURE.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 } else if (gm == GameModes.SPECTATOR && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_SPECTATOR.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success", "%gamemode%", gm.getName()));
+                sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success", "%gamemode%", gm.getName()));
             } else {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
         }

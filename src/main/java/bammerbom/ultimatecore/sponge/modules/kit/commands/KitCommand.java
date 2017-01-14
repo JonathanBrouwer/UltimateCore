@@ -84,14 +84,14 @@ public class KitCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(KitPermissions.UC_KIT_KIT_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         //Send the player a paginated list of all kits
         if (args.length == 0) {
             //Permissions
             if (!sender.hasPermission(KitPermissions.UC_KIT_KITLIST_BASE.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             //Get all kits
@@ -106,7 +106,7 @@ public class KitCommand implements Command {
             }
             //If empty send message
             if (texts.isEmpty()) {
-                sender.sendMessage(Messages.getFormatted("kit.command.kitlist.empty"));
+                sender.sendMessage(Messages.getFormatted(sender, "kit.command.kitlist.empty"));
                 return CommandResult.empty();
             }
             //Sort alphabetically
@@ -120,20 +120,20 @@ public class KitCommand implements Command {
         //Teleport the player to a kit
         //Check is the sender is a player
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         //Try to find kit
         List<Kit> results = GlobalData.get(KitKeys.KITS).get().stream().filter(war -> args[0].toLowerCase().equalsIgnoreCase(war.getId().toLowerCase())).collect(Collectors.toList());
         if (results.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted("kit.command.kit.notfound", "%kit%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.notfound", "%kit%", args[0]));
             return CommandResult.empty();
         }
         Kit kit = results.get(0);
         //Check permissions
         if (!sender.hasPermission(KitPermissions.UC_KIT_KIT_BASE.get()) && !sender.hasPermission("uc.kit." + kit.getId().toLowerCase())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         //Give items
@@ -145,7 +145,7 @@ public class KitCommand implements Command {
                 p.getWorld().spawnEntity(itementity, Cause.builder().owner(UltimateCore.get()).named(NamedCause.of("player", p)).build());
             });
         }
-        sender.sendMessage(Messages.getFormatted("kit.command.kit.success", "%kit%", kit.getId()));
+        sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.success", "%kit%", kit.getId()));
         return CommandResult.success();
     }
 

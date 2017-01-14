@@ -68,7 +68,7 @@ public class SetMaxHealthCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(HealPermissions.UC_HEAL_SETMAXHEALTH_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -76,7 +76,7 @@ public class SetMaxHealthCommand implements Command {
                 sender.sendMessage(getUsage());
                 return CommandResult.empty();
             } else {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
         }
@@ -90,7 +90,7 @@ public class SetMaxHealthCommand implements Command {
                     health = 1.0;
                 }
                 p.offer(Keys.MAX_HEALTH, health);
-                sender.sendMessage(Messages.getFormatted("heal.command.setmaxhealth.success", "%health%", health));
+                sender.sendMessage(Messages.getFormatted(sender, "heal.command.setmaxhealth.success", "%health%", health));
                 return CommandResult.success();
             } catch (Exception ex) {
                 sender.sendMessage(getUsage());
@@ -105,8 +105,8 @@ public class SetMaxHealthCommand implements Command {
                     health = 1.0;
                 }
                 t.offer(Keys.MAX_HEALTH, health);
-                sender.sendMessage(Messages.getFormatted("heal.command.setmaxhealth.success.self", "%target%", t.getName(), "%health%", health));
-                t.sendMessage(Messages.getFormatted("heal.command.setmaxhealth.success.others", "%player%", sender.getName(), "%health%", health));
+                sender.sendMessage(Messages.getFormatted(sender, "heal.command.setmaxhealth.success.self", "%target%", t.getName(), "%health%", health));
+                t.sendMessage(Messages.getFormatted(t, "heal.command.setmaxhealth.success.others", "%player%", sender.getName(), "%health%", health));
 
                 return CommandResult.success();
             } catch (Exception ex) {
@@ -116,7 +116,7 @@ public class SetMaxHealthCommand implements Command {
             }
 
         } else {
-            sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[1]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[1]));
 
             return CommandResult.empty();
         }

@@ -62,7 +62,7 @@ public class DeafListener {
         if (up.get(DeafKeys.DEAF).isPresent()) {
             Deaf deaf = up.get(DeafKeys.DEAF).get();
             event.setCancelled(true);
-            p.sendMessage(Messages.getFormatted("deaf.deafed", "%time%", (deaf.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : Text.of(TimeUtil.formatDateDiff(deaf.getEndtime()))), "%reason%", deaf.getReason()));
+            p.sendMessage(Messages.getFormatted(p, "deaf.deafed", "%time%", (deaf.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : Text.of(TimeUtil.formatDateDiff(deaf.getEndtime()))), "%reason%", deaf.getReason()));
         }
     }
 }

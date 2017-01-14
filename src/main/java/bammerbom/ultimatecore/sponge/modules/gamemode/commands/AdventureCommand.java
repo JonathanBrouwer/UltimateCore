@@ -71,7 +71,7 @@ public class AdventureCommand implements Command {
         if (args.length >= 1) {
             //Check permissions
             if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_ADVENTURE.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             //Send messages
@@ -79,25 +79,25 @@ public class AdventureCommand implements Command {
                 player = Selector.one(sender, args[0]).get();
                 //Not uuids because a sender does not have an UUID.
                 if (!sender.getName().equals(player.getName())) {
-                    player.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "adventure"));
+                    player.sendMessage(Messages.getFormatted(player, "gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "adventure"));
                 }
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success.self", "%player%", player.getName(), "%gamemode%", "adventure"));
+                sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", player.getName(), "%gamemode%", "adventure"));
             } else {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
         } else {
             //Check permissions
             if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_ADVENTURE.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             //Send messages
             if (sender instanceof Player) {
                 player = (Player) sender;
-                sender.sendMessage(Messages.getFormatted("gamemode.command.gamemode.success", "%gamemode%", "adventure"));
+                sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success", "%gamemode%", "adventure"));
             } else {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
         }

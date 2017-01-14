@@ -72,35 +72,35 @@ public class FoodCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(FoodPermissions.UC_FOOD_FOOD_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
             //Self
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
             p.offer(Keys.FOOD_LEVEL, p.get(FoodData.class).get().foodLevel().getMaxValue());
             p.offer(Keys.SATURATION, ItemStack.builder().itemType(ItemTypes.COOKED_BEEF).build().getProperty(SaturationProperty.class).get().getValue());
-            p.sendMessage(Messages.getFormatted("food.command.food.success.self"));
+            p.sendMessage(Messages.getFormatted(p, "food.command.food.success.self"));
             return CommandResult.success();
         } else {
             //Others
             if (!sender.hasPermission(FoodPermissions.UC_FOOD_FOOD_BASE.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             Player t = Selector.one(sender, args[0]).orElse(null);
             if (t == null) {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
             t.offer(Keys.FOOD_LEVEL, t.get(FoodData.class).get().foodLevel().getMaxValue());
             t.offer(Keys.SATURATION, ItemStack.builder().itemType(ItemTypes.COOKED_BEEF).build().getProperty(SaturationProperty.class).get().getValue());
-            sender.sendMessage(Messages.getFormatted("food.command.food.success.others.self", "%player%", VariableUtil.getNameSource(t)));
-            t.sendMessage(Messages.getFormatted("food.command.food.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
+            sender.sendMessage(Messages.getFormatted(sender, "food.command.food.success.others.self", "%player%", VariableUtil.getNameSource(t)));
+            t.sendMessage(Messages.getFormatted(t, "food.command.food.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
             return CommandResult.success();
         }
     }

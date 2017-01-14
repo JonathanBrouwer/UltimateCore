@@ -67,23 +67,23 @@ public class TeleportacceptCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORTACCEPT_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
 
         //Find request
         TpaRequest request = TeleportUtil.getTpacceptRequestFor(p, args.length >= 1 ? args[0] : null).orElse(null);
         if (request == null) {
-            sender.sendMessage(Messages.getFormatted("teleport.command.teleportaccept.none"));
+            sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaccept.none"));
             return CommandResult.empty();
         }
         request.getTeleportation().start();
-        sender.sendMessage(Messages.getFormatted("teleport.command.teleportaccept.success"));
+        sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaccept.success"));
         return CommandResult.success();
     }
 

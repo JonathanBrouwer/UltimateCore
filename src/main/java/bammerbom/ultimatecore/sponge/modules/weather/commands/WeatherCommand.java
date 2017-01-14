@@ -71,7 +71,7 @@ public class WeatherCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(WeatherPermissions.UC_WEATHER_WEATHER_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -83,7 +83,7 @@ public class WeatherCommand implements Command {
             case "sun":
             case "clear":
                 if (!sender.hasPermission(WeatherPermissions.UC_WEATHER_WEATHER_SUN.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 weathertype = Weathers.CLEAR;
@@ -92,7 +92,7 @@ public class WeatherCommand implements Command {
             case "snow":
             case "downfall":
                 if (sender.hasPermission(WeatherPermissions.UC_WEATHER_WEATHER_RAIN.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 weathertype = Weathers.RAIN;
@@ -101,13 +101,13 @@ public class WeatherCommand implements Command {
             case "thunderstorm":
             case "storm":
                 if (!sender.hasPermission(WeatherPermissions.UC_WEATHER_WEATHER_THUNDER.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 weathertype = Weathers.THUNDER_STORM;
                 break;
             default:
-                sender.sendMessage(Messages.getFormatted("weather.command.weather.invalidweathertype", "%weather%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "weather.command.weather.invalidweathertype", "%weather%", args[0]));
                 return CommandResult.empty();
         }
         World world;
@@ -115,19 +115,19 @@ public class WeatherCommand implements Command {
             if (Sponge.getServer().getWorld(args[1]).isPresent()) {
                 world = Sponge.getServer().getWorld(args[1]).get();
             } else {
-                sender.sendMessage(Messages.getFormatted("core.worldnotfound", "%world%", args[1]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.worldnotfound", "%world%", args[1]));
                 return CommandResult.empty();
             }
         } else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             Player player = (Player) sender;
             world = player.getWorld();
         }
         world.setWeather(weathertype);
-        sender.sendMessage(Messages.getFormatted("weather.command.weather.success", "%weather%", args[0].toLowerCase(), "%world%", world.getName()));
+        sender.sendMessage(Messages.getFormatted(sender, "weather.command.weather.success", "%weather%", args[0].toLowerCase(), "%world%", world.getName()));
         return CommandResult.success();
     }
 

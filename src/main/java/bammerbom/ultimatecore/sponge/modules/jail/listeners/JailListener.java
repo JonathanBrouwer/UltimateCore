@@ -111,7 +111,7 @@ public class JailListener {
                 List<String> allowedcommands = Modules.JAIL.get().getConfig().get().get().getNode("allowed-commands").getList(TypeToken.of(String.class));
                 if (!allowedcommands.contains(event.getCommand())) {
                     event.setCancelled(true);
-                    p.sendMessage(Messages.getFormatted("jail.event.command", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
+                    p.sendMessage(Messages.getFormatted(p, "jail.event.command", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
                 }
             } catch (ObjectMappingException e) {
                 e.printStackTrace();
@@ -129,7 +129,7 @@ public class JailListener {
             if (!Modules.JAIL.get().getConfig().get().get().getNode("allow-block-modify").getBoolean()) {
                 JailData data = up.get(JailKeys.JAIL).get();
                 event.setCancelled(true);
-                p.sendMessage(Messages.getFormatted("jail.event.block", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
+                p.sendMessage(Messages.getFormatted(p, "jail.event.block", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
             }
         }
     }
@@ -141,7 +141,7 @@ public class JailListener {
             if (!Modules.JAIL.get().getConfig().get().get().getNode("allow-chat").getBoolean()) {
                 JailData data = up.get(JailKeys.JAIL).get();
                 event.setCancelled(true);
-                p.sendMessage(Messages.getFormatted("jail.event.chat", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
+                p.sendMessage(Messages.getFormatted(p, "jail.event.chat", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
             }
         }
     }

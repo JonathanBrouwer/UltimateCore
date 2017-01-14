@@ -75,7 +75,7 @@ public class KitlistCommand implements Command {
     public CommandResult run(CommandSource sender, String[] args) {
         //Permissions
         if (!sender.hasPermission(KitPermissions.UC_KIT_KITLIST_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         //Get all kits
@@ -90,7 +90,7 @@ public class KitlistCommand implements Command {
         }
         //If empty send message
         if (texts.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted("kit.command.kitlist.empty"));
+            sender.sendMessage(Messages.getFormatted(sender, "kit.command.kitlist.empty"));
             return CommandResult.empty();
         }
         //Sort alphabetically

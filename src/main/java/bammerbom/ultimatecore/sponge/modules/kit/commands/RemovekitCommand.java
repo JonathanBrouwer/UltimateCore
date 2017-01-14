@@ -68,20 +68,20 @@ public class RemovekitCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(KitPermissions.UC_KIT_REMOVEKIT_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
 
         List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
         List<Kit> results = kits.stream().filter(war -> args[0].toLowerCase().equalsIgnoreCase(war.getId().toLowerCase())).collect(Collectors.toList());
         if (results.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted("kit.command.kit.notfound", "%kit%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.notfound", "%kit%", args[0]));
             return CommandResult.empty();
         }
 
         kits.removeAll(results);
         GlobalData.offer(KitKeys.KITS, kits);
-        sender.sendMessage(Messages.getFormatted("kit.command.removekit.success", "%kit%", args[0].toLowerCase()));
+        sender.sendMessage(Messages.getFormatted(sender, "kit.command.removekit.success", "%kit%", args[0].toLowerCase()));
         return CommandResult.success();
     }
 

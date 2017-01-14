@@ -71,11 +71,11 @@ public class SetgroupspawnCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_SETGROUPSPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -87,7 +87,7 @@ public class SetgroupspawnCommand implements Command {
         HashMap<String, Transform<World>> groupspawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
         groupspawns.put(group, p.getTransform());
         GlobalData.offer(SpawnKeys.GROUP_SPAWNS, groupspawns);
-        p.sendMessage(Messages.getFormatted("spawn.command.setgroupspawn.success", "%group%", group));
+        p.sendMessage(Messages.getFormatted(p, "spawn.command.setgroupspawn.success", "%group%", group));
         return CommandResult.success();
     }
 

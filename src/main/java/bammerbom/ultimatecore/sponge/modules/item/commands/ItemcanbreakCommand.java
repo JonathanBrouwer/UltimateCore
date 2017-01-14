@@ -74,12 +74,12 @@ public class ItemcanbreakCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMCANBREAK_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -88,7 +88,7 @@ public class ItemcanbreakCommand implements Command {
         }
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted("item.noiteminhand"));
+            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
@@ -97,14 +97,14 @@ public class ItemcanbreakCommand implements Command {
         for (String arg : args) {
             Optional<BlockType> type = Sponge.getRegistry().getType(CatalogTypes.BLOCK_TYPE, arg);
             if (!type.isPresent()) {
-                sender.sendMessage(Messages.getFormatted("item.blocknotfound", "%type%", arg));
+                sender.sendMessage(Messages.getFormatted(sender, "item.blocknotfound", "%type%", arg));
             }
             types.add(type.get());
         }
 
         stack.offer(Keys.BREAKABLE_BLOCK_TYPES, types);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted("item.command.itemcanbreak.success", "%arg%", Messages.toText(StringUtil.getFinalArg(args, 0))));
+        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemcanbreak.success", "%arg%", Messages.toText(StringUtil.getFinalArg(args, 0))));
         return CommandResult.success();
     }
 

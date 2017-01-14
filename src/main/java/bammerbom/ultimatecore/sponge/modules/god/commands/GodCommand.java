@@ -70,12 +70,12 @@ public class GodCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(GodPermissions.UC_GOD_GOD_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
@@ -83,24 +83,24 @@ public class GodCommand implements Command {
             boolean god = up.get(GodKeys.GOD).get();
             god = !god;
             up.offer(GodKeys.GOD, god);
-            sender.sendMessage(Messages.getFormatted("god.command.god.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled")));
+            sender.sendMessage(Messages.getFormatted(sender, "god.command.god.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled")));
             return CommandResult.success();
         } else {
             if (!sender.hasPermission(GodPermissions.UC_GOD_GOD_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             Player t = Selector.one(sender, args[0]).orElse(null);
             if (t == null) {
-                sender.sendMessage(Messages.getFormatted("core.playernotfound", "%player%", args[0]));
+                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
                 return CommandResult.empty();
             }
             UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
             boolean god = ut.get(GodKeys.GOD).get();
             god = !god;
             ut.offer(GodKeys.GOD, god);
-            sender.sendMessage(Messages.getFormatted("god.command.god.others.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", VariableUtil.getNameEntity(t)));
-            t.sendMessage(Messages.getFormatted("god.command.god.others.others", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", VariableUtil.getNameSource(sender)));
+            sender.sendMessage(Messages.getFormatted(sender, "god.command.god.others.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", VariableUtil.getNameEntity(t)));
+            t.sendMessage(Messages.getFormatted(t, "god.command.god.others.others", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", VariableUtil.getNameSource(sender)));
             return CommandResult.success();
         }
     }

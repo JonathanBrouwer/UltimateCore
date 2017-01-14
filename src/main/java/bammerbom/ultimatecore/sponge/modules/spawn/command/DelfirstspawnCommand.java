@@ -68,16 +68,16 @@ public class DelfirstspawnCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_DELFIRSTSPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         GlobalData.offer(SpawnKeys.FIRST_SPAWN, null);
-        p.sendMessage(Messages.getFormatted("spawn.command.delfirstspawn.success"));
+        p.sendMessage(Messages.getFormatted(p, "spawn.command.delfirstspawn.success"));
         return CommandResult.success();
     }
 

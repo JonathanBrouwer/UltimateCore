@@ -76,7 +76,7 @@ public class WarplistCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(WarpPermissions.UC_WARP_WARPLIST_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         //Send the player a paginated list of all warps
@@ -91,7 +91,7 @@ public class WarplistCommand implements Command {
         }
         //If empty send message
         if (texts.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted("warp.command.warplist.empty"));
+            sender.sendMessage(Messages.getFormatted(sender, "warp.command.warplist.empty"));
             return CommandResult.empty();
         }
         //Sort alphabetically

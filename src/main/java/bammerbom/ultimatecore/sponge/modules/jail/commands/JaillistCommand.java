@@ -75,7 +75,7 @@ public class JaillistCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(JailPermissions.UC_JAIL_JAILLIST_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
@@ -86,7 +86,7 @@ public class JaillistCommand implements Command {
         }
         //If empty send message
         if (texts.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted("jail.command.jaillist.empty"));
+            sender.sendMessage(Messages.getFormatted(sender, "jail.command.jaillist.empty"));
             return CommandResult.empty();
         }
         //Sort alphabetically

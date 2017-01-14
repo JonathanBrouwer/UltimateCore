@@ -68,13 +68,13 @@ public class TimeCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         //time query: View the time
         if (args.length == 0 || args[0].equalsIgnoreCase("query")) {
             if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_QUERY_BASE.get())) {
-                sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                 return CommandResult.empty();
             }
             World world;
@@ -83,7 +83,7 @@ public class TimeCommand implements Command {
             } else if (sender instanceof CommandBlockSource) {
                 world = ((CommandBlockSource) sender).getWorld();
             } else {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             //Player wants daytime, days or gametime (/time query x)
@@ -92,25 +92,25 @@ public class TimeCommand implements Command {
                 //Parsing & Permission checks
                 if (args[1].equalsIgnoreCase("daytime")) {
                     if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_QUERY_DAYTIME.get())) {
-                        sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                        sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                         return CommandResult.empty();
                     }
                     result = world.getProperties().getWorldTime() % 24000;
-                    sender.sendMessage(Messages.getFormatted("time.command.time.query.daytime", "%daytime%", result));
+                    sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.daytime", "%daytime%", result));
                 } else if (args[1].equalsIgnoreCase("day") || args[1].equalsIgnoreCase("days")) {
                     if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_QUERY_DAYS.get())) {
-                        sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                        sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                         return CommandResult.empty();
                     }
                     result = world.getProperties().getWorldTime() / 24000;
-                    sender.sendMessage(Messages.getFormatted("time.command.time.query.day", "%days%", result));
+                    sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.day", "%days%", result));
                 } else if (args[1].equalsIgnoreCase("gametime")) {
                     if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_QUERY_BASE.get()) && !sender.hasPermission(TimePermissions.UC_TIME_TIME_QUERY_GAMETIME.get())) {
-                        sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                        sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                         return CommandResult.empty();
                     }
                     result = world.getProperties().getWorldTime();
-                    sender.sendMessage(Messages.getFormatted("time.command.time.query.gametime", "%gametime%", result));
+                    sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.gametime", "%gametime%", result));
                 } else {
                     sender.sendMessage(getLongDescription());
                     return CommandResult.empty();
@@ -118,7 +118,7 @@ public class TimeCommand implements Command {
                 return CommandResult.builder().queryResult(result.intValue()).build();
             } else {
                 if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_QUERY_FORMATTED.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 //Player wants formatted time (/time query or /time)
@@ -130,9 +130,9 @@ public class TimeCommand implements Command {
                 boolean am = daytime < 12000;
 
                 if (am) {
-                    sender.sendMessage(Messages.getFormatted("time.command.time.query.formatted.am", "%day%", day, "%hours%", hours24, "%minutes%", minutes, "%hours12%", hours12));
+                    sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.formatted.am", "%day%", day, "%hours%", hours24, "%minutes%", minutes, "%hours12%", hours12));
                 } else {
-                    sender.sendMessage(Messages.getFormatted("time.command.time.query.formatted.pm", "%day%", day, "%hours%", hours24, "%minutes%", minutes, "%hours12%", hours12));
+                    sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.formatted.pm", "%day%", day, "%hours%", hours24, "%minutes%", minutes, "%hours12%", hours12));
                 }
 
                 return CommandResult.success();
@@ -145,48 +145,48 @@ public class TimeCommand implements Command {
             } else if (sender instanceof CommandBlockSource) {
                 world = ((CommandBlockSource) sender).getWorld();
             } else {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
 
             if (args[0].equalsIgnoreCase("add")) {
                 if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_ADD.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 if (args.length >= 2 && ArgumentUtil.isNumber(args[1])) {
                     Long ticks = Long.parseLong(args[1]);
                     world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
-                    sender.sendMessage(Messages.getFormatted("time.command.time.set.add", "%ticks%", ticks));
+                    sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.add", "%ticks%", ticks));
                 } else {
                     sender.sendMessage(getLongDescription());
                     return CommandResult.empty();
                 }
             } else if (args[0].equalsIgnoreCase("day")) {
                 if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_DAY.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 Long ticks = 24000 - (world.getProperties().getWorldTime() % 24000);
                 world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
-                sender.sendMessage(Messages.getFormatted("time.command.time.set.day"));
+                sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.day"));
             } else if (args[0].equalsIgnoreCase("night")) {
                 if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_NIGHT.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 //Players can enter their bed at 12541 ticks
                 Long ticks = 12541 - (world.getProperties().getWorldTime() % 24000);
                 world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
-                sender.sendMessage(Messages.getFormatted("time.command.time.set.night"));
+                sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.night"));
             } else if (ArgumentUtil.isNumber(args[0])) {
                 if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_TICKS.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
                 Long ticks = Long.parseLong(args[0]);
                 world.getProperties().setWorldTime(ticks);
-                sender.sendMessage(Messages.getFormatted("time.command.time.set.ticks", "%ticks%", ticks));
+                sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.ticks", "%ticks%", ticks));
             } else if (args[0].equalsIgnoreCase("set")) {
                 if (args.length <= 1) {
                     sender.sendMessage(getLongDescription());
@@ -194,29 +194,29 @@ public class TimeCommand implements Command {
                 }
                 if (args[1].equalsIgnoreCase("day")) {
                     if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_DAY.get())) {
-                        sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                        sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                         return CommandResult.empty();
                     }
                     Long ticks = 24000 - (world.getProperties().getWorldTime() % 24000);
                     world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
-                    sender.sendMessage(Messages.getFormatted("time.command.time.set.day"));
+                    sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.day"));
                 } else if (args[1].equalsIgnoreCase("night")) {
                     if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_NIGHT.get())) {
-                        sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                        sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                         return CommandResult.empty();
                     }
                     //Players can enter their bed at 12541 ticks
                     Long ticks = 12541 - (world.getProperties().getWorldTime() % 24000);
                     world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
-                    sender.sendMessage(Messages.getFormatted("time.command.time.set.night"));
+                    sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.night"));
                 } else if (ArgumentUtil.isNumber(args[1])) {
                     if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_TICKS.get())) {
-                        sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                        sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                         return CommandResult.empty();
                     }
                     Long ticks = Long.parseLong(args[1]);
                     world.getProperties().setWorldTime(ticks);
-                    sender.sendMessage(Messages.getFormatted("time.command.time.set.ticks", "%ticks%", ticks));
+                    sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.ticks", "%ticks%", ticks));
                 } else {
                     sender.sendMessage(getLongDescription());
                     return CommandResult.empty();
@@ -235,22 +235,22 @@ public class TimeCommand implements Command {
             } else if (sender instanceof CommandBlockSource) {
                 world = ((CommandBlockSource) sender).getWorld();
             } else {
-                sender.sendMessage(Messages.getFormatted("core.noplayer"));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
                 return CommandResult.empty();
             }
             if (args[0].equalsIgnoreCase("enable")) {
                 if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_ENABLE.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
             } else {
                 if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_DISABLE.get())) {
-                    sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+                    sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
             }
             world.getProperties().setGameRule("doDaylightCycle", args[0].equalsIgnoreCase("enable") ? "true" : "false");
-            sender.sendMessage(Messages.getFormatted("time.command.time." + args[0].toLowerCase()));
+            sender.sendMessage(Messages.getFormatted(sender, "time.command.time." + args[0].toLowerCase()));
             return CommandResult.success();
         }
         //No matching command found

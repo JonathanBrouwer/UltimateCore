@@ -76,7 +76,7 @@ public class AfkCommand implements Command {
     public CommandResult run(CommandSource sender, String[] args) {
         //Permission check
         if (!sender.hasPermission(AfkPermissions.UC_AFK_AFK_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions", "%permission%", AfkPermissions.UC_AFK_AFK_BASE.get()));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions", "%permission%", AfkPermissions.UC_AFK_AFK_BASE.get()));
             return CommandResult.empty();
         }
         //Get the user
@@ -85,7 +85,7 @@ public class AfkCommand implements Command {
             user = UltimateCore.get().getUserService().getUser(Selector.one(sender, args[0]).get());
         } else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
+                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
                 return CommandResult.empty();
             }
             user = UltimateCore.get().getUserService().getUser((Player) sender);
@@ -111,7 +111,7 @@ public class AfkCommand implements Command {
                 user.offer(AfkKeys.AFK_MESSAGE, null);
             }
         } else {
-            sender.sendMessage(Messages.getFormatted("afk.command.afk.datafailed"));
+            sender.sendMessage(Messages.getFormatted(sender, "afk.command.afk.datafailed"));
         }
         return CommandResult.success();
     }

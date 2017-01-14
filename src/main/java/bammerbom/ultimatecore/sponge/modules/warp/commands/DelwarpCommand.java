@@ -69,7 +69,7 @@ public class DelwarpCommand implements Command {
     public CommandResult run(CommandSource sender, String[] args) {
         //Has permission
         if (!sender.hasPermission(WarpPermissions.UC_WARP_DELWARP_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         //Get name
@@ -92,9 +92,9 @@ public class DelwarpCommand implements Command {
         //Did the warp already exist?
         GlobalData.offer(WarpKeys.WARPS, warps);
         if (found) {
-            sender.sendMessage(Messages.getFormatted("warp.command.delwarp.success", "%warp%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "warp.command.delwarp.success", "%warp%", args[0]));
         } else {
-            sender.sendMessage(Messages.getFormatted("warp.command.warp.notfound", "%warp%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "warp.command.warp.notfound", "%warp%", args[0]));
         }
         return CommandResult.success();
     }

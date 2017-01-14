@@ -68,16 +68,16 @@ public class DelglobalspawnCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_DELGLOBALSPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         GlobalData.offer(SpawnKeys.GLOBAL_SPAWN, null);
-        p.sendMessage(Messages.getFormatted("spawn.command.delglobalspawn.success"));
+        p.sendMessage(Messages.getFormatted(p, "spawn.command.delglobalspawn.success"));
         return CommandResult.success();
     }
 

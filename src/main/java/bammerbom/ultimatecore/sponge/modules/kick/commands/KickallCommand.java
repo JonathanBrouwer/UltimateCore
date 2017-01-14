@@ -69,7 +69,7 @@ public class KickallCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(KickPermissions.UC_KICK_KICKALL_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         Text reason;
@@ -84,7 +84,7 @@ public class KickallCommand implements Command {
             }
             p.kick(Messages.getFormatted("kick.command.kickall.message", "%kicker%", sender.getName(), "%reason%", reason));
         }
-        sender.sendMessage(Messages.getFormatted("kick.command.kickall.success"));
+        sender.sendMessage(Messages.getFormatted(sender, "kick.command.kickall.success"));
         return CommandResult.success();
     }
 

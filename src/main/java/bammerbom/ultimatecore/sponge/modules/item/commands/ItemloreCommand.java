@@ -72,12 +72,12 @@ public class ItemloreCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMLORE_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
@@ -86,7 +86,7 @@ public class ItemloreCommand implements Command {
         }
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted("item.noiteminhand"));
+            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
@@ -94,7 +94,7 @@ public class ItemloreCommand implements Command {
         Text unsplitlore = Messages.toText(StringUtil.getFinalArg(args, 0));
         stack.offer(Keys.ITEM_LORE, unsplitlore.toPlain().contains("|") ? TextUtil.split(unsplitlore, "|") : Arrays.asList(unsplitlore));
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted("item.command.itemlore.success", "%arg%", unsplitlore));
+        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemlore.success", "%arg%", unsplitlore));
         return CommandResult.success();
     }
 

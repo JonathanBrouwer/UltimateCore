@@ -68,17 +68,17 @@ public class SetglobalspawnCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_SETGLOBALSPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         p.getWorld().getProperties().setSpawnPosition(p.getLocation().getPosition().toInt());
         GlobalData.offer(SpawnKeys.GLOBAL_SPAWN, p.getTransform());
-        p.sendMessage(Messages.getFormatted("spawn.command.setglobalspawn.success"));
+        p.sendMessage(Messages.getFormatted(p, "spawn.command.setglobalspawn.success"));
         return CommandResult.success();
     }
 

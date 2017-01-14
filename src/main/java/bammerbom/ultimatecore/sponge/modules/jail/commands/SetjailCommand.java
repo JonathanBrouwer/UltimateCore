@@ -69,11 +69,11 @@ public class SetjailCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer", "%source%", sender.getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
             return CommandResult.empty();
         }
         if (!sender.hasPermission(JailPermissions.UC_JAIL_SETJAIL_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
@@ -89,7 +89,7 @@ public class SetjailCommand implements Command {
         jails.add(jail);
         GlobalData.offer(JailKeys.JAILS, jails);
 
-        sender.sendMessage(Messages.getFormatted("jail.command.setjail.success", "%jail%", name, "%description%", desc));
+        sender.sendMessage(Messages.getFormatted(sender, "jail.command.setjail.success", "%jail%", name, "%description%", desc));
         return CommandResult.success();
     }
 

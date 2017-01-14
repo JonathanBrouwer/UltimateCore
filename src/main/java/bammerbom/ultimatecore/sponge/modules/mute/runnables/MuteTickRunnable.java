@@ -40,7 +40,7 @@ public class MuteTickRunnable implements Runnable {
                 Mute mute = up.get(MuteKeys.MUTE).get();
                 if (System.currentTimeMillis() > mute.getEndtime() && mute.getEndtime() != -1L) {
                     up.offer(MuteKeys.MUTE, null);
-                    p.sendMessage(Messages.getFormatted("mute.unmuted"));
+                    p.sendMessage(Messages.getFormatted(p, "mute.unmuted"));
                 }
             }
         }

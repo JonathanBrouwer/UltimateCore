@@ -68,16 +68,16 @@ public class SetfirstspawnCommand implements Command {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted("core.noplayer"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
         }
         if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_SETFIRSTSPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted("core.nopermissions"));
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
         Player p = (Player) sender;
         GlobalData.offer(SpawnKeys.FIRST_SPAWN, p.getTransform());
-        p.sendMessage(Messages.getFormatted("spawn.command.setfirstspawn.success"));
+        p.sendMessage(Messages.getFormatted(p, "spawn.command.setfirstspawn.success"));
         return CommandResult.success();
     }
 
