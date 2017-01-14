@@ -44,15 +44,15 @@ public class ItemPermissions {
     public static Permission UC_ITEM_ITEMHIDETAGS_BASE = Permission.create("uc.item.itemhidetags.base", "item", PermissionLevel.ADMIN, "itemhidetags", Text.of("Allows you to use the itemhidetags command."));
     public static Permission UC_ITEM_ITEMENCHANT_BASE = Permission.create("uc.item.itemenchant.base", "item", PermissionLevel.ADMIN, "itemenchant", Text.of("Allows you to use the itemenchant command."));
 
-    public static Permission UC_ITEM_ITEMMAXHEALTH_BASE = Permission.create("uc.item.itemmaxhealth.base", "item", PermissionLevel.ADMIN, "itemmaxhealth", Text.of("Allows you to use the itemmaxhealth command."));
-    public static Permission UC_ITEM_ITEMDAMAGE_BASE = Permission.create("uc.item.itemdamage.base", "item", PermissionLevel.ADMIN, "itemdamage", Text.of("Allows you to use the itemdamage command."));
-    public static Permission UC_ITEM_ITEMSPEED_BASE = Permission.create("uc.item.itemspeed.base", "item", PermissionLevel.ADMIN, "itemspeed", Text.of("Allows you to use the itemspeed command."));
-    public static Permission UC_ITEM_ITEMKNOCKBACKRESISTANCE_BASE = Permission.create("uc.item.itemknockbackresistance.base", "item", PermissionLevel.ADMIN, "itemknockbackresistance", Text.of("Allows you to use the itemknockbackresistance command."));
-
-    public static Permission UC_ITEM_SKULL_BASE = Permission.create("uc.item.skull.base", "item", PermissionLevel.ADMIN, "skull", Text.of("Allows you to use the skull command."));
-    public static Permission UC_ITEM_BOOKAUTHOR_BASE = Permission.create("uc.item.bookauthor.base", "item", PermissionLevel.ADMIN, "bookauthor", Text.of("Allows you to use the bookauthor command."));
-    public static Permission UC_ITEM_BOOKTITLE_BASE = Permission.create("uc.item.booktitle.base", "item", PermissionLevel.ADMIN, "booktitle", Text.of("Allows you to use the booktitle command."));
-    public static Permission UC_ITEM_BOOKEDIT_BASE = Permission.create("uc.item.bookedit.base", "item", PermissionLevel.ADMIN, "bookedit", Text.of("Allows you to use the bookedit command."));
-    public static Permission UC_ITEM_FIREWORK_BASE = Permission.create("uc.item.firework.base", "item", PermissionLevel.ADMIN, "firework", Text.of("Allows you to use the firework command."));
-    public static Permission UC_ITEM_LEATHERARMORCOLOR_BASE = Permission.create("uc.item.leatherarmorcolor.base", "item", PermissionLevel.ADMIN, "leatherarmorcolor", Text.of("Allows you to use the leatherarmorcolor command."));
+//    public static Permission UC_ITEM_ITEMMAXHEALTH_BASE = Permission.create("uc.item.itemmaxhealth.base", "item", PermissionLevel.ADMIN, "itemmaxhealth", Text.of("Allows you to use the itemmaxhealth command."));
+//    public static Permission UC_ITEM_ITEMDAMAGE_BASE = Permission.create("uc.item.itemdamage.base", "item", PermissionLevel.ADMIN, "itemdamage", Text.of("Allows you to use the itemdamage command."));
+//    public static Permission UC_ITEM_ITEMSPEED_BASE = Permission.create("uc.item.itemspeed.base", "item", PermissionLevel.ADMIN, "itemspeed", Text.of("Allows you to use the itemspeed command."));
+//    public static Permission UC_ITEM_ITEMKNOCKBACKRESISTANCE_BASE = Permission.create("uc.item.itemknockbackresistance.base", "item", PermissionLevel.ADMIN, "itemknockbackresistance", Text.of("Allows you to use the itemknockbackresistance command."));
+//
+//    public static Permission UC_ITEM_SKULL_BASE = Permission.create("uc.item.skull.base", "item", PermissionLevel.ADMIN, "skull", Text.of("Allows you to use the skull command."));
+//    public static Permission UC_ITEM_BOOKAUTHOR_BASE = Permission.create("uc.item.bookauthor.base", "item", PermissionLevel.ADMIN, "bookauthor", Text.of("Allows you to use the bookauthor command."));
+//    public static Permission UC_ITEM_BOOKTITLE_BASE = Permission.create("uc.item.booktitle.base", "item", PermissionLevel.ADMIN, "booktitle", Text.of("Allows you to use the booktitle command."));
+//    public static Permission UC_ITEM_BOOKEDIT_BASE = Permission.create("uc.item.bookedit.base", "item", PermissionLevel.ADMIN, "bookedit", Text.of("Allows you to use the bookedit command."));
+//    public static Permission UC_ITEM_FIREWORK_BASE = Permission.create("uc.item.firework.base", "item", PermissionLevel.ADMIN, "firework", Text.of("Allows you to use the firework command."));
+//    public static Permission UC_ITEM_LEATHERARMORCOLOR_BASE = Permission.create("uc.item.leatherarmorcolor.base", "item", PermissionLevel.ADMIN, "leatherarmorcolor", Text.of("Allows you to use the leatherarmorcolor command."));
 }
