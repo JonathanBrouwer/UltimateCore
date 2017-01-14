@@ -66,7 +66,7 @@ public class ItemdurabilityCommand implements Command {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("itemdurability", "setitemdurability");
+        return Arrays.asList("itemdurability", "setitemdurability", "durability");
     }
 
     @Override

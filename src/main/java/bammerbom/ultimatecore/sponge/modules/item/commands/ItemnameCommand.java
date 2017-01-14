@@ -64,7 +64,7 @@ public class ItemnameCommand implements Command {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("itemname", "setitemname");
+        return Arrays.asList("itemname", "setitemname", "name");
     }
 
     @Override

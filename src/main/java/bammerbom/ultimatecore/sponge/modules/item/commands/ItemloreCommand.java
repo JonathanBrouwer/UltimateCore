@@ -66,7 +66,7 @@ public class ItemloreCommand implements Command {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("itemlore", "setitemlore");
+        return Arrays.asList("itemlore", "setitemlore", "lore");
     }
 
     @Override

@@ -30,17 +30,26 @@ import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
 import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.CatalogType;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.meta.ItemEnchantment;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.Enchantment;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class ItemquantityCommand implements Command {
+public class ItemenchantCommand implements Command {
     @Override
     public Module getModule() {
         return Modules.ITEM.get();
@@ -48,22 +57,22 @@ public class ItemquantityCommand implements Command {
 
     @Override
     public String getIdentifier() {
-        return "itemquantity";
+        return "itemenchant";
     }
 
     @Override
     public Permission getPermission() {
-        return ItemPermissions.UC_ITEM_ITEMQUANTITY_BASE;
+        return ItemPermissions.UC_ITEM_ITEMENCHANT_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(ItemPermissions.UC_ITEM_ITEMQUANTITY_BASE);
+        return Arrays.asList(ItemPermissions.UC_ITEM_ITEMENCHANT_BASE);
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("itemquantity", "setitemquantity", "quantity");
+        return Arrays.asList("itemenchant", "setitemenchant", "enchant", "enchantment");
     }
 
     @Override
@@ -73,16 +82,12 @@ public class ItemquantityCommand implements Command {
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMQUANTITY_BASE.get())) {
+        if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMENCHANT_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
             sender.sendMessage(getUsage());
-            return CommandResult.empty();
-        }
-        if (!ArgumentUtil.isNumber(args[0])) {
-            sender.sendMessage(Messages.getFormatted("core.nonumber", "%number%", args[0]));
             return CommandResult.empty();
         }
 
@@ -91,21 +96,42 @@ public class ItemquantityCommand implements Command {
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
-        int quantity = Integer.parseInt(args[0]);
 
-        if (quantity < 0 || quantity > stack.getMaxStackQuantity()) {
-            sender.sendMessage(Messages.getFormatted("item.numberinvalid", "%number%", args[0]));
+        Optional<Enchantment> ench = Sponge.getRegistry().getType(CatalogTypes.ENCHANTMENT, args[0]);
+        int level = 1;
+        if (!ench.isPresent()) {
+            sender.sendMessage(Messages.getFormatted("item.command.itemenchant.notfound", "%enchantment%", args[0]));
             return CommandResult.empty();
         }
+        if (args.length >= 2) {
+            if (!ArgumentUtil.isNumber(args[1])) {
+                sender.sendMessage(Messages.getFormatted("core.nonumber", "%number%", args[0]));
+                return CommandResult.empty();
+            }
+            level = Integer.parseInt(args[1]);
+        }
 
-        stack.setQuantity(quantity);
-        p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted("item.command.itemquantity.success", "%arg%", args[0]));
-        return CommandResult.success();
+        List<ItemEnchantment> enchs = stack.get(Keys.ITEM_ENCHANTMENTS).orElse(new ArrayList<>());
+        if (level > 0) {
+            enchs.add(new ItemEnchantment(ench.get(), level));
+            stack.offer(Keys.ITEM_ENCHANTMENTS, enchs);
+            p.setItemInHand(HandTypes.MAIN_HAND, stack);
+            sender.sendMessage(Messages.getFormatted("item.command.itemenchant.success", "%enchant%", ench.get().getTranslation().get(), "%level%", level));
+            return CommandResult.success();
+        } else {
+            enchs = enchs.stream().filter(e -> !e.getEnchantment().equals(ench.get())).collect(Collectors.toList());
+            stack.offer(Keys.ITEM_ENCHANTMENTS, enchs);
+            p.setItemInHand(HandTypes.MAIN_HAND, stack);
+            sender.sendMessage(Messages.getFormatted("item.command.itemenchant.success2", "%enchant%", ench.get().getTranslation().get(), "%level%", level));
+            return CommandResult.success();
+        }
     }
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
+        if (curn == 0) {
+            return Sponge.getRegistry().getAllOf(CatalogTypes.ENCHANTMENT).stream().map(CatalogType::getId).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
 }

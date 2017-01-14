@@ -65,7 +65,7 @@ public class ItemunbreakableCommand implements Command {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("itemunbreakable", "setitemunbreakable");
+        return Arrays.asList("itemunbreakable", "setitemunbreakable", "unbreakable");
     }
 
     @Override

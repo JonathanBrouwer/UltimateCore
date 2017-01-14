@@ -73,6 +73,10 @@ public class ItemModule implements Module {
         UltimateCore.get().getCommandService().register(new ItemdurabilityCommand());
         UltimateCore.get().getCommandService().register(new ItemunbreakableCommand());
         //UltimateCore.get().getCommandService().register(new ItemglowCommand());
+        UltimateCore.get().getCommandService().register(new ItemcanbreakCommand());
+        UltimateCore.get().getCommandService().register(new ItemcanplaceonCommand());
+        UltimateCore.get().getCommandService().register(new ItemenchantCommand());
+        UltimateCore.get().getCommandService().register(new ItemhidetagsCommand());
         //Register permissions
         new ItemPermissions();
 

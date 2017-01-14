@@ -32,15 +32,19 @@ import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
+import org.spongepowered.api.data.value.mutable.Value;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ItemquantityCommand implements Command {
+public class ItemhidetagsCommand implements Command {
     @Override
     public Module getModule() {
         return Modules.ITEM.get();
@@ -48,22 +52,22 @@ public class ItemquantityCommand implements Command {
 
     @Override
     public String getIdentifier() {
-        return "itemquantity";
+        return "itemhidetags";
     }
 
     @Override
     public Permission getPermission() {
-        return ItemPermissions.UC_ITEM_ITEMQUANTITY_BASE;
+        return ItemPermissions.UC_ITEM_ITEMHIDETAGS_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(ItemPermissions.UC_ITEM_ITEMQUANTITY_BASE);
+        return Arrays.asList(ItemPermissions.UC_ITEM_ITEMHIDETAGS_BASE);
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("itemquantity", "setitemquantity", "quantity");
+        return Arrays.asList("itemhidetags", "setitemhidetags", "hidetags");
     }
 
     @Override
@@ -73,16 +77,12 @@ public class ItemquantityCommand implements Command {
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMQUANTITY_BASE.get())) {
+        if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMHIDETAGS_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
-        if (args.length == 0) {
+        if (args.length <= 1) {
             sender.sendMessage(getUsage());
-            return CommandResult.empty();
-        }
-        if (!ArgumentUtil.isNumber(args[0])) {
-            sender.sendMessage(Messages.getFormatted("core.nonumber", "%number%", args[0]));
             return CommandResult.empty();
         }
 
@@ -91,21 +91,57 @@ public class ItemquantityCommand implements Command {
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
-        int quantity = Integer.parseInt(args[0]);
-
-        if (quantity < 0 || quantity > stack.getMaxStackQuantity()) {
-            sender.sendMessage(Messages.getFormatted("item.numberinvalid", "%number%", args[0]));
-            return CommandResult.empty();
+        Key<Value<Boolean>> key;
+        switch (args[0].toLowerCase()) {
+            case "attribute":
+            case "attributes":
+                key = Keys.HIDE_ATTRIBUTES;
+                break;
+            case "candestroy":
+            case "canbreak":
+                key = Keys.HIDE_CAN_DESTROY;
+                break;
+            case "canplace":
+            case "canplaceon":
+                key = Keys.HIDE_CAN_PLACE;
+                break;
+            case "ench":
+            case "enchantment":
+            case "enchantments":
+                key = Keys.HIDE_ENCHANTMENTS;
+                break;
+            case "miscellaneous":
+            case "misc":
+                key = Keys.HIDE_MISCELLANEOUS;
+                break;
+            case "unbreakable":
+                key = Keys.HIDE_UNBREAKABLE;
+                break;
+            default:
+                sender.sendMessage(getUsage());
+                return CommandResult.empty();
         }
 
-        stack.setQuantity(quantity);
+        if (!ArgumentUtil.isBoolean(args[1])) {
+            sender.sendMessage(Messages.getFormatted("item.booleaninvalid", "%argument%", args[0]));
+            return CommandResult.empty();
+        }
+        boolean value = Boolean.parseBoolean(args[1]);
+
+        stack.offer(key, value);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted("item.command.itemquantity.success", "%arg%", args[0]));
+        sender.sendMessage(Messages.getFormatted("item.command.itemhidetags.success", "%tag%", key.getName(), "%status%", Messages.getFormatted(value ? "item.command.itemhidetags.hidden" : "item.command.itemhidetags.shown")));
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
+        if (curn == 0) {
+            return Arrays.asList("attributes", "candestroy", "canbreak", "canplaceon", "enchantment", "miscellaneous", "unbreakable");
+        }
+        if (curn == 1) {
+            return Arrays.asList("false", "true");
+        }
+        return new ArrayList<>();
     }
 }

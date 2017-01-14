@@ -28,19 +28,24 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
-import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import org.spongepowered.api.CatalogType;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class ItemquantityCommand implements Command {
+public class ItemcanplaceonCommand implements Command {
     @Override
     public Module getModule() {
         return Modules.ITEM.get();
@@ -48,22 +53,22 @@ public class ItemquantityCommand implements Command {
 
     @Override
     public String getIdentifier() {
-        return "itemquantity";
+        return "itemcanplaceon";
     }
 
     @Override
     public Permission getPermission() {
-        return ItemPermissions.UC_ITEM_ITEMQUANTITY_BASE;
+        return ItemPermissions.UC_ITEM_ITEMCANPLACEON_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(ItemPermissions.UC_ITEM_ITEMQUANTITY_BASE);
+        return Arrays.asList(ItemPermissions.UC_ITEM_ITEMCANPLACEON_BASE);
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("itemquantity", "setitemquantity", "quantity");
+        return Arrays.asList("itemcanplaceon", "setitemcanplaceon", "canplaceon");
     }
 
     @Override
@@ -73,16 +78,12 @@ public class ItemquantityCommand implements Command {
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMQUANTITY_BASE.get())) {
+        if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMCANPLACEON_BASE.get())) {
             sender.sendMessage(Messages.getFormatted("core.nopermissions"));
             return CommandResult.empty();
         }
         if (args.length == 0) {
             sender.sendMessage(getUsage());
-            return CommandResult.empty();
-        }
-        if (!ArgumentUtil.isNumber(args[0])) {
-            sender.sendMessage(Messages.getFormatted("core.nonumber", "%number%", args[0]));
             return CommandResult.empty();
         }
 
@@ -91,21 +92,24 @@ public class ItemquantityCommand implements Command {
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
-        int quantity = Integer.parseInt(args[0]);
 
-        if (quantity < 0 || quantity > stack.getMaxStackQuantity()) {
-            sender.sendMessage(Messages.getFormatted("item.numberinvalid", "%number%", args[0]));
-            return CommandResult.empty();
+        Set<BlockType> types = new HashSet<>();
+        for (String arg : args) {
+            Optional<BlockType> type = Sponge.getRegistry().getType(CatalogTypes.BLOCK_TYPE, arg);
+            if (!type.isPresent()) {
+                sender.sendMessage(Messages.getFormatted("item.blocknotfound", "%type%", arg));
+            }
+            types.add(type.get());
         }
 
-        stack.setQuantity(quantity);
+        stack.offer(Keys.PLACEABLE_BLOCKS, types);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted("item.command.itemquantity.success", "%arg%", args[0]));
+        sender.sendMessage(Messages.getFormatted("item.command.itemcanplaceon.success", "%arg%", Messages.toText(StringUtil.getFinalArg(args, 0))));
         return CommandResult.success();
     }
 
     @Override
     public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
+        return Sponge.getRegistry().getAllOf(CatalogTypes.BLOCK_TYPE).stream().map(CatalogType::getId).collect(Collectors.toList());
     }
 }
