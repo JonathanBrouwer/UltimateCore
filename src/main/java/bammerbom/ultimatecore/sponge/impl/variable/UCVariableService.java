@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.impl.variable;
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
 import bammerbom.ultimatecore.sponge.api.variable.VariableService;
 import bammerbom.ultimatecore.sponge.impl.variable.variables.*;
+import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
@@ -73,7 +74,7 @@ public class UCVariableService implements VariableService {
         String plain = text.toPlain();
         for (Variable var : variables) {
             if (plain.contains(var.getKey())) {
-                text = var.replace(text);
+                text = TextUtil.replace(text, var.getKey(), var.getValue(null).orElse(Text.of()));
             }
         }
         return text;
@@ -87,7 +88,7 @@ public class UCVariableService implements VariableService {
         String plain = text.toPlain();
         for (Variable var : variables) {
             if (plain.contains(var.getKey())) {
-                text = var.replaceUser(text, user);
+                text = TextUtil.replace(text, var.getKey(), var.getValue(user).orElse(Text.of()));
             }
         }
         return text;
@@ -101,7 +102,7 @@ public class UCVariableService implements VariableService {
         String plain = text.toPlain();
         for (Variable var : variables) {
             if (plain.contains(var.getKey())) {
-                text = var.replaceSource(text, source);
+                text = TextUtil.replace(text, var.getKey(), var.getValue(source).orElse(Text.of()));
             }
         }
         return text;
@@ -112,7 +113,7 @@ public class UCVariableService implements VariableService {
         String plain = text.toPlain();
         for (Variable var : variables) {
             if (plain.contains(var.getKey())) {
-                text = var.replacePlayer(text, player);
+                text = TextUtil.replace(text, var.getKey(), var.getValue(player).orElse(Text.of()));
             }
         }
         return text;

@@ -26,15 +26,13 @@ package bammerbom.ultimatecore.sponge.impl.variable.variables;
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PlayersVariable implements Variable {
     @Override
@@ -43,24 +41,9 @@ public class PlayersVariable implements Variable {
     }
 
     @Override
-    public Text replace(Text text) {
+    public Optional<Text> getValue(@Nullable Object player) {
         List<String> names = new ArrayList<>();
         Sponge.getServer().getOnlinePlayers().forEach(p -> names.add(p.getName()));
-        return TextUtil.replace(text, "%players%", !names.isEmpty() ? Text.of(StringUtil.join(", ", names)) : Messages.getFormatted("core.none"));
-    }
-
-    @Override
-    public Text replaceUser(Text text, User user) {
-        return replace(text);
-    }
-
-    @Override
-    public Text replaceSource(Text text, CommandSource source) {
-        return replace(text);
-    }
-
-    @Override
-    public Text replacePlayer(Text text, Player player) {
-        return replace(text);
+        return Optional.of(!names.isEmpty() ? Text.of(StringUtil.join(", ", names)) : Messages.getFormatted("core.none"));
     }
 }

@@ -23,19 +23,13 @@
  */
 package bammerbom.ultimatecore.sponge.api.variable;
 
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public interface Variable {
     String getKey();
 
-    Text replace(Text text);
-
-    Text replaceUser(Text text, User user);
-
-    Text replaceSource(Text text, CommandSource source);
-
-    Text replacePlayer(Text text, Player player);
+    Optional<Text> getValue(@Nullable Object player);
 }

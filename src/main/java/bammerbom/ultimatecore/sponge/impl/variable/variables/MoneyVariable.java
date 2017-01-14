@@ -24,16 +24,14 @@
 package bammerbom.ultimatecore.sponge.impl.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 public class MoneyVariable implements Variable {
     @Override
@@ -42,29 +40,19 @@ public class MoneyVariable implements Variable {
     }
 
     @Override
-    public Text replace(Text text) {
-        return TextUtil.replace(text, "%money%", Text.of());
-    }
-
-    @Override
-    public Text replaceUser(Text text, User p) {
-        return TextUtil.replace(text, "%money%", VariableUtil.getNameUser(p));
-    }
-
-    @Override
-    public Text replaceSource(Text text, CommandSource p) {
-        return TextUtil.replace(text, "%money%", VariableUtil.getNameSource(p));
-    }
-
-    @Override
-    public Text replacePlayer(Text text, Player p) {
-        if (Sponge.getServiceManager().provide(EconomyService.class).isPresent()) {
-            EconomyService es = Sponge.getServiceManager().provide(EconomyService.class).get();
-            if (es.getOrCreateAccount(p.getUniqueId()).isPresent()) {
-                BigDecimal balance = es.getOrCreateAccount(p.getUniqueId()).get().getBalance(es.getDefaultCurrency());
-                return TextUtil.replace(text, "%money%", Text.of(balance.toString()));
+    public Optional<Text> getValue(@Nullable Object player) {
+        if (player == null) return Optional.empty();
+        if (player instanceof Player) {
+            Player p = (Player) player;
+            if (Sponge.getServiceManager().provide(EconomyService.class).isPresent()) {
+                EconomyService es = Sponge.getServiceManager().provide(EconomyService.class).get();
+                if (es.getOrCreateAccount(p.getUniqueId()).isPresent()) {
+                    BigDecimal balance = es.getOrCreateAccount(p.getUniqueId()).get().getBalance(es.getDefaultCurrency());
+                    return Optional.of(Text.of(balance.toString()));
+                }
             }
+            return Optional.empty();
         }
-        return TextUtil.replace(text, "%money%", Text.of());
+        return Optional.empty();
     }
 }

@@ -25,12 +25,12 @@ package bammerbom.ultimatecore.sponge.modules.geoip.api;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
 import bammerbom.ultimatecore.sponge.modules.geoip.handlers.GeoipHandler;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import com.maxmind.geoip2.record.Country;
-import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class GeoipVariable implements Variable {
     @Override
@@ -39,24 +39,14 @@ public class GeoipVariable implements Variable {
     }
 
     @Override
-    public Text replace(Text text) {
-        return TextUtil.replace(text, "%country%", Text.of());
-    }
-
-    @Override
-    public Text replaceUser(Text text, User p) {
-        return TextUtil.replace(text, "%country%", Text.of());
-    }
-
-    @Override
-    public Text replaceSource(Text text, CommandSource p) {
-        return TextUtil.replace(text, "%country%", Text.of());
-    }
-
-    @Override
-    public Text replacePlayer(Text text, Player p) {
-        Country c = GeoipHandler.getCountry(p.getConnection().getAddress().getAddress()).orElse(null);
-        if (c == null) return TextUtil.replace(text, "%country%", Text.of());
-        return TextUtil.replace(text, "%country%", Text.of(c.getName()));
+    public Optional<Text> getValue(@Nullable Object player) {
+        //TODO offline player support with last known ip
+        if (player instanceof Player) {
+            Player p = (Player) player;
+            Country c = GeoipHandler.getCountry(p.getConnection().getAddress().getAddress()).orElse(null);
+            if (c == null) return Optional.empty();
+            return Optional.of(Text.of(c.getName()));
+        }
+        return Optional.empty();
     }
 }

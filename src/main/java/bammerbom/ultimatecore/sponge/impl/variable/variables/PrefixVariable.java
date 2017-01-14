@@ -24,11 +24,11 @@
 package bammerbom.ultimatecore.sponge.impl.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class PrefixVariable implements Variable {
     @Override
@@ -37,22 +37,10 @@ public class PrefixVariable implements Variable {
     }
 
     @Override
-    public Text replace(Text text) {
-        return TextUtil.replace(text, "%prefix%", Text.of(""));
-    }
-
-    @Override
-    public Text replaceUser(Text text, User p) {
-        return TextUtil.replace(text, "%prefix%", Text.of(p.getOption("prefix").orElse("")));
-    }
-
-    @Override
-    public Text replaceSource(Text text, CommandSource p) {
-        return TextUtil.replace(text, "%prefix%", Text.of(p.getOption("prefix").orElse("")));
-    }
-
-    @Override
-    public Text replacePlayer(Text text, Player p) {
-        return TextUtil.replace(text, "%prefix%", Text.of(p.getOption("prefix").orElse("")));
+    public Optional<Text> getValue(@Nullable Object player) {
+        if (player instanceof Subject) {
+            return Optional.of(Text.of(((Subject) player).getOption("prefix").orElse("")));
+        }
+        return Optional.empty();
     }
 }

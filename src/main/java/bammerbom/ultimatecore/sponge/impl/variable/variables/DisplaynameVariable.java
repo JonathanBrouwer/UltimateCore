@@ -24,12 +24,14 @@
 package bammerbom.ultimatecore.sponge.impl.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class DisplaynameVariable implements Variable {
     @Override
@@ -38,22 +40,16 @@ public class DisplaynameVariable implements Variable {
     }
 
     @Override
-    public Text replace(Text text) {
-        return TextUtil.replace(text, "%displayname%", Text.of());
-    }
-
-    @Override
-    public Text replaceUser(Text text, User p) {
-        return TextUtil.replace(text, "%displayname%", VariableUtil.getNameUser(p));
-    }
-
-    @Override
-    public Text replaceSource(Text text, CommandSource p) {
-        return TextUtil.replace(text, "%displayname%", VariableUtil.getNameSource(p));
-    }
-
-    @Override
-    public Text replacePlayer(Text text, Player p) {
-        return TextUtil.replace(text, "%displayname%", VariableUtil.getNameUser(p));
+    public Optional<Text> getValue(@Nullable Object player) {
+        if (player == null) return Optional.empty();
+        if (player instanceof Player) {
+            return Optional.of(VariableUtil.getNameSource((Player) player));
+        } else if (player instanceof User) {
+            return Optional.of(VariableUtil.getNameUser((User) player));
+        } else if (player instanceof CommandSource) {
+            return Optional.of(VariableUtil.getNameSource((CommandSource) player));
+        } else {
+            return Optional.empty();
+        }
     }
 }

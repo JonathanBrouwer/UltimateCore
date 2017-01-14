@@ -24,12 +24,11 @@
 package bammerbom.ultimatecore.sponge.impl.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class VersionVariable implements Variable {
     @Override
@@ -38,22 +37,7 @@ public class VersionVariable implements Variable {
     }
 
     @Override
-    public Text replace(Text text) {
-        return TextUtil.replace(text, "%version%", Text.of(Sponge.getPlatform().getMinecraftVersion().getName()));
-    }
-
-    @Override
-    public Text replaceUser(Text text, User user) {
-        return replace(text);
-    }
-
-    @Override
-    public Text replaceSource(Text text, CommandSource source) {
-        return replace(text);
-    }
-
-    @Override
-    public Text replacePlayer(Text text, Player player) {
-        return replace(text);
+    public Optional<Text> getValue(@Nullable Object player) {
+        return Optional.of(Text.of(Sponge.getPlatform().getMinecraftVersion().getName()));
     }
 }

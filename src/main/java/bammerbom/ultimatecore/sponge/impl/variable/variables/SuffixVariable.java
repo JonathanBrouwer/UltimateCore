@@ -24,11 +24,11 @@
 package bammerbom.ultimatecore.sponge.impl.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class SuffixVariable implements Variable {
     @Override
@@ -37,22 +37,10 @@ public class SuffixVariable implements Variable {
     }
 
     @Override
-    public Text replace(Text text) {
-        return TextUtil.replace(text, "%suffix%", Text.of(""));
-    }
-
-    @Override
-    public Text replaceUser(Text text, User p) {
-        return TextUtil.replace(text, "%suffix%", Text.of(p.getOption("suffix").orElse("")));
-    }
-
-    @Override
-    public Text replaceSource(Text text, CommandSource p) {
-        return TextUtil.replace(text, "%suffix%", Text.of(p.getOption("suffix").orElse("")));
-    }
-
-    @Override
-    public Text replacePlayer(Text text, Player p) {
-        return TextUtil.replace(text, "%suffix%", Text.of(p.getOption("suffix").orElse("")));
+    public Optional<Text> getValue(@Nullable Object player) {
+        if (player instanceof Subject) {
+            return Optional.of(Text.of(((Subject) player).getOption("suffix").orElse("")));
+        }
+        return Optional.empty();
     }
 }

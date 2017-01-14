@@ -24,11 +24,11 @@
 package bammerbom.ultimatecore.sponge.impl.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
-import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class WorldaliasVariable implements Variable {
     @Override
@@ -37,25 +37,10 @@ public class WorldaliasVariable implements Variable {
     }
 
     @Override
-    public Text replace(Text text) {
-        return TextUtil.replace(text, "%worldalias%", Text.of());
-    }
-
-    @Override
-    public Text replaceUser(Text text, User p) {
-        if (p.getPlayer().isPresent()) {
-            return TextUtil.replace(text, "%worldalias%", Text.of(p.getPlayer().get().getWorld().getName().toCharArray()[0] + ""));
+    public Optional<Text> getValue(@Nullable Object player) {
+        if (player instanceof Player) {
+            return Optional.of(Text.of(((Player) player).getWorld().getName().toCharArray()[0] + ""));
         }
-        return TextUtil.replace(text, "%worldalias%", Text.of(""));
-    }
-
-    @Override
-    public Text replaceSource(Text text, CommandSource p) {
-        return TextUtil.replace(text, "%worldalias%", Text.of(""));
-    }
-
-    @Override
-    public Text replacePlayer(Text text, Player p) {
-        return TextUtil.replace(text, "%worldalias%", Text.of(p.getWorld().getName().toCharArray()[0] + ""));
+        return Optional.empty();
     }
 }
