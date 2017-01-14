@@ -75,10 +75,8 @@ public class ItemModule implements Module {
         //UltimateCore.get().getCommandService().register(new ItemglowCommand());
         UltimateCore.get().getCommandService().register(new ItemcanbreakCommand());
         UltimateCore.get().getCommandService().register(new ItemcanplaceonCommand());
-        UltimateCore.get().getCommandService().register(new ItemenchantCommand());
+        UltimateCore.get().getCommandService().registerLater(new ItemenchantCommand(), ItemPermissions::new);
         UltimateCore.get().getCommandService().register(new ItemhidetagsCommand());
-        //Register permissions
-        new ItemPermissions();
 
         //GENERAL PROPERTIES
         //itemname

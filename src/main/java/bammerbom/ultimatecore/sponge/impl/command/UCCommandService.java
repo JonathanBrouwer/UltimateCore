@@ -27,14 +27,18 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.command.CommandService;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UCCommandService implements CommandService {
     private List<Command> commands = new ArrayList<>();
+    //Commands which will be registered later
+    private HashMap<Command, Runnable> commandsLater = new HashMap<>();
 
     /**
      * Get a list of all registered {@link Command}s.
@@ -44,6 +48,11 @@ public class UCCommandService implements CommandService {
     @Override
     public List<Command> getCommands() {
         return commands;
+    }
+
+    @Override
+    public HashMap<Command, Runnable> getUnregisteredCommands() {
+        return commandsLater;
     }
 
     /**
@@ -60,6 +69,15 @@ public class UCCommandService implements CommandService {
         }
         commands.add(command);
         Sponge.getCommandManager().register(UltimateCore.get(), new UCCommandCallable(command), command.getAliases());
+        return true;
+    }
+
+    @Override
+    public boolean registerLater(Command command, Runnable runnable) {
+        if (!UltimateCore.get().getCommandsConfig().get().getNode("commands", command.getIdentifier(), "enabled").getBoolean(true)) {
+            return false;
+        }
+        commandsLater.put(command, runnable);
         return true;
     }
 
@@ -105,5 +123,18 @@ public class UCCommandService implements CommandService {
             matches = commands.stream().filter(cmd -> cmd.getAliases().contains(id)).collect(Collectors.toList());
         }
         return matches.isEmpty() ? Optional.empty() : Optional.of(matches.get(0));
+    }
+
+    @Override
+    public void registerLateCommands() {
+        CommandManager cm = Sponge.getCommandManager();
+        getUnregisteredCommands().forEach((cmd, run) -> {
+            for (String alias : cmd.getAliases()) {
+                cm.get(alias).ifPresent(cm::removeMapping);
+            }
+            register(cmd);
+            run.run();
+        });
+        commandsLater.clear();
     }
 }

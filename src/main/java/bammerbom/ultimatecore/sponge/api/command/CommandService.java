@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.command;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,11 @@ public interface CommandService {
      * @return The list of all commands.
      */
     List<Command> getCommands();
+
+    /**
+     * Get a list of all commands which still have to be registered.
+     */
+    HashMap<Command, Runnable> getUnregisteredCommands();
 
     /**
      * Search a command by the provided identifier.
@@ -51,6 +57,14 @@ public interface CommandService {
      * @return Whether the command was successfully registered
      */
     boolean register(Command command);
+
+    /**
+     * Register a new {@link Command}, and forcibly override any existing commands.
+     *
+     * @param command The command to register
+     * @return Whether the command was successfully registered
+     */
+    boolean registerLater(Command command, Runnable runnable);
 
     /**
      * Unregisters the given {@link Command}.
@@ -71,4 +85,9 @@ public interface CommandService {
      * @return Whether the command was found
      */
     boolean unregister(String id);
+
+    /**
+     * Register all commands which still have to be registered.
+     */
+    void registerLateCommands();
 }

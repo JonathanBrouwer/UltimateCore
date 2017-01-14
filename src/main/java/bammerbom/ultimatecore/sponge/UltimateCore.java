@@ -260,6 +260,11 @@ public class UltimateCore {
         }
     }
 
+    @Listener
+    public void onStart(GameStartedServerEvent ev) {
+        getCommandService().registerLateCommands();
+    }
+
     public Path getConfigFolder() {
         return dir;
     }

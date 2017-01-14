@@ -29,11 +29,8 @@ import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
 import bammerbom.ultimatecore.sponge.modules.teleport.commands.*;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandManager;
-import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.text.Text;
 
@@ -63,6 +60,7 @@ public class TeleportModule implements Module {
     @Override
     public void onInit(GameInitializationEvent event) {
         Sponge.getEventManager().registerListeners(UltimateCore.get(), this);
+        UltimateCore.get().getCommandService().registerLater(new TeleportCommand(), TeleportPermissions::new);
         UltimateCore.get().getCommandService().register(new TeleportaskCommand());
         UltimateCore.get().getCommandService().register(new TeleportaskhereCommand());
         UltimateCore.get().getCommandService().register(new TeleportacceptCommand());
@@ -77,17 +75,5 @@ public class TeleportModule implements Module {
     @Override
     public void onStop(GameStoppingEvent event) {
 
-    }
-
-    @Listener
-    public void onFinishLoading(GameStartedServerEvent ev) {
-        //This is registered later to override the default minecraft commands
-        //TODO better solution
-        CommandManager cm = Sponge.getCommandManager();
-        cm.get("teleport").ifPresent(cm::removeMapping);
-        cm.get("tp").ifPresent(cm::removeMapping);
-        UltimateCore.get().getCommandService().register(new TeleportCommand());
-        //Register permissions
-        new TeleportPermissions();
     }
 }
