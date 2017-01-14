@@ -99,7 +99,7 @@ public class TeleportCommand implements Command {
             }, true, false);
             request.start();
             return CommandResult.success();
-        } else if (args.length == 2 && TimeUtil.isDecimal(args[0]) && TimeUtil.isDecimal(args[1])) {
+        } else if (args.length == 2 && ArgumentUtil.isDecimal(args[0]) && ArgumentUtil.isDecimal(args[1])) {
             //tp x z
             if (!(sender instanceof Player)) {
                 sender.sendMessage(Messages.getFormatted("core.noplayer"));
@@ -152,7 +152,7 @@ public class TeleportCommand implements Command {
             }, true, false);
             request.start();
             return CommandResult.successCount(e.size());
-        } else if (args.length == 3 && !TimeUtil.isDecimal(args[0])) {
+        } else if (args.length == 3 && !ArgumentUtil.isDecimal(args[0])) {
             // tp user x z
             if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_COORDINATES_OTHERS.get())) {
                 sender.sendMessage(Messages.getFormatted("core.nopermissions"));

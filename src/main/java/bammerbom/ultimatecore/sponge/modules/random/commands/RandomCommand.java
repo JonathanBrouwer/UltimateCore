@@ -28,8 +28,8 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.random.api.RandomPermissions;
+import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 
@@ -76,7 +76,7 @@ public class RandomCommand implements Command {
             sender.sendMessage(getUsage());
             return CommandResult.empty();
         } else if (args.length == 1 || args.length == 2) {
-            if (!TimeUtil.isNumber(args[0])) {
+            if (!ArgumentUtil.isNumber(args[0])) {
                 sender.sendMessage(Messages.getFormatted("core.nonumber", "%number%", args[0]));
                 return CommandResult.empty();
             }

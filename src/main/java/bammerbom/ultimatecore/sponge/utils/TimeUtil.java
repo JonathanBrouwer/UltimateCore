@@ -72,30 +72,12 @@ public class TimeUtil {
                         break;
                 }
             }
-            if (isNumber(time)) {
+            if (ArgumentUtil.isNumber(time)) {
                 mil = mil + (Long.parseLong(time) * 1000 * 60 * 60);
             }
             return mil;
         } catch (Exception ex) {
             return -1L;
-        }
-    }
-
-    public static boolean isNumber(String time) {
-        try {
-            Long.parseLong(time);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
-
-    public static boolean isDecimal(String time) {
-        try {
-            Double.parseDouble(time);
-            return true;
-        } catch (Exception ex) {
-            return false;
         }
     }
 

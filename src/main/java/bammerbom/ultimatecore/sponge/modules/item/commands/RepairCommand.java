@@ -96,7 +96,7 @@ public class RepairCommand implements Command {
             return CommandResult.success();
         } else {
             if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-                p.sendMessage(Messages.getFormatted("item.command.repair.nohand"));
+                p.sendMessage(Messages.getFormatted("item.noiteminhand"));
                 return CommandResult.empty();
             }
             ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();

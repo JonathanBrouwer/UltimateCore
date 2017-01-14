@@ -52,12 +52,12 @@ public class MoreCommand implements Command {
 
     @Override
     public Permission getPermission() {
-        return ItemPermissions.UC_ITEM_MORE;
+        return ItemPermissions.UC_ITEM_MORE_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(ItemPermissions.UC_ITEM_MORE);
+        return Arrays.asList(ItemPermissions.UC_ITEM_MORE_BASE);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class MoreCommand implements Command {
         }
         Player p = (Player) sender;
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted("item.command.more.nohand"));
+            p.sendMessage(Messages.getFormatted("item.noiteminhand"));
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();

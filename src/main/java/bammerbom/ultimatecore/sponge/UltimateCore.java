@@ -150,10 +150,14 @@ public class UltimateCore {
 
             //Load modules
             for (Module module : moduleService.findModules()) {
-                if (moduleService.registerModule(module)) {
-                    if (!module.getIdentifier().equals("default")) {
-                        Messages.log(Messages.getFormatted("core.load.module.registered", "%module%", module.getIdentifier()));
+                try {
+                    if (moduleService.registerModule(module)) {
+                        if (!module.getIdentifier().equals("default")) {
+                            Messages.log(Messages.getFormatted("core.load.module.registered", "%module%", module.getIdentifier()));
+                        }
                     }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
             //
@@ -177,9 +181,13 @@ public class UltimateCore {
 
             //Initialize modules
             for (Module module : getModuleService().getModules()) {
-                ModuleInitializeEvent event = new ModuleInitializeEvent(module, ev, Cause.builder().owner(this).build());
-                Sponge.getEventManager().post(event);
-                module.onInit(ev);
+                try {
+                    ModuleInitializeEvent event = new ModuleInitializeEvent(module, ev, Cause.builder().owner(this).build());
+                    Sponge.getEventManager().post(event);
+                    module.onInit(ev);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
             //
             time = System.currentTimeMillis() - time;
@@ -205,9 +213,13 @@ public class UltimateCore {
             //Stats.start();
             //Post-initialize modules
             for (Module module : getModuleService().getModules()) {
-                ModulePostInitializeEvent event = new ModulePostInitializeEvent(module, ev, Cause.builder().owner(this).build());
-                Sponge.getEventManager().post(event);
-                module.onPostInit(ev);
+                try {
+                    ModulePostInitializeEvent event = new ModulePostInitializeEvent(module, ev, Cause.builder().owner(this).build());
+                    Sponge.getEventManager().post(event);
+                    module.onPostInit(ev);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
             //
             time = System.currentTimeMillis() - time;

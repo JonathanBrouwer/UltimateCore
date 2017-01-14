@@ -33,8 +33,8 @@ import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
+import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -103,7 +103,7 @@ public class HomeCommand implements Command {
             Text footer;
             if (!p.hasPermission(HomePermissions.UC_HOME_SETHOME_UNLIMITED.get())) {
                 String shomecount = HomePermissions.UC_HOME_HOMECOUNT.getFor(sender);
-                if (!TimeUtil.isNumber(shomecount)) {
+                if (!ArgumentUtil.isNumber(shomecount)) {
                     sender.sendMessage(Messages.getFormatted("home.command.sethome.invalidhomecount", "%homecount%", shomecount));
                     return CommandResult.empty();
                 }

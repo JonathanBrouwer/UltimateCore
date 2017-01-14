@@ -26,9 +26,9 @@ package bammerbom.ultimatecore.sponge.modules.item;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.item.api.GlowEnchantment;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
-import bammerbom.ultimatecore.sponge.modules.item.commands.MoreCommand;
-import bammerbom.ultimatecore.sponge.modules.item.commands.RepairCommand;
+import bammerbom.ultimatecore.sponge.modules.item.commands.*;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -37,6 +37,8 @@ import org.spongepowered.api.text.Text;
 import java.util.Optional;
 
 public class ItemModule implements Module {
+    GlowEnchantment glowench;
+
     @Override
     public String getIdentifier() {
         return "item";
@@ -44,7 +46,7 @@ public class ItemModule implements Module {
 
     @Override
     public Text getDescription() {
-        return Text.of("Give yourself items, repair items, and the more command.");
+        return Text.of("Modify items in multiple ways.");
     }
 
 
@@ -60,10 +62,47 @@ public class ItemModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        //glowench = (GlowEnchantment) Sponge.getRegistry().register(Enchantment.class, new GlowEnchantment());
+
         UltimateCore.get().getCommandService().register(new MoreCommand());
         UltimateCore.get().getCommandService().register(new RepairCommand());
+
+        UltimateCore.get().getCommandService().register(new ItemnameCommand());
+        UltimateCore.get().getCommandService().register(new ItemloreCommand());
+        UltimateCore.get().getCommandService().register(new ItemquantityCommand());
+        UltimateCore.get().getCommandService().register(new ItemdurabilityCommand());
+        UltimateCore.get().getCommandService().register(new ItemunbreakableCommand());
+        //UltimateCore.get().getCommandService().register(new ItemglowCommand());
         //Register permissions
         new ItemPermissions();
+
+        //GENERAL PROPERTIES
+        //itemname
+        //itemlore
+        //itemquantity
+        //itemdurability
+        //itemunbreakable
+        //itemglow
+        //itemcanplaceon
+        //itemcanbreak
+        //itemhidetags
+        //(item)enchant
+
+        //ATTRIBUTES
+        //itemmaxhealth
+        //itemdamage
+        //itemspeed
+        //itemknockbackresistance
+
+        //ITEMS
+        //skull
+        //bookauthor
+        //booktitle
+        //bookedit
+        //firework
+        //leatherarmorcolor
+
+        //TODO spawner?
     }
 
     @Override
@@ -74,5 +113,9 @@ public class ItemModule implements Module {
     @Override
     public void onStop(GameStoppingEvent event) {
 
+    }
+
+    public GlowEnchantment getGlowEnchantment() {
+        return glowench;
     }
 }

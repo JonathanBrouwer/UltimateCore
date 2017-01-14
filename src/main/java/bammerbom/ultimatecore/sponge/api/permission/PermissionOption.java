@@ -26,8 +26,8 @@ package bammerbom.ultimatecore.sponge.api.permission;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 
@@ -125,7 +125,7 @@ public class PermissionOption {
 
     public Integer getIntFor(Subject subject) {
         String value = getFor(subject);
-        if (!TimeUtil.isNumber(value)) {
+        if (!ArgumentUtil.isNumber(value)) {
             Messages.log(Messages.getFormatted("core.option.invalidnumber", "%option%", get(), "%value%", value));
             return 0;
         }
