@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.modules.jail.commands.*;
 import bammerbom.ultimatecore.sponge.modules.jail.listeners.JailListener;
+import bammerbom.ultimatecore.sponge.modules.jail.runnables.JailTickRunnable;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Sponge;
@@ -84,6 +85,7 @@ public class JailModule implements Module {
         UltimateCore.get().getCommandService().register(new JailtpCommand());
 
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new JailListener());
+        UltimateCore.get().getTickService().addRunnable("jail", new JailTickRunnable());
 
         new JailPermissions();
     }
