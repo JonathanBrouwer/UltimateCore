@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;

@@ -26,7 +26,6 @@ package bammerbom.ultimatecore.sponge.config;
 import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.spongepowered.api.asset.Asset;
 
@@ -44,7 +43,7 @@ public class ConfigCompleter {
      */
     public static boolean complete(DataFile file, Asset asset) {
         try {
-            ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setURL(asset.getUrl()).build();
+            ConfigurationLoader<CommentedConfigurationNode> loader = UConfigurationLoader.newHocon().setURL(asset.getUrl()).build();
             CommentedConfigurationNode assetnode = loader.load();
             CommentedConfigurationNode sourcenode = file.get();
 

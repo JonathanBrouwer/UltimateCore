@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.module;
 
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -50,7 +50,7 @@ public interface Module {
     /**
      * This should return the config this module provides, or Optional.empty() when not available.
      */
-    Optional<ModuleConfig> getConfig();
+    Optional<? extends ModuleConfig> getConfig();
 
     /**
      * Called when the module is registered, normally during Pre-initialization.

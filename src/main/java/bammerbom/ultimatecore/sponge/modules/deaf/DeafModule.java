@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.deaf;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.Deaf;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafPermissions;
 import bammerbom.ultimatecore.sponge.modules.deaf.commands.DeafCommand;

@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.sign;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.sign.impl.UCSignService;
 import bammerbom.ultimatecore.sponge.modules.sign.listeners.SignListener;
 import org.spongepowered.api.Sponge;

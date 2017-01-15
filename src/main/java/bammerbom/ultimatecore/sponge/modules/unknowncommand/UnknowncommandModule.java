@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.unknowncommand;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.unknowncommand.listeners.UnknowncommandListener;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;

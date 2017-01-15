@@ -3,6 +3,7 @@
  */
 package bammerbom.ultimatecore.sponge.utils;
 
+import bammerbom.ultimatecore.sponge.config.UConfigurationLoader;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
@@ -264,7 +265,7 @@ public class Metrics {
         Path configPath = configDir.resolve("bStats");
         configPath.toFile().mkdirs();
         File configFile = new File(configPath.toFile(), "config.conf");
-        HoconConfigurationLoader configurationLoader = HoconConfigurationLoader.builder().setFile(configFile).build();
+        HoconConfigurationLoader configurationLoader = UConfigurationLoader.newHocon().setFile(configFile).build();
         CommentedConfigurationNode node;
         if (!configFile.exists()) {
             configFile.createNewFile();

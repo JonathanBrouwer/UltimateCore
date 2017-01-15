@@ -25,7 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.jail;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
@@ -73,7 +74,7 @@ public class JailModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        config = new ModuleConfig("jail");
+        config = new RawModuleConfig("jail");
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Jail.class), new Jail.JailSerializer());
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(JailData.class), new JailData.JailDataSerializer());
 

@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.sponge.config.datafiles;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.config.UConfigurationLoader;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 import java.io.File;
@@ -70,7 +70,7 @@ public class PlayerDataFile implements DataFile {
         } catch (IOException e) {
             ErrorLogger.log(e, "Failed to get loader for player datafile for " + uuid);
         }
-        return HoconConfigurationLoader.builder().setFile(file).build();
+        return UConfigurationLoader.newHocon().setFile(file).build();
     }
 
     @Override

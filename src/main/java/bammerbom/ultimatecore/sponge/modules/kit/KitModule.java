@@ -25,7 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.kit;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.CreatekitCommand;
@@ -66,7 +67,7 @@ public class KitModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        config = new ModuleConfig("kit");
+        config = new RawModuleConfig("kit");
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Kit.class), new Kit.KitSerializer());
 
         //Commands

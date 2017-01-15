@@ -25,7 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.poke;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.poke.listeners.PokeListener;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -62,7 +63,7 @@ public class PokeModule implements Module {
     @Override
     public void onInit(GameInitializationEvent event) {
         //Config
-        config = new ModuleConfig("poke");
+        config = new RawModuleConfig("poke");
         //Listeners
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new PokeListener());
     }

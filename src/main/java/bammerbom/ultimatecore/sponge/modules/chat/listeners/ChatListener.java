@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.chat.listeners;
 
 import bammerbom.ultimatecore.sponge.api.module.Modules;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.chat.api.ChatPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TextUtil;

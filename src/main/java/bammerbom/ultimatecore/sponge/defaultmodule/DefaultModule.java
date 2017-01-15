@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.defaultmodule;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.defaultmodule.commands.UltimatecoreCommand;
 import bammerbom.ultimatecore.sponge.defaultmodule.listeners.DefaultListener;
 import org.spongepowered.api.Sponge;

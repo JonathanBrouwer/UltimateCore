@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config;
+package bammerbom.ultimatecore.sponge.config.config.module;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
@@ -44,14 +44,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public class ModuleConfig implements DataFile {
+public class RawModuleConfig implements ModuleConfig, DataFile {
 
-    private String module;
-    private Path path;
-    private ConfigurationLoader<CommentedConfigurationNode> loader;
-    private CommentedConfigurationNode node;
+    protected String module;
+    protected Path path;
+    protected ConfigurationLoader<CommentedConfigurationNode> loader;
+    protected CommentedConfigurationNode node;
 
-    public ModuleConfig(String id) {
+    public RawModuleConfig(String id) {
         this.module = id;
         this.path = new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", module + ".conf").toPath();
         reload();
@@ -111,5 +111,10 @@ public class ModuleConfig implements DataFile {
         } catch (Exception ex) {
             return false;
         }
+    }
+
+    @Override
+    public String getModule() {
+        return module;
     }
 }

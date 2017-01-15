@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.poke.listeners;
 
 import bammerbom.ultimatecore.sponge.api.module.Modules;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;

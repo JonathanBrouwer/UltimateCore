@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.sudo;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.sudo.api.SudoPermissions;
 import bammerbom.ultimatecore.sponge.modules.sudo.commands.SudoCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;

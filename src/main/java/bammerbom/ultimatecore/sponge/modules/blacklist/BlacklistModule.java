@@ -25,7 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.blacklist;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.blacklist.listeners.BlockListener;
 import bammerbom.ultimatecore.sponge.modules.blacklist.listeners.ItemListener;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -65,7 +66,7 @@ public class BlacklistModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        config = new ModuleConfig("blacklist");
+        config = new RawModuleConfig("blacklist");
 
         //Generate config
         CommentedConfigurationNode node = config.get();

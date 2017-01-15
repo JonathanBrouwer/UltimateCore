@@ -25,7 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.tablist;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.tablist.runnables.TablistRunnable;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -60,7 +61,7 @@ public class TablistModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        config = new ModuleConfig("tablist");
+        config = new RawModuleConfig("tablist");
         int delay = config.get().getNode("refresh").getInt();
         Sponge.getScheduler().createTaskBuilder().execute(new TablistRunnable()).name("UltimateCore tablist task").delayTicks(delay).intervalTicks(delay).submit(UltimateCore.get());
     }

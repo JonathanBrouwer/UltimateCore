@@ -25,7 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.fly;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyPermissions;
 import bammerbom.ultimatecore.sponge.modules.fly.commands.FlyCommand;
 import bammerbom.ultimatecore.sponge.modules.fly.listeners.FlyListeners;
@@ -63,7 +64,7 @@ public class FlyModule implements Module {
     @Override
     public void onInit(GameInitializationEvent event) {
         //Config
-        config = new ModuleConfig("fly");
+        config = new RawModuleConfig("fly");
         //Commands
         UltimateCore.get().getCommandService().register(new FlyCommand());
         //Listeners

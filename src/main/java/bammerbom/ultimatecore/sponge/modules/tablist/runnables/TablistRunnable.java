@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.tablist.runnables;
 
 import bammerbom.ultimatecore.sponge.api.module.Modules;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.tablist.api.TablistPermissions;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;

@@ -25,7 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.blood;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffect;
 import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffects;
 import bammerbom.ultimatecore.sponge.modules.blood.listeners.BloodListener;
@@ -72,7 +73,7 @@ public class BloodModule implements Module {
     public void onInit(GameInitializationEvent event) {
         //Config
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(BloodEffect.class), new BloodEffect.BloodEffectSerializer());
-        config = new ModuleConfig("blood");
+        config = new RawModuleConfig("blood");
         //Check if all entity types are in the config
         CommentedConfigurationNode node = config.get();
         boolean modified = false;

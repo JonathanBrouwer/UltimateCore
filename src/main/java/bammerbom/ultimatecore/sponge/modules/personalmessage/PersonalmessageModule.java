@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.personalmessage;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessagePermissions;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.commands.PersonalmessageCommand;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.commands.ReplyCommand;

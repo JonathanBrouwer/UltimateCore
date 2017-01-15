@@ -24,7 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.automessage;
 
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.automessage.api.Automessage;
 import bammerbom.ultimatecore.sponge.modules.automessage.api.AutomessageSerializer;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
@@ -67,7 +68,7 @@ public class AutomessageModule implements Module {
     public void onInit(GameInitializationEvent event) {
         //Config
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Automessage.class), new AutomessageSerializer());
-        config = new ModuleConfig("automessage");
+        config = new RawModuleConfig("automessage");
         //Runnables
         try {
             for (Automessage message : config.get().getNode("automessages").getList(TypeToken.of(Automessage.class))) {

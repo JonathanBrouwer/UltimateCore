@@ -25,7 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.serverlist;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.serverlist.listeners.ServerlistListener;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -60,7 +61,7 @@ public class ServerlistModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        config = new ModuleConfig("serverlist");
+        config = new RawModuleConfig("serverlist");
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new ServerlistListener());
     }
 

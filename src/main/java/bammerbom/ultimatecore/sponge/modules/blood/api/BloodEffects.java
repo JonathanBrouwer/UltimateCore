@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.blood.api;
 
 import bammerbom.ultimatecore.sponge.api.module.Modules;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -57,7 +57,7 @@ public class BloodEffects {
                 }
                 effects.put(type, effect);
             } catch (ObjectMappingException e) {
-                Messages.log("Failed to deserialize bloodeffect for " + type.getId() + " (" + e.getMessage() + ")");
+                ErrorLogger.log(e, "Failed to deserialize bloodeffect for " + type.getId() + " (" + e.getMessage() + ")");
             }
         }
     }

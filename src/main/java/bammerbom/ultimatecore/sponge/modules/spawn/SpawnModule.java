@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.spawn;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
 import bammerbom.ultimatecore.sponge.modules.spawn.command.*;
 import bammerbom.ultimatecore.sponge.modules.spawn.listeners.SpawnListener;

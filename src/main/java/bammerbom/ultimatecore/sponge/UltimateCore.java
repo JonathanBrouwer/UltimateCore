@@ -38,9 +38,6 @@ import bammerbom.ultimatecore.sponge.api.variable.VariableService;
 import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import bammerbom.ultimatecore.sponge.config.ModulesConfig;
-import bammerbom.ultimatecore.sponge.config.serializers.ItemStackSnapshotSerializer;
-import bammerbom.ultimatecore.sponge.config.serializers.TransformSerializer;
-import bammerbom.ultimatecore.sponge.config.serializers.Vector3dSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
@@ -49,19 +46,14 @@ import bammerbom.ultimatecore.sponge.impl.tick.UCTickService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
 import bammerbom.ultimatecore.sponge.impl.variable.UCVariableService;
 import bammerbom.ultimatecore.sponge.utils.*;
-import com.flowpowered.math.vector.Vector3d;
-import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Platform;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
-import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.game.state.*;
-import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.ServiceManager;
 
@@ -113,9 +105,6 @@ public class UltimateCore {
             //Load utils
             ServerID.start();
             Messages.reloadEnglishMessages();
-            TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ItemStackSnapshot.class), new ItemStackSnapshotSerializer());
-            TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Vector3d.class), new Vector3dSerializer());
-            TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Transform.class), new TransformSerializer());
 
             //Config
             generalConfig = new GeneralConfig();

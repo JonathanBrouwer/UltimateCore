@@ -25,7 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.connectionmessages;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.connectionmessages.listeners.ConnectionmessagesListener;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -55,7 +56,7 @@ public class ConnectionmessagesModule implements Module {
 
     @Override
     public void onRegister() {
-        config = new ModuleConfig("connectionmessages");
+        config = new RawModuleConfig("connectionmessages");
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new ConnectionmessagesListener());
     }
 
