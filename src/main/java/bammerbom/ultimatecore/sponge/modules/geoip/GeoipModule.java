@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.geoip.api.GeoipVariable;
+import bammerbom.ultimatecore.sponge.modules.geoip.commands.CountryCommand;
 import bammerbom.ultimatecore.sponge.modules.geoip.handlers.GeoipHandler;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -64,6 +65,8 @@ public class GeoipModule implements Module {
         config = new ModuleConfig("geoip");
         GeoipHandler.init(true, false);
         UltimateCore.get().getVariableService().register(new GeoipVariable());
+
+        UltimateCore.get().getCommandService().register(new CountryCommand());
     }
 
     @Override
