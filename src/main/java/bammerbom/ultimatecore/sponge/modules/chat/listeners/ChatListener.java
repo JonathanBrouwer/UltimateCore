@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.chat.listeners;
 
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.chat.api.ChatPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
@@ -33,13 +34,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.message.MessageChannelEvent;
-import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 public class ChatListener {
     @Listener(order = Order.FIRST)
@@ -55,19 +50,12 @@ public class ChatListener {
         String footer = node.getNode("default").getNode("footer").getString();
 
         //Check if the user is in any groups, if so replace the header/body/footer with that of the group
-        List<Subject> subjects = p.getSubjectData().getParents(new HashSet<>());
-        List<String> subjectnames = new ArrayList<>();
-        for (Subject su : subjects) {
-            subjectnames.add(su.getIdentifier());
-        }
-        Map<Object, ? extends CommentedConfigurationNode> children = node.getNode("groups").getChildrenMap();
-        for (Object o : children.keySet()) {
-            if (subjectnames.contains(o.toString())) {
-                CommentedConfigurationNode subnode = children.get(o);
-                header = subnode.getNode("header").getString(header);
-                body = subnode.getNode("body").getString(body);
-                footer = subnode.getNode("footer").getString(footer);
-            }
+        String group = ChatPermissions.UC_CHAT_GROUP.getFor(p);
+        if (group != null && !node.getNode("groups", group).isVirtual()) {
+            CommentedConfigurationNode subnode = node.getNode("groups", group);
+            header = subnode.getNode("header").getString(header);
+            body = subnode.getNode("body").getString(body);
+            footer = subnode.getNode("footer").getString(footer);
         }
 
         //Replace stuff

@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.tablist.runnables;
 
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.tablist.api.TablistPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
@@ -35,10 +36,10 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.tab.TabList;
 import org.spongepowered.api.entity.living.player.tab.TabListEntry;
-import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TablistRunnable implements Runnable {
 
@@ -89,18 +90,11 @@ public class TablistRunnable implements Runnable {
         CommentedConfigurationNode node = config.get();
         Text name = Messages.toText(node.getNode("names", "default", "format").getString());
 
-        //Check if the user is in any groups, if so replace the header/body/footer with that of the group
-        List<Subject> subjects = p.getSubjectData().getParents(new HashSet<>());
-        List<String> subjectnames = new ArrayList<>();
-        for (Subject su : subjects) {
-            subjectnames.add(su.getIdentifier());
-        }
-        Map<Object, ? extends CommentedConfigurationNode> children = node.getNode("names", "groups").getChildrenMap();
-        for (Object o : children.keySet()) {
-            if (subjectnames.contains(o.toString())) {
-                CommentedConfigurationNode subnode = children.get(o);
-                name = Messages.toText(subnode.getNode("format").getString());
-            }
+        //Check if the uc.tablist.group property is set, in that case override name.
+        String group = TablistPermissions.UC_TABLIST_GROUP.getFor(p);
+        if (group != null && !node.getNode("names", "groups", group).isVirtual()) {
+            CommentedConfigurationNode subnode = node.getNode("names", "groups", group);
+            name = Messages.toText(subnode.getNode("format").getString());
         }
 
         return VariableUtil.replaceVariables(name, p);
