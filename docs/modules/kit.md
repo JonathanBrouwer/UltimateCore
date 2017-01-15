@@ -11,6 +11,6 @@ Commands: <br>
 Permissions: <br>
 * **uc.kit.kit.base** - Recommended role: everyone<br>Allows you to use the kit command.
 * **uc.kit.kit.[KIT]** - Recommended role: everyone<br>Allows you to use the kit command for a specific kit.
-* **uc.kitlist** - Recommended role: everyone<br>Allows you to see a list of all kits.
+* **uc.kitlist.base** - Recommended role: everyone<br>Allows you to see a list of all kits.
 * **uc.kit.createkit.base** - Recommended role: admin<br>Allows you to use the createkit command.
 * **uc.kit.removekit.base** - Recommended role: admin<br>Allows you to use the removekit command.

@@ -6,8 +6,8 @@ Usage: /random \[Min\] \<Max\><br>
 Aliases: random<br>
 Module: [random](../modules/random.md)<br>
 
-Basic permission: uc.random.random<br>
+Basic permission: uc.random.random.base<br>
 Basic role: everyone<br>
 
 Permissions: <br>
-* **uc.random.random** - Recommended role: everyone<br>Allows you to use the random command.
+* **uc.random.random.base** - Recommended role: everyone<br>Allows you to use the random command.

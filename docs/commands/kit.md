@@ -12,4 +12,4 @@ Basic role: everyone<br>
 Permissions: <br>
 * **uc.kit.kit.base** - Recommended role: everyone<br>Allows you to use the kit command.
 * **uc.kit.kit.[KIT]** - Recommended role: everyone<br>Allows you to use the kit command for a specific kit.
-* **uc.kitlist** - Recommended role: everyone<br>Allows you to see a list of all kits.
+* **uc.kitlist.base** - Recommended role: everyone<br>Allows you to see a list of all kits.

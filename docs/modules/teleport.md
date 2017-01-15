@@ -14,7 +14,7 @@ Permissions: <br>
 * **uc.teleport.teleport.others** - Recommended role: admin<br>Allows you to use the teleport command to teleport someone else to someone else.
 * **uc.teleport.teleport.coordinates** - Recommended role: admin<br>Allows you to use the teleport command to teleport yourself to certain coordinates.
 * **uc.teleport.teleport.coordinates.others** - Recommended role: admin<br>Allows you to use the teleport command to teleport someone else to certain coordinates.
-* **uc.teleport.teleportask** - Recommended role: everyone<br>Allows you to use the teleportask command
-* **uc.teleport.teleportaskhere** - Recommended role: everyone<br>Allows you to use the teleportaskhere command
-* **uc.teleport.teleportaccept** - Recommended role: everyone<br>Allows you to use the teleportaccept command
-* **uc.teleport.teleportdeny** - Recommended role: everyone<br>Allows you to use the teleportdeny command
+* **uc.teleport.teleportask.base** - Recommended role: everyone<br>Allows you to use the teleportask command
+* **uc.teleport.teleportaskhere.base** - Recommended role: everyone<br>Allows you to use the teleportaskhere command
+* **uc.teleport.teleportaccept.base** - Recommended role: everyone<br>Allows you to use the teleportaccept command
+* **uc.teleport.teleportdeny.base** - Recommended role: everyone<br>Allows you to use the teleportdeny command

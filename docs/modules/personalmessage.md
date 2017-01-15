@@ -7,5 +7,5 @@ Commands: <br>
 * **[/reply \<Message\>](../commands/reply.md)**<br>Send a private message to the person who last private messaged you.
 
 Permissions: <br>
-* **uc.personalmessage.personalmessage** - Recommended role: everyone<br>Allows you to send private messages to people.
-* **uc.personalmessage.reply** - Recommended role: everyone<br>Allows you to reply to people's personal message using /reply.
+* **uc.personalmessage.personalmessage.base** - Recommended role: everyone<br>Allows you to send private messages to people.
+* **uc.personalmessage.reply.base** - Recommended role: everyone<br>Allows you to reply to people's personal message using /reply.

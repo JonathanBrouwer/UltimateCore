@@ -6,6 +6,7 @@ Commands
 [/back - Teleport back to the location you were before you teleported.](commands/back.md)<br>
 [/burn \<Player\> \[Time\] - Set people on fire.](commands/burn.md)<br>
 [/commandspy \[Player\] - Toggle a player's or your own commandspy status.](commands/commandspy.md)<br>
+[/country \<Player\> - View the country where a player is from.](commands/country.md)<br>
 [/createkit \<Name\> \[Time\] \[Description\] - Create a kit with the contents of your inventory.](commands/createkit.md)<br>
 [/creative \[Player\] - Change someone's gamemode to creative.](commands/creative.md)<br>
 [/day - Set the time in a certain world to day.](commands/day.md)<br>
@@ -27,6 +28,15 @@ Commands
 [/heal \[Player\] - Heal a player.](commands/heal.md)<br>
 [/home \<Name\> - Teleport to your home.](commands/home.md)<br>
 [/homelist - View a list of your homes.](commands/homelist.md)<br>
+[/itemcanbreak \<Block\> \[Block\] \[Block\]... - Change the blocks this item can break.](commands/itemcanbreak.md)<br>
+[/itemcanplaceon \<Block\> \[Block\] \[Block\]... - Change the blocks this item can be placed on.](commands/itemcanplaceon.md)<br>
+[/itemdurability \<Durability\> - Change the durability of the item in your hand.](commands/itemdurability.md)<br>
+[/itemenchant \<Enchantment\> \[Level\] - Add an enchantment to the item in your hand.](commands/itemenchant.md)<br>
+[/itemhidetags attributes/candestroy/canplace/enchantments/miscellaneous/unbreakable false/true - Change whether a certain tag is hidden.](commands/itemhidetags.md)<br>
+[/itemlore \<Lore\> - Change the lore of the item in your hand.](commands/itemlore.md)<br>
+[/itemname \<Name\> - Change the name of the item in your hand.](commands/itemname.md)<br>
+[/itemquantity \<Quantity\> - Change the quantity of the item in your hand.](commands/itemquantity.md)<br>
+[/itemunbreakable true/false - Change whether the item in your hand is unbreakable.](commands/itemunbreakable.md)<br>
 [/jail \<Player\> \[Jail\] \[Time\] \[Reason\] - Jail a player in a certain jail, for a certain time and with a certain reason.](commands/jail.md)<br>
 [/jaillist - View a list of all jails.](commands/jaillist.md)<br>
 [/jailtp \<Jail\> - Teleport to a jail without jailing yourself.](commands/jailtp.md)<br>

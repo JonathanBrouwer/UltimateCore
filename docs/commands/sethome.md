@@ -6,9 +6,9 @@ Usage: /sethome \<Name\><br>
 Aliases: sethome, addhome<br>
 Module: [home](../modules/home.md)<br>
 
-Basic permission: uc.home.sethome<br>
+Basic permission: uc.home.sethome.base<br>
 Basic role: everyone<br>
 
 Permissions: <br>
-* **uc.home.sethome** - Recommended role: everyone<br>Allows you to set your own home.
+* **uc.home.sethome.base** - Recommended role: everyone<br>Allows you to set your own home.
 * **uc.home.sethome.unlimited** - Recommended role: vip<br>Allows you to set an unlimited amount of homes.

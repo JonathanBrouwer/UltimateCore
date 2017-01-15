@@ -8,23 +8,24 @@ uc.afk.afk.others.message - Allows you to provide an message while toggling anot
 uc.afk.exempt - When you have this permission you can't be kicked for being afk. (Recommended for vip)<br>
 uc.back.back.base - Allows you to use the back command. (Recommended for everyone)<br>
 uc.back.back.ondeath - Allows you to use the back command after you died. (Recommended for everyone)<br>
-uc.burn.burn - Allows you to use the burn command. (Recommended for admin)<br>
-uc.deaf.deaf - Allows you to deaf someone. (Recommended for mod)<br>
-uc.deaf.undeaf - Allows you to undeaf someone. (Recommended for mod)<br>
+uc.burn.burn.base - Allows you to use the burn command. (Recommended for admin)<br>
+uc.deaf.deaf.base - Allows you to deaf someone. (Recommended for mod)<br>
+uc.deaf.undeaf.base - Allows you to undeaf someone. (Recommended for mod)<br>
 uc.fly.fly.base - Allows you to change your own fly state. (Recommended for admin)<br>
 uc.fly.fly.others - Allows you to change other player's fly state. (Recommended for admin)<br>
 uc.food.food.base - Allows you to use the food command. (Recommended for admin)<br>
 uc.food.food.others - Allows you to use the food command on other players. (Recommended for admin)<br>
-uc.gamemode.gamemode.adventure - Allows you to change your own gamemode to adventure (Recommended for admin)<br>
 uc.gamemode.gamemode.base - Allows you to change your own gamemode (Recommended for admin)<br>
-uc.gamemode.gamemode.creative - Allows you to change your own gamemode to creative (Recommended for admin)<br>
 uc.gamemode.gamemode.others.adventure - Allows you to change a player's gamemode to adventure (Recommended for admin)<br>
 uc.gamemode.gamemode.others.base - Allows you to change a player's gamemode (Recommended for admin)<br>
 uc.gamemode.gamemode.others.creative - Allows you to change a player's gamemode to creative (Recommended for admin)<br>
 uc.gamemode.gamemode.others.spectator - Allows you to change a player's gamemode to spectator (Recommended for admin)<br>
 uc.gamemode.gamemode.others.survival - Allows you to change a player's gamemode to survival (Recommended for admin)<br>
-uc.gamemode.gamemode.spectator - Allows you to change your own gamemode to spectator (Recommended for admin)<br>
-uc.gamemode.gamemode.survival - Allows you to change your own gamemode to survival (Recommended for admin)<br>
+uc.gamemode.gamemode.self.adventure - Allows you to change your own gamemode to adventure (Recommended for admin)<br>
+uc.gamemode.gamemode.self.creative - Allows you to change your own gamemode to creative (Recommended for admin)<br>
+uc.gamemode.gamemode.self.spectator - Allows you to change your own gamemode to spectator (Recommended for admin)<br>
+uc.gamemode.gamemode.self.survival - Allows you to change your own gamemode to survival (Recommended for admin)<br>
+uc.geoip.country.base - Allows you to use the country command. (Recommended for admin)<br>
 uc.god.god.base - Allows you to toggle your own god mode. (Recommended for admin)<br>
 uc.god.god.others - Allows you to toggle other people's god mode. (Recommended for admin)<br>
 uc.heal.heal.base - Allows you to use the heal command. (Recommended for admin)<br>
@@ -33,11 +34,20 @@ uc.heal.sethealth.base - Allows you to use the sethealth command. (Recommended f
 uc.heal.sethealth.others - Allows you to use the sethealth command on other players. (Recommended for admin)<br>
 uc.heal.setmaxhealth.base - Allows you to use the setmaxhealth command on other players. (Recommended for admin)<br>
 uc.heal.setmaxhealth.others - Allows you to use the setmaxhealth command on other players. (Recommended for admin)<br>
-uc.home.delhome - Allows you to remove one of your homes. (Recommended for everyone)<br>
-uc.home.home - Allows you to teleport to your own home. (Recommended for everyone)<br>
-uc.home.sethome - Allows you to set your own home. (Recommended for everyone)<br>
+uc.home.delhome.base - Allows you to remove one of your homes. (Recommended for everyone)<br>
+uc.home.home.base - Allows you to teleport to your own home. (Recommended for everyone)<br>
+uc.home.sethome.base - Allows you to set your own home. (Recommended for everyone)<br>
 uc.home.sethome.unlimited - Allows you to set an unlimited amount of homes. (Recommended for vip)<br>
-uc.item.more - Allows you to use the more command. (Recommended for admin)<br>
+uc.item.itemcanbreak.base - Allows you to use the itemcanbreak command. (Recommended for admin)<br>
+uc.item.itemcanplaceon.base - Allows you to use the itemcanplaceon command. (Recommended for admin)<br>
+uc.item.itemdurability.base - Allows you to use the itemdurability command. (Recommended for admin)<br>
+uc.item.itemenchant.base - Allows you to use the itemenchant command. (Recommended for admin)<br>
+uc.item.itemhidetags.base - Allows you to use the itemhidetags command. (Recommended for admin)<br>
+uc.item.itemlore.base - Allows you to use the itemlore command. (Recommended for admin)<br>
+uc.item.itemname.base - Allows you to use the itemname command. (Recommended for admin)<br>
+uc.item.itemquantity.base - Allows you to use the itemquantity command. (Recommended for admin)<br>
+uc.item.itemunbreakable.base - Allows you to use the itemunbreakable command. (Recommended for admin)<br>
+uc.item.more.base - Allows you to use the more command. (Recommended for admin)<br>
 uc.item.repair.all - Allows you to use the repair command for all items. (Recommended for admin)<br>
 uc.item.repair.base - Allows you to use the repair command for both all and one item. (Recommended for admin)<br>
 uc.item.repair.one - Allows you to use the repair command for one item. (Recommended for admin)<br>
@@ -47,18 +57,18 @@ uc.jail.jaillist.base - Allows you to use the jaillist command. (Recommended for
 uc.jail.jailtp.base - Allows you to use the jailtp command. (Recommended for admin)<br>
 uc.jail.setjail.base - Allows you to use the setjail command. (Recommended for admin)<br>
 uc.jail.unjail.base - Allows you to use the unjail command. (Recommended for admin)<br>
-uc.kick.kick - Allows you to use the kick command. (Recommended for mod)<br>
-uc.kick.kickall - Allows you to use the kickall command. (Recommended for admin)<br>
+uc.kick.kick.base - Allows you to use the kick command. (Recommended for mod)<br>
+uc.kick.kickall.base - Allows you to use the kickall command. (Recommended for admin)<br>
 uc.kit.createkit.base - Allows you to use the createkit command. (Recommended for admin)<br>
 uc.kit.kit.[KIT] - Allows you to use the kit command for a specific kit. (Recommended for everyone)<br>
 uc.kit.kit.base - Allows you to use the kit command. (Recommended for everyone)<br>
 uc.kit.removekit.base - Allows you to use the removekit command. (Recommended for admin)<br>
-uc.kitlist - Allows you to see a list of all kits. (Recommended for everyone)<br>
-uc.mute.mute - Allows you to mute someone. (Recommended for mod)<br>
-uc.mute.unmute - Allows you to unmute someone. (Recommended for mod)<br>
-uc.personalmessage.personalmessage - Allows you to send private messages to people. (Recommended for everyone)<br>
-uc.personalmessage.reply - Allows you to reply to people's personal message using /reply. (Recommended for everyone)<br>
-uc.random.random - Allows you to use the random command. (Recommended for everyone)<br>
+uc.kitlist.base - Allows you to see a list of all kits. (Recommended for everyone)<br>
+uc.mute.mute.base - Allows you to mute someone. (Recommended for mod)<br>
+uc.mute.unmute.base - Allows you to unmute someone. (Recommended for mod)<br>
+uc.personalmessage.personalmessage.base - Allows you to send private messages to people. (Recommended for everyone)<br>
+uc.personalmessage.reply.base - Allows you to reply to people's personal message using /reply. (Recommended for everyone)<br>
+uc.random.random.base - Allows you to use the random command. (Recommended for everyone)<br>
 uc.sign.warp.create - Permission to create warpsigns. (Recommended for admin)<br>
 uc.sign.warp.destroy - Permission to destroy warpsigns. (Recommended for admin)<br>
 uc.sign.warp.use - Permission to use warpsigns. (Recommended for everyone)<br>
@@ -91,10 +101,10 @@ uc.teleport.teleport.base - Allows you to use the teleport command to teleport y
 uc.teleport.teleport.coordinates - Allows you to use the teleport command to teleport yourself to certain coordinates. (Recommended for admin)<br>
 uc.teleport.teleport.coordinates.others - Allows you to use the teleport command to teleport someone else to certain coordinates. (Recommended for admin)<br>
 uc.teleport.teleport.others - Allows you to use the teleport command to teleport someone else to someone else. (Recommended for admin)<br>
-uc.teleport.teleportaccept - Allows you to use the teleportaccept command (Recommended for everyone)<br>
-uc.teleport.teleportask - Allows you to use the teleportask command (Recommended for everyone)<br>
-uc.teleport.teleportaskhere - Allows you to use the teleportaskhere command (Recommended for everyone)<br>
-uc.teleport.teleportdeny - Allows you to use the teleportdeny command (Recommended for everyone)<br>
+uc.teleport.teleportaccept.base - Allows you to use the teleportaccept command (Recommended for everyone)<br>
+uc.teleport.teleportask.base - Allows you to use the teleportask command (Recommended for everyone)<br>
+uc.teleport.teleportaskhere.base - Allows you to use the teleportaskhere command (Recommended for everyone)<br>
+uc.teleport.teleportdeny.base - Allows you to use the teleportdeny command (Recommended for everyone)<br>
 uc.time.time.add - Allows you to add a certain amount of ticks to the time (Recommended for admin)<br>
 uc.time.time.base - Allows you to use the time command. (Recommended for admin)<br>
 uc.time.time.day - Allows you to set the time to day. (Recommended for admin)<br>
@@ -110,11 +120,11 @@ uc.time.time.ticks - Allows you to set the time to a certain amount of ticks. (R
 uc.ultimatecore.ultimatecore - Allows you to use the /ultimatecore command. (Recommended for owner)<br>
 uc.vanish.vanish.base - Allows you to use the vanish command. (Recommended for everyone)<br>
 uc.vanish.vanish.base - Allows you to use the vanish command on other players. (Recommended for everyone)<br>
-uc.warp.delwarp - Allows you to remove a warp. (Recommended for admin)<br>
-uc.warp.setwarp - Allows you to set a new warp. (Recommended for admin)<br>
+uc.warp.delwarp.base - Allows you to remove a warp. (Recommended for admin)<br>
+uc.warp.setwarp.base - Allows you to set a new warp. (Recommended for admin)<br>
 uc.warp.warp.[WARP] - Allows you to use a certain warp. (Recommended for everyone)<br>
 uc.warp.warp.base - Allows you to use the warp command. (Recommended for everyone)<br>
-uc.warp.warplist - Allows you to see a list of all warps. (Recommended for everyone)<br>
+uc.warp.warplist.base - Allows you to see a list of all warps. (Recommended for everyone)<br>
 uc.weather.weather.base - Allows you to use the base weather command. (Recommended for admin)<br>
 uc.weather.weather.rain - Allows you to change the weather to rain. (Recommended for admin)<br>
 uc.weather.weather.sun - Allows you to change the weather to sun. (Recommended for admin)<br>

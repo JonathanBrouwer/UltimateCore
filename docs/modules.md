@@ -4,6 +4,7 @@ Modules
 [afk - Management of what happens to idle players.](modules/afk.md)<br>
 [automessage - A lot of automessage functionality, including chat, bossbar, actionbar, title and random messages.](modules/automessage.md)<br>
 [back - Teleport back to where you were before you teleported to somewhere.](modules/back.md)<br>
+[blacklist - Ban items from being used by players.](modules/blacklist.md)<br>
 [blood - Custom 'blood' particles when a player gets damaged](modules/blood.md)<br>
 [burn - Set a player on fire using the /burn command.](modules/burn.md)<br>
 [chat - Full chat management, including group formats](modules/chat.md)<br>
@@ -14,13 +15,15 @@ Modules
 [fly - Allows you toggle whether a player is able to fly.](modules/fly.md)<br>
 [food - Allows you to refill or change a player's food bar.](modules/food.md)<br>
 [gamemode - Allows you to change a player's gamemode.](modules/gamemode.md)<br>
+[geoip - Allows to you locate where a player is from.](modules/geoip.md)<br>
 [god - Allows you to make a player invincible.](modules/god.md)<br>
 [heal - Allows you to refill or change a player's health bar.](modules/heal.md)<br>
 [home - Allows players set custom locations 'homes' where they can later teleport back to.](modules/home.md)<br>
-[item - Give yourself items, repair items, and the more command.](modules/item.md)<br>
+[item - Modify items in multiple ways.](modules/item.md)<br>
 [jail - Put players in a jail as a punishment for misbehaving.](modules/jail.md)<br>
 [kick - ALlows you to kick a player from the server.](modules/kick.md)<br>
 [kit - Give players certain items on use of a command.](modules/kit.md)<br>
+[mob - Spawn and manage entities.](modules/mob.md)<br>
 [mute - Allows you to mute a player and the player won't be able to send chat, but will be able to see the chat.](modules/mute.md)<br>
 [personalmessage - Send private messages to other players.](modules/personalmessage.md)<br>
 [poke - Hear a configurable sound when someone says your name in chat.](modules/poke.md)<br>

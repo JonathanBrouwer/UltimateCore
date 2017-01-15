@@ -7,8 +7,8 @@ Commands: <br>
 * **[/deaf \<Player\> \[Time\] \[Reason\]](../commands/deaf.md)**<br>Make a player deaf, for a certain time and reason.
 
 Permissions: <br>
-* **uc.deaf.deaf** - Recommended role: mod<br>Allows you to deaf someone.
-* **uc.deaf.undeaf** - Recommended role: mod<br>Allows you to undeaf someone.
+* **uc.deaf.deaf.base** - Recommended role: mod<br>Allows you to deaf someone.
+* **uc.deaf.undeaf.base** - Recommended role: mod<br>Allows you to undeaf someone.
 
 Permission options: <br>
 * **uc.deaf.exemptpower**<br>The amount of exemptpower the player has. If a player's deafpower is higher than or equal to the targets exemptpower he can deaf the target.

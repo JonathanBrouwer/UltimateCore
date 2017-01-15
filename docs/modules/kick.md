@@ -7,8 +7,8 @@ Commands: <br>
 * **[/kickall \[Reason\]](../commands/kickall.md)**<br>Kick all players from the server.
 
 Permissions: <br>
-* **uc.kick.kick** - Recommended role: mod<br>Allows you to use the kick command.
-* **uc.kick.kickall** - Recommended role: admin<br>Allows you to use the kickall command.
+* **uc.kick.kick.base** - Recommended role: mod<br>Allows you to use the kick command.
+* **uc.kick.kickall.base** - Recommended role: admin<br>Allows you to use the kickall command.
 
 Permission options: <br>
 * **uc.kick.exemptpower**<br>The amount of exemptpower the player has. If a player's kickpower is higher than or equal to the targets exemptpower he can kick the target.
