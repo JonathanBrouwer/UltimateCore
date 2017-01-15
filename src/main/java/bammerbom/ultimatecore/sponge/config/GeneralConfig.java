@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.config;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -62,7 +63,7 @@ public class GeneralConfig implements DataFile {
             ConfigCompleter.complete(this, asset.get());
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "general.conf"));
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load general config file. (Malformed?)");
         }
     }
 
@@ -87,7 +88,7 @@ public class GeneralConfig implements DataFile {
             loader.save(node);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to save general config file.");
             return false;
         }
     }

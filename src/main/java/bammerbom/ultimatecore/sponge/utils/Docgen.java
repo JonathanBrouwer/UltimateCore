@@ -61,7 +61,7 @@ public class Docgen {
             file.getParentFile().mkdirs();
             FileUtil.writeLines(file, Arrays.asList(builder.toString().split("\n")));
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to write module overview docs to file.");
         }
     }
 
@@ -81,7 +81,7 @@ public class Docgen {
             file.getParentFile().mkdirs();
             FileUtil.writeLines(file, Arrays.asList(builder.toString().split("\n")));
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to write commands overview docs to file.");
         }
     }
 
@@ -101,7 +101,7 @@ public class Docgen {
             file.getParentFile().mkdirs();
             FileUtil.writeLines(file, Arrays.asList(builder.toString().split("\n")));
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to write permissions overview to file.");
         }
     }
 
@@ -145,7 +145,7 @@ public class Docgen {
                 file.getParentFile().mkdirs();
                 FileUtil.writeLines(file, Arrays.asList(builder.toString().split("\n")));
             } catch (IOException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to write docs for module " + mod.getIdentifier() + " to file.");
             }
         }
     }
@@ -184,7 +184,7 @@ public class Docgen {
                 file.getParentFile().mkdirs();
                 FileUtil.writeLines(file, Arrays.asList(builder.toString().split("\n")));
             } catch (IOException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to write docs for command " + cmd.getIdentifier() + " to file.");
             }
         }
     }

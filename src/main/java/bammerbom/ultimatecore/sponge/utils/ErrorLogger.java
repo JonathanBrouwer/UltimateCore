@@ -28,11 +28,12 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
+import java.util.*;
 
 public class ErrorLogger {
 
@@ -46,10 +47,26 @@ public class ErrorLogger {
         //FILE
         final String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(Calendar.getInstance().getTime());
         HashMap<String, Object> stats = Stats.collect();
-        stats.put("exception", exception);
-        stats.put("time", System.currentTimeMillis());
-        stats.put("exmessage", t.getMessage());
-        stats.put("ucmessage", ucmessage);
+        stats.put("time", time + " / " + System.currentTimeMillis());
+
+        File file = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/errors/", time + ".txt");
+        List<String> lines = new ArrayList<>();
+        stats.forEach((key, value) -> {
+            lines.add("# " + key + ": " + value);
+        });
+        Collections.sort(lines);
+
+        //Add custom information at the bottom
+        lines.add("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        lines.add("# UC message: " + ucmessage);
+        lines.add("# EX message: " + t.getMessage());
+        lines.add("# Exception: " + exception);
+
+        try {
+            FileUtil.writeLines(file, lines);
+        } catch (IOException e) {
+            Messages.log("Failed to write file for error.");
+        }
 
         //CONSOLE
         Sponge.getServer().getConsole().sendMessage(Text.of(" "));
@@ -58,10 +75,10 @@ public class ErrorLogger {
         Messages.log(Text.of(TextColors.RED, "Please report your error on "));
         Messages.log(Text.of(TextColors.YELLOW, "https://github.com/Bammerbom/UltimateCore/issues"));
         Messages.log(Text.of(TextColors.RED, "Include the file: "));
-        Messages.log(Text.of(TextColors.YELLOW, "config/ultimatecore/errors/" + time + ".txt "));
+        Messages.log(Text.of(TextColors.YELLOW, "server-dir/ultimatecore/errors/" + time + ".txt "));
         Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
         Messages.log(Text.of(TextColors.RED, "Stacktrace: \n", Text.of(TextColors.YELLOW, exception)));
-        //Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
+        Messages.log(Text.of(TextColors.DARK_RED, "========================================================="));
 
         //SEND TO UC
         if (!UltimateCore.get().getGeneralConfig().get().getNode("errors", "enabled").getBoolean()) {

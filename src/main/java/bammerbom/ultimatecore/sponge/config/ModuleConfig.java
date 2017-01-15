@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.config;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.config.serializers.BlockStateSerializer;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationOptions;
@@ -79,7 +80,7 @@ public class ModuleConfig implements DataFile {
             node = loader.load();
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules/" + module + ".conf"));
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load module config for " + module);
         }
     }
 

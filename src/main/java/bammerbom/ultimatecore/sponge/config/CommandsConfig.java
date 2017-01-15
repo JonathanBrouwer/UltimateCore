@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.config;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -51,7 +52,7 @@ public class CommandsConfig implements DataFile {
             node = loader.load();
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "commands.conf"));
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to preload commands.conf file (Malformed?)");
         }
     }
 
@@ -74,7 +75,7 @@ public class CommandsConfig implements DataFile {
             }
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "commands.conf"));
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to postload commands.conf file (Malformed?)");
         }
     }
 

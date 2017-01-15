@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -40,7 +41,7 @@ public class MuteKeys {
             try {
                 return node.getNode("mute").getValue(TypeToken.of(Mute.class));
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to load mute key for " + user.getIdentifier());
                 return null;
             }
         }
@@ -52,7 +53,7 @@ public class MuteKeys {
             try {
                 node.getNode("mute").setValue(TypeToken.of(Mute.class), data);
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to save mute key for " + user.getIdentifier());
             }
             loader.save(node);
         }

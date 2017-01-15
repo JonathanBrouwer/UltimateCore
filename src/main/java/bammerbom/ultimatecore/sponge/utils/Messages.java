@@ -52,8 +52,7 @@ public class Messages {
         try {
             EN_US = loadFromFile("EN_US");
         } catch (IOException e) {
-            log(Text.of("Failed to load english messages file."));
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load english messages file");
         }
     }
 
@@ -65,8 +64,7 @@ public class Messages {
         try {
             custom = loadFromFile(lang);
         } catch (IOException e) {
-            log(Text.of("Failed to load " + lang + " messages file."));
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load " + lang + " messages file.");
         }
     }
 

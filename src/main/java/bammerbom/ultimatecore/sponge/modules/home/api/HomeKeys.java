@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -62,7 +63,7 @@ public class HomeKeys {
                 try {
                     node.getNode("homes", home.getName()).setValue(TypeToken.of(Home.class), home);
                 } catch (ObjectMappingException e) {
-                    e.printStackTrace();
+                    ErrorLogger.log(e, "Failed to load home for " + user.getIdentifier());
                 }
             }
             loader.save(node);

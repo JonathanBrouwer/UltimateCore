@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.config;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -52,7 +53,7 @@ public class ModulesConfig implements DataFile {
             node = loader.load();
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to preload modules config");
         }
     }
 
@@ -77,7 +78,7 @@ public class ModulesConfig implements DataFile {
             }
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to postload modules config");
         }
     }
 
@@ -101,7 +102,7 @@ public class ModulesConfig implements DataFile {
             loader.save(node);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to save modules config.");
             return false;
         }
     }

@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.tablist.runnables;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.tablist.api.TablistPermissions;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
@@ -65,7 +66,7 @@ public class TablistRunnable implements Runnable {
             header = StringUtil.join("\n", config.get().getNode("headerfooter", "header").getList(TypeToken.of(String.class)));
             footer = StringUtil.join("\n", config.get().getNode("headerfooter", "footer").getList(TypeToken.of(String.class)));
         } catch (ObjectMappingException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load header and footer for tablist.");
             return;
         }
 

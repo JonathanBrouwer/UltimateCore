@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.geoip.handlers;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import com.maxmind.db.CHMCache;
 import com.maxmind.db.Reader;
@@ -75,7 +76,7 @@ public class GeoipHandler {
         try {
             dbr = new DatabaseReader.Builder(new FileInputStream(file)).withCache(new CHMCache()).fileMode(Reader.FileMode.MEMORY).build();
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load country database.");
         }
         return true;
     }

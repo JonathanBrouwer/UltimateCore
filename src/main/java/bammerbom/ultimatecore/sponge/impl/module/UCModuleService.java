@@ -28,12 +28,11 @@ import bammerbom.ultimatecore.sponge.api.event.module.ModuleRegisterEvent;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.defaultmodule.DefaultModule;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import com.google.common.reflect.ClassPath;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -99,8 +98,7 @@ public class UCModuleService implements ModuleService {
             module.onRegister();
             return true;
         } catch (Exception ex) {
-            ex.printStackTrace();
-            Messages.log(Text.of(TextColors.RED, "An error occured while registering the module '" + module.getIdentifier() + "'"));
+            ErrorLogger.log(ex, "An error occured while registering the module '" + module.getIdentifier() + "'");
             return false;
         }
     }
@@ -174,7 +172,7 @@ public class UCModuleService implements ModuleService {
                 return Optional.empty();
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to load module from file for " + file);
             return Optional.empty();
         }
     }
@@ -206,15 +204,14 @@ public class UCModuleService implements ModuleService {
                         modules.add((Module) cl.getConstructors()[0].newInstance());
                     } catch (Exception ex) {
                         Messages.log(Messages.getFormatted("core.load.module.failed", "%module%", cl.getName()));
-                        ex.printStackTrace();
+                        ErrorLogger.log(ex, "Module has invalid main class " + cl);
                     }
                 }
             }
 
         } catch (Exception ex) {
             //TODO errorlogger
-            Messages.log("Failed to load modules from jar:");
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to load modules from jar");
         }
 
         //Load modules from file

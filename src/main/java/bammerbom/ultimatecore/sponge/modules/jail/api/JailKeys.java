@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.GlobalDataFile;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -46,7 +47,7 @@ public class JailKeys {
                 return node.getNode("jails").getValue(new TypeToken<List<Jail>>() {
                 }, new ArrayList<>());
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to load jails key");
                 return null;
             }
         }
@@ -59,7 +60,7 @@ public class JailKeys {
                 node.getNode("jails").setValue(new TypeToken<List<Jail>>() {
                 }, data);
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to save jails key");
             }
             config.save(node);
         }
@@ -73,7 +74,7 @@ public class JailKeys {
             try {
                 return node.getNode("jail").getValue(TypeToken.of(JailData.class));
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to load jail key for " + user.getIdentifier());
                 return null;
             }
         }
@@ -85,7 +86,7 @@ public class JailKeys {
             try {
                 node.getNode("jail").setValue(TypeToken.of(JailData.class), data);
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to save jail key for " + user.getIdentifier());
             }
             loader.save(node);
         }

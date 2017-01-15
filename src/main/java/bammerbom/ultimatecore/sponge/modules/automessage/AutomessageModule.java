@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.automessage.api.Automessage;
 import bammerbom.ultimatecore.sponge.modules.automessage.api.AutomessageSerializer;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
@@ -73,7 +74,7 @@ public class AutomessageModule implements Module {
                 message.start();
             }
         } catch (ObjectMappingException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load automessages from config.");
         }
     }
 

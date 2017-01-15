@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -64,7 +65,7 @@ public class KitKeys {
                 try {
                     node.getNode("kits", kit.getId()).setValue(TypeToken.of(Kit.class), kit);
                 } catch (ObjectMappingException e) {
-                    e.printStackTrace();
+                    ErrorLogger.log(e, "Failed to save kits key");
                 }
             }
             loader.save(node);
@@ -79,7 +80,7 @@ public class KitKeys {
                 return node.getNode("kitlastused").getValue(new TypeToken<HashMap<String, Long>>() {
                 });
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to load kit lastused key for " + user.getIdentifier());
                 return null;
             }
         }
@@ -92,7 +93,7 @@ public class KitKeys {
                 node.getNode("kitlastused").setValue(new TypeToken<HashMap<String, Long>>() {
                 }, data);
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to save kit lastused key for " + user.getIdentifier());
             }
             config.save(node);
         }

@@ -33,6 +33,7 @@ import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.utils.SpawnUtil;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import com.google.common.reflect.TypeToken;
@@ -114,7 +115,7 @@ public class JailListener {
                     p.sendMessage(Messages.getFormatted(p, "jail.event.command", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
                 }
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to load allowed commands while jailed from config.");
             }
         }
     }

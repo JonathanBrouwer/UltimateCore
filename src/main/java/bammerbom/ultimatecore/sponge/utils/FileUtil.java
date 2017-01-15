@@ -34,6 +34,10 @@ public class FileUtil {
     }
 
     public static boolean writeLines(File file, List<String> lines) throws IOException {
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+        }
         return Files.write(file.toPath(), lines).toFile().exists();
     }
 }

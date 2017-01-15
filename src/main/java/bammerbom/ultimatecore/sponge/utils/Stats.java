@@ -24,11 +24,8 @@
 package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.module.Module;
 import com.goebl.david.Response;
 import com.goebl.david.Webb;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.spongepowered.api.Platform;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.plugin.PluginContainer;
@@ -42,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class Stats {
     static boolean started = false;
@@ -78,63 +76,25 @@ public class Stats {
         data.put("freeram", Runtime.getRuntime().freeMemory());
         data.put("onlinemode", Sponge.getServer().getOnlineMode());
         data.put("javaversion", System.getProperty("java.version"));
-        //Modules
-        JSONArray modulesarray = new JSONArray();
-        for (Module mod : UltimateCore.get().getModuleService().getModules()) {
-            if (mod.getIdentifier().equalsIgnoreCase("default")) continue;
-            modulesarray.put(mod.getIdentifier());
-        }
-        JSONObject modules = new JSONObject();
-        try {
-            modules.put("modules", modulesarray);
-        } catch (Exception ex) {
-        }
-        data.put("modules", modules.toString());
-        //
+        data.put("modules", StringUtil.join(", ", UltimateCore.get().getModuleService().getModules().stream().map(mod -> mod.getIdentifier()).collect(Collectors.toList())));
         data.put("language", UltimateCore.get().getGeneralConfig().get().getNode("language", "language").getString("EN_US"));
         //Plugins
-        JSONArray pluginsarray = new JSONArray();
+        StringBuilder pluginbuilder = new StringBuilder();
         for (PluginContainer plugin : Sponge.getPluginManager().getPlugins()) {
-            try {
-                JSONObject pluginobject = new JSONObject();
-                pluginobject.put("id", plugin.getId());
-                pluginobject.put("name", plugin.getName());
-                pluginobject.put("version", plugin.getVersion().orElse("Not Available"));
-                pluginsarray.put(pluginobject);
-            } catch (Exception ex) {
-            }
+            pluginbuilder.append("\n" + plugin.getId() + " / " + plugin.getName() + " / " + plugin.getVersion().orElse("Not Available"));
         }
-        JSONObject plugins = new JSONObject();
-        try {
-            plugins.put("plugins", pluginsarray);
-        } catch (Exception ex) {
-        }
-        data.put("plugins", plugins.toString());
+        data.put("plugins", pluginbuilder.toString());
         //Permissions plugin
         Optional<ProviderRegistration<PermissionService>> permplugin = Sponge.getServiceManager().getRegistration(PermissionService.class);
         if (permplugin.isPresent()) {
-            try {
-                JSONObject pluginobject = new JSONObject();
-                pluginobject.put("id", permplugin.get().getPlugin().getId());
-                pluginobject.put("name", permplugin.get().getPlugin().getName());
-                pluginobject.put("version", permplugin.get().getPlugin().getVersion().orElse("Not Available"));
-                data.put("permissionsplugin", pluginobject);
-            } catch (Exception ex) {
-            }
+            data.put("permissionsplugin", permplugin.get().getPlugin().getId() + " / " + permplugin.get().getPlugin().getName() + " / " + permplugin.get().getPlugin().getVersion().orElse("Not Available"));
         } else {
             data.put("permissionsplugin", "None");
         }
         //Economy plugin
         Optional<ProviderRegistration<EconomyService>> economyplugin = Sponge.getServiceManager().getRegistration(EconomyService.class);
         if (economyplugin.isPresent()) {
-            try {
-                JSONObject pluginobject = new JSONObject();
-                pluginobject.put("id", economyplugin.get().getPlugin().getId());
-                pluginobject.put("name", economyplugin.get().getPlugin().getName());
-                pluginobject.put("version", economyplugin.get().getPlugin().getVersion().orElse("Not Available"));
-                data.put("economyplugin", pluginobject);
-            } catch (Exception ex) {
-            }
+            data.put("economyplugin", economyplugin.get().getPlugin().getId() + " / " + economyplugin.get().getPlugin().getName() + " / " + economyplugin.get().getPlugin().getVersion().orElse("Not Available"));
         } else {
             data.put("economyplugin", "None");
         }

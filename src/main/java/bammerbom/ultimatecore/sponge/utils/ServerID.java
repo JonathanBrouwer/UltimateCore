@@ -46,7 +46,7 @@ public class ServerID {
                 uuid = UUID.fromString(s);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Failed to get server id.");
         }
     }
 

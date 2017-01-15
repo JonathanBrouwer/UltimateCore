@@ -31,10 +31,7 @@ import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.defaultmodule.api.DefaultPermissions;
-import bammerbom.ultimatecore.sponge.utils.Docgen;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import bammerbom.ultimatecore.sponge.utils.*;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
@@ -113,6 +110,15 @@ public class UltimatecoreCommand implements Command {
         if (args[0].equalsIgnoreCase("gendocs")) {
             Docgen.generateDocs();
 
+            return CommandResult.success();
+        }
+        if (args[0].equalsIgnoreCase("error")) {
+            try {
+                String string = null;
+                string.toLowerCase();
+            } catch (Exception ex) {
+                ErrorLogger.log(ex, "Generated error using /uc error");
+            }
             return CommandResult.success();
         }
         sender.sendMessage(getUsage());

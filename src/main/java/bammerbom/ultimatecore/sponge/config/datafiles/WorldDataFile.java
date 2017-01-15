@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.config.datafiles;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -57,7 +58,7 @@ public class WorldDataFile implements DataFile {
                 file.createNewFile();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load worlds data file for " + uuid);
         }
         return file;
     }
@@ -73,7 +74,7 @@ public class WorldDataFile implements DataFile {
         try {
             return getLoader().load();
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to load node for  " + uuid);
             return null;
         }
     }

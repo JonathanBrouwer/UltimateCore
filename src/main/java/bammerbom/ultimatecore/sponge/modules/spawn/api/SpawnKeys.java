@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.spawn.api;
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.config.datafiles.GlobalDataFile;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -45,7 +46,7 @@ public class SpawnKeys {
                 return node.getNode("first").getValue(new TypeToken<Transform<World>>() {
                 });
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to load first spawn.");
                 return null;
             }
         }
@@ -58,7 +59,7 @@ public class SpawnKeys {
                 node.getNode("first").setValue(new TypeToken<Transform<World>>() {
                 }, data);
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to save first spawn.");
             }
             config.save(node);
         }
@@ -72,7 +73,7 @@ public class SpawnKeys {
                 return node.getNode("global").getValue(new TypeToken<Transform<World>>() {
                 });
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to load global spawn.");
                 return null;
             }
         }
@@ -85,7 +86,7 @@ public class SpawnKeys {
                 node.getNode("global").setValue(new TypeToken<Transform<World>>() {
                 }, data);
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to save global spawn.");
             }
             config.save(node);
         }
@@ -99,7 +100,7 @@ public class SpawnKeys {
                 return node.getNode("groups").getValue(new TypeToken<HashMap<String, Transform<World>>>() {
                 }, new HashMap<>());
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to load group spawns.");
                 return null;
             }
         }
@@ -112,7 +113,7 @@ public class SpawnKeys {
                 node.getNode("groups").setValue(new TypeToken<HashMap<String, Transform<World>>>() {
                 }, data);
             } catch (ObjectMappingException e) {
-                e.printStackTrace();
+                ErrorLogger.log(e, "Failed to save group spawns.");
             }
             config.save(node);
         }

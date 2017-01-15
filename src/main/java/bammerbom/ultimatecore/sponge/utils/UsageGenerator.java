@@ -38,9 +38,7 @@ public class UsageGenerator {
         try {
             return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/" + cmd.getIdentifier()))).build();
         } catch (MalformedURLException e) {
-            //Idk what happened here
-            //TODO ErrorLogger
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to generate usage for " + cmd + " / " + usage);
             return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).build();
         }
     }
@@ -49,9 +47,7 @@ public class UsageGenerator {
         try {
             return desc.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.shortdescription.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/" + cmd.getIdentifier()))).build();
         } catch (MalformedURLException e) {
-            //Idk what happened here
-            //TODO ErrorLogger
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to generate short description for " + cmd + " / " + desc);
             return desc.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.shortdescription.hover"))).build();
         }
     }

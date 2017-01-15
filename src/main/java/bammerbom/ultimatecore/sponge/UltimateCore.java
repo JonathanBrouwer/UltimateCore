@@ -48,10 +48,7 @@ import bammerbom.ultimatecore.sponge.impl.teleport.UCTeleportService;
 import bammerbom.ultimatecore.sponge.impl.tick.UCTickService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
 import bammerbom.ultimatecore.sponge.impl.variable.UCVariableService;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Metrics;
-import bammerbom.ultimatecore.sponge.utils.ServerID;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import bammerbom.ultimatecore.sponge.utils.*;
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -159,15 +156,14 @@ public class UltimateCore {
                         }
                     }
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    ErrorLogger.log(ex, "Failed to register module " + module.getIdentifier());
                 }
             }
             //
             time = System.currentTimeMillis() - time;
             Messages.log(Messages.getFormatted("core.load.preinit", "%ms%", time));
         } catch (Exception ex) {
-            ex.printStackTrace();
-            //ErrorLogger.log(ex, "Failed to pre-initialize UltimateCore");
+            ErrorLogger.log(ex, "Failed to pre-initialize UltimateCore");
         }
     }
 
@@ -188,15 +184,14 @@ public class UltimateCore {
                     Sponge.getEventManager().post(event);
                     module.onInit(ev);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    ErrorLogger.log(ex, "Failed to initialize module " + module.getIdentifier());
                 }
             }
             //
             time = System.currentTimeMillis() - time;
             Messages.log(Messages.getFormatted("core.load.init", "%ms%", time));
         } catch (Exception ex) {
-            ex.printStackTrace();
-            //ErrorLogger.log(ex, "Failed to initialize UltimateCore");
+            ErrorLogger.log(ex, "Failed to initialize UltimateCore");
         }
     }
 
@@ -246,15 +241,14 @@ public class UltimateCore {
                     Sponge.getEventManager().post(event);
                     module.onPostInit(ev);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    ErrorLogger.log(ex, "Failed to post initialize module " + module.getIdentifier());
                 }
             }
             //
             time = System.currentTimeMillis() - time;
             Messages.log(Messages.getFormatted("core.load.postinit", "%ms%", time));
         } catch (Exception ex) {
-            ex.printStackTrace();
-            //ErrorLogger.log(ex, "Failed to post-initialize UltimateCore");
+            ErrorLogger.log(ex, "Failed to post-initialize UltimateCore");
         }
     }
 
@@ -275,16 +269,19 @@ public class UltimateCore {
             Long time = System.currentTimeMillis();
             //Stop modules
             for (Module module : getModuleService().getModules()) {
-                ModuleStoppingEvent event = new ModuleStoppingEvent(module, ev, Cause.builder().owner(this).build());
-                Sponge.getEventManager().post(event);
-                module.onStop(ev);
+                try {
+                    ModuleStoppingEvent event = new ModuleStoppingEvent(module, ev, Cause.builder().owner(this).build());
+                    Sponge.getEventManager().post(event);
+                    module.onStop(ev);
+                } catch (Exception ex) {
+                    ErrorLogger.log(ex, "Failed to stop module " + module.getIdentifier());
+                }
             }
             //
             time = System.currentTimeMillis() - time;
             Messages.log(Messages.getFormatted("core.load.stop", "%ms%", time));
         } catch (Exception ex) {
-            ex.printStackTrace();
-            //ErrorLogger.log(ex, "Failed to stop UltimateCore");
+            ErrorLogger.log(ex, "Failed to stop UltimateCore");
         }
     }
 

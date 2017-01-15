@@ -29,14 +29,13 @@ import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffect;
 import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffects;
 import bammerbom.ultimatecore.sponge.modules.blood.listeners.BloodListener;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.block.BlockState;
-import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -89,20 +88,12 @@ public class BloodModule implements Module {
                 try {
                     typenode.setValue(TypeToken.of(BloodEffect.class), BloodEffects.DEFAULT);
                 } catch (ObjectMappingException e) {
-                    e.printStackTrace();
+                    ErrorLogger.log(e, "Failed to set default blood effect.");
                 }
             }
         }
         if (modified) {
             config.save(node);
-        }
-        try {
-            BlockState state = BlockState.builder().blockType(BlockTypes.LAVA).build();
-            node.getNode("test").setValue(TypeToken.of(BlockState.class), state);
-            config.save(node);
-
-        } catch (ObjectMappingException e) {
-            e.printStackTrace();
         }
         //Load blood effects from config
         BloodEffects.reload();

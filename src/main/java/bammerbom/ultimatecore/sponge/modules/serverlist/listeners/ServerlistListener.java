@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.ModuleConfig;
 import bammerbom.ultimatecore.sponge.config.datafiles.GlobalDataFile;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import com.google.common.reflect.TypeToken;
@@ -64,7 +65,7 @@ public class ServerlistListener {
                 p.sendMessage(joinmsg);
             }
         } catch (ObjectMappingException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to construct join message.");
         }
     }
 
@@ -135,7 +136,7 @@ public class ServerlistListener {
                 }
             }
         } catch (ObjectMappingException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e, "Failed to send server list info.");
         }
     }
 }

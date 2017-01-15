@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.config;
 
 import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -53,7 +54,7 @@ public class ConfigCompleter {
 //            }
             return false;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorLogger.log(ex, "Config completion failed for " + file + " / " + asset);
             return false;
         }
     }

@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.impl.tick;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.tick.TickService;
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import org.spongepowered.api.Sponge;
 
 import java.util.HashMap;
@@ -43,8 +43,7 @@ public class UCTickService implements TickService {
                 try {
                     runnable.run();
                 } catch (Exception ex) {
-                    Messages.log("Failed to run tick for " + id);
-                    ex.printStackTrace();
+                    ErrorLogger.log(ex, "Failed to run tick for " + id);
                 }
             }
         }).submit(UltimateCore.get());
