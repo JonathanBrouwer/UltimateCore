@@ -38,6 +38,10 @@ import bammerbom.ultimatecore.sponge.api.variable.VariableService;
 import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import bammerbom.ultimatecore.sponge.config.ModulesConfig;
+import bammerbom.ultimatecore.sponge.config.serializers.BlockStateSerializer;
+import bammerbom.ultimatecore.sponge.config.serializers.ItemStackSnapshotSerializer;
+import bammerbom.ultimatecore.sponge.config.serializers.TransformSerializer;
+import bammerbom.ultimatecore.sponge.config.serializers.Vector3dSerializer;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandService;
 import bammerbom.ultimatecore.sponge.impl.module.UCModuleService;
 import bammerbom.ultimatecore.sponge.impl.permission.UCPermissionService;
@@ -46,14 +50,22 @@ import bammerbom.ultimatecore.sponge.impl.tick.UCTickService;
 import bammerbom.ultimatecore.sponge.impl.user.UCUserService;
 import bammerbom.ultimatecore.sponge.impl.variable.UCVariableService;
 import bammerbom.ultimatecore.sponge.utils.*;
+import com.flowpowered.math.vector.Vector3d;
+import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Platform;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.config.ConfigDir;
+import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.*;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.ServiceManager;
 
@@ -105,6 +117,13 @@ public class UltimateCore {
             //Load utils
             ServerID.start();
             Messages.reloadEnglishMessages();
+
+            //Register serializers because sponge doesn't for some reason
+            TypeSerializerCollection serializers = TypeSerializers.getDefaultSerializers();
+            serializers.registerType(TypeToken.of(BlockState.class), new BlockStateSerializer());
+            serializers.registerType(TypeToken.of(ItemStackSnapshot.class), new ItemStackSnapshotSerializer());
+            serializers.registerType(TypeToken.of(Transform.class), new TransformSerializer());
+            serializers.registerType(TypeToken.of(Vector3d.class), new Vector3dSerializer());
 
             //Config
             generalConfig = new GeneralConfig();
@@ -277,6 +296,31 @@ public class UltimateCore {
     @Listener
     public void onStart(GameStartedServerEvent ev) {
         getCommandService().registerLateCommands();
+    }
+
+    @Listener
+    public void onReload(GameReloadEvent event) {
+        try {
+            Long time = System.currentTimeMillis();
+            UltimateCore.get().getGeneralConfig().reload();
+            UltimateCore.get().getCommandsConfig().preload();
+            UltimateCore.get().getCommandsConfig().postload();
+            UltimateCore.get().getModulesConfig().preload();
+            UltimateCore.get().getModulesConfig().postload();
+
+            for (Module mod : UltimateCore.get().getModuleService().getModules()) {
+                if (mod.getConfig().isPresent()) {
+                    mod.getConfig().get().reload();
+                }
+            }
+
+            Messages.reloadMessages();
+
+            time = System.currentTimeMillis() - time;
+            Messages.log(Messages.getFormatted("core.load.reload", "%ms%", time));
+        } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to stop UltimateCore");
+        }
     }
 
     public Path getConfigFolder() {

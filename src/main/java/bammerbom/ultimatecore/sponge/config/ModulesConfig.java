@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 import java.io.File;
@@ -48,7 +49,7 @@ public class ModulesConfig implements DataFile {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
             }
-            loader = UConfigurationLoader.newHocon().setPath(path).build();
+            loader = HoconConfigurationLoader.builder().setPath(path).build();
             node = loader.load();
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));

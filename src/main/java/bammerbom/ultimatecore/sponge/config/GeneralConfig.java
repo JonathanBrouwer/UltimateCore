@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.asset.Asset;
@@ -55,7 +56,7 @@ public class GeneralConfig implements DataFile {
                 asset.get().copyToFile(path);
             }
 
-            loader = UConfigurationLoader.newHocon().setPath(path).build();
+            loader = HoconConfigurationLoader.builder().setPath(path).build();
             node = loader.load();
 
             //Complete

@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.sponge.config.datafiles;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.config.UConfigurationLoader;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.spongepowered.api.world.World;
 
@@ -66,7 +66,7 @@ public class WorldDataFile implements DataFile {
     @Override
     public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
         File file = getFile();
-        return UConfigurationLoader.newHocon().setFile(file).build();
+        return HoconConfigurationLoader.builder().setFile(file).build();
     }
 
     @Override

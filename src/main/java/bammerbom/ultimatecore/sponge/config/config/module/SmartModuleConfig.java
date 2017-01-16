@@ -24,7 +24,6 @@
 package bammerbom.ultimatecore.sponge.config.config.module;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.config.UConfigurationLoader;
 import bammerbom.ultimatecore.sponge.config.config.RawConfig;
 import bammerbom.ultimatecore.sponge.config.config.SmartConfig;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
@@ -58,7 +57,7 @@ public class SmartModuleConfig implements ModuleConfig, SmartConfig, RawConfig {
             File file = path.toFile();
             if (!file.exists()) {
                 file.createNewFile();
-                HoconConfigurationLoader loader = UConfigurationLoader.newHocon().setFile(file).build();
+                HoconConfigurationLoader loader = HoconConfigurationLoader.builder().setFile(file).build();
                 CommentedConfigurationNode node = loader.load();
                 node.setValue(token, this);
                 loader.save(node);

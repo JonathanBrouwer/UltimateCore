@@ -121,6 +121,12 @@ public class UltimatecoreCommand implements Command {
             }
             return CommandResult.success();
         }
+        if (args[0].equalsIgnoreCase("reload")) {
+            UltimateCore.get().onReload(null);
+
+            sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.reload.success"));
+            return CommandResult.success();
+        }
         sender.sendMessage(getUsage());
         return CommandResult.empty();
     }
