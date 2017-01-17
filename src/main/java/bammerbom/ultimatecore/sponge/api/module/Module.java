@@ -24,11 +24,13 @@
 package bammerbom.ultimatecore.sponge.api.module;
 
 import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public interface Module {
@@ -55,7 +57,8 @@ public interface Module {
     /**
      * Called when the module is registered, normally during Pre-initialization.
      */
-    void onRegister();
+    default void onRegister() {
+    }
 
     /**
      * Called when the module is being initialized.
@@ -63,7 +66,9 @@ public interface Module {
      *
      * @param event The GameInitializationEvent
      */
-    void onInit(GameInitializationEvent event);
+    default void onInit(GameInitializationEvent event) {
+
+    }
 
     /**
      * Called when the module is being Post-initialized.
@@ -71,13 +76,25 @@ public interface Module {
      *
      * @param event The GamePostInitializationEvent
      */
-    void onPostInit(GamePostInitializationEvent event);
+    default void onPostInit(GamePostInitializationEvent event) {
+
+    }
+
+    /**
+     * Called when the game is reloaded
+     * The config files will automatically be reloaded before this method is called
+     */
+    default void onReload(@Nullable GameReloadEvent event) {
+
+    }
 
     /**
      * Called when the server is shutting down
      *
      * @param event The GameStoppingEvent
      */
-    void onStop(GameStoppingEvent event);
+    default void onStop(GameStoppingEvent event) {
+
+    }
 
 }
