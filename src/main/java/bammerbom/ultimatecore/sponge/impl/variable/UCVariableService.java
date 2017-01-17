@@ -49,6 +49,7 @@ public class UCVariableService implements VariableService {
         variables.add(new PlayerVariable());
         variables.add(new PrefixVariable());
         variables.add(new SuffixVariable());
+        variables.add(new UuidVariable());
         variables.add(new VersionVariable());
         variables.add(new WorldaliasVariable());
         variables.add(new WorldVariable());
