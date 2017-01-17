@@ -33,7 +33,7 @@ Commands
 [/itemdurability \<Durability\> - Change the durability of the item in your hand.](commands/itemdurability.md)<br>
 [/itemenchant \<Enchantment\> \[Level\] - Add an enchantment to the item in your hand.](commands/itemenchant.md)<br>
 [/itemhidetags attributes/candestroy/canplace/enchantments/miscellaneous/unbreakable false/true - Change whether a certain tag is hidden.](commands/itemhidetags.md)<br>
-[/itemlore \<Lore\> - Change the lore of the item in your hand.](commands/itemlore.md)<br>
+[/itemlore \<Lore\>\[|LORE\]\[|LORE\] - Change the lore of the item in your hand. Use | for multiple lines.](commands/itemlore.md)<br>
 [/itemname \<Name\> - Change the name of the item in your hand.](commands/itemname.md)<br>
 [/itemquantity \<Quantity\> - Change the quantity of the item in your hand.](commands/itemquantity.md)<br>
 [/itemunbreakable true/false - Change whether the item in your hand is unbreakable.](commands/itemunbreakable.md)<br>
@@ -77,7 +77,7 @@ Commands
 [/tpdeny \[TPID/Player\] - Deny the specified request, or the most recent one.](commands/teleportdeny.md)<br>
 [/thunder \[World\] - Change the weather to thunder.](commands/thunder.md)<br>
 [/time (set/add) day/night/\<ticks\>/enable/disable/query - Time-related actions.](commands/time.md)<br>
-[/ultimatecore modules/resetuser/clearcache - The UltimateCore base command.](commands/ultimatecore.md)<br>
+[/ultimatecore modules/resetuser/clearcache/gendocs/reload - The UltimateCore base command.](commands/ultimatecore.md)<br>
 [/unjail \<Player\> - Unjail a player.](commands/unjail.md)<br>
 [/vanish \[Player\] - Toggle whether a player is vanished.](commands/vanish.md)<br>
 [/warp \<Warp\> - Teleport yourself to the specified warp.](commands/warp.md)<br>

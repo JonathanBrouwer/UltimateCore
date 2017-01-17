@@ -23,7 +23,6 @@ Modules
 [jail - Put players in a jail as a punishment for misbehaving.](modules/jail.md)<br>
 [kick - ALlows you to kick a player from the server.](modules/kick.md)<br>
 [kit - Give players certain items on use of a command.](modules/kit.md)<br>
-[mob - Spawn and manage entities.](modules/mob.md)<br>
 [mute - Allows you to mute a player and the player won't be able to send chat, but will be able to see the chat.](modules/mute.md)<br>
 [personalmessage - Send private messages to other players.](modules/personalmessage.md)<br>
 [poke - Hear a configurable sound when someone says your name in chat.](modules/poke.md)<br>
@@ -38,5 +37,6 @@ Modules
 [time - Change the time of the minecraft world to day, night, or anything in between.](modules/time.md)<br>
 [unknowncommand - Allows you to change the message send to a player when a command is not found.](modules/unknowncommand.md)<br>
 [vanish - Make players invisible.](modules/vanish.md)<br>
+[votifier - ](modules/votifier.md)<br>
 [warp - Let the admin set certain locations where a player can teleport to.](modules/warp.md)<br>
 [weather - Change the minecraft world's weather, or disable it.](modules/weather.md)<br>

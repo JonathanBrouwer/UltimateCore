@@ -6,7 +6,7 @@ Commands: <br>
 * **[/more](../commands/more.md)**<br>Set the quantity of the item in your hand to the maximum.
 * **[/repair \[All/Hand\]](../commands/repair.md)**<br>Repair the item in your hand, or all items in your inventory.
 * **[/itemname \<Name\>](../commands/itemname.md)**<br>Change the name of the item in your hand.
-* **[/itemlore \<Lore\>](../commands/itemlore.md)**<br>Change the lore of the item in your hand.
+* **[/itemlore \<Lore\>\[|LORE\]\[|LORE\]](../commands/itemlore.md)**<br>Change the lore of the item in your hand. Use | for multiple lines.
 * **[/itemquantity \<Quantity\>](../commands/itemquantity.md)**<br>Change the quantity of the item in your hand.
 * **[/itemdurability \<Durability\>](../commands/itemdurability.md)**<br>Change the durability of the item in your hand.
 * **[/itemunbreakable true/false](../commands/itemunbreakable.md)**<br>Change whether the item in your hand is unbreakable.
