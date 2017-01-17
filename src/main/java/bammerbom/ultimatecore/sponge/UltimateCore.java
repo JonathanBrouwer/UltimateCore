@@ -311,6 +311,7 @@ public class UltimateCore {
             for (Module mod : UltimateCore.get().getModuleService().getModules()) {
                 if (mod.getConfig().isPresent()) {
                     mod.getConfig().get().reload();
+                    mod.onReload(event);
                 }
             }
 

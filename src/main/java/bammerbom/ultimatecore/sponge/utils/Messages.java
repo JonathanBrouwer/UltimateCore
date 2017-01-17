@@ -273,6 +273,23 @@ public class Messages {
         return get(null, key, vars);
     }
 
+    public static Text replaceVars(Text text, Object... vars) {
+        String first = null;
+        for (Object var : vars) {
+            if (first == null) {
+                first = var.toString();
+            } else {
+                if (var instanceof Text) {
+                    text = TextUtil.replace(text, first, (Text) var);
+                } else {
+                    text = TextUtil.replace(text, first, Text.of(var));
+                }
+                first = null;
+            }
+        }
+        return text;
+    }
+
     /**
      * Print the message to the console, with the UC prefix in front of it.
      *

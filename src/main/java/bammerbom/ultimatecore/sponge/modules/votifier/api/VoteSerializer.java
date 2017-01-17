@@ -21,22 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.votifier.listeners;
+package bammerbom.ultimatecore.sponge.modules.votifier.api;
 
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierKeys;
+import com.google.common.reflect.TypeToken;
 import com.vexsoftware.votifier.model.Vote;
-import com.vexsoftware.votifier.sponge.event.VotifierEvent;
-import org.spongepowered.api.event.Listener;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 
-import java.util.List;
+public class VoteSerializer implements TypeSerializer<Vote> {
+    @Override
+    public Vote deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
+        String player = node.getNode("player").getString();
+        String service = node.getNode("service").getString();
+        String timestamp = node.getNode("timestamp").getString();
+        String adress = node.getNode("adress").getString();
+        return new Vote(service, player, adress, timestamp);
+    }
 
-public class VotifierListener {
-    @Listener
-    public void onVote(VotifierEvent event) {
-        //Cache vote because this event is async
-        List<Vote> cached = GlobalData.get(VotifierKeys.VOTES_CACHED).get();
-        cached.add(event.getVote());
-        GlobalData.offer(VotifierKeys.VOTES_CACHED, cached);
+    @Override
+    public void serialize(TypeToken<?> type, Vote vote, ConfigurationNode node) throws ObjectMappingException {
+        node.getNode("player").setValue(vote.getUsername());
+        node.getNode("service").setValue(vote.getServiceName());
+        node.getNode("timestamp").setValue(vote.getTimeStamp());
+        node.getNode("adress").setValue(vote.getAddress());
     }
 }

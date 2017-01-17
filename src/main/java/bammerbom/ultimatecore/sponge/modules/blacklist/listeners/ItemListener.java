@@ -25,7 +25,6 @@ package bammerbom.ultimatecore.sponge.modules.blacklist.listeners;
 
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Item;
@@ -47,8 +46,7 @@ public class ItemListener {
         if (cause.getEntity() instanceof Player) {
             //TODO exempt check
         }
-
-        Messages.log(event.getCause());
+        
         ModuleConfig config = Modules.BLACKLIST.get().getConfig().get();
         CommentedConfigurationNode hnode = config.get();
         for (Entity en : event.getEntities()) {

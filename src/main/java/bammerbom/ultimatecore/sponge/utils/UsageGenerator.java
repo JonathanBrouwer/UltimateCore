@@ -36,7 +36,7 @@ import java.net.URL;
 public class UsageGenerator {
     public static Text usage(Command cmd, Text usage) {
         try {
-            return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/" + cmd.getIdentifier()))).build();
+            return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).onClick(TextActions.openUrl(new URL("https://github.com/Bammerbom/UltimateCore/blob/master/docs/commands/" + cmd.getIdentifier() + ".md"))).build();
         } catch (MalformedURLException e) {
             ErrorLogger.log(e, "Failed to generate usage for " + cmd + " / " + usage);
             return usage.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.usage.hover"))).build();
@@ -45,7 +45,7 @@ public class UsageGenerator {
 
     public static Text shortDescription(Command cmd, Text desc) {
         try {
-            return desc.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.shortdescription.hover"))).onClick(TextActions.openUrl(new URL("http://ultimatecore.org/features/cmd/" + cmd.getIdentifier()))).build();
+            return desc.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.shortdescription.hover"))).onClick(TextActions.openUrl(new URL("https://github.com/Bammerbom/UltimateCore/blob/master/docs/commands/" + cmd.getIdentifier() + ".md"))).build();
         } catch (MalformedURLException e) {
             ErrorLogger.log(e, "Failed to generate short description for " + cmd + " / " + desc);
             return desc.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.shortdescription.hover"))).build();

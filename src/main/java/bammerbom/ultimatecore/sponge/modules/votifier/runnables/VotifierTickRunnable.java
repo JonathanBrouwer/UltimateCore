@@ -21,22 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.votifier.listeners;
+package bammerbom.ultimatecore.sponge.modules.votifier.runnables;
 
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierKeys;
+import bammerbom.ultimatecore.sponge.modules.votifier.handlers.VotifierHandler;
 import com.vexsoftware.votifier.model.Vote;
-import com.vexsoftware.votifier.sponge.event.VotifierEvent;
-import org.spongepowered.api.event.Listener;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class VotifierListener {
-    @Listener
-    public void onVote(VotifierEvent event) {
-        //Cache vote because this event is async
-        List<Vote> cached = GlobalData.get(VotifierKeys.VOTES_CACHED).get();
-        cached.add(event.getVote());
-        GlobalData.offer(VotifierKeys.VOTES_CACHED, cached);
+public class VotifierTickRunnable implements Runnable {
+    @Override
+    public void run() {
+        List<Vote> votes = GlobalData.get(VotifierKeys.VOTES_CACHED).get();
+        boolean edit = false;
+        for (Vote vote : new ArrayList<>(votes)) {
+            if (VotifierHandler.handle(vote, false)) {
+                votes.remove(vote);
+                edit = true;
+            }
+        }
+
+        if (edit) {
+            GlobalData.offer(VotifierKeys.VOTES_CACHED, votes);
+        }
     }
 }

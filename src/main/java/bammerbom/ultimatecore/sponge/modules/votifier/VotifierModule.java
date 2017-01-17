@@ -26,16 +26,34 @@ package bammerbom.ultimatecore.sponge.modules.votifier;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.votifier.api.VoteSerializer;
+import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierScheme;
+import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierSchemeSerializer;
 import bammerbom.ultimatecore.sponge.modules.votifier.listeners.VotifierListener;
+import bammerbom.ultimatecore.sponge.modules.votifier.runnables.VotifierTickRunnable;
+import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
+import com.google.common.reflect.TypeToken;
+import com.vexsoftware.votifier.model.Vote;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 public class VotifierModule implements Module {
+    ModuleConfig config = null;
+
+    List<VotifierScheme> schemes = new ArrayList<>();
+    HashMap<Integer, VotifierScheme> cumulativeSchemes = new HashMap<>();
+
     @Override
     public String getIdentifier() {
         return "votifier";
@@ -48,12 +66,7 @@ public class VotifierModule implements Module {
 
     @Override
     public Optional<? extends ModuleConfig> getConfig() {
-        return Optional.empty();
-    }
-
-    @Override
-    public void onRegister() {
-
+        return Optional.ofNullable(config);
     }
 
     @Override
@@ -62,15 +75,60 @@ public class VotifierModule implements Module {
             return;
         }
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new VotifierListener());
+        UltimateCore.get().getTickService().addRunnable("votifier", new VotifierTickRunnable());
+
+        //Config
+        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Vote.class), new VoteSerializer());
+        VotifierSchemeSerializer schemeSerializer = new VotifierSchemeSerializer();
+        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(VotifierScheme.class), schemeSerializer);
+        config = new RawModuleConfig("votifier");
+
+        try {
+            schemes = config.get().getNode("schemes").getList(TypeToken.of(VotifierScheme.class));
+            config.get().getNode("cumulative-schemes").getChildrenMap().forEach((number, node) -> {
+                if (!ArgumentUtil.isNumber(number.toString())) {
+                    return;
+                }
+                Integer num = Integer.parseInt(number.toString());
+                try {
+                    VotifierScheme scheme = schemeSerializer.deserialize(TypeToken.of(VotifierScheme.class), node);
+                    cumulativeSchemes.put(num, scheme);
+                } catch (ObjectMappingException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (ObjectMappingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void onPostInit(GamePostInitializationEvent event) {
-
+    public void onReload(@Nullable GameReloadEvent event) {
+        try {
+            VotifierSchemeSerializer schemeSerializer = new VotifierSchemeSerializer();
+            schemes = config.get().getNode("schemes").getList(TypeToken.of(VotifierScheme.class));
+            config.get().getNode("cumulative-schemes").getChildrenMap().forEach((number, node) -> {
+                if (!ArgumentUtil.isNumber(number.toString())) {
+                    return;
+                }
+                Integer num = Integer.parseInt(number.toString());
+                try {
+                    VotifierScheme scheme = schemeSerializer.deserialize(TypeToken.of(VotifierScheme.class), node);
+                    cumulativeSchemes.put(num, scheme);
+                } catch (ObjectMappingException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (ObjectMappingException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public void onStop(GameStoppingEvent event) {
+    public List<VotifierScheme> getSchemes() {
+        return schemes;
+    }
 
+    public HashMap<Integer, VotifierScheme> getCumulativeSchemes() {
+        return cumulativeSchemes;
     }
 }

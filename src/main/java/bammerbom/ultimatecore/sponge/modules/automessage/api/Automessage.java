@@ -45,7 +45,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-public class Automessage {
+public class Automessage implements Runnable {
     static Random rand = new Random();
     //General
     public boolean enable;
@@ -79,7 +79,7 @@ public class Automessage {
         if (!enable || messages.isEmpty()) {
             return;
         }
-        Sponge.getScheduler().createTaskBuilder().interval(time, TimeUnit.SECONDS).delay(time, TimeUnit.SECONDS).execute(this::run).name("UC: Automessage Task").submit(UltimateCore.get());
+        Sponge.getScheduler().createTaskBuilder().interval(time, TimeUnit.SECONDS).delay(time, TimeUnit.SECONDS).execute(this).name("UC: Automessage Task").submit(UltimateCore.get());
     }
 
     public void run() {

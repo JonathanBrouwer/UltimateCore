@@ -133,7 +133,7 @@ public class Modules {
     public static Optional<Module> VANISH = service.getModule("vanish");
     public static Optional<Module> VILLAGER = service.getModule("villager");
     //Votifier module
-    public static Optional<Module> VOTE = service.getModule("vote");
+    public static Optional<Module> VOTIFIER = service.getModule("votifier");
     public static Optional<Module> WARP = service.getModule("warp");
     public static Optional<Module> WEATHER = service.getModule("weather");
     //Stop using flags, use seperate commands & clickable chat interface
