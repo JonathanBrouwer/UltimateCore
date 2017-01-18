@@ -24,38 +24,34 @@
 package bammerbom.ultimatecore.sponge.modules.afk.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.DataFailedException;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.afk.AfkModule;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class AfkCommand implements Command {
-
-    @Override
-    public Module getModule() {
-        return Modules.AFK.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "afk";
-    }
+@RegisterCommand(module = AfkModule.class, aliases = {"afk", "idle", "away"})
+public class AfkCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -68,35 +64,31 @@ public class AfkCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("afk", "idle", "away");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                GenericArguments.optionalWeak(GenericArguments.onlyOne(new PlayerArgument(Text.of("player")))),
+                GenericArguments.optionalWeak(GenericArguments.remainingJoinedStrings(Text.of("message")))
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        //Permission check
-        if (!sender.hasPermission(AfkPermissions.UC_AFK_AFK_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions", "%permission%", AfkPermissions.UC_AFK_AFK_BASE.get()));
-            return CommandResult.empty();
-        }
-        //Get the user
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, AfkPermissions.UC_AFK_AFK_BASE);
         UltimateUser user;
-        if (args.length >= 1 && Selector.one(sender, args[0]).isPresent()) {
-            user = UltimateCore.get().getUserService().getUser(Selector.one(sender, args[0]).get());
+        if (args.hasAny("player")) {
+            user = UltimateCore.get().getUserService().getUser(args.<Player>getOne("player").get());
         } else {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
-                return CommandResult.empty();
-            }
+            checkIfPlayer(sender);
             user = UltimateCore.get().getUserService().getUser((Player) sender);
         }
+
         //No isPresent() needed because IS_AFK has a default value
         boolean newafk = !user.get(AfkKeys.IS_AFK).get();
         if (user.offer(AfkKeys.IS_AFK, newafk)) {
             if (newafk) {
                 user.offer(AfkKeys.AFK_TIME, System.currentTimeMillis());
-                if (args.length >= 2 || (args.length >= 1 && !Selector.one(sender, args[0]).isPresent())) {
-                    String message = StringUtil.getFinalArg(args, Selector.one(sender, args[0]).isPresent() ? 1 : 0);
+                if (args.hasAny("message")) {
+                    String message = args.<String>getOne("message").get();
                     user.offer(AfkKeys.AFK_MESSAGE, message);
                     Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.afk.message", "%player%", user.getUser().getName(), "%message%", message));
                 } else {
@@ -111,13 +103,8 @@ public class AfkCommand implements Command {
                 user.offer(AfkKeys.AFK_MESSAGE, null);
             }
         } else {
-            sender.sendMessage(Messages.getFormatted(sender, "afk.command.afk.datafailed"));
+            throw new DataFailedException(Messages.getFormatted(sender, "afk.command.afk.datafailed"));
         }
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

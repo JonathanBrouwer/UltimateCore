@@ -23,15 +23,17 @@
  */
 package bammerbom.ultimatecore.sponge.api.command;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.PlayerOnlyException;
+import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.impl.command.UCCommandCallable;
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import bammerbom.ultimatecore.sponge.utils.UsageGenerator;
 import com.google.common.collect.ImmutableList;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandCallable;
-import org.spongepowered.api.command.CommandException;
-import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.*;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
@@ -46,10 +48,7 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public interface SmartCommand extends Command, CommandExecutor {
 
@@ -62,6 +61,9 @@ public interface SmartCommand extends Command, CommandExecutor {
             CommandContext context = new CommandContext();
             GenericArguments.seq(getArguments()).parse(sender, cargs, context);
             return execute(sender, context);
+        } catch (CommandPermissionException ex) {
+            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
+            return CommandResult.empty();
         } catch (CommandException ex) {
             if (ex.getText() != null) {
                 sender.sendMessage(ex.getText());
@@ -74,7 +76,7 @@ public interface SmartCommand extends Command, CommandExecutor {
         return new CommandElement[]{};
     }
 
-    default Map<List<String>, Command> getChildren() {
+    default Map<List<String>, ? extends Command> getChildren() {
         return new HashMap<>();
     }
 
@@ -98,6 +100,39 @@ public interface SmartCommand extends Command, CommandExecutor {
     @Override
     default Text getUsage(@Nullable CommandSource source) {
         return UsageGenerator.usage(this, Text.of("/" + getIdentifier() + " " + getSpec().getUsage(source == null ? Sponge.getServer().getConsole() : source).toPlain().replaceAll("\\?\\|", "")));
+    }
+
+    //Implemented with @RegisterCommand
+    @Override
+    default Module getModule() {
+        if (!this.getClass().isAnnotationPresent(RegisterCommand.class)) {
+            return null;
+        }
+        Class<? extends Module> mclass = this.getClass().getAnnotation(RegisterCommand.class).module();
+        for (Module module : UltimateCore.get().getModuleService().getModules()) {
+            if (module.getClass().equals(mclass)) {
+                return module;
+            }
+        }
+        return null;
+    }
+
+    //Implemented with @RegisterCommand
+    @Override
+    default String getIdentifier() {
+        if (!this.getClass().isAnnotationPresent(RegisterCommand.class)) {
+            return null;
+        }
+        return this.getClass().getAnnotation(RegisterCommand.class).aliases()[0];
+    }
+
+    //Implemented with @RegisterCommand
+    @Override
+    default List<String> getAliases() {
+        if (!this.getClass().isAnnotationPresent(RegisterCommand.class)) {
+            return null;
+        }
+        return Arrays.asList(this.getClass().getAnnotation(RegisterCommand.class).aliases());
     }
 
     @Override
@@ -129,4 +164,23 @@ public interface SmartCommand extends Command, CommandExecutor {
 
     @Override
     CommandResult execute(CommandSource sender, CommandContext args) throws CommandException;
+
+    //QUICK CHECKS
+    default void checkPermission(CommandSource commander, String permission) throws CommandException {
+        if (!commander.hasPermission(permission)) {
+            throw new CommandPermissionException();
+        }
+    }
+
+    default void checkPermission(CommandSource commander, Permission permission) throws CommandException {
+        if (!commander.hasPermission(permission.get())) {
+            throw new CommandPermissionException();
+        }
+    }
+
+    default void checkIfPlayer(CommandSource sender) throws PlayerOnlyException {
+        if (!(sender instanceof Player)) {
+            throw new PlayerOnlyException();
+        }
+    }
 }

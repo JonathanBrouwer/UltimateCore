@@ -84,7 +84,7 @@ public class ItemunbreakableCommand implements Command {
             return CommandResult.empty();
         }
         if (!ArgumentUtil.isBoolean(args[0])) {
-            sender.sendMessage(Messages.getFormatted(sender, "item.booleaninvalid", "%argument%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.booleaninvalid", "%argument%", args[0]));
             return CommandResult.empty();
         }
 

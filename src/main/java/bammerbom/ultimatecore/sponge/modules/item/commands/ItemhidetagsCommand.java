@@ -123,7 +123,7 @@ public class ItemhidetagsCommand implements Command {
         }
 
         if (!ArgumentUtil.isBoolean(args[1])) {
-            sender.sendMessage(Messages.getFormatted(sender, "item.booleaninvalid", "%argument%", args[0]));
+            sender.sendMessage(Messages.getFormatted(sender, "core.booleaninvalid", "%argument%", args[0]));
             return CommandResult.empty();
         }
         boolean value = Boolean.parseBoolean(args[1]);
