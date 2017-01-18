@@ -38,7 +38,6 @@ public class ItemPermissions {
     public static Permission UC_ITEM_ITEMQUANTITY_BASE = Permission.create("uc.item.itemquantity.base", "item", PermissionLevel.ADMIN, "itemquantity", Text.of("Allows you to use the itemquantity command."));
     public static Permission UC_ITEM_ITEMDURABILITY_BASE = Permission.create("uc.item.itemdurability.base", "item", PermissionLevel.ADMIN, "itemdurability", Text.of("Allows you to use the itemdurability command."));
     public static Permission UC_ITEM_ITEMUNBREAKABLE_BASE = Permission.create("uc.item.itemunbreakable.base", "item", PermissionLevel.ADMIN, "itemunbreakable", Text.of("Allows you to use the itemunbreakable command."));
-    //public static Permission UC_ITEM_ITEMGLOW_BASE = Permission.create("uc.item.itemglow.base", "item", PermissionLevel.ADMIN, "itemglow", Text.of("Allows you to use the itemglow command."));
     public static Permission UC_ITEM_ITEMCANPLACEON_BASE = Permission.create("uc.item.itemcanplaceon.base", "item", PermissionLevel.ADMIN, "itemcanplaceon", Text.of("Allows you to use the itemcanplaceon command."));
     public static Permission UC_ITEM_ITEMCANBREAK_BASE = Permission.create("uc.item.itemcanbreak.base", "item", PermissionLevel.ADMIN, "itemcanbreak", Text.of("Allows you to use the itemcanbreak command."));
     public static Permission UC_ITEM_ITEMHIDETAGS_BASE = Permission.create("uc.item.itemhidetags.base", "item", PermissionLevel.ADMIN, "itemhidetags", Text.of("Allows you to use the itemhidetags command."));

@@ -23,35 +23,32 @@
  */
 package bammerbom.ultimatecore.sponge.modules.item.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.LiteralArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.mutable.item.DurabilityData;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class RepairCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.ITEM.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "repair";
-    }
-
+@RegisterCommand(module = ItemModule.class, aliases = {"repair", "fix"})
+public class RepairCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return ItemPermissions.UC_ITEM_REPAIR_BASE;
@@ -63,24 +60,22 @@ public class RepairCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("repair", "fix");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new LiteralArgument(Text.of("all"), Arrays.asList("inventory", "all"))).optionalWeak().onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, ItemPermissions.UC_ITEM_REPAIR_BASE);
         Player p = (Player) sender;
 
-        boolean fullInv = false;
-        if (args.length > 0 && (args[0].equalsIgnoreCase("inventory") || args[0].equalsIgnoreCase("all"))) {
-            fullInv = true;
-        }
+        boolean fullInv = args.hasAny("all") ? args.<Boolean>getOne("all").get() : false;
 
         if (fullInv) {
+            checkPermission(sender, ItemPermissions.UC_ITEM_REPAIR_ALL);
             p.getInventory().slots().forEach(slot -> {
                 ItemStack stack = slot.peek().orElse(null);
                 if (stack == null || stack.getItem().equals(ItemTypes.NONE)) {
@@ -95,6 +90,7 @@ public class RepairCommand implements Command {
             sender.sendMessage(Messages.getFormatted(sender, "item.command.repair.success.all"));
             return CommandResult.success();
         } else {
+            checkPermission(sender, ItemPermissions.UC_ITEM_REPAIR_ONE);
             if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
                 p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
                 return CommandResult.empty();
@@ -109,10 +105,5 @@ public class RepairCommand implements Command {
             sender.sendMessage(Messages.getFormatted(sender, "item.command.repair.success.one"));
             return CommandResult.success();
         }
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

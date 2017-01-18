@@ -45,7 +45,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RegisterCommand(module = HealModule.class, aliases = {"sethealth", "setlives"})
-public class SetHealthCommand implements SmartCommand {
+public class SethealthCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {

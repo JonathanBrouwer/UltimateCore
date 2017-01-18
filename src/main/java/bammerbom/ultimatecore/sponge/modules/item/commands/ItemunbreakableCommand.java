@@ -23,36 +23,31 @@
  */
 package bammerbom.ultimatecore.sponge.modules.item.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.BooleanArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
-import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ItemunbreakableCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.ITEM.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "itemunbreakable";
-    }
-
+@RegisterCommand(module = ItemModule.class, aliases = {"itemunbreakable", "setitemunbreakable", "unbreakable"})
+public class ItemunbreakableCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return ItemPermissions.UC_ITEM_ITEMUNBREAKABLE_BASE;
@@ -64,29 +59,19 @@ public class ItemunbreakableCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("itemunbreakable", "setitemunbreakable", "unbreakable");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new BooleanArgument(Text.of("enabled/disabled"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, ItemPermissions.UC_ITEM_ITEMUNBREAKABLE_BASE);
         Player p = (Player) sender;
-        if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMUNBREAKABLE_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        if (!ArgumentUtil.isBoolean(args[0])) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.booleaninvalid", "%argument%", args[0]));
-            return CommandResult.empty();
-        }
+
+        Boolean value = args.<Boolean>getOne("enabled/disabled").get();
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
             p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
@@ -99,14 +84,9 @@ public class ItemunbreakableCommand implements Command {
             return CommandResult.empty();
         }
 
-        stack.offer(Keys.UNBREAKABLE, Boolean.parseBoolean(args[0]));
+        stack.offer(Keys.UNBREAKABLE, value);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemunbreakable.success", "%arg%", Messages.toText(StringUtil.getFinalArg(args, 0))));
+        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemunbreakable.success", "%arg%", value));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

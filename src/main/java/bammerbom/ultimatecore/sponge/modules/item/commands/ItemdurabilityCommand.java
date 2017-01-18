@@ -23,36 +23,32 @@
  */
 package bammerbom.ultimatecore.sponge.modules.item.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.BoundedIntegerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
-import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.mutable.item.DurabilityData;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ItemdurabilityCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.ITEM.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "itemdurability";
-    }
+@RegisterCommand(module = ItemModule.class, aliases = {"itemdurability", "setitemdurability", "durability"})
+public class ItemdurabilityCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -65,55 +61,38 @@ public class ItemdurabilityCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("itemdurability", "setitemdurability", "durability");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new BoundedIntegerArgument(Text.of("durability"), 0, null)).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, ItemPermissions.UC_ITEM_ITEMDURABILITY_BASE);
         Player p = (Player) sender;
-        if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMDURABILITY_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        if (!ArgumentUtil.isInteger(args[0])) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.number.invalid", "%number%", args[0]));
-            return CommandResult.empty();
-        }
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
             p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
             return CommandResult.empty();
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
-        int quantity = Integer.parseInt(args[0]);
+        int durability = args.<Integer>getOne("durability").get();
 
         if (!stack.supports(DurabilityData.class)) {
             sender.sendMessage(Messages.getFormatted(sender, "item.command.itemdurability.notsupported"));
             return CommandResult.empty();
         }
 
-        if (quantity < stack.get(DurabilityData.class).get().durability().getMinValue() || quantity > stack.get(DurabilityData.class).get().durability().getMaxValue()) {
-            sender.sendMessage(Messages.getFormatted(sender, "item.numberinvalid", "%number%", args[0]));
+        if (durability < stack.get(DurabilityData.class).get().durability().getMinValue() || durability > stack.get(DurabilityData.class).get().durability().getMaxValue()) {
+            sender.sendMessage(Messages.getFormatted(sender, "item.numberinvalid", "%number%", durability));
             return CommandResult.empty();
         }
 
-        stack.offer(Keys.ITEM_DURABILITY, quantity);
+        stack.offer(Keys.ITEM_DURABILITY, durability);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemdurability.success", "%arg%", Messages.toText(StringUtil.getFinalArg(args, 0))));
+        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemdurability.success", "%arg%", durability));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

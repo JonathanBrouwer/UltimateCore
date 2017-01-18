@@ -23,14 +23,17 @@
  */
 package bammerbom.ultimatecore.sponge.modules.item.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
@@ -39,17 +42,8 @@ import org.spongepowered.api.item.inventory.ItemStack;
 import java.util.Arrays;
 import java.util.List;
 
-public class MoreCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.ITEM.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "more";
-    }
-
+@RegisterCommand(module = ItemModule.class, aliases = {"more"})
+public class MoreCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return ItemPermissions.UC_ITEM_MORE_BASE;
@@ -61,30 +55,22 @@ public class MoreCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("more");
+    public CommandElement[] getArguments() {
+        return new CommandElement[0];
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, ItemPermissions.UC_ITEM_MORE_BASE);
         Player p = (Player) sender;
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
-            return CommandResult.empty();
+            throw new CommandException(Messages.getFormatted(p, "item.noiteminhand"));
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
         stack.setQuantity(stack.getMaxStackQuantity());
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
         p.sendMessage(Messages.getFormatted(p, "item.command.more.success", "%amount%", stack.getMaxStackQuantity()));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

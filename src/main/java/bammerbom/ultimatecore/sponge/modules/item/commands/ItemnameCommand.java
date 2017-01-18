@@ -23,34 +23,31 @@
  */
 package bammerbom.ultimatecore.sponge.modules.item.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ItemnameCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.ITEM.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "itemname";
-    }
+@RegisterCommand(module = ItemModule.class, aliases = {"itemname", "setitemname", "name"})
+public class ItemnameCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -63,25 +60,17 @@ public class ItemnameCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("itemname", "setitemname", "name");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("name"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, ItemPermissions.UC_ITEM_ITEMNAME_BASE);
         Player p = (Player) sender;
-        if (!sender.hasPermission(ItemPermissions.UC_ITEM_ITEMNAME_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
             p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
@@ -89,14 +78,10 @@ public class ItemnameCommand implements Command {
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
 
-        stack.offer(Keys.DISPLAY_NAME, Messages.toText(StringUtil.getFinalArg(args, 0)));
+        Text name = Messages.toText(args.<String>getOne("name").get());
+        stack.offer(Keys.DISPLAY_NAME, name);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemname.success", "%arg%", Messages.toText(StringUtil.getFinalArg(args, 0))));
+        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemname.success", "%arg%", name));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

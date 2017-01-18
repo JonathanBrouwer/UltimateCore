@@ -26,7 +26,6 @@ package bammerbom.ultimatecore.sponge.modules.item;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.modules.item.api.GlowEnchantment;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
 import bammerbom.ultimatecore.sponge.modules.item.commands.*;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -37,7 +36,6 @@ import org.spongepowered.api.text.Text;
 import java.util.Optional;
 
 public class ItemModule implements Module {
-    GlowEnchantment glowench;
 
     @Override
     public String getIdentifier() {
@@ -62,8 +60,6 @@ public class ItemModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //glowench = (GlowEnchantment) Sponge.getRegistry().register(Enchantment.class, new GlowEnchantment());
-
         UltimateCore.get().getCommandService().register(new MoreCommand());
         UltimateCore.get().getCommandService().register(new RepairCommand());
 
@@ -72,7 +68,6 @@ public class ItemModule implements Module {
         UltimateCore.get().getCommandService().register(new ItemquantityCommand());
         UltimateCore.get().getCommandService().register(new ItemdurabilityCommand());
         UltimateCore.get().getCommandService().register(new ItemunbreakableCommand());
-        //UltimateCore.get().getCommandService().register(new ItemglowCommand());
         UltimateCore.get().getCommandService().register(new ItemcanbreakCommand());
         UltimateCore.get().getCommandService().register(new ItemcanplaceonCommand());
         UltimateCore.get().getCommandService().registerLater(new ItemenchantCommand(), ItemPermissions::new);
@@ -84,7 +79,6 @@ public class ItemModule implements Module {
         //itemquantity
         //itemdurability
         //itemunbreakable
-        //itemglow
         //itemcanplaceon
         //itemcanbreak
         //itemhidetags
@@ -115,9 +109,5 @@ public class ItemModule implements Module {
     @Override
     public void onStop(GameStoppingEvent event) {
 
-    }
-
-    public GlowEnchantment getGlowEnchantment() {
-        return glowench;
     }
 }
