@@ -74,7 +74,7 @@ public class UltimatecoreCommand implements Command {
             return CommandResult.empty();
         }
         if (args.length == 0) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
 
@@ -85,7 +85,7 @@ public class UltimatecoreCommand implements Command {
         }
         if (args[0].equalsIgnoreCase("resetuser")) {
             if (args.length == 1) {
-                sender.sendMessage(getUsage());
+                sender.sendMessage(getUsage(sender));
                 return CommandResult.empty();
             }
             Optional<Player> t = Selector.one(sender, args[1]);
@@ -127,7 +127,7 @@ public class UltimatecoreCommand implements Command {
             sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.reload.success"));
             return CommandResult.success();
         }
-        sender.sendMessage(getUsage());
+        sender.sendMessage(getUsage(sender));
         return CommandResult.empty();
     }
 

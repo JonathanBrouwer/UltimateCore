@@ -87,7 +87,7 @@ public class ItemenchantCommand implements Command {
             return CommandResult.empty();
         }
         if (args.length == 0) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
 

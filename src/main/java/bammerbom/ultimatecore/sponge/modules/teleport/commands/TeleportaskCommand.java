@@ -83,7 +83,7 @@ public class TeleportaskCommand implements Command {
             return CommandResult.empty();
         }
         if (args.length == 0) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
         Player t = Selector.one(sender, args[0]).orElse(null);

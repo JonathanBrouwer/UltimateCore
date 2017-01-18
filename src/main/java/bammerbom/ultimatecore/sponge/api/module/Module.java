@@ -52,7 +52,9 @@ public interface Module {
     /**
      * This should return the config this module provides, or Optional.empty() when not available.
      */
-    Optional<? extends ModuleConfig> getConfig();
+    default Optional<? extends ModuleConfig> getConfig() {
+        return Optional.empty();
+    }
 
     /**
      * Called when the module is registered, normally during Pre-initialization.

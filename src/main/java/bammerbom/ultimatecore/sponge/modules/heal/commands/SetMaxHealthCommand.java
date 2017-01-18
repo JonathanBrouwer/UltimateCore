@@ -73,7 +73,7 @@ public class SetMaxHealthCommand implements Command {
         }
         if (args.length == 0) {
             if (sender instanceof Player) {
-                sender.sendMessage(getUsage());
+                sender.sendMessage(getUsage(sender));
                 return CommandResult.empty();
             } else {
                 sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
@@ -93,7 +93,7 @@ public class SetMaxHealthCommand implements Command {
                 sender.sendMessage(Messages.getFormatted(sender, "heal.command.setmaxhealth.success", "%health%", health));
                 return CommandResult.success();
             } catch (Exception ex) {
-                sender.sendMessage(getUsage());
+                sender.sendMessage(getUsage(sender));
                 return CommandResult.empty();
             }
         } else if (Selector.one(sender, args[1]).isPresent()) {
@@ -110,7 +110,7 @@ public class SetMaxHealthCommand implements Command {
 
                 return CommandResult.success();
             } catch (Exception ex) {
-                sender.sendMessage(getUsage());
+                sender.sendMessage(getUsage(sender));
 
                 return CommandResult.empty();
             }

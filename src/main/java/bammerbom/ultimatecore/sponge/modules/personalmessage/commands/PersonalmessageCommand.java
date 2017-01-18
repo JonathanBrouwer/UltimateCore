@@ -84,7 +84,7 @@ public class PersonalmessageCommand implements Command {
             return CommandResult.empty();
         }
         if (args.length < 2) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
         CommandSource t = Selector.one(sender, args[0]).orElse(null);

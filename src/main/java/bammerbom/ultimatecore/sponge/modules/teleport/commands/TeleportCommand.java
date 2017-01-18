@@ -76,7 +76,7 @@ public class TeleportCommand implements Command {
         }
 
         if (args.length == 0) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         } else if (args.length == 1) {
             //tp user
@@ -230,7 +230,7 @@ public class TeleportCommand implements Command {
             request.start();
             return CommandResult.successCount(e.size());
         }
-        sender.sendMessage(getUsage());
+        sender.sendMessage(getUsage(sender));
         return CommandResult.empty();
     }
 

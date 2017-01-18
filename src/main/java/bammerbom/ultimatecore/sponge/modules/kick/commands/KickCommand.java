@@ -73,7 +73,7 @@ public class KickCommand implements Command {
             return CommandResult.empty();
         }
         if (args.length == 0) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
         Player target = Selector.one(sender, args[0]).orElse(null);

@@ -84,7 +84,7 @@ public class SetwarpCommand implements Command {
         Player p = (Player) sender;
         //Get name & description
         if (args.length == 0) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
         String name = args[0].toLowerCase();

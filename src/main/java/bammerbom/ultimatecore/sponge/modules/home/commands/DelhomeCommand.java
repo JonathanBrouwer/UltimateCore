@@ -80,7 +80,7 @@ public class DelhomeCommand implements Command {
             return CommandResult.empty();
         }
         if (args.length == 0) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);

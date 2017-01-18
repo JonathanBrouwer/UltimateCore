@@ -73,7 +73,7 @@ public class RandomCommand implements Command {
             return CommandResult.empty();
         }
         if (args.length == 0) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         } else if (args.length == 1 || args.length == 2) {
             if (!ArgumentUtil.isNumber(args[0])) {
@@ -92,7 +92,7 @@ public class RandomCommand implements Command {
             sender.sendMessage(Messages.getFormatted(sender, "random.command.random.success", "%min%", min, "%max%", max, "%value%", rand));
             return CommandResult.success();
         }
-        sender.sendMessage(getUsage());
+        sender.sendMessage(getUsage(sender));
         return CommandResult.empty();
     }
 

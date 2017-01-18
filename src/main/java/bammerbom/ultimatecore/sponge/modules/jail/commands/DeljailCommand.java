@@ -78,7 +78,7 @@ public class DeljailCommand implements Command {
         }
         Player p = (Player) sender;
         if (args.length == 0) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
         String name = args[0].toLowerCase();

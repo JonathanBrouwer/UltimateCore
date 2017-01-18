@@ -82,7 +82,7 @@ public class ItemhidetagsCommand implements Command {
             return CommandResult.empty();
         }
         if (args.length <= 1) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
 
@@ -118,7 +118,7 @@ public class ItemhidetagsCommand implements Command {
                 key = Keys.HIDE_UNBREAKABLE;
                 break;
             default:
-                sender.sendMessage(getUsage());
+                sender.sendMessage(getUsage(sender));
                 return CommandResult.empty();
         }
 

@@ -31,6 +31,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public interface Command {
@@ -69,6 +70,15 @@ public interface Command {
      * @return The usage
      */
     default Text getUsage() {
+        return getUsage(null);
+    }
+
+    /**
+     * Get the usage for this command.
+     *
+     * @return The usage
+     */
+    default Text getUsage(@Nullable CommandSource source) {
         return UsageGenerator.usage(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".usage"));
     }
 

@@ -84,7 +84,7 @@ public class ReplyCommand implements Command {
             return CommandResult.empty();
         }
         if (args.length < 1) {
-            sender.sendMessage(getUsage());
+            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
 

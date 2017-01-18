@@ -160,6 +160,6 @@ public class UCCommandCallable implements CommandCallable {
      */
     @Override
     public Text getUsage(CommandSource source) {
-        return command.getUsage();
+        return command.getUsage(source);
     }
 }
