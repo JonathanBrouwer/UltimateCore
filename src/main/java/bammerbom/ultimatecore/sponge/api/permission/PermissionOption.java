@@ -125,7 +125,7 @@ public class PermissionOption {
 
     public Integer getIntFor(Subject subject) {
         String value = getFor(subject);
-        if (!ArgumentUtil.isNumber(value)) {
+        if (!ArgumentUtil.isInteger(value)) {
             Messages.log(Messages.getFormatted("core.option.invalidnumber", "%option%", get(), "%value%", value));
             return 0;
         }

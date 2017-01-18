@@ -23,37 +23,34 @@
  */
 package bammerbom.ultimatecore.sponge.modules.food.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.food.FoodModule;
 import bammerbom.ultimatecore.sponge.modules.food.api.FoodPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.mutable.entity.FoodData;
 import org.spongepowered.api.data.property.item.SaturationProperty;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class FoodCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.FOOD.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "food";
-    }
-
+@RegisterCommand(module = FoodModule.class, aliases = {"food", "feed", "eat"})
+public class FoodCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return FoodPermissions.UC_FOOD_FOOD_BASE;
@@ -65,8 +62,10 @@ public class FoodCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("food", "feed", "eat");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).optionalWeak().onlyOne().build()
+        };
     }
 
     @Override
@@ -106,7 +105,23 @@ public class FoodCommand implements Command {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, FoodPermissions.UC_FOOD_FOOD_BASE);
+        if (!args.hasAny("player")) {
+            checkIfPlayer(sender);
+            Player p = (Player) sender;
+            p.offer(Keys.FOOD_LEVEL, p.get(FoodData.class).get().foodLevel().getMaxValue());
+            p.offer(Keys.SATURATION, ItemStack.builder().itemType(ItemTypes.COOKED_BEEF).build().getProperty(SaturationProperty.class).get().getValue());
+            p.sendMessage(Messages.getFormatted(p, "food.command.food.success.self"));
+            return CommandResult.success();
+        } else {
+            checkPermission(sender, FoodPermissions.UC_FOOD_FOOD_OTHERS);
+            Player t = args.<Player>getOne("player").get();
+            t.offer(Keys.FOOD_LEVEL, t.get(FoodData.class).get().foodLevel().getMaxValue());
+            t.offer(Keys.SATURATION, ItemStack.builder().itemType(ItemTypes.COOKED_BEEF).build().getProperty(SaturationProperty.class).get().getValue());
+            sender.sendMessage(Messages.getFormatted(sender, "food.command.food.success.others.self", "%player%", VariableUtil.getNameSource(t)));
+            t.sendMessage(Messages.getFormatted(t, "food.command.food.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
+            return CommandResult.success();
+        }
     }
 }

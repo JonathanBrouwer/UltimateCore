@@ -43,6 +43,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -66,15 +67,17 @@ public interface SmartCommand extends Command, CommandExecutor {
             return CommandResult.empty();
         } catch (CommandException ex) {
             if (ex.getText() != null) {
-                sender.sendMessage(ex.getText());
+                //TODO translatable error messages?
+                sender.sendMessage(Text.of(TextColors.RED, ex.getText()));
+                if (ex.shouldIncludeUsage()) {
+                    sender.sendMessage(Text.of(TextColors.RED, getUsage(sender)));
+                }
             }
             return CommandResult.empty();
         }
     }
 
-    default CommandElement[] getArguments() {
-        return new CommandElement[]{};
-    }
+    CommandElement[] getArguments();
 
     default Map<List<String>, ? extends Command> getChildren() {
         return new HashMap<>();
@@ -142,8 +145,6 @@ public interface SmartCommand extends Command, CommandExecutor {
         try {
             CommandArgs cargs = new CommandArgs(StringUtil.join(" ", rawargs), argumentParser.tokenize(args, false));
             CommandContext context = new CommandContext();
-            //Should this be here?
-            GenericArguments.seq(getArguments()).parse(sender, cargs, context);
             //Add location where player is looking as argument (for some reason sponge can't do that itself)
             if (sender instanceof Player) {
                 BlockRay<World> blockRay = BlockRay.from((Player) sender).stopFilter(BlockRay.continueAfterFilter(BlockRay.onlyAirFilter(), 1)).build();
@@ -166,14 +167,14 @@ public interface SmartCommand extends Command, CommandExecutor {
     CommandResult execute(CommandSource sender, CommandContext args) throws CommandException;
 
     //QUICK CHECKS
-    default void checkPermission(CommandSource commander, String permission) throws CommandException {
-        if (!commander.hasPermission(permission)) {
+    default void checkPermission(CommandSource sender, String permission) throws CommandException {
+        if (!sender.hasPermission(permission)) {
             throw new CommandPermissionException();
         }
     }
 
-    default void checkPermission(CommandSource commander, Permission permission) throws CommandException {
-        if (!commander.hasPermission(permission.get())) {
+    default void checkPermission(CommandSource sender, Permission permission) throws CommandException {
+        if (!sender.hasPermission(permission.get())) {
             throw new CommandPermissionException();
         }
     }

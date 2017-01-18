@@ -86,7 +86,7 @@ public class VotifierModule implements Module {
         try {
             schemes = config.get().getNode("schemes").getList(TypeToken.of(VotifierScheme.class));
             config.get().getNode("cumulative-schemes").getChildrenMap().forEach((number, node) -> {
-                if (!ArgumentUtil.isNumber(number.toString())) {
+                if (!ArgumentUtil.isInteger(number.toString())) {
                     return;
                 }
                 Integer num = Integer.parseInt(number.toString());
@@ -108,7 +108,7 @@ public class VotifierModule implements Module {
             VotifierSchemeSerializer schemeSerializer = new VotifierSchemeSerializer();
             schemes = config.get().getNode("schemes").getList(TypeToken.of(VotifierScheme.class));
             config.get().getNode("cumulative-schemes").getChildrenMap().forEach((number, node) -> {
-                if (!ArgumentUtil.isNumber(number.toString())) {
+                if (!ArgumentUtil.isInteger(number.toString())) {
                     return;
                 }
                 Integer num = Integer.parseInt(number.toString());

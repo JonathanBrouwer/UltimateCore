@@ -104,8 +104,8 @@ public class ItemenchantCommand implements Command {
             return CommandResult.empty();
         }
         if (args.length >= 2) {
-            if (!ArgumentUtil.isNumber(args[1])) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nonumber", "%number%", args[0]));
+            if (!ArgumentUtil.isInteger(args[1])) {
+                sender.sendMessage(Messages.getFormatted(sender, "core.number.invalid", "%number%", args[0]));
                 return CommandResult.empty();
             }
             level = Integer.parseInt(args[1]);

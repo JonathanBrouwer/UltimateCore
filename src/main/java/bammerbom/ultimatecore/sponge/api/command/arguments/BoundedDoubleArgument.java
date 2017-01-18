@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.arguments;
 
+import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
@@ -32,40 +33,39 @@ import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-public class BooleanArgument extends CommandElement {
-    public BooleanArgument(@Nullable Text key) {
+public class BoundedDoubleArgument extends CommandElement {
+
+    private final Double min;
+    private final Double max;
+
+    public BoundedDoubleArgument(@Nullable Text key, @Nullable Double min, @Nullable Double max) {
         super(key);
+        this.min = min;
+        this.max = max;
     }
 
     @Nullable
     @Override
-    public Boolean parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
-        String var = args.next();
-        switch (var.toLowerCase()) {
-            case "true":
-            case "t":
-            case "on":
-            case "yes":
-            case "y":
-            case "verymuchso":
-                return true;
-            case "false":
-            case "f":
-            case "off":
-            case "no":
-            case "n":
-            case "notatall":
-                return false;
-            default:
-                throw args.createError(Messages.getFormatted("core.booleaninvalid", "%argument%", var));
+    public Double parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
+        String value = args.next();
+        if (!ArgumentUtil.isDouble(value)) {
+            throw args.createError(Messages.getFormatted("core.number.invalid", "%number%", value));
         }
+        Double num = Double.parseDouble(value);
+        if (max != null && num > max) {
+            throw args.createError(Messages.getFormatted("core.number.toohigh", "%number%", value));
+        }
+        if (min != null && num < min) {
+            throw args.createError(Messages.getFormatted("core.number.toolow", "%number%", value));
+        }
+        return num;
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        return Arrays.asList("true", "false", "on", "off", "yes", "no");
+        return new ArrayList<>();
     }
 }

@@ -137,7 +137,7 @@ public class TimeCommand implements Command {
 
                 return CommandResult.success();
             }
-        } else if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("day") || args[0].equalsIgnoreCase("night") || ArgumentUtil.isNumber(args[0])) {
+        } else if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("day") || args[0].equalsIgnoreCase("night") || ArgumentUtil.isInteger(args[0])) {
             //time set/add/day/night/<ticks>
             World world;
             if (sender instanceof Player) {
@@ -154,7 +154,7 @@ public class TimeCommand implements Command {
                     sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
-                if (args.length >= 2 && ArgumentUtil.isNumber(args[1])) {
+                if (args.length >= 2 && ArgumentUtil.isInteger(args[1])) {
                     Long ticks = Long.parseLong(args[1]);
                     world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
                     sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.add", "%ticks%", ticks));
@@ -179,7 +179,7 @@ public class TimeCommand implements Command {
                 Long ticks = 12541 - (world.getProperties().getWorldTime() % 24000);
                 world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
                 sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.night"));
-            } else if (ArgumentUtil.isNumber(args[0])) {
+            } else if (ArgumentUtil.isInteger(args[0])) {
                 if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_TICKS.get())) {
                     sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
@@ -209,7 +209,7 @@ public class TimeCommand implements Command {
                     Long ticks = 12541 - (world.getProperties().getWorldTime() % 24000);
                     world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
                     sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.night"));
-                } else if (ArgumentUtil.isNumber(args[1])) {
+                } else if (ArgumentUtil.isInteger(args[1])) {
                     if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_TICKS.get())) {
                         sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                         return CommandResult.empty();

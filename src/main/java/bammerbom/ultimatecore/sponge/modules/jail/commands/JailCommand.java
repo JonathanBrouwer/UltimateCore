@@ -119,7 +119,7 @@ public class JailCommand implements Command {
 
         //Time
         if (args.length >= (current + 1)) {
-            time = TimeUtil.parseDateDiff(args[current]);
+            time = TimeUtil.parse(args[current]);
             if (time != -1) {
                 current++;
             }

@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.afk.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
@@ -66,8 +67,8 @@ public class AfkCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                GenericArguments.optionalWeak(GenericArguments.onlyOne(new PlayerArgument(Text.of("player")))),
-                GenericArguments.optionalWeak(GenericArguments.remainingJoinedStrings(Text.of("message")))
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optionalWeak().build(),
+                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("message"))).optionalWeak().onlyOne().build()
         };
     }
 

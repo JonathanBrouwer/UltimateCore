@@ -30,9 +30,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TimeUtil {
-    public static long parseDateDiff(String time) {
+    public static long parse(String time) {
         if (time.equalsIgnoreCase("-1")) {
-            return -1;
+            return -1L;
         }
         try {
             Long mil = -1L;
@@ -72,7 +72,7 @@ public class TimeUtil {
                         break;
                 }
             }
-            if (ArgumentUtil.isNumber(time)) {
+            if (ArgumentUtil.isInteger(time)) {
                 mil = mil + (Long.parseLong(time) * 1000 * 60 * 60);
             }
             return mil;
@@ -120,7 +120,20 @@ public class TimeUtil {
         StringBuilder sb = new StringBuilder();
         int[] types = {1, 2, 5, 11, 12, 13};
 
-        String[] names = {Messages.getColored("core.time.years"), Messages.getColored("core.time.year"), Messages.getColored("core.time.months"), Messages.getColored("core.time.month"), Messages.getColored("core.time.days"), Messages.getColored("core.time.day"), Messages.getColored("core.time.hours"), Messages.getColored("core.time.hour"), Messages.getColored("core.time.minutes"), Messages.getColored("core.time.minute"), Messages.getColored("core.time.seconds"), Messages.getColored("core.time.second")};
+        String[] names = {
+                Messages.getColored("core.time.years"),
+                Messages.getColored("core.time.year"),
+                Messages.getColored("core.time.months"),
+                Messages.getColored("core.time.month"),
+                Messages.getColored("core.time.days"),
+                Messages.getColored("core.time.day"),
+                Messages.getColored("core.time.hours"),
+                Messages.getColored("core.time.hour"),
+                Messages.getColored("core.time.minutes"),
+                Messages.getColored("core.time.minute"),
+                Messages.getColored("core.time.seconds"),
+                Messages.getColored("core.time.second")
+        };
 
         int accuracy = 0;
         for (int i = 0; i < types.length; i++) {

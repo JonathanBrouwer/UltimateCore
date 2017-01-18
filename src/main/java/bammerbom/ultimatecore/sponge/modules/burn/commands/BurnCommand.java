@@ -23,32 +23,29 @@
  */
 package bammerbom.ultimatecore.sponge.modules.burn.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.BoundedDoubleArgument;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.burn.BurnModule;
 import bammerbom.ultimatecore.sponge.modules.burn.api.BurnPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class BurnCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.BURN.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "burn";
-    }
-
+@RegisterCommand(module = BurnModule.class, aliases = {"burn", "fire", "ignite"})
+public class BurnCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return BurnPermissions.UC_BURN_BURN_BASE;
@@ -60,42 +57,19 @@ public class BurnCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("burn", "fire", "ignite");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(), Arguments.builder(new BoundedDoubleArgument(Text.of("time"), 0.0, null)).onlyOne().optional().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(BurnPermissions.UC_BURN_BURN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        Player t;
-        if (Selector.one(sender, args[0]).isPresent()) {
-            t = Selector.one(sender, args[0]).get();
-        } else {
-            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-            return CommandResult.empty();
-        }
-        Double time = 10.0;
-        if (args.length >= 2) {
-            try {
-                time = Double.parseDouble(args[1]);
-            } catch (Exception ex) {
-            }
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, BurnPermissions.UC_BURN_BURN_BASE);
+        Player t = args.<Player>getOne("player").get();
+        Double time = args.<Double>getOne("time").orElse(10.0);
         t.offer(Keys.FIRE_TICKS, Double.valueOf(time * 20).intValue());
         sender.sendMessage(Messages.getFormatted(sender, "burn.command.burn.success", "%player%", t.getName(), "%time%", time));
-
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

@@ -86,7 +86,7 @@ public class SethomeCommand implements Command {
             return CommandResult.empty();
         }
         String shomecount = HomePermissions.UC_HOME_HOMECOUNT.getFor(sender);
-        if (!ArgumentUtil.isNumber(shomecount)) {
+        if (!ArgumentUtil.isInteger(shomecount)) {
             sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.invalidhomecount", "%homecount%", shomecount));
             return CommandResult.empty();
         }

@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.utils;
 
 public class ArgumentUtil {
-    public static boolean isNumber(String arg) {
+    public static boolean isInteger(String arg) {
         try {
             Integer.parseInt(arg);
             return true;
@@ -33,7 +33,16 @@ public class ArgumentUtil {
         }
     }
 
-    public static boolean isDecimal(String arg) {
+    public static boolean isLong(String arg) {
+        try {
+            Long.parseLong(arg);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    public static boolean isDouble(String arg) {
         try {
             Double.parseDouble(arg);
             return true;

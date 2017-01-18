@@ -91,7 +91,7 @@ public class CreatekitCommand implements Command {
         long delay = -1;
         Text description = Messages.getFormatted("kit.defaultdescription");
         if (args.length >= 2) {
-            if (ArgumentUtil.isNumber(args[1])) {
+            if (ArgumentUtil.isInteger(args[1])) {
                 delay = Long.parseLong(args[1]);
             }
             int dstart = delay == -1 ? 1 : 2;

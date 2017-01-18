@@ -24,33 +24,29 @@
 package bammerbom.ultimatecore.sponge.modules.fly.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.fly.FlyModule;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyKeys;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class FlyCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.FLY.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "fly";
-    }
-
+@RegisterCommand(module = FlyModule.class, aliases = {"fly", "flight"})
+public class FlyCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return FlyPermissions.UC_FLY_FLY_BASE;
@@ -62,40 +58,17 @@ public class FlyCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("fly", "flight");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optionalWeak().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(FlyPermissions.UC_FLY_FLY_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length >= 1) {
-            //Get the player
-            Player t = Selector.one(sender, args[0]).orElse(null);
-            if (t == null) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-                return CommandResult.empty();
-            }
-            //Toggle the fly state
-            boolean fly = !t.get(Keys.CAN_FLY).orElse(false);
-            t.offer(Keys.CAN_FLY, fly);
-
-            if (fly) {
-                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success.self", "%player%", t.getName(), "%state%", Messages.getColored("fly.command.fly.enabled")));
-                t.sendMessage(Messages.getFormatted(t, "fly.command.fly.success.others", "%player%", sender.getName(), "%state%", Messages.getColored("fly.command.fly.enabled")));
-            } else {
-                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success.self", "%player%", t.getName(), "%state%", Messages.getColored("fly.command.fly.disabled")));
-                t.sendMessage(Messages.getFormatted(t, "fly.command.fly.success.others", "%player%", sender.getName(), "%state%", Messages.getColored("fly.command.fly.disabled")));
-            }
-            return CommandResult.success();
-        } else {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-                return CommandResult.empty();
-            }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, FlyPermissions.UC_FLY_FLY_BASE);
+        if (!args.hasAny("player")) {
+            checkIfPlayer(sender);
             Player p = (Player) sender;
 
             boolean fly = !p.get(Keys.CAN_FLY).orElse(false);
@@ -109,11 +82,22 @@ public class FlyCommand implements Command {
                 sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success", "%state%", Messages.getColored("fly.command.fly.disabled")));
             }
             return CommandResult.success();
-        }
-    }
+        } else {
+            checkPermission(sender, FlyPermissions.UC_FLY_FLY_OTHERS);
+            Player t = args.<Player>getOne("player").get();
 
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
+            //Toggle the fly state
+            boolean fly = !t.get(Keys.CAN_FLY).orElse(false);
+            t.offer(Keys.CAN_FLY, fly);
+
+            if (fly) {
+                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success.self", "%player%", t.getName(), "%state%", Messages.getColored("fly.command.fly.enabled")));
+                t.sendMessage(Messages.getFormatted(t, "fly.command.fly.success.others", "%player%", sender.getName(), "%state%", Messages.getColored("fly.command.fly.enabled")));
+            } else {
+                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success.self", "%player%", t.getName(), "%state%", Messages.getColored("fly.command.fly.disabled")));
+                t.sendMessage(Messages.getFormatted(t, "fly.command.fly.success.others", "%player%", sender.getName(), "%state%", Messages.getColored("fly.command.fly.disabled")));
+            }
+            return CommandResult.success();
+        }
     }
 }

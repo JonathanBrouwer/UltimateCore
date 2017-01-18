@@ -36,6 +36,7 @@ import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PlayerArgument extends CommandElement {
@@ -45,9 +46,14 @@ public class PlayerArgument extends CommandElement {
 
     @Nullable
     @Override
-    protected Object parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
+    public Player parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
         String player = args.next();
-        return Selector.one(source, player).orElseThrow(() -> args.createError(Messages.getFormatted("core.playernotfound", "%player%", player)));
+        Optional<Player> t = Selector.one(source, player);
+        if (t.isPresent()) {
+            return t.get();
+        } else {
+            throw args.createError(Messages.getFormatted("core.playernotfound", "%player%", player));
+        }
     }
 
     @Override

@@ -24,34 +24,30 @@
 package bammerbom.ultimatecore.sponge.modules.deaf.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.deaf.DeafModule;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafKeys;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UndeafCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.DEAF.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "deaf";
-    }
+@RegisterCommand(module = DeafModule.class, aliases = {"undeaf"})
+public class UndeafCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -64,41 +60,25 @@ public class UndeafCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("undeaf");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build()
+        };
     }
 
-    //deaf <Player> [Time] [Reason]
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(DeafPermissions.UC_DEAF_UNDEAF_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        Player t = Selector.one(sender, args[0]).orElse(null);
-        if (t == null) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, DeafPermissions.UC_DEAF_UNDEAF_BASE);
+        Player t = args.<Player>getOne("player").get();
 
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
         if (!ut.get(DeafKeys.DEAF).isPresent()) {
-            sender.sendMessage(Messages.getFormatted(sender, "deaf.command.undeaf.notdeafd", "%player%", VariableUtil.getNameEntity(t)));
+            sender.sendMessage(Messages.getFormatted(sender, "deaf.command.undeaf.notdeaf", "%player%", VariableUtil.getNameEntity(t)));
             return CommandResult.empty();
         }
         ut.offer(DeafKeys.DEAF, null);
 
         sender.sendMessage(Messages.getFormatted(sender, "deaf.command.undeaf.success", "%player%", VariableUtil.getNameEntity(t)));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        if (curn == 0) return null;
-        return new ArrayList<>();
     }
 }

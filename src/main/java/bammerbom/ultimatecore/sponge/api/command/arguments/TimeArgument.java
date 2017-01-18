@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.command.arguments;
 
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
@@ -32,40 +33,28 @@ import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-public class BooleanArgument extends CommandElement {
-    public BooleanArgument(@Nullable Text key) {
+public class TimeArgument extends CommandElement {
+
+    public TimeArgument(@Nullable Text key) {
         super(key);
     }
 
     @Nullable
     @Override
-    public Boolean parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
-        String var = args.next();
-        switch (var.toLowerCase()) {
-            case "true":
-            case "t":
-            case "on":
-            case "yes":
-            case "y":
-            case "verymuchso":
-                return true;
-            case "false":
-            case "f":
-            case "off":
-            case "no":
-            case "n":
-            case "notatall":
-                return false;
-            default:
-                throw args.createError(Messages.getFormatted("core.booleaninvalid", "%argument%", var));
+    public Long parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
+        String value = args.next();
+        Long time = TimeUtil.parse(value);
+        if (time <= -1L) {
+            throw args.createError(Messages.getFormatted("core.time.invalid", "%time%", value));
         }
+        return time;
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        return Arrays.asList("true", "false", "on", "off", "yes", "no");
+        return new ArrayList<>();
     }
 }

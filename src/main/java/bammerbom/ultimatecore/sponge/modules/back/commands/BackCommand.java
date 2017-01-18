@@ -24,37 +24,31 @@
 package bammerbom.ultimatecore.sponge.modules.back.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.DataFailedException;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.back.BackModule;
 import bammerbom.ultimatecore.sponge.modules.back.api.BackKeys;
 import bammerbom.ultimatecore.sponge.modules.back.api.BackPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.World;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class BackCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.BACK.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "back";
-    }
-
+@RegisterCommand(module = BackModule.class, aliases = {"back", "return"})
+public class BackCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return BackPermissions.UC_BACK_BACK_BASE;
@@ -66,26 +60,19 @@ public class BackCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("back", "return");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{};
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
-        if (!sender.hasPermission(BackPermissions.UC_BACK_BACK_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, BackPermissions.UC_BACK_BACK_BASE);
         Player p = (Player) sender;
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
         Optional<Transform<World>> loc = up.get(BackKeys.BACK);
         if (!loc.isPresent()) {
-            sender.sendMessage(Messages.getFormatted(sender, "back.command.back.notfound"));
-            return CommandResult.empty();
+            throw new DataFailedException(Messages.getFormatted(sender, "back.command.back.notfound"));
         }
 
         Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc.get(), tel -> {
@@ -94,10 +81,5 @@ public class BackCommand implements Command {
         }, true, false);
         tp.start();
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return new ArrayList<>();
     }
 }

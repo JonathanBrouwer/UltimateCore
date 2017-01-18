@@ -76,8 +76,8 @@ public class RandomCommand implements Command {
             sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         } else if (args.length == 1 || args.length == 2) {
-            if (!ArgumentUtil.isNumber(args[0])) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nonumber", "%number%", args[0]));
+            if (!ArgumentUtil.isInteger(args[0])) {
+                sender.sendMessage(Messages.getFormatted(sender, "core.number.invalid", "%number%", args[0]));
                 return CommandResult.empty();
             }
 

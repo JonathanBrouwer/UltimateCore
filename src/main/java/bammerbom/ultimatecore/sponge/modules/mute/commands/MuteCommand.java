@@ -92,8 +92,8 @@ public class MuteCommand implements Command {
         }
 
         Long time = -1L;
-        if (args.length >= 2 && TimeUtil.parseDateDiff(args[1]) != -1) {
-            time = TimeUtil.parseDateDiff(args[1]);
+        if (args.length >= 2 && TimeUtil.parse(args[1]) != -1) {
+            time = TimeUtil.parse(args[1]);
         }
         Text reason = Messages.getFormatted("mute.command.mute.defaultreason");
         if (args.length >= 2 && time == -1L) {
