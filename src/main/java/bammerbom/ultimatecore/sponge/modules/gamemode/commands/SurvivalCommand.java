@@ -23,33 +23,29 @@
  */
 package bammerbom.ultimatecore.sponge.modules.gamemode.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.gamemode.GamemodeModule;
 import bammerbom.ultimatecore.sponge.modules.gamemode.api.GamemodePermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class SurvivalCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.GAMEMODE.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "survival";
-    }
-
+@RegisterCommand(module = GamemodeModule.class, aliases = {"survival", "s"})
+public class SurvivalCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_SURVIVAL;
@@ -61,52 +57,30 @@ public class SurvivalCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("survival", "s");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).optional().onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        Player player;
-        if (args.length >= 1) {
-            //Check permissions
-            if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_SURVIVAL.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
-            //Send messages
-            if (Selector.one(sender, args[0]).isPresent()) {
-                player = Selector.one(sender, args[0]).get();
-                //Not uuids because a sender does not have an UUID.
-                if (!sender.getName().equals(player.getName())) {
-                    player.sendMessage(Messages.getFormatted(player, "gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "survival"));
-                }
-                sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", player.getName(), "%gamemode%", "survival"));
-            } else {
-                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-                return CommandResult.empty();
-            }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE);
+        checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_SURVIVAL);
+        if (!args.hasAny("player")) {
+            checkIfPlayer(sender);
+            Player p = (Player) sender;
+            p.offer(Keys.GAME_MODE, GameModes.SURVIVAL);
+            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success", "%gamemode%", "survival"));
+            return CommandResult.success();
         } else {
-            //Check permissions
-            if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_SURVIVAL.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
-            //Send messages
-            if (sender instanceof Player) {
-                player = (Player) sender;
-                sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success", "%gamemode%", "survival"));
-            } else {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-                return CommandResult.empty();
-            }
+            checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE);
+            checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_SURVIVAL);
+            Player t = args.<Player>getOne("player").get();
+            t.offer(Keys.GAME_MODE, GameModes.SURVIVAL);
+            t.sendMessage(Messages.getFormatted(t, "gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "survival"));
+            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", t.getName(), "%gamemode%", "survival"));
+            return CommandResult.success();
         }
-        player.offer(Keys.GAME_MODE, GameModes.SURVIVAL);
-        return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

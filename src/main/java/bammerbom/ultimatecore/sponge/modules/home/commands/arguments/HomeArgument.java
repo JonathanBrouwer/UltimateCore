@@ -21,55 +21,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.arguments;
+package bammerbom.ultimatecore.sponge.modules.home.commands.arguments;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.home.api.Home;
+import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class BooleanArgument extends CommandElement {
-    public BooleanArgument(@Nullable Text key) {
+public class HomeArgument extends CommandElement {
+    public HomeArgument(@Nullable Text key) {
         super(key);
     }
 
     @Nullable
     @Override
-    public Boolean parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
-        String var = args.next();
-        switch (var.toLowerCase()) {
-            case "true":
-            case "t":
-            case "on":
-            case "yes":
-            case "y":
-            case "verymuchso":
-            case "enable":
-            case "enabled":
-                return true;
-            case "false":
-            case "f":
-            case "off":
-            case "no":
-            case "n":
-            case "notatall":
-            case "disable":
-            case "disabled":
-                return false;
-            default:
-                throw args.createError(Messages.getFormatted("core.booleaninvalid", "%argument%", var));
+    public Home parseValue(CommandSource src, CommandArgs args) throws ArgumentParseException {
+        String value = args.next();
+        if (!(src instanceof Player)) {
+            //This shouldnt happen
+            return null;
         }
+        Player p = (Player) src;
+        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+        List<Home> homes = up.get(HomeKeys.HOMES).get();
+        for (Home home : homes) {
+            if (value.equalsIgnoreCase(home.getName())) {
+                return home;
+            }
+        }
+        throw args.createError(Messages.getFormatted(src, "home.command.home.notfound", "%home%", value.toLowerCase()));
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        return Arrays.asList("true", "false", "on", "off", "yes", "no");
+        if (!(src instanceof Player)) {
+            //This shouldnt happen
+            return new ArrayList<>();
+        }
+        Player p = (Player) src;
+        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+        List<Home> homes = up.get(HomeKeys.HOMES).get();
+        return homes.stream().map(home -> home.getName()).collect(Collectors.toList());
     }
 }

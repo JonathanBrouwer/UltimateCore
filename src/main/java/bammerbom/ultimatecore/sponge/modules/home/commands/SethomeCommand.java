@@ -24,37 +24,34 @@
 package bammerbom.ultimatecore.sponge.modules.home.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.home.HomeModule;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
 import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SethomeCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.HOME.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "sethome";
-    }
-
+@RegisterCommand(module = HomeModule.class, aliases = {"sethome", "addhome"})
+public class SethomeCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return HomePermissions.UC_HOME_SETHOME_BASE;
@@ -66,25 +63,19 @@ public class SethomeCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("sethome", "addhome");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(GenericArguments.string(Text.of("home"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, HomePermissions.UC_HOME_SETHOME_BASE);
         Player p = (Player) sender;
-        if (!sender.hasPermission(HomePermissions.UC_HOME_SETHOME_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
+        String homename = args.<String>getOne("home").get();
+
         String shomecount = HomePermissions.UC_HOME_HOMECOUNT.getFor(sender);
         if (!ArgumentUtil.isInteger(shomecount)) {
             sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.invalidhomecount", "%homecount%", shomecount));
@@ -93,27 +84,22 @@ public class SethomeCommand implements Command {
         Integer homecount = Integer.parseInt(shomecount);
         UltimateUser user = UltimateCore.get().getUserService().getUser((Player) sender);
         List<Home> homes = user.get(HomeKeys.HOMES).orElse(new ArrayList<>());
-        boolean replace = homes.stream().filter(home -> home.getName().equalsIgnoreCase(args[0])).count() >= 1;
+        boolean replace = homes.stream().filter(home -> home.getName().equalsIgnoreCase(homename)).count() >= 1;
         //If amount of homes (+1 if not replace) is higher than max amount of homes
         if ((homes.size() + (replace ? 0 : 1)) > homecount && !sender.hasPermission(HomePermissions.UC_HOME_SETHOME_UNLIMITED.get())) {
             sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.maxhomes"));
             return CommandResult.empty();
         }
         //Remove home with matching name
-        homes = homes.stream().filter(home -> !home.getName().equalsIgnoreCase(args[0])).collect(Collectors.toList());
-        homes.add(new Home(args[0].toLowerCase(), new Transform<>(p.getLocation(), p.getRotation(), p.getScale())));
+        homes = homes.stream().filter(home -> !home.getName().equalsIgnoreCase(homename)).collect(Collectors.toList());
+        homes.add(new Home(homename.toLowerCase(), new Transform<>(p.getLocation(), p.getRotation(), p.getScale())));
         user.offer(HomeKeys.HOMES, homes);
 
         if (replace) {
-            sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.success.replace", "%home%", args[0].toLowerCase()));
+            sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.success.replace", "%home%", homename.toLowerCase()));
         } else {
-            sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.success.set", "%home%", args[0].toLowerCase()));
+            sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.success.set", "%home%", homename.toLowerCase()));
         }
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

@@ -24,19 +24,22 @@
 package bammerbom.ultimatecore.sponge.modules.home.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.home.HomeModule;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
 import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.service.pagination.PaginationService;
@@ -48,17 +51,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class HomelistCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.HOME.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "homelist";
-    }
-
+@RegisterCommand(module = HomeModule.class, aliases = {"homelist", "homes"})
+public class HomelistCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return HomePermissions.UC_HOME_HOME_BASE;
@@ -70,22 +64,17 @@ public class HomelistCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("homelist", "homes");
+    public CommandElement[] getArguments() {
+        return new CommandElement[0];
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, HomePermissions.UC_HOME_HOME_BASE);
         Player p = (Player) sender;
+        
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);
-        if (!sender.hasPermission(HomePermissions.UC_HOME_HOME_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
         List<Home> homes = user.get(HomeKeys.HOMES).orElse(new ArrayList<>());
         if (homes.isEmpty()) {
             sender.sendMessage(Messages.getFormatted(sender, "home.command.homelist.empty"));
@@ -114,10 +103,5 @@ public class HomelistCommand implements Command {
         PaginationList paginationList = paginationService.builder().contents(entries).title(Messages.getFormatted("home.command.homelist.header").toBuilder().format(Messages.getFormatted("home.command.homelist.char").getFormat()).build()).footer(footer).padding(Messages.getFormatted("home.command.homelist.char")).build();
         paginationList.sendTo(sender);
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return new ArrayList<>();
     }
 }

@@ -24,52 +24,60 @@
 package bammerbom.ultimatecore.sponge.api.command.arguments;
 
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.CatalogType;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.entity.living.player.gamemode.GameMode;
+import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class BooleanArgument extends CommandElement {
-    public BooleanArgument(@Nullable Text key) {
+public class GamemodeArgument extends CommandElement {
+
+    public GamemodeArgument(@Nullable Text key) {
         super(key);
     }
 
     @Nullable
     @Override
-    public Boolean parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
-        String var = args.next();
-        switch (var.toLowerCase()) {
-            case "true":
-            case "t":
-            case "on":
-            case "yes":
-            case "y":
-            case "verymuchso":
-            case "enable":
-            case "enabled":
-                return true;
-            case "false":
-            case "f":
-            case "off":
-            case "no":
-            case "n":
-            case "notatall":
-            case "disable":
-            case "disabled":
-                return false;
+    public GameMode parseValue(CommandSource sender, CommandArgs args) throws ArgumentParseException {
+        String value = args.next();
+        if (Sponge.getRegistry().getType(CatalogTypes.GAME_MODE, value).isPresent()) {
+            return Sponge.getRegistry().getType(CatalogTypes.GAME_MODE, value).get();
+        }
+        switch (value.toLowerCase()) {
+            case "survival":
+            case "0":
+            case "s":
+                return GameModes.SURVIVAL;
+            case "creative":
+            case "c":
+            case "1":
+                return GameModes.CREATIVE;
+            case "adventure":
+            case "2":
+            case "a":
+                return GameModes.ADVENTURE;
+            case "spectator":
+            case "3":
+            case "spec":
+            case "sp":
+                return GameModes.SPECTATOR;
             default:
-                throw args.createError(Messages.getFormatted("core.booleaninvalid", "%argument%", var));
+                throw (args.createError(Messages.getFormatted(sender, "gamemode.command.gamemode.invalidgamemode", "%gamemode%", value)));
         }
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        return Arrays.asList("true", "false", "on", "off", "yes", "no");
+        return Sponge.getRegistry().getAllOf(CatalogTypes.GAME_MODE).stream().map(CatalogType::getId).collect(Collectors.toList());
     }
 }

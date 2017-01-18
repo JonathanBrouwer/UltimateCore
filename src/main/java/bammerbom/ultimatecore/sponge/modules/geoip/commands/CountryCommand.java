@@ -23,33 +23,30 @@
  */
 package bammerbom.ultimatecore.sponge.modules.geoip.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.geoip.GeoipModule;
 import bammerbom.ultimatecore.sponge.modules.geoip.api.GeoipPermissions;
 import bammerbom.ultimatecore.sponge.modules.geoip.handlers.GeoipHandler;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import com.maxmind.geoip2.record.Country;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CountryCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.GEOIP.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "country";
-    }
+@RegisterCommand(module = GeoipModule.class, aliases = {"country"})
+public class CountryCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -62,22 +59,16 @@ public class CountryCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("country");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(GeoipPermissions.UC_GEOIP_COUNTRY_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-
-        Player t = Selector.one(sender, args[0]).orElse(null);
-        if (t == null) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, GeoipPermissions.UC_GEOIP_COUNTRY_BASE);
+        Player t = args.<Player>getOne("player").get();
 
         Country country = GeoipHandler.getCountry(t.getConnection().getAddress().getAddress()).orElse(null);
         if (country == null) {
@@ -86,10 +77,5 @@ public class CountryCommand implements Command {
         }
         sender.sendMessage(Messages.getFormatted(sender, "geoip.command.country.success", "%player%", VariableUtil.getNameSource(t), "%country%", country.getName()));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

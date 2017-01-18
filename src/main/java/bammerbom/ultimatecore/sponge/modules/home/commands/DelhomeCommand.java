@@ -24,34 +24,31 @@
 package bammerbom.ultimatecore.sponge.modules.home.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.home.HomeModule;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
+import bammerbom.ultimatecore.sponge.modules.home.commands.arguments.HomeArgument;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class DelhomeCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.HOME.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "delhome";
-    }
+@RegisterCommand(module = HomeModule.class, aliases = {"delhome", "removehome"})
+public class DelhomeCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -64,44 +61,25 @@ public class DelhomeCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("delhome", "removehome");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new HomeArgument(Text.of("home"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, HomePermissions.UC_HOME_DELHOME_BASE);
         Player p = (Player) sender;
-        if (!sender.hasPermission(HomePermissions.UC_HOME_DELHOME_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
+        Home home = args.<Home>getOne("home").get();
+
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);
         List<Home> homes = user.get(HomeKeys.HOMES).orElse(new ArrayList<>());
-        //Remove home with matching name
-        homes = homes.stream().filter(home -> !home.getName().equalsIgnoreCase(args[0])).collect(Collectors.toList());
+        homes.remove(home);
         user.offer(HomeKeys.HOMES, homes);
 
-        sender.sendMessage(Messages.getFormatted(sender, "home.command.delhome.success", "%home%", args[0].toLowerCase()));
+        sender.sendMessage(Messages.getFormatted(sender, "home.command.delhome.success", "%home%", home.getName()));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            UltimateUser user = UltimateCore.get().getUserService().getUser(p);
-            List<Home> homes = user.get(HomeKeys.HOMES).orElse(new ArrayList<>());
-            return homes.stream().map(Home::getName).collect(Collectors.toList());
-        } else {
-            return new ArrayList<>();
-        }
     }
 }

@@ -23,33 +23,29 @@
  */
 package bammerbom.ultimatecore.sponge.modules.gamemode.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.gamemode.GamemodeModule;
 import bammerbom.ultimatecore.sponge.modules.gamemode.api.GamemodePermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class SpectatorCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.GAMEMODE.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "spectator";
-    }
-
+@RegisterCommand(module = GamemodeModule.class, aliases = {"spectator", "spec"})
+public class SpectatorCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_SPECTATOR;
@@ -61,52 +57,30 @@ public class SpectatorCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("spectator", "spec");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).optional().onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        Player player;
-        if (args.length >= 1) {
-            //Check permissions
-            if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_SPECTATOR.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
-            //Send messages
-            if (Selector.one(sender, args[0]).isPresent()) {
-                player = Selector.one(sender, args[0]).get();
-                //Not uuids because a sender does not have an UUID.
-                if (!sender.getName().equals(player.getName())) {
-                    player.sendMessage(Messages.getFormatted(player, "gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "spectator"));
-                }
-                sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", player.getName(), "%gamemode%", "spectator"));
-            } else {
-                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-                return CommandResult.empty();
-            }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE);
+        checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_SELF_SPECTATOR);
+        if (!args.hasAny("player")) {
+            checkIfPlayer(sender);
+            Player p = (Player) sender;
+            p.offer(Keys.GAME_MODE, GameModes.SPECTATOR);
+            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success", "%gamemode%", "spectator"));
+            return CommandResult.success();
         } else {
-            //Check permissions
-            if (!sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE.get()) && !sender.hasPermission(GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_SPECTATOR.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
-            //Send messages
-            if (sender instanceof Player) {
-                player = (Player) sender;
-                sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success", "%gamemode%", "spectator"));
-            } else {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-                return CommandResult.empty();
-            }
+            checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE);
+            checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_SPECTATOR);
+            Player t = args.<Player>getOne("player").get();
+            t.offer(Keys.GAME_MODE, GameModes.SPECTATOR);
+            t.sendMessage(Messages.getFormatted(t, "gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "spectator"));
+            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", t.getName(), "%gamemode%", "spectator"));
+            return CommandResult.success();
         }
-        player.offer(Keys.GAME_MODE, GameModes.SPECTATOR);
-        return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

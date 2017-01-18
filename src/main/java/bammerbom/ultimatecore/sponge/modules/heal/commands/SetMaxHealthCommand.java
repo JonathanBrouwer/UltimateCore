@@ -23,107 +23,70 @@
  */
 package bammerbom.ultimatecore.sponge.modules.heal.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.BoundedDoubleArgument;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.heal.HealModule;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class SetMaxHealthCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.HEAL.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "setmaxhealth";
-    }
+@RegisterCommand(module = HealModule.class, aliases = {"setmaxhealth", "setmaxlives"})
+public class SetmaxhealthCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
         return HealPermissions.UC_HEAL_SETMAXHEALTH_BASE;
+
     }
 
     @Override
     public List<Permission> getPermissions() {
         return Arrays.asList(HealPermissions.UC_HEAL_SETMAXHEALTH_BASE, HealPermissions.UC_HEAL_SETMAXHEALTH_OTHERS);
-
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("setmaxhealth", "maxhealth");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new BoundedDoubleArgument(Text.of("health"), 0.0, null)).onlyOne().build(), Arguments.builder(new PlayerArgument(Text.of("player"))).optional().onlyOne().build(),
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(HealPermissions.UC_HEAL_SETMAXHEALTH_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            if (sender instanceof Player) {
-                sender.sendMessage(getUsage(sender));
-                return CommandResult.empty();
-            } else {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-                return CommandResult.empty();
-            }
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, HealPermissions.UC_HEAL_SETMAXHEALTH_BASE);
+        if (!args.hasAny("player")) {
+            checkIfPlayer(sender);
+            Player p = (Player) sender;
 
-        Double health;
-        if (args.length == 1) {
-            try {
-                Player p = (Player) sender;
-                health = Double.parseDouble(args[0]);
-                if (health <= 0) {
-                    health = 1.0;
-                }
-                p.offer(Keys.MAX_HEALTH, health);
-                sender.sendMessage(Messages.getFormatted(sender, "heal.command.setmaxhealth.success", "%health%", health));
-                return CommandResult.success();
-            } catch (Exception ex) {
-                sender.sendMessage(getUsage(sender));
-                return CommandResult.empty();
-            }
-        } else if (Selector.one(sender, args[1]).isPresent()) {
-            Player t = Selector.one(sender, args[1]).get();
+            Double health = args.<Double>getOne("health").get();
+            p.offer(Keys.MAX_HEALTH, health);
 
-            try {
-                health = Double.parseDouble(args[0]);
-                if (health <= 0) {
-                    health = 1.0;
-                }
-                t.offer(Keys.MAX_HEALTH, health);
-                sender.sendMessage(Messages.getFormatted(sender, "heal.command.setmaxhealth.success.self", "%target%", t.getName(), "%health%", health));
-                t.sendMessage(Messages.getFormatted(t, "heal.command.setmaxhealth.success.others", "%player%", sender.getName(), "%health%", health));
-
-                return CommandResult.success();
-            } catch (Exception ex) {
-                sender.sendMessage(getUsage(sender));
-
-                return CommandResult.empty();
-            }
-
+            sender.sendMessage(Messages.getFormatted(sender, "heal.command.setmaxhealth.success", "%health%", health));
+            return CommandResult.success();
         } else {
-            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[1]));
+            checkPermission(sender, HealPermissions.UC_HEAL_SETMAXHEALTH_OTHERS);
+            Player t = args.<Player>getOne("player").get();
 
-            return CommandResult.empty();
+            Double health = args.<Double>getOne("health").get();
+            t.offer(Keys.MAX_HEALTH, health);
+
+            sender.sendMessage(Messages.getFormatted(sender, "heal.command.setmaxhealth.success.self", "%target%", t.getName(), "%health%", health));
+            t.sendMessage(Messages.getFormatted(t, "heal.command.setmaxhealth.success.others", "%player%", sender.getName(), "%health%", health));
+            return CommandResult.success();
         }
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

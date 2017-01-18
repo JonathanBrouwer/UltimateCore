@@ -24,33 +24,30 @@
 package bammerbom.ultimatecore.sponge.modules.god.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.god.GodModule;
 import bammerbom.ultimatecore.sponge.modules.god.api.GodKeys;
 import bammerbom.ultimatecore.sponge.modules.god.api.GodPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class GodCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.GOD.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "god";
-    }
+@RegisterCommand(module = GodModule.class, aliases = {"god", "godmode"})
+public class GodCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -63,22 +60,19 @@ public class GodCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("god", "godmode");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).optional().onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(GodPermissions.UC_GOD_GOD_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-                return CommandResult.empty();
-            }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, GodPermissions.UC_GOD_GOD_BASE);
+        if (!args.hasAny("player")) {
+            checkIfPlayer(sender);
             Player p = (Player) sender;
+
             UltimateUser up = UltimateCore.get().getUserService().getUser(p);
             boolean god = up.get(GodKeys.GOD).get();
             god = !god;
@@ -86,15 +80,9 @@ public class GodCommand implements Command {
             sender.sendMessage(Messages.getFormatted(sender, "god.command.god.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled")));
             return CommandResult.success();
         } else {
-            if (!sender.hasPermission(GodPermissions.UC_GOD_GOD_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
-            Player t = Selector.one(sender, args[0]).orElse(null);
-            if (t == null) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-                return CommandResult.empty();
-            }
+            checkPermission(sender, GodPermissions.UC_GOD_GOD_OTHERS);
+            Player t = args.<Player>getOne("player").get();
+
             UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
             boolean god = ut.get(GodKeys.GOD).get();
             god = !god;
@@ -103,10 +91,5 @@ public class GodCommand implements Command {
             t.sendMessage(Messages.getFormatted(t, "god.command.god.others.others", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", VariableUtil.getNameSource(sender)));
             return CommandResult.success();
         }
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

@@ -64,7 +64,7 @@ public class FoodCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new PlayerArgument(Text.of("player"))).optionalWeak().onlyOne().build()
+                Arguments.builder(new PlayerArgument(Text.of("player"))).optional().onlyOne().build()
         };
     }
 

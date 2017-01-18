@@ -60,7 +60,7 @@ public class FlyCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optionalWeak().build()
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optional().build()
         };
     }
 

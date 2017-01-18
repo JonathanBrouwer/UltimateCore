@@ -29,7 +29,7 @@ import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
 import bammerbom.ultimatecore.sponge.modules.heal.commands.HealCommand;
 import bammerbom.ultimatecore.sponge.modules.heal.commands.SetHealthCommand;
-import bammerbom.ultimatecore.sponge.modules.heal.commands.SetMaxHealthCommand;
+import bammerbom.ultimatecore.sponge.modules.heal.commands.SetmaxhealthCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -63,7 +63,7 @@ public class HealModule implements Module {
         //commands
         UltimateCore.get().getCommandService().register(new HealCommand());
         UltimateCore.get().getCommandService().register(new SetHealthCommand());
-        UltimateCore.get().getCommandService().register(new SetMaxHealthCommand());
+        UltimateCore.get().getCommandService().register(new SetmaxhealthCommand());
         //Register permissions
         new HealPermissions();
     }

@@ -23,33 +23,30 @@
  */
 package bammerbom.ultimatecore.sponge.modules.heal.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.heal.HealModule;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HealCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.HEAL.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "heal";
-    }
+@RegisterCommand(module = HealModule.class, aliases = {"heal"})
+public class HealCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -62,54 +59,41 @@ public class HealCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("heal");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).optional().onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(HealPermissions.UC_HEAL_HEAL_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            if (sender instanceof Player) {
-                sender.sendMessage(Messages.getFormatted(sender, "heal.command.heal.success"));
-                Player p = (Player) sender;
-                p.offer(Keys.HEALTH, p.get(Keys.MAX_HEALTH).orElse(20.0));
-                p.offer(Keys.POTION_EFFECTS, new ArrayList<>());
-                p.offer(Keys.REMAINING_AIR, p.get(Keys.MAX_AIR).orElse(10));
-                p.offer(Keys.FOOD_LEVEL, 20);
-                p.offer(Keys.FIRE_TICKS, 0);
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, HealPermissions.UC_HEAL_HEAL_BASE);
+        if (!args.hasAny("player")) {
+            checkIfPlayer(sender);
+            Player p = (Player) sender;
 
-                return CommandResult.success();
-            } else {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-                return CommandResult.empty();
-            }
-        }
-        Player t;
-        if (Selector.one(sender, args[0]).isPresent()) {
-            t = Selector.one(sender, args[0]).get();
-            sender.sendMessage(Messages.getFormatted(sender, "heal.command.heal.success.self", "%player%", VariableUtil.getNameEntity(t)));
-            t.sendMessage(Messages.getFormatted(t, "heal.command.heal.success.others", "%sender%", VariableUtil.getNameSource(sender)));
+            p.offer(Keys.HEALTH, p.get(Keys.MAX_HEALTH).orElse(20.0));
+            p.offer(Keys.POTION_EFFECTS, new ArrayList<>());
+            p.offer(Keys.REMAINING_AIR, p.get(Keys.MAX_AIR).orElse(10));
+            p.offer(Keys.FOOD_LEVEL, 20);
+            p.offer(Keys.FIRE_TICKS, 0);
+
+            sender.sendMessage(Messages.getFormatted(sender, "heal.command.heal.success"));
+            return CommandResult.success();
+        } else {
+            checkPermission(sender, HealPermissions.UC_HEAL_HEAL_OTHERS);
+            Player t = args.<Player>getOne("player").get();
+
             t.offer(Keys.HEALTH, t.get(Keys.MAX_HEALTH).orElse(20.0));
             t.offer(Keys.POTION_EFFECTS, new ArrayList<>());
             t.offer(Keys.REMAINING_AIR, t.get(Keys.MAX_AIR).orElse(10));
             t.offer(Keys.FOOD_LEVEL, 20);
             t.offer(Keys.FIRE_TICKS, 0);
 
+            sender.sendMessage(Messages.getFormatted(sender, "heal.command.heal.success.self", "%player%", VariableUtil.getNameEntity(t)));
+            t.sendMessage(Messages.getFormatted(t, "heal.command.heal.success.others", "%sender%", VariableUtil.getNameSource(sender)));
             return CommandResult.success();
-        } else {
-            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-
-            return CommandResult.empty();
         }
-
     }
 
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
-    }
 }
