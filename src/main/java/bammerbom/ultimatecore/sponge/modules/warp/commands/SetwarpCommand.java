@@ -23,37 +23,32 @@
  */
 package bammerbom.ultimatecore.sponge.modules.warp.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.warp.WarpModule;
 import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpKeys;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SetwarpCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.WARP.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "setwarp";
-    }
-
+@RegisterCommand(module = WarpModule.class, aliases = {"setwarp", "addwarp"})
+public class SetwarpCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return WarpPermissions.UC_WARP_SETWARP_BASE;
@@ -65,33 +60,21 @@ public class SetwarpCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("setwarp", "addwarp");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(GenericArguments.string(Text.of("name"))).onlyOne().build(),
+                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("description"))).onlyOne().optional().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        //Has permission
-        if (!sender.hasPermission(WarpPermissions.UC_WARP_SETWARP_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        //Is player
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, WarpPermissions.UC_WARP_SETWARP_BASE);
+        checkIfPlayer(sender);
         Player p = (Player) sender;
-        //Get name & description
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        String name = args[0].toLowerCase();
-        String description = Messages.getColored("warp.command.setwarp.defaultdescription");
-        if (args.length >= 2) {
-            description = StringUtil.getFinalArg(args, 1);
-        }
+
+        String name = args.<String>getOne("name").get();
+        String description = args.hasAny("description") ? args.<String>getOne("description").get() : Messages.getColored("warp.command.setwarp.defaultdescription");
         //Create warp instance
         Warp warp = new Warp(name, description, new Transform<>(p.getLocation(), p.getRotation(), p.getScale()));
         List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();
@@ -106,11 +89,6 @@ public class SetwarpCommand implements Command {
             sender.sendMessage(Messages.getFormatted(sender, "warp.command.setwarp.set", "%warp%", warp.getName()));
         }
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return new ArrayList<>();
     }
 }
 

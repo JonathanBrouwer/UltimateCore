@@ -75,10 +75,10 @@ public class KitlistCommand implements SmartCommand {
         List<Text> texts = new ArrayList<>();
         //Add entry to texts for every kit
         for (Kit kit : kits) {
-            if (!sender.hasPermission("uc.kit.kit." + kit.getId().toLowerCase())) {
+            if (!sender.hasPermission("uc.kit.kit." + kit.getName().toLowerCase())) {
                 continue;
             }
-            texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getId(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getId()))).onClick(TextActions.runCommand("/kit " + kit.getId())).build());
+            texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getName(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getName()))).onClick(TextActions.runCommand("/kit " + kit.getName())).build());
         }
         //If empty send message
         if (texts.isEmpty()) {

@@ -21,45 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.kit.commands.arguments;
+package bammerbom.ultimatecore.sponge.api.command.arguments;
 
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
-import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class KitArgument extends CommandElement {
-    public KitArgument(@Nullable Text key) {
+public class WorldArgument extends CommandElement {
+    public WorldArgument(@Nullable Text key) {
         super(key);
     }
 
     @Nullable
     @Override
-    public Kit parseValue(CommandSource src, CommandArgs args) throws ArgumentParseException {
+    public World parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
         String value = args.next();
-
-        List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
-        for (Kit kit : kits) {
-            if (value.equalsIgnoreCase(kit.getName())) {
-                return kit;
-            }
+        Optional<World> t = Sponge.getServer().getWorld(value);
+        if (t.isPresent()) {
+            return t.get();
+        } else {
+            throw args.createError(Messages.getFormatted("core.worldnotfound", "%world%", value));
         }
-        throw args.createError(Messages.getFormatted(src, "kit.notfound", "%kit%", value.toLowerCase()));
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
-        return kits.stream().map(kit -> kit.getName()).collect(Collectors.toList());
+        return Sponge.getServer().getWorlds().stream().map(World::getName).collect(Collectors.toList());
     }
 }

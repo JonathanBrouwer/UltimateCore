@@ -24,19 +24,24 @@
 package bammerbom.ultimatecore.sponge.modules.warp.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.modules.warp.WarpModule;
 import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpKeys;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
+import bammerbom.ultimatecore.sponge.modules.warp.commands.arguments.WarpArgument;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.service.pagination.PaginationService;
@@ -47,19 +52,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class WarpCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.WARP.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "warp";
-    }
-
+@RegisterCommand(module = WarpModule.class, aliases = {"warp"})
+public class WarpCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return WarpPermissions.UC_WARP_WARP_BASE;
@@ -71,25 +66,23 @@ public class WarpCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("warp");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new WarpArgument(Text.of("warp"))).onlyOne().optional().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        //Send the player a paginated list of all warps
-        if (args.length == 0) {
-            //Permissions
-            if (!sender.hasPermission(WarpPermissions.UC_WARP_WARPLIST_BASE.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, WarpPermissions.UC_WARP_WARP_BASE);
+        if (!args.hasAny("warp")) {
+            checkPermission(sender, WarpPermissions.UC_WARP_WARPLIST_BASE);
             //Get all warps
             List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();
             List<Text> texts = new ArrayList<>();
             //Add entry to texts for every warp
             for (Warp warp : warps) {
-                if (!sender.hasPermission(WarpPermissions.UC_WARP_WARP_BASE.get()) && !sender.hasPermission("uc.warp.warp." + warp.getName().toLowerCase())) {
+                if (!sender.hasPermission("uc.warp.warp." + warp.getName().toLowerCase())) {
                     continue;
                 }
                 texts.add(Messages.getFormatted("warp.command.warplist.entry", "%warp%", warp.getName(), "%description%", warp.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("warp.command.warplist.hoverentry", "%warp%", warp.getName()))).onClick(TextActions.runCommand("/warp " + warp.getName())).build());
@@ -108,24 +101,12 @@ public class WarpCommand implements Command {
             return CommandResult.empty();
         }
         //Teleport the player to a warp
-        //Check is the sender is a player
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+        checkIfPlayer(sender);
         Player p = (Player) sender;
         //Try to find warp
-        List<Warp> results = GlobalData.get(WarpKeys.WARPS).get().stream().filter(war -> args[0].toLowerCase().equalsIgnoreCase(war.getName().toLowerCase())).collect(Collectors.toList());
-        if (results.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted(sender, "warp.command.warp.notfound", "%warp%", args[0]));
-            return CommandResult.empty();
-        }
-        Warp warp = results.get(0);
+        Warp warp = args.<Warp>getOne("warp").get();
         //Check permissions
-        if (!sender.hasPermission(WarpPermissions.UC_WARP_WARP_BASE.get()) && !sender.hasPermission("uc.warp.warp." + warp.getName().toLowerCase())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+        checkPermission(sender, "uc.warp.warp." + warp.getName().toLowerCase());
         //Teleport to the warp
         Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), warp.getLocation(), req -> {
             sender.sendMessage(Messages.getFormatted(sender, "warp.command.warp.success", "%warp%", warp.getName()));
@@ -133,10 +114,5 @@ public class WarpCommand implements Command {
         }, true, false);
         request.start();
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return GlobalData.get(WarpKeys.WARPS).get().stream().map(Warp::getName).collect(Collectors.toList());
     }
 }

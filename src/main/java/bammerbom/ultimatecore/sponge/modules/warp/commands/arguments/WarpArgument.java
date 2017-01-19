@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.kit.commands.arguments;
+package bammerbom.ultimatecore.sponge.modules.warp.commands.arguments;
 
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
-import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
+import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
+import bammerbom.ultimatecore.sponge.modules.warp.api.WarpKeys;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
@@ -38,28 +38,28 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class KitArgument extends CommandElement {
-    public KitArgument(@Nullable Text key) {
+public class WarpArgument extends CommandElement {
+    public WarpArgument(@Nullable Text key) {
         super(key);
     }
 
     @Nullable
     @Override
-    public Kit parseValue(CommandSource src, CommandArgs args) throws ArgumentParseException {
+    public Warp parseValue(CommandSource src, CommandArgs args) throws ArgumentParseException {
         String value = args.next();
 
-        List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
-        for (Kit kit : kits) {
-            if (value.equalsIgnoreCase(kit.getName())) {
-                return kit;
+        List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();
+        for (Warp warp : warps) {
+            if (value.equalsIgnoreCase(warp.getName())) {
+                return warp;
             }
         }
-        throw args.createError(Messages.getFormatted(src, "kit.notfound", "%kit%", value.toLowerCase()));
+        throw args.createError(Messages.getFormatted(src, "warp.notfound", "%warp%", value.toLowerCase()));
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
-        return kits.stream().map(kit -> kit.getName()).collect(Collectors.toList());
+        List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();
+        return warps.stream().map(warp -> warp.getName()).collect(Collectors.toList());
     }
 }

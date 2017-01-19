@@ -39,8 +39,11 @@ public class Arguments {
     Text usage;
 
     //Builder
-    public static Arguments builder(CommandElement element) {
-        return new Arguments(element);
+    public static Arguments builder(CommandElement... element) {
+        if (element.length == 1) {
+            return new Arguments(element[0]);
+        }
+        return new Arguments(GenericArguments.firstParsing(element));
     }
 
     public CommandElement build() {

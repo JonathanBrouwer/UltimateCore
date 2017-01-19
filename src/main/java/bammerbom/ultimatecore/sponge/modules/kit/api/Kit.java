@@ -33,26 +33,26 @@ import org.spongepowered.api.text.Text;
 import java.util.List;
 
 public class Kit {
-    String id;
+    String name;
     Text description;
     List<ItemStackSnapshot> items;
     List<String> commands;
     Long cooldown;
 
     public Kit(String id, Text description, List<ItemStackSnapshot> items, List<String> commands, Long cooldown) {
-        this.id = id;
+        this.name = id;
         this.description = description;
         this.items = items;
         this.commands = commands;
         this.cooldown = cooldown;
     }
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setName(String id) {
+        this.name = id;
     }
 
     public Text getDescription() {
@@ -95,7 +95,7 @@ public class Kit {
 
         @Override
         public Kit deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
-            String id = node.getNode("id").getString();
+            String id = node.getNode("name").getString();
             Text desc = node.getNode("description").getValue(TypeToken.of(Text.class));
             List<ItemStackSnapshot> items = node.getNode("items").getList(TypeToken.of(ItemStackSnapshot.class));
             List<String> cmds = node.getNode("commands").getList(TypeToken.of(String.class));
@@ -105,7 +105,7 @@ public class Kit {
 
         @Override
         public void serialize(TypeToken<?> type, Kit kit, ConfigurationNode node) throws ObjectMappingException {
-            node.getNode("id").setValue(kit.getId());
+            node.getNode("name").setValue(kit.getName());
             node.getNode("description").setValue(TypeToken.of(Text.class), kit.getDescription());
             node.getNode("items").setValue(new TypeToken<List<ItemStackSnapshot>>() {
             }, kit.getItems());

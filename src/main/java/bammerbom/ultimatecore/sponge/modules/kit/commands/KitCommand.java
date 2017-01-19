@@ -91,10 +91,10 @@ public class KitCommand implements SmartCommand {
             List<Text> texts = new ArrayList<>();
             //Add entry to texts for every kit
             for (Kit kit : kits) {
-                if (!sender.hasPermission("uc.kit.kit." + kit.getId().toLowerCase())) {
+                if (!sender.hasPermission("uc.kit.kit." + kit.getName().toLowerCase())) {
                     continue;
                 }
-                texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getId(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getId()))).onClick(TextActions.runCommand("/kit " + kit.getId())).build());
+                texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getName(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getName()))).onClick(TextActions.runCommand("/kit " + kit.getName())).build());
             }
             //If empty send message
             if (texts.isEmpty()) {
@@ -116,7 +116,7 @@ public class KitCommand implements SmartCommand {
         //Try to find kit
         Kit kit = args.<Kit>getOne("kit").get();
         //Check permissions
-        checkPermission(sender, "uc.kit.kit." + kit.getId().toLowerCase());
+        checkPermission(sender, "uc.kit.kit." + kit.getName().toLowerCase());
         //Give items
         for (ItemStackSnapshot snapshot : kit.getItems()) {
             InventoryTransactionResult result = p.getInventory().offer(snapshot.createStack());
@@ -126,7 +126,7 @@ public class KitCommand implements SmartCommand {
                 p.getWorld().spawnEntity(itementity, Cause.builder().owner(UltimateCore.get()).named(NamedCause.of("player", p)).build());
             });
         }
-        sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.success", "%kit%", kit.getId()));
+        sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.success", "%kit%", kit.getName()));
         return CommandResult.success();
     }
 }

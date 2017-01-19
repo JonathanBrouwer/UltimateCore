@@ -23,33 +23,29 @@
  */
 package bammerbom.ultimatecore.sponge.modules.warp.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.warp.WarpModule;
 import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpKeys;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpPermissions;
+import bammerbom.ultimatecore.sponge.modules.warp.commands.arguments.WarpArgument;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DelwarpCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.WARP.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "delwarp";
-    }
-
+@RegisterCommand(module = WarpModule.class, aliases = {"delwarp", "removewarp"})
+public class DelwarpCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return WarpPermissions.UC_WARP_DELWARP_BASE;
@@ -61,47 +57,21 @@ public class DelwarpCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("delwarp", "removewarp");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new WarpArgument(Text.of("warp"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        //Has permission
-        if (!sender.hasPermission(WarpPermissions.UC_WARP_DELWARP_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        //Get name
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        String name = args[0].toLowerCase();
-        //Find warp instance and remove it
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, WarpPermissions.UC_WARP_DELWARP_BASE);
+        Warp warp = args.<Warp>getOne("warp").get();
         List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();
-        boolean found = false;
-        List<Warp> remove = new ArrayList<>();
-        for (Warp warp : warps) {
-            if (warp.getName().equalsIgnoreCase(name)) {
-                remove.add(warp);
-                found = true;
-            }
-        }
-        warps.removeAll(remove);
-        //Did the warp already exist?
+        warps.remove(warp);
         GlobalData.offer(WarpKeys.WARPS, warps);
-        if (found) {
-            sender.sendMessage(Messages.getFormatted(sender, "warp.command.delwarp.success", "%warp%", args[0]));
-        } else {
-            sender.sendMessage(Messages.getFormatted(sender, "warp.command.warp.notfound", "%warp%", args[0]));
-        }
+        sender.sendMessage(Messages.getFormatted(sender, "warp.command.delwarp.success", "%warp%", warp.getName()));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return new ArrayList<>();
     }
 }
 

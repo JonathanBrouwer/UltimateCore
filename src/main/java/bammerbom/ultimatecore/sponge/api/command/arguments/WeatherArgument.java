@@ -21,11 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.kit.commands.arguments;
+package bammerbom.ultimatecore.sponge.api.command.arguments;
 
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
-import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
@@ -33,33 +30,47 @@ import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.weather.Weather;
+import org.spongepowered.api.world.weather.Weathers;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class KitArgument extends CommandElement {
-    public KitArgument(@Nullable Text key) {
+public class WeatherArgument extends CommandElement {
+    public WeatherArgument(@Nullable Text key) {
         super(key);
     }
 
     @Nullable
     @Override
-    public Kit parseValue(CommandSource src, CommandArgs args) throws ArgumentParseException {
+    public Weather parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
         String value = args.next();
-
-        List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
-        for (Kit kit : kits) {
-            if (value.equalsIgnoreCase(kit.getName())) {
-                return kit;
-            }
+        switch (value) {
+            case "sun":
+            case "clear":
+                return Weathers.CLEAR;
+            case "rain":
+            case "snow":
+            case "downfall":
+                return Weathers.RAIN;
+            case "thunder":
+            case "thunderstorm":
+            case "thunder_storm":
+            case "storm":
+                return Weathers.THUNDER_STORM;
+            default:
+                throw args.createError(Messages.getFormatted(source, "weather.command.weather.invalidweathertype", "%weather%", value));
         }
-        throw args.createError(Messages.getFormatted(src, "kit.notfound", "%kit%", value.toLowerCase()));
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
-        return kits.stream().map(kit -> kit.getName()).collect(Collectors.toList());
+        return Arrays.asList("sun", "clear", "rain");
+    }
+
+    @Override
+    public Text getUsage(CommandSource src) {
+        return Text.of("sun/rain/thunder");
     }
 }

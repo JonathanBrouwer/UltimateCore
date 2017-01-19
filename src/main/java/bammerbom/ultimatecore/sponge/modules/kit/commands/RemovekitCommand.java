@@ -76,7 +76,7 @@ public class RemovekitCommand implements SmartCommand {
 
         kits.remove(kit);
         GlobalData.offer(KitKeys.KITS, kits);
-        sender.sendMessage(Messages.getFormatted(sender, "kit.command.removekit.success", "%kit%", kit.getId()));
+        sender.sendMessage(Messages.getFormatted(sender, "kit.command.removekit.success", "%kit%", kit.getName()));
         return CommandResult.success();
     }
 }

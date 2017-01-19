@@ -49,7 +49,10 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public interface SmartCommand extends Command, CommandExecutor {
 
@@ -79,8 +82,8 @@ public interface SmartCommand extends Command, CommandExecutor {
 
     CommandElement[] getArguments();
 
-    default Map<List<String>, ? extends Command> getChildren() {
-        return new HashMap<>();
+    default List<SmartCommand> getChildren() {
+        return new ArrayList<>();
     }
 
     default CommandSpec getSpec() {
@@ -93,8 +96,8 @@ public interface SmartCommand extends Command, CommandExecutor {
 
         //Children
         HashMap<List<String>, CommandCallable> children = new HashMap<>();
-        getChildren().forEach((aliases, cmd) -> {
-            children.put(aliases, new UCCommandCallable(cmd));
+        getChildren().forEach((cmd) -> {
+            children.put(cmd.getAliases(), new UCCommandCallable(cmd));
         });
 
         return cb.build();
