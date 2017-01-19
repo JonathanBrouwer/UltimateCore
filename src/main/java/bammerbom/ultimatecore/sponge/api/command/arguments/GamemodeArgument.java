@@ -50,9 +50,13 @@ public class GamemodeArgument extends UCommandElement {
     @Override
     public GameMode parseValue(CommandSource sender, CommandArgs args) throws ArgumentParseException {
         String value = args.next();
-        if (Sponge.getRegistry().getType(CatalogTypes.GAME_MODE, value).isPresent()) {
-            return Sponge.getRegistry().getType(CatalogTypes.GAME_MODE, value).get();
+        try {
+            if (Sponge.getRegistry().getType(CatalogTypes.GAME_MODE, value).isPresent()) {
+                return Sponge.getRegistry().getType(CatalogTypes.GAME_MODE, value).get();
+            }
+        } catch (NullPointerException ignore) {
         }
+        
         switch (value.toLowerCase()) {
             case "survival":
             case "0":
