@@ -91,7 +91,7 @@ public class WeatherCommand implements Command {
             case "rain":
             case "snow":
             case "downfall":
-                if (sender.hasPermission(WeatherPermissions.UC_WEATHER_WEATHER_RAIN.get())) {
+                if (!sender.hasPermission(WeatherPermissions.UC_WEATHER_WEATHER_RAIN.get())) {
                     sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
                     return CommandResult.empty();
                 }
