@@ -317,10 +317,10 @@ public class Messages {
     public static Text toText(String raw) {
         try {
             return TextSerializers.JSON.deserialize(raw);
-        } catch (TextParseException ex) {
+        } catch (Exception ex) {
             try {
                 return TextSerializers.TEXT_XML.deserialize(raw);
-            } catch (TextParseException ex2) {
+            } catch (Exception ex2) {
                 try {
                     return TextSerializers.FORMATTING_CODE.deserialize(raw);
                 } catch (Exception ex3) {

@@ -21,13 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.jail.commands.arguments;
+package bammerbom.ultimatecore.sponge.api.command.arguments;
 
 import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
-import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
@@ -35,31 +31,26 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class JailArgument extends UCommandElement {
-    public JailArgument(@Nullable Text key) {
+/**
+ * This is just a class to copy-paste while making new arguments
+ * DO NOT USE THIS
+ */
+public class DefaultArgument extends UCommandElement {
+    public DefaultArgument(@Nullable Text key) {
         super(key);
     }
 
     @Nullable
     @Override
-    public Jail parseValue(CommandSource src, CommandArgs args) throws ArgumentParseException {
-        String value = args.next();
-
-        List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
-        for (Jail jail : jails) {
-            if (value.equalsIgnoreCase(jail.getName())) {
-                return jail;
-            }
-        }
-        throw args.createError(Messages.getFormatted(src, "jail.notfound", "%jail%", value.toLowerCase()));
+    public Object parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
+        return null;
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
-        return jails.stream().map(jail -> jail.getName()).collect(Collectors.toList());
+        return new ArrayList<>();
     }
 }

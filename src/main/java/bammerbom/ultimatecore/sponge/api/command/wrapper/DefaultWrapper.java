@@ -21,40 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.arguments;
+package bammerbom.ultimatecore.sponge.api.command.wrapper;
 
 import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.args.ArgumentParseException;
-import org.spongepowered.api.command.args.CommandArgs;
-import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.text.Text;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
-public class TimeArgument extends UCommandElement {
-
-    public TimeArgument(@Nullable Text key) {
-        super(key);
-    }
-
-    @Nullable
-    @Override
-    public Long parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
-        String value = args.next();
-        Long time = TimeUtil.parse(value);
-        if (time <= -1L) {
-            throw args.createError(Messages.getFormatted("core.time.invalid", "%time%", value));
-        }
-        return time;
-    }
-
-    @Override
-    public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        return new ArrayList<>();
+/**
+ * This is just a class to copy-paste while making new wrappers
+ * DO NOT USE THIS
+ */
+public class DefaultWrapper extends Wrapper {
+    public DefaultWrapper(UCommandElement element) {
+        super(element);
     }
 }

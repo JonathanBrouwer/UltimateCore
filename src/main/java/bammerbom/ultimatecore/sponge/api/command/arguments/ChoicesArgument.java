@@ -23,29 +23,28 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.arguments;
 
+import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ChoicesArgument extends CommandElement {
+public class ChoicesArgument extends UCommandElement {
 
     HashMap<String, ? extends Object> choices;
-    Text usage;
 
-    public ChoicesArgument(@Nullable Text key, HashMap<String, ? extends Object> values, @Nullable Text usage) {
+    public ChoicesArgument(@Nullable Text key, HashMap<String, ? extends Object> values) {
         super(key);
         this.choices = values;
-        this.usage = usage;
     }
 
     @Nullable
@@ -64,7 +63,7 @@ public class ChoicesArgument extends CommandElement {
     }
 
     @Override
-    public Text getUsage(CommandSource src) {
-        return usage;
+    public Text getUsageKey(CommandSource src) {
+        return Text.joinWith(Text.of("|", choices.keySet().stream().map(str -> Text.of(StringUtil.firstUpperCase(str))).collect(Collectors.toList())));
     }
 }

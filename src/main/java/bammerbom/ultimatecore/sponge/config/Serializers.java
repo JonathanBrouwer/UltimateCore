@@ -21,35 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.arguments;
+package bammerbom.ultimatecore.sponge.config;
 
-import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.args.ArgumentParseException;
-import org.spongepowered.api.command.args.CommandArgs;
-import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.text.Text;
+import bammerbom.ultimatecore.sponge.config.serializers.BlockStateSerializer;
+import bammerbom.ultimatecore.sponge.config.serializers.ItemStackSnapshotSerializer;
+import bammerbom.ultimatecore.sponge.config.serializers.TransformSerializer;
+import bammerbom.ultimatecore.sponge.config.serializers.Vector3dSerializer;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-public class LiteralArgument extends UCommandElement {
-    List<String> matches;
-
-    public LiteralArgument(@Nullable Text key, List<String> matches) {
-        super(key);
-        this.matches = matches;
-    }
-
-    @Nullable
-    @Override
-    public Boolean parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
-        String value = args.next();
-        return matches.contains(value);
-    }
-
-    @Override
-    public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        return matches;
-    }
+public class Serializers {
+    public static BlockStateSerializer BLOCKSTATE = new BlockStateSerializer();
+    public static ItemStackSnapshotSerializer ITEMSTACKSNAPSHOT = new ItemStackSnapshotSerializer();
+    public static TransformSerializer TRANSFORM = new TransformSerializer();
+    public static Vector3dSerializer VECTOR3D = new Vector3dSerializer();
 }

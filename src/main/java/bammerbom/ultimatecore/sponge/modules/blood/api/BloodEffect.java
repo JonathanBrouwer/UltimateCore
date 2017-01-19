@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.blood.api;
 
+import bammerbom.ultimatecore.sponge.config.Serializers;
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -80,7 +81,7 @@ public class BloodEffect {
         public BloodEffect deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
             Vector3d coffset = node.getNode("center-offset").getValue(TypeToken.of(Vector3d.class));
             Vector3d poffset = node.getNode("particle-offset").getValue(TypeToken.of(Vector3d.class));
-            BlockState state = node.getNode("blockstate").getValue(TypeToken.of(BlockState.class));
+            BlockState state = Serializers.BLOCKSTATE.deserialize(TypeToken.of(BlockState.class), node.getNode("blockstate"));
             int count = node.getNode("count").getInt();
             boolean enabled = node.getNode("enabled").getBoolean();
             return new BloodEffect(enabled, state, coffset, poffset, count);
@@ -88,7 +89,7 @@ public class BloodEffect {
 
         @Override
         public void serialize(TypeToken<?> type, BloodEffect ef, ConfigurationNode node) throws ObjectMappingException {
-            node.getNode("blockstate").setValue(TypeToken.of(BlockState.class), ef.getState());
+            Serializers.BLOCKSTATE.serialize(TypeToken.of(BlockState.class), ef.getState(), node.getNode("blockstate"));
             node.getNode("center-offset").setValue(TypeToken.of(Vector3d.class), ef.getCenterOffset());
             node.getNode("count").setValue(ef.getCount());
             node.getNode("enabled").setValue(ef.isEnabled());

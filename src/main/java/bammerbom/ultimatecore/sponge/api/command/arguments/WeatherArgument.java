@@ -23,12 +23,12 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.arguments;
 
+import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.weather.Weather;
 import org.spongepowered.api.world.weather.Weathers;
@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public class WeatherArgument extends CommandElement {
+public class WeatherArgument extends UCommandElement {
     public WeatherArgument(@Nullable Text key) {
         super(key);
     }

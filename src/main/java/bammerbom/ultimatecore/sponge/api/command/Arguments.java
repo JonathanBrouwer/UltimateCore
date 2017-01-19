@@ -23,49 +23,60 @@
  */
 package bammerbom.ultimatecore.sponge.api.command;
 
-import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.command.args.GenericArguments;
+import bammerbom.ultimatecore.sponge.api.command.wrapper.*;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 public class Arguments {
 
-    CommandElement element;
+    UCommandElement element;
     boolean onlyOne = false;
     ArgOptional optional = ArgOptional.REQUIRED;
     String permission = null;
     int repeat = 0;
-    Text usage;
+    Text usage = null;
+    Text usagekey = null;
+    boolean remainingArguments = false;
 
     //Builder
-    public static Arguments builder(CommandElement... element) {
+    public static Arguments builder(UCommandElement... element) {
+        if (element.length == 0) {
+            return null;
+        }
         if (element.length == 1) {
             return new Arguments(element[0]);
         }
-        return new Arguments(GenericArguments.firstParsing(element));
+        return new Arguments(new FirstParsingWrapper(Arrays.asList(element)));
     }
 
-    public CommandElement build() {
-        CommandElement ce = element;
+    public UCommandElement build() {
+        UCommandElement ce = element;
         if (onlyOne) {
-            ce = GenericArguments.onlyOne(ce);
+            ce = new OnlyOneWrapper(ce);
         }
         if (optional.equals(ArgOptional.OPTIONAL)) {
-            ce = GenericArguments.optional(element);
+            ce = new OptionalWrapper(element);
         } else if (optional.equals(ArgOptional.WEAK_OPTIONAL)) {
-            ce = GenericArguments.optionalWeak(element);
+            ce = new WeakOptionalWrapper(element);
         }
         if (permission != null) {
-            ce = GenericArguments.requiringPermission(element, permission);
+            ce = new PermissionWrapper(element, permission);
         }
         if (repeat > 0) {
-            ce = GenericArguments.repeated(element, repeat);
+            ce = new RepeatWrapper(element, repeat);
+        }
+        if (usage != null) {
+            ce = new UsageWrapper(element, usage);
+        }
+        if (usagekey != null) {
+            ce = new UsageKeyWrapper(element, usagekey);
         }
         return ce;
     }
 
-    protected Arguments(CommandElement element) {
+    protected Arguments(UCommandElement element) {
         this.element = element;
     }
 
@@ -139,6 +150,16 @@ public class Arguments {
         return this;
     }
 
+    //Remaining Arguments
+    public boolean shouldUseAllRemainingArguments() {
+        return remainingArguments;
+    }
+
+    public Arguments useAllRemainingArguments() {
+        this.remainingArguments = true;
+        return this;
+    }
+
     //Usage
     public Text getUsage() {
         return usage != null ? usage : element.getKey();
@@ -153,4 +174,19 @@ public class Arguments {
         this.usage = usage;
         return this;
     }
+
+    public Text getUsageKey() {
+        return usagekey != null ? usagekey : element.getKey();
+    }
+
+    public Arguments usageKey(String usage) {
+        this.usage = Text.of(usage);
+        return this;
+    }
+
+    public Arguments usageKey(Text usage) {
+        this.usage = usage;
+        return this;
+    }
+
 }

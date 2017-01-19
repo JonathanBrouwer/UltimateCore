@@ -21,43 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.arguments;
+package bammerbom.ultimatecore.sponge.api.command.wrapper;
 
 import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.args.ArgumentParseException;
-import org.spongepowered.api.command.args.CommandArgs;
-import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+public class UsageWrapper extends Wrapper {
+    private Text usage;
 
-public class PlayerArgument extends UCommandElement {
-    public PlayerArgument(@Nullable Text key) {
-        super(key);
-    }
-
-    @Nullable
-    @Override
-    public Player parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
-        String player = args.next();
-        Optional<Player> t = Selector.one(source, player);
-        if (t.isPresent()) {
-            return t.get();
-        } else {
-            throw args.createError(Messages.getFormatted("core.playernotfound", "%player%", player));
-        }
+    public UsageWrapper(UCommandElement element, Text usage) {
+        super(element);
+        this.usage = usage;
     }
 
     @Override
-    public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        return Sponge.getServer().getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+    public Text getUsage(CommandSource src) {
+        return usage;
     }
 }

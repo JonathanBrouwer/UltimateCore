@@ -23,12 +23,12 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.arguments;
 
+import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class UuidArgument extends CommandElement {
+public class UuidArgument extends UCommandElement {
     public UuidArgument(@Nullable Text key) {
         super(key);
     }

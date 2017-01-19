@@ -284,4 +284,30 @@ public class TextUtil {
         }
         return results;
     }
+
+    public static Text toUppercase(Text text) {
+        Text.Builder builder = Text.builder();
+        for (Text stext : getAllChildren(text)) {
+            builder.append(merge(Text.of(stext.toPlain().toUpperCase())), stext);
+        }
+        return builder.build();
+    }
+
+    public static Text toLowerCase(Text text) {
+        Text.Builder builder = Text.builder();
+        for (Text stext : getAllChildren(text)) {
+            builder.append(merge(Text.of(stext.toPlain().toLowerCase())), stext);
+        }
+        return builder.build();
+    }
+
+    /**
+     * Makes the first character in this string uppercase, and the others lowercase
+     *
+     * @param text The text to modify
+     * @return The text with the first character uppercase
+     */
+    public static Text firstUppercase(Text text) {
+        return Text.of(subtext(toUppercase(text), 0, 1), subtext(toLowerCase(text), 1, text.toPlain().length()));
+    }
 }

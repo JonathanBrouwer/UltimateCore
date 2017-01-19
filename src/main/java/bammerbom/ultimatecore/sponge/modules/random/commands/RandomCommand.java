@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.random.commands;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.IntegerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.random.RandomModule;
 import bammerbom.ultimatecore.sponge.modules.random.api.RandomPermissions;
@@ -35,7 +36,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -59,8 +59,8 @@ public class RandomCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(GenericArguments.integer(Text.of("first"))).usage("min").onlyOne().build(),
-                Arguments.builder(GenericArguments.integer(Text.of("second"))).usage("max").onlyOne().optional().build()
+                Arguments.builder(new IntegerArgument(Text.of("first"))).usage("<Min>").onlyOne().build(),
+                Arguments.builder(new IntegerArgument(Text.of("second"))).usage("[Max]").onlyOne().optional().build()
         };
     }
 

@@ -26,6 +26,8 @@ package bammerbom.ultimatecore.sponge.modules.kit.commands;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
+import bammerbom.ultimatecore.sponge.api.command.arguments.StringArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.TimeArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -39,7 +41,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -67,9 +68,9 @@ public class CreatekitCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(GenericArguments.string(Text.of("name"))).onlyOne().build(),
+                Arguments.builder(new StringArgument(Text.of("name"))).onlyOne().build(),
                 Arguments.builder(new TimeArgument(Text.of("cooldown"))).optional().onlyOne().build(),
-                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("description"))).optional().onlyOne().build()
+                Arguments.builder(new RemainingStringsArgument(Text.of("description"))).optional().onlyOne().build()
         };
     }
 

@@ -69,7 +69,7 @@ public class HomeCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new HomeArgument(Text.of("home"))).onlyOne().optional().build()
+                Arguments.builder(new HomeArgument(Text.of("home"))).onlyOne().optional().usage("<Home>").build()
         };
     }
 

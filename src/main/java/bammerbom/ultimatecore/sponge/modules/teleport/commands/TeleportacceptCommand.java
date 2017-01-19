@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.StringArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.teleport.TeleportModule;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
@@ -37,7 +38,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -59,7 +59,7 @@ public class TeleportacceptCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(GenericArguments.string(Text.of("tpid"))).optional().onlyOne().build()
+                Arguments.builder(new StringArgument(Text.of("tpid"))).optional().onlyOne().build()
         };
     }
 

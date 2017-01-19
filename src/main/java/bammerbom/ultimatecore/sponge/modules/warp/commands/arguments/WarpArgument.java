@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.warp.commands.arguments;
 
+import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpKeys;
@@ -31,14 +32,13 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WarpArgument extends CommandElement {
+public class WarpArgument extends UCommandElement {
     public WarpArgument(@Nullable Text key) {
         super(key);
     }

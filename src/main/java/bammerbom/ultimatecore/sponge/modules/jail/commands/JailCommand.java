@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.TimeArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -46,7 +47,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -75,7 +75,7 @@ public class JailCommand implements SmartCommand {
                 Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(),
                 Arguments.builder(new JailArgument(Text.of("jail"))).optional().onlyOne().build(),
                 Arguments.builder(new TimeArgument(Text.of("time"))).optional().onlyOne().build(),
-                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("reason"))).onlyOne().optional().build()
+                Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).onlyOne().optional().build()
         };
     }
 
@@ -99,6 +99,9 @@ public class JailCommand implements SmartCommand {
 
         //Find jail, time and reason
         List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
+        if (jails.isEmpty() && !args.hasAny("jail")) {
+            throw new CommandException(Messages.getFormatted(sender, "jail.command.jaillist.empty"));
+        }
         Jail jail = args.hasAny("jail") ? args.<Jail>getOne("jail").get() : jails.get(random.nextInt(jails.size()));
         Long time = args.hasAny("time") ? args.<Long>getOne("time").get() : -1L;
         Text reason = args.hasAny("reason") ? Text.of(args.<String>getOne("reason").get()) : Messages.getFormatted("jail.command.jail.defaultreason");

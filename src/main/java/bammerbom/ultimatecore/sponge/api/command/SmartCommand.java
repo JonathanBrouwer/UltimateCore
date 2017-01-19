@@ -105,7 +105,8 @@ public interface SmartCommand extends Command, CommandExecutor {
 
     @Override
     default Text getUsage(@Nullable CommandSource source) {
-        return UsageGenerator.usage(this, Text.of("/" + getIdentifier() + " " + getSpec().getUsage(source == null ? Sponge.getServer().getConsole() : source).toPlain().replaceAll("\\?\\|", "")));
+        String params = getSpec().getUsage(source == null ? Sponge.getServer().getConsole() : source).toPlain().replaceAll("\\?\\|", "");
+        return UsageGenerator.usage(this, Text.of("/" + getIdentifier() + (!params.isEmpty() ? (" " + params) : "")));
     }
 
     //Implemented with @RegisterCommand

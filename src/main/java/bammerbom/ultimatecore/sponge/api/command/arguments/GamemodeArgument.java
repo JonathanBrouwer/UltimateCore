@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.arguments;
 
+import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.CatalogTypes;
@@ -31,7 +32,6 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.gamemode.GameMode;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.text.Text;
@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GamemodeArgument extends CommandElement {
+public class GamemodeArgument extends UCommandElement {
 
     public GamemodeArgument(@Nullable Text key) {
         super(key);

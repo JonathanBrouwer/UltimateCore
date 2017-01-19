@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.arguments;
 
+import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.CatalogTypes;
@@ -31,7 +32,6 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.item.Enchantment;
 import org.spongepowered.api.text.Text;
 
@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class EnchantmentArgument extends CommandElement {
+public class EnchantmentArgument extends UCommandElement {
     public EnchantmentArgument(@Nullable Text key) {
         super(key);
     }

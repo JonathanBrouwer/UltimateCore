@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.kit.commands.arguments;
 
+import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
@@ -31,14 +32,13 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class KitArgument extends CommandElement {
+public class KitArgument extends UCommandElement {
     public KitArgument(@Nullable Text key) {
         super(key);
     }

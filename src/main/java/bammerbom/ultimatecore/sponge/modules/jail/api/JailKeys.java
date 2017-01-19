@@ -48,7 +48,7 @@ public class JailKeys {
                 }, new ArrayList<>());
             } catch (ObjectMappingException e) {
                 ErrorLogger.log(e, "Failed to load jails key");
-                return null;
+                return new ArrayList<>();
             }
         }
 

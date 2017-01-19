@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.home.commands.arguments;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
@@ -32,7 +33,6 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomeArgument extends CommandElement {
+public class HomeArgument extends UCommandElement {
     public HomeArgument(@Nullable Text key) {
         super(key);
     }

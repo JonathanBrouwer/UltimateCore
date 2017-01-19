@@ -23,19 +23,19 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.arguments;
 
+import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public class BooleanArgument extends CommandElement {
+public class BooleanArgument extends UCommandElement {
     public BooleanArgument(@Nullable Text key) {
         super(key);
     }

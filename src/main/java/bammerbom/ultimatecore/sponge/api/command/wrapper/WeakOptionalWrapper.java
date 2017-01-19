@@ -21,45 +21,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.jail.commands.arguments;
+package bammerbom.ultimatecore.sponge.api.command.wrapper;
 
 import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
-import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.text.Text;
 
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class JailArgument extends UCommandElement {
-    public JailArgument(@Nullable Text key) {
-        super(key);
+public class WeakOptionalWrapper extends Wrapper {
+    public WeakOptionalWrapper(UCommandElement element) {
+        super(element);
     }
 
-    @Nullable
     @Override
-    public Jail parseValue(CommandSource src, CommandArgs args) throws ArgumentParseException {
-        String value = args.next();
-
-        List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
-        for (Jail jail : jails) {
-            if (value.equalsIgnoreCase(jail.getName())) {
-                return jail;
+    public void parse(CommandSource source, CommandArgs args, CommandContext context) throws ArgumentParseException {
+        if (!args.hasNext()) {
+            return;
+        }
+        Object startState = args.getState();
+        try {
+            this.element.parse(source, args, context);
+        } catch (ArgumentParseException ex) {
+            if (args.hasNext()) { // If there are more args, suppress. Otherwise, throw the error
+                args.setState(startState);
+            } else {
+                throw ex;
             }
         }
-        throw args.createError(Messages.getFormatted(src, "jail.notfound", "%jail%", value.toLowerCase()));
+    }
+
+    @Override
+    public Object parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
+        return args.hasNext() ? null : this.element.parseValue(source, args);
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
-        return jails.stream().map(jail -> jail.getName()).collect(Collectors.toList());
+        return this.element.complete(src, args, context);
+    }
+
+    @Override
+    public Text getUsage(CommandSource src) {
+        return Text.of("[", getUsageKey(src), "]");
     }
 }

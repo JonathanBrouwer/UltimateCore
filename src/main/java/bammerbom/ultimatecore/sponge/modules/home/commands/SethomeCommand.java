@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.StringArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.home.HomeModule;
@@ -40,7 +41,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
@@ -65,7 +65,7 @@ public class SethomeCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(GenericArguments.string(Text.of("home"))).onlyOne().build()
+                Arguments.builder(new StringArgument(Text.of("home"))).onlyOne().build()
         };
     }
 

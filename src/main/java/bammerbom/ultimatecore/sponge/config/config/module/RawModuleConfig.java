@@ -25,19 +25,13 @@ package bammerbom.ultimatecore.sponge.config.config.module;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
-import bammerbom.ultimatecore.sponge.config.serializers.BlockStateSerializer;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollection;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.asset.Asset;
-import org.spongepowered.api.block.BlockState;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,14 +63,7 @@ public class RawModuleConfig implements ModuleConfig, DataFile {
                 }
                 asset.get().copyToFile(path);
             }
-
-            //Fix for bad blockstate deserialization
-            BlockStateSerializer blockStateSerializer = new BlockStateSerializer();
-            TypeSerializerCollection serializers = TypeSerializers.getDefaultSerializers().newChild();
-            serializers.registerType(TypeToken.of(BlockState.class), blockStateSerializer);
-            ConfigurationOptions options = ConfigurationOptions.defaults().setSerializers(serializers);
-
-            loader = HoconConfigurationLoader.builder().setPath(path).setDefaultOptions(options).build();
+            loader = HoconConfigurationLoader.builder().setPath(path).build();
             node = loader.load();
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules/" + module + ".conf"));

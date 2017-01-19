@@ -79,7 +79,7 @@ public class ItemhidetagsCommand implements SmartCommand {
         choices.put("unbreakable", Keys.HIDE_UNBREAKABLE);
 
         return new CommandElement[]{
-                Arguments.builder(new ChoicesArgument(Text.of("tag"), choices, Text.of("attributes/candestroy/canplaceon/enchantments/miscellaneous/unbreakable"))).onlyOne().build(),
+                Arguments.builder(new ChoicesArgument(Text.of("tag"), choices)).onlyOne().usage("attributes/candestroy/canplaceon/enchantments/miscellaneous/unbreakable").build(),
                 Arguments.builder(new BooleanArgument(Text.of("enable/disable"))).onlyOne().build()
         };
     }

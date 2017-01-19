@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.kick.commands;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.kick.KickModule;
 import bammerbom.ultimatecore.sponge.modules.kick.api.KickPermissions;
@@ -36,7 +37,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -59,7 +59,7 @@ public class KickallCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("reason"))).optional().onlyOne().build()
+                Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).optional().onlyOne().build()
         };
     }
 

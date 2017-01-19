@@ -21,13 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.jail.commands.arguments;
+package bammerbom.ultimatecore.sponge.api.command.arguments;
 
 import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
-import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandMessageFormatting;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
@@ -35,31 +32,32 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class JailArgument extends UCommandElement {
-    public JailArgument(@Nullable Text key) {
+public class RemainingStringsArgument extends UCommandElement {
+    public RemainingStringsArgument(@Nullable Text key) {
         super(key);
     }
 
     @Nullable
     @Override
-    public Jail parseValue(CommandSource src, CommandArgs args) throws ArgumentParseException {
-        String value = args.next();
-
-        List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
-        for (Jail jail : jails) {
-            if (value.equalsIgnoreCase(jail.getName())) {
-                return jail;
-            }
+    public String parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
+        args.next();
+        String ret = args.getRaw().substring(args.getRawPosition());
+        while (args.hasNext()) { // Consume remaining args
+            args.next();
         }
-        throw args.createError(Messages.getFormatted(src, "jail.notfound", "%jail%", value.toLowerCase()));
+        return ret;
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
-        return jails.stream().map(jail -> jail.getName()).collect(Collectors.toList());
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Text getUsageKey(CommandSource src) {
+        return Text.of(super.getUsageKey(src), CommandMessageFormatting.ELLIPSIS_TEXT);
     }
 }

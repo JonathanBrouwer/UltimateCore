@@ -38,7 +38,6 @@ import bammerbom.ultimatecore.sponge.api.variable.VariableService;
 import bammerbom.ultimatecore.sponge.config.CommandsConfig;
 import bammerbom.ultimatecore.sponge.config.GeneralConfig;
 import bammerbom.ultimatecore.sponge.config.ModulesConfig;
-import bammerbom.ultimatecore.sponge.config.serializers.BlockStateSerializer;
 import bammerbom.ultimatecore.sponge.config.serializers.ItemStackSnapshotSerializer;
 import bammerbom.ultimatecore.sponge.config.serializers.TransformSerializer;
 import bammerbom.ultimatecore.sponge.config.serializers.Vector3dSerializer;
@@ -57,7 +56,6 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializerCollectio
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Platform;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.event.Listener;
@@ -120,7 +118,7 @@ public class UltimateCore {
 
             //Register serializers because sponge doesn't for some reason
             TypeSerializerCollection serializers = TypeSerializers.getDefaultSerializers();
-            serializers.registerType(TypeToken.of(BlockState.class), new BlockStateSerializer());
+//            serializers.registerType(TypeToken.of(BlockState.class), new BlockStateSerializer());
             serializers.registerType(TypeToken.of(ItemStackSnapshot.class), new ItemStackSnapshotSerializer());
             serializers.registerType(TypeToken.of(Transform.class), new TransformSerializer());
             serializers.registerType(TypeToken.of(Vector3d.class), new Vector3dSerializer());

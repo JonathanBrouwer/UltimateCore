@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.item.commands;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
@@ -35,7 +36,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
@@ -62,7 +62,7 @@ public class ItemnameCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("name"))).onlyOne().build()
+                Arguments.builder(new RemainingStringsArgument(Text.of("name"))).onlyOne().build()
         };
     }
 

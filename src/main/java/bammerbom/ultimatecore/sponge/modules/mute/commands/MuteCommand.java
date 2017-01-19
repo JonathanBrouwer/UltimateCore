@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.TimeArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
@@ -43,7 +44,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -69,7 +69,7 @@ public class MuteCommand implements SmartCommand {
         return new CommandElement[]{
                 Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(),
                 Arguments.builder(new TimeArgument(Text.of("time"))).optional().onlyOne().build(),
-                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("reason"))).optional().onlyOne().build()
+                Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).optional().onlyOne().build()
         };
     }
 
