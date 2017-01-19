@@ -24,38 +24,34 @@
 package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.modules.teleport.TeleportModule;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportKeys;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TpaRequest;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class TeleportaskhereCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.TELEPORT.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "teleportaskhere";
-    }
-
+@RegisterCommand(module = TeleportModule.class, aliases = {"teleportaskhere", "teleportah", "tpahere", "asktphere", "askteleporthere"})
+public class TeleportaskhereCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return TeleportPermissions.UC_TELEPORT_TELEPORTASKHERE_BASE;
@@ -67,30 +63,18 @@ public class TeleportaskhereCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("teleportaskhere", "teleportah", "tpahere", "asktphere", "askteleporthere");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, TeleportPermissions.UC_TELEPORT_TELEPORTASKHERE_BASE);
         Player p = (Player) sender;
-        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORTASKHERE_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        Player t = Selector.one(sender, args[0]).orElse(null);
-        if (t == null) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-            return CommandResult.empty();
-        }
+        Player t = args.<Player>getOne("player").get();
 
         UUID tpid = UUID.randomUUID();
         Teleportation tel = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), p::getTransform, tele -> {
@@ -107,10 +91,5 @@ public class TeleportaskhereCommand implements Command {
         sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaskhere.send", "%player%", VariableUtil.getNameEntity(t)));
         t.sendMessage(Messages.getFormatted(t, "teleport.command.teleportaskhere.receive", "%player%", VariableUtil.getNameSource(sender), "%tpid%", tpid));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

@@ -23,33 +23,25 @@
  */
 package bammerbom.ultimatecore.sponge.modules.time.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
 import bammerbom.ultimatecore.sponge.modules.time.api.TimePermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.source.CommandBlockSource;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.world.Locatable;
 import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-public class DayCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.TIME.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "day";
-    }
-
+@RegisterCommand(module = TimeModule.class, aliases = {"day", "daytime"})
+public class DayCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return TimePermissions.UC_TIME_TIME_DAY;
@@ -61,21 +53,18 @@ public class DayCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("day", "daytime");
+    public CommandElement[] getArguments() {
+        return new CommandElement[0];
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(TimePermissions.UC_TIME_TIME_BASE.get()) && !sender.hasPermission(TimePermissions.UC_TIME_TIME_DAY.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, TimePermissions.UC_TIME_TIME_BASE);
+        checkPermission(sender, TimePermissions.UC_TIME_TIME_DAY);
+
         World world;
-        if (sender instanceof Player) {
-            world = ((Player) sender).getWorld();
-        } else if (sender instanceof CommandBlockSource) {
-            world = ((CommandBlockSource) sender).getWorld();
+        if (sender instanceof Locatable) {
+            world = ((Locatable) sender).getWorld();
         } else {
             sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
             return CommandResult.empty();
@@ -84,10 +73,5 @@ public class DayCommand implements Command {
         world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
         sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.day"));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return Collections.emptyList();
     }
 }

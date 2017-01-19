@@ -23,32 +23,29 @@
  */
 package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.teleport.TeleportModule;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TpaRequest;
 import bammerbom.ultimatecore.sponge.modules.teleport.utils.TeleportUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class TeleportacceptCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.TELEPORT.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "teleportaccept";
-    }
-
+@RegisterCommand(module = TeleportModule.class, aliases = {"teleportaccept", "tpaccept", "tpyes"})
+public class TeleportacceptCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return TeleportPermissions.UC_TELEPORT_TELEPORTACCEPT_BASE;
@@ -60,24 +57,21 @@ public class TeleportacceptCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("teleportaccept", "tpaccept", "tpyes");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(GenericArguments.string(Text.of("tpid"))).optional().onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, TeleportPermissions.UC_TELEPORT_TELEPORTACCEPT_BASE);
         Player p = (Player) sender;
-        if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORTACCEPT_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
 
         //Find request
-        TpaRequest request = TeleportUtil.getTpacceptRequestFor(p, args.length >= 1 ? args[0] : null).orElse(null);
+        String id = args.hasAny("tpid") ? args.<String>getOne("tpid").get() : null;
+        TpaRequest request = TeleportUtil.getRequestFor(p, id).orElse(null);
         if (request == null) {
             sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaccept.none"));
             return CommandResult.empty();
@@ -86,11 +80,4 @@ public class TeleportacceptCommand implements Command {
         sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaccept.success"));
         return CommandResult.success();
     }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
-    }
-
-
 }

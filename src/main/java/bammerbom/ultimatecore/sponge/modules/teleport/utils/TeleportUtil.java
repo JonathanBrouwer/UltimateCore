@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class TeleportUtil {
-    public static Optional<TpaRequest> getTpacceptRequestFor(Player p, @Nullable String arg) {
+    public static Optional<TpaRequest> getRequestFor(Player p, @Nullable String arg) {
         HashMap<UUID, TpaRequest> requests = GlobalData.get(TeleportKeys.TELEPORT_ASK_REQUESTS).get();
         HashMap<UUID, TpaRequest> requests2 = GlobalData.get(TeleportKeys.TELEPORT_ASKHERE_REQUESTS).get();
 
@@ -77,8 +77,7 @@ public class TeleportUtil {
         return Optional.ofNullable(request);
     }
 
-    //Seperate method, because if empty for tpdeny cancel all requests to the player
-    public static List<TpaRequest> getTpdenyRequestFor(Player p, @Nullable String arg) {
+    public static List<TpaRequest> getRequestsFor(Player p, @Nullable String arg) {
         HashMap<UUID, TpaRequest> requests = GlobalData.get(TeleportKeys.TELEPORT_ASK_REQUESTS).get();
         HashMap<UUID, TpaRequest> requests2 = GlobalData.get(TeleportKeys.TELEPORT_ASKHERE_REQUESTS).get();
 

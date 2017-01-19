@@ -23,17 +23,21 @@
  */
 package bammerbom.ultimatecore.sponge.modules.sudo.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.sudo.SudoModule;
 import bammerbom.ultimatecore.sponge.modules.sudo.api.SudoPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.SpongeEventFactory;
 import org.spongepowered.api.event.cause.Cause;
@@ -47,17 +51,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class SudoCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.SUDO.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "sudo";
-    }
-
+@RegisterCommand(module = SudoModule.class, aliases = {"sudo", "fcommand", "fcmd", "fchat", "forcechat", "forcecmd", "forcecommand"})
+public class SudoCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return SudoPermissions.UC_SUDO_SUDO_BASE;
@@ -69,33 +64,22 @@ public class SudoCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("sudo", "fcommand", "fcmd", "fchat", "forcechat", "forcecmd", "forcecommand");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(), Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("command"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(SudoPermissions.UC_SUDO_SUDO_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (!(args.length >= 2)) {
-            sender.sendMessage(getLongDescription());
-            return CommandResult.empty();
-        }
-        Player t = Selector.one(sender, args[0]).orElse(null);
-        if (t == null) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-            return CommandResult.empty();
-        }
-        String message = StringUtil.getFinalArg(args, 1);
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, SudoPermissions.UC_SUDO_SUDO_BASE);
+
+        Player t = args.<Player>getOne("player").get();
+        String message = args.<String>getOne("command").get();
         boolean cmd = message.startsWith("/");
         if (cmd) {
             //COMMAND
-            if (!sender.hasPermission(SudoPermissions.UC_SUDO_SUDO_COMMAND.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
+            checkPermission(sender, SudoPermissions.UC_SUDO_SUDO_COMMAND);
             try {
                 if (Sponge.getCommandManager().process(sender, message.replaceFirst("/", "")).getSuccessCount().orElse(0) >= 1) {
                     //Success
@@ -110,10 +94,7 @@ public class SudoCommand implements Command {
             }
         } else {
             //CHAT
-            if (!sender.hasPermission(SudoPermissions.UC_SUDO_SUDO_CHAT.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
+            checkPermission(sender, SudoPermissions.UC_SUDO_SUDO_CHAT);
             MessageChannelEvent.Chat event = SpongeEventFactory.createMessageChannelEventChat(Cause.source(t).named(NamedCause.notifier(sender)).build(), t.getMessageChannel(), Optional.of(t.getMessageChannel()), new MessageEvent.MessageFormatter(Text.of(t.getName()), Text.of(message)), Text.of(message), false);
             if (!Sponge.getEventManager().post(event)) {
                 //Success
@@ -125,10 +106,5 @@ public class SudoCommand implements Command {
             }
         }
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }
