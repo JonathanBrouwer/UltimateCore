@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.command.wrapper;
 
 import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import com.google.common.collect.ImmutableList;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
@@ -33,8 +34,6 @@ import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static org.spongepowered.api.util.SpongeApiTranslationHelper.t;
 
 public class PermissionWrapper extends Wrapper {
     private final String permission;
@@ -53,8 +52,7 @@ public class PermissionWrapper extends Wrapper {
 
     private void checkPermission(CommandSource source, CommandArgs args) throws ArgumentParseException {
         if (!source.hasPermission(this.permission)) {
-            Text key = getKey();
-            throw args.createError(t("You do not have permission to use the %s argument", key != null ? key : t("unknown")));
+            throw args.createError(Messages.getFormatted("core.nopermissions.subcommand"));
         }
     }
 

@@ -46,15 +46,18 @@ public class Wrapper extends UCommandElement {
     }
 
     @Nullable
+    @Override
     public Text getKey() {
         return element.getKey();
     }
 
     @Nullable
+    @Override
     public String getUntranslatedKey() {
         return element.getUntranslatedKey();
     }
 
+    @Override
     public void parse(CommandSource source, CommandArgs args, CommandContext context) throws ArgumentParseException {
         element.parse(source, args, context);
     }
@@ -64,14 +67,17 @@ public class Wrapper extends UCommandElement {
         return element.parseValue(source, args);
     }
 
+    @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
         return element.complete(src, args, context);
     }
 
+    @Override
     public Text getUsage(CommandSource src) {
         return element.getUsage(src);
     }
 
+    @Override
     public Text getUsageKey(CommandSource src) {
         return element.getUsageKey(src);
     }

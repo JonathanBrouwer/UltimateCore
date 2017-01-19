@@ -44,7 +44,7 @@ import org.spongepowered.api.text.Text;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = HealModule.class, aliases = {"sethealth", "setlives"})
+@RegisterCommand(module = HealModule.class, aliases = {"sethealth", "setlives", "health", "lives"})
 public class SethealthCommand implements SmartCommand {
 
     @Override

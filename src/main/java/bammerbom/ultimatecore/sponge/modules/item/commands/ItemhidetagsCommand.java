@@ -80,7 +80,7 @@ public class ItemhidetagsCommand implements SmartCommand {
 
         return new CommandElement[]{
                 Arguments.builder(new ChoicesArgument(Text.of("tag"), choices)).onlyOne().usage("attributes/candestroy/canplaceon/enchantments/miscellaneous/unbreakable").build(),
-                Arguments.builder(new BooleanArgument(Text.of("enable/disable"))).onlyOne().build()
+                Arguments.builder(new BooleanArgument(Text.of("enabled"))).usageKey("Enable/Disable").onlyOne().build()
         };
     }
 
@@ -97,7 +97,7 @@ public class ItemhidetagsCommand implements SmartCommand {
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
 
         Key<Value<Boolean>> key = args.<Key<Value<Boolean>>>getOne("tag").get();
-        boolean value = args.<Boolean>getOne("enable/disable").get();
+        boolean value = args.<Boolean>getOne("enabled").get();
 
         stack.offer(key, value);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);

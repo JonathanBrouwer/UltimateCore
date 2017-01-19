@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.command.wrapper;
 
 import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
+import org.spongepowered.api.command.CommandMessageFormatting;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
@@ -51,6 +52,12 @@ public class RemainingArgumentsWrapper extends Wrapper {
 
     @Override
     public Text getUsageKey(CommandSource src) {
-        return Text.of(this.element.getUsageKey(src), "...");
+        return Text.of(this.element.getUsageKey(src), CommandMessageFormatting.ELLIPSIS_TEXT);
+    }
+
+    @Override
+    public Text getUsage(CommandSource src) {
+        //TODO fix problem with getUsage() getting the wrong usage key, maybe make usage key a variable?
+        return getUsageKey(src) == null ? Text.of() : Text.of("<", getUsageKey(src), ">");
     }
 }

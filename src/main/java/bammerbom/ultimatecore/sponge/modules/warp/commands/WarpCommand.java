@@ -68,7 +68,7 @@ public class WarpCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new WarpArgument(Text.of("warp"))).onlyOne().optional().build()
+                Arguments.builder(new WarpArgument(Text.of("warp"))).onlyOne().optional().usage("<Warp>").build()
         };
     }
 
