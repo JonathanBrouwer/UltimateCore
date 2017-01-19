@@ -23,33 +23,28 @@
  */
 package bammerbom.ultimatecore.sponge.modules.random.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.random.RandomModule;
 import bammerbom.ultimatecore.sponge.modules.random.api.RandomPermissions;
-import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class RandomCommand implements Command {
+@RegisterCommand(module = RandomModule.class, aliases = {"random"})
+public class RandomCommand implements SmartCommand {
     static Random random = new Random();
-
-    @Override
-    public Module getModule() {
-        return Modules.RANDOM.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "random";
-    }
 
     @Override
     public Permission getPermission() {
@@ -62,42 +57,29 @@ public class RandomCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("random");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(GenericArguments.integer(Text.of("first"))).usage("min").onlyOne().build(),
+                Arguments.builder(GenericArguments.integer(Text.of("second"))).usage("max").onlyOne().optional().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         if (!sender.hasPermission(RandomPermissions.UC_RANDOM_RANDOM_BASE.get())) {
             sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
             return CommandResult.empty();
         }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
+
+        int min = args.hasAny("second") ? args.<Integer>getOne("first").get() : 1;
+        int max = args.hasAny("second") ? args.<Integer>getOne("second").get() : args.<Integer>getOne("first").get();
+        if (min > max) {
+            sender.sendMessage(Messages.getFormatted(sender, "random.command.random.invalid", "%min%", min, "%max%", max));
             return CommandResult.empty();
-        } else if (args.length == 1 || args.length == 2) {
-            if (!ArgumentUtil.isInteger(args[0])) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.number.invalid", "%number%", args[0]));
-                return CommandResult.empty();
-            }
-
-            int min = args.length == 2 ? Integer.parseInt(args[0]) : 1;
-            int max = args.length == 2 ? Integer.parseInt(args[1]) : Integer.parseInt(args[0]);
-            if (min > max) {
-                sender.sendMessage(Messages.getFormatted(sender, "random.command.random.invalid", "%min%", min, "%max%", max));
-                return CommandResult.empty();
-            }
-            int rand = random.nextInt((max + 1) - min) + min;
-
-            sender.sendMessage(Messages.getFormatted(sender, "random.command.random.success", "%min%", min, "%max%", max, "%value%", rand));
-            return CommandResult.success();
         }
-        sender.sendMessage(getUsage(sender));
-        return CommandResult.empty();
-    }
+        int rand = random.nextInt((max + 1) - min) + min;
 
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return new ArrayList<>();
+        sender.sendMessage(Messages.getFormatted(sender, "random.command.random.success", "%min%", min, "%max%", max, "%value%", rand));
+        return CommandResult.success();
     }
 }

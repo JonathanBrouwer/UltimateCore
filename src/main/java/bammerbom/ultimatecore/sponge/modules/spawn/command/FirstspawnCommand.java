@@ -24,38 +24,34 @@
 package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class FirstspawnCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.SPAWN.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "firstspawn";
-    }
-
+@RegisterCommand(module = SpawnModule.class, aliases = {"firstspawn"})
+public class FirstspawnCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return SpawnPermissions.UC_SPAWN_FIRSTSPAWN_BASE;
@@ -67,62 +63,46 @@ public class FirstspawnCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("firstspawn");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optional().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_FIRSTSPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, SpawnPermissions.UC_SPAWN_FIRSTSPAWN_BASE);
 
-        //Find player to teleport
-        Player t;
-        boolean self;
-        if (args.length == 0) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-                return CommandResult.empty();
-            }
-            t = (Player) sender;
-            self = true;
-        } else {
-            if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_FIRSTSPAWN_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
-            t = Selector.one(sender, args[0]).orElse(null);
-            self = false;
-            if (t == null) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-                return CommandResult.empty();
-            }
-        }
-
-        //
+        //Find firstspawn
         Optional<Transform<World>> loc = GlobalData.get(SpawnKeys.FIRST_SPAWN);
         if (!loc.isPresent()) {
             sender.sendMessage(Messages.getFormatted(sender, "spawn.command.firstspawn.notset"));
             return CommandResult.empty();
         }
 
-        Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc.get(), tel -> {
-            if (self) {
+        //Find player to teleport
+        if (!args.hasAny("player")) {
+            checkIfPlayer(sender);
+            Player p = (Player) sender;
+            Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc.get(), tel -> {
                 sender.sendMessage(Messages.getFormatted(sender, "spawn.command.firstspawn.success.self"));
-            } else {
+            }, (tel, reason) -> {
+            }, false, false);
+            tp.start();
+        } else {
+            if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_FIRSTSPAWN_OTHERS.get())) {
+                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
+                return CommandResult.empty();
+            }
+            checkPermission(sender, SpawnPermissions.UC_SPAWN_FIRSTSPAWN_OTHERS);
+            Player t = args.<Player>getOne("player").get();
+            Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc.get(), tel -> {
                 sender.sendMessage(Messages.getFormatted(sender, "spawn.command.firstspawn.success.others.self", "%player%", VariableUtil.getNameSource(t)));
                 t.sendMessage(Messages.getFormatted(t, "spawn.command.firstspawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
-            }
-        }, (tel, reason) -> {
-        }, false, false);
-        tp.start();
+            }, (tel, reason) -> {
+            }, false, false);
+            tp.start();
+        }
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

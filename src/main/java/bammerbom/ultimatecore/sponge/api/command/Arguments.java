@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.api.command;
 
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 
@@ -35,6 +36,7 @@ public class Arguments {
     ArgOptional optional = ArgOptional.REQUIRED;
     String permission = null;
     int repeat = 0;
+    Text usage;
 
     //Builder
     public static Arguments builder(CommandElement element) {
@@ -131,6 +133,21 @@ public class Arguments {
 
     public Arguments repeat(int repeat) {
         this.repeat = repeat;
+        return this;
+    }
+
+    //Usage
+    public Text getUsage() {
+        return usage != null ? usage : element.getKey();
+    }
+
+    public Arguments usage(String usage) {
+        this.usage = Text.of(usage);
+        return this;
+    }
+
+    public Arguments usage(Text usage) {
+        this.usage = usage;
         return this;
     }
 }

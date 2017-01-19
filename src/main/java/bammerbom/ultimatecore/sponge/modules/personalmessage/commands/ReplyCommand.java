@@ -24,20 +24,24 @@
 package bammerbom.ultimatecore.sponge.modules.personalmessage.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.personalmessage.PersonalmessageModule;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessageEvent;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessageKeys;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessagePermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.message.MessageEvent;
@@ -47,16 +51,8 @@ import org.spongepowered.api.text.channel.MessageReceiver;
 
 import java.util.*;
 
-public class ReplyCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.PERSONALMESSAGE.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "reply";
-    }
+@RegisterCommand(module = PersonalmessageModule.class, aliases = {"reply", "respond", "r"})
+public class ReplyCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -69,24 +65,16 @@ public class ReplyCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("reply", "respond", "r");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("message"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(getPermission().get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
-        if (args.length < 1) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, PersonalmessagePermissions.UC_PERSONALMESSAGE_REPLY_BASE);
 
         Player p = (Player) sender;
         UltimateUser pu = UltimateCore.get().getUserService().getUser(p);
@@ -105,7 +93,7 @@ public class ReplyCommand implements Command {
             }
         }
 
-        String message = StringUtil.getFinalArg(args, 0);
+        String message = args.<String>getOne("message").get();
         Text fmessage = Messages.getFormatted("personalmessage.command.personalmessage.format.receive", "%player%", VariableUtil.getNameSource(sender), "%message%", message);
 
         //Event
@@ -140,10 +128,5 @@ public class ReplyCommand implements Command {
             t.sendMessage(Messages.getFormatted(t, "personalmessage.command.personalmessage.cancelled"));
             return CommandResult.empty();
         }
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

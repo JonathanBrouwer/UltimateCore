@@ -24,36 +24,32 @@
 package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
 import bammerbom.ultimatecore.sponge.modules.spawn.utils.SpawnUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class SpawnCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.SPAWN.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "spawn";
-    }
-
+@RegisterCommand(module = SpawnModule.class, aliases = {"spawn"})
+public class SpawnCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return SpawnPermissions.UC_SPAWN_SPAWN_BASE;
@@ -65,57 +61,41 @@ public class SpawnCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("spawn");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optional().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_SPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        //Find player to teleport
-        Player t;
-        boolean self;
-        if (args.length == 0) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-                return CommandResult.empty();
-            }
-            t = (Player) sender;
-            self = true;
-        } else {
-            if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_SPAWN_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
-            t = Selector.one(sender, args[0]).orElse(null);
-            self = false;
-            if (t == null) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-                return CommandResult.empty();
-            }
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, SpawnPermissions.UC_SPAWN_SPAWN_BASE);
 
-        //Get group spawn, or global spawn, or world spawn
-        Transform<World> loc = SpawnUtil.getSpawnLocation(t);
+        if (!args.hasAny("player")) {
+            checkIfPlayer(sender);
+            Player p = (Player) sender;
+            Transform<World> loc = SpawnUtil.getSpawnLocation(p);
 
-        Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
-            if (self) {
+            Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc, tel -> {
                 sender.sendMessage(Messages.getFormatted(sender, "spawn.command.spawn.success.self"));
-            } else {
+            }, (tel, reason) -> {
+            }, false, false);
+            tp.start();
+            return CommandResult.success();
+        } else {
+            checkPermission(sender, SpawnPermissions.UC_SPAWN_SPAWN_OTHERS);
+            Player t = args.<Player>getOne("player").get();
+            Transform<World> loc = SpawnUtil.getSpawnLocation(t);
+            
+            Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
                 sender.sendMessage(Messages.getFormatted(sender, "spawn.command.spawn.success.others.self", "%player%", VariableUtil.getNameSource(t)));
                 t.sendMessage(Messages.getFormatted(t, "spawn.command.spawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
-            }
-        }, (tel, reason) -> {
-        }, false, false);
-        tp.start();
-        return CommandResult.success();
-    }
+            }, (tel, reason) -> {
+            }, false, false);
+            tp.start();
+            return CommandResult.success();
+        }
 
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
+
     }
 }

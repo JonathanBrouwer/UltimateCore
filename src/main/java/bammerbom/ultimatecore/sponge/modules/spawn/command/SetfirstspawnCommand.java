@@ -23,33 +23,26 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetfirstspawnCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.SPAWN.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "setfirstspawn";
-    }
-
+@RegisterCommand(module = SpawnModule.class, aliases = {"setfirstspawn"})
+public class SetfirstspawnCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
         return SpawnPermissions.UC_SPAWN_SETFIRSTSPAWN_BASE;
@@ -61,28 +54,18 @@ public class SetfirstspawnCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("setfirstspawn");
+    public CommandElement[] getArguments() {
+        return new CommandElement[0];
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
-        if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_SETFIRSTSPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, SpawnPermissions.UC_SPAWN_SETFIRSTSPAWN_BASE);
+
         Player p = (Player) sender;
         GlobalData.offer(SpawnKeys.FIRST_SPAWN, p.getTransform());
         p.sendMessage(Messages.getFormatted(p, "spawn.command.setfirstspawn.success"));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return new ArrayList<>();
     }
 }
