@@ -61,6 +61,17 @@ public interface SmartCommand extends Command, CommandExecutor {
         InputTokenizer argumentParser = InputTokenizer.quotedStrings(false);
         String args = StringUtil.join(" ", rawargs);
         try {
+            //Check children
+            if (rawargs.length > 0) {
+                for (SubCommand child : getChildren()) {
+                    if (child.getAliases().contains(rawargs[0])) {
+                        rawargs[0] = null;
+                        return child.run(sender, rawargs);
+                    }
+                }
+            }
+
+            //Run self
             CommandArgs cargs = new CommandArgs(StringUtil.join(" ", rawargs), argumentParser.tokenize(args, false));
             CommandContext context = new CommandContext();
             GenericArguments.seq(getArguments()).parse(sender, cargs, context);
@@ -82,7 +93,7 @@ public interface SmartCommand extends Command, CommandExecutor {
 
     CommandElement[] getArguments();
 
-    default List<SmartCommand> getChildren() {
+    default List<SubCommand> getChildren() {
         return new ArrayList<>();
     }
 
@@ -99,6 +110,7 @@ public interface SmartCommand extends Command, CommandExecutor {
         getChildren().forEach((cmd) -> {
             children.put(cmd.getAliases(), new UCCommandCallable(cmd));
         });
+        cb.children(children);
 
         return cb.build();
     }
