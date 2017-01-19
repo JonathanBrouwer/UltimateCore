@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.impl.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 
@@ -39,7 +40,7 @@ public class PrefixVariable implements Variable {
     @Override
     public Optional<Text> getValue(@Nullable Object player) {
         if (player instanceof Subject) {
-            return Optional.of(Text.of(((Subject) player).getOption("prefix").orElse("")));
+            return Optional.of(Messages.toText(((Subject) player).getOption("prefix").orElse("")));
         }
         return Optional.empty();
     }
