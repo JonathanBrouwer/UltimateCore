@@ -39,6 +39,7 @@ public class Arguments {
     Text usage = null;
     Text usagekey = null;
     boolean remainingArguments = false;
+    boolean remainingArgumentsAtLeastOnce = true;
 
     //Builder
     public static Arguments builder(UCommandElement... element) {
@@ -72,6 +73,9 @@ public class Arguments {
         }
         if (usagekey != null) {
             ce = new UsageKeyWrapper(element, usagekey);
+        }
+        if (remainingArguments) {
+            ce = new RemainingArgumentsWrapper(element, remainingArgumentsAtLeastOnce);
         }
         return ce;
     }
@@ -155,8 +159,9 @@ public class Arguments {
         return remainingArguments;
     }
 
-    public Arguments useAllRemainingArguments() {
+    public Arguments useAllRemainingArguments(boolean atLeastOnce) {
         this.remainingArguments = true;
+        this.remainingArgumentsAtLeastOnce = atLeastOnce;
         return this;
     }
 

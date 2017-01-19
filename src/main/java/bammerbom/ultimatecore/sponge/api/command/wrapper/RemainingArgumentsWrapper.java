@@ -31,13 +31,19 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.text.Text;
 
 public class RemainingArgumentsWrapper extends Wrapper {
+    boolean atLeastOnce;
 
-    public RemainingArgumentsWrapper(UCommandElement element) {
+    public RemainingArgumentsWrapper(UCommandElement element, boolean atLeastOnce) {
         super(element);
+        this.atLeastOnce = atLeastOnce;
     }
 
     @Override
     public void parse(CommandSource source, CommandArgs args, CommandContext context) throws ArgumentParseException {
+        //Parse at least once
+        if (atLeastOnce) {
+            this.element.parse(source, args, context);
+        }
         while (args.hasNext()) {
             this.element.parse(source, args, context);
         }

@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.item.commands;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.BlocktypesArgument;
+import bammerbom.ultimatecore.sponge.api.command.arguments.BlocktypeArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
 import bammerbom.ultimatecore.sponge.modules.item.api.ItemPermissions;
@@ -66,7 +66,7 @@ public class ItemcanplaceonCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new BlocktypesArgument(Text.of("blocktypes"))).multiple().build()
+                Arguments.builder(new BlocktypeArgument(Text.of("blocktypes"))).useAllRemainingArguments(true).build()
         };
     }
 
