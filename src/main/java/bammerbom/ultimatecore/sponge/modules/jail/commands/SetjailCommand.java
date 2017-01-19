@@ -23,33 +23,30 @@
  */
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class SetjailCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.JAIL.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "setjail";
-    }
+@RegisterCommand(module = JailModule.class, aliases = {"setjail", "addjail", "modifyjail"})
+public class SetjailCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -62,12 +59,15 @@ public class SetjailCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("setjail", "addjail", "modifyjail");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(GenericArguments.string(Text.of("jail"))).onlyOne().build(),
+                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("description"))).optional().onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         if (!(sender instanceof Player)) {
             sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
             return CommandResult.empty();
@@ -77,12 +77,9 @@ public class SetjailCommand implements Command {
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        String name = args[0].toLowerCase();
-        String desc = args.length >= 2 ? StringUtil.getFinalArg(args, 1) : Messages.getFormatted("jail.command.setjail.defaultdescription").toPlain();
+
+        String name = args.<String>getOne("jail").get();
+        String desc = args.hasAny("description") ? args.<String>getOne("description").get() : Messages.getFormatted("jail.command.setjail.defaultdescription").toPlain();
         Jail jail = new Jail(name, desc, p.getTransform());
 
         List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
@@ -91,10 +88,5 @@ public class SetjailCommand implements Command {
 
         sender.sendMessage(Messages.getFormatted(sender, "jail.command.setjail.success", "%jail%", name, "%description%", desc));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

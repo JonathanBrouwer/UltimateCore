@@ -23,19 +23,23 @@
  */
 package bammerbom.ultimatecore.sponge.modules.kit.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.TimeArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.kit.KitModule;
 import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
-import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -47,16 +51,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class CreatekitCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.KIT.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "createkit";
-    }
+@RegisterCommand(module = KitModule.class, aliases = {"createkit", "kitcreate", "addkit", "kitadd"})
+public class CreatekitCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -69,36 +65,23 @@ public class CreatekitCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("createkit", "kitcreate", "addkit", "kitadd");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(GenericArguments.string(Text.of("name"))).onlyOne().build(),
+                Arguments.builder(new TimeArgument(Text.of("cooldown"))).optional().onlyOne().build(),
+                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("description"))).optional().onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(KitPermissions.UC_KIT_CREATEKIT_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, KitPermissions.UC_KIT_CREATEKIT_BASE);
         Player p = (Player) sender;
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        long delay = -1;
-        Text description = Messages.getFormatted("kit.defaultdescription");
-        if (args.length >= 2) {
-            if (ArgumentUtil.isInteger(args[1])) {
-                delay = Long.parseLong(args[1]);
-            }
-            int dstart = delay == -1 ? 1 : 2;
-            if (args.length >= (dstart + 1)) {
-                description = Text.of(StringUtil.getFinalArg(args, dstart));
-            }
-        }
+
+        String name = args.<String>getOne("name").get().toLowerCase();
+        long cooldown = args.hasAny("cooldown") ? args.<Long>getOne("cooldown").get() : -1L;
+        Text description = args.hasAny("description") ? Text.of(args.<String>getOne("description")) : Messages.getFormatted("kit.defaultdescription");
 
         List<ItemStackSnapshot> items = new ArrayList<>();
         p.getInventory().slots().forEach(slot -> {
@@ -108,16 +91,11 @@ public class CreatekitCommand implements Command {
             }
         });
 
-        Kit kit = new Kit(args[0].toLowerCase(), description, items, new ArrayList<>(), delay);
+        Kit kit = new Kit(name, description, items, new ArrayList<>(), cooldown);
         List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
         kits.add(kit);
         GlobalData.offer(KitKeys.KITS, kits);
-        sender.sendMessage(Messages.getFormatted(sender, "kit.command.createkit.success", "%name%", args[0].toLowerCase()));
+        sender.sendMessage(Messages.getFormatted(sender, "kit.command.createkit.success", "%name%", name));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

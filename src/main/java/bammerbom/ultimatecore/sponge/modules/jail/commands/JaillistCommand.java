@@ -23,18 +23,21 @@
  */
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.text.Text;
@@ -46,16 +49,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class JaillistCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.JAIL.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "jaillist";
-    }
+@RegisterCommand(module = JailModule.class, aliases = {"jaillist", "jails"})
+public class JaillistCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -68,38 +63,34 @@ public class JaillistCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("jaillist", "jails");
+    public CommandElement[] getArguments() {
+        return new CommandElement[0];
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(JailPermissions.UC_JAIL_JAILLIST_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, JailPermissions.UC_JAIL_JAILLIST_BASE);
         List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
         List<Text> texts = new ArrayList<>();
+
         //Add entry to texts for every jail
         for (Jail jail : jails) {
             texts.add(Messages.getFormatted("jail.command.jaillist.entry", "%jail%", jail.getName(), "%description%", jail.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("jail.command.jaillist.hoverentry", "%jail%", jail.getName()))).onClick(TextActions.runCommand("/jailtp " + jail.getName())).build());
         }
+
         //If empty send message
         if (texts.isEmpty()) {
             sender.sendMessage(Messages.getFormatted(sender, "jail.command.jaillist.empty"));
             return CommandResult.empty();
         }
+
         //Sort alphabetically
         Collections.sort(texts);
+
         //Send page
         PaginationService paginationService = Sponge.getServiceManager().provide(PaginationService.class).get();
         PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted("jail.command.jaillist.header").toBuilder().color(TextColors.DARK_GREEN).build()).build();
         paginationList.sendTo(sender);
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

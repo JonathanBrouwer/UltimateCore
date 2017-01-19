@@ -24,19 +24,29 @@
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.arguments.TimeArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
-import bammerbom.ultimatecore.sponge.utils.*;
+import bammerbom.ultimatecore.sponge.modules.jail.commands.arguments.JailArgument;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -45,18 +55,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public class JailCommand implements Command {
+@RegisterCommand(module = JailModule.class, aliases = {"jail"})
+public class JailCommand implements SmartCommand {
     static Random random = new Random();
-
-    @Override
-    public Module getModule() {
-        return Modules.JAIL.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "jail";
-    }
 
     @Override
     public Permission getPermission() {
@@ -69,30 +70,28 @@ public class JailCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("jail");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(),
+                Arguments.builder(new JailArgument(Text.of("jail"))).optional().onlyOne().build(),
+                Arguments.builder(new TimeArgument(Text.of("time"))).optional().onlyOne().build(),
+                Arguments.builder(GenericArguments.remainingJoinedStrings(Text.of("reason"))).onlyOne().optional().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         if (!sender.hasPermission(JailPermissions.UC_JAIL_JAIL_BASE.get())) {
             sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
             return CommandResult.empty();
         }
 
         //Find player
         UUID suuid = sender instanceof Player ? ((Player) sender).getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000");
-        Player t = Selector.one(sender, args[0]).orElse(null);
-        if (t == null) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-            return CommandResult.empty();
-        }
+        Player t = args.<Player>getOne("player").get();
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
 
+        //Exempt power
         if ((JailPermissions.UC_JAIL_EXEMPTPOWER.getIntFor(t) > JailPermissions.UC_JAIL_POWER.getIntFor(sender)) && sender instanceof Player) {
             sender.sendMessage(Messages.getFormatted(sender, "jail.command.jail.exempt", "%player%", VariableUtil.getNameSource(t)));
             return CommandResult.empty();
@@ -100,45 +99,14 @@ public class JailCommand implements Command {
 
         //Find jail, time and reason
         List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
-        Jail jail = jails.get(random.nextInt(jails.size()));
-        long time = -1;
-        //Current is the current argument being checked.
-        //For example is the jail is not found, see if that argument is a time
-        int current = 1;
-        Text reason = Messages.getFormatted("jail.command.jail.defaultreason");
-
-        //Jail
-        if (args.length >= (current + 1)) {
-            String jailname = args[1];
-            Jail jail2 = jails.stream().filter(jail1 -> jail1.getName().equalsIgnoreCase(jailname)).findAny().orElse(null);
-            if (jail2 != null) {
-                jail = jail2;
-                current++;
-            }
-        }
-
-        //Time
-        if (args.length >= (current + 1)) {
-            time = TimeUtil.parse(args[current]);
-            if (time != -1) {
-                current++;
-            }
-        }
-
-        //Reason
-        if (args.length >= (current + 1)) {
-            reason = Messages.toText(StringUtil.getFinalArg(args, current));
-        }
+        Jail jail = args.hasAny("jail") ? args.<Jail>getOne("jail").get() : jails.get(random.nextInt(jails.size()));
+        Long time = args.hasAny("time") ? args.<Long>getOne("time").get() : -1L;
+        Text reason = args.hasAny("reason") ? Text.of(args.<String>getOne("reason").get()) : Messages.getFormatted("jail.command.jail.defaultreason");
 
         JailData data = new JailData(t.getUniqueId(), suuid, time == -1 ? -1 : (time + System.currentTimeMillis()), System.currentTimeMillis(), reason, jail.getName());
         ut.offer(JailKeys.JAIL, data);
         sender.sendMessage(Messages.getFormatted(sender, "jail.command.jail.success", "%player%", VariableUtil.getNameSource(t), "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
         t.sendMessage(Messages.getFormatted(t, "jail.target.jailed", "%player%", VariableUtil.getNameSource(sender), "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

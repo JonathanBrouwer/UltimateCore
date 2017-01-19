@@ -24,36 +24,32 @@
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class UnjailCommand implements Command {
+@RegisterCommand(module = JailModule.class, aliases = {"unjail"})
+public class UnjailCommand implements SmartCommand {
     static Random random = new Random();
-
-    @Override
-    public Module getModule() {
-        return Modules.JAIL.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "unjail";
-    }
 
     @Override
     public Permission getPermission() {
@@ -66,27 +62,18 @@ public class UnjailCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("unjail");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(),
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(JailPermissions.UC_JAIL_UNJAIL_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, JailPermissions.UC_JAIL_UNJAIL_BASE);
 
         //Find player
-        Player t = Selector.one(sender, args[0]).orElse(null);
-        if (t == null) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-            return CommandResult.empty();
-        }
+        Player t = args.<Player>getOne("player").get();
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
 
         if (!ut.get(JailKeys.JAIL).isPresent()) {
@@ -98,10 +85,5 @@ public class UnjailCommand implements Command {
         sender.sendMessage(Messages.getFormatted(sender, "jail.command.unjail.success", "%player%", VariableUtil.getNameSource(t)));
         t.sendMessage(Messages.getFormatted(t, "jail.target.unjailed"));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }

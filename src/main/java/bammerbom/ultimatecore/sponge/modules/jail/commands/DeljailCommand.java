@@ -23,33 +23,30 @@
  */
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
+import bammerbom.ultimatecore.sponge.modules.jail.commands.arguments.JailArgument;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DeljailCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.JAIL.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "deljail";
-    }
+@RegisterCommand(module = JailModule.class, aliases = {"deljail", "removejail"})
+public class DeljailCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -62,42 +59,24 @@ public class DeljailCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("deljail", "removejail");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new JailArgument(Text.of("jail"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
-            return CommandResult.empty();
-        }
-        if (!sender.hasPermission(JailPermissions.UC_JAIL_DELJAIL_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkIfPlayer(sender);
+        checkPermission(sender, JailPermissions.UC_JAIL_DELJAIL_BASE);
         Player p = (Player) sender;
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        String name = args[0].toLowerCase();
+
         //Remove jail
         List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
-        for (Jail jail : new ArrayList<>(jails)) {
-            if (jail.getName().equalsIgnoreCase(name)) {
-                jails.remove(jail);
-                GlobalData.offer(JailKeys.JAILS, jails);
-                sender.sendMessage(Messages.getFormatted(sender, "jail.command.deljail.success", "%jail%", name));
-                return CommandResult.success();
-            }
-        }
-        sender.sendMessage(Messages.getFormatted(sender, "jail.notfound", "%jail%", args[0]));
-        return CommandResult.empty();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
+        Jail jail = args.<Jail>getOne("jail").get();
+        jails.remove(jail);
+        GlobalData.offer(JailKeys.JAILS, jails);
+        sender.sendMessage(Messages.getFormatted(sender, "jail.command.deljail.success", "%jail%", jail.getName()));
+        return CommandResult.success();
     }
 }

@@ -24,18 +24,23 @@
 package bammerbom.ultimatecore.sponge.modules.kit.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.modules.kit.KitModule;
 import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
+import bammerbom.ultimatecore.sponge.modules.kit.commands.arguments.KitArgument;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.Item;
@@ -53,18 +58,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class KitCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.KIT.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "kit";
-    }
+@RegisterCommand(module = KitModule.class, aliases = {"kit"})
+public class KitCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -77,23 +73,19 @@ public class KitCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("kit");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new KitArgument(Text.of("kit"))).onlyOne().optional().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(KitPermissions.UC_KIT_KIT_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, KitPermissions.UC_KIT_KIT_BASE);
         //Send the player a paginated list of all kits
-        if (args.length == 0) {
+        if (!args.hasAny("kit")) {
             //Permissions
-            if (!sender.hasPermission(KitPermissions.UC_KIT_KITLIST_BASE.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
+            checkPermission(sender, KitPermissions.UC_KIT_KITLIST_BASE);
             //Get all kits
             List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
             List<Text> texts = new ArrayList<>();
@@ -119,23 +111,12 @@ public class KitCommand implements Command {
         }
         //Teleport the player to a kit
         //Check is the sender is a player
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
+        checkIfPlayer(sender);
         Player p = (Player) sender;
         //Try to find kit
-        List<Kit> results = GlobalData.get(KitKeys.KITS).get().stream().filter(war -> args[0].toLowerCase().equalsIgnoreCase(war.getId().toLowerCase())).collect(Collectors.toList());
-        if (results.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.notfound", "%kit%", args[0]));
-            return CommandResult.empty();
-        }
-        Kit kit = results.get(0);
+        Kit kit = args.<Kit>getOne("kit").get();
         //Check permissions
-        if (!sender.hasPermission(KitPermissions.UC_KIT_KIT_BASE.get()) && !sender.hasPermission("uc.kit." + kit.getId().toLowerCase())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+        checkPermission(sender, "uc.kit.kit." + kit.getId().toLowerCase());
         //Give items
         for (ItemStackSnapshot snapshot : kit.getItems()) {
             InventoryTransactionResult result = p.getInventory().offer(snapshot.createStack());
@@ -147,13 +128,5 @@ public class KitCommand implements Command {
         }
         sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.success", "%kit%", kit.getId()));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        List<Kit> results = GlobalData.get(KitKeys.KITS).get();
-        List<String> names = new ArrayList<>();
-        results.forEach(kit -> names.add(kit.getId()));
-        return names;
     }
 }

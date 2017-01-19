@@ -24,33 +24,29 @@
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
-import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
+import bammerbom.ultimatecore.sponge.modules.jail.commands.arguments.JailArgument;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class JailtpCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.JAIL.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "jailtp";
-    }
+@RegisterCommand(module = JailModule.class, aliases = {"jailtp", "jailteleport", "tpjail", "teleportjail"})
+public class JailtpCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
@@ -63,12 +59,14 @@ public class JailtpCommand implements Command {
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("jailtp", "jailteleport", "tpjail", "teleportjail");
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new JailArgument(Text.of("jail"))).onlyOne().build()
+        };
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         if (!(sender instanceof Player)) {
             sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
             return CommandResult.empty();
@@ -78,18 +76,7 @@ public class JailtpCommand implements Command {
             return CommandResult.empty();
         }
         Player p = (Player) sender;
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
-        }
-        String name = args[0].toLowerCase();
-        //Remove jail
-        List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
-        Jail jail = jails.stream().filter(jail1 -> jail1.getName().equalsIgnoreCase(name)).findAny().orElse(null);
-        if (jail == null) {
-            sender.sendMessage(Messages.getFormatted(sender, "jail.notfound", "%jail%", args[0]));
-            return CommandResult.empty();
-        }
+        Jail jail = args.<Jail>getOne("jail").get();
 
         Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), jail.getLocation(), tel -> {
         }, (tel, reason) -> {
@@ -98,10 +85,5 @@ public class JailtpCommand implements Command {
 
         sender.sendMessage(Messages.getFormatted(sender, "jail.command.jailtp.success", "%jail%", jail.getName()));
         return CommandResult.success();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }
