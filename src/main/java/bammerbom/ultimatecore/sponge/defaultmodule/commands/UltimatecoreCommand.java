@@ -24,95 +24,142 @@
 package bammerbom.ultimatecore.sponge.defaultmodule.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.SubCommand;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
+import bammerbom.ultimatecore.sponge.defaultmodule.DefaultModule;
 import bammerbom.ultimatecore.sponge.defaultmodule.api.DefaultPermissions;
-import bammerbom.ultimatecore.sponge.utils.*;
+import bammerbom.ultimatecore.sponge.utils.Docgen;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class UltimatecoreCommand implements Command {
-    @Override
-    public Module getModule() {
-        return Modules.DEFAULT.get();
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "ultimatecore";
-    }
-
+@RegisterCommand(module = DefaultModule.class, aliases = {"ultimatecore", "uc"})
+public class UltimatecoreCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
-        return DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE;
+        return DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE;
     }
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE);
+        return Arrays.asList(DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
     }
 
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList("ultimatecore", "uc");
+    public List<SubCommand> getChildren() {
+        return Arrays.asList(new ClearcacheCommand(), new ResetuserCommand(), new ModulesCommand(), new GendocsCommand(), new ErrorCommand(), new ReloadCommand());
     }
 
     @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(getPermission().get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            sender.sendMessage(getUsage(sender));
-            return CommandResult.empty();
+    public CommandElement[] getArguments() {
+        return new CommandElement[0];
+    }
+
+    @Override
+    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+        checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
+        return CommandResult.empty();
+    }
+
+    @RegisterCommand(module = DefaultModule.class, aliases = {"clearcache"})
+    public static class ClearcacheCommand implements SubCommand {
+        @Override
+        public CommandElement[] getArguments() {
+            return new CommandElement[0];
         }
 
-        if (args[0].equalsIgnoreCase("clearcache")) {
+        @Override
+        public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             UltimateCore.get().getUserService().clearcache();
             sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.clearcache.success"));
             return CommandResult.success();
         }
-        if (args[0].equalsIgnoreCase("resetuser")) {
-            if (args.length == 1) {
-                sender.sendMessage(getUsage(sender));
-                return CommandResult.empty();
-            }
-            Optional<Player> t = Selector.one(sender, args[1]);
-            if (!t.isPresent()) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[1]));
-                return CommandResult.empty();
-            }
-            UltimateUser user = UltimateCore.get().getUserService().getUser(t.get());
+    }
+
+    @RegisterCommand(module = DefaultModule.class, aliases = {"resetuser"})
+    public static class ResetuserCommand implements SubCommand {
+        @Override
+        public CommandElement[] getArguments() {
+            return new CommandElement[]{
+                    Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build()
+            };
+        }
+
+        @Override
+        public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
+            Player t = args.<Player>getOne("player").get();
+            UltimateUser user = UltimateCore.get().getUserService().getUser(t);
             //Clear the cache for the user
             user.datas.clear();
             PlayerDataFile file = new PlayerDataFile(user.getIdentifier());
             //Delete the user's file
             file.getFile().delete();
-            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.resetuser.success", "%player%", t.get().getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.resetuser.success", "%player%", t.getName()));
             return CommandResult.success();
         }
-        if (args[0].equalsIgnoreCase("modules")) {
+    }
+
+    @RegisterCommand(module = DefaultModule.class, aliases = {"modules"})
+    public static class ModulesCommand implements SubCommand {
+        @Override
+        public CommandElement[] getArguments() {
+            return new CommandElement[0];
+        }
+
+        @Override
+        public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             List<String> modules = UltimateCore.get().getModuleService().getModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default")).collect(Collectors.toList());
             sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules)));
             return CommandResult.success();
         }
-        if (args[0].equalsIgnoreCase("gendocs")) {
-            Docgen.generateDocs();
+    }
 
+    @RegisterCommand(module = DefaultModule.class, aliases = {"gendocs"})
+    public static class GendocsCommand implements SubCommand {
+        @Override
+        public CommandElement[] getArguments() {
+            return new CommandElement[0];
+        }
+
+        @Override
+        public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
+            Docgen.generateDocs();
             return CommandResult.success();
         }
-        if (args[0].equalsIgnoreCase("error")) {
+    }
+
+    @RegisterCommand(module = DefaultModule.class, aliases = {"error"})
+    public static class ErrorCommand implements SubCommand {
+        @Override
+        public CommandElement[] getArguments() {
+            return new CommandElement[0];
+        }
+
+        @Override
+        public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             try {
                 String string = null;
                 string.toLowerCase();
@@ -121,18 +168,22 @@ public class UltimatecoreCommand implements Command {
             }
             return CommandResult.success();
         }
-        if (args[0].equalsIgnoreCase("reload")) {
-            UltimateCore.get().onReload(null);
+    }
 
+
+    @RegisterCommand(module = DefaultModule.class, aliases = {"reload"})
+    public static class ReloadCommand implements SubCommand {
+        @Override
+        public CommandElement[] getArguments() {
+            return new CommandElement[0];
+        }
+
+        @Override
+        public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
+            UltimateCore.get().onReload(null);
             sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.reload.success"));
             return CommandResult.success();
         }
-        sender.sendMessage(getUsage(sender));
-        return CommandResult.empty();
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn) {
-        return null;
     }
 }
