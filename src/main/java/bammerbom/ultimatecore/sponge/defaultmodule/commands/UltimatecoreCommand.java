@@ -56,7 +56,7 @@ import java.util.stream.Collectors;
         UltimatecoreCommand.ErrorCommand.class,
         UltimatecoreCommand.ReloadCommand.class
 })
-@CommandPermissions(subPerms = {}, level = PermissionLevel.OWNER)
+@CommandPermissions(level = PermissionLevel.OWNER)
 @CommandInfo(module = DefaultModule.class, aliases = {"ultimatecore", "uc"})
 public class UltimatecoreCommand implements PermSmartCommand {
     @Override

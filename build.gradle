@@ -69,6 +69,6 @@ shadowJar {
     relocate 'com.maxmind.db', 'dependencies.bammerbom.ultimatecore.com.maxmind.db'
     relocate 'com.goebl.david', 'dependencies.bammerbom.ultimatecore.com.goebl.david'
     relocate 'org.json', 'dependencies.bammerbom.ultimatecore.org.json'
-    relocate 'org.minecrell.statusprotocol', 'dependencies.bammerbom.ultimatecore.net.minecrell.statusprotocol'
+    relocate 'net.minecrell.statusprotocol', 'dependencies.bammerbom.ultimatecore.net.minecrell.statusprotocol'
 }
 build.dependsOn(shadowJar)

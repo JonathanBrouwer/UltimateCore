@@ -64,6 +64,17 @@ public interface PermSmartCommand extends SmartCommand {
         Permission baseperm = Permission.create(getBasePermission() + ".base", getModule(), level, this, Text.of("Allows you to use the /" + this.getIdentifier() + " command."));
         perms.add(baseperm);
 
+        //Get children permissions
+        for (SubCommand child : getChildren()) {
+            perms.addAll(child.getPermissions());
+        }
+
+        //Get custom suffixes
+        registerPermissionSuffixes().forEach((id, info) -> {
+            Permission perm = Permission.create(id, getModule(), info.getLevel(), this, info.getDescription());
+            perms.add(perm);
+        });
+
         return perms;
     }
 

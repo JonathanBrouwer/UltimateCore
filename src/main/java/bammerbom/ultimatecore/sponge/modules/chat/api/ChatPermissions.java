@@ -23,9 +23,12 @@
  */
 package bammerbom.ultimatecore.sponge.modules.chat.api;
 
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
 import org.spongepowered.api.text.Text;
 
 public class ChatPermissions {
+    public static Permission UC_CHAT_COLOR_COLOR = Permission.create("uc.chat.color.[COLOR]", "chat", PermissionLevel.MOD, null, Text.of("Allows you to use a certain color in chat."));
     public static PermissionOption UC_CHAT_GROUP = PermissionOption.create("uc.chat.group", "chat", null, null, Text.of("Which section in the config is used for chat formatting."));
 }
