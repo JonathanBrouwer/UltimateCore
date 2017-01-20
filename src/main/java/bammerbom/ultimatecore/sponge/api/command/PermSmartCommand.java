@@ -54,11 +54,8 @@ public interface PermSmartCommand extends SmartCommand {
         CommandPermissions pi = this.getClass().getAnnotation(CommandPermissions.class);
         ArrayList<Permission> perms = new ArrayList<>();
 
-        //If child does not have a @CommandPermissions & is child, copy parents level
-        PermissionLevel level = pi != null ? pi.level() : null;
-        if (level == null && this instanceof SubCommand) {
-            level = ((SubCommand) this).getParent().getPermission().getLevel();
-        }
+        //TODO default perm level?
+        PermissionLevel level = pi != null ? pi.level() : PermissionLevel.NOBODY;
 
         //Get base permission
         Permission baseperm = Permission.create(getBasePermission() + ".base", getModule(), level, this, Text.of("Allows you to use the /" + this.getIdentifier() + " command."));
