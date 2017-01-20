@@ -75,6 +75,10 @@ public interface SmartCommand extends Command, CommandExecutor {
             CommandArgs cargs = new CommandArgs(StringUtil.join(" ", rawargs), argumentParser.tokenize(args, false));
             CommandContext context = new CommandContext();
             GenericArguments.seq(getArguments()).parse(sender, cargs, context);
+            //TODO should we check for permissions or do it manually in the command?
+            if (getPermission() != null && !sender.hasPermission(getPermission().get())) {
+                throw new CommandPermissionException();
+            }
             return execute(sender, context);
         } catch (CommandPermissionException ex) {
             sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
@@ -94,6 +98,18 @@ public interface SmartCommand extends Command, CommandExecutor {
     CommandElement[] getArguments();
 
     default List<SubCommand> getChildren() {
+        if (getClass().isAnnotationPresent(CommandChildrenInfo.class)) {
+            CommandChildrenInfo childrenInfo = getClass().getAnnotation(CommandChildrenInfo.class);
+            List<SubCommand> children = new ArrayList<>();
+            for (Class<? extends SubCommand> child : childrenInfo.children()) {
+                try {
+                    children.add(child.newInstance());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return children;
+        }
         return new ArrayList<>();
     }
 
@@ -110,7 +126,10 @@ public interface SmartCommand extends Command, CommandExecutor {
         getChildren().forEach((cmd) -> {
             children.put(cmd.getAliases(), new UCCommandCallable(cmd));
         });
-        cb.children(children);
+        //Sponge bug: If you submit an empty children list as children, sponge fucks up the children
+        if (!children.isEmpty()) {
+            cb.children(children);
+        }
 
         return cb.build();
     }
@@ -145,7 +164,7 @@ public interface SmartCommand extends Command, CommandExecutor {
         return this.getClass().getAnnotation(CommandInfo.class).aliases()[0];
     }
 
-    //Implemented with @RegisterCommand
+    //Implemented with @CommandInfo
     @Override
     default List<String> getAliases() {
         if (!this.getClass().isAnnotationPresent(CommandInfo.class)) {

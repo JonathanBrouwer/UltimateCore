@@ -59,7 +59,7 @@ public class TeleportacceptCommand implements SmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new StringArgument(Text.of("tpid"))).optional().usageKey("Tpid/Player").onlyOne().build()
+                Arguments.builder(new StringArgument(Text.of("tpid"))).optional().usageKey("TPID/Player").onlyOne().build()
         };
     }
 

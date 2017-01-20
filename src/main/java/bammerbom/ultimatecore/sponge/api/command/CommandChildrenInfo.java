@@ -23,31 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.api.command;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-public interface SubCommand extends PermSmartCommand {
-    default PermSmartCommand getParent() {
-        if (!this.getClass().isAnnotationPresent(CommandParentInfo.class)) {
-            return null;
-        }
-        CommandParentInfo pi = this.getClass().getAnnotation(CommandParentInfo.class);
-        try {
-            Class<? extends SmartCommand> parentClass = pi.parent();
-            //Get cached copy
-            for (Command cmd : UltimateCore.get().getCommandService().getCommands()) {
-                if (cmd instanceof PermSmartCommand && cmd.getClass().equals(parentClass)) {
-                    return (PermSmartCommand) cmd;
-                }
-            }
-            //No cached copy available, create a new one
-            return pi.parent().newInstance();
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    //Set base perm for subcommand
-    default String getBasePermission() {
-        return getParent().getBasePermission() + "." + getIdentifier().toLowerCase();
-    }
+@Retention(RetentionPolicy.RUNTIME)
+public @interface CommandChildrenInfo {
+    Class<? extends SubCommand>[] children();
 }

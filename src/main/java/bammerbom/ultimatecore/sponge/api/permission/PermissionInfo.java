@@ -21,33 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command;
+package bammerbom.ultimatecore.sponge.api.permission;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
+import org.spongepowered.api.text.Text;
 
-public interface SubCommand extends PermSmartCommand {
-    default PermSmartCommand getParent() {
-        if (!this.getClass().isAnnotationPresent(CommandParentInfo.class)) {
-            return null;
-        }
-        CommandParentInfo pi = this.getClass().getAnnotation(CommandParentInfo.class);
-        try {
-            Class<? extends SmartCommand> parentClass = pi.parent();
-            //Get cached copy
-            for (Command cmd : UltimateCore.get().getCommandService().getCommands()) {
-                if (cmd instanceof PermSmartCommand && cmd.getClass().equals(parentClass)) {
-                    return (PermSmartCommand) cmd;
-                }
-            }
-            //No cached copy available, create a new one
-            return pi.parent().newInstance();
-        } catch (Exception ex) {
-            return null;
-        }
+public class PermissionInfo {
+    private final Text description;
+    private final PermissionLevel level;
+
+    public PermissionInfo(Text desc, PermissionLevel lev) {
+        this.description = desc;
+        this.level = lev;
     }
 
-    //Set base perm for subcommand
-    default String getBasePermission() {
-        return getParent().getBasePermission() + "." + getIdentifier().toLowerCase();
+    public PermissionLevel getLevel() {
+        return level;
+    }
+
+    public Text getDescription() {
+        return description;
     }
 }

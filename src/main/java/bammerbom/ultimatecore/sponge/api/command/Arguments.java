@@ -57,11 +57,6 @@ public class Arguments {
         if (onlyOne) {
             ce = new OnlyOneWrapper(ce);
         }
-        if (optional.equals(ArgOptional.OPTIONAL)) {
-            ce = new OptionalWrapper(element);
-        } else if (optional.equals(ArgOptional.WEAK_OPTIONAL)) {
-            ce = new WeakOptionalWrapper(element);
-        }
         if (permission != null) {
             ce = new PermissionWrapper(element, permission);
         }
@@ -76,6 +71,11 @@ public class Arguments {
         }
         if (remainingArguments) {
             ce = new RemainingArgumentsWrapper(element, remainingArgumentsAtLeastOnce);
+        }
+        if (optional.equals(ArgOptional.OPTIONAL)) {
+            ce = new OptionalWrapper(element);
+        } else if (optional.equals(ArgOptional.WEAK_OPTIONAL)) {
+            ce = new WeakOptionalWrapper(element);
         }
         return ce;
     }

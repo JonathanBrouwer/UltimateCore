@@ -51,12 +51,18 @@ public class Permission {
     }
 
     public static Permission create(String identifier, Module module, PermissionLevel level, @Nullable Command command, Text description) {
+        if (UltimateCore.get().getPermissionService().get(identifier).isPresent()) {
+            return UltimateCore.get().getPermissionService().get(identifier).get();
+        }
         Permission perm = new Permission(identifier, module, level, command, description);
         UltimateCore.get().getPermissionService().register(perm);
         return perm;
     }
 
     public static Permission create(String identifier, String moduleid, PermissionLevel level, @Nullable String commandid, Text description) {
+        if (UltimateCore.get().getPermissionService().get(identifier).isPresent()) {
+            return UltimateCore.get().getPermissionService().get(identifier).get();
+        }
         Optional<Module> module = UltimateCore.get().getModuleService().getModule(moduleid);
         Optional<Command> command = commandid == null ? null : UltimateCore.get().getCommandService().get(commandid);
         if (!module.isPresent()) {

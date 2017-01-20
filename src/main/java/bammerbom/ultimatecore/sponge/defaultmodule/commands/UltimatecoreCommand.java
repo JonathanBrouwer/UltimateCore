@@ -24,14 +24,11 @@
 package bammerbom.ultimatecore.sponge.defaultmodule.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.SubCommand;
+import bammerbom.ultimatecore.sponge.api.command.*;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.NotEnoughArgumentsException;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.defaultmodule.DefaultModule;
@@ -48,27 +45,20 @@ import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CommandChildrenInfo(children = {
+        UltimatecoreCommand.ClearcacheCommand.class,
+        UltimatecoreCommand.ResetuserCommand.class,
+        UltimatecoreCommand.ModulesCommand.class,
+        UltimatecoreCommand.GendocsCommand.class,
+        UltimatecoreCommand.ErrorCommand.class,
+        UltimatecoreCommand.ReloadCommand.class
+})
+@CommandPermissions(subPerms = {}, level = PermissionLevel.OWNER)
 @CommandInfo(module = DefaultModule.class, aliases = {"ultimatecore", "uc"})
-public class UltimatecoreCommand implements SmartCommand {
-    @Override
-    public Permission getPermission() {
-        return DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE;
-    }
-
-    @Override
-    public List<Permission> getPermissions() {
-        return Arrays.asList(DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
-    }
-
-    @Override
-    public List<SubCommand> getChildren() {
-        return Arrays.asList(new ClearcacheCommand(), new ResetuserCommand(), new ModulesCommand(), new GendocsCommand(), new ErrorCommand(), new ReloadCommand());
-    }
-
+public class UltimatecoreCommand implements PermSmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[0];
@@ -80,6 +70,7 @@ public class UltimatecoreCommand implements SmartCommand {
         throw new NotEnoughArgumentsException(getUsage(sender));
     }
 
+    @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"clearcache"})
     public static class ClearcacheCommand implements SubCommand {
         @Override
@@ -96,6 +87,7 @@ public class UltimatecoreCommand implements SmartCommand {
         }
     }
 
+    @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"resetuser"})
     public static class ResetuserCommand implements SubCommand {
         @Override
@@ -120,6 +112,7 @@ public class UltimatecoreCommand implements SmartCommand {
         }
     }
 
+    @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"modules"})
     public static class ModulesCommand implements SubCommand {
         @Override
@@ -136,6 +129,7 @@ public class UltimatecoreCommand implements SmartCommand {
         }
     }
 
+    @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"gendocs"})
     public static class GendocsCommand implements SubCommand {
         @Override
@@ -151,6 +145,7 @@ public class UltimatecoreCommand implements SmartCommand {
         }
     }
 
+    @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"error"})
     public static class ErrorCommand implements SubCommand {
         @Override
@@ -171,7 +166,7 @@ public class UltimatecoreCommand implements SmartCommand {
         }
     }
 
-
+    @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"reload"})
     public static class ReloadCommand implements SubCommand {
         @Override
