@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
@@ -50,7 +50,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@RegisterCommand(module = SpawnModule.class, aliases = {"globalspawn"})
+@CommandInfo(module = SpawnModule.class, aliases = {"globalspawn"})
 public class GlobalspawnCommand implements SmartCommand {
     @Override
     public Permission getPermission() {

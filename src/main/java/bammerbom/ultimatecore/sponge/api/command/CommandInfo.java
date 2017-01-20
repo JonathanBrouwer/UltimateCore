@@ -29,7 +29,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RegisterCommand {
+public @interface CommandInfo {
     Class<? extends Module> module();
 
     String[] aliases();

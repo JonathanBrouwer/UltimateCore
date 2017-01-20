@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.personalmessage.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -51,7 +51,7 @@ import org.spongepowered.api.text.channel.MessageReceiver;
 
 import java.util.*;
 
-@RegisterCommand(module = PersonalmessageModule.class, aliases = {"reply", "respond", "r"})
+@CommandInfo(module = PersonalmessageModule.class, aliases = {"reply", "respond", "r"})
 public class ReplyCommand implements SmartCommand {
 
     @Override

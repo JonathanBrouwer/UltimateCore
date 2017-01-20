@@ -25,10 +25,11 @@ package bammerbom.ultimatecore.sponge.defaultmodule.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.SubCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.NotEnoughArgumentsException;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
@@ -51,7 +52,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RegisterCommand(module = DefaultModule.class, aliases = {"ultimatecore", "uc"})
+@CommandInfo(module = DefaultModule.class, aliases = {"ultimatecore", "uc"})
 public class UltimatecoreCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
@@ -76,10 +77,10 @@ public class UltimatecoreCommand implements SmartCommand {
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
-        return CommandResult.empty();
+        throw new NotEnoughArgumentsException(getUsage(sender));
     }
 
-    @RegisterCommand(module = DefaultModule.class, aliases = {"clearcache"})
+    @CommandInfo(module = DefaultModule.class, aliases = {"clearcache"})
     public static class ClearcacheCommand implements SubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -95,7 +96,7 @@ public class UltimatecoreCommand implements SmartCommand {
         }
     }
 
-    @RegisterCommand(module = DefaultModule.class, aliases = {"resetuser"})
+    @CommandInfo(module = DefaultModule.class, aliases = {"resetuser"})
     public static class ResetuserCommand implements SubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -119,7 +120,7 @@ public class UltimatecoreCommand implements SmartCommand {
         }
     }
 
-    @RegisterCommand(module = DefaultModule.class, aliases = {"modules"})
+    @CommandInfo(module = DefaultModule.class, aliases = {"modules"})
     public static class ModulesCommand implements SubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -135,7 +136,7 @@ public class UltimatecoreCommand implements SmartCommand {
         }
     }
 
-    @RegisterCommand(module = DefaultModule.class, aliases = {"gendocs"})
+    @CommandInfo(module = DefaultModule.class, aliases = {"gendocs"})
     public static class GendocsCommand implements SubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -150,7 +151,7 @@ public class UltimatecoreCommand implements SmartCommand {
         }
     }
 
-    @RegisterCommand(module = DefaultModule.class, aliases = {"error"})
+    @CommandInfo(module = DefaultModule.class, aliases = {"error"})
     public static class ErrorCommand implements SubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -171,7 +172,7 @@ public class UltimatecoreCommand implements SmartCommand {
     }
 
 
-    @RegisterCommand(module = DefaultModule.class, aliases = {"reload"})
+    @CommandInfo(module = DefaultModule.class, aliases = {"reload"})
     public static class ReloadCommand implements SubCommand {
         @Override
         public CommandElement[] getArguments() {

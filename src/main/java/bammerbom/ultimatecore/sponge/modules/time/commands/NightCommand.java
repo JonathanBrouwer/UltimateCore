@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.time.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
@@ -40,7 +40,7 @@ import org.spongepowered.api.world.World;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = TimeModule.class, aliases = {"night", "nighttime"})
+@CommandInfo(module = TimeModule.class, aliases = {"night", "nighttime"})
 public class NightCommand implements SmartCommand {
     @Override
     public Permission getPermission() {

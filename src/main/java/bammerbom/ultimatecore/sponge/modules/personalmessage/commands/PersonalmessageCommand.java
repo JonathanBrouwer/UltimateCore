@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.personalmessage.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.CommandsourceArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
@@ -55,7 +55,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@RegisterCommand(module = PersonalmessageModule.class, aliases = {"personalmessage", "pm", "dm", "msg", "w", "whisper", "tell"})
+@CommandInfo(module = PersonalmessageModule.class, aliases = {"personalmessage", "pm", "dm", "msg", "w", "whisper", "tell"})
 public class PersonalmessageCommand implements SmartCommand {
 
     @Override

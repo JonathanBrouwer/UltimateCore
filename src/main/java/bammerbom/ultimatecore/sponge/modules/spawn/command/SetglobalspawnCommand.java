@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -41,7 +41,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = SpawnModule.class, aliases = {"setglobalspawn", "setspawn"})
+@CommandInfo(module = SpawnModule.class, aliases = {"setglobalspawn", "setspawn"})
 public class SetglobalspawnCommand implements SmartCommand {
 
     @Override

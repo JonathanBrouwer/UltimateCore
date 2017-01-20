@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.StringArgument;
@@ -46,7 +46,7 @@ import org.spongepowered.api.text.Text;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = JailModule.class, aliases = {"setjail", "addjail", "modifyjail"})
+@CommandInfo(module = JailModule.class, aliases = {"setjail", "addjail", "modifyjail"})
 public class SetjailCommand implements SmartCommand {
 
     @Override

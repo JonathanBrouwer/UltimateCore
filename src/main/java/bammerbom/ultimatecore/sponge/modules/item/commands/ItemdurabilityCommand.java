@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.item.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.BoundedIntegerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -47,7 +47,7 @@ import org.spongepowered.api.text.Text;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = ItemModule.class, aliases = {"itemdurability", "setitemdurability", "durability"})
+@CommandInfo(module = ItemModule.class, aliases = {"itemdurability", "setitemdurability", "durability"})
 public class ItemdurabilityCommand implements SmartCommand {
 
     @Override

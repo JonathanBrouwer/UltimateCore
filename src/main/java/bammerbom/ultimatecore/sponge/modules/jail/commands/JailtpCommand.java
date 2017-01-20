@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
@@ -45,7 +45,7 @@ import org.spongepowered.api.text.Text;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = JailModule.class, aliases = {"jailtp", "jailteleport", "tpjail", "teleportjail"})
+@CommandInfo(module = JailModule.class, aliases = {"jailtp", "jailteleport", "tpjail", "teleportjail"})
 public class JailtpCommand implements SmartCommand {
 
     @Override

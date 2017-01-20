@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.mute.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
@@ -51,7 +51,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-@RegisterCommand(module = MuteModule.class, aliases = {"mute"})
+@CommandInfo(module = MuteModule.class, aliases = {"mute"})
 public class MuteCommand implements SmartCommand {
 
     @Override

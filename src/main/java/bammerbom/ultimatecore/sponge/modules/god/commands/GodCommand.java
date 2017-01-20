@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.god.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -46,7 +46,7 @@ import org.spongepowered.api.text.Text;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = GodModule.class, aliases = {"god", "godmode"})
+@CommandInfo(module = GodModule.class, aliases = {"god", "godmode"})
 public class GodCommand implements SmartCommand {
 
     @Override

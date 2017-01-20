@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.item.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
@@ -42,7 +42,7 @@ import org.spongepowered.api.item.inventory.ItemStack;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = ItemModule.class, aliases = {"more"})
+@CommandInfo(module = ItemModule.class, aliases = {"more"})
 public class MoreCommand implements SmartCommand {
     @Override
     public Permission getPermission() {

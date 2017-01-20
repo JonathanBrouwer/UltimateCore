@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.sudo.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
@@ -51,7 +51,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@RegisterCommand(module = SudoModule.class, aliases = {"sudo", "fcommand", "fcmd", "fchat", "forcechat", "forcecmd", "forcecommand"})
+@CommandInfo(module = SudoModule.class, aliases = {"sudo", "fcommand", "fcmd", "fchat", "forcechat", "forcecmd", "forcecommand"})
 public class SudoCommand implements SmartCommand {
     @Override
     public Permission getPermission() {

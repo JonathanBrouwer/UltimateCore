@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.weather.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.WeatherArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.WorldArgument;
@@ -45,7 +45,7 @@ import org.spongepowered.api.world.weather.Weather;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = WeatherModule.class, aliases = {"weather", "downfall"})
+@CommandInfo(module = WeatherModule.class, aliases = {"weather", "downfall"})
 public class WeatherCommand implements SmartCommand {
     @Override
     public Permission getPermission() {

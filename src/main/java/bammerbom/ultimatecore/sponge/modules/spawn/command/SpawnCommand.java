@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -48,7 +48,7 @@ import org.spongepowered.api.world.World;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = SpawnModule.class, aliases = {"spawn"})
+@CommandInfo(module = SpawnModule.class, aliases = {"spawn"})
 public class SpawnCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
@@ -86,7 +86,7 @@ public class SpawnCommand implements SmartCommand {
             checkPermission(sender, SpawnPermissions.UC_SPAWN_SPAWN_OTHERS);
             Player t = args.<Player>getOne("player").get();
             Transform<World> loc = SpawnUtil.getSpawnLocation(t);
-            
+
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
                 sender.sendMessage(Messages.getFormatted(sender, "spawn.command.spawn.success.others.self", "%player%", VariableUtil.getNameSource(t)));
                 t.sendMessage(Messages.getFormatted(t, "spawn.command.spawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));

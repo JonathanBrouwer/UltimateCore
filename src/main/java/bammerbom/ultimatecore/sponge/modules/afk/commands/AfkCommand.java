@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.afk.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
@@ -51,7 +51,7 @@ import org.spongepowered.api.text.Text;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = AfkModule.class, aliases = {"afk", "idle", "away"})
+@CommandInfo(module = AfkModule.class, aliases = {"afk", "idle", "away"})
 public class AfkCommand implements SmartCommand {
 
     @Override
@@ -61,7 +61,7 @@ public class AfkCommand implements SmartCommand {
 
     @Override
     public List<Permission> getPermissions() {
-        return Arrays.asList(AfkPermissions.UC_AFK_AFK_BASE, AfkPermissions.UC_AFK_AFK_BASE_MESSAGE, AfkPermissions.UC_AFK_AFK_OTHERS, AfkPermissions.UC_AFK_AFK_OTHERS_MESSAGE);
+        return Arrays.asList(AfkPermissions.UC_AFK_AFK_BASE, AfkPermissions.UC_AFK_AFK_MESSAGE, AfkPermissions.UC_AFK_AFK_OTHERS_BASE, AfkPermissions.UC_AFK_AFK_OTHERS_MESSAGE);
     }
 
     @Override
@@ -77,6 +77,7 @@ public class AfkCommand implements SmartCommand {
         checkPermission(sender, AfkPermissions.UC_AFK_AFK_BASE);
         UltimateUser user;
         if (args.hasAny("player")) {
+            checkPermission(sender, AfkPermissions.UC_AFK_AFK_OTHERS_BASE);
             user = UltimateCore.get().getUserService().getUser(args.<Player>getOne("player").get());
         } else {
             checkIfPlayer(sender);
@@ -89,6 +90,12 @@ public class AfkCommand implements SmartCommand {
             if (newafk) {
                 user.offer(AfkKeys.AFK_TIME, System.currentTimeMillis());
                 if (args.hasAny("message")) {
+                    //Check perms
+                    if (!args.hasAny("player")) {
+                        checkPermission(sender, AfkPermissions.UC_AFK_AFK_MESSAGE);
+                    } else {
+                        checkPermission(sender, AfkPermissions.UC_AFK_AFK_OTHERS_MESSAGE);
+                    }
                     String message = args.<String>getOne("message").get();
                     user.offer(AfkKeys.AFK_MESSAGE, message);
                     Sponge.getServer().getBroadcastChannel().send(sender, Messages.getFormatted("afk.broadcast.afk.message", "%player%", user.getUser().getName(), "%message%", message));

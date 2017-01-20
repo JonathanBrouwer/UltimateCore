@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.heal.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.BoundedDoubleArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
@@ -44,7 +44,7 @@ import org.spongepowered.api.text.Text;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = HealModule.class, aliases = {"setmaxhealth", "setmaxlives", "maxhealth", "maxlives"})
+@CommandInfo(module = HealModule.class, aliases = {"setmaxhealth", "setmaxlives", "maxhealth", "maxlives"})
 public class SetmaxhealthCommand implements SmartCommand {
 
     @Override

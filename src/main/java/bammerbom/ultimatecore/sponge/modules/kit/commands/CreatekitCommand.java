@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.kit.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.command.arguments.StringArgument;
@@ -52,7 +52,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@RegisterCommand(module = KitModule.class, aliases = {"createkit", "kitcreate", "addkit", "kitadd"})
+@CommandInfo(module = KitModule.class, aliases = {"createkit", "kitcreate", "addkit", "kitadd"})
 public class CreatekitCommand implements SmartCommand {
 
     @Override

@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.StringArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
@@ -46,7 +46,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-@RegisterCommand(module = SpawnModule.class, aliases = {"delgroupspawn", "removegroupspawn"})
+@CommandInfo(module = SpawnModule.class, aliases = {"delgroupspawn", "removegroupspawn"})
 public class DelgroupspawnCommand implements SmartCommand {
 
     @Override

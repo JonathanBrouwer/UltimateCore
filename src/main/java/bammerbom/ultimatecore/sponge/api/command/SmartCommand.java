@@ -124,10 +124,10 @@ public interface SmartCommand extends Command, CommandExecutor {
     //Implemented with @RegisterCommand
     @Override
     default Module getModule() {
-        if (!this.getClass().isAnnotationPresent(RegisterCommand.class)) {
+        if (!this.getClass().isAnnotationPresent(CommandInfo.class)) {
             return null;
         }
-        Class<? extends Module> mclass = this.getClass().getAnnotation(RegisterCommand.class).module();
+        Class<? extends Module> mclass = this.getClass().getAnnotation(CommandInfo.class).module();
         for (Module module : UltimateCore.get().getModuleService().getModules()) {
             if (module.getClass().equals(mclass)) {
                 return module;
@@ -139,19 +139,19 @@ public interface SmartCommand extends Command, CommandExecutor {
     //Implemented with @RegisterCommand
     @Override
     default String getIdentifier() {
-        if (!this.getClass().isAnnotationPresent(RegisterCommand.class)) {
+        if (!this.getClass().isAnnotationPresent(CommandInfo.class)) {
             return null;
         }
-        return this.getClass().getAnnotation(RegisterCommand.class).aliases()[0];
+        return this.getClass().getAnnotation(CommandInfo.class).aliases()[0];
     }
 
     //Implemented with @RegisterCommand
     @Override
     default List<String> getAliases() {
-        if (!this.getClass().isAnnotationPresent(RegisterCommand.class)) {
+        if (!this.getClass().isAnnotationPresent(CommandInfo.class)) {
             return null;
         }
-        return Arrays.asList(this.getClass().getAnnotation(RegisterCommand.class).aliases());
+        return Arrays.asList(this.getClass().getAnnotation(CommandInfo.class).aliases());
     }
 
     @Override

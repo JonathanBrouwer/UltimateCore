@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.command.arguments.StringArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -44,7 +44,7 @@ import org.spongepowered.api.text.Text;
 import java.util.Arrays;
 import java.util.List;
 
-@RegisterCommand(module = TeleportModule.class, aliases = {"teleportdeny", "tpdeny", "tpno"})
+@CommandInfo(module = TeleportModule.class, aliases = {"teleportdeny", "tpdeny", "tpno"})
 public class TeleportdenyCommand implements SmartCommand {
     @Override
     public Permission getPermission() {

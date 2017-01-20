@@ -21,16 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.afk.api;
+package bammerbom.ultimatecore.sponge.api.command.exceptions;
 
-import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.text.Text;
 
-public class AfkPermissions {
-    public static Permission UC_AFK_AFK_BASE = Permission.create("uc.afk.afk.base", "afk", PermissionLevel.EVERYONE, "afk", Text.of("Allows you to toggle your own afk status."));
-    public static Permission UC_AFK_AFK_MESSAGE = Permission.create("uc.afk.afk.message", "afk", PermissionLevel.EVERYONE, "afk", Text.of("Allows you to provide a reason for being afk."));
-    public static Permission UC_AFK_AFK_OTHERS_BASE = Permission.create("uc.afk.afk.others.base", "afk", PermissionLevel.MOD, "afk", Text.of("Allows you to toggle another player's afk status."));
-    public static Permission UC_AFK_AFK_OTHERS_MESSAGE = Permission.create("uc.afk.afk.others.message", "afk", PermissionLevel.MOD, "afk", Text.of("Allows you to provide an message while toggling another player's afk status."));
-    public static Permission UC_AFK_EXEMPT = Permission.create("uc.afk.exempt", "afk", PermissionLevel.VIP, null, Text.of("When you have this permission you can't be kicked for being afk."));
+public class NotEnoughArgumentsException extends CommandException {
+    public NotEnoughArgumentsException(Text message) {
+        super(message, false);
+    }
 }

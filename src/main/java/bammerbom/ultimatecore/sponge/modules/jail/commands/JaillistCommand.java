@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -49,7 +49,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@RegisterCommand(module = JailModule.class, aliases = {"jaillist", "jails"})
+@CommandInfo(module = JailModule.class, aliases = {"jaillist", "jails"})
 public class JaillistCommand implements SmartCommand {
 
     @Override

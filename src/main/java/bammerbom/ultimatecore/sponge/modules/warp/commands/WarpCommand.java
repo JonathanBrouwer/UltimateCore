@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.warp.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.RegisterCommand;
+import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -53,7 +53,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@RegisterCommand(module = WarpModule.class, aliases = {"warp"})
+@CommandInfo(module = WarpModule.class, aliases = {"warp"})
 public class WarpCommand implements SmartCommand {
     @Override
     public Permission getPermission() {
