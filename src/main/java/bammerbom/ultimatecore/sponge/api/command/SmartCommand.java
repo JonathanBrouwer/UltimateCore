@@ -136,7 +136,11 @@ public interface SmartCommand extends Command, CommandExecutor {
 
     @Override
     default Text getUsage(@Nullable CommandSource source) {
-        String params = getSpec().getUsage(source == null ? Sponge.getServer().getConsole() : source).toPlain().replaceAll("\\?\\|", "");
+        String params = getSpec().getUsage(source == null ? Sponge.getServer().getConsole() : source).toPlain();
+        //Fix for sponge putting a | after usage sometimes
+        if (params.endsWith("|")) {
+            params = params.substring(0, params.length() - 1);
+        }
         return UsageGenerator.usage(this, Text.of("/" + getIdentifier() + (!params.isEmpty() ? (" " + params) : "")));
     }
 
