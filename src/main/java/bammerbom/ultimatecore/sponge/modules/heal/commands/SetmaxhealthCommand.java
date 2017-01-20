@@ -45,7 +45,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandInfo(module = HealModule.class, aliases = {"setmaxhealth", "setmaxlives", "maxhealth", "maxlives"})
-public class _SetmaxhealthCommand implements SmartCommand {
+public class SetmaxhealthCommand implements SmartCommand {
 
     @Override
     public Permission getPermission() {
