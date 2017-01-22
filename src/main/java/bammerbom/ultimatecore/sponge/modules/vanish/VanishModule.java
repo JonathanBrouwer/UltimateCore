@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.vanish;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.vanish.api.VanishPermissions;
 import bammerbom.ultimatecore.sponge.modules.vanish.commands.VanishCommand;
 import bammerbom.ultimatecore.sponge.modules.vanish.listeners.VanishListener;
@@ -38,6 +39,8 @@ import org.spongepowered.api.text.Text;
 import java.util.Optional;
 
 public class VanishModule implements Module {
+    ModuleConfig config;
+
     @Override
     public String getIdentifier() {
         return "vanish";
@@ -50,7 +53,7 @@ public class VanishModule implements Module {
 
     @Override
     public Optional<ModuleConfig> getConfig() {
-        return Optional.empty();
+        return Optional.of(config);
     }
 
     @Override
@@ -60,6 +63,7 @@ public class VanishModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        config = new RawModuleConfig("vanish");
         UltimateCore.get().getCommandService().register(new VanishCommand());
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new VanishListener());
         new VanishPermissions();

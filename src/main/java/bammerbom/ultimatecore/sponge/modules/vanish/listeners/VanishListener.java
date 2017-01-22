@@ -25,7 +25,9 @@ package bammerbom.ultimatecore.sponge.modules.vanish.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
+import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.vanish.api.VanishKeys;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.data.key.Keys;
@@ -33,6 +35,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.event.item.inventory.ChangeInventoryEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
 public class VanishListener {
@@ -64,6 +67,14 @@ public class VanishListener {
             p.offer(Keys.VANISH_IGNORES_COLLISION, true);
             p.offer(Keys.IS_SILENT, true);
             p.sendMessage(Messages.getFormatted(p, "vanish.onjoin"));
+        }
+    }
+
+    @Listener
+    public void onPickup(ChangeInventoryEvent.Pickup event) {
+        ModuleConfig config = Modules.VANISH.get().getConfig().get();
+        if (!config.get().getNode("events", "pickup").getBoolean()) {
+            event.setCancelled(true);
         }
     }
 
