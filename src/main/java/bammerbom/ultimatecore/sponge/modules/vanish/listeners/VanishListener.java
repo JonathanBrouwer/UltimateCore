@@ -71,7 +71,11 @@ public class VanishListener {
     }
 
     @Listener
-    public void onPickup(ChangeInventoryEvent.Pickup event) {
+    public void onPickup(ChangeInventoryEvent.Pickup event, @First Player p) {
+        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+        if (!up.get(VanishKeys.VANISH).get()) {
+            return;
+        }
         ModuleConfig config = Modules.VANISH.get().getConfig().get();
         if (!config.get().getNode("events", "pickup").getBoolean()) {
             event.setCancelled(true);
