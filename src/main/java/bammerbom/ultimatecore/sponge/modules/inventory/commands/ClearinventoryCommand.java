@@ -21,46 +21,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.broadcast.commands;
+package bammerbom.ultimatecore.sponge.modules.inventory.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.PermSmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionInfo;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.modules.broadcast.BroadcastModule;
+import bammerbom.ultimatecore.sponge.modules.inventory.InventoryModule;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
-import org.spongepowered.api.Sponge;
+import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @CommandPermissions(level = PermissionLevel.ADMIN)
-@CommandInfo(module = BroadcastModule.class, aliases = {"broadcast"})
-public class BroadcastCommand implements PermSmartCommand {
+@CommandInfo(module = InventoryModule.class, aliases = {"clearinventory", "clear", "ci"})
+public class ClearinventoryCommand implements PermSmartCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new RemainingStringsArgument(Text.of("message"))).onlyOne().build()
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optional().build()
         };
+    }
+
+    @Override
+    public Map<String, PermissionInfo> registerPermissionSuffixes() {
+        HashMap<String, PermissionInfo> perms = new HashMap<>();
+        perms.put("others", new PermissionInfo(Text.of("Allows you to use the /clearinventory command on other players"), PermissionLevel.ADMIN));
+        return perms;
     }
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         checkPermission(sender, getPermission());
 
-        ModuleConfig config = Modules.BROADCAST.get().getConfig().get();
-        Text format = Messages.toText(config.get().getNode("broadcast-format").getString());
-        Text message = TextUtil.replace(format, "%message%", Text.of(args.<String>getOne("message").get()));
+        if (!args.hasAny("player")) {
+            checkIfPlayer(sender);
+            Player p = (Player) sender;
+            p.getInventory().clear();
 
-        Sponge.getServer().getBroadcastChannel().send(message);
-        return CommandResult.success();
+            sender.sendMessage(Messages.getFormatted(sender, "inventory.command.clearinventory.self"));
+            return CommandResult.success();
+        } else {
+            Player t = args.<Player>getOne("player").get();
+            t.getInventory().clear();
+
+            sender.sendMessage(Messages.getFormatted(sender, "inventory.command.clearinventory.others.self", "%player%", VariableUtil.getNameEntity(t)));
+            t.sendMessage(Messages.getFormatted(sender, "inventory.command.clearinventory.others.others", "%player%", VariableUtil.getNameSource(sender)));
+            return CommandResult.success();
+        }
     }
 }
