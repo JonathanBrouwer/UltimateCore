@@ -34,6 +34,7 @@ import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.broadcast.BroadcastModule;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TextUtil;
+import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -57,8 +58,8 @@ public class BroadcastCommand implements PermSmartCommand {
         checkPermission(sender, getPermission());
 
         ModuleConfig config = Modules.BROADCAST.get().getConfig().get();
-        Text format = Messages.toText(config.get().getNode("broadcast-format").getString());
-        Text message = TextUtil.replace(format, "%message%", Text.of(args.<String>getOne("message").get()));
+        Text format = VariableUtil.replaceVariables(Messages.toText(config.get().getNode("broadcast-format").getString()), sender);
+        Text message = TextUtil.replace(format, "%message%", Messages.toText(args.<String>getOne("message").get()));
 
         Sponge.getServer().getBroadcastChannel().send(message);
         return CommandResult.success();
