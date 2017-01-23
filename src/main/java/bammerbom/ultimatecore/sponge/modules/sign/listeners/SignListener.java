@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.sponge.api.event.sign.SignUseEvent;
 import bammerbom.ultimatecore.sponge.api.sign.UCSign;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.tileentity.Sign;
@@ -37,6 +38,7 @@ import org.spongepowered.api.data.Transaction;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
@@ -49,8 +51,17 @@ import java.util.List;
 
 public class SignListener {
 
-    @Listener
+    @Listener(order = Order.EARLY)
     public void onSignCreate(ChangeSignEvent event, @Root Player p) {
+        //Sign colors
+        List<Text> lines = event.getText().lines().get();
+        lines.set(0, TextUtil.replaceColors(lines.get(0), p, "uc.sign"));
+        lines.set(1, TextUtil.replaceColors(lines.get(1), p, "uc.sign"));
+        lines.set(2, TextUtil.replaceColors(lines.get(2), p, "uc.sign"));
+        lines.set(3, TextUtil.replaceColors(lines.get(3), p, "uc.sign"));
+        event.getText().setElements(lines);
+
+        //Registered signs
         for (UCSign sign : UltimateCore.get().getSignService().get().getRegisteredSigns()) {
             if (event.getText().get(0).orElse(Text.of()).toPlain().equalsIgnoreCase("[" + sign.getIdentifier() + "]")) {
                 if (!p.hasPermission(sign.getCreatePermission().get())) {

@@ -23,12 +23,16 @@
  */
 package bammerbom.ultimatecore.sponge.utils;
 
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.LiteralText;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyle;
 import org.spongepowered.api.text.format.TextStyles;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.util.*;
 
@@ -71,6 +75,29 @@ public class TextUtil {
 
     public static Character getStyleChar(TextStyle style) {
         return styles.get(style);
+    }
+
+    public static Text replaceColors(Text text, Player p, String permissionPrefix) {
+        //TODO use actual text instead of plain text
+        String rawmessage = text.toPlain();
+        for (TextColor color : Sponge.getRegistry().getAllOf(CatalogTypes.TEXT_COLOR)) {
+            if (!p.hasPermission(permissionPrefix + ".color." + color.getId().toLowerCase())) {
+                continue;
+            }
+            Character ch = TextUtil.getColorChar(color);
+            rawmessage = rawmessage.replaceAll("&" + ch, "§" + ch);
+            //rawmessage = TextUtil.replace(rawmessage, );
+            //rawmessage = TextUtil.replace(rawmessage, "&" + , Text.of(color, "a"));
+        }
+        for (TextStyle.Base style : Sponge.getRegistry().getAllOf(TextStyle.Base.class)) {
+            if (!p.hasPermission(permissionPrefix + ".style." + style.getId().toLowerCase())) {
+                continue;
+            }
+            Character ch = TextUtil.getStyleChar(style);
+            rawmessage = rawmessage.replaceAll("&" + ch, "§" + ch);
+            //rawmessage = TextUtil.replace(rawmessage, "&", Text.of("§"));
+        }
+        return TextSerializers.LEGACY_FORMATTING_CODE.deserialize(rawmessage);
     }
 
     /**
