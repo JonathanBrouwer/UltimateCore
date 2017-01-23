@@ -182,6 +182,9 @@ public interface SmartCommand extends Command, CommandExecutor {
         InputTokenizer argumentParser = InputTokenizer.quotedStrings(false);
         String args = StringUtil.join(" ", rawargs);
         try {
+            //Check whether player can execute this command
+            checkPermission(sender, getPermission());
+
             CommandArgs cargs = new CommandArgs(StringUtil.join(" ", rawargs), argumentParser.tokenize(args, false));
             CommandContext context = new CommandContext();
             //Add location where player is looking as argument (for some reason sponge can't do that itself)
