@@ -2,7 +2,7 @@ Setwarp
 ====
 Create a new warp with the specified name and description.
 
-Usage: /setwarp \<Name\> \[Description\]<br>
+Usage: /setwarp \<Name\> \[Description…\]<br>
 Aliases: setwarp, addwarp<br>
 Module: [warp](../modules/warp.md)<br>
 

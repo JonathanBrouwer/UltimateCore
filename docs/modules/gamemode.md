@@ -3,7 +3,7 @@ Gamemode
 Allows you to change a player's gamemode.
 
 Commands: <br>
-* **[/gamemode \<Survival/Creative/Adventure/Spectator\> \[Player\]](../commands/gamemode.md)**<br>Change a player's gamemode.
+* **[/gamemode \<Gamemode\> \[Player\]](../commands/gamemode.md)**<br>Change a player's gamemode.
 * **[/survival \[Player\]](../commands/survival.md)**<br>Change someone's gamemode to survival.
 * **[/creative \[Player\]](../commands/creative.md)**<br>Change someone's gamemode to creative.
 * **[/adventure \[Player\]](../commands/adventure.md)**<br>Change someone's gamemode to adventure.

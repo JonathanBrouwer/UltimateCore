@@ -3,9 +3,9 @@ Kit
 Give players certain items on use of a command.
 
 Commands: <br>
-* **[/kit \<Kit\>](../commands/kit.md)**<br>Use a certain kit.
+* **[/kit \[Kit\]](../commands/kit.md)**<br>Use a certain kit.
 * **[/kitlist](../commands/kitlist.md)**<br>Get a paginated list of all kits.
-* **[/createkit \<Name\> \[Time\] \[Description\]](../commands/createkit.md)**<br>Create a kit with the contents of your inventory.
+* **[/createkit \<Name\> \[Cooldown\] \[Description…\]](../commands/createkit.md)**<br>Create a kit with the contents of your inventory.
 * **[/removekit \<Kit\>](../commands/removekit.md)**<br>Permanently delete a kit.
 
 Permissions: <br>

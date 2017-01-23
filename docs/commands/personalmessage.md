@@ -2,7 +2,7 @@ Personalmessage
 ====
 Send a private message to an other player.
 
-Usage: /personalmessage \<Player\> \<Message\><br>
+Usage: /personalmessage \<Player\> \<Message…\><br>
 Aliases: personalmessage, pm, dm, msg, w, whisper, tell<br>
 Module: [personalmessage](../modules/personalmessage.md)<br>
 

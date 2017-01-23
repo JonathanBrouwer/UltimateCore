@@ -2,7 +2,7 @@ Sethome
 ====
 Set a new home or move the location of a home.
 
-Usage: /sethome \<Name\><br>
+Usage: /sethome \<Home\><br>
 Aliases: sethome, addhome<br>
 Module: [home](../modules/home.md)<br>
 

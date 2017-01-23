@@ -3,7 +3,7 @@ Weather
 Change the minecraft world's weather, or disable it.
 
 Commands: <br>
-* **[/weather \<Sun/Rain/Thunder\> \[World\]](../commands/weather.md)**<br>Change the weather to sun, rain or thunder.
+* **[/weather sun/rain/thunder \[World\]](../commands/weather.md)**<br>Change the weather to sun, rain or thunder.
 * **[/sun \[World\]](../commands/sun.md)**<br>Change the weather to sun.
 * **[/rain \[World\]](../commands/rain.md)**<br>Change the weather to rain.
 * **[/thunder \[World\]](../commands/thunder.md)**<br>Change the weather to thunder.

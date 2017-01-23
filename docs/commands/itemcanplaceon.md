@@ -2,7 +2,7 @@ Itemcanplaceon
 ====
 Change the blocks this item can be placed on.
 
-Usage: /itemcanplaceon \<Block\> \[Block\] \[Block\]...<br>
+Usage: /itemcanplaceon \<Blocktypes…\><br>
 Aliases: itemcanplaceon, setitemcanplaceon, canplaceon<br>
 Module: [item](../modules/item.md)<br>
 

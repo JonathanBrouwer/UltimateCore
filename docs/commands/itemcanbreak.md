@@ -2,7 +2,7 @@ Itemcanbreak
 ====
 Change the blocks this item can break.
 
-Usage: /itemcanbreak \<Block\> \[Block\] \[Block\]...<br>
+Usage: /itemcanbreak \<Blocktypes…\><br>
 Aliases: itemcanbreak, setitemcanbreak, itemcandestroy, setitemcandestroy, canbreak, candestroy<br>
 Module: [item](../modules/item.md)<br>
 

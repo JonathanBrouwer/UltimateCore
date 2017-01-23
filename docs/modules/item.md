@@ -4,15 +4,15 @@ Modify items in multiple ways.
 
 Commands: <br>
 * **[/more](../commands/more.md)**<br>Set the quantity of the item in your hand to the maximum.
-* **[/repair \[All/Hand\]](../commands/repair.md)**<br>Repair the item in your hand, or all items in your inventory.
-* **[/itemname \<Name\>](../commands/itemname.md)**<br>Change the name of the item in your hand.
-* **[/itemlore \<Lore\>\[|LORE\]\[|LORE\]](../commands/itemlore.md)**<br>Change the lore of the item in your hand. Use | for multiple lines.
+* **[/repair \[All\]](../commands/repair.md)**<br>Repair the item in your hand, or all items in your inventory.
+* **[/itemname \<Name…\>](../commands/itemname.md)**<br>Change the name of the item in your hand.
+* **[/itemlore \<Lore…\>](../commands/itemlore.md)**<br>Change the lore of the item in your hand. Use | for multiple lines.
 * **[/itemquantity \<Quantity\>](../commands/itemquantity.md)**<br>Change the quantity of the item in your hand.
 * **[/itemdurability \<Durability\>](../commands/itemdurability.md)**<br>Change the durability of the item in your hand.
-* **[/itemunbreakable true/false](../commands/itemunbreakable.md)**<br>Change whether the item in your hand is unbreakable.
-* **[/itemcanbreak \<Block\> \[Block\] \[Block\]...](../commands/itemcanbreak.md)**<br>Change the blocks this item can break.
-* **[/itemcanplaceon \<Block\> \[Block\] \[Block\]...](../commands/itemcanplaceon.md)**<br>Change the blocks this item can be placed on.
-* **[/itemhidetags attributes/candestroy/canplace/enchantments/miscellaneous/unbreakable false/true](../commands/itemhidetags.md)**<br>Change whether a certain tag is hidden.
+* **[/itemunbreakable \<Enabled/disabled\>](../commands/itemunbreakable.md)**<br>Change whether the item in your hand is unbreakable.
+* **[/itemcanbreak \<Blocktypes…\>](../commands/itemcanbreak.md)**<br>Change the blocks this item can break.
+* **[/itemcanplaceon \<Blocktypes…\>](../commands/itemcanplaceon.md)**<br>Change the blocks this item can be placed on.
+* **[/itemhidetags attributes/candestroy/canplaceon/enchantments/miscellaneous/unbreakable Enable/Disable](../commands/itemhidetags.md)**<br>Change whether a certain tag is hidden.
 * **[/itemenchant \<Enchantment\> \[Level\]](../commands/itemenchant.md)**<br>Add an enchantment to the item in your hand.
 
 Permissions: <br>

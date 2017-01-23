@@ -2,7 +2,7 @@ Kick
 ====
 Kick a player from the server.
 
-Usage: /kick \<Player\> \[Reason\]<br>
+Usage: /kick \<Player\> \[Reason…\]<br>
 Aliases: kick<br>
 Module: [kick](../modules/kick.md)<br>
 

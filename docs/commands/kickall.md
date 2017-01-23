@@ -2,7 +2,7 @@ Kickall
 ====
 Kick all players from the server.
 
-Usage: /kickall \[Reason\]<br>
+Usage: /kickall \[Reason…\]<br>
 Aliases: kickall, kickeveryone<br>
 Module: [kick](../modules/kick.md)<br>
 

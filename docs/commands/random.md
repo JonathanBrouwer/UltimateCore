@@ -2,7 +2,7 @@ Random
 ====
 Generate a random number between two values. If the minimum is not given it is set to 1.
 
-Usage: /random \[Min\] \<Max\><br>
+Usage: /random \<Min\> \[Second\]<br>
 Aliases: random<br>
 Module: [random](../modules/random.md)<br>
 

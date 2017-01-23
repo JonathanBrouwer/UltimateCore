@@ -5,8 +5,8 @@ A module with multiple teleport command.
 Commands: <br>
 * **[/teleportask \<Player\>](../commands/teleportask.md)**<br>Ask to teleport to a player.
 * **[/teleportaskhere \<Player\>](../commands/teleportaskhere.md)**<br>Ask to teleport a player to you.
-* **[/tpaccept \[TPID/Player\]](../commands/teleportaccept.md)**<br>Accept the specified request, or the most recent one.
-* **[/tpdeny \[TPID/Player\]](../commands/teleportdeny.md)**<br>Deny the specified request, or the most recent one.
+* **[/teleportaccept \[Tpid\]](../commands/teleportaccept.md)**<br>Accept the specified request, or the most recent one.
+* **[/teleportdeny \[Tpid\]](../commands/teleportdeny.md)**<br>Deny the specified request, or the most recent one.
 * **[/teleport \[Player\] \<Player\> OR /teleport \[Player\] \<X\> \[Y\] \<Z\> \[\<Yaw\> \<Pitch\>\]](../commands/teleport.md)**<br>Teleport a player or yourself to another player or certain coordinates.
 
 Permissions: <br>

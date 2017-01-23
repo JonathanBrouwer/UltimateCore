@@ -2,7 +2,7 @@ Createkit
 ====
 Create a kit with the contents of your inventory.
 
-Usage: /createkit \<Name\> \[Time\] \[Description\]<br>
+Usage: /createkit \<Name\> \[Cooldown\] \[Description…\]<br>
 Aliases: createkit, kitcreate, addkit, kitadd<br>
 Module: [kit](../modules/kit.md)<br>
 

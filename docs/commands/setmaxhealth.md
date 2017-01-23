@@ -2,8 +2,8 @@ Setmaxhealth
 ====
 Set the max health of a player.
 
-Usage: /setmaxhealth \<Amount\> \[Player\]<br>
-Aliases: setmaxhealth, maxhealth<br>
+Usage: /setmaxhealth \<Health\> \[Player\]<br>
+Aliases: setmaxhealth, setmaxlives, maxhealth, maxlives<br>
 Module: [heal](../modules/heal.md)<br>
 
 Basic permission: uc.heal.setmaxhealth.base<br>

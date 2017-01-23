@@ -2,7 +2,7 @@ Home
 ====
 Teleport to your home.
 
-Usage: /home \<Name\><br>
+Usage: /home \[Home\]<br>
 Aliases: home<br>
 Module: [home](../modules/home.md)<br>
 

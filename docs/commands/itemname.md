@@ -2,7 +2,7 @@ Itemname
 ====
 Change the name of the item in your hand.
 
-Usage: /itemname \<Name\><br>
+Usage: /itemname \<Name…\><br>
 Aliases: itemname, setitemname, name<br>
 Module: [item](../modules/item.md)<br>
 

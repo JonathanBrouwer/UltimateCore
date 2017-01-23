@@ -2,7 +2,7 @@ Itemhidetags
 ====
 Change whether a certain tag is hidden.
 
-Usage: /itemhidetags attributes/candestroy/canplace/enchantments/miscellaneous/unbreakable false/true<br>
+Usage: /itemhidetags attributes/candestroy/canplaceon/enchantments/miscellaneous/unbreakable Enable/Disable<br>
 Aliases: itemhidetags, setitemhidetags, hidetags<br>
 Module: [item](../modules/item.md)<br>
 

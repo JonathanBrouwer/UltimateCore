@@ -3,8 +3,8 @@ Warp
 Let the admin set certain locations where a player can teleport to.
 
 Commands: <br>
-* **[/warp \<Warp\>](../commands/warp.md)**<br>Teleport yourself to the specified warp.
-* **[/setwarp \<Name\> \[Description\]](../commands/setwarp.md)**<br>Create a new warp with the specified name and description.
+* **[/warp \[Warp\]](../commands/warp.md)**<br>Teleport yourself to the specified warp.
+* **[/setwarp \<Name\> \[Description…\]](../commands/setwarp.md)**<br>Create a new warp with the specified name and description.
 * **[/delwarp \<Warp\>](../commands/delwarp.md)**<br>Remove the specified warp.
 * **[/warplist](../commands/warplist.md)**<br>Get a paginated list of all warps.
 

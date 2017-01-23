@@ -4,9 +4,9 @@ Allows players set custom locations 'homes' where they can later teleport back t
 
 Commands: <br>
 * **[/homelist](../commands/homelist.md)**<br>View a list of your homes.
-* **[/home \<Name\>](../commands/home.md)**<br>Teleport to your home.
-* **[/delhome \<Name\>](../commands/delhome.md)**<br>Remove a home.
-* **[/sethome \<Name\>](../commands/sethome.md)**<br>Set a new home or move the location of a home.
+* **[/home \[Home\]](../commands/home.md)**<br>Teleport to your home.
+* **[/delhome \<Home\>](../commands/delhome.md)**<br>Remove a home.
+* **[/sethome \<Home\>](../commands/sethome.md)**<br>Set a new home or move the location of a home.
 
 Permissions: <br>
 * **uc.home.home.base** - Recommended role: everyone<br>Allows you to teleport to your own home.

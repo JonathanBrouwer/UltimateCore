@@ -1,16 +1,25 @@
 Permissions
 ====
 
+others - Allows you to use the /clearinventory command on other players (Recommended for admin)<br>
 uc.afk.afk.base - Allows you to toggle your own afk status. (Recommended for everyone)<br>
-uc.afk.afk.base.message - Allows you to provide a reason for being afk. (Recommended for everyone)<br>
-uc.afk.afk.others - Allows you to toggle another player's afk status. (Recommended for mod)<br>
+uc.afk.afk.message - Allows you to provide a reason for being afk. (Recommended for everyone)<br>
+uc.afk.afk.others.base - Allows you to toggle another player's afk status. (Recommended for mod)<br>
 uc.afk.afk.others.message - Allows you to provide an message while toggling another player's afk status. (Recommended for mod)<br>
 uc.afk.exempt - When you have this permission you can't be kicked for being afk. (Recommended for vip)<br>
 uc.back.back.base - Allows you to use the back command. (Recommended for everyone)<br>
 uc.back.back.ondeath - Allows you to use the back command after you died. (Recommended for everyone)<br>
+uc.broadcast.broadcast.base - Allows you to use the /broadcast command. (Recommended for admin)<br>
 uc.burn.burn.base - Allows you to use the burn command. (Recommended for admin)<br>
 uc.deaf.deaf.base - Allows you to deaf someone. (Recommended for mod)<br>
 uc.deaf.undeaf.base - Allows you to undeaf someone. (Recommended for mod)<br>
+uc.default.ultimatecore.base - Allows you to use the /ultimatecore command. (Recommended for owner)<br>
+uc.default.ultimatecore.clearcache.base - Allows you to use the /clearcache command. (Recommended for nobody)<br>
+uc.default.ultimatecore.error.base - Allows you to use the /error command. (Recommended for nobody)<br>
+uc.default.ultimatecore.gendocs.base - Allows you to use the /gendocs command. (Recommended for nobody)<br>
+uc.default.ultimatecore.modules.base - Allows you to use the /modules command. (Recommended for nobody)<br>
+uc.default.ultimatecore.reload.base - Allows you to use the /reload command. (Recommended for nobody)<br>
+uc.default.ultimatecore.resetuser.base - Allows you to use the /resetuser command. (Recommended for nobody)<br>
 uc.fly.fly.base - Allows you to change your own fly state. (Recommended for admin)<br>
 uc.fly.fly.others - Allows you to change other player's fly state. (Recommended for admin)<br>
 uc.food.food.base - Allows you to use the food command. (Recommended for admin)<br>
@@ -38,6 +47,7 @@ uc.home.delhome.base - Allows you to remove one of your homes. (Recommended for 
 uc.home.home.base - Allows you to teleport to your own home. (Recommended for everyone)<br>
 uc.home.sethome.base - Allows you to set your own home. (Recommended for everyone)<br>
 uc.home.sethome.unlimited - Allows you to set an unlimited amount of homes. (Recommended for vip)<br>
+uc.inventory.clearinventory.base - Allows you to use the /clearinventory command. (Recommended for admin)<br>
 uc.item.itemcanbreak.base - Allows you to use the itemcanbreak command. (Recommended for admin)<br>
 uc.item.itemcanplaceon.base - Allows you to use the itemcanplaceon command. (Recommended for admin)<br>
 uc.item.itemdurability.base - Allows you to use the itemdurability command. (Recommended for admin)<br>
@@ -117,9 +127,8 @@ uc.time.time.query.daytime - Allows you to query how many ticks have passed sinc
 uc.time.time.query.formatted - Allows you to see the formatted time. (Recommended for everyone)<br>
 uc.time.time.query.gametime - Allows you to use query how many ticks have passed in the server. (Recommended for admin)<br>
 uc.time.time.ticks - Allows you to set the time to a certain amount of ticks. (Recommended for admin)<br>
-uc.ultimatecore.ultimatecore - Allows you to use the /ultimatecore command. (Recommended for owner)<br>
+uc.ultimatecore.ultimatecore.base - Allows you to use the /ultimatecore command. (Recommended for owner)<br>
 uc.vanish.vanish.base - Allows you to use the vanish command. (Recommended for everyone)<br>
-uc.vanish.vanish.base - Allows you to use the vanish command on other players. (Recommended for everyone)<br>
 uc.warp.delwarp.base - Allows you to remove a warp. (Recommended for admin)<br>
 uc.warp.setwarp.base - Allows you to set a new warp. (Recommended for admin)<br>
 uc.warp.warp.[WARP] - Allows you to use a certain warp. (Recommended for everyone)<br>

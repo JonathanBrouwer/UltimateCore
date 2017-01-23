@@ -2,7 +2,7 @@ Reply
 ====
 Send a private message to the person who last private messaged you.
 
-Usage: /reply \<Message\><br>
+Usage: /reply \<Message…\><br>
 Aliases: reply, respond, r<br>
 Module: [personalmessage](../modules/personalmessage.md)<br>
 

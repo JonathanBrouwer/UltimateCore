@@ -6,6 +6,7 @@ Modules
 [back - Teleport back to where you were before you teleported to somewhere.](modules/back.md)<br>
 [blacklist - Ban items from being used by players.](modules/blacklist.md)<br>
 [blood - Custom 'blood' particles when a player gets damaged](modules/blood.md)<br>
+[broadcast - Broadcast custom messages over the server.](modules/broadcast.md)<br>
 [burn - Set a player on fire using the /burn command.](modules/burn.md)<br>
 [chat - Full chat management, including group formats](modules/chat.md)<br>
 [connectionmessages - Allows you to change the join and quit messages.](modules/connectionmessages.md)<br>
@@ -19,6 +20,7 @@ Modules
 [god - Allows you to make a player invincible.](modules/god.md)<br>
 [heal - Allows you to refill or change a player's health bar.](modules/heal.md)<br>
 [home - Allows players set custom locations 'homes' where they can later teleport back to.](modules/home.md)<br>
+[inventory - Inventory management.](modules/inventory.md)<br>
 [item - Modify items in multiple ways.](modules/item.md)<br>
 [jail - Put players in a jail as a punishment for misbehaving.](modules/jail.md)<br>
 [kick - ALlows you to kick a player from the server.](modules/kick.md)<br>

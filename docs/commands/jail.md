@@ -2,7 +2,7 @@ Jail
 ====
 Jail a player in a certain jail, for a certain time and with a certain reason.
 
-Usage: /jail \<Player\> \[Jail\] \[Time\] \[Reason\]<br>
+Usage: /jail \<Player\> \[Jail\] \[Time\] \[Reason…\]<br>
 Aliases: jail<br>
 Module: [jail](../modules/jail.md)<br>
 

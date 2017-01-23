@@ -2,7 +2,7 @@ Itemlore
 ====
 Change the lore of the item in your hand. Use | for multiple lines.
 
-Usage: /itemlore \<Lore\>\[|LORE\]\[|LORE\]<br>
+Usage: /itemlore \<Lore…\><br>
 Aliases: itemlore, setitemlore, lore<br>
 Module: [item](../modules/item.md)<br>
 

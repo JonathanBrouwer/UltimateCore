@@ -4,8 +4,8 @@ Allows you to refill or change a player's health bar.
 
 Commands: <br>
 * **[/heal \[Player\]](../commands/heal.md)**<br>Heal a player.
-* **[/sethealth \<Amount\> \[Player\]](../commands/sethealth.md)**<br>Set the health of a player.
-* **[/setmaxhealth \<Amount\> \[Player\]](../commands/setmaxhealth.md)**<br>Set the max health of a player.
+* **[/sethealth \<Health\> \[Player\]](../commands/sethealth.md)**<br>Set the health of a player.
+* **[/setmaxhealth \<Health\> \[Player\]](../commands/setmaxhealth.md)**<br>Set the max health of a player.
 
 Permissions: <br>
 * **uc.heal.heal.base** - Recommended role: admin<br>Allows you to use the heal command.

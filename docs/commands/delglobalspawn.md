@@ -3,7 +3,7 @@ Delglobalspawn
 Delete the global spawn.
 
 Usage: /delglobalspawn<br>
-Aliases: delglobalspawn, delspawn<br>
+Aliases: delglobalspawn, delspawn, removeglobalspawn, removespawn<br>
 Module: [spawn](../modules/spawn.md)<br>
 
 Basic permission: uc.spawn.delglobalspawn.base<br>

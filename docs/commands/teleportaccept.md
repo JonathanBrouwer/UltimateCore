@@ -2,7 +2,7 @@ Teleportaccept
 ====
 Accept the specified request, or the most recent one.
 
-Usage: /tpaccept \[TPID/Player\]<br>
+Usage: /teleportaccept \[Tpid\]<br>
 Aliases: teleportaccept, tpaccept, tpyes<br>
 Module: [teleport](../modules/teleport.md)<br>
 

@@ -3,7 +3,7 @@ Delfirstspawn
 Delete the new player spawn.
 
 Usage: /delfirstspawn<br>
-Aliases: delfirstspawn<br>
+Aliases: delfirstspawn, removefirstspawn<br>
 Module: [spawn](../modules/spawn.md)<br>
 
 Basic permission: uc.spawn.delfirstspawn.base<br>

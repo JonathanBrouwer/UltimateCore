@@ -7,4 +7,3 @@ Commands: <br>
 
 Permissions: <br>
 * **uc.vanish.vanish.base** - Recommended role: everyone<br>Allows you to use the vanish command.
-* **uc.vanish.vanish.base** - Recommended role: everyone<br>Allows you to use the vanish command on other players.

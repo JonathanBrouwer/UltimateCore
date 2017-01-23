@@ -2,8 +2,8 @@ Sethealth
 ====
 Set the health of a player.
 
-Usage: /sethealth \<Amount\> \[Player\]<br>
-Aliases: sethealth, setlives<br>
+Usage: /sethealth \<Health\> \[Player\]<br>
+Aliases: sethealth, setlives, health, lives<br>
 Module: [heal](../modules/heal.md)<br>
 
 Basic permission: uc.heal.sethealth.base<br>
