@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.command;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import org.spongepowered.api.text.Text;
 
 public interface SubCommand extends PermSmartCommand {
     default PermSmartCommand getParent() {
@@ -49,5 +50,18 @@ public interface SubCommand extends PermSmartCommand {
     //Set base perm for subcommand
     default String getBasePermission() {
         return getParent().getBasePermission() + "." + getIdentifier().toLowerCase();
+    }
+
+    default Text getShortDescription() {
+        return getParent().getShortDescription();
+    }
+
+    default Text getLongDescription() {
+        return getParent().getLongDescription();
+    }
+
+    //Usage
+    default String getFullIdentifier() {
+        return getParent().getFullIdentifier() + " " + getIdentifier();
     }
 }

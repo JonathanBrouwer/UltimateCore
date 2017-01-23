@@ -141,7 +141,7 @@ public interface SmartCommand extends Command, CommandExecutor {
         if (params.endsWith("|")) {
             params = params.substring(0, params.length() - 1);
         }
-        return UsageGenerator.usage(this, Text.of("/" + getIdentifier() + (!params.isEmpty() ? (" " + params) : "")));
+        return UsageGenerator.usage(this, Text.of("/" + getFullIdentifier() + (!params.isEmpty() ? (" " + params) : "")));
     }
 
     //Implemented with @RegisterCommand
@@ -166,6 +166,11 @@ public interface SmartCommand extends Command, CommandExecutor {
             return null;
         }
         return this.getClass().getAnnotation(CommandInfo.class).aliases()[0];
+    }
+
+    //Parent(s) + Identifier
+    default String getFullIdentifier() {
+        return getIdentifier();
     }
 
     //Implemented with @CommandInfo
@@ -195,8 +200,16 @@ public interface SmartCommand extends Command, CommandExecutor {
                     context.putArg(CommandContext.TARGET_BLOCK_ARG, loc);
                 }
             }
-            List<String> ret = GenericArguments.seq(getArguments()).complete(sender, cargs, context);
-            return ret == null ? ImmutableList.of() : ImmutableList.copyOf(ret);
+            List<String> ret = new ArrayList<>(GenericArguments.seq(getArguments()).complete(sender, cargs, context));
+
+            //Add children to tabcomplete
+            if (!getChildren().isEmpty() && curn == 0) {
+                for (SubCommand cmd : getChildren()) {
+                    ret.add(cmd.getIdentifier());
+                }
+            }
+
+            return ImmutableList.copyOf(ret);
         } catch (CommandException ex) {
             if (ex.getText() != null) {
                 sender.sendMessage(ex.getText());
