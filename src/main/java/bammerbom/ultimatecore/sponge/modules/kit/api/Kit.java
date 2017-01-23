@@ -95,7 +95,7 @@ public class Kit {
 
         @Override
         public Kit deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
-            String id = node.getNode("name").getString();
+            String id = node.getNode("id").getString();
             Text desc = node.getNode("description").getValue(TypeToken.of(Text.class));
             List<ItemStackSnapshot> items = node.getNode("items").getList(TypeToken.of(ItemStackSnapshot.class));
             List<String> cmds = node.getNode("commands").getList(TypeToken.of(String.class));
@@ -105,7 +105,7 @@ public class Kit {
 
         @Override
         public void serialize(TypeToken<?> type, Kit kit, ConfigurationNode node) throws ObjectMappingException {
-            node.getNode("name").setValue(kit.getName());
+            node.getNode("id").setValue(kit.getName());
             node.getNode("description").setValue(TypeToken.of(Text.class), kit.getDescription());
             node.getNode("items").setValue(new TypeToken<List<ItemStackSnapshot>>() {
             }, kit.getItems());
