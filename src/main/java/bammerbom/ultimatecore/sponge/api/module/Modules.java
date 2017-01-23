@@ -42,6 +42,7 @@ public class Modules {
     public static Optional<Module> BAN = service.getModule("ban");
     public static Optional<Module> BLACKLIST = service.getModule("blacklist");
     public static Optional<Module> BLOOD = service.getModule("blood");
+    public static Optional<Module> BROADCAST = service.getModule("broadcast");
     public static Optional<Module> BURN = service.getModule("burn");
     public static Optional<Module> CHAT = service.getModule("chat");
     //Allows for warmup & cooldown for commands
