@@ -30,11 +30,16 @@ import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColor;
+import org.spongepowered.api.text.format.TextStyle;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 public class ChatListener {
     @Listener(order = Order.FIRST)
@@ -58,10 +63,31 @@ public class ChatListener {
             footer = subnode.getNode("footer").getString(footer);
         }
 
+        //TODO use text instead of string
+        String rawmessage = e.getRawMessage().toPlain();
+        for (TextColor color : Sponge.getRegistry().getAllOf(CatalogTypes.TEXT_COLOR)) {
+            if (!p.hasPermission("uc.chat.color." + color.getId().toLowerCase())) {
+                continue;
+            }
+            Character ch = TextUtil.getColorChar(color);
+            rawmessage = rawmessage.replaceAll("&" + ch, "§" + ch);
+            //rawmessage = TextUtil.replace(rawmessage, );
+            //rawmessage = TextUtil.replace(rawmessage, "&" + , Text.of(color, "a"));
+        }
+        for (TextStyle.Base style : Sponge.getRegistry().getAllOf(TextStyle.Base.class)) {
+            if (!p.hasPermission("uc.chat.style." + style.getId().toLowerCase())) {
+                continue;
+            }
+            Character ch = TextUtil.getStyleChar(style);
+            rawmessage = rawmessage.replaceAll("&" + ch, "§" + ch);
+            //rawmessage = TextUtil.replace(rawmessage, "&", Text.of("§"));
+        }
+        Text message = TextSerializers.LEGACY_FORMATTING_CODE.deserialize(rawmessage);
+
         //Replace stuff
-        Text fheader = TextUtil.replace(VariableUtil.replaceVariables(Messages.toText(header), p), "%message%", e.getRawMessage());
-        Text fbody = TextUtil.replace(VariableUtil.replaceVariables(Messages.toText(body), p), "%message%", e.getRawMessage());
-        Text ffooter = TextUtil.replace(VariableUtil.replaceVariables(Messages.toText(footer), p), "%message%", e.getRawMessage());
+        Text fheader = TextUtil.replace(VariableUtil.replaceVariables(Messages.toText(header), p), "%message%", message);
+        Text fbody = TextUtil.replace(VariableUtil.replaceVariables(Messages.toText(body), p), "%message%", message);
+        Text ffooter = TextUtil.replace(VariableUtil.replaceVariables(Messages.toText(footer), p), "%message%", message);
 
         e.getFormatter().setHeader(fheader);
         e.getFormatter().setBody(fbody);

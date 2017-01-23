@@ -25,13 +25,54 @@ package bammerbom.ultimatecore.sponge.utils;
 
 import org.spongepowered.api.text.LiteralText;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColor;
+import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.format.TextStyle;
+import org.spongepowered.api.text.format.TextStyles;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class TextUtil {
+
+    private static Map<TextColor, Character> colors;
+    private static Map<TextStyle, Character> styles;
+
+    static {
+        colors = new HashMap<>();
+        colors.put(TextColors.BLACK, '0');
+        colors.put(TextColors.DARK_BLUE, '1');
+        colors.put(TextColors.DARK_GREEN, '2');
+        colors.put(TextColors.DARK_AQUA, '3');
+        colors.put(TextColors.DARK_RED, '4');
+        colors.put(TextColors.DARK_PURPLE, '5');
+        colors.put(TextColors.GOLD, '6');
+        colors.put(TextColors.GRAY, '7');
+        colors.put(TextColors.DARK_GRAY, '8');
+        colors.put(TextColors.BLUE, '9');
+        colors.put(TextColors.GREEN, 'a');
+        colors.put(TextColors.AQUA, 'b');
+        colors.put(TextColors.RED, 'c');
+        colors.put(TextColors.LIGHT_PURPLE, 'd');
+        colors.put(TextColors.YELLOW, 'e');
+        colors.put(TextColors.WHITE, 'f');
+
+        styles = new HashMap<>();
+        styles.put(TextStyles.OBFUSCATED, 'k');
+        styles.put(TextStyles.BOLD, 'l');
+        styles.put(TextStyles.STRIKETHROUGH, 'm');
+        styles.put(TextStyles.UNDERLINE, 'n');
+        styles.put(TextStyles.ITALIC, 'o');
+        styles.put(TextStyles.RESET, 'p');
+    }
+
+    public static Character getColorChar(TextColor color) {
+        return colors.get(color);
+    }
+
+    public static Character getStyleChar(TextStyle style) {
+        return styles.get(style);
+    }
+
     /**
      * Get a list of Text objects, all containing a char from the text.
      * This is the same as {@link String#toCharArray()}, but keeps formatting.
