@@ -31,15 +31,15 @@ import java.util.Arrays;
 
 public class Arguments {
 
-    UCommandElement element;
-    boolean onlyOne = false;
-    ArgOptional optional = ArgOptional.REQUIRED;
-    String permission = null;
-    int repeat = 0;
-    Text usage = null;
-    Text usagekey = null;
-    boolean remainingArguments = false;
-    boolean remainingArgumentsAtLeastOnce = true;
+    private UCommandElement element;
+    private boolean onlyOne = false;
+    private ArgOptional optional = ArgOptional.REQUIRED;
+    private String permission = null;
+    private int repeat = 0;
+    private Text usage = null;
+    private Text usagekey = null;
+    private boolean remainingArguments = false;
+    private boolean remainingArgumentsAtLeastOnce = true;
 
     //Builder
     public static Arguments builder(UCommandElement... element) {

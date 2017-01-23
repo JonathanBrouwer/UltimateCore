@@ -42,6 +42,7 @@ public class InventoryModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        UltimateCore.get().getCommandService().register(new ClearinventoryCommand());
+        UltimateCore.get().getCommandService().registerLater(new ClearinventoryCommand(), () -> {
+        });
     }
 }
