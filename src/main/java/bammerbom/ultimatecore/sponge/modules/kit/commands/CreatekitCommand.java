@@ -87,7 +87,7 @@ public class CreatekitCommand implements SmartCommand {
         List<ItemStackSnapshot> items = new ArrayList<>();
         p.getInventory().slots().forEach(slot -> {
             Optional<ItemStack> stack = slot.peek();
-            if (stack.isPresent() && !stack.get().getItem().equals(ItemTypes.AIR)) {
+            if (stack.isPresent() && !stack.get().getItem().equals(ItemTypes.NONE)) {
                 items.add(stack.get().createSnapshot());
             }
         });
