@@ -24,10 +24,10 @@
 package bammerbom.ultimatecore.sponge.modules.home.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.StringArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.StringArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.home.HomeModule;
@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @CommandInfo(module = HomeModule.class, aliases = {"sethome", "addhome"})
-public class SethomeCommand implements SmartCommand {
+public class SethomeCommand implements HighCommand {
     @Override
     public Permission getPermission() {
         return HomePermissions.UC_HOME_SETHOME_BASE;

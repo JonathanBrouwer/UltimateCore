@@ -25,9 +25,7 @@ package bammerbom.ultimatecore.sponge.api.command;
 
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.UsageGenerator;
-import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
@@ -36,96 +34,23 @@ import java.util.List;
 
 public interface Command {
 
-    /**
-     * Get the module that registered this command.
-     *
-     * @return The module that registered this command
-     */
     Module getModule();
 
-    /**
-     * Get the primary alias for this command.
-     *
-     * @return The primary alias
-     */
+    String getFullIdentifier();
+
     String getIdentifier();
 
-    /**
-     * Get the base permission for this command.
-     * For example: uc.home
-     *
-     * @return The base permission
-     */
     Permission getPermission();
 
-    /**
-     * Get a list of all permissions for this command.
-     * The base permission will be the first
-     */
     List<Permission> getPermissions();
 
-    /**
-     * Get the usage for this command.
-     *
-     * @return The usage
-     */
-    default Text getUsage() {
-        return getUsage(null);
-    }
-
-    /**
-     * Get the usage for this command.
-     *
-     * @return The usage
-     */
-    default Text getUsage(@Nullable CommandSource source) {
-        return UsageGenerator.usage(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".usage"));
-    }
-
-    /**
-     * Get an one-line description of this command.
-     *
-     * @return A short description
-     */
-    default Text getShortDescription() {
-        return UsageGenerator.shortDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".shortdescription"));
-    }
-
-    /**
-     * Get a long description for this command.
-     *
-     * @return A long description
-     */
-    default Text getLongDescription() {
-        //TODO automatically generate longdescription?
-        return UsageGenerator.longDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".longdescription"));
-    }
-
-    /**
-     * Get all aliases for this command.
-     *
-     * @return All aliases
-     */
     List<String> getAliases();
 
-    /**
-     * Execute this command.
-     *
-     * @param sender The CommandSource who executed the command
-     * @param args   The provided arguments, split by a space
-     * @return The result of the command
-     */
-    CommandResult run(CommandSource sender, String[] args);
+    CommandCallable getCallable();
 
-    /**
-     * Get the results for tabcompleting this command.
-     *
-     * @param sender The CommandSource who asked for the tab completion
-     * @param args   The provided arguments, split by a space, including the argument which is currently being typed
-     * @param curs   The argument which is being completed
-     * @param curn   The index of the argument which is being completed
-     * @return A list of all tab completions, including the ones which do not match what the user typed
-     */
-    List<String> onTabComplete(CommandSource sender, String[] args, String curs, Integer curn);
+    Text getUsage(@Nullable CommandSource source);
 
+    Text getShortDescription(@Nullable CommandSource source);
+
+    Text getLongDescription(@Nullable CommandSource source);
 }

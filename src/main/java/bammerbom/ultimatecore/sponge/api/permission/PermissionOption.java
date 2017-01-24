@@ -39,40 +39,38 @@ import java.util.Optional;
  */
 public class PermissionOption {
     private Module module;
-    private Optional<Command> command;
+    @Nullable
+    private String commandid;
+    private Optional<Command> command = null;
     private String identifier;
     private Text description;
     private String def;
 
-    private PermissionOption(String id, Module mod, @Nullable Command com, String def, Text desc) {
+    private PermissionOption(String id, Module mod, @Nullable String commandid, String def, Text desc) {
         this.module = mod;
-        this.command = com == null ? Optional.empty() : Optional.of(com);
+        this.commandid = commandid;
         this.identifier = id;
         this.description = desc;
         this.def = def;
     }
 
     public static PermissionOption create(String identifier, Module module, @Nullable Command command, String def, Text description) {
-        PermissionOption perm = new PermissionOption(identifier, module, command, def, description);
+        PermissionOption perm = new PermissionOption(identifier, module, command != null ? command.getIdentifier() : null, def, description);
         UltimateCore.get().getPermissionService().registerOption(perm);
         return perm;
     }
 
     public static PermissionOption create(String identifier, String moduleid, @Nullable String commandid, String def, Text description) {
         Optional<Module> module = UltimateCore.get().getModuleService().getModule(moduleid);
-        Optional<Command> command = commandid == null ? null : UltimateCore.get().getCommandService().get(commandid);
         if (!module.isPresent()) {
-            Messages.log("Failed to register permissionoption " + identifier + ": Invalid module");
+            Messages.log("Failed to register permissionoption " + identifier + ": Invalid module " + moduleid);
             //TODO ErrorLogger?
             return null;
         }
-        //When an invalid command is provided
-        if (command != null && !command.isPresent()) {
-            Messages.log("Semi-failed to register permissionoption " + identifier + ": Invalid command");
-            //TODO ErrorLogger?
-            command = null;
-        }
-        return create(identifier, module.get(), command == null ? null : command.get(), def, description);
+
+        PermissionOption perm = new PermissionOption(identifier, module.get(), commandid, def, description);
+        UltimateCore.get().getPermissionService().registerOption(perm);
+        return perm;
     }
 
     /**
@@ -90,6 +88,10 @@ public class PermissionOption {
      * @return The command
      */
     public Optional<Command> getCommand() {
+        if (!command.isPresent() && commandid != null) {
+            command = UltimateCore.get().getCommandService().get(commandid);
+            return command;
+        }
         return command;
     }
 

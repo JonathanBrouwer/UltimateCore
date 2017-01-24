@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.warp.commands.arguments;
 
-import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
+import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.modules.warp.api.Warp;
 import bammerbom.ultimatecore.sponge.modules.warp.api.WarpKeys;

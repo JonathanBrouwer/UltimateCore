@@ -23,15 +23,14 @@
  */
 package bammerbom.ultimatecore.sponge.modules.food.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.food.FoodModule;
 import bammerbom.ultimatecore.sponge.modules.food.api.FoodPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.Selector;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -50,7 +49,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandInfo(module = FoodModule.class, aliases = {"food", "feed", "eat"})
-public class FoodCommand implements SmartCommand {
+public class FoodCommand implements HighCommand {
     @Override
     public Permission getPermission() {
         return FoodPermissions.UC_FOOD_FOOD_BASE;
@@ -66,42 +65,6 @@ public class FoodCommand implements SmartCommand {
         return new CommandElement[]{
                 Arguments.builder(new PlayerArgument(Text.of("player"))).optional().onlyOne().build()
         };
-    }
-
-    @Override
-    public CommandResult run(CommandSource sender, String[] args) {
-        if (!sender.hasPermission(FoodPermissions.UC_FOOD_FOOD_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
-        if (args.length == 0) {
-            //Self
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-                return CommandResult.empty();
-            }
-            Player p = (Player) sender;
-            p.offer(Keys.FOOD_LEVEL, p.get(FoodData.class).get().foodLevel().getMaxValue());
-            p.offer(Keys.SATURATION, ItemStack.builder().itemType(ItemTypes.COOKED_BEEF).build().getProperty(SaturationProperty.class).get().getValue());
-            p.sendMessage(Messages.getFormatted(p, "food.command.food.success.self"));
-            return CommandResult.success();
-        } else {
-            //Others
-            if (!sender.hasPermission(FoodPermissions.UC_FOOD_FOOD_BASE.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
-            Player t = Selector.one(sender, args[0]).orElse(null);
-            if (t == null) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.playernotfound", "%player%", args[0]));
-                return CommandResult.empty();
-            }
-            t.offer(Keys.FOOD_LEVEL, t.get(FoodData.class).get().foodLevel().getMaxValue());
-            t.offer(Keys.SATURATION, ItemStack.builder().itemType(ItemTypes.COOKED_BEEF).build().getProperty(SaturationProperty.class).get().getValue());
-            sender.sendMessage(Messages.getFormatted(sender, "food.command.food.success.others.self", "%player%", VariableUtil.getNameSource(t)));
-            t.sendMessage(Messages.getFormatted(t, "food.command.food.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
-            return CommandResult.success();
-        }
     }
 
     @Override

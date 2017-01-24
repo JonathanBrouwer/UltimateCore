@@ -73,7 +73,7 @@ public class Docgen {
         Command[] commands = commandslist.toArray(new Command[commandslist.size()]);
         Arrays.sort(commands, Comparator.comparing(Command::getIdentifier));
         for (Command mod : commands) {
-            builder.append("[" + escape(mod.getUsage().toPlain()) + " - " + mod.getShortDescription().toPlain() + "](commands/" + mod.getIdentifier() + ".md)<br>\n");
+            builder.append("[" + escape(mod.getUsage(null).toPlain()) + " - " + mod.getShortDescription(null).toPlain() + "](commands/" + mod.getIdentifier() + ".md)<br>\n");
         }
 
         //Save to file
@@ -117,8 +117,8 @@ public class Docgen {
                 builder.append("Commands: " + "<br>\n");
 
                 for (Command cmd : cmds) {
-                    builder.append("* **[" + escape(cmd.getUsage().toPlain()) + "](../commands/" + cmd.getIdentifier() + ".md)**<br>");
-                    builder.append(cmd.getLongDescription().toPlain() + "\n");
+                    builder.append("* **[" + escape(cmd.getUsage(null).toPlain()) + "](../commands/" + cmd.getIdentifier() + ".md)**<br>");
+                    builder.append(cmd.getLongDescription(null).toPlain() + "\n");
                 }
             }
 
@@ -155,9 +155,9 @@ public class Docgen {
             File file = new File(UltimateCore.get().getDataFolder().toFile() + "/docs/commands/", cmd.getIdentifier() + ".md");
             StringBuilder builder = new StringBuilder();
             builder.append(StringUtil.firstUpperCase(cmd.getIdentifier()) + "\n====\n");
-            builder.append(cmd.getLongDescription().toPlain() + "\n\n");
+            builder.append(cmd.getLongDescription(null).toPlain() + "\n\n");
 
-            builder.append("Usage: " + escape(cmd.getUsage().toPlain()) + "<br>\n");
+            builder.append("Usage: " + escape(cmd.getUsage(null).toPlain()) + "<br>\n");
             builder.append("Aliases: " + StringUtil.join(", ", cmd.getAliases()) + "<br>\n");
             builder.append("Module: [" + cmd.getModule().getIdentifier() + "](../modules/" + cmd.getModule().getIdentifier() + ".md)<br>\n\n");
 

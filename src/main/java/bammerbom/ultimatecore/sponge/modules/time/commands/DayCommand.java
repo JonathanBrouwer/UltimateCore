@@ -23,8 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.modules.time.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
 import bammerbom.ultimatecore.sponge.modules.time.api.TimePermissions;
@@ -41,7 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandInfo(module = TimeModule.class, aliases = {"day", "daytime"})
-public class DayCommand implements SmartCommand {
+public class DayCommand implements HighCommand {
     @Override
     public Permission getPermission() {
         return TimePermissions.UC_TIME_TIME_DAY;

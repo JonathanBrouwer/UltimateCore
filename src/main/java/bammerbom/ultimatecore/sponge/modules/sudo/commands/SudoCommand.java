@@ -23,11 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.modules.sudo.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
-import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.sudo.SudoModule;
 import bammerbom.ultimatecore.sponge.modules.sudo.api.SudoPermissions;
@@ -52,7 +52,7 @@ import java.util.List;
 import java.util.Optional;
 
 @CommandInfo(module = SudoModule.class, aliases = {"sudo", "fcommand", "fcmd", "fchat", "forcechat", "forcecmd", "forcecommand"})
-public class SudoCommand implements SmartCommand {
+public class SudoCommand implements HighCommand {
     @Override
     public Permission getPermission() {
         return SudoPermissions.UC_SUDO_SUDO_BASE;

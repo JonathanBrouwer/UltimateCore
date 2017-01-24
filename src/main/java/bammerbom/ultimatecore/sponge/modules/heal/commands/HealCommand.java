@@ -23,10 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.heal.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.heal.HealModule;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
@@ -46,7 +46,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandInfo(module = HealModule.class, aliases = {"heal"})
-public class HealCommand implements SmartCommand {
+public class HealCommand implements HighCommand {
 
     @Override
     public Permission getPermission() {

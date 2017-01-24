@@ -24,8 +24,14 @@
 package bammerbom.ultimatecore.sponge.defaultmodule.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.*;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
+import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandChildrenInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.NotEnoughArgumentsException;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
@@ -58,7 +64,7 @@ import java.util.stream.Collectors;
 })
 @CommandPermissions(level = PermissionLevel.OWNER)
 @CommandInfo(module = DefaultModule.class, aliases = {"ultimatecore", "uc"})
-public class UltimatecoreCommand implements PermSmartCommand {
+public class UltimatecoreCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[0];
@@ -72,7 +78,7 @@ public class UltimatecoreCommand implements PermSmartCommand {
 
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"clearcache"})
-    public static class ClearcacheCommand implements SubCommand {
+    public static class ClearcacheCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
             return new CommandElement[0];
@@ -89,7 +95,7 @@ public class UltimatecoreCommand implements PermSmartCommand {
 
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"resetuser"})
-    public static class ResetuserCommand implements SubCommand {
+    public static class ResetuserCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
             return new CommandElement[]{
@@ -114,7 +120,7 @@ public class UltimatecoreCommand implements PermSmartCommand {
 
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"modules"})
-    public static class ModulesCommand implements SubCommand {
+    public static class ModulesCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
             return new CommandElement[0];
@@ -131,7 +137,7 @@ public class UltimatecoreCommand implements PermSmartCommand {
 
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"gendocs"})
-    public static class GendocsCommand implements SubCommand {
+    public static class GendocsCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
             return new CommandElement[0];
@@ -147,7 +153,7 @@ public class UltimatecoreCommand implements PermSmartCommand {
 
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"error"})
-    public static class ErrorCommand implements SubCommand {
+    public static class ErrorCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
             return new CommandElement[0];
@@ -168,7 +174,7 @@ public class UltimatecoreCommand implements PermSmartCommand {
 
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"reload"})
-    public static class ReloadCommand implements SubCommand {
+    public static class ReloadCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
             return new CommandElement[0];

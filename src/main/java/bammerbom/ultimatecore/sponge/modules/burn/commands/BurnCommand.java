@@ -23,11 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.modules.burn.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.BoundedDoubleArgument;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BoundedDoubleArgument;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.burn.BurnModule;
 import bammerbom.ultimatecore.sponge.modules.burn.api.BurnPermissions;
@@ -45,7 +45,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandInfo(module = BurnModule.class, aliases = {"burn", "fire", "ignite"})
-public class BurnCommand implements SmartCommand {
+public class BurnCommand implements HighCommand {
     @Override
     public Permission getPermission() {
         return BurnPermissions.UC_BURN_BURN_BASE;

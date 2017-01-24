@@ -24,10 +24,10 @@
 package bammerbom.ultimatecore.sponge.modules.mute.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.mute.MuteModule;
@@ -47,7 +47,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandInfo(module = MuteModule.class, aliases = {"unmute"})
-public class UnmuteCommand implements SmartCommand {
+public class UnmuteCommand implements HighCommand {
 
     @Override
     public Permission getPermission() {

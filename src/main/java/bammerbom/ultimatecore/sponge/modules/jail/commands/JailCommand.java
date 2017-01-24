@@ -24,12 +24,12 @@
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
-import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
-import bammerbom.ultimatecore.sponge.api.command.arguments.TimeArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.TimeArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
@@ -56,7 +56,7 @@ import java.util.Random;
 import java.util.UUID;
 
 @CommandInfo(module = JailModule.class, aliases = {"jail"})
-public class JailCommand implements SmartCommand {
+public class JailCommand implements HighCommand {
     static Random random = new Random();
 
     @Override

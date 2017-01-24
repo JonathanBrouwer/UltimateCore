@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.LowCommand;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -42,7 +42,7 @@ import org.spongepowered.api.world.World;
 import java.util.Arrays;
 import java.util.List;
 
-public class TeleportCommand implements Command {
+public class TeleportCommand implements LowCommand {
     @Override
     public Module getModule() {
         return Modules.TELEPORT.get();

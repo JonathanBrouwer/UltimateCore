@@ -23,11 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.modules.broadcast.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.CommandPermissions;
-import bammerbom.ultimatecore.sponge.api.command.PermSmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.RemainingStringsArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
@@ -45,7 +45,7 @@ import org.spongepowered.api.text.Text;
 
 @CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandInfo(module = BroadcastModule.class, aliases = {"broadcast"})
-public class BroadcastCommand implements PermSmartCommand {
+public class BroadcastCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{

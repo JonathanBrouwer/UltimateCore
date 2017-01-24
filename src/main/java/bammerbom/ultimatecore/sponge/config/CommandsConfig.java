@@ -63,7 +63,7 @@ public class CommandsConfig implements DataFile {
                 CommentedConfigurationNode cmdnode = node.getNode("commands", cmd.getIdentifier());
                 if (cmdnode.getNode("enabled").getValue() == null) {
                     modified = true;
-                    cmdnode.setComment(cmd.getShortDescription().toPlain());
+                    cmdnode.setComment(cmd.getShortDescription(null).toPlain());
                     cmdnode.getNode("enabled").setValue(true);
                     cmdnode.getNode("enabled").setComment("Set this to false to disable the command.");
                     //TODO disable aliases?

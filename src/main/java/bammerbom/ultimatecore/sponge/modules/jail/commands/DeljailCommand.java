@@ -23,9 +23,9 @@
  */
 package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
@@ -46,7 +46,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandInfo(module = JailModule.class, aliases = {"deljail", "removejail"})
-public class DeljailCommand implements SmartCommand {
+public class DeljailCommand implements HighCommand {
 
     @Override
     public Permission getPermission() {

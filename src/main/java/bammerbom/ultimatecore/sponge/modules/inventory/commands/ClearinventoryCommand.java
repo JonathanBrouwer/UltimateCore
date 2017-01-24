@@ -23,11 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.modules.inventory.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.CommandPermissions;
-import bammerbom.ultimatecore.sponge.api.command.PermSmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionInfo;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.inventory.InventoryModule;
@@ -46,7 +46,7 @@ import java.util.Map;
 
 @CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandInfo(module = InventoryModule.class, aliases = {"clearinventory", "clear", "ci"})
-public class ClearinventoryCommand implements PermSmartCommand {
+public class ClearinventoryCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{

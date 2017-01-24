@@ -23,11 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.modules.gamemode.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.GamemodeArgument;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.GamemodeArgument;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.gamemode.GamemodeModule;
 import bammerbom.ultimatecore.sponge.modules.gamemode.api.GamemodePermissions;
@@ -47,7 +47,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandInfo(module = GamemodeModule.class, aliases = {"gamemode", "gm"})
-public class GamemodeCommand implements SmartCommand {
+public class GamemodeCommand implements HighCommand {
     @Override
     public Permission getPermission() {
         return GamemodePermissions.UC_GAMEMODE_GAMEMODE_BASE;

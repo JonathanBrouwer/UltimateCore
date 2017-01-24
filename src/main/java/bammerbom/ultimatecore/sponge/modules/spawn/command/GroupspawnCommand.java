@@ -24,11 +24,11 @@
 package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
-import bammerbom.ultimatecore.sponge.api.command.arguments.StringArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.StringArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
@@ -52,7 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @CommandInfo(module = SpawnModule.class, aliases = {"groupspawn"})
-public class GroupspawnCommand implements SmartCommand {
+public class GroupspawnCommand implements HighCommand {
 
     @Override
     public Permission getPermission() {

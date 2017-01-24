@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.back.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.DataFailedException;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
@@ -48,7 +48,7 @@ import java.util.List;
 import java.util.Optional;
 
 @CommandInfo(module = BackModule.class, aliases = {"back", "return"})
-public class BackCommand implements SmartCommand {
+public class BackCommand implements HighCommand {
     @Override
     public Permission getPermission() {
         return BackPermissions.UC_BACK_BACK_BASE;

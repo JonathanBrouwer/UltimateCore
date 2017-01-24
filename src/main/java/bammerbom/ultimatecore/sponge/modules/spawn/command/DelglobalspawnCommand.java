@@ -23,8 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
@@ -41,7 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandInfo(module = SpawnModule.class, aliases = {"delglobalspawn", "delspawn", "removeglobalspawn", "removespawn"})
-public class DelglobalspawnCommand implements SmartCommand {
+public class DelglobalspawnCommand implements HighCommand {
     @Override
     public Permission getPermission() {
         return SpawnPermissions.UC_SPAWN_DELGLOBALSPAWN_BASE;

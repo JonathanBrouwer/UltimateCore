@@ -24,10 +24,10 @@
 package bammerbom.ultimatecore.sponge.modules.spawn.command;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Optional;
 
 @CommandInfo(module = SpawnModule.class, aliases = {"globalspawn"})
-public class GlobalspawnCommand implements SmartCommand {
+public class GlobalspawnCommand implements HighCommand {
     @Override
     public Permission getPermission() {
         return SpawnPermissions.UC_SPAWN_GLOBALSPAWN_BASE;

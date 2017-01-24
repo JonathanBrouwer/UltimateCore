@@ -68,7 +68,7 @@ public class UCCommandService implements CommandService {
             return false;
         }
         commands.add(command);
-        Sponge.getCommandManager().register(UltimateCore.get(), new UCCommandCallable(command), command.getAliases());
+        Sponge.getCommandManager().register(UltimateCore.get(), command.getCallable(), command.getAliases());
         return true;
     }
 

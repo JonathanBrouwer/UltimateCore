@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.time.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.LowCommand;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -39,7 +39,7 @@ import org.spongepowered.api.world.World;
 import java.util.Arrays;
 import java.util.List;
 
-public class TimeCommand implements Command {
+public class TimeCommand implements LowCommand {
     @Override
     public Module getModule() {
         return Modules.TIME.get();
@@ -112,7 +112,7 @@ public class TimeCommand implements Command {
                     result = world.getProperties().getWorldTime();
                     sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.gametime", "%gametime%", result));
                 } else {
-                    sender.sendMessage(getLongDescription());
+                    sender.sendMessage(getLongDescription(sender));
                     return CommandResult.empty();
                 }
                 return CommandResult.builder().queryResult(result.intValue()).build();
@@ -159,7 +159,7 @@ public class TimeCommand implements Command {
                     world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
                     sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.add", "%ticks%", ticks));
                 } else {
-                    sender.sendMessage(getLongDescription());
+                    sender.sendMessage(getLongDescription(sender));
                     return CommandResult.empty();
                 }
             } else if (args[0].equalsIgnoreCase("day")) {
@@ -189,7 +189,7 @@ public class TimeCommand implements Command {
                 sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.ticks", "%ticks%", ticks));
             } else if (args[0].equalsIgnoreCase("set")) {
                 if (args.length <= 1) {
-                    sender.sendMessage(getLongDescription());
+                    sender.sendMessage(getLongDescription(sender));
                     return CommandResult.empty();
                 }
                 if (args[1].equalsIgnoreCase("day")) {
@@ -218,12 +218,12 @@ public class TimeCommand implements Command {
                     world.getProperties().setWorldTime(ticks);
                     sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.ticks", "%ticks%", ticks));
                 } else {
-                    sender.sendMessage(getLongDescription());
+                    sender.sendMessage(getLongDescription(sender));
                     return CommandResult.empty();
                 }
             } else {
                 //No matching command found
-                sender.sendMessage(getLongDescription());
+                sender.sendMessage(getLongDescription(sender));
                 return CommandResult.empty();
             }
             return CommandResult.success();
@@ -254,7 +254,7 @@ public class TimeCommand implements Command {
             return CommandResult.success();
         }
         //No matching command found
-        sender.sendMessage(getLongDescription());
+        sender.sendMessage(getLongDescription(sender));
         return CommandResult.empty();
     }
 

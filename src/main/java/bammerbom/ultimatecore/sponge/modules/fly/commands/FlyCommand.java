@@ -24,10 +24,10 @@
 package bammerbom.ultimatecore.sponge.modules.fly.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.command.SmartCommand;
-import bammerbom.ultimatecore.sponge.api.command.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.fly.FlyModule;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyKeys;
@@ -46,7 +46,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandInfo(module = FlyModule.class, aliases = {"fly", "flight"})
-public class FlyCommand implements SmartCommand {
+public class FlyCommand implements HighCommand {
     @Override
     public Permission getPermission() {
         return FlyPermissions.UC_FLY_FLY_BASE;

@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.home.commands.arguments;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.UCommandElement;
+import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
