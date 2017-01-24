@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.teleport;
+package bammerbom.ultimatecore.sponge.api.teleport.impl;
 
 import bammerbom.ultimatecore.sponge.api.teleport.TeleportService;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;

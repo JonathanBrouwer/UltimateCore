@@ -21,37 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.variable.variables;
+package bammerbom.ultimatecore.sponge.api.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.math.BigDecimal;
 import java.util.Optional;
 
-public class MoneyVariable implements Variable {
+public class IpVariable implements Variable {
     @Override
     public String getKey() {
-        return "%money%";
+        return "%ip%";
     }
 
     @Override
     public Optional<Text> getValue(@Nullable Object player) {
         if (player == null) return Optional.empty();
         if (player instanceof Player) {
-            Player p = (Player) player;
-            if (Sponge.getServiceManager().provide(EconomyService.class).isPresent()) {
-                EconomyService es = Sponge.getServiceManager().provide(EconomyService.class).get();
-                if (es.getOrCreateAccount(p.getUniqueId()).isPresent()) {
-                    BigDecimal balance = es.getOrCreateAccount(p.getUniqueId()).get().getBalance(es.getDefaultCurrency());
-                    return Optional.of(Text.of(balance.toString()));
-                }
-            }
-            return Optional.empty();
+            return Optional.of(Text.of(((Player) player).getConnection().getAddress().getAddress().toString().split("/")[1].split(":")[0]));
         }
         return Optional.empty();
     }

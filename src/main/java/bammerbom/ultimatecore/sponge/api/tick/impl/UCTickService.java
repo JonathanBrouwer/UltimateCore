@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.tick;
+package bammerbom.ultimatecore.sponge.api.tick.impl;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.tick.TickService;

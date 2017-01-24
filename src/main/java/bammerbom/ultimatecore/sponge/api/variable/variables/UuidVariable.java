@@ -21,26 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.variable.variables;
+package bammerbom.ultimatecore.sponge.api.variable.variables;
 
+import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class IpVariable implements Variable {
+public class UuidVariable implements Variable {
     @Override
     public String getKey() {
-        return "%ip%";
+        return "%uuid%";
     }
 
     @Override
     public Optional<Text> getValue(@Nullable Object player) {
-        if (player == null) return Optional.empty();
-        if (player instanceof Player) {
-            return Optional.of(Text.of(((Player) player).getConnection().getAddress().getAddress().toString().split("/")[1].split(":")[0]));
+        if (player instanceof CommandSource) {
+            return Optional.of(Text.of(((CommandSource) player).getIdentifier()));
+        } else if (player instanceof Key.User) {
+            return Optional.of(Text.of(((User) player).getIdentifier()));
         }
         return Optional.empty();
     }

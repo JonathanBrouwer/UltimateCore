@@ -21,29 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.variable.variables;
+package bammerbom.ultimatecore.sponge.api.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-public class PlayersVariable implements Variable {
+public class OnlineplayersVariable implements Variable {
     @Override
     public String getKey() {
-        return "%players%";
+        return "%onlineplayers%";
     }
 
     @Override
     public Optional<Text> getValue(@Nullable Object player) {
-        List<String> names = new ArrayList<>();
-        Sponge.getServer().getOnlinePlayers().forEach(p -> names.add(p.getName()));
-        return Optional.of(!names.isEmpty() ? Text.of(StringUtil.join(", ", names)) : Messages.getFormatted("core.none"));
+        return Optional.of(Text.of(Sponge.getServer().getOnlinePlayers().size()));
     }
 }

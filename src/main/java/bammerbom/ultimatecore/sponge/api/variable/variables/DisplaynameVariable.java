@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.variable.variables;
+package bammerbom.ultimatecore.sponge.api.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;

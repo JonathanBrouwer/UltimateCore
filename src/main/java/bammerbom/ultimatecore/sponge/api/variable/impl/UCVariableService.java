@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.variable;
+package bammerbom.ultimatecore.sponge.api.variable.impl;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
 import bammerbom.ultimatecore.sponge.api.variable.VariableService;
-import bammerbom.ultimatecore.sponge.impl.variable.variables.*;
+import bammerbom.ultimatecore.sponge.api.variable.variables.*;
 import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;

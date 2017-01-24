@@ -23,9 +23,9 @@
  */
 package bammerbom.ultimatecore.sponge.api.command;
 
+import bammerbom.ultimatecore.sponge.api.command.impl.UCCommandCallable;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.impl.command.UCCommandCallable;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.UsageGenerator;
 import org.spongepowered.api.command.CommandCallable;

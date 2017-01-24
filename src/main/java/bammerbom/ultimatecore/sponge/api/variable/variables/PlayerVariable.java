@@ -21,23 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.variable.variables;
+package bammerbom.ultimatecore.sponge.api.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class VersionVariable implements Variable {
+public class PlayerVariable implements Variable {
     @Override
     public String getKey() {
-        return "%version%";
+        return "%player%";
     }
 
     @Override
     public Optional<Text> getValue(@Nullable Object player) {
-        return Optional.of(Text.of(Sponge.getPlatform().getMinecraftVersion().getName()));
+        if (player == null) return Optional.empty();
+        if (player instanceof User) {
+            return Optional.of(Text.of(((User) player).getName()));
+        } else if (player instanceof CommandSource) {
+            return Optional.of(Text.of(((CommandSource) player).getName()));
+        }
+        return Optional.empty();
     }
 }

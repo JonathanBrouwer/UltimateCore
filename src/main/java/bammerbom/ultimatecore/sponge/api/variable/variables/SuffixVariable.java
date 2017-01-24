@@ -21,29 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.variable.variables;
+package bammerbom.ultimatecore.sponge.api.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.User;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class PlayerVariable implements Variable {
+public class SuffixVariable implements Variable {
     @Override
     public String getKey() {
-        return "%player%";
+        return "%suffix%";
     }
 
     @Override
     public Optional<Text> getValue(@Nullable Object player) {
-        if (player == null) return Optional.empty();
-        if (player instanceof User) {
-            return Optional.of(Text.of(((User) player).getName()));
-        } else if (player instanceof CommandSource) {
-            return Optional.of(Text.of(((CommandSource) player).getName()));
+        if (player instanceof Subject) {
+            return Optional.of(Messages.toText(((Subject) player).getOption("suffix").orElse("")));
         }
         return Optional.empty();
     }

@@ -21,30 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.variable.variables;
+package bammerbom.ultimatecore.sponge.api.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.User;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-public class NameVariable implements Variable {
+public class PlayersVariable implements Variable {
     @Override
     public String getKey() {
-        return "%name%";
+        return "%players%";
     }
 
     @Override
     public Optional<Text> getValue(@Nullable Object player) {
-        if (player == null) return Optional.empty();
-        if (player instanceof User) {
-            return Optional.of(Text.of(((User) player).getName()));
-        } else if (player instanceof CommandSource) {
-            return Optional.of(Text.of(((CommandSource) player).getName()));
-        }
-        return Optional.empty();
+        List<String> names = new ArrayList<>();
+        Sponge.getServer().getOnlinePlayers().forEach(p -> names.add(p.getName()));
+        return Optional.of(!names.isEmpty() ? Text.of(StringUtil.join(", ", names)) : Messages.getFormatted("core.none"));
     }
 }

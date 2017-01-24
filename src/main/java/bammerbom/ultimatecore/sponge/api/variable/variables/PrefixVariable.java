@@ -21,25 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.variable.variables;
+package bammerbom.ultimatecore.sponge.api.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.Variable;
-import org.spongepowered.api.entity.living.player.Player;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class WorldaliasVariable implements Variable {
+public class PrefixVariable implements Variable {
     @Override
     public String getKey() {
-        return "%worldalias%";
+        return "%prefix%";
     }
 
     @Override
     public Optional<Text> getValue(@Nullable Object player) {
-        if (player instanceof Player) {
-            return Optional.of(Text.of(((Player) player).getWorld().getName().toCharArray()[0] + ""));
+        if (player instanceof Subject) {
+            return Optional.of(Messages.toText(((Subject) player).getOption("prefix").orElse("")));
         }
         return Optional.empty();
     }

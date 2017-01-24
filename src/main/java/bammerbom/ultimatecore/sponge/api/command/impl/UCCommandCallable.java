@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.impl.command;
+package bammerbom.ultimatecore.sponge.api.command.impl;
 
 import bammerbom.ultimatecore.sponge.api.command.LowCommand;
 import org.spongepowered.api.Sponge;
