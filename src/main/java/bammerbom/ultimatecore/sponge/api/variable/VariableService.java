@@ -23,25 +23,27 @@
  */
 package bammerbom.ultimatecore.sponge.api.variable;
 
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public interface VariableService {
-    void register(Variable var);
+    void register(StaticVariable var);
 
-    void unregister(Variable var);
+    void unregister(StaticVariable var);
 
-    List<Variable> getVariables();
+    void register(DynamicVariable var);
 
-    Text replace(Text text);
+    void unregister(DynamicVariable var);
 
-    Text replaceUser(Text text, User user);
+    List<StaticVariable> getStaticVariables();
 
-    Text replaceSource(Text text, CommandSource source);
+    List<DynamicVariable> getDynamicVariables();
 
-    Text replacePlayer(Text text, Player player);
+    Text replace(Text text, @Nullable Object player);
+
+    default Text replace(Text text) {
+        return replace(text, null);
+    }
 }

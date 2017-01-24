@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.variable.Variable;
+import bammerbom.ultimatecore.sponge.api.variable.StaticVariable;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
@@ -32,7 +32,7 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class UuidVariable implements Variable {
+public class UuidVariable implements StaticVariable {
     @Override
     public String getKey() {
         return "%uuid%";

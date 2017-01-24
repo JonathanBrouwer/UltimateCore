@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.variable.variables;
 
-import bammerbom.ultimatecore.sponge.api.variable.Variable;
+import bammerbom.ultimatecore.sponge.api.variable.StaticVariable;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
@@ -31,7 +31,7 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class PrefixVariable implements Variable {
+public class PrefixVariable implements StaticVariable {
     @Override
     public String getKey() {
         return "%prefix%";

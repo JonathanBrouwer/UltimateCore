@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.variable.variables;
 
-import bammerbom.ultimatecore.sponge.api.variable.Variable;
+import bammerbom.ultimatecore.sponge.api.variable.StaticVariable;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.Sponge;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PlayersVariable implements Variable {
+public class PlayersVariable implements StaticVariable {
     @Override
     public String getKey() {
         return "%players%";

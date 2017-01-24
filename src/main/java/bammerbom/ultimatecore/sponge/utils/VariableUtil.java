@@ -39,7 +39,7 @@ import java.util.Locale;
 public class VariableUtil {
     public static Text replaceVariables(Text text, @Nullable CommandSource player) {
         if (player != null) {
-            return UltimateCore.get().getVariableService().replaceSource(text, player);
+            return UltimateCore.get().getVariableService().replace(text, player);
         } else {
             return UltimateCore.get().getVariableService().replace(text);
         }
@@ -47,7 +47,7 @@ public class VariableUtil {
 
     public static Text replaceVariablesUser(Text text, @Nullable User player) {
         if (player != null) {
-            return UltimateCore.get().getVariableService().replaceUser(text, player);
+            return UltimateCore.get().getVariableService().replace(text, player);
         } else {
             return UltimateCore.get().getVariableService().replace(text);
         }

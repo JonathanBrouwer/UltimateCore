@@ -23,99 +23,80 @@
  */
 package bammerbom.ultimatecore.sponge.api.variable.impl;
 
-import bammerbom.ultimatecore.sponge.api.variable.Variable;
+import bammerbom.ultimatecore.sponge.api.variable.DynamicVariable;
+import bammerbom.ultimatecore.sponge.api.variable.StaticVariable;
 import bammerbom.ultimatecore.sponge.api.variable.VariableService;
 import bammerbom.ultimatecore.sponge.api.variable.variables.*;
 import bammerbom.ultimatecore.sponge.utils.TextUtil;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UCVariableService implements VariableService {
-    public ArrayList<Variable> variables = new ArrayList<>();
+    private ArrayList<StaticVariable> staticVariables = new ArrayList<>();
+    private ArrayList<DynamicVariable> dynamicVariables = new ArrayList<>();
 
     public void init() {
-        variables.add(new DisplaynameVariable());
-        variables.add(new IpVariable());
-        variables.add(new MaxplayersVariable());
-        variables.add(new MoneyVariable());
-        variables.add(new NameVariable());
-        variables.add(new OnlineplayersVariable());
-        variables.add(new PlayersVariable());
-        variables.add(new PlayerVariable());
-        variables.add(new PrefixVariable());
-        variables.add(new SuffixVariable());
-        variables.add(new UuidVariable());
-        variables.add(new VersionVariable());
-        variables.add(new WorldaliasVariable());
-        variables.add(new WorldVariable());
+        staticVariables.add(new DisplaynameVariable());
+        staticVariables.add(new IpVariable());
+        staticVariables.add(new MaxplayersVariable());
+        staticVariables.add(new MoneyVariable());
+        staticVariables.add(new NameVariable());
+        staticVariables.add(new OnlineplayersVariable());
+        staticVariables.add(new PlayersVariable());
+        staticVariables.add(new PlayerVariable());
+        staticVariables.add(new PrefixVariable());
+        staticVariables.add(new SuffixVariable());
+        staticVariables.add(new UuidVariable());
+        staticVariables.add(new VersionVariable());
+        staticVariables.add(new WorldaliasVariable());
+        staticVariables.add(new WorldVariable());
+
+        dynamicVariables.add(new OptionVariable());
     }
 
     @Override
-    public void register(Variable var) {
-        variables.add(var);
+    public void register(StaticVariable var) {
+        staticVariables.add(var);
     }
 
     @Override
-    public void unregister(Variable var) {
-        variables.remove(var);
+    public void unregister(StaticVariable var) {
+        staticVariables.remove(var);
     }
 
     @Override
-    public List<Variable> getVariables() {
-        return variables;
+    public void register(DynamicVariable var) {
+        dynamicVariables.add(var);
     }
 
     @Override
-    public Text replace(Text text) {
+    public void unregister(DynamicVariable var) {
+        dynamicVariables.add(var);
+    }
+
+    @Override
+    public List<StaticVariable> getStaticVariables() {
+        return staticVariables;
+    }
+
+    @Override
+    public List<DynamicVariable> getDynamicVariables() {
+        return dynamicVariables;
+    }
+
+    @Override
+    public Text replace(Text text, @Nullable Object player) {
         String plain = text.toPlain();
-        for (Variable var : variables) {
-            if (plain.contains(var.getKey())) {
-                text = TextUtil.replace(text, var.getKey(), var.getValue(null).orElse(Text.of()));
-            }
-        }
-        return text;
-    }
-
-    @Override
-    public Text replaceUser(Text text, User user) {
-        if (user instanceof Player) {
-            return replacePlayer(text, (Player) user);
-        }
-        String plain = text.toPlain();
-        for (Variable var : variables) {
-            if (plain.contains(var.getKey())) {
-                text = TextUtil.replace(text, var.getKey(), var.getValue(user).orElse(Text.of()));
-            }
-        }
-        return text;
-    }
-
-    @Override
-    public Text replaceSource(Text text, CommandSource source) {
-        if (source instanceof Player) {
-            return replacePlayer(text, (Player) source);
-        }
-        String plain = text.toPlain();
-        for (Variable var : variables) {
-            if (plain.contains(var.getKey())) {
-                text = TextUtil.replace(text, var.getKey(), var.getValue(source).orElse(Text.of()));
-            }
-        }
-        return text;
-    }
-
-    @Override
-    public Text replacePlayer(Text text, Player player) {
-        String plain = text.toPlain();
-        for (Variable var : variables) {
+        for (StaticVariable var : staticVariables) {
             if (plain.contains(var.getKey())) {
                 text = TextUtil.replace(text, var.getKey(), var.getValue(player).orElse(Text.of()));
             }
+        }
+        for (DynamicVariable var : dynamicVariables) {
+            text = var.replace(text, player);
         }
         return text;
     }

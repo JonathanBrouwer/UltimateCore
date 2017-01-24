@@ -23,36 +23,28 @@
  */
 package bammerbom.ultimatecore.sponge.api.variable.variables;
 
-import bammerbom.ultimatecore.sponge.api.variable.StaticVariable;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.service.economy.EconomyService;
+import bammerbom.ultimatecore.sponge.api.variable.DynamicVariable;
+import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.TextUtil;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.math.BigDecimal;
-import java.util.Optional;
 
-public class MoneyVariable implements StaticVariable {
+public class OptionVariable implements DynamicVariable {
+    //Format: %option:prefix%
     @Override
-    public String getKey() {
-        return "%money%";
-    }
-
-    @Override
-    public Optional<Text> getValue(@Nullable Object player) {
-        if (player == null) return Optional.empty();
-        if (player instanceof Player) {
-            Player p = (Player) player;
-            if (Sponge.getServiceManager().provide(EconomyService.class).isPresent()) {
-                EconomyService es = Sponge.getServiceManager().provide(EconomyService.class).get();
-                if (es.getOrCreateAccount(p.getUniqueId()).isPresent()) {
-                    BigDecimal balance = es.getOrCreateAccount(p.getUniqueId()).get().getBalance(es.getDefaultCurrency());
-                    return Optional.of(Text.of(balance.toString()));
+    public Text replace(Text text, @Nullable Object player) {
+        if (player instanceof Subject) {
+            Subject subject = (Subject) player;
+            for (String var : TextUtil.getVariables(text)) {
+                if (var.startsWith("%option:")) {
+                    String option = var.replace("%", "").split(":")[1];
+                    String value = subject.getOption(option).orElse("");
+                    text = TextUtil.replace(text, var, Messages.toText(value));
                 }
             }
-            return Optional.empty();
         }
-        return Optional.empty();
+        return text;
     }
 }

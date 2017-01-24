@@ -107,6 +107,30 @@ public class TextUtil {
         return TextSerializers.LEGACY_FORMATTING_CODE.deserialize(rawmessage);
     }
 
+    public static List<String> getVariables(Text text) {
+        String plain = text.toPlain();
+        List<String> results = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+        boolean invar = false;
+        for (char c : plain.toCharArray()) {
+            if (c == '%') {
+                invar = !invar;
+                //If not in var, add builder to list and start new builder
+                if (!invar) {
+                    builder.append(c);
+                    results.add(builder.toString());
+                    builder = new StringBuilder();
+                    continue;
+                }
+            }
+            //If in var, append character to builder
+            if (invar) {
+                builder.append(c);
+            }
+        }
+        return results;
+    }
+
     /**
      * Get a list of Text objects, all containing a char from the text.
      * This is the same as {@link String#toCharArray()}, but keeps formatting.

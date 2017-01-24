@@ -28,7 +28,7 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public interface Variable {
+public interface StaticVariable {
     String getKey();
 
     Optional<Text> getValue(@Nullable Object player);

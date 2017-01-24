@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.geoip.api;
 
-import bammerbom.ultimatecore.sponge.api.variable.Variable;
+import bammerbom.ultimatecore.sponge.api.variable.StaticVariable;
 import bammerbom.ultimatecore.sponge.modules.geoip.handlers.GeoipHandler;
 import com.maxmind.geoip2.record.Country;
 import org.spongepowered.api.entity.living.player.Player;
@@ -32,7 +32,7 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class GeoipVariable implements Variable {
+public class GeoipVariable implements StaticVariable {
     @Override
     public String getKey() {
         return "%country%";
