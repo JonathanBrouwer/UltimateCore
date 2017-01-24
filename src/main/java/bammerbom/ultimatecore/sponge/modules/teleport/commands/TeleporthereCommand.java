@@ -44,6 +44,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageReceiver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CommandPermissions(level = PermissionLevel.ADMIN)
@@ -52,7 +53,7 @@ public class TeleporthereCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new EntitiesArgument(Text.of("entities"))).onlyOne().build()
+                Arguments.builder(new EntitiesArgument(Text.of("entities"))).build()
         };
     }
 
@@ -61,7 +62,7 @@ public class TeleporthereCommand implements HighPermCommand {
         checkIfPlayer(sender);
         checkPermission(sender, getPermission());
         Player p = (Player) sender;
-        List<Entity> t = args.<List<Entity>>getOne("entities").get();
+        List<Entity> t = new ArrayList<>(args.getAll("entities"));
 
         Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, t, p::getTransform, teleportRequest -> {
             //Complete
