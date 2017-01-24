@@ -67,7 +67,7 @@ public class KickallCommand implements HighCommand {
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         checkPermission(sender, KickPermissions.UC_KICK_KICKALL_BASE);
 
-        Text reason = Text.of(args.<String>getOne("reason").get());
+        Text reason = args.hasAny("reason") ? Text.of(args.getOne("reason")) : Messages.getFormatted(sender, "kick.command.kickall.defaultreason");
 
         for (Player p : Sponge.getServer().getOnlinePlayers()) {
             if (p.getName().equals(sender.getName())) {
