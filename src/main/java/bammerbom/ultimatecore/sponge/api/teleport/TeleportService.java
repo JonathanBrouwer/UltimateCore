@@ -47,7 +47,7 @@ public interface TeleportService {
      * @param instant  Whether the teleportation should be instant or can be delayed by teleport delays, etc
      * @return The teleportation
      */
-    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Transform<World> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe, boolean instant);
+    Teleportation createTeleportation(@Nullable CommandSource source, List<? extends Entity> entities, Transform<World> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe, boolean instant);
 
     /**
      * Create a new teleportation, to teleport the entities to a target.
@@ -61,7 +61,7 @@ public interface TeleportService {
      * @param instant  Whether the teleportation should be instant or can be delayed by teleport delays, etc
      * @return The teleportation
      */
-    Teleportation createTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe, boolean instant);
+    Teleportation createTeleportation(@Nullable CommandSource source, List<? extends Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe, boolean instant);
 
     /**
      * Returns a list of all unfinished teleportations.

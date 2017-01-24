@@ -54,7 +54,7 @@ public class UCTeleportation implements Teleportation {
     private boolean instant;
     private Long createTime;
 
-    public UCTeleportation(@Nullable CommandSource source, List<Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe, boolean instant) {
+    public UCTeleportation(@Nullable CommandSource source, List<? extends Entity> entities, Supplier<Transform<World>> target, Consumer<Teleportation> complete, BiConsumer<Teleportation, String> cancel, boolean safe, boolean instant) {
         this.source = source;
         this.entities = new ArrayList<>();
         entities.forEach(en -> this.entities.add(en.getUniqueId()));

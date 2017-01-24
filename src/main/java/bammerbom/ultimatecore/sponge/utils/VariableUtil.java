@@ -70,7 +70,7 @@ public class VariableUtil {
         }
     }
 
-    public static Text getNamesEntity(List<Entity> ens) {
+    public static Text getNamesEntity(List<? extends Entity> ens) {
         List<Text> texts = new ArrayList<>();
         for (Entity en : ens) {
             texts.add(getNameEntity(en));
