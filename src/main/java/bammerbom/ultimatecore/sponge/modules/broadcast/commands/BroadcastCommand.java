@@ -44,7 +44,7 @@ import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 
 @CommandPermissions(level = PermissionLevel.ADMIN)
-@CommandInfo(module = BroadcastModule.class, aliases = {"broadcast"})
+@CommandInfo(module = BroadcastModule.class, aliases = {"broadcast", "bc"})
 public class BroadcastCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
