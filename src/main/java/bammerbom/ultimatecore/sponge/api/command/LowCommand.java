@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.command;
 
-import bammerbom.ultimatecore.sponge.api.command.impl.UCCommandCallable;
+import bammerbom.ultimatecore.sponge.api.command.impl.LowCommandCallable;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.utils.Messages;
@@ -53,7 +53,7 @@ public interface LowCommand extends Command {
     List<String> getAliases();
 
     default CommandCallable getCallable() {
-        return new UCCommandCallable(this);
+        return new LowCommandCallable(this);
     }
 
     default Text getUsage(@Nullable CommandSource source) {

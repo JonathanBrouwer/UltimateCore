@@ -81,10 +81,7 @@ public class JailCommand implements HighCommand {
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-        if (!sender.hasPermission(JailPermissions.UC_JAIL_JAIL_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+        checkPermission(sender, JailPermissions.UC_JAIL_JAIL_BASE);
 
         //Find player
         UUID suuid = sender instanceof Player ? ((Player) sender).getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000");

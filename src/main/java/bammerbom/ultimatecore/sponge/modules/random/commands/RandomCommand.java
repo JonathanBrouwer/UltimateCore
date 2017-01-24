@@ -66,10 +66,7 @@ public class RandomCommand implements HighCommand {
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-        if (!sender.hasPermission(RandomPermissions.UC_RANDOM_RANDOM_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+        checkPermission(sender, RandomPermissions.UC_RANDOM_RANDOM_BASE);
 
         int min = args.hasAny("second") ? args.<Integer>getOne("first").get() : 1;
         int max = args.hasAny("second") ? args.<Integer>getOne("second").get() : args.<Integer>getOne("first").get();

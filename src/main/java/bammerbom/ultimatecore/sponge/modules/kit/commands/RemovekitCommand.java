@@ -66,10 +66,7 @@ public class RemovekitCommand implements HighCommand {
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-        if (!sender.hasPermission(KitPermissions.UC_KIT_REMOVEKIT_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+        checkPermission(sender, KitPermissions.UC_KIT_REMOVEKIT_BASE);
 
         List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
         Kit kit = args.<Kit>getOne("kit").get();

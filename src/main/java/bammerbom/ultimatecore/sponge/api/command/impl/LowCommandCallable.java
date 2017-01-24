@@ -39,11 +39,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class UCCommandCallable implements CommandCallable {
+public class LowCommandCallable implements CommandCallable {
 
     LowCommand command;
 
-    public UCCommandCallable(LowCommand command) {
+    public LowCommandCallable(LowCommand command) {
         this.command = command;
     }
 

@@ -69,14 +69,6 @@ public class SetgroupspawnCommand implements HighCommand {
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
-        }
-        if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_SETGROUPSPAWN_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
         checkIfPlayer(sender);
         checkPermission(sender, SpawnPermissions.UC_SPAWN_SETGROUPSPAWN_BASE);
         String group = args.<String>getOne("group").get();

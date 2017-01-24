@@ -67,14 +67,9 @@ public class JailtpCommand implements HighCommand {
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer", "%source%", sender.getName()));
-            return CommandResult.empty();
-        }
-        if (!sender.hasPermission(JailPermissions.UC_JAIL_JAILTP_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-            return CommandResult.empty();
-        }
+        checkIfPlayer(sender);
+        checkPermission(sender, JailPermissions.UC_JAIL_JAILTP_BASE);
+
         Player p = (Player) sender;
         Jail jail = args.<Jail>getOne("jail").get();
 

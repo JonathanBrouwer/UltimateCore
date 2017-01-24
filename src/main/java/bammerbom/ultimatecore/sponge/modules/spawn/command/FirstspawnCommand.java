@@ -90,10 +90,6 @@ public class FirstspawnCommand implements HighCommand {
             }, false, false);
             tp.start();
         } else {
-            if (!sender.hasPermission(SpawnPermissions.UC_SPAWN_FIRSTSPAWN_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
-                return CommandResult.empty();
-            }
             checkPermission(sender, SpawnPermissions.UC_SPAWN_FIRSTSPAWN_OTHERS);
             Player t = args.<Player>getOne("player").get();
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc.get(), tel -> {
