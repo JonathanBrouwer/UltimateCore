@@ -58,25 +58,27 @@ public class Arguments {
             ce = new OnlyOneWrapper(ce);
         }
         if (permission != null) {
-            ce = new PermissionWrapper(element, permission);
+            ce = new PermissionWrapper(ce, permission);
         }
         if (repeat > 0) {
-            ce = new RepeatWrapper(element, repeat);
+            ce = new RepeatWrapper(ce, repeat);
         }
         if (usage != null) {
-            ce = new UsageWrapper(element, usage);
+            ce = new UsageWrapper(ce, usage);
         }
         if (usagekey != null) {
-            ce = new UsageKeyWrapper(element, usagekey);
+            ce = new UsageKeyWrapper(ce, usagekey);
         }
         if (remainingArguments) {
-            ce = new RemainingArgumentsWrapper(element, remainingArgumentsAtLeastOnce);
+            ce = new RemainingArgumentsWrapper(ce, remainingArgumentsAtLeastOnce);
         }
         if (optional.equals(ArgOptional.OPTIONAL)) {
-            ce = new OptionalWrapper(element);
+            ce = new OptionalWrapper(ce);
         } else if (optional.equals(ArgOptional.WEAK_OPTIONAL)) {
-            ce = new WeakOptionalWrapper(element);
+            ce = new WeakOptionalWrapper(ce);
         }
+        //This should only show the arguments that match what the player already typed in on tabcomplete
+        ce = new TabcompleteWrapper(ce);
         return ce;
     }
 

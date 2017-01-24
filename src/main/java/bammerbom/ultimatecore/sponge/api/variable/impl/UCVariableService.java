@@ -53,6 +53,9 @@ public class UCVariableService implements VariableService {
         staticVariables.add(new VersionVariable());
         staticVariables.add(new WorldaliasVariable());
         staticVariables.add(new WorldVariable());
+        staticVariables.add(new DeathsVariable());
+        staticVariables.add(new KillsVariable());
+        staticVariables.add(new PlayerkillsVariable());
 
         dynamicVariables.add(new OptionVariable());
     }
