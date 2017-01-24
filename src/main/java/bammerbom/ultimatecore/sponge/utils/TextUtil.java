@@ -66,7 +66,7 @@ public class TextUtil {
         styles.put(TextStyles.STRIKETHROUGH, 'm');
         styles.put(TextStyles.UNDERLINE, 'n');
         styles.put(TextStyles.ITALIC, 'o');
-        styles.put(TextStyles.RESET, 'p');
+        styles.put(TextStyles.RESET, 'r');
     }
 
     public static Character getColorChar(TextColor color) {
