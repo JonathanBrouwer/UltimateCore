@@ -78,8 +78,15 @@ public class TextUtil {
     }
 
     public static Text replaceColors(Text text, Player p, String permissionPrefix) {
-        //TODO use actual text instead of plain text
-        String rawmessage = text.toPlain();
+        Text.Builder builder = Text.builder();
+        for (Text child : getAllChildren(text)) {
+            Text fnl = merge(replaceColors(child.toPlain(), p, permissionPrefix), child);
+            builder.append(fnl);
+        }
+        return builder.toText();
+    }
+
+    public static Text replaceColors(String rawmessage, Player p, String permissionPrefix) {
         for (TextColor color : Sponge.getRegistry().getAllOf(CatalogTypes.TEXT_COLOR)) {
             if (!p.hasPermission(permissionPrefix + ".color." + color.getId().toLowerCase())) {
                 continue;
