@@ -5,6 +5,7 @@ package bammerbom.ultimatecore.sponge.utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.google.inject.Inject;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -617,6 +618,103 @@ public class Metrics {
     }
 
     /**
+     * Represents a custom simple bar chart.
+     */
+    public static abstract class SimpleBarChart extends CustomChart {
+
+        /**
+         * Class constructor.
+         *
+         * @param chartId The id of the chart.
+         */
+        public SimpleBarChart(String chartId) {
+            super(chartId);
+        }
+
+        /**
+         * Gets the value of the chart.
+         *
+         * @param valueMap Just an empty map. The only reason it exists is to make your life easier.
+         *                 You don't have to create a map yourself!
+         * @return The value of the chart.
+         */
+        public abstract HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap);
+
+        @Override
+        protected JsonObject getChartData() {
+            JsonObject data = new JsonObject();
+            JsonObject values = new JsonObject();
+            HashMap<String, Integer> map = getValues(new HashMap<String, Integer>());
+            if (map == null || map.isEmpty()) {
+                // Null = skip the chart
+                return null;
+            }
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                JsonArray categoryValues = new JsonArray();
+                categoryValues.add(new JsonPrimitive(entry.getValue()));
+                values.add(entry.getKey(), categoryValues);
+            }
+            data.add("values", values);
+            return data;
+        }
+
+    }
+
+    /**
+     * Represents a custom advanced bar chart.
+     */
+    public static abstract class AdvancedBarChart extends CustomChart {
+
+        /**
+         * Class constructor.
+         *
+         * @param chartId The id of the chart.
+         */
+        public AdvancedBarChart(String chartId) {
+            super(chartId);
+        }
+
+        /**
+         * Gets the value of the chart.
+         *
+         * @param valueMap Just an empty map. The only reason it exists is to make your life easier.
+         *                 You don't have to create a map yourself!
+         * @return The value of the chart.
+         */
+        public abstract HashMap<String, int[]> getValues(HashMap<String, int[]> valueMap);
+
+        @Override
+        protected JsonObject getChartData() {
+            JsonObject data = new JsonObject();
+            JsonObject values = new JsonObject();
+            HashMap<String, int[]> map = getValues(new HashMap<String, int[]>());
+            if (map == null || map.isEmpty()) {
+                // Null = skip the chart
+                return null;
+            }
+            boolean allSkipped = true;
+            for (Map.Entry<String, int[]> entry : map.entrySet()) {
+                if (entry.getValue().length == 0) {
+                    continue; // Skip this invalid
+                }
+                allSkipped = false;
+                JsonArray categoryValues = new JsonArray();
+                for (int categoryValue : entry.getValue()) {
+                    categoryValues.add(new JsonPrimitive(categoryValue));
+                }
+                values.add(entry.getKey(), categoryValues);
+            }
+            if (allSkipped) {
+                // Null = skip the chart
+                return null;
+            }
+            data.add("values", values);
+            return data;
+        }
+
+    }
+
+    /**
      * Represents a custom simple map chart.
      */
     public static abstract class SimpleMapChart extends CustomChart {
@@ -767,5 +865,4 @@ public class Metrics {
         }
 
     }
-
 }

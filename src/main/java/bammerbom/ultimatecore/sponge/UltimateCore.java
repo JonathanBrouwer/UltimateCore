@@ -212,7 +212,7 @@ public class UltimateCore {
             commandsConfig.postload();
             modulesConfig.postload();
             //Add custom bstats charts
-            metrics.addCustomChart(new Metrics.AdvancedPie("modules") {
+            metrics.addCustomChart(new Metrics.SimpleBarChart("modules") {
                 @Override
                 public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap) {
                     HashMap<String, Integer> modules = new HashMap<>();
