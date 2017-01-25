@@ -61,6 +61,7 @@ public class Teleportaskallhere implements HighPermCommand {
         List<Player> ts = new ArrayList<>(Sponge.getServer().getOnlinePlayers());
 
         for (Player t : ts) {
+            if (t.equals(sender)) continue;
             UUID tpid = UUID.randomUUID();
             Teleportation tel = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), p::getTransform, tele -> {
                 p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.accept", "%player%", t.getName()));

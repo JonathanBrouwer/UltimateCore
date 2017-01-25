@@ -58,16 +58,18 @@ public class TeleportUtil {
         //Select most recent request
         TpaRequest request = null;
         Long time = 0L;
+        //Tpa
         for (TpaRequest req : requests.values()) {
-            if (t == null || (p.getUniqueId() == req.getReceiverUUID() && t.getUniqueId() == req.getAskerUUID())) {
+            if (p.getUniqueId() == req.getReceiverUUID() && (t == null || t.getUniqueId() == req.getAskerUUID())) {
                 if (req.getTeleportation().getCreationTime() > time && req.getTeleportation().getState() == 0) {
                     request = req;
                     time = req.getTeleportation().getCreationTime();
                 }
             }
         }
+        //Tpahere
         for (TpaRequest req : requests2.values()) {
-            if (t == null || (p.getUniqueId() == req.getReceiverUUID() && t.getUniqueId() == req.getAskerUUID())) {
+            if (p.getUniqueId() == req.getReceiverUUID() && (t == null || t.getUniqueId() == req.getAskerUUID())) {
                 if (req.getTeleportation().getCreationTime() > time && req.getTeleportation().getState() == 0) {
                     request = req;
                     time = req.getTeleportation().getCreationTime();
