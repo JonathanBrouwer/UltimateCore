@@ -26,10 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.tablist.runnables;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.tablist.api.TablistPermissions;
-import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.StringUtil;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import bammerbom.ultimatecore.sponge.utils.*;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -37,7 +34,10 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.tab.TabList;
 import org.spongepowered.api.entity.living.player.tab.TabListEntry;
+import org.spongepowered.api.scoreboard.Scoreboard;
+import org.spongepowered.api.scoreboard.Team;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,11 +49,13 @@ public class TablistRunnable implements Runnable {
         ModuleConfig config = Modules.TABLIST.get().getConfig().get();
         boolean enablehf = config.get().getNode("headerfooter", "enable").getBoolean();
         boolean enablenames = config.get().getNode("names", "enable").getBoolean();
+        boolean enableformat = config.get().getNode("names", "enable-format").getBoolean();
+        boolean enableprefixsuffix = config.get().getNode("names", "enable-prefix-suffix").getBoolean();
         if (!enablehf && !enablenames) {
             return;
         }
 
-        HashMap<Player, Text> names = new HashMap<>();
+        HashMap<Player, Tuples.Tri<Text, Text, Text>> names = new HashMap<>();
         if (enablenames) {
             for (Player p : Sponge.getServer().getOnlinePlayers()) {
                 names.put(p, getName(p));
@@ -80,15 +82,35 @@ public class TablistRunnable implements Runnable {
 
             //Names
             if (enablenames) {
-                new ArrayList<>(list.getEntries()).forEach(entry -> list.removeEntry(entry.getProfile().getUniqueId()));
-                names.forEach((player, name) -> list.addEntry(TabListEntry.builder().displayName(name).gameMode(player.gameMode().get()).latency(player.getConnection().getLatency()).list(list).profile(player.getProfile()).build()));
+                //Format
+                if (enableformat) {
+                    new ArrayList<>(list.getEntries()).forEach(entry -> list.removeEntry(entry.getProfile().getUniqueId()));
+                    names.forEach((player, name) -> list.addEntry(TabListEntry.builder().displayName(name.getSecond()).gameMode(player.gameMode().get()).latency(player.getConnection().getLatency()).list(list).profile(player.getProfile()).build()));
+                }
+                //Prefix and suffix
+                Scoreboard board = p.getScoreboard();
+                int teamcount = 0;
+                for (Player t : Sponge.getServer().getOnlinePlayers()) {
+                    String teamname = "uc_" + teamcount++;
+                    if (!board.getTeam(teamname).isPresent()) {
+                        board.registerTeam(Team.builder().name(teamname).build());
+                    }
+                    Team team = board.getTeam(teamname).get();
+                    team.addMember(t.getTeamRepresentation());
+                    team.setPrefix(names.get(t).getFirst());
+                    team.setSuffix(names.get(t).getThird());
+                }
+                p.setScoreboard(board);
             }
         }
     }
 
-    private Text getName(Player p) {
+    //Prefix, name, suffix
+    private Tuples.Tri<Text, Text, Text> getName(Player p) {
         ModuleConfig config = Modules.TABLIST.get().getConfig().get();
         CommentedConfigurationNode node = config.get();
+        Text prefix = Messages.toText(node.getNode("names", "default", "prefix").getString());
+        Text suffix = Messages.toText(node.getNode("names", "default", "suffix").getString());
         Text name = Messages.toText(node.getNode("names", "default", "format").getString());
 
         //Check if the uc.tablist.group property is set, in that case override name.
@@ -96,8 +118,21 @@ public class TablistRunnable implements Runnable {
         if (group != null && !node.getNode("names", "groups", group).isVirtual()) {
             CommentedConfigurationNode subnode = node.getNode("names", "groups", group);
             name = Messages.toText(subnode.getNode("format").getString());
+            prefix = Messages.toText(subnode.getNode("prefix").getString());
+            suffix = Messages.toText(subnode.getNode("suffix").getString());
         }
 
-        return VariableUtil.replaceVariables(name, p);
+        //Max length check for prefix & suffix
+        if (TextSerializers.FORMATTING_CODE.serialize(prefix).length() > 16) {
+            prefix = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(prefix).substring(0, 16));
+        }
+        if (TextSerializers.FORMATTING_CODE.serialize(suffix).length() > 16) {
+            suffix = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(suffix).substring(0, 16));
+        }
+
+        prefix = VariableUtil.replaceVariables(prefix, p);
+        suffix = VariableUtil.replaceVariables(suffix, p);
+        name = VariableUtil.replaceVariables(name, p);
+        return Tuples.of(prefix, name, suffix);
     }
 }
