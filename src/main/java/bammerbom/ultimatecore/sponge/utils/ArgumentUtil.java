@@ -23,6 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.utils;
 
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.data.key.Key;
+
+import java.util.Optional;
+
 public class ArgumentUtil {
     public static boolean isInteger(String arg) {
         try {
@@ -53,5 +58,14 @@ public class ArgumentUtil {
 
     public static boolean isBoolean(String arg) {
         return arg.equalsIgnoreCase("true") || arg.equalsIgnoreCase("false");
+    }
+
+    public static Optional<Key> getKeyById(String id) {
+        for (Key key : Sponge.getRegistry().getAllOf(Key.class)) {
+            if (key.getId().equalsIgnoreCase(id) || key.getId().equalsIgnoreCase("sponge:" + id)) {
+                return Optional.of(key);
+            }
+        }
+        return Optional.empty();
     }
 }

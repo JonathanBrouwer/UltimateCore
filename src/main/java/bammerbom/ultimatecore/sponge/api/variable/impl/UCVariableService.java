@@ -58,6 +58,8 @@ public class UCVariableService implements VariableService {
         staticVariables.add(new PlayerkillsVariable());
 
         dynamicVariables.add(new OptionVariable());
+        dynamicVariables.add(new StatVariable());
+        dynamicVariables.add(new KeyVariable());
     }
 
     @Override
