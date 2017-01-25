@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.api.command.argument.arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.Selector;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
@@ -35,7 +36,6 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,10 +59,6 @@ public class EntityArgument extends UCommandElement {
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        if (src instanceof Player) {
-            return ((Player) src).getWorld().getEntities().stream().map(en -> en.getUniqueId().toString()).collect(Collectors.toList());
-        } else {
-            return new ArrayList<>();
-        }
+        return Sponge.getServer().getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
     }
 }
