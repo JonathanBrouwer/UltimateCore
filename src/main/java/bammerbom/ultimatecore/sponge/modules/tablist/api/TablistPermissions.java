@@ -28,4 +28,6 @@ import org.spongepowered.api.text.Text;
 
 public class TablistPermissions {
     public static PermissionOption UC_TABLIST_GROUP = PermissionOption.create("uc.tablist.group", "tablist", null, null, Text.of("Which section in the config is used for tablist formatting."));
+
+    public static PermissionOption UC_TABLIST_WEIGHT = PermissionOption.create("uc.tablist.weight", "tablist", null, "0", Text.of("Used to sort players in the tablist."));
 }

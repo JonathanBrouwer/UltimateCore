@@ -40,7 +40,8 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class TablistRunnable implements Runnable {
 
@@ -54,11 +55,24 @@ public class TablistRunnable implements Runnable {
             return;
         }
 
-        HashMap<Player, Tuples.Tri<Text, Text, Text>> names = new HashMap<>();
+        LinkedHashMap<Player, Tuples.Tri<Text, Text, Text>> names = new LinkedHashMap<>();
         if (enablenames) {
+            //Get all values and put them in a temporary map
+            LinkedHashMap<Player, Tuples.Tri<Text, Text, Text>> tempnames = new LinkedHashMap<>();
             for (Player p : Sponge.getServer().getOnlinePlayers()) {
                 names.put(p, getDetails(p));
             }
+
+            //Sort map by weight
+            List<Player> nameslist = new ArrayList<>(tempnames.keySet());
+            nameslist.sort((p1, p2) -> {
+                Integer weight1 = TablistPermissions.UC_TABLIST_WEIGHT.getIntFor(p1);
+                Integer weight2 = TablistPermissions.UC_TABLIST_WEIGHT.getIntFor(p2);
+                return weight1.compareTo(weight2);
+            });
+
+            //Add to global list
+            nameslist.forEach(name -> names.put(name, tempnames.get(name)));
         }
 
         String header;
