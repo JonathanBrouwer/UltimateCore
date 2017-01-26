@@ -45,7 +45,7 @@ public class KeyVariable implements DynamicVariable {
                         String keyid = var.replace("%", "").split(":")[1];
                         //Error will get handled in catch
                         Key key = ArgumentUtil.getKeyById(keyid).get();
-                        String value = p.get(key).get().toString();
+                        String value = p.get(key).get().toString().toLowerCase();
                         text = TextUtil.replace(text, var, Messages.toText(value));
                     } catch (Exception ex) {
                         text = TextUtil.replace(text, var, Text.of());
