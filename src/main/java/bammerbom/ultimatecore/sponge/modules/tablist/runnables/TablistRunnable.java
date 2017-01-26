@@ -49,8 +49,7 @@ public class TablistRunnable implements Runnable {
         ModuleConfig config = Modules.TABLIST.get().getConfig().get();
         boolean enablehf = config.get().getNode("headerfooter", "enable").getBoolean();
         boolean enablenames = config.get().getNode("names", "enable").getBoolean();
-        boolean enableformat = config.get().getNode("names", "enable-format").getBoolean();
-        boolean enableprefixsuffix = config.get().getNode("names", "enable-prefix-suffix").getBoolean();
+        boolean compatibility = config.get().getNode("names", "compatibility-mode").getBoolean();
         if (!enablehf && !enablenames) {
             return;
         }
@@ -58,7 +57,7 @@ public class TablistRunnable implements Runnable {
         HashMap<Player, Tuples.Tri<Text, Text, Text>> names = new HashMap<>();
         if (enablenames) {
             for (Player p : Sponge.getServer().getOnlinePlayers()) {
-                names.put(p, getName(p));
+                names.put(p, getDetails(p));
             }
         }
 
@@ -82,31 +81,32 @@ public class TablistRunnable implements Runnable {
 
             //Names
             if (enablenames) {
-                //Format
-                if (enableformat) {
+                if (!compatibility) {
+                    //No compatibility, just update the tablist
                     new ArrayList<>(list.getEntries()).forEach(entry -> list.removeEntry(entry.getProfile().getUniqueId()));
-                    names.forEach((player, name) -> list.addEntry(TabListEntry.builder().displayName(name.getSecond()).gameMode(player.gameMode().get()).latency(player.getConnection().getLatency()).list(list).profile(player.getProfile()).build()));
-                }
-                //Prefix and suffix
-                Scoreboard board = p.getScoreboard();
-                int teamcount = 0;
-                for (Player t : Sponge.getServer().getOnlinePlayers()) {
-                    String teamname = "uc_" + teamcount++;
-                    if (!board.getTeam(teamname).isPresent()) {
-                        board.registerTeam(Team.builder().name(teamname).build());
+                    names.forEach((player, name) -> list.addEntry(TabListEntry.builder().displayName(Text.of(name.getFirst(), name.getSecond(), name.getThird())).gameMode(player.gameMode().get()).latency(player.getConnection().getLatency()).list(list).profile(player.getProfile()).build()));
+                } else {
+                    //Compatibility, use scoreboard instead
+                    Scoreboard board = p.getScoreboard();
+                    int teamcount = 0;
+                    for (Player t : Sponge.getServer().getOnlinePlayers()) {
+                        String teamname = "uc_" + teamcount++;
+                        if (!board.getTeam(teamname).isPresent()) {
+                            board.registerTeam(Team.builder().name(teamname).build());
+                        }
+                        Team team = board.getTeam(teamname).get();
+                        team.addMember(t.getTeamRepresentation());
+                        team.setPrefix(names.get(t).getFirst());
+                        team.setSuffix(names.get(t).getThird());
                     }
-                    Team team = board.getTeam(teamname).get();
-                    team.addMember(t.getTeamRepresentation());
-                    team.setPrefix(names.get(t).getFirst());
-                    team.setSuffix(names.get(t).getThird());
+                    p.setScoreboard(board);
                 }
-                p.setScoreboard(board);
             }
         }
     }
 
     //Prefix, name, suffix
-    private Tuples.Tri<Text, Text, Text> getName(Player p) {
+    private Tuples.Tri<Text, Text, Text> getDetails(Player p) {
         ModuleConfig config = Modules.TABLIST.get().getConfig().get();
         CommentedConfigurationNode node = config.get();
         Text prefix = Messages.toText(node.getNode("names", "default", "prefix").getString());
@@ -121,6 +121,9 @@ public class TablistRunnable implements Runnable {
             prefix = Messages.toText(subnode.getNode("prefix").getString());
             suffix = Messages.toText(subnode.getNode("suffix").getString());
         }
+
+        //Afk suffix
+
 
         //Max length check for prefix & suffix
         if (TextSerializers.FORMATTING_CODE.serialize(prefix).length() > 16) {

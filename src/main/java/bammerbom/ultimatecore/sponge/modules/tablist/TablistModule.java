@@ -38,6 +38,7 @@ import java.util.Optional;
 
 public class TablistModule implements Module {
     ModuleConfig config;
+    TablistRunnable runnable;
 
     @Override
     public String getIdentifier() {
@@ -63,7 +64,9 @@ public class TablistModule implements Module {
     public void onInit(GameInitializationEvent event) {
         config = new RawModuleConfig("tablist");
         int delay = config.get().getNode("refresh").getInt();
-        Sponge.getScheduler().createTaskBuilder().execute(new TablistRunnable()).name("UltimateCore tablist task").delayTicks(delay).intervalTicks(delay).submit(UltimateCore.get());
+        runnable = new TablistRunnable();
+        Sponge.getScheduler().createTaskBuilder().execute(runnable).name("UltimateCore tablist task").delayTicks(delay).intervalTicks(delay).submit(UltimateCore.get());
+        Sponge.getEventManager().registerListeners(UltimateCore.get(), new TablistRunnable());
     }
 
     @Override
@@ -74,5 +77,9 @@ public class TablistModule implements Module {
     @Override
     public void onStop(GameStoppingEvent event) {
 
+    }
+
+    public TablistRunnable getRunnable() {
+        return runnable;
     }
 }
