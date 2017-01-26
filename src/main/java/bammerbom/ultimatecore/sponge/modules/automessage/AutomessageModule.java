@@ -32,9 +32,8 @@ import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
@@ -60,11 +59,6 @@ public class AutomessageModule implements Module {
     }
 
     @Override
-    public void onRegister() {
-
-    }
-
-    @Override
     public void onInit(GameInitializationEvent event) {
         //Config
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Automessage.class), new AutomessageSerializer());
@@ -80,12 +74,14 @@ public class AutomessageModule implements Module {
     }
 
     @Override
-    public void onPostInit(GamePostInitializationEvent event) {
-
-    }
-
-    @Override
-    public void onStop(GameStoppingEvent event) {
-
+    public void onReload(GameReloadEvent event) {
+        //Runnables
+        try {
+            for (Automessage message : config.get().getNode("automessages").getList(TypeToken.of(Automessage.class))) {
+                message.start();
+            }
+        } catch (ObjectMappingException e) {
+            ErrorLogger.log(e, "Failed to load automessages from config.");
+        }
     }
 }

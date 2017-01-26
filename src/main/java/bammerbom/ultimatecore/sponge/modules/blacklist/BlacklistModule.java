@@ -33,9 +33,8 @@ import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockType;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.text.Text;
 
@@ -57,11 +56,6 @@ public class BlacklistModule implements Module {
     @Override
     public Optional<ModuleConfig> getConfig() {
         return Optional.of(config);
-    }
-
-    @Override
-    public void onRegister() {
-
     }
 
     @Override
@@ -110,12 +104,42 @@ public class BlacklistModule implements Module {
     }
 
     @Override
-    public void onPostInit(GamePostInitializationEvent event) {
+    public void onReload(GameReloadEvent event) {
+        //Runnables
+        CommentedConfigurationNode node = config.get();
+        for (ItemType type : Sponge.getRegistry().getAllOf(CatalogTypes.ITEM_TYPE)) {
+            if (!node.getNode("items", type.getId()).isVirtual()) {
+                continue;
+            }
+            node.getNode("items", type.getId(), "deny-use").setComment("Deny right-clicking with the item in your hand.");
+            node.getNode("items", type.getId(), "deny-use").setValue(false);
+            node.getNode("items", type.getId(), "deny-possession").setComment("Deny having the item in your inventory.");
+            node.getNode("items", type.getId(), "deny-possession").setValue(false);
+            node.getNode("items", type.getId(), "deny-drop").setComment("Deny dropping the item.");
+            node.getNode("items", type.getId(), "deny-drop").setValue(false);
+            node.getNode("items", type.getId(), "deny-pickup").setComment("Deny picking up the item.");
+            node.getNode("items", type.getId(), "deny-pickup").setValue(false);
 
-    }
+            node.getNode("items", type.getId(), "replace").setComment("If true, replaces the item with the item in 'replace-with'.");
+            node.getNode("items", type.getId(), "replace").setValue(false);
+            node.getNode("items", type.getId(), "replace-with").setComment("If 'replace-with' is true, replaces the item with this item.");
+            node.getNode("items", type.getId(), "replace-with").setValue("minecraft:dirt");
 
-    @Override
-    public void onStop(GameStoppingEvent event) {
+        }
+        for (BlockType type : Sponge.getRegistry().getAllOf(CatalogTypes.BLOCK_TYPE)) {
+            if (!node.getNode("blocks", type.getId()).isVirtual()) {
+                continue;
+            }
+            node.getNode("blocks", type.getId(), "deny-place").setComment("Deny placing the block on the ground.");
+            node.getNode("blocks", type.getId(), "deny-place").setValue(false);
+            node.getNode("blocks", type.getId(), "deny-break").setComment("Deny breaking the block.");
+            node.getNode("blocks", type.getId(), "deny-break").setValue(false);
 
+//            node.getNode("blocks", type.getId(), "replace").setComment("If true, replaces the block with the block in 'replace-with'.");
+//            node.getNode("blocks", type.getId(), "replace").setValue(false);
+//            node.getNode("blocks", type.getId(), "replace-with").setComment("If 'replace-with' is true, replaces the block with this block.");
+//            node.getNode("blocks", type.getId(), "replace-with").setValue("minecraft:dirt");
+        }
+        config.save(node);
     }
 }
