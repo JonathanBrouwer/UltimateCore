@@ -60,7 +60,7 @@ public class TablistRunnable implements Runnable {
             //Get all values and put them in a temporary map
             LinkedHashMap<Player, Tuples.Tri<Text, Text, Text>> tempnames = new LinkedHashMap<>();
             for (Player p : Sponge.getServer().getOnlinePlayers()) {
-                names.put(p, getDetails(p));
+                tempnames.put(p, getDetails(p));
             }
 
             //Sort map by weight
