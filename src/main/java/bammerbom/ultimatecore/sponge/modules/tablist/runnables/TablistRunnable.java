@@ -23,8 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.modules.tablist.runnables;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.tablist.api.TablistPermissions;
 import bammerbom.ultimatecore.sponge.utils.*;
 import com.google.common.reflect.TypeToken;
@@ -137,7 +140,13 @@ public class TablistRunnable implements Runnable {
         }
 
         //Afk suffix
-
+        if (Modules.AFK.isPresent()) {
+            UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+            if (up.get(AfkKeys.IS_AFK).get()) {
+                Text afksuffix = Messages.toText(config.get().getNode("afk-suffix").getString());
+                suffix = Text.of(suffix, afksuffix);
+            }
+        }
 
         //Max length check for prefix & suffix
         if (TextSerializers.FORMATTING_CODE.serialize(prefix).length() > 16) {
