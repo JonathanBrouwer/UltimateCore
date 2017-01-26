@@ -33,8 +33,10 @@ import org.spongepowered.api.event.network.ClientConnectionEvent;
 public class TablistListener {
     @Listener
     public void onJoin(ClientConnectionEvent.Join event) {
-        TablistModule module = (TablistModule) Modules.TABLIST.get();
-        module.getRunnable().run();
+        Sponge.getScheduler().createTaskBuilder().delayTicks(10L).execute(() -> {
+            TablistModule module = (TablistModule) Modules.TABLIST.get();
+            module.getRunnable().run();
+        }).submit(UltimateCore.get());
     }
 
     @Listener
