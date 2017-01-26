@@ -56,6 +56,7 @@ public class UCVariableService implements VariableService {
         staticVariables.add(new DeathsVariable());
         staticVariables.add(new KillsVariable());
         staticVariables.add(new PlayerkillsVariable());
+        staticVariables.add(new UniqueplayercountVariable());
 
         dynamicVariables.add(new OptionVariable());
         dynamicVariables.add(new StatVariable());
