@@ -29,6 +29,9 @@ import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyPermissions;
 import bammerbom.ultimatecore.sponge.modules.fly.commands.FlyCommand;
+import bammerbom.ultimatecore.sponge.modules.fly.commands.FlyspeedCommand;
+import bammerbom.ultimatecore.sponge.modules.fly.commands.SpeedCommand;
+import bammerbom.ultimatecore.sponge.modules.fly.commands.WalkspeedCommand;
 import bammerbom.ultimatecore.sponge.modules.fly.listeners.FlyListeners;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -67,6 +70,10 @@ public class FlyModule implements Module {
         config = new RawModuleConfig("fly");
         //Commands
         UltimateCore.get().getCommandService().register(new FlyCommand());
+        UltimateCore.get().getCommandService().register(new FlyspeedCommand());
+        UltimateCore.get().getCommandService().register(new WalkspeedCommand());
+        UltimateCore.get().getCommandService().register(new SpeedCommand());
+
         //Listeners
         if (config.get().getNode("enable-autofly").getBoolean(false)) {
             Sponge.getEventManager().registerListeners(UltimateCore.get(), new FlyListeners());
