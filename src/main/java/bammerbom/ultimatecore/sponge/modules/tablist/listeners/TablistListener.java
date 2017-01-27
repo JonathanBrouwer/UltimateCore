@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.tablist.listeners;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.modules.tablist.TablistModule;
+import bammerbom.ultimatecore.sponge.modules.tablist.runnables.NamesHandler;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
@@ -33,17 +34,20 @@ import org.spongepowered.api.event.network.ClientConnectionEvent;
 public class TablistListener {
     @Listener
     public void onJoin(ClientConnectionEvent.Join event) {
-        Sponge.getScheduler().createTaskBuilder().delayTicks(10L).execute(() -> {
+        Sponge.getScheduler().createTaskBuilder().delayTicks(20L).execute(() -> {
             TablistModule module = (TablistModule) Modules.TABLIST.get();
-            module.getRunnable().run();
+            NamesHandler runnable = module.getRunnable();
+            runnable.update();
         }).submit(UltimateCore.get());
     }
 
     @Listener
     public void onQuit(ClientConnectionEvent.Disconnect event) {
-        Sponge.getScheduler().createTaskBuilder().delayTicks(10L).execute(() -> {
-            TablistModule module = (TablistModule) Modules.TABLIST.get();
-            module.getRunnable().run();
+        TablistModule module = (TablistModule) Modules.TABLIST.get();
+        NamesHandler runnable = module.getRunnable();
+        runnable.removeCache(event.getTargetEntity().getUniqueId());
+        Sponge.getScheduler().createTaskBuilder().delayTicks(20L).execute(() -> {
+            runnable.update();
         }).submit(UltimateCore.get());
     }
 }

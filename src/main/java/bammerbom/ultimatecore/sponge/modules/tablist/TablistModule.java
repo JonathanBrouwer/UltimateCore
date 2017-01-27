@@ -27,7 +27,8 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
-import bammerbom.ultimatecore.sponge.modules.tablist.runnables.TablistRunnable;
+import bammerbom.ultimatecore.sponge.modules.tablist.listeners.TablistListener;
+import bammerbom.ultimatecore.sponge.modules.tablist.runnables.NamesHandler;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -38,7 +39,7 @@ import java.util.Optional;
 
 public class TablistModule implements Module {
     ModuleConfig config;
-    TablistRunnable runnable;
+    NamesHandler runnable;
 
     @Override
     public String getIdentifier() {
@@ -64,9 +65,9 @@ public class TablistModule implements Module {
     public void onInit(GameInitializationEvent event) {
         config = new RawModuleConfig("tablist");
         int delay = config.get().getNode("refresh").getInt();
-        runnable = new TablistRunnable();
-        Sponge.getScheduler().createTaskBuilder().execute(runnable).name("UltimateCore tablist task").delayTicks(delay).intervalTicks(delay).submit(UltimateCore.get());
-        Sponge.getEventManager().registerListeners(UltimateCore.get(), new TablistRunnable());
+        runnable = new NamesHandler();
+        Sponge.getScheduler().createTaskBuilder().execute(runnable::update).name("UltimateCore tablist task").delayTicks(delay).intervalTicks(delay).submit(UltimateCore.get());
+        Sponge.getEventManager().registerListeners(UltimateCore.get(), new TablistListener());
     }
 
     @Override
@@ -79,7 +80,7 @@ public class TablistModule implements Module {
 
     }
 
-    public TablistRunnable getRunnable() {
+    public NamesHandler getRunnable() {
         return runnable;
     }
 }
