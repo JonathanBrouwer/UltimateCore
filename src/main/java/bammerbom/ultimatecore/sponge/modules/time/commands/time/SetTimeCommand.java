@@ -49,28 +49,25 @@ public class SetTimeCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new BoundedIntegerArgument(Text.of("time"), 0, null)).onlyOne().optionalWeak().build()
+                Arguments.builder(new BoundedIntegerArgument(Text.of("time"), 0, null)).optional().onlyOne().build()
         };
     }
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-        if (args.hasAny("time")) {
-            checkPermission(sender, TimePermissions.UC_TIME_TIME_TICKS);
+        checkPermission(sender, TimePermissions.UC_TIME_TIME_TICKS);
 
-            World world;
-            if (!args.hasAny("world")) {
-                checkIfPlayer(sender);
-                world = ((Player) sender).getWorld();
-            } else {
-                world = args.<World>getOne("world").get();
-            }
-
-            Integer ticks = args.<Integer>getOne("time").get();
-            world.getProperties().setWorldTime(ticks);
-            sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.ticks", "%ticks%", ticks));
-            return CommandResult.success();
+        World world;
+        if (!args.hasAny("world")) {
+            checkIfPlayer(sender);
+            world = ((Player) sender).getWorld();
+        } else {
+            world = args.<World>getOne("world").get();
         }
-        throw new CommandException(getUsage(sender), false);
+
+        Integer ticks = args.<Integer>getOne("time").get();
+        world.getProperties().setWorldTime(ticks);
+        sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.ticks", "%ticks%", ticks));
+        return CommandResult.success();
     }
 }

@@ -47,7 +47,7 @@ public class TimeCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new BoundedIntegerArgument(Text.of("time"), 0, null)).onlyOne().optionalWeak().build()
+                Arguments.builder(new BoundedIntegerArgument(Text.of("time"), 0, null)).optionalWeak().onlyOne().build()
         };
     }
 
