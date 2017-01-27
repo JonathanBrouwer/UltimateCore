@@ -63,10 +63,10 @@ public class TeleportallCommand implements HighPermCommand {
 
         Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, t, p::getTransform, teleportRequest -> {
             //Complete
-            p.sendMessage(Messages.getFormatted("teleport.command.teleportall.success.self", "%player%", VariableUtil.getNamesEntity(t)));
+            p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportall.success.self", "%player%", VariableUtil.getNamesEntity(t)));
             for (Player tt : t) {
                 if (tt.equals(sender)) continue;
-                tt.sendMessage(Messages.getFormatted("teleport.command.teleportall.success.others", "%player%", VariableUtil.getNameEntity(p)));
+                tt.sendMessage(Messages.getFormatted(t, "teleport.command.teleportall.success.others", "%player%", VariableUtil.getNameEntity(p)));
             }
         }, (teleportRequest, reason) -> {
         }, true, false);

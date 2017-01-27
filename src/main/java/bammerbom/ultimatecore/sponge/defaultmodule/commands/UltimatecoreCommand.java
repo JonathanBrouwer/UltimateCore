@@ -184,7 +184,7 @@ public class UltimatecoreCommand implements HighPermCommand {
         public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
             checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             UltimateCore.get().onReload(null);
-            sender.sendMessage(Messages.getFormatted("default.command.ultimatecore.reload.success"));
+            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.reload.success"));
             return CommandResult.success();
         }
     }

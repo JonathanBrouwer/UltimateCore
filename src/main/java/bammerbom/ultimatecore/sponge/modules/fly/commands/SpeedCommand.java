@@ -74,12 +74,12 @@ public class SpeedCommand implements HighPermCommand {
             Player t = args.<Player>getOne("player").get();
             if (t.get(Keys.IS_FLYING).orElse(false)) {
                 t.offer(Keys.FLYING_SPEED, speed / flymultiplier);
-                sender.sendMessage(Messages.getFormatted("fly.command.flyspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed));
-                t.sendMessage(Messages.getFormatted("fly.command.flyspeed.success.others.self", "%player%", VariableUtil.getNameSource(sender), "%speed%", speed));
+                sender.sendMessage(Messages.getFormatted(sender, "fly.command.flyspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed));
+                t.sendMessage(Messages.getFormatted(t, "fly.command.flyspeed.success.others.self", "%player%", VariableUtil.getNameSource(sender), "%speed%", speed));
             } else {
                 t.offer(Keys.WALKING_SPEED, speed / walkmultiplier);
-                sender.sendMessage(Messages.getFormatted("fly.command.walkspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed));
-                t.sendMessage(Messages.getFormatted("fly.command.walkspeed.success.others.self", "%player%", VariableUtil.getNameSource(sender), "%speed%", speed));
+                sender.sendMessage(Messages.getFormatted(sender, "fly.command.walkspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed));
+                t.sendMessage(Messages.getFormatted(t, "fly.command.walkspeed.success.others.self", "%player%", VariableUtil.getNameSource(sender), "%speed%", speed));
             }
             return CommandResult.success();
         }
