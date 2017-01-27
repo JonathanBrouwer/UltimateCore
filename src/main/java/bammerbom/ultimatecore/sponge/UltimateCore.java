@@ -169,7 +169,7 @@ public class UltimateCore {
             time = System.currentTimeMillis() - time;
             Messages.log(Messages.getFormatted("core.load.preinit", "%ms%", time));
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to pre-initialize UltimateCore");
+            ex.printStackTrace();
         }
     }
 

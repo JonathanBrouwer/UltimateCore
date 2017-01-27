@@ -34,6 +34,7 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 
 import javax.annotation.Nullable;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -109,6 +110,28 @@ public class Messages {
                     Messages.log("Added missing key " + key + "=" + lmap.get(key) + " to language file " + lang);
                 }
             }
+
+            //Copy keys from english file
+            for (String key : EN_US.keySet()) {
+                if (!map.containsKey(key)) {
+                    map.put(key, EN_US.get(key));
+                    prop.put(key, EN_US.get(key));
+                    missing = true;
+                    Messages.log("Added missing english key " + key + "=" + EN_US.get(key) + " to language file " + lang);
+                }
+            }
+
+            if (!lang.equalsIgnoreCase("EN_US")) {
+                for (String key : new ArrayList<>(map.keySet())) {
+                    if (!EN_US.containsKey(key)) {
+                        map.remove(key);
+                        prop.remove(key);
+                        missing = true;
+                        Messages.log("Removed unused key " + key + " from language file " + lang);
+                    }
+                }
+            }
+
             if (missing) {
                 FileOutputStream ostream = new FileOutputStream(file);
                 prop.store(ostream, "UltimateCore language file - " + lang);
