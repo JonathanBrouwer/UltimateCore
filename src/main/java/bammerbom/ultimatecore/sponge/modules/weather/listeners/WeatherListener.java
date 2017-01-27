@@ -23,13 +23,30 @@
  */
 package bammerbom.ultimatecore.sponge.modules.weather.listeners;
 
+import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import com.google.common.reflect.TypeToken;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.world.ChangeWorldWeatherEvent;
+import org.spongepowered.api.world.weather.Weathers;
+
+import java.util.List;
 
 public class WeatherListener {
     @Listener
     public void onWeatherChange(ChangeWorldWeatherEvent event) {
-        //TODO wait for cause impl
+        ModuleConfig config = Modules.WEATHER.get().getConfig().get();
+        try {
+            List<String> worlds = config.get().getNode("lockweather").getList(TypeToken.of(String.class));
+            if (worlds.contains(event.getTargetWorld().getName()) || worlds.contains(event.getTargetWorld().getUniqueId().toString())) {
+                event.setWeather(Weathers.CLEAR);
+                event.setDuration(72000);
+            }
+        } catch (ObjectMappingException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
