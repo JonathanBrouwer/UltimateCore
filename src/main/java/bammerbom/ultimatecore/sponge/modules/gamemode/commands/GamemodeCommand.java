@@ -99,8 +99,8 @@ public class GamemodeCommand implements HighCommand {
                 checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_SPECTATOR);
             }
             t.offer(Keys.GAME_MODE, gm);
-            t.sendMessage(Messages.getFormatted(t, "gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", gm.getName()));
-            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", t.getName(), "%gamemode%", gm.getName()));
+            t.sendMessage(Messages.getFormatted(t, "gamemode.command.gamemode.success.others", "%sender%", sender, "%gamemode%", gm.getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", t, "%gamemode%", gm.getName()));
             return CommandResult.success();
         }
     }

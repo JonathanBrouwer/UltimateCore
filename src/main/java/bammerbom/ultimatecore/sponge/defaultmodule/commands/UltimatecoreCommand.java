@@ -113,7 +113,7 @@ public class UltimatecoreCommand implements HighPermCommand {
             PlayerDataFile file = new PlayerDataFile(user.getIdentifier());
             //Delete the user's file
             file.getFile().delete();
-            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.resetuser.success", "%player%", t.getName()));
+            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.resetuser.success", "%player%", t));
             return CommandResult.success();
         }
     }

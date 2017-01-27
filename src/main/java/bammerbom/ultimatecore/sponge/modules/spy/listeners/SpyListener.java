@@ -61,7 +61,7 @@ public class SpyListener {
                 if (!UltimateCore.get().getUserService().getUser(p).get(SpyKeys.MESSAGESPY_ENABLED).get()) {
                     continue;
                 }
-                p.sendMessage(Messages.getFormatted(p, "spy.format.messagespy", "%player%", VariableUtil.getNameSource(s), "%target%", VariableUtil.getNameSource(t), "%message%", ev.getPMUnformattedMessage()));
+                p.sendMessage(Messages.getFormatted(p, "spy.format.messagespy", "%player%", s, "%target%", t, "%message%", ev.getPMUnformattedMessage()));
             }
         }
     }

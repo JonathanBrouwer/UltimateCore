@@ -90,8 +90,8 @@ public class SethealthCommand implements HighCommand {
             }
             t.offer(Keys.HEALTH, health);
 
-            sender.sendMessage(Messages.getFormatted(sender, "heal.command.sethealth.success.self", "%target%", t.getName(), "%health%", health));
-            t.sendMessage(Messages.getFormatted(t, "heal.command.sethealth.success.others", "%player%", sender.getName(), "%health%", health));
+            sender.sendMessage(Messages.getFormatted(sender, "heal.command.sethealth.success.self", "%target%", t, "%health%", health));
+            t.sendMessage(Messages.getFormatted(t, "heal.command.sethealth.success.others", "%player%", sender, "%health%", health));
             return CommandResult.success();
         }
     }

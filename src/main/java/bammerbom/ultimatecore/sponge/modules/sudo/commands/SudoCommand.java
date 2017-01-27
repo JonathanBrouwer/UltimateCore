@@ -83,7 +83,7 @@ public class SudoCommand implements HighCommand {
             try {
                 if (Sponge.getCommandManager().process(sender, message.replaceFirst("/", "")).getSuccessCount().orElse(0) >= 1) {
                     //Success
-                    sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.command.success", "%target%", t.getName(), "%command%", message));
+                    sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.command.success", "%target%", t, "%command%", message));
                 } else {
                     //Failed
                     sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.command.failed"));
@@ -95,11 +95,11 @@ public class SudoCommand implements HighCommand {
         } else {
             //CHAT
             checkPermission(sender, SudoPermissions.UC_SUDO_SUDO_CHAT);
-            MessageChannelEvent.Chat event = SpongeEventFactory.createMessageChannelEventChat(Cause.source(t).named(NamedCause.notifier(sender)).build(), t.getMessageChannel(), Optional.of(t.getMessageChannel()), new MessageEvent.MessageFormatter(Text.of(t.getName()), Text.of(message)), Text.of(message), false);
+            MessageChannelEvent.Chat event = SpongeEventFactory.createMessageChannelEventChat(Cause.source(t).named(NamedCause.notifier(sender)).build(), t.getMessageChannel(), Optional.of(t.getMessageChannel()), new MessageEvent.MessageFormatter(Text.of(t), Text.of(message)), Text.of(message), false);
             if (!Sponge.getEventManager().post(event)) {
                 //Success
                 t.getMessageChannel().send(t, event.getMessage(), ChatTypes.CHAT);
-                sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.chat.success", "%target%", t.getName(), "%message%", message));
+                sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.chat.success", "%target%", t, "%message%", message));
             } else {
                 //Failed
                 sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.chat.failed"));

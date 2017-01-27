@@ -36,7 +36,6 @@ import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -90,7 +89,7 @@ public class GroupspawnCommand implements HighCommand {
             //Null check
             if (group == null || !spawns.containsKey(group)) {
                 if (!args.hasAny("group")) {
-                    sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.nogroup", "%player%", VariableUtil.getNameSource(p)));
+                    sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.nogroup", "%player%", p));
                 } else {
                     sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.noplayerorgroup", "%arg%", group));
                 }
@@ -116,7 +115,7 @@ public class GroupspawnCommand implements HighCommand {
             //Null check
             if (group == null || !spawns.containsKey(group)) {
                 if (!args.hasAny("group")) {
-                    sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.nogroup", "%player%", VariableUtil.getNameSource(t)));
+                    sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.nogroup", "%player%", t));
                 } else {
                     sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.noplayerorgroup", "%arg%", group));
                 }
@@ -126,8 +125,8 @@ public class GroupspawnCommand implements HighCommand {
             //Teleport
             Transform<World> loc = spawns.get(group);
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
-                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.success.others.self", "%player%", VariableUtil.getNameSource(t), "%group%", group));
-                t.sendMessage(Messages.getFormatted(t, "spawn.command.groupspawn.success.others.others", "%player%", VariableUtil.getNameSource(sender), "%group%", group));
+                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.success.others.self", "%player%", t, "%group%", group));
+                t.sendMessage(Messages.getFormatted(t, "spawn.command.groupspawn.success.others.others", "%player%", sender, "%group%", group));
             }, (tel, reason) -> {
             }, false, false);
             tp.start();

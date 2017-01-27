@@ -78,8 +78,8 @@ public class AdventureCommand implements HighCommand {
             checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_ADVENTURE);
             Player t = args.<Player>getOne("player").get();
             t.offer(Keys.GAME_MODE, GameModes.ADVENTURE);
-            t.sendMessage(Messages.getFormatted(t, "gamemode.command.gamemode.success.others", "%sender%", sender.getName(), "%gamemode%", "adventure"));
-            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", t.getName(), "%gamemode%", "adventure"));
+            t.sendMessage(Messages.getFormatted(t, "gamemode.command.gamemode.success.others", "%sender%", sender, "%gamemode%", "adventure"));
+            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", t, "%gamemode%", "adventure"));
             return CommandResult.success();
         }
     }

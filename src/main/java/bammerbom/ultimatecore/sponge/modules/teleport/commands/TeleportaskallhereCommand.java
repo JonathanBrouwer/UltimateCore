@@ -34,7 +34,6 @@ import bammerbom.ultimatecore.sponge.modules.teleport.TeleportModule;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportKeys;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TpaRequest;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -47,7 +46,7 @@ import java.util.*;
 
 @CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandInfo(module = TeleportModule.class, aliases = {"teleportaskallhere", "tpaallhere", "teleportaskall", "tpaall"})
-public class Teleportaskallhere implements HighPermCommand {
+public class TeleportaskallhereCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[0];
@@ -64,17 +63,17 @@ public class Teleportaskallhere implements HighPermCommand {
             if (t.equals(sender)) continue;
             UUID tpid = UUID.randomUUID();
             Teleportation tel = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), p::getTransform, tele -> {
-                p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.accept", "%player%", t.getName()));
+                p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.accept", "%player%", t));
             }, (tele, reason) -> {
                 if (reason.equalsIgnoreCase("tpdeny")) {
-                    p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.deny", "%player%", t.getName()));
+                    p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.deny", "%player%", t));
                 }
             }, true, false);
             HashMap<UUID, TpaRequest> tels = GlobalData.get(TeleportKeys.TELEPORT_ASKHERE_REQUESTS).get();
             tels.put(tpid, new TpaRequest(p, t, tel));
             GlobalData.offer(TeleportKeys.TELEPORT_ASKHERE_REQUESTS, tels);
 
-            t.sendMessage(Messages.getFormatted(t, "teleport.command.teleportaskhere.receive", "%player%", VariableUtil.getNameSource(sender), "%tpid%", tpid));
+            t.sendMessage(Messages.getFormatted(t, "teleport.command.teleportaskhere.receive", "%player%", sender, "%tpid%", tpid));
         }
         sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaskallhere.self"));
 

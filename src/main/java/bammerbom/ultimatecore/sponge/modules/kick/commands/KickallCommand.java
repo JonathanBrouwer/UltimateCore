@@ -70,10 +70,10 @@ public class KickallCommand implements HighCommand {
         Text reason = args.hasAny("reason") ? Text.of(args.getOne("reason")) : Messages.getFormatted(sender, "kick.command.kickall.defaultreason");
 
         for (Player p : Sponge.getServer().getOnlinePlayers()) {
-            if (p.getName().equals(sender.getName())) {
+            if (p.equals(sender)) {
                 continue;
             }
-            p.kick(Messages.getFormatted("kick.command.kickall.message", "%kicker%", sender.getName(), "%reason%", reason));
+            p.kick(Messages.getFormatted("kick.command.kickall.message", "%kicker%", sender, "%reason%", reason));
         }
         sender.sendMessage(Messages.getFormatted(sender, "kick.command.kickall.success"));
         return CommandResult.success();

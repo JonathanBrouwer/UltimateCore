@@ -67,7 +67,7 @@ public class TeleportModule implements Module {
         UltimateCore.get().getCommandService().register(new TeleportdenyCommand());
         UltimateCore.get().getCommandService().register(new TeleporthereCommand());
         UltimateCore.get().getCommandService().register(new TeleportallCommand());
-        UltimateCore.get().getCommandService().register(new Teleportaskallhere());
+        UltimateCore.get().getCommandService().register(new TeleportaskallhereCommand());
     }
 
     @Override

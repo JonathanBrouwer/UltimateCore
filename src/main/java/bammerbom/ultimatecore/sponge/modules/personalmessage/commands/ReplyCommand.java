@@ -35,7 +35,6 @@ import bammerbom.ultimatecore.sponge.modules.personalmessage.api.Personalmessage
 import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessageKeys;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessagePermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -94,7 +93,7 @@ public class ReplyCommand implements HighCommand {
         }
 
         String message = args.<String>getOne("message").get();
-        Text fmessage = Messages.getFormatted("personalmessage.command.personalmessage.format.receive", "%player%", VariableUtil.getNameSource(sender), "%message%", message);
+        Text fmessage = Messages.getFormatted("personalmessage.command.personalmessage.format.receive", "%player%", sender, "%message%", message);
 
         //Event
         Cause cause = Cause.builder().owner(UltimateCore.get()).named("sender", sender).named("target", t).build();
@@ -121,7 +120,7 @@ public class ReplyCommand implements HighCommand {
             UltimateUser user2 = UltimateCore.get().getUserService().getUser((Player) sender);
             user2.offer(PersonalmessageKeys.REPLY, uuid_t);
             //TODO better system for this message?
-            Text send = Messages.getFormatted("personalmessage.command.personalmessage.format.send", "%player%", VariableUtil.getNameSource(t), "%message%", message);
+            Text send = Messages.getFormatted("personalmessage.command.personalmessage.format.send", "%player%", t, "%message%", message);
             sender.sendMessage(send);
             return CommandResult.success();
         } else {

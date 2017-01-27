@@ -31,7 +31,6 @@ import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.food.FoodModule;
 import bammerbom.ultimatecore.sponge.modules.food.api.FoodPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -82,8 +81,8 @@ public class FoodCommand implements HighCommand {
             Player t = args.<Player>getOne("player").get();
             t.offer(Keys.FOOD_LEVEL, t.get(FoodData.class).get().foodLevel().getMaxValue());
             t.offer(Keys.SATURATION, ItemStack.builder().itemType(ItemTypes.COOKED_BEEF).build().getProperty(SaturationProperty.class).get().getValue());
-            sender.sendMessage(Messages.getFormatted(sender, "food.command.food.success.others.self", "%player%", VariableUtil.getNameSource(t)));
-            t.sendMessage(Messages.getFormatted(t, "food.command.food.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
+            sender.sendMessage(Messages.getFormatted(sender, "food.command.food.success.others.self", "%player%", t));
+            t.sendMessage(Messages.getFormatted(t, "food.command.food.success.others.others", "%player%", sender));
             return CommandResult.success();
         }
     }

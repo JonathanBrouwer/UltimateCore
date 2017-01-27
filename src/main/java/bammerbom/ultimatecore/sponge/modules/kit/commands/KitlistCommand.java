@@ -78,7 +78,7 @@ public class KitlistCommand implements HighCommand {
             if (!sender.hasPermission("uc.kit.kit." + kit.getName().toLowerCase())) {
                 continue;
             }
-            texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getName(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getName()))).onClick(TextActions.runCommand("/kit " + kit.getName())).build());
+            texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit, "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit))).onClick(TextActions.runCommand("/kit " + kit)).build());
         }
         //If empty send message
         if (texts.isEmpty()) {

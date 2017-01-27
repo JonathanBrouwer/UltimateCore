@@ -91,7 +91,7 @@ public class HealCommand implements HighCommand {
             t.offer(Keys.FIRE_TICKS, 0);
 
             sender.sendMessage(Messages.getFormatted(sender, "heal.command.heal.success.self", "%player%", VariableUtil.getNameEntity(t)));
-            t.sendMessage(Messages.getFormatted(t, "heal.command.heal.success.others", "%sender%", VariableUtil.getNameSource(sender)));
+            t.sendMessage(Messages.getFormatted(t, "heal.command.heal.success.others", "%sender%", sender));
             return CommandResult.success();
         }
     }

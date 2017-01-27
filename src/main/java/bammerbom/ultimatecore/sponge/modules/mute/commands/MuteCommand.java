@@ -80,7 +80,7 @@ public class MuteCommand implements HighCommand {
         //Get player & Check exempt
         Player t = args.<Player>getOne("player").get();
         if ((MutePermissions.UC_MUTE_EXEMPTPOWER.getIntFor(t) > MutePermissions.UC_MUTE_POWER.getIntFor(sender)) && sender instanceof Player) {
-            sender.sendMessage(Messages.getFormatted(sender, "mute.command.mute.exempt", "%player%", VariableUtil.getNameSource(t)));
+            sender.sendMessage(Messages.getFormatted(sender, "mute.command.mute.exempt", "%player%", t));
             return CommandResult.empty();
         }
 

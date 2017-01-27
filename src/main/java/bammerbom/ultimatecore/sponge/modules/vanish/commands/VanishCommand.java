@@ -88,10 +88,10 @@ public class VanishCommand implements HighCommand {
             ut.offer(VanishKeys.VANISH, vanish);
             if (vanish) {
                 sender.sendMessage(Messages.getFormatted(sender, "vanish.command.vanish.others.self.on", "%player%", VariableUtil.getNameEntity(t)));
-                t.sendMessage(Messages.getFormatted(t, "vanish.command.vanish.others.others.on", "%player%", VariableUtil.getNameSource(sender)));
+                t.sendMessage(Messages.getFormatted(t, "vanish.command.vanish.others.others.on", "%player%", sender));
             } else {
                 sender.sendMessage(Messages.getFormatted(sender, "vanish.command.vanish.others.self.off", "%player%", VariableUtil.getNameEntity(t)));
-                t.sendMessage(Messages.getFormatted(t, "vanish.command.vanish.others.others.off", "%player%", VariableUtil.getNameSource(sender)));
+                t.sendMessage(Messages.getFormatted(t, "vanish.command.vanish.others.others.off", "%player%", sender));
             }
             return CommandResult.success();
         }

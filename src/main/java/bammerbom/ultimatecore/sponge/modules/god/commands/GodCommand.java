@@ -88,7 +88,7 @@ public class GodCommand implements HighCommand {
             god = !god;
             ut.offer(GodKeys.GOD, god);
             sender.sendMessage(Messages.getFormatted(sender, "god.command.god.others.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", VariableUtil.getNameEntity(t)));
-            t.sendMessage(Messages.getFormatted(t, "god.command.god.others.others", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", VariableUtil.getNameSource(sender)));
+            t.sendMessage(Messages.getFormatted(t, "god.command.god.others.others", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", sender));
             return CommandResult.success();
         }
     }

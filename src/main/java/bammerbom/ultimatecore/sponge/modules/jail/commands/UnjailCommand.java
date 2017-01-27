@@ -34,7 +34,6 @@ import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -77,12 +76,12 @@ public class UnjailCommand implements HighCommand {
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
 
         if (!ut.get(JailKeys.JAIL).isPresent()) {
-            sender.sendMessage(Messages.getFormatted(sender, "jail.command.unjail.notjailed", "%player%", VariableUtil.getNameSource(t)));
+            sender.sendMessage(Messages.getFormatted(sender, "jail.command.unjail.notjailed", "%player%", t));
             return CommandResult.success();
         }
 
         ut.offer(JailKeys.JAIL, null);
-        sender.sendMessage(Messages.getFormatted(sender, "jail.command.unjail.success", "%player%", VariableUtil.getNameSource(t)));
+        sender.sendMessage(Messages.getFormatted(sender, "jail.command.unjail.success", "%player%", t));
         t.sendMessage(Messages.getFormatted(t, "jail.target.unjailed"));
         return CommandResult.success();
     }

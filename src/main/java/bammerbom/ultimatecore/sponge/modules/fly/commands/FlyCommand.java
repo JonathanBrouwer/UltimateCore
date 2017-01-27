@@ -91,11 +91,11 @@ public class FlyCommand implements HighCommand {
             t.offer(Keys.CAN_FLY, fly);
 
             if (fly) {
-                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success.self", "%player%", t.getName(), "%state%", Messages.getColored("fly.command.fly.enabled")));
-                t.sendMessage(Messages.getFormatted(t, "fly.command.fly.success.others", "%player%", sender.getName(), "%state%", Messages.getColored("fly.command.fly.enabled")));
+                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success.self", "%player%", t, "%state%", Messages.getColored("fly.command.fly.enabled")));
+                t.sendMessage(Messages.getFormatted(t, "fly.command.fly.success.others", "%player%", sender, "%state%", Messages.getColored("fly.command.fly.enabled")));
             } else {
-                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success.self", "%player%", t.getName(), "%state%", Messages.getColored("fly.command.fly.disabled")));
-                t.sendMessage(Messages.getFormatted(t, "fly.command.fly.success.others", "%player%", sender.getName(), "%state%", Messages.getColored("fly.command.fly.disabled")));
+                sender.sendMessage(Messages.getFormatted(sender, "fly.command.fly.success.self", "%player%", t, "%state%", Messages.getColored("fly.command.fly.disabled")));
+                t.sendMessage(Messages.getFormatted(t, "fly.command.fly.success.others", "%player%", sender, "%state%", Messages.getColored("fly.command.fly.disabled")));
             }
             return CommandResult.success();
         }

@@ -41,7 +41,6 @@ import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.modules.jail.commands.arguments.JailArgument;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -90,7 +89,7 @@ public class JailCommand implements HighCommand {
 
         //Exempt power
         if ((JailPermissions.UC_JAIL_EXEMPTPOWER.getIntFor(t) > JailPermissions.UC_JAIL_POWER.getIntFor(sender)) && sender instanceof Player) {
-            sender.sendMessage(Messages.getFormatted(sender, "jail.command.jail.exempt", "%player%", VariableUtil.getNameSource(t)));
+            sender.sendMessage(Messages.getFormatted(sender, "jail.command.jail.exempt", "%player%", t));
             return CommandResult.empty();
         }
 
@@ -105,8 +104,8 @@ public class JailCommand implements HighCommand {
 
         JailData data = new JailData(t.getUniqueId(), suuid, time == -1 ? -1 : (time + System.currentTimeMillis()), System.currentTimeMillis(), reason, jail.getName());
         ut.offer(JailKeys.JAIL, data);
-        sender.sendMessage(Messages.getFormatted(sender, "jail.command.jail.success", "%player%", VariableUtil.getNameSource(t), "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
-        t.sendMessage(Messages.getFormatted(t, "jail.target.jailed", "%player%", VariableUtil.getNameSource(sender), "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        sender.sendMessage(Messages.getFormatted(sender, "jail.command.jail.success", "%player%", t, "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        t.sendMessage(Messages.getFormatted(t, "jail.target.jailed", "%player%", sender, "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
         return CommandResult.success();
     }
 }

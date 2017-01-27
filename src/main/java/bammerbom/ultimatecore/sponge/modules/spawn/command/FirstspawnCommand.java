@@ -35,7 +35,6 @@ import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -93,8 +92,8 @@ public class FirstspawnCommand implements HighCommand {
             checkPermission(sender, SpawnPermissions.UC_SPAWN_FIRSTSPAWN_OTHERS);
             Player t = args.<Player>getOne("player").get();
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc.get(), tel -> {
-                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.firstspawn.success.others.self", "%player%", VariableUtil.getNameSource(t)));
-                t.sendMessage(Messages.getFormatted(t, "spawn.command.firstspawn.success.others.others", "%player%", VariableUtil.getNameSource(sender)));
+                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.firstspawn.success.others.self", "%player%", t));
+                t.sendMessage(Messages.getFormatted(t, "spawn.command.firstspawn.success.others.others", "%player%", sender));
             }, (tel, reason) -> {
             }, false, false);
             tp.start();

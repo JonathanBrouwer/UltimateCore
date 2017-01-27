@@ -69,7 +69,7 @@ public class BurnCommand implements HighCommand {
         Player t = args.<Player>getOne("player").get();
         Double time = args.<Double>getOne("time").orElse(10.0);
         t.offer(Keys.FIRE_TICKS, Double.valueOf(time * 20).intValue());
-        sender.sendMessage(Messages.getFormatted(sender, "burn.command.burn.success", "%player%", t.getName(), "%time%", time));
+        sender.sendMessage(Messages.getFormatted(sender, "burn.command.burn.success", "%player%", t, "%time%", time));
         return CommandResult.success();
     }
 }

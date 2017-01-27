@@ -32,7 +32,6 @@ import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.kick.KickModule;
 import bammerbom.ultimatecore.sponge.modules.kick.api.KickPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -71,16 +70,16 @@ public class KickCommand implements HighCommand {
 
         Player target = args.<Player>getOne("player").get();
         Text reason = args.hasAny("reason") ? Text.of(args.<String>getOne("reason").get()) : Messages.getFormatted("kick.command.kick.defaultreason");
-        if (sender.getName().equalsIgnoreCase(target.getName())) {
+        if (sender.equals(target)) {
             sender.sendMessage(Messages.getFormatted(sender, "kick.command.kick.self"));
             return CommandResult.empty();
         }
         if ((KickPermissions.UC_KICK_EXEMPTPOWER.getIntFor(target) > KickPermissions.UC_KICK_POWER.getIntFor(sender)) && sender instanceof Player) {
-            sender.sendMessage(Messages.getFormatted(sender, "kick.command.kick.exempt", "%player%", VariableUtil.getNameSource(target)));
+            sender.sendMessage(Messages.getFormatted(sender, "kick.command.kick.exempt", "%player%", target));
             return CommandResult.empty();
         }
-        Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("kick.command.kick.broadcast", "%kicker%", sender.getName(), "%kicked%", target.getName(), "%reason%", reason));
-        target.kick(Messages.getFormatted("kick.command.kick.message", "%kicker%", sender.getName(), "%kicked%", target.getName(), "%reason%", reason));
+        Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("kick.command.kick.broadcast", "%kicker%", sender, "%kicked%", target, "%reason%", reason));
+        target.kick(Messages.getFormatted("kick.command.kick.message", "%kicker%", sender, "%kicked%", target, "%reason%", reason));
         return CommandResult.success();
     }
 }

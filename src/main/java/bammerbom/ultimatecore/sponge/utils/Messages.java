@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.asset.Asset;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextParseException;
@@ -182,6 +183,12 @@ public class Messages {
                 if (var instanceof Text) {
                     text = TextUtil.replace(text, first, (Text) var);
                 }
+                if (var instanceof CommandSource) {
+                    text = VariableUtil.getNameSource((CommandSource) var);
+                }
+                if (var instanceof User) {
+                    text = VariableUtil.getNameUser((User) var);
+                }
                 //Else will be at get()
                 first = null;
             }
@@ -274,7 +281,7 @@ public class Messages {
             if (first == null) {
                 first = var.toString();
             } else {
-                if (var instanceof Text) {
+                if (var instanceof Text || var instanceof CommandSource || var instanceof User) {
                     //Will replaced later if needed
                 } else {
                     raw = raw.replace(first, var.toString());

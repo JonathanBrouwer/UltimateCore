@@ -69,7 +69,7 @@ public class WalkspeedCommand implements HighPermCommand {
             Player t = args.<Player>getOne("player").get();
             t.offer(Keys.WALKING_SPEED, speed / walkmultiplier);
             sender.sendMessage(Messages.getFormatted(sender, "fly.command.walkspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed));
-            t.sendMessage(Messages.getFormatted(t, "fly.command.walkspeed.success.others.self", "%player%", VariableUtil.getNameSource(sender), "%speed%", speed));
+            t.sendMessage(Messages.getFormatted(t, "fly.command.walkspeed.success.others.self", "%player%", sender, "%speed%", speed));
             return CommandResult.success();
         }
     }

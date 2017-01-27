@@ -78,10 +78,10 @@ public class TeleportaskhereCommand implements HighCommand {
 
         UUID tpid = UUID.randomUUID();
         Teleportation tel = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), p::getTransform, tele -> {
-            p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.accept", "%player%", t.getName()));
+            p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.accept", "%player%", t));
         }, (tele, reason) -> {
             if (reason.equalsIgnoreCase("tpdeny")) {
-                p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.deny", "%player%", t.getName()));
+                p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.deny", "%player%", t));
             }
         }, true, false);
         HashMap<UUID, TpaRequest> tels = GlobalData.get(TeleportKeys.TELEPORT_ASKHERE_REQUESTS).get();
@@ -89,7 +89,7 @@ public class TeleportaskhereCommand implements HighCommand {
         GlobalData.offer(TeleportKeys.TELEPORT_ASKHERE_REQUESTS, tels);
 
         sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaskhere.send", "%player%", VariableUtil.getNameEntity(t)));
-        t.sendMessage(Messages.getFormatted(t, "teleport.command.teleportaskhere.receive", "%player%", VariableUtil.getNameSource(sender), "%tpid%", tpid));
+        t.sendMessage(Messages.getFormatted(t, "teleport.command.teleportaskhere.receive", "%player%", sender, "%tpid%", tpid));
         return CommandResult.success();
     }
 }
