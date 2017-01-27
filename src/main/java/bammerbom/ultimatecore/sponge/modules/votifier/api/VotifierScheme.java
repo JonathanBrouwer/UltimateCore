@@ -68,13 +68,13 @@ public class VotifierScheme implements BiConsumer<Vote, Player> {
         //Execute commands
         for (String cmd : commands) {
             if (cmd.startsWith("/")) cmd = cmd.replaceFirst("/", "");
-            Sponge.getCommandManager().process(Sponge.getServer().getConsole(), VariableUtil.replaceVariablesUser(Text.of(cmd.replace("%player%", p.getName())), p).toPlain());
+            Sponge.getCommandManager().process(Sponge.getServer().getConsole(), VariableUtil.replaceVariables(Text.of(cmd.replace("%player%", p.getName())), p).toPlain());
         }
 
         //Send one message randomly
         if (!messages.isEmpty()) {
             Text msg = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
-            Sponge.getServer().getBroadcastChannel().send(VariableUtil.replaceVariablesUser(msg, p));
+            Sponge.getServer().getBroadcastChannel().send(VariableUtil.replaceVariables(msg, p));
         }
     }
 

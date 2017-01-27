@@ -37,20 +37,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class VariableUtil {
-    public static Text replaceVariables(Text text, @Nullable CommandSource player) {
-        if (player != null) {
-            return UltimateCore.get().getVariableService().replace(text, player);
-        } else {
-            return UltimateCore.get().getVariableService().replace(text);
-        }
-    }
-
-    public static Text replaceVariablesUser(Text text, @Nullable User player) {
-        if (player != null) {
-            return UltimateCore.get().getVariableService().replace(text, player);
-        } else {
-            return UltimateCore.get().getVariableService().replace(text);
-        }
+    public static Text replaceVariables(Text text, @Nullable Object player) {
+        return UltimateCore.get().getVariableService().replace(text, player);
     }
 
     public static Text getNameSource(CommandSource player) {

@@ -61,7 +61,7 @@ public class ServerlistListener {
             //Join motd
             if (config.get().getNode("joinmessage", "enable").getBoolean()) {
                 List<String> joinmsgs = config.get().getNode("joinmessage", "joinmessages").getList(TypeToken.of(String.class));
-                Text joinmsg = VariableUtil.replaceVariablesUser(Messages.toText(joinmsgs.get(random.nextInt(joinmsgs.size()))), p);
+                Text joinmsg = VariableUtil.replaceVariables(Messages.toText(joinmsgs.get(random.nextInt(joinmsgs.size()))), p);
                 p.sendMessage(joinmsg);
             }
         } catch (ObjectMappingException e) {
@@ -85,21 +85,21 @@ public class ServerlistListener {
                 //Motd
                 if (config.get().getNode("player", "motd", "enable").getBoolean()) {
                     List<String> motds = config.get().getNode("player", "motd", "motds").getList(TypeToken.of(String.class));
-                    Text motd = VariableUtil.replaceVariablesUser(Messages.toText(motds.get(random.nextInt(motds.size()))), p);
+                    Text motd = VariableUtil.replaceVariables(Messages.toText(motds.get(random.nextInt(motds.size()))), p);
                     event.getResponse().setDescription(motd);
                 }
 
                 //Version info
                 if (config.get().getNode("player", "playercount", "enable").getBoolean()) {
                     List<String> formats = config.get().getNode("player", "playercount", "counter").getList(TypeToken.of(String.class));
-                    Text format = VariableUtil.replaceVariablesUser(Messages.toText(formats.get(random.nextInt(formats.size()))), p);
+                    Text format = VariableUtil.replaceVariables(Messages.toText(formats.get(random.nextInt(formats.size()))), p);
                     StatusProtocol.setVersion(event.getResponse(), TextSerializers.LEGACY_FORMATTING_CODE.serialize(format), 1);
                 }
 
                 //Playercounter hover
                 if (config.get().getNode("player", "playerhover", "enable").getBoolean()) {
                     List<String> hovers = config.get().getNode("player", "playerhover", "hover").getList(TypeToken.of(String.class));
-                    Text hover = VariableUtil.replaceVariablesUser(Messages.toText(hovers.get(random.nextInt(hovers.size()))), p);
+                    Text hover = VariableUtil.replaceVariables(Messages.toText(hovers.get(random.nextInt(hovers.size()))), p);
                     if (event.getResponse().getPlayers().isPresent()) {
                         ClientPingServerEvent.Response.Players players = event.getResponse().getPlayers().get();
                         players.getProfiles().clear();
@@ -113,21 +113,21 @@ public class ServerlistListener {
                 //Motd
                 if (config.get().getNode("unknown", "motd", "enable").getBoolean()) {
                     List<String> motds = config.get().getNode("unknown", "motd", "motds").getList(TypeToken.of(String.class));
-                    Text motd = VariableUtil.replaceVariablesUser(Messages.toText(motds.get(random.nextInt(motds.size()))), null);
+                    Text motd = VariableUtil.replaceVariables(Messages.toText(motds.get(random.nextInt(motds.size()))), null);
                     event.getResponse().setDescription(motd);
                 }
 
                 //Version info
                 if (config.get().getNode("unknown", "playercount", "enable").getBoolean()) {
                     List<String> formats = config.get().getNode("unknown", "playercount", "counter").getList(TypeToken.of(String.class));
-                    Text format = VariableUtil.replaceVariablesUser(Messages.toText(formats.get(random.nextInt(formats.size()))), null);
+                    Text format = VariableUtil.replaceVariables(Messages.toText(formats.get(random.nextInt(formats.size()))), null);
                     StatusProtocol.setVersion(event.getResponse(), TextSerializers.LEGACY_FORMATTING_CODE.serialize(format), 1);
                 }
 
                 //Playercounter hover
                 if (config.get().getNode("unknown", "playerhover", "enable").getBoolean()) {
                     List<String> hovers = config.get().getNode("unknown", "playerhover", "hover").getList(TypeToken.of(String.class));
-                    Text hover = VariableUtil.replaceVariablesUser(Messages.toText(hovers.get(random.nextInt(hovers.size()))), null);
+                    Text hover = VariableUtil.replaceVariables(Messages.toText(hovers.get(random.nextInt(hovers.size()))), null);
                     if (event.getResponse().getPlayers().isPresent()) {
                         ClientPingServerEvent.Response.Players players = event.getResponse().getPlayers().get();
                         players.getProfiles().clear();

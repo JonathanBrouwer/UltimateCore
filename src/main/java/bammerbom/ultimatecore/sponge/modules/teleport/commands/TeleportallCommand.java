@@ -66,7 +66,7 @@ public class TeleportallCommand implements HighPermCommand {
             p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportall.success.self", "%player%", VariableUtil.getNamesEntity(t)));
             for (Player tt : t) {
                 if (tt.equals(sender)) continue;
-                tt.sendMessage(Messages.getFormatted(t, "teleport.command.teleportall.success.others", "%player%", VariableUtil.getNameEntity(p)));
+                tt.sendMessage(Messages.getFormatted(tt, "teleport.command.teleportall.success.others", "%player%", VariableUtil.getNameEntity(p)));
             }
         }, (teleportRequest, reason) -> {
         }, true, false);
