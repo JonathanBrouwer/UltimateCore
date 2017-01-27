@@ -21,16 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.time.commands;
+package bammerbom.ultimatecore.sponge.modules.time.commands.time;
 
-import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
+import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandChildrenInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BoundedIntegerArgument;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
 import bammerbom.ultimatecore.sponge.modules.time.api.TimePermissions;
-import bammerbom.ultimatecore.sponge.modules.time.commands.time.*;
+import bammerbom.ultimatecore.sponge.modules.time.commands.TimeCommand;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -41,9 +42,10 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
-@CommandChildrenInfo(children = {AddTimeCommand.class, DayTimeCommand.class, DisableTimeCommand.class, EnableTimeCommand.class, NightTimeCommand.class, QueryTimeCommand.class, SetTimeCommand.class})
-@CommandInfo(module = TimeModule.class, aliases = "time")
-public class TimeCommand implements HighPermCommand {
+@CommandParentInfo(parent = TimeCommand.class)
+@CommandChildrenInfo(children = {DayTimeCommand.class, NightTimeCommand.class})
+@CommandInfo(module = TimeModule.class, aliases = {"set", "settime"})
+public class SetTimeCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{

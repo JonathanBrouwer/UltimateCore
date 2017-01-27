@@ -21,16 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.time.commands;
+package bammerbom.ultimatecore.sponge.modules.time.commands.time;
 
-import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
-import bammerbom.ultimatecore.sponge.api.command.annotations.CommandChildrenInfo;
+import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
-import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BoundedIntegerArgument;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.WorldArgument;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
-import bammerbom.ultimatecore.sponge.modules.time.api.TimePermissions;
-import bammerbom.ultimatecore.sponge.modules.time.commands.time.*;
+import bammerbom.ultimatecore.sponge.modules.time.commands.TimeCommand;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -41,34 +40,29 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
-@CommandChildrenInfo(children = {AddTimeCommand.class, DayTimeCommand.class, DisableTimeCommand.class, EnableTimeCommand.class, NightTimeCommand.class, QueryTimeCommand.class, SetTimeCommand.class})
-@CommandInfo(module = TimeModule.class, aliases = "time")
-public class TimeCommand implements HighPermCommand {
+@CommandParentInfo(parent = TimeCommand.class)
+@CommandInfo(module = TimeModule.class, aliases = {"day", "daytime"})
+public class DayTimeCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new BoundedIntegerArgument(Text.of("time"), 0, null)).onlyOne().optionalWeak().build()
+                Arguments.builder(new WorldArgument(Text.of("world"))).optional().onlyOne().build()
         };
     }
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-        if (args.hasAny("time")) {
-            checkPermission(sender, TimePermissions.UC_TIME_TIME_TICKS);
-
-            World world;
-            if (!args.hasAny("world")) {
-                checkIfPlayer(sender);
-                world = ((Player) sender).getWorld();
-            } else {
-                world = args.<World>getOne("world").get();
-            }
-
-            Integer ticks = args.<Integer>getOne("time").get();
-            world.getProperties().setWorldTime(ticks);
-            sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.ticks", "%ticks%", ticks));
-            return CommandResult.success();
+        World world;
+        if (!args.hasAny("world")) {
+            checkIfPlayer(sender);
+            world = ((Player) sender).getWorld();
+        } else {
+            world = args.<World>getOne("world").get();
         }
-        throw new CommandException(getUsage(sender), false);
+
+        Long ticks = 24000 - (world.getProperties().getWorldTime() % 24000);
+        world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
+        sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.day"));
+        return CommandResult.success();
     }
 }
