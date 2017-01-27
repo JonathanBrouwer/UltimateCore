@@ -30,11 +30,11 @@ import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.tablist.listeners.TablistListener;
 import bammerbom.ultimatecore.sponge.modules.tablist.runnables.NamesHandler;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class TablistModule implements Module {
@@ -45,6 +45,7 @@ public class TablistModule implements Module {
     public String getIdentifier() {
         return "tablist";
     }
+
 
     @Override
     public Text getDescription() {
@@ -57,11 +58,6 @@ public class TablistModule implements Module {
     }
 
     @Override
-    public void onRegister() {
-
-    }
-
-    @Override
     public void onInit(GameInitializationEvent event) {
         config = new RawModuleConfig("tablist");
         int delay = config.get().getNode("refresh").getInt();
@@ -71,13 +67,8 @@ public class TablistModule implements Module {
     }
 
     @Override
-    public void onPostInit(GamePostInitializationEvent event) {
-
-    }
-
-    @Override
-    public void onStop(GameStoppingEvent event) {
-
+    public void onReload(@Nullable GameReloadEvent event) {
+        runnable.clearCache();
     }
 
     public NamesHandler getRunnable() {

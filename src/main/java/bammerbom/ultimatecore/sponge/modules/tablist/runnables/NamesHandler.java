@@ -192,4 +192,12 @@ public class NamesHandler {
         names.remove(uuid);
         teams.remove(uuid);
     }
+
+    public void clearCache() {
+        board = Scoreboard.builder().build();
+        names.clear();
+        teamcount = 0;
+        teams.clear();
+        update();
+    }
 }
