@@ -184,10 +184,10 @@ public class Messages {
                     text = TextUtil.replace(text, first, (Text) var);
                 }
                 if (var instanceof CommandSource) {
-                    text = VariableUtil.getNameSource((CommandSource) var);
+                    text = TextUtil.replace(text, first, VariableUtil.getNameSource((CommandSource) var));
                 }
                 if (var instanceof User) {
-                    text = VariableUtil.getNameUser((User) var);
+                    text = TextUtil.replace(text, first, VariableUtil.getNameUser((User) var));
                 }
                 //Else will be at get()
                 first = null;

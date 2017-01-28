@@ -34,7 +34,6 @@ import bammerbom.ultimatecore.sponge.modules.god.GodModule;
 import bammerbom.ultimatecore.sponge.modules.god.api.GodKeys;
 import bammerbom.ultimatecore.sponge.modules.god.api.GodPermissions;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -87,7 +86,7 @@ public class GodCommand implements HighCommand {
             boolean god = ut.get(GodKeys.GOD).get();
             god = !god;
             ut.offer(GodKeys.GOD, god);
-            sender.sendMessage(Messages.getFormatted(sender, "god.command.god.others.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", VariableUtil.getNameEntity(t)));
+            sender.sendMessage(Messages.getFormatted(sender, "god.command.god.others.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", t));
             t.sendMessage(Messages.getFormatted(t, "god.command.god.others.others", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", sender));
             return CommandResult.success();
         }
