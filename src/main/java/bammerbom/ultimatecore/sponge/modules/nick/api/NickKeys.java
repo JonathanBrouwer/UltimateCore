@@ -45,7 +45,7 @@ public class NickKeys {
         public void save(UltimateUser user, Text data) {
             PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
             CommentedConfigurationNode node = config.get();
-            node.getNode("nick").setValue(TextSerializers.JSON.serialize(data));
+            node.getNode("nick").setValue(data != null ? TextSerializers.JSON.serialize(data) : null);
             config.save(node);
         }
     });

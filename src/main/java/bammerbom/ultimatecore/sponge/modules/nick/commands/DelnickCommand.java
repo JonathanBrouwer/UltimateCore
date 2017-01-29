@@ -71,14 +71,14 @@ public class DelnickCommand implements HighPermCommand {
             Player p = (Player) sender;
             UltimateUser up = UltimateCore.get().getUserService().getUser(p);
             up.offer(NickKeys.NICKNAME, null);
-            sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.self"));
+            sender.sendMessage(Messages.getFormatted(sender, "nick.command.delnick.self"));
         } else {
             checkPermSuffix(sender, "others.base");
             Player t = args.<Player>getOne("player").get();
             UltimateUser up = UltimateCore.get().getUserService().getUser(t);
             up.offer(NickKeys.NICKNAME, null);
-            sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.others.self", "%player%", t));
-            t.sendMessage(Messages.getFormatted(t, "nick.command.nick.others.others", "%player%", sender));
+            sender.sendMessage(Messages.getFormatted(sender, "nick.command.delnick.others.self", "%player%", t));
+            t.sendMessage(Messages.getFormatted(t, "nick.command.delnick.others.others", "%player%", sender));
         }
         return CommandResult.success();
     }
