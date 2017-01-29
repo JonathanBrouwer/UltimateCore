@@ -81,7 +81,7 @@ public class SudoCommand implements HighCommand {
             //COMMAND
             checkPermission(sender, SudoPermissions.UC_SUDO_SUDO_COMMAND);
             try {
-                if (Sponge.getCommandManager().process(sender, message.replaceFirst("/", "")).getSuccessCount().orElse(0) >= 1) {
+                if (Sponge.getCommandManager().process(t, message.replaceFirst("/", "")).getSuccessCount().orElse(0) >= 1) {
                     //Success
                     sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.command.success", "%target%", t, "%command%", message));
                 } else {

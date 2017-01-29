@@ -25,8 +25,10 @@ package bammerbom.ultimatecore.sponge.modules.nick.api;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
+import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
+import bammerbom.ultimatecore.sponge.modules.tablist.TablistModule;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.text.Text;
@@ -47,6 +49,10 @@ public class NickKeys {
             CommentedConfigurationNode node = config.get();
             node.getNode("nick").setValue(data != null ? TextSerializers.JSON.serialize(data) : null);
             config.save(node);
+            if (Modules.TABLIST.isPresent()) {
+                TablistModule tab = (TablistModule) Modules.TABLIST.get();
+                tab.getRunnable().removeCache(user.getIdentifier());
+            }
         }
     });
 }
