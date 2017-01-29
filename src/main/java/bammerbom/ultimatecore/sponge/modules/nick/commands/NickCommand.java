@@ -84,7 +84,7 @@ public class NickCommand implements HighPermCommand {
             UltimateUser up = UltimateCore.get().getUserService().getUser(t);
             Text name = TextUtil.replaceColors(args.<String>getOne("nick").get(), sender, "uc.nick.nick");
             up.offer(NickKeys.NICKNAME, name);
-            sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.others.self", "%player%", t, "%nickname%", name));
+            sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.others.self", "%player%", t.getName(), "%nickname%", name));
             t.sendMessage(Messages.getFormatted(t, "nick.command.nick.others.others", "%player%", sender, "%nickname%", name));
         }
         return CommandResult.success();
