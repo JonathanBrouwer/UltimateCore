@@ -188,7 +188,9 @@ public class NamesHandler {
     }
 
     public void removeCache(UUID uuid) {
-        board.getTeams().remove(teams.get(uuid));
+        if (board != null) {
+            board.getTeams().remove(teams.get(uuid));
+        }
         names.remove(uuid);
         teams.remove(uuid);
     }
