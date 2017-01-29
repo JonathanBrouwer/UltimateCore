@@ -55,7 +55,7 @@ public class VariableUtil {
                     name = up.get(NickKeys.NICKNAME).get();
                 }
             }
-            return name.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.variable.player.hover", "%name%", player.getName(), "%rawname%", player.getName(), "%uuid%", ((Player) player).getUniqueId(), "%language%", player.getLocale().getDisplayName(Locale.ENGLISH)))).onClick(TextActions.suggestCommand(Messages.getFormatted("core.variable.player.click", "%player%", player.getName()).toPlain())).build();
+            return name.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.variable.player.hover", "%name%", name, "%rawname%", player.getName(), "%uuid%", ((Player) player).getUniqueId(), "%language%", player.getLocale().getDisplayName(Locale.ENGLISH)))).onClick(TextActions.suggestCommand(Messages.getFormatted("core.variable.player.click", "%player%", player.getName()).toPlain())).build();
         } else {
             return Text.builder(player.getName()).onHover(TextActions.showText(Messages.getFormatted("core.variable.player.hover", "%name%", player.getName(), "%rawname%", player.getName(), "%uuid%", player.getIdentifier(), "%language%", player.getLocale().getDisplayName(Locale.ENGLISH)))).onClick(TextActions.suggestCommand(Messages.getFormatted("core.variable.player.click", "%player%", player.getName()).toPlain())).build();
         }
