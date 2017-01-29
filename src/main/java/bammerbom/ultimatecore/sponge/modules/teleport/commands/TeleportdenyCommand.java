@@ -43,6 +43,7 @@ import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CommandInfo(module = TeleportModule.class, aliases = {"teleportdeny", "tpdeny", "tpno"})
 public class TeleportdenyCommand implements HighCommand {
@@ -77,8 +78,9 @@ public class TeleportdenyCommand implements HighCommand {
             return CommandResult.empty();
         }
         requests.forEach(request -> request.getTeleportation().cancel("tpdeny"));
+        requests = requests.stream().filter(request -> request.getAskerPlayer().isPresent()).collect(Collectors.toList());
 
-        sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportdeny.success"));
+        sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportdeny.success", "%player%", requests.get(0).getAskerPlayer().get()));
         return CommandResult.success();
     }
 
