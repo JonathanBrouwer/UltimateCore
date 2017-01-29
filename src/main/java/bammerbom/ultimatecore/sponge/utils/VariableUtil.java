@@ -24,6 +24,9 @@
 package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.nick.api.NickKeys;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
@@ -44,7 +47,15 @@ public class VariableUtil {
     public static Text getNameSource(CommandSource player) {
         //TODO nickname
         if (player instanceof Player) {
-            return Text.builder(player.getName()).onHover(TextActions.showText(Messages.getFormatted("core.variable.player.hover", "%name%", player.getName(), "%rawname%", player.getName(), "%uuid%", ((Player) player).getUniqueId(), "%language%", player.getLocale().getDisplayName(Locale.ENGLISH)))).onClick(TextActions.suggestCommand(Messages.getFormatted("core.variable.player.click", "%player%", player.getName()).toPlain())).build();
+            Player p = (Player) player;
+            Text name = ((Player) player).getDisplayNameData().displayName().get();
+            if (Modules.NICK.isPresent()) {
+                UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+                if (up.get(NickKeys.NICKNAME).isPresent() && !up.get(NickKeys.NICKNAME).get().isEmpty()) {
+                    name = up.get(NickKeys.NICKNAME).get();
+                }
+            }
+            return name.toBuilder().onHover(TextActions.showText(Messages.getFormatted("core.variable.player.hover", "%name%", player.getName(), "%rawname%", player.getName(), "%uuid%", ((Player) player).getUniqueId(), "%language%", player.getLocale().getDisplayName(Locale.ENGLISH)))).onClick(TextActions.suggestCommand(Messages.getFormatted("core.variable.player.click", "%player%", player.getName()).toPlain())).build();
         } else {
             return Text.builder(player.getName()).onHover(TextActions.showText(Messages.getFormatted("core.variable.player.hover", "%name%", player.getName(), "%rawname%", player.getName(), "%uuid%", player.getIdentifier(), "%language%", player.getLocale().getDisplayName(Locale.ENGLISH)))).onClick(TextActions.suggestCommand(Messages.getFormatted("core.variable.player.click", "%player%", player.getName()).toPlain())).build();
         }

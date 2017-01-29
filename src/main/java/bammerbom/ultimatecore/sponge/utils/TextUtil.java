@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.utils;
 
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.LiteralText;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
@@ -77,7 +77,7 @@ public class TextUtil {
         return styles.get(style);
     }
 
-    public static Text replaceColors(Text text, Player p, String permissionPrefix) {
+    public static Text replaceColors(Text text, CommandSource p, String permissionPrefix) {
         Text.Builder builder = Text.builder();
         for (Text child : getAllChildren(text)) {
             Text fnl = merge(replaceColors(child.toPlain(), p, permissionPrefix), child);
@@ -86,7 +86,7 @@ public class TextUtil {
         return builder.toText();
     }
 
-    public static Text replaceColors(String rawmessage, Player p, String permissionPrefix) {
+    public static Text replaceColors(String rawmessage, CommandSource p, String permissionPrefix) {
         for (TextColor color : Sponge.getRegistry().getAllOf(CatalogTypes.TEXT_COLOR)) {
             if (!p.hasPermission(permissionPrefix + ".color." + color.getId().toLowerCase())) {
                 continue;
