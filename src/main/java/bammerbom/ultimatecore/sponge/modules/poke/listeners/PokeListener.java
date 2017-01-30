@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.effect.sound.SoundCategories;
 import org.spongepowered.api.effect.sound.SoundCategory;
 import org.spongepowered.api.effect.sound.SoundType;
 import org.spongepowered.api.entity.living.player.Player;
@@ -49,7 +50,12 @@ public class PokeListener {
                 Double minVolume = node.getNode("sound", "minVolume").getDouble();
                 SoundType type = Sponge.getRegistry().getType(CatalogTypes.SOUND_TYPE, soundname.toUpperCase()).get();
                 //TODO wait for CatalogTypes.SOUND_CATEGORY to be added
-                SoundCategory category = Sponge.getRegistry().getType(CatalogTypes.SOUND_CATEGORY, categoryname.toUpperCase()).get();
+                SoundCategory category;
+                try {
+                    category = Sponge.getRegistry().getType(CatalogTypes.SOUND_CATEGORY, categoryname.toUpperCase()).get();
+                } catch (Exception ex) {
+                    category = SoundCategories.PLAYER;
+                }
                 p.playSound(type, category, p.getLocation().getPosition(), volume, pitch, minVolume);
             }
         }
