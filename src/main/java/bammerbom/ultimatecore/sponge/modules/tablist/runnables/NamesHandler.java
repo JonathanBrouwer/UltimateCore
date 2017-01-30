@@ -95,7 +95,8 @@ public class NamesHandler {
             new ArrayList<>(list.getEntries()).forEach(entry -> list.removeEntry(entry.getProfile().getUniqueId()));
             names.forEach((uuid, name) -> {
                 Player player = Sponge.getServer().getPlayer(uuid).get();
-                list.addEntry(TabListEntry.builder().displayName(Text.of(name.getFirst(), name.getSecond(), name.getThird())).gameMode(player.gameMode().get()).latency(player.getConnection().getLatency()).list(list).profile(player.getProfile()).build());
+                Text fullname = Text.of(name.getFirst(), name.getSecond(), name.getThird());
+                list.addEntry(TabListEntry.builder().displayName(fullname).gameMode(player.gameMode().get()).latency(player.getConnection().getLatency()).list(list).profile(player.getProfile()).build());
             });
         }
     }
@@ -173,7 +174,14 @@ public class NamesHandler {
             }
         }
 
+        prefix = VariableUtil.replaceVariables(prefix, p);
+        suffix = VariableUtil.replaceVariables(suffix, p);
+        name = VariableUtil.replaceVariables(name, p);
+
         //Max length check for prefix & suffix
+        if (TextSerializers.FORMATTING_CODE.serialize(name).length() > 16) {
+            name = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(name).substring(0, 16));
+        }
         if (TextSerializers.FORMATTING_CODE.serialize(prefix).length() > 16) {
             prefix = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(prefix).substring(0, 16));
         }
@@ -181,9 +189,6 @@ public class NamesHandler {
             suffix = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(suffix).substring(0, 16));
         }
 
-        prefix = VariableUtil.replaceVariables(prefix, p);
-        suffix = VariableUtil.replaceVariables(suffix, p);
-        name = VariableUtil.replaceVariables(name, p);
         return Tuples.of(prefix, name, suffix);
     }
 

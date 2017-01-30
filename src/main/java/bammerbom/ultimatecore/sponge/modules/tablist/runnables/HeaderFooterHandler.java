@@ -33,8 +33,10 @@ import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 public class HeaderFooterHandler {
+
     public static void handleHeaderFooter() {
         ModuleConfig config = Modules.TABLIST.get().getConfig().get();
         boolean enablehf = config.get().getNode("headerfooter", "enable").getBoolean();
@@ -48,8 +50,12 @@ public class HeaderFooterHandler {
                 ErrorLogger.log(e, "Failed to load header and footer for tablist.");
                 return;
             }
+
+            //VariableUtil.replaceVariables(Messages.toText(header), p), VariableUtil.replaceVariables(Messages.toText(footer), p)
             for (Player p : Sponge.getServer().getOnlinePlayers()) {
-                p.getTabList().setHeaderAndFooter(VariableUtil.replaceVariables(Messages.toText(header), p), VariableUtil.replaceVariables(Messages.toText(footer), p));
+                Text h = VariableUtil.replaceVariables(Messages.toText(header), p);
+                //h = TextUtil.replace(h, "Welcome", Text.of("Welcum"));
+                p.getTabList().setHeaderAndFooter(h, VariableUtil.replaceVariables(Messages.toText(footer), p));
             }
         }
     }

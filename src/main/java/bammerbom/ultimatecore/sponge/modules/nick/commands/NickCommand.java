@@ -76,6 +76,10 @@ public class NickCommand implements HighPermCommand {
             Player p = (Player) sender;
             UltimateUser up = UltimateCore.get().getUserService().getUser(p);
             Text name = TextUtil.replaceColors(args.<String>getOne("nick").get(), sender, "uc.nick.nick");
+            if (!name.toPlain().matches("[A-Za-z0-9]+")) {
+                sender.sendMessage(Messages.getFormatted(sender, "nick.alphanumeric"));
+                return CommandResult.empty();
+            }
             sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.self", "%nickname%", name));
             up.offer(NickKeys.NICKNAME, name);
         } else {
@@ -83,6 +87,10 @@ public class NickCommand implements HighPermCommand {
             Player t = args.<Player>getOne("player").get();
             UltimateUser up = UltimateCore.get().getUserService().getUser(t);
             Text name = TextUtil.replaceColors(args.<String>getOne("nick").get(), sender, "uc.nick.nick");
+            if (!name.toPlain().matches("[A-Za-z0-9]+")) {
+                sender.sendMessage(Messages.getFormatted(sender, "nick.alphanumeric"));
+                return CommandResult.empty();
+            }
             sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.others.self", "%player%", t, "%nickname%", name));
             t.sendMessage(Messages.getFormatted(t, "nick.command.nick.others.others", "%player%", sender, "%nickname%", name));
             up.offer(NickKeys.NICKNAME, name);

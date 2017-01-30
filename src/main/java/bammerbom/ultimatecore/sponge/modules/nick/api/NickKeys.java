@@ -40,7 +40,13 @@ public class NickKeys {
         public Text load(UltimateUser user) {
             PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
             CommentedConfigurationNode node = config.get();
-            return Messages.toText(node.getNode("nick").getString());
+            Text name = Messages.toText(node.getNode("nick").getString());
+            if (name == null) return null;
+            if (!name.toPlain().matches("[A-Za-z0-9]+")) {
+                //Please don't crash the server
+                return null;
+            }
+            return name;
         }
 
         @Override

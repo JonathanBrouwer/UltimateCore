@@ -172,7 +172,7 @@ public class TextUtil {
         for (Text tex : Arrays.copyOfRange(chars.toArray(new Text[chars.size()]), start, end)) {
             sub.append(tex);
         }
-        return sub.build();
+        return (LiteralText) TextSimplifier.simplify(sub.build());
     }
 
     /**
@@ -186,12 +186,12 @@ public class TextUtil {
      * @return The text, where every match has been replaced.
      */
     public static Text replace(Text text, String find, Text replace) {
-        int index = text.toPlain().indexOf(find);
         //TODO better escape
         if (replace.toPlain().contains(find)) {
             replace = replace(replace, find, Text.of());
         }
 
+        int index = text.toPlain().indexOf(find);
         while (index != -1) {
             //This will make sure the replacement get formatted correctly (see merge method)
             Text charr = getChar(text, index);
