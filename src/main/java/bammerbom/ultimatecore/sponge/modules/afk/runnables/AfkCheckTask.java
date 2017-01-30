@@ -72,7 +72,7 @@ public class AfkCheckTask implements Runnable {
             if (!user.get(AfkKeys.IS_AFK).get() && diff > afk) {
                 user.offer(AfkKeys.IS_AFK, true);
                 user.offer(AfkKeys.AFK_TIME, System.currentTimeMillis());
-                Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("afk.broadcast.afk", "%player%", user.getUser().getName()));
+                Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("afk.broadcast.afk", "%player%", user.getUser()));
                 //TODO afk message
             }
         }
