@@ -46,6 +46,7 @@ public class RawFileConfig implements RawConfig {
     public void reload() {
         try {
             if (!file.exists()) {
+                file.getParentFile().mkdirs();
                 file.createNewFile();
             }
             loader = HoconConfigurationLoader.builder().setPath(file.toPath()).build();
