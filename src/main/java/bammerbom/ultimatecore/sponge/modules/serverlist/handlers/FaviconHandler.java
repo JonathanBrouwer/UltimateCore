@@ -24,32 +24,38 @@
 package bammerbom.ultimatecore.sponge.modules.serverlist.handlers;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.network.status.Favicon;
+import org.spongepowered.api.network.status.StatusResponse;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 public class FaviconHandler {
     static Random random = new Random();
     static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data/serverlist/");
-    static File cache = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data/serverlist/cache/");
+    static File cachedir = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data/serverlist/cache");
+    static File cachefile = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data/serverlist/cache/cache.conf");
+    static RawFileConfig cacheconf = new RawFileConfig(cachefile);
 
-    public static List<Favicon> getFavicons(List<String> rawlist, @Nullable Object p) {
+    public static List<Favicon> getFavicons(List<String> rawlist, StatusResponse response, @Nullable Object p) {
         if (!path.exists()) {
             path.mkdirs();
         }
+        if (!cachedir.exists()) {
+            cachedir.mkdirs();
+        }
         List<Favicon> favicons = new ArrayList<>();
         for (String raw : rawlist) {
-            String replaced = VariableUtil.replaceVariables(Text.of(raw), null).toPlain();
+            String replaced = VariableUtil.replaceVariables(Text.of(raw), p).toPlain();
             try {
                 if (replaced.startsWith("file:")) {
                     File file = new File(path, replaced.split(":", 2)[1]);
@@ -63,7 +69,15 @@ public class FaviconHandler {
                     }
                 }
                 if (replaced.startsWith("url:")) {
-                    favicons.add(Sponge.getRegistry().loadFavicon(new URL(replaced.split(":", 2)[1])));
+                    favicons.add(fromUrl(new URL(replaced.split(":", 2)[1])));
+                }
+                if (replaced.equalsIgnoreCase("default")) {
+                    if (response.getFavicon().isPresent()) {
+                        favicons.add(response.getFavicon().get());
+                    } else {
+                        Messages.log("Failed to load favicon from string: " + replaced);
+                        Messages.log("Error: Not available");
+                    }
                 }
             } catch (Exception ex) {
                 Messages.log("Failed to load favicon from string: " + replaced);
@@ -74,11 +88,25 @@ public class FaviconHandler {
     }
 
     private static Favicon fromUrl(URL url) throws Exception {
-        return null;
+        CommentedConfigurationNode node = cacheconf.get();
+        if (node.getNode("url", url.toString()).isVirtual()) {
+            Favicon fav = Sponge.getRegistry().loadFavicon(url);
+            UUID uuid = UUID.randomUUID();
+            node.getNode("url", url.toString()).setValue(uuid.toString());
+            cacheconf.save(node);
+
+            File file = new File(cachedir, uuid.toString() + ".png");
+            file.createNewFile();
+            ImageIO.write(fav.getImage(), "png", file);
+            return fav;
+        }
+        UUID uuid = UUID.fromString(node.getNode("url", url.toString()).getString());
+        File file = new File(cachedir, uuid.toString() + ".png");
+        return Sponge.getRegistry().loadFavicon(file.toPath());
     }
 
-    public static Optional<Favicon> randomFavicon(List<String> rawlist, @Nullable Object p) {
-        List<Favicon> favicons = getFavicons(rawlist, p);
+    public static Optional<Favicon> randomFavicon(List<String> rawlist, StatusResponse response, @Nullable Object p) {
+        List<Favicon> favicons = getFavicons(rawlist, response, p);
         if (favicons.isEmpty()) return Optional.empty();
         return Optional.of(favicons.get(random.nextInt(favicons.size())));
     }

@@ -113,7 +113,7 @@ public class ServerlistListener {
                 //Favicon
                 if (config.get().getNode("player", "favicon", "enable").getBoolean()) {
                     List<String> rawlist = config.get().getNode("player", "favicon", "favicons").getList(TypeToken.of(String.class));
-                    Optional<Favicon> fav = FaviconHandler.randomFavicon(rawlist, p);
+                    Optional<Favicon> fav = FaviconHandler.randomFavicon(rawlist, event.getResponse(), p);
                     fav.ifPresent(favicon -> event.getResponse().setFavicon(favicon));
                 }
             } else {
@@ -147,7 +147,7 @@ public class ServerlistListener {
                 //Favicon
                 if (config.get().getNode("player", "favicon", "enable").getBoolean()) {
                     List<String> rawlist = config.get().getNode("player", "favicon", "favicons").getList(TypeToken.of(String.class));
-                    Optional<Favicon> fav = FaviconHandler.randomFavicon(rawlist, null);
+                    Optional<Favicon> fav = FaviconHandler.randomFavicon(rawlist, event.getResponse(), null);
                     fav.ifPresent(favicon -> event.getResponse().setFavicon(favicon));
                 }
             }

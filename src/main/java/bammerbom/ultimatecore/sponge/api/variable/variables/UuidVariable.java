@@ -23,7 +23,6 @@
  */
 package bammerbom.ultimatecore.sponge.api.variable.variables;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.variable.StaticVariable;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.User;
@@ -42,7 +41,7 @@ public class UuidVariable implements StaticVariable {
     public Optional<Text> getValue(@Nullable Object player) {
         if (player instanceof CommandSource) {
             return Optional.of(Text.of(((CommandSource) player).getIdentifier()));
-        } else if (player instanceof Key.User) {
+        } else if (player instanceof User) {
             return Optional.of(Text.of(((User) player).getIdentifier()));
         }
         return Optional.empty();
