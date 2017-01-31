@@ -29,12 +29,14 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.kit.KitModule;
 import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.arguments.KitArgument;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -54,10 +56,7 @@ import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @CommandInfo(module = KitModule.class, aliases = {"kit"})
 public class KitCommand implements HighCommand {
@@ -94,7 +93,7 @@ public class KitCommand implements HighCommand {
                 if (!sender.hasPermission("uc.kit.kit." + kit.getName().toLowerCase())) {
                     continue;
                 }
-                texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit, "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit))).onClick(TextActions.runCommand("/kit " + kit)).build());
+                texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getName(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getName()))).onClick(TextActions.runCommand("/kit " + kit.getName())).build());
             }
             //If empty send message
             if (texts.isEmpty()) {
@@ -109,7 +108,6 @@ public class KitCommand implements HighCommand {
             paginationList.sendTo(sender);
             return CommandResult.empty();
         }
-        //Teleport the player to a kit
         //Check is the sender is a player
         checkIfPlayer(sender);
         Player p = (Player) sender;
@@ -117,6 +115,18 @@ public class KitCommand implements HighCommand {
         Kit kit = args.<Kit>getOne("kit").get();
         //Check permissions
         checkPermission(sender, "uc.kit.kit." + kit.getName().toLowerCase());
+        //Check & set lastused
+        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+        HashMap<String, Long> lastused = up.get(KitKeys.KIT_LASTUSED).get();
+        Long kitlastused = lastused.get(kit.getName()) != null ? lastused.get(kit.getName()) : 0L;
+        Long kitcooldown = kit.getCooldown();
+        if ((kitcooldown <= -1L && kitlastused != 0L) || (System.currentTimeMillis() - kitlastused) < kitcooldown) {
+            sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.cooldown", "%time%", TimeUtil.format(kitcooldown - (System.currentTimeMillis() - kitlastused))));
+            return CommandResult.empty();
+        }
+        lastused.put(kit.getName(), System.currentTimeMillis());
+        up.offer(KitKeys.KIT_LASTUSED, lastused);
+
         //Give items
         for (ItemStackSnapshot snapshot : kit.getItems()) {
             InventoryTransactionResult result = p.getInventory().offer(snapshot.createStack());
@@ -126,7 +136,7 @@ public class KitCommand implements HighCommand {
                 p.getWorld().spawnEntity(itementity, Cause.builder().owner(UltimateCore.get()).named(NamedCause.of("player", p)).build());
             });
         }
-        sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.success", "%kit%", kit));
+        sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.success", "%kit%", kit.getName()));
         return CommandResult.success();
     }
 }

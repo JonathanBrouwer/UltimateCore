@@ -78,10 +78,10 @@ public class KitKeys {
             CommentedConfigurationNode node = config.get();
             try {
                 return node.getNode("kitlastused").getValue(new TypeToken<HashMap<String, Long>>() {
-                });
+                }, new HashMap<>());
             } catch (ObjectMappingException e) {
                 ErrorLogger.log(e, "Failed to load kit lastused key for " + user.getIdentifier());
-                return null;
+                return new HashMap<>();
             }
         }
 

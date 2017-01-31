@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.kit.api;
 
+import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -99,7 +100,7 @@ public class Kit {
             Text desc = node.getNode("description").getValue(TypeToken.of(Text.class));
             List<ItemStackSnapshot> items = node.getNode("items").getList(TypeToken.of(ItemStackSnapshot.class));
             List<String> cmds = node.getNode("commands").getList(TypeToken.of(String.class));
-            Long cooldown = node.getNode("cooldown").getLong();
+            Long cooldown = TimeUtil.parse(node.getNode("cooldown").getString());
             return new Kit(id, desc, items, cmds, cooldown);
         }
 
