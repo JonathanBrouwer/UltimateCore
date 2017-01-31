@@ -82,7 +82,7 @@ public class CreatekitCommand implements HighCommand {
 
         String name = args.<String>getOne("name").get().toLowerCase();
         long cooldown = args.hasAny("cooldown") ? args.<Long>getOne("cooldown").get() : -1L;
-        Text description = args.hasAny("description") ? Text.of(args.<String>getOne("description")) : Messages.getFormatted("kit.defaultdescription");
+        Text description = args.hasAny("description") ? Text.of(args.<String>getOne("description").get()) : Messages.getFormatted("kit.defaultdescription");
 
         List<ItemStackSnapshot> items = new ArrayList<>();
         p.getInventory().slots().forEach(slot -> {
