@@ -33,4 +33,5 @@ public class KitPermissions {
     public static Permission UC_KIT_KITLIST_BASE = Permission.create("uc.kitlist.base", "kit", PermissionLevel.EVERYONE, "kit", Text.of("Allows you to see a list of all kits."));
     public static Permission UC_KIT_CREATEKIT_BASE = Permission.create("uc.kit.createkit.base", "kit", PermissionLevel.ADMIN, "createkit", Text.of("Allows you to use the createkit command."));
     public static Permission UC_KIT_REMOVEKIT_BASE = Permission.create("uc.kit.removekit.base", "kit", PermissionLevel.ADMIN, "removekit", Text.of("Allows you to use the removekit command."));
+    public static Permission UC_KIT_COOLDOWN_EXEMPT = Permission.create("uc.kit.cooldown.exempt", "kit", PermissionLevel.ADMIN, "kit", Text.of("Allows you to bypass a kit's cooldown."));
 }

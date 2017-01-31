@@ -120,7 +120,7 @@ public class KitCommand implements HighCommand {
         HashMap<String, Long> lastused = up.get(KitKeys.KIT_LASTUSED).get();
         Long kitlastused = lastused.get(kit.getName()) != null ? lastused.get(kit.getName()) : 0L;
         Long kitcooldown = kit.getCooldown();
-        if ((kitcooldown <= -1L && kitlastused != 0L) || (System.currentTimeMillis() - kitlastused) < kitcooldown) {
+        if (!sender.hasPermission(KitPermissions.UC_KIT_COOLDOWN_EXEMPT.get()) && ((kitcooldown <= -1L && kitlastused != 0L) || (System.currentTimeMillis() - kitlastused) < kitcooldown)) {
             sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.cooldown", "%time%", TimeUtil.format(kitcooldown - (System.currentTimeMillis() - kitlastused))));
             return CommandResult.empty();
         }
