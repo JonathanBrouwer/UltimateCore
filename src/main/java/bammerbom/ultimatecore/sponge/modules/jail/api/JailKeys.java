@@ -23,11 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.modules.jail.api;
 
+import bammerbom.ultimatecore.sponge.api.config.datafiles.GlobalDataFile;
+import bammerbom.ultimatecore.sponge.api.config.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.config.datafiles.GlobalDataFile;
-import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;

@@ -24,10 +24,10 @@
 package bammerbom.ultimatecore.sponge.modules.votifier.handlers;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.votifier.VotifierModule;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierKeys;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierScheme;

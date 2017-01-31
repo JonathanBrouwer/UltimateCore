@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.afk.config;
 
-import bammerbom.ultimatecore.sponge.config.config.module.SmartModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.config.module.SmartModuleConfig;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.Setting;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;

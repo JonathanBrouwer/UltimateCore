@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config;
+package bammerbom.ultimatecore.sponge.api.config;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -36,9 +36,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class ModulesConfig implements DataFile {
-    //TODO forced enable
-    private Path path = new File(UltimateCore.get().getConfigFolder().toFile().getPath(), "modules.conf").toPath();
+public class CommandsConfig implements DataFile {
+    private Path path = new File(UltimateCore.get().getConfigFolder().toFile(), "commands.conf").toPath();
     private ConfigurationLoader<CommentedConfigurationNode> loader;
     private CommentedConfigurationNode node;
 
@@ -52,33 +51,31 @@ public class ModulesConfig implements DataFile {
             loader = HoconConfigurationLoader.builder().setPath(path).build();
             node = loader.load();
         } catch (IOException e) {
-            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));
-            ErrorLogger.log(e, "Failed to preload modules config");
+            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "commands.conf"));
+            ErrorLogger.log(e, "Failed to preload commands.conf file (Malformed?)");
         }
     }
 
     public void postload() {
         try {
             boolean modified = false;
-            if (!node.getNode("modules").getComment().isPresent()) {
-                node.getNode("modules").setComment("Set state to 'force', 'enabled' or 'disabled'\nForce will load the module even when another plugin blocks the loading process.");
-            }
-            for (Module mod : UltimateCore.get().getModuleService().getModules()) {
-                if (mod.getIdentifier().equals("default")) {
-                    continue;
-                }
-                CommentedConfigurationNode modnode = node.getNode("modules", mod.getIdentifier());
-                if (modnode.getNode("state").isVirtual()) {
+            for (Command cmd : UltimateCore.get().getCommandService().getCommands()) {
+                CommentedConfigurationNode cmdnode = node.getNode("commands", cmd.getIdentifier());
+                if (cmdnode.getNode("enabled").getValue() == null) {
                     modified = true;
-                    modnode.getNode("state").setValue("enabled");
+                    cmdnode.setComment(cmd.getShortDescription(null).toPlain());
+                    cmdnode.getNode("enabled").setValue(true);
+                    cmdnode.getNode("enabled").setComment("Set this to false to disable the command.");
+                    //TODO disable aliases?
+                    //TODO more options?
                 }
             }
             if (modified) {
                 loader.save(node);
             }
         } catch (IOException e) {
-            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));
-            ErrorLogger.log(e, "Failed to postload modules config");
+            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "commands.conf"));
+            ErrorLogger.log(e, "Failed to postload commands.conf file (Malformed?)");
         }
     }
 
@@ -92,6 +89,7 @@ public class ModulesConfig implements DataFile {
         return loader;
     }
 
+    @Override
     public CommentedConfigurationNode get() {
         return node;
     }
@@ -99,12 +97,10 @@ public class ModulesConfig implements DataFile {
     @Override
     public boolean save(CommentedConfigurationNode node) {
         try {
-            loader.save(node);
+            getLoader().save(node);
             return true;
-        } catch (IOException e) {
-            ErrorLogger.log(e, "Failed to save modules config.");
+        } catch (Exception ex) {
             return false;
         }
     }
 }
-

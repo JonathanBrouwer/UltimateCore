@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.module;
 
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;

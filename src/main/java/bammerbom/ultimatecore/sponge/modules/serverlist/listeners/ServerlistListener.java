@@ -24,10 +24,11 @@
 package bammerbom.ultimatecore.sponge.modules.serverlist.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.datafiles.GlobalDataFile;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.config.datafiles.GlobalDataFile;
+import bammerbom.ultimatecore.sponge.modules.serverlist.handlers.FaviconHandler;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
@@ -41,12 +42,14 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
+import org.spongepowered.api.network.status.Favicon;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.user.UserStorageService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -107,6 +110,12 @@ public class ServerlistListener {
                     }
                 }
 
+                //Favicon
+                if (config.get().getNode("player", "favicon", "enable").getBoolean()) {
+                    List<String> rawlist = config.get().getNode("player", "favicon", "favicons").getList(TypeToken.of(String.class));
+                    Optional<Favicon> fav = FaviconHandler.randomFavicon(rawlist, p);
+                    fav.ifPresent(favicon -> event.getResponse().setFavicon(favicon));
+                }
             } else {
                 //Unknown
 
@@ -133,6 +142,13 @@ public class ServerlistListener {
                         players.getProfiles().clear();
                         players.getProfiles().add(GameProfile.of(UUID.randomUUID(), TextSerializers.LEGACY_FORMATTING_CODE.serialize(hover)));
                     }
+                }
+
+                //Favicon
+                if (config.get().getNode("player", "favicon", "enable").getBoolean()) {
+                    List<String> rawlist = config.get().getNode("player", "favicon", "favicons").getList(TypeToken.of(String.class));
+                    Optional<Favicon> fav = FaviconHandler.randomFavicon(rawlist, null);
+                    fav.ifPresent(favicon -> event.getResponse().setFavicon(favicon));
                 }
             }
         } catch (ObjectMappingException e) {

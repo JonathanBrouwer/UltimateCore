@@ -23,8 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.modules.weather.listeners;
 
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.api.event.Listener;

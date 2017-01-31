@@ -21,49 +21,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config;
+package bammerbom.ultimatecore.sponge.api.config;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.api.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.asset.Asset;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Optional;
 
-public class GeneralConfig implements DataFile {
-    private static Path path = new File(UltimateCore.get().getConfigFolder().toFile(), "general.conf").toPath();
-    private static ConfigurationLoader<CommentedConfigurationNode> loader;
-    private static CommentedConfigurationNode node;
+public class ModulesConfig implements DataFile {
+    //TODO forced enable
+    private Path path = new File(UltimateCore.get().getConfigFolder().toFile().getPath(), "modules.conf").toPath();
+    private ConfigurationLoader<CommentedConfigurationNode> loader;
+    private CommentedConfigurationNode node;
 
-    public void reload() {
+    public void preload() {
         try {
             File file = path.toFile();
-            Optional<Asset> asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/general.conf");
-            if (!asset.isPresent()) {
-                Messages.log(Messages.getFormatted("core.config.invalidjar", "%conf%", "general.conf"));
-                return;
-            }
             if (!file.exists()) {
                 file.getParentFile().mkdirs();
-                asset.get().copyToFile(path);
+                file.createNewFile();
             }
-
             loader = HoconConfigurationLoader.builder().setPath(path).build();
             node = loader.load();
-
-            //Complete
-            ConfigCompleter.complete(this, asset.get());
         } catch (IOException e) {
-            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "general.conf"));
-            ErrorLogger.log(e, "Failed to load general config file. (Malformed?)");
+            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));
+            ErrorLogger.log(e, "Failed to preload modules config");
+        }
+    }
+
+    public void postload() {
+        try {
+            boolean modified = false;
+            if (!node.getNode("modules").getComment().isPresent()) {
+                node.getNode("modules").setComment("Set state to 'force', 'enabled' or 'disabled'\nForce will load the module even when another plugin blocks the loading process.");
+            }
+            for (Module mod : UltimateCore.get().getModuleService().getModules()) {
+                if (mod.getIdentifier().equals("default")) {
+                    continue;
+                }
+                CommentedConfigurationNode modnode = node.getNode("modules", mod.getIdentifier());
+                if (modnode.getNode("state").isVirtual()) {
+                    modified = true;
+                    modnode.getNode("state").setValue("enabled");
+                }
+            }
+            if (modified) {
+                loader.save(node);
+            }
+        } catch (IOException e) {
+            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));
+            ErrorLogger.log(e, "Failed to postload modules config");
         }
     }
 
@@ -77,7 +92,6 @@ public class GeneralConfig implements DataFile {
         return loader;
     }
 
-    @Override
     public CommentedConfigurationNode get() {
         return node;
     }
@@ -88,8 +102,9 @@ public class GeneralConfig implements DataFile {
             loader.save(node);
             return true;
         } catch (IOException e) {
-            ErrorLogger.log(e, "Failed to save general config file.");
+            ErrorLogger.log(e, "Failed to save modules config.");
             return false;
         }
     }
 }
+

@@ -21,7 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config.config;
+package bammerbom.ultimatecore.sponge.api.config.config;
 
-public interface SmartConfig {
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
+
+import java.io.File;
+import java.nio.file.Path;
+
+public interface RawConfig extends Config {
+    Path getPath();
+
+    File getFile();
+
+    CommentedConfigurationNode get();
+
+    ConfigurationLoader<CommentedConfigurationNode> getLoader();
+
+    boolean save(CommentedConfigurationNode node);
 }

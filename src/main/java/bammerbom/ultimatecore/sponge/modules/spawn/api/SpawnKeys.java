@@ -23,9 +23,9 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spawn.api;
 
+import bammerbom.ultimatecore.sponge.api.config.datafiles.GlobalDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.config.datafiles.GlobalDataFile;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;

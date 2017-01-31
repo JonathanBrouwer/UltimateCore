@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.blood.api;
 
-import bammerbom.ultimatecore.sponge.config.Serializers;
+import bammerbom.ultimatecore.sponge.api.config.Serializers;
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;

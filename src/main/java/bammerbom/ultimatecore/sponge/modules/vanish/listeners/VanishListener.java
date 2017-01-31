@@ -24,10 +24,10 @@
 package bammerbom.ultimatecore.sponge.modules.vanish.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.vanish.api.VanishKeys;
 import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.data.key.Keys;

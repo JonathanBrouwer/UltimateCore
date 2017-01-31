@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.mute;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
 import bammerbom.ultimatecore.sponge.modules.mute.api.MutePermissions;
 import bammerbom.ultimatecore.sponge.modules.mute.commands.MuteCommand;

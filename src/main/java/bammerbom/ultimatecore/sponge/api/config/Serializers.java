@@ -21,19 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config.datafiles;
+package bammerbom.ultimatecore.sponge.api.config;
 
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
+import bammerbom.ultimatecore.sponge.api.config.serializers.BlockStateSerializer;
+import bammerbom.ultimatecore.sponge.api.config.serializers.ItemStackSnapshotSerializer;
+import bammerbom.ultimatecore.sponge.api.config.serializers.TransformSerializer;
+import bammerbom.ultimatecore.sponge.api.config.serializers.Vector3dSerializer;
 
-import java.io.File;
-
-public interface DataFile {
-    File getFile();
-
-    ConfigurationLoader<CommentedConfigurationNode> getLoader();
-
-    CommentedConfigurationNode get();
-
-    boolean save(CommentedConfigurationNode node);
+public class Serializers {
+    public static BlockStateSerializer BLOCKSTATE = new BlockStateSerializer();
+    public static ItemStackSnapshotSerializer ITEMSTACKSNAPSHOT = new ItemStackSnapshotSerializer();
+    public static TransformSerializer TRANSFORM = new TransformSerializer();
+    public static Vector3dSerializer VECTOR3D = new Vector3dSerializer();
 }

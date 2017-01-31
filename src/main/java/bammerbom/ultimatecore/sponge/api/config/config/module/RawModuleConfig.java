@@ -21,66 +21,73 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config.datafiles;
+package bammerbom.ultimatecore.sponge.api.config.config.module;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.asset.Asset;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Optional;
 
-public class GlobalDataFile implements DataFile {
-    private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data");
+public class RawModuleConfig implements ModuleConfig, DataFile {
 
-    private String id;
+    protected String module;
+    protected Path path;
+    protected ConfigurationLoader<CommentedConfigurationNode> loader;
+    protected CommentedConfigurationNode node;
 
-    public GlobalDataFile(String id) {
-        this.id = id;
+    public RawModuleConfig(String id) {
+        this.module = id;
+        this.path = new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", module + ".conf").toPath();
+        reload();
+    }
+
+    public void reload() {
+        try {
+            File file = path.toFile();
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                Optional<Asset> asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/modules/" + module + ".conf");
+                if (!asset.isPresent()) {
+                    Messages.log(Messages.getFormatted("core.config.invalidjar", "%conf%", "modules/" + module + ".conf"));
+                    return;
+                }
+                asset.get().copyToFile(path);
+            }
+            loader = HoconConfigurationLoader.builder().setPath(path).build();
+            node = loader.load();
+        } catch (IOException e) {
+            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules/" + module + ".conf"));
+            ErrorLogger.log(e, "Failed to load module config for " + module);
+        }
+    }
+
+    public Path getPath() {
+        return path;
     }
 
     @Override
     public File getFile() {
-        if (!path.exists()) {
-            path.mkdirs();
-        }
-        File file = new File(path, id + ".data");
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            ErrorLogger.log(e, "Failed to load global data file " + id);
-        }
-        return file;
+        return path.toFile();
     }
 
     @Override
     public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
-        if (!path.exists()) {
-            path.mkdirs();
-        }
-        File file = new File(path, id + ".data");
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            ErrorLogger.log(e, "Failed to get global loader for " + id);
-        }
-        return HoconConfigurationLoader.builder().setFile(file).build();
+        return loader;
     }
 
     @Override
     public CommentedConfigurationNode get() {
-        try {
-            return getLoader().load();
-        } catch (IOException e) {
-            ErrorLogger.log(e, "Failed to get global node for " + id);
-            return null;
-        }
+        return node;
     }
 
     @Override
@@ -89,8 +96,12 @@ public class GlobalDataFile implements DataFile {
             getLoader().save(node);
             return true;
         } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to save global datafile for " + id);
             return false;
         }
+    }
+
+    @Override
+    public String getModule() {
+        return module;
     }
 }

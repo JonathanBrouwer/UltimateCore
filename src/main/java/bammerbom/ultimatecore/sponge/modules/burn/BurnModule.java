@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.burn;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.burn.api.BurnPermissions;
 import bammerbom.ultimatecore.sponge.modules.burn.commands.BurnCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;

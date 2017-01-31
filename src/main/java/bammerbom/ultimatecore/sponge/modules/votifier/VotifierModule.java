@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.sponge.modules.votifier;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VoteSerializer;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierScheme;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierSchemeSerializer;

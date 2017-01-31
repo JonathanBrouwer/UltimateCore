@@ -21,28 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config.serializers;
+package bammerbom.ultimatecore.sponge.api.config.config.module;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
-import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.persistence.DataTranslators;
-import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+import bammerbom.ultimatecore.sponge.api.config.config.RawConfig;
 
-public class ItemStackSnapshotSerializer implements TypeSerializer<ItemStackSnapshot> {
-    @Override
-    public ItemStackSnapshot deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
-        ItemStack item = node.getValue(TypeToken.of(ItemStack.class));
-        return item.createSnapshot();
-    }
-
-    @Override
-    public void serialize(TypeToken<?> type, ItemStackSnapshot obj, ConfigurationNode value) throws ObjectMappingException {
-        DataContainer container = obj.toContainer();
-        ConfigurationNode root = DataTranslators.CONFIGURATION_NODE.translate(container);
-        value.setValue(root);
-    }
+public interface ModuleConfig extends RawConfig {
+    String getModule();
 }

@@ -23,10 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spy.api;
 
+import bammerbom.ultimatecore.sponge.api.config.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.config.datafiles.PlayerDataFile;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
 public class SpyKeys {

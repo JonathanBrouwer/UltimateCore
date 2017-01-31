@@ -21,10 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config.config.module;
+package bammerbom.ultimatecore.sponge.api.config.serializers;
 
-import bammerbom.ultimatecore.sponge.config.config.RawConfig;
+import com.flowpowered.math.vector.Vector3d;
+import com.google.common.reflect.TypeToken;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 
-public interface ModuleConfig extends RawConfig {
-    String getModule();
+public class Vector3dSerializer implements TypeSerializer<Vector3d> {
+    @Override
+    public Vector3d deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
+        double x = node.getNode("x").getDouble();
+        double y = node.getNode("y").getDouble();
+        double z = node.getNode("z").getDouble();
+        return new Vector3d(x, y, z);
+    }
+
+    @Override
+    public void serialize(TypeToken<?> type, Vector3d vector, ConfigurationNode node) throws ObjectMappingException {
+        node.getNode("x").setValue(vector.getX());
+        node.getNode("y").setValue(vector.getY());
+        node.getNode("z").setValue(vector.getZ());
+    }
 }

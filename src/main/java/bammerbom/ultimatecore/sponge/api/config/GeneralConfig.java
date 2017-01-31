@@ -21,65 +21,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config.config.module;
+package bammerbom.ultimatecore.sponge.api.config;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.config.config.RawConfig;
-import bammerbom.ultimatecore.sponge.config.config.SmartConfig;
+import bammerbom.ultimatecore.sponge.api.config.datafiles.DataFile;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
-import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
-import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.asset.Asset;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Optional;
 
-@ConfigSerializable
-public class SmartModuleConfig implements ModuleConfig, SmartConfig, RawConfig {
+public class GeneralConfig implements DataFile {
+    private static Path path = new File(UltimateCore.get().getConfigFolder().toFile(), "general.conf").toPath();
+    private static ConfigurationLoader<CommentedConfigurationNode> loader;
+    private static CommentedConfigurationNode node;
 
-    protected ModuleConfig rawConfig;
-    protected String module;
-    protected Path path;
-    protected TypeToken token;
-
-    protected SmartModuleConfig(String module, TypeToken<? extends SmartModuleConfig> token) {
-        this.module = module;
-        this.path = new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", module + ".conf").toPath();
-        this.token = token;
-    }
-
-    @Override
     public void reload() {
         try {
             File file = path.toFile();
+            Optional<Asset> asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/general.conf");
+            if (!asset.isPresent()) {
+                Messages.log(Messages.getFormatted("core.config.invalidjar", "%conf%", "general.conf"));
+                return;
+            }
             if (!file.exists()) {
-                file.createNewFile();
-                HoconConfigurationLoader loader = HoconConfigurationLoader.builder().setFile(file).build();
-                CommentedConfigurationNode node = loader.load();
-                node.setValue(token, this);
-                loader.save(node);
+                file.getParentFile().mkdirs();
+                asset.get().copyToFile(path);
             }
-            if (rawConfig == null) {
-                rawConfig = new RawModuleConfig(module);
-            }
-            rawConfig.reload();
-        } catch (Exception e) {
-            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules/" + module + ".conf"));
-            ErrorLogger.log(e, "Failed to load module config for " + module);
+
+            loader = HoconConfigurationLoader.builder().setPath(path).build();
+            node = loader.load();
+
+            //Complete
+            ConfigCompleter.complete(this, asset.get());
+        } catch (IOException e) {
+            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "general.conf"));
+            ErrorLogger.log(e, "Failed to load general config file. (Malformed?)");
         }
-    }
-
-    @Override
-    public String getModule() {
-        return module;
-    }
-
-    @Override
-    public Path getPath() {
-        return path;
     }
 
     @Override
@@ -88,17 +73,23 @@ public class SmartModuleConfig implements ModuleConfig, SmartConfig, RawConfig {
     }
 
     @Override
-    public CommentedConfigurationNode get() {
-        return rawConfig.get();
+    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
+        return loader;
     }
 
     @Override
-    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
-        return rawConfig.getLoader();
+    public CommentedConfigurationNode get() {
+        return node;
     }
 
     @Override
     public boolean save(CommentedConfigurationNode node) {
-        return rawConfig.save(node);
+        try {
+            loader.save(node);
+            return true;
+        } catch (IOException e) {
+            ErrorLogger.log(e, "Failed to save general config file.");
+            return false;
+        }
     }
 }

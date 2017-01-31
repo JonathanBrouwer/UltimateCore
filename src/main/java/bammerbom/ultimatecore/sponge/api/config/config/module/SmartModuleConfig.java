@@ -21,56 +21,63 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config.config.module;
+package bammerbom.ultimatecore.sponge.api.config.config.module;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.api.config.config.RawConfig;
+import bammerbom.ultimatecore.sponge.api.config.config.SmartConfig;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Messages;
+import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.asset.Asset;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Optional;
 
-public class RawModuleConfig implements ModuleConfig, DataFile {
+@ConfigSerializable
+public class SmartModuleConfig implements ModuleConfig, SmartConfig, RawConfig {
 
+    protected ModuleConfig rawConfig;
     protected String module;
     protected Path path;
-    protected ConfigurationLoader<CommentedConfigurationNode> loader;
-    protected CommentedConfigurationNode node;
+    protected TypeToken token;
 
-    public RawModuleConfig(String id) {
-        this.module = id;
+    protected SmartModuleConfig(String module, TypeToken<? extends SmartModuleConfig> token) {
+        this.module = module;
         this.path = new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", module + ".conf").toPath();
-        reload();
+        this.token = token;
     }
 
+    @Override
     public void reload() {
         try {
             File file = path.toFile();
             if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                Optional<Asset> asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/modules/" + module + ".conf");
-                if (!asset.isPresent()) {
-                    Messages.log(Messages.getFormatted("core.config.invalidjar", "%conf%", "modules/" + module + ".conf"));
-                    return;
-                }
-                asset.get().copyToFile(path);
+                file.createNewFile();
+                HoconConfigurationLoader loader = HoconConfigurationLoader.builder().setFile(file).build();
+                CommentedConfigurationNode node = loader.load();
+                node.setValue(token, this);
+                loader.save(node);
             }
-            loader = HoconConfigurationLoader.builder().setPath(path).build();
-            node = loader.load();
-        } catch (IOException e) {
+            if (rawConfig == null) {
+                rawConfig = new RawModuleConfig(module);
+            }
+            rawConfig.reload();
+        } catch (Exception e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules/" + module + ".conf"));
             ErrorLogger.log(e, "Failed to load module config for " + module);
         }
     }
 
+    @Override
+    public String getModule() {
+        return module;
+    }
+
+    @Override
     public Path getPath() {
         return path;
     }
@@ -81,27 +88,17 @@ public class RawModuleConfig implements ModuleConfig, DataFile {
     }
 
     @Override
-    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
-        return loader;
+    public CommentedConfigurationNode get() {
+        return rawConfig.get();
     }
 
     @Override
-    public CommentedConfigurationNode get() {
-        return node;
+    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
+        return rawConfig.getLoader();
     }
 
     @Override
     public boolean save(CommentedConfigurationNode node) {
-        try {
-            getLoader().save(node);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
-
-    @Override
-    public String getModule() {
-        return module;
+        return rawConfig.save(node);
     }
 }

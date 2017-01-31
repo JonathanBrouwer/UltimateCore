@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.heal;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.heal.api.HealPermissions;
 import bammerbom.ultimatecore.sponge.modules.heal.commands.HealCommand;
 import bammerbom.ultimatecore.sponge.modules.heal.commands.SethealthCommand;

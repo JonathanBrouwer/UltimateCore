@@ -21,16 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config;
+package bammerbom.ultimatecore.sponge.api.config.config;
 
-import bammerbom.ultimatecore.sponge.config.serializers.BlockStateSerializer;
-import bammerbom.ultimatecore.sponge.config.serializers.ItemStackSnapshotSerializer;
-import bammerbom.ultimatecore.sponge.config.serializers.TransformSerializer;
-import bammerbom.ultimatecore.sponge.config.serializers.Vector3dSerializer;
-
-public class Serializers {
-    public static BlockStateSerializer BLOCKSTATE = new BlockStateSerializer();
-    public static ItemStackSnapshotSerializer ITEMSTACKSNAPSHOT = new ItemStackSnapshotSerializer();
-    public static TransformSerializer TRANSFORM = new TransformSerializer();
-    public static Vector3dSerializer VECTOR3D = new Vector3dSerializer();
+public interface Config {
+    void reload();
 }

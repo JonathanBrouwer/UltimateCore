@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.teleport;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
 import bammerbom.ultimatecore.sponge.modules.teleport.commands.*;
 import org.spongepowered.api.Sponge;

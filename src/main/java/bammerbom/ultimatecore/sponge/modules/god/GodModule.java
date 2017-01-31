@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.god;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.god.api.GodPermissions;
 import bammerbom.ultimatecore.sponge.modules.god.commands.GodCommand;
 import bammerbom.ultimatecore.sponge.modules.god.listeners.GodListener;

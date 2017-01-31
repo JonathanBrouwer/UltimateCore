@@ -21,29 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.config.datafiles;
+package bammerbom.ultimatecore.sponge.api.config.datafiles;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
-import org.spongepowered.api.world.World;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
-public class WorldDataFile implements DataFile {
-    private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/worlddata");
-    private UUID uuid;
+public class GlobalDataFile implements DataFile {
+    private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data");
 
-    public WorldDataFile(World world) {
-        this.uuid = world.getUniqueId();
-    }
+    private String id;
 
-    public WorldDataFile(UUID uuid) {
-        this.uuid = uuid;
+    public GlobalDataFile(String id) {
+        this.id = id;
     }
 
     @Override
@@ -51,21 +46,30 @@ public class WorldDataFile implements DataFile {
         if (!path.exists()) {
             path.mkdirs();
         }
-        //TODO maybe move file to world folder when world#getdirectory is implemented?
-        File file = new File(path, uuid.toString() + ".data");
+        File file = new File(path, id + ".data");
         try {
             if (!file.exists()) {
                 file.createNewFile();
             }
         } catch (IOException e) {
-            ErrorLogger.log(e, "Failed to load worlds data file for " + uuid);
+            ErrorLogger.log(e, "Failed to load global data file " + id);
         }
         return file;
     }
 
     @Override
     public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
-        File file = getFile();
+        if (!path.exists()) {
+            path.mkdirs();
+        }
+        File file = new File(path, id + ".data");
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            ErrorLogger.log(e, "Failed to get global loader for " + id);
+        }
         return HoconConfigurationLoader.builder().setFile(file).build();
     }
 
@@ -74,7 +78,7 @@ public class WorldDataFile implements DataFile {
         try {
             return getLoader().load();
         } catch (IOException e) {
-            ErrorLogger.log(e, "Failed to load node for  " + uuid);
+            ErrorLogger.log(e, "Failed to get global node for " + id);
             return null;
         }
     }
@@ -85,6 +89,7 @@ public class WorldDataFile implements DataFile {
             getLoader().save(node);
             return true;
         } catch (Exception ex) {
+            ErrorLogger.log(ex, "Failed to save global datafile for " + id);
             return false;
         }
     }

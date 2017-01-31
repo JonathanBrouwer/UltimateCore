@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.spy;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.modules.spy.api.SpyPermissions;
 import bammerbom.ultimatecore.sponge.modules.spy.commands.CommandspyCommand;
 import bammerbom.ultimatecore.sponge.modules.spy.commands.MessagespyCommand;
