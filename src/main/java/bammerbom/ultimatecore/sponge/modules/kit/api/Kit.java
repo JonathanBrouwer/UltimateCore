@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.kit.api;
 
+import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -97,7 +98,7 @@ public class Kit {
         @Override
         public Kit deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
             String id = node.getNode("id").getString();
-            Text desc = node.getNode("description").getValue(TypeToken.of(Text.class));
+            Text desc = Messages.toText(node.getNode("description").getString());
             List<ItemStackSnapshot> items = node.getNode("items").getList(TypeToken.of(ItemStackSnapshot.class));
             List<String> cmds = node.getNode("commands").getList(TypeToken.of(String.class));
             Long cooldown = TimeUtil.parse(node.getNode("cooldown").getString());
