@@ -47,6 +47,6 @@ public class TabcompleteWrapper extends Wrapper {
             typed = "";
         }
         final String finaltyped = typed;
-        return completions.stream().filter(completion -> completion.startsWith(finaltyped)).collect(Collectors.toList());
+        return completions.stream().filter(completion -> completion.toLowerCase().startsWith(finaltyped.toLowerCase())).collect(Collectors.toList());
     }
 }
