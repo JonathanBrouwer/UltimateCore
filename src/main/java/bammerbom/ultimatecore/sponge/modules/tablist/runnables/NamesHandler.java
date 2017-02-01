@@ -160,9 +160,9 @@ public class NamesHandler {
         String group = TablistPermissions.UC_TABLIST_GROUP.getFor(p);
         if (group != null && !node.getNode("names", "groups", group).isVirtual()) {
             CommentedConfigurationNode subnode = node.getNode("names", "groups", group);
-            name = Messages.toText(subnode.getNode("format").getString());
-            prefix = Messages.toText(subnode.getNode("prefix").getString());
-            suffix = Messages.toText(subnode.getNode("suffix").getString());
+            name = Messages.toText(subnode.getNode("format").getString(""));
+            prefix = Messages.toText(subnode.getNode("prefix").getString(""));
+            suffix = Messages.toText(subnode.getNode("suffix").getString(""));
         }
 
         //Afk suffix
