@@ -92,11 +92,11 @@ public class Permission {
      * @return The command
      */
     public Optional<Command> getCommand() {
-        if (!command.isPresent() && commandid != null) {
+        if ((command == null || !command.isPresent()) && commandid != null) {
             command = UltimateCore.get().getCommandService().get(commandid);
             return command;
         }
-        return command;
+        return command != null ? command : Optional.empty();
     }
 
     /**
