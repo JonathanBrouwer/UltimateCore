@@ -69,7 +69,7 @@ public interface HighPermCommand extends HighCommand {
 
         //Get custom suffixes
         registerPermissionSuffixes().forEach((id, info) -> {
-            Permission perm = Permission.create(id, getModule(), info.getLevel(), this, info.getDescription());
+            Permission perm = Permission.create(getBasePermission() + "." + id, getModule(), info.getLevel(), this, info.getDescription());
             perms.add(perm);
         });
 
