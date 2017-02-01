@@ -31,6 +31,7 @@ import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.util.List;
 
@@ -108,7 +109,7 @@ public class Kit {
         @Override
         public void serialize(TypeToken<?> type, Kit kit, ConfigurationNode node) throws ObjectMappingException {
             node.getNode("id").setValue(kit.getName());
-            node.getNode("description").setValue(TypeToken.of(Text.class), kit.getDescription());
+            node.getNode("description").setValue(TextSerializers.JSON.serialize(kit.getDescription()));
             node.getNode("items").setValue(new TypeToken<List<ItemStackSnapshot>>() {
             }, kit.getItems());
             node.getNode("commands").setValue(kit.getCommands());
