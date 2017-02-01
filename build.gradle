@@ -9,7 +9,7 @@ plugins {
 //Project details
 description "All you need to set up a server and more!"
 group "bammerbom"
-version "3.0.5-SNAPSHOT"
+version "3.0.5"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

@@ -1,9 +1,9 @@
 Broadcast
 ====
-Send a message to everyone on the server.
+Send messages to everyone on the server.
 
 Usage: /broadcast \<Message…\><br>
-Aliases: broadcast<br>
+Aliases: broadcast, bc<br>
 Module: [broadcast](../modules/broadcast.md)<br>
 
 Basic permission: uc.broadcast.broadcast.base<br>

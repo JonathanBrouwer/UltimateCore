@@ -7,4 +7,4 @@ Commands: <br>
 
 Permissions: <br>
 * **uc.inventory.clearinventory.base** - Recommended role: admin<br>Allows you to use the /clearinventory command.
-* **others** - Recommended role: admin<br>Allows you to use the /clearinventory command on other players
+* **uc.inventory.clearinventory.others** - Recommended role: admin<br>Allows you to use the /clearinventory command on other players

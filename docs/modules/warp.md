@@ -9,11 +9,11 @@ Commands: <br>
 * **[/warplist](../commands/warplist.md)**<br>Get a paginated list of all warps.
 
 Permissions: <br>
-* **uc.sign.warp.use** - Recommended role: everyone<br>Permission to use warpsigns.
-* **uc.sign.warp.create** - Recommended role: admin<br>Permission to create warpsigns.
-* **uc.sign.warp.destroy** - Recommended role: admin<br>Permission to destroy warpsigns.
 * **uc.warp.warp.base** - Recommended role: everyone<br>Allows you to use the warp command.
 * **uc.warp.warp.[WARP]** - Recommended role: everyone<br>Allows you to use a certain warp.
 * **uc.warp.setwarp.base** - Recommended role: admin<br>Allows you to set a new warp.
 * **uc.warp.delwarp.base** - Recommended role: admin<br>Allows you to remove a warp.
 * **uc.warp.warplist.base** - Recommended role: everyone<br>Allows you to see a list of all warps.
+* **uc.sign.warp.use** - Recommended role: everyone<br>Permission to use warpsigns.
+* **uc.sign.warp.create** - Recommended role: admin<br>Permission to create warpsigns.
+* **uc.sign.warp.destroy** - Recommended role: admin<br>Permission to destroy warpsigns.

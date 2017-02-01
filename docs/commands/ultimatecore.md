@@ -2,7 +2,7 @@ Ultimatecore
 ====
 The UltimateCore base command.
 
-Usage: /ultimatecore gendocs|reload|clearcache|resetuser|error|modules<br>
+Usage: /ultimatecore gendocs|reload|clearcache|resetuser|error|modules|<br>
 Aliases: ultimatecore, uc<br>
 Module: [default](../modules/default.md)<br>
 

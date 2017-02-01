@@ -26,6 +26,7 @@ Modules
 [kick - ALlows you to kick a player from the server.](modules/kick.md)<br>
 [kit - Give players certain items on use of a command.](modules/kit.md)<br>
 [mute - Allows you to mute a player and the player won't be able to send chat, but will be able to see the chat.](modules/mute.md)<br>
+[nick - Allows players to change their display name.](modules/nick.md)<br>
 [personalmessage - Send private messages to other players.](modules/personalmessage.md)<br>
 [poke - Hear a configurable sound when someone says your name in chat.](modules/poke.md)<br>
 [random - Generate random numbers with a simple command](modules/random.md)<br>

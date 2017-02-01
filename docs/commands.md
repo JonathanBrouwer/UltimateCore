@@ -18,9 +18,11 @@ Commands
 [/delgroupspawn \<Group\> - Delete a group spawn.](commands/delgroupspawn.md)<br>
 [/delhome \<Home\> - Remove a home.](commands/delhome.md)<br>
 [/deljail \<Jail\> - Remove the jail with the provided name.](commands/deljail.md)<br>
+[/delnick \[Player\] - Remove a player's nickname.](commands/delnick.md)<br>
 [/delwarp \<Warp\> - Remove the specified warp.](commands/delwarp.md)<br>
 [/firstspawn \[Player\] - Teleport someone to the new player spawn.](commands/firstspawn.md)<br>
 [/fly \[Player\] - Toggle someone's fly status.](commands/fly.md)<br>
+[/flyspeed \<Speed\> \[Player\] - Change a player's flyspeed. (1 by default)](commands/flyspeed.md)<br>
 [/food \[Player\] - Fill a player's food bar.](commands/food.md)<br>
 [/gamemode \<Gamemode\> \[Player\] - Change a player's gamemode.](commands/gamemode.md)<br>
 [/globalspawn \[Player\] - Teleport someone to the global spawn.](commands/globalspawn.md)<br>
@@ -48,6 +50,7 @@ Commands
 [/messagespy \[Player\] - Toggle a player's or your own commandspy status.](commands/messagespy.md)<br>
 [/more - Set the quantity of the item in your hand to the maximum.](commands/more.md)<br>
 [/mute \<Player\> \[Time\] \[Reason…\] - Mute a player, for a certain time and reason.](commands/mute.md)<br>
+[/nick \<Nick\> \[Player\] - Give someone a custom name.](commands/nick.md)<br>
 [/night - Set the time in a certain world to night.](commands/night.md)<br>
 [/personalmessage \<Player\> \<Message…\> - Send a private message to an other player.](commands/personalmessage.md)<br>
 [/rain \[World\] - Change the weather to rain.](commands/rain.md)<br>
@@ -65,6 +68,7 @@ Commands
 [/setwarp \<Name\> \[Description…\] - Create a new warp with the specified name and description.](commands/setwarp.md)<br>
 [/spawn \[Player\] - Teleport someone to the spawn.](commands/spawn.md)<br>
 [/spectator \[Player\] - Change someone's gamemode to spectator.](commands/spectator.md)<br>
+[/speed \<Speed\> \[Player\] - Change a player's flyspeed if he is flying, or else the player's walkspeed. (1 by default)](commands/speed.md)<br>
 [/sudo \<Player\> \<Command…\> - Force a player to chat or to use a command.
 /sudo <Player> /command
 /sudo <Player> message](commands/sudo.md)<br>
@@ -72,16 +76,20 @@ Commands
 [/survival \[Player\] - Change someone's gamemode to survival.](commands/survival.md)<br>
 [/teleport \[Player\] \<Player\> OR /teleport \[Player\] \<X\> \[Y\] \<Z\> \[\<Yaw\> \<Pitch\>\] - Teleport a player or yourself to another player or certain coordinates.](commands/teleport.md)<br>
 [/teleportaccept \[Tpid\] - Accept the specified request, or the most recent one.](commands/teleportaccept.md)<br>
+[/teleportall - Teleport everyone to you.](commands/teleportall.md)<br>
 [/teleportask \<Player\> - Ask to teleport to a player.](commands/teleportask.md)<br>
+[/teleportaskallhere - Ask everyone to teleport to you.](commands/teleportaskallhere.md)<br>
 [/teleportaskhere \<Player\> - Ask to teleport a player to you.](commands/teleportaskhere.md)<br>
 [/teleportdeny \[Tpid\] - Deny the specified request, or the most recent one.](commands/teleportdeny.md)<br>
+[/teleporthere \<Entities\> - Teleport someone to you.](commands/teleporthere.md)<br>
 [/thunder \[World\] - Change the weather to thunder.](commands/thunder.md)<br>
-[/time (set/add) day/night/\<ticks\>/enable/disable/query - Time-related actions.](commands/time.md)<br>
-[/ultimatecore gendocs|reload|clearcache|resetuser|error|modules - The UltimateCore base command.](commands/ultimatecore.md)<br>
+[/time add|set|query|night|enable|disable|day|\[Time\] - Time-related actions.](commands/time.md)<br>
+[/ultimatecore gendocs|reload|clearcache|resetuser|error|modules| - The UltimateCore base command.](commands/ultimatecore.md)<br>
 [/undeaf \<Player\> - Make a player no longer deaf.](commands/undeaf.md)<br>
 [/unjail \<Player\> - Unjail a player.](commands/unjail.md)<br>
 [/unmute \<Player\> - Unmute a player.](commands/unmute.md)<br>
 [/vanish \[Player\] - Toggle whether a player is vanished.](commands/vanish.md)<br>
+[/walkspeed \<Speed\> \[Player\] - Change a player's walkspeed. (1 by default)](commands/walkspeed.md)<br>
 [/warp \[Warp\] - Teleport yourself to the specified warp.](commands/warp.md)<br>
 [/warplist - Get a paginated list of all warps.](commands/warplist.md)<br>
 [/weather sun/rain/thunder \[World\] - Change the weather to sun, rain or thunder.](commands/weather.md)<br>

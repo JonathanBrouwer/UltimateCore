@@ -14,3 +14,4 @@ Permissions: <br>
 * **uc.kitlist.base** - Recommended role: everyone<br>Allows you to see a list of all kits.
 * **uc.kit.createkit.base** - Recommended role: admin<br>Allows you to use the createkit command.
 * **uc.kit.removekit.base** - Recommended role: admin<br>Allows you to use the removekit command.
+* **uc.kit.cooldown.exempt** - Recommended role: admin<br>Allows you to bypass a kit's cooldown.
