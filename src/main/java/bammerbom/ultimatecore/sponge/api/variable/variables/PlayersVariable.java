@@ -23,8 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.api.variable.variables;
 
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.variable.StaticVariable;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Text;

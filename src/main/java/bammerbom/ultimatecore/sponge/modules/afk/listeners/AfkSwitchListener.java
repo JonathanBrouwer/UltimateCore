@@ -25,11 +25,11 @@ package bammerbom.ultimatecore.sponge.modules.afk.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.entity.living.player.Player;

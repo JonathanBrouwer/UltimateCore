@@ -25,10 +25,10 @@ package bammerbom.ultimatecore.sponge.modules.home.commands.arguments;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;

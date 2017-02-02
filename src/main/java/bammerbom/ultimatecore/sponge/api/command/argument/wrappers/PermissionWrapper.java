@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.command.argument.wrappers;
 
 import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import com.google.common.collect.ImmutableList;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;

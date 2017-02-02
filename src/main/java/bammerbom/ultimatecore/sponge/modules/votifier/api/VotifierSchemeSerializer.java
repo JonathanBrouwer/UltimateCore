@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.votifier.api;
 
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;

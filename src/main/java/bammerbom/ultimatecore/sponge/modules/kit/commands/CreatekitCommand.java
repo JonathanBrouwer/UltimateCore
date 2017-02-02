@@ -30,12 +30,12 @@ import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStr
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.StringArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.TimeArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.kit.KitModule;
 import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;

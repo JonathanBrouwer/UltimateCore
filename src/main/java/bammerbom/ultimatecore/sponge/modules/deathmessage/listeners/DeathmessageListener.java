@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.deathmessage.listeners;
 
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.data.key.Keys;

@@ -28,10 +28,10 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandChildrenInfo
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BoundedIntegerArgument;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
 import bammerbom.ultimatecore.sponge.modules.time.api.TimePermissions;
 import bammerbom.ultimatecore.sponge.modules.time.commands.time.*;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;

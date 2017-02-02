@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.automessage.api;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import com.google.common.collect.ImmutableList;
 import org.spongepowered.api.Sponge;

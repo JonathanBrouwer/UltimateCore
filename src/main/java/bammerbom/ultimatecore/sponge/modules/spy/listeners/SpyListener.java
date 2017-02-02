@@ -24,11 +24,11 @@
 package bammerbom.ultimatecore.sponge.modules.spy.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.modules.personalmessage.api.PersonalmessageEvent;
 import bammerbom.ultimatecore.sponge.modules.spy.api.SpyKeys;
 import bammerbom.ultimatecore.sponge.modules.spy.api.SpyPermissions;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;

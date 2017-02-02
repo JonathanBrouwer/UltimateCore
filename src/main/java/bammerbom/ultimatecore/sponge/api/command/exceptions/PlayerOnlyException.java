@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.exceptions;
 
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import org.spongepowered.api.command.CommandException;
 
 public class PlayerOnlyException extends CommandException {

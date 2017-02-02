@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.command.argument.arguments;
 
 import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;

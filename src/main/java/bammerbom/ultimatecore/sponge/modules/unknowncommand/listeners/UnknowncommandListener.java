@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.unknowncommand.listeners;
 
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.command.CommandSource;

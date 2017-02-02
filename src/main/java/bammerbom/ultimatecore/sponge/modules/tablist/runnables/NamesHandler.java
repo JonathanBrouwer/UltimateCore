@@ -25,11 +25,11 @@ package bammerbom.ultimatecore.sponge.modules.tablist.runnables;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.tablist.api.TablistPermissions;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.Tuples;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;

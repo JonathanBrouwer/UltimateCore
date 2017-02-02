@@ -25,9 +25,9 @@ package bammerbom.ultimatecore.sponge.modules.jail.commands.arguments;
 
 import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;

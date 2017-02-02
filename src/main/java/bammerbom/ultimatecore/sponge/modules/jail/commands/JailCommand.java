@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgume
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.TimeArgument;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
@@ -39,7 +40,6 @@ import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.modules.jail.commands.arguments.JailArgument;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TimeUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;

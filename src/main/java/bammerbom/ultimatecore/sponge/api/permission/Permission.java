@@ -25,8 +25,8 @@ package bammerbom.ultimatecore.sponge.api.permission;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;

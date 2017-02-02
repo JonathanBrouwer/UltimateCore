@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.sponge.modules.chat.listeners;
 
 import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.modules.chat.api.ChatPermissions;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;

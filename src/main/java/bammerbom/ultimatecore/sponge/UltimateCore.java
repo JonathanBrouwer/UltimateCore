@@ -34,6 +34,9 @@ import bammerbom.ultimatecore.sponge.api.config.serializers.Vector3dSerializer;
 import bammerbom.ultimatecore.sponge.api.event.module.ModuleInitializeEvent;
 import bammerbom.ultimatecore.sponge.api.event.module.ModulePostInitializeEvent;
 import bammerbom.ultimatecore.sponge.api.event.module.ModuleStoppingEvent;
+import bammerbom.ultimatecore.sponge.api.language.LanguageService;
+import bammerbom.ultimatecore.sponge.api.language.impl.UCLanguageService;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.api.module.impl.UCModuleService;
@@ -48,7 +51,10 @@ import bammerbom.ultimatecore.sponge.api.user.UserService;
 import bammerbom.ultimatecore.sponge.api.user.impl.UCUserService;
 import bammerbom.ultimatecore.sponge.api.variable.VariableService;
 import bammerbom.ultimatecore.sponge.api.variable.impl.UCVariableService;
-import bammerbom.ultimatecore.sponge.utils.*;
+import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
+import bammerbom.ultimatecore.sponge.utils.Metrics;
+import bammerbom.ultimatecore.sponge.utils.ServerID;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -114,7 +120,9 @@ public class UltimateCore {
             instance = this;
             //Load utils
             ServerID.start();
-            Messages.reloadEnglishMessages();
+            //Language service
+            UCLanguageService languageService = new UCLanguageService();
+            languageService.reloadPre();
 
             //Register serializers because sponge doesn't for some reason
             TypeSerializerCollection serializers = TypeSerializers.getDefaultSerializers();
@@ -130,7 +138,7 @@ public class UltimateCore {
             commandsConfig.preload();
             modulesConfig = new ModulesConfig();
             modulesConfig.preload();
-            Messages.reloadCustomMessages();
+            languageService.reloadPost();
 
             //Load services
             UCModuleService moduleService = new UCModuleService();
@@ -152,6 +160,7 @@ public class UltimateCore {
             sm.setProvider(this, TeleportService.class, teleportService);
             sm.setProvider(this, TickService.class, tickService);
             sm.setProvider(this, VariableService.class, variableService);
+            sm.setProvider(this, LanguageService.class, languageService);
 
             //Load modules
             for (Module module : moduleService.findModules()) {
@@ -313,7 +322,7 @@ public class UltimateCore {
                 }
             }
 
-            Messages.reloadMessages();
+            getLanguageService().reload();
 
             time = System.currentTimeMillis() - time;
             Messages.log(Messages.getFormatted("core.load.reload", "%ms%", time));
@@ -364,6 +373,11 @@ public class UltimateCore {
     public VariableService getVariableService() {
         ServiceManager manager = Sponge.getServiceManager();
         return manager.provide(VariableService.class).orElse(null);
+    }
+
+    public LanguageService getLanguageService() {
+        ServiceManager manager = Sponge.getServiceManager();
+        return manager.provide(LanguageService.class).orElse(null);
     }
 
     public Optional<SignService> getSignService() {

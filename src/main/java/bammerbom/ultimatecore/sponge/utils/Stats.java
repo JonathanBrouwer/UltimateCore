@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import com.goebl.david.Response;
 import com.goebl.david.Webb;
 import org.spongepowered.api.Platform;

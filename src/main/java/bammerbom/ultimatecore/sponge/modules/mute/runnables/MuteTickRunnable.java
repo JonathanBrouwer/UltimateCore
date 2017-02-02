@@ -24,10 +24,10 @@
 package bammerbom.ultimatecore.sponge.modules.mute.runnables;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
 import bammerbom.ultimatecore.sponge.modules.mute.api.MuteKeys;
-import bammerbom.ultimatecore.sponge.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 

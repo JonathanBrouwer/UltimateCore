@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.automessage.api;
 
-import bammerbom.ultimatecore.sponge.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
