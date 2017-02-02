@@ -31,6 +31,9 @@ import bammerbom.ultimatecore.sponge.api.config.ModulesConfig;
 import bammerbom.ultimatecore.sponge.api.config.serializers.ItemStackSnapshotSerializer;
 import bammerbom.ultimatecore.sponge.api.config.serializers.TransformSerializer;
 import bammerbom.ultimatecore.sponge.api.config.serializers.Vector3dSerializer;
+import bammerbom.ultimatecore.sponge.api.error.ErrorService;
+import bammerbom.ultimatecore.sponge.api.error.impl.UCErrorService;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.event.module.ModuleInitializeEvent;
 import bammerbom.ultimatecore.sponge.api.event.module.ModulePostInitializeEvent;
 import bammerbom.ultimatecore.sponge.api.event.module.ModuleStoppingEvent;
@@ -51,7 +54,6 @@ import bammerbom.ultimatecore.sponge.api.user.UserService;
 import bammerbom.ultimatecore.sponge.api.user.impl.UCUserService;
 import bammerbom.ultimatecore.sponge.api.variable.VariableService;
 import bammerbom.ultimatecore.sponge.api.variable.impl.UCVariableService;
-import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.Metrics;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
@@ -150,6 +152,7 @@ public class UltimateCore {
             tickService.init();
             UCVariableService variableService = new UCVariableService();
             variableService.init();
+            UCErrorService errorService = new UCErrorService();
 
             //Register services
             ServiceManager sm = Sponge.getServiceManager();
@@ -161,6 +164,7 @@ public class UltimateCore {
             sm.setProvider(this, TickService.class, tickService);
             sm.setProvider(this, VariableService.class, variableService);
             sm.setProvider(this, LanguageService.class, languageService);
+            sm.setProvider(this, ErrorService.class, errorService);
 
             //Load modules
             for (Module module : moduleService.findModules()) {
@@ -378,6 +382,11 @@ public class UltimateCore {
     public LanguageService getLanguageService() {
         ServiceManager manager = Sponge.getServiceManager();
         return manager.provide(LanguageService.class).orElse(null);
+    }
+
+    public ErrorService getErrorService() {
+        ServiceManager manager = Sponge.getServiceManager();
+        return manager.provide(ErrorService.class).orElse(null);
     }
 
     public Optional<SignService> getSignService() {

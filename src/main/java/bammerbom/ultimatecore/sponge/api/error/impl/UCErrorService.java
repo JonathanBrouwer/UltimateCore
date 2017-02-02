@@ -21,30 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.utils;
+package bammerbom.ultimatecore.sponge.api.error.impl;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.utils.FileUtil;
+import bammerbom.ultimatecore.sponge.api.error.ErrorService;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.utils.Stats;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class ErrorLogger {
-
-    static StringWriter writer = null;
-    static Long countdown = null;
-
-    public static void log(final Throwable t, final String ucmessage) {
+public class UCErrorService implements ErrorService {
+    @Override
+    public void handle(Throwable t, String ucmessage) {
         //Special exceptions
-        String exception = getStackTrace(t);
+        String exception = ErrorLogger.getStackTrace(t);
 
         //FILE
         final String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS").format(Calendar.getInstance().getTime());
@@ -99,12 +97,5 @@ public class ErrorLogger {
 //            Messages.log("SENDING ERROR FAILED (" + rtrn.getStatusCode() + " / " + rtrn.getResponseMessage() + " / " + rtrn.getBody() + ")");
 //        }
 
-    }
-
-    private static String getStackTrace(Throwable throwable) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw, true);
-        throwable.printStackTrace(pw);
-        return sw.getBuffer().toString();
     }
 }

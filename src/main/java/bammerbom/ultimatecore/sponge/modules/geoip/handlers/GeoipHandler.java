@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.geoip.handlers;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
-import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import com.maxmind.db.CHMCache;
 import com.maxmind.db.Reader;
 import com.maxmind.geoip2.DatabaseReader;

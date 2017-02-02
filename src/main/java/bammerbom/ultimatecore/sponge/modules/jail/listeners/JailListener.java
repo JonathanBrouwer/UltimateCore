@@ -34,7 +34,7 @@ import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.utils.SpawnUtil;
-import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;

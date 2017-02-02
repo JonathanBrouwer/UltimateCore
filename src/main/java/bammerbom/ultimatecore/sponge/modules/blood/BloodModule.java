@@ -30,7 +30,7 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffect;
 import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffects;
 import bammerbom.ultimatecore.sponge.modules.blood.listeners.BloodListener;
-import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;

@@ -21,38 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.utils;
+package bammerbom.ultimatecore.sponge.api.error;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.config.utils.FileUtil;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.UUID;
-
-public class ServerID {
-    static UUID uuid;
-
-    public static void start() {
-        try {
-            File file = new File(UltimateCore.get().getDataFolder().toUri().getPath() + "/data", "serverid.data");
-            file.getParentFile().mkdirs();
-            if (!file.exists()) {
-                file.createNewFile();
-                UUID u = UUID.randomUUID();
-                FileUtil.writeLines(file, Arrays.asList("This UUID is used by UltimateCore to identify your server while sending errors, stats, etc.", u.toString()));
-                uuid = u;
-            } else {
-                String s = FileUtil.readLines(file).get(1);
-                uuid = UUID.fromString(s);
-            }
-        } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to get server id.");
-        }
-    }
-
-    public static UUID getUUID() {
-        return uuid;
-    }
+public interface ErrorService {
+    void handle(final Throwable t, final String ucmessage);
 }

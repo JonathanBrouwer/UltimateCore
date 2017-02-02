@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.api.tick.impl;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.tick.TickService;
-import bammerbom.ultimatecore.sponge.utils.ErrorLogger;
 import org.spongepowered.api.Sponge;
 
 import java.util.HashMap;
