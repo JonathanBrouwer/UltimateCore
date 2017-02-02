@@ -21,7 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config.config;
+package bammerbom.ultimatecore.sponge.api.config.defaultconfigs;
 
-public interface SmartConfig {
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
+
+import java.io.File;
+
+public class GeneralConfig extends RawFileConfig {
+    public GeneralConfig() {
+        super(new File(UltimateCore.get().getConfigFolder().toFile(), "general.conf"));
+    }
 }

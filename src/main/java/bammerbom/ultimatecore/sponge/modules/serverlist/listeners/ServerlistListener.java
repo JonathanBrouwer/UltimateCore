@@ -25,13 +25,13 @@ package bammerbom.ultimatecore.sponge.modules.serverlist.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.api.config.datafiles.GlobalDataFile;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.GlobalDataFile;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import bammerbom.ultimatecore.sponge.modules.serverlist.handlers.FaviconHandler;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import net.minecrell.statusprotocol.StatusProtocol;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;

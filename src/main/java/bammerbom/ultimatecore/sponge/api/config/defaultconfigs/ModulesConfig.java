@@ -21,40 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config;
+package bammerbom.ultimatecore.sponge.api.config.defaultconfigs;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.config.datafiles.DataFile;
+import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 
-public class ModulesConfig implements DataFile {
-    //TODO forced enable
-    private Path path = new File(UltimateCore.get().getConfigFolder().toFile().getPath(), "modules.conf").toPath();
-    private ConfigurationLoader<CommentedConfigurationNode> loader;
-    private CommentedConfigurationNode node;
-
-    public void preload() {
-        try {
-            File file = path.toFile();
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            }
-            loader = HoconConfigurationLoader.builder().setPath(path).build();
-            node = loader.load();
-        } catch (IOException e) {
-            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));
-            ErrorLogger.log(e, "Failed to preload modules config");
-        }
+public class ModulesConfig extends RawFileConfig {
+    public ModulesConfig() {
+        super(new File(UltimateCore.get().getConfigFolder().toFile().getPath(), "modules.conf"));
     }
 
     public void postload() {
@@ -79,31 +60,6 @@ public class ModulesConfig implements DataFile {
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));
             ErrorLogger.log(e, "Failed to postload modules config");
-        }
-    }
-
-    @Override
-    public File getFile() {
-        return path.toFile();
-    }
-
-    @Override
-    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
-        return loader;
-    }
-
-    public CommentedConfigurationNode get() {
-        return node;
-    }
-
-    @Override
-    public boolean save(CommentedConfigurationNode node) {
-        try {
-            loader.save(node);
-            return true;
-        } catch (IOException e) {
-            ErrorLogger.log(e, "Failed to save modules config.");
-            return false;
         }
     }
 }

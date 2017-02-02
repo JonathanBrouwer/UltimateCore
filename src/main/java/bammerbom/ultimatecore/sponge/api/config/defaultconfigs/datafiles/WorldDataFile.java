@@ -21,19 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config.datafiles;
+package bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles;
 
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
+import org.spongepowered.api.world.World;
 
 import java.io.File;
+import java.util.UUID;
 
-public interface DataFile {
-    File getFile();
+public class WorldDataFile extends RawFileConfig {
+    private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/worlddata");
+    private UUID uuid;
 
-    ConfigurationLoader<CommentedConfigurationNode> getLoader();
+    public WorldDataFile(World world) {
+        this(world.getUniqueId());
+    }
 
-    CommentedConfigurationNode get();
+    public WorldDataFile(UUID uuid) {
+        super(new File(path, uuid.toString() + ".data"));
+        this.uuid = uuid;
+    }
 
-    boolean save(CommentedConfigurationNode node);
+    public UUID getWorldUUID() {
+        return uuid;
+    }
 }

@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spy.api;
 
-import bammerbom.ultimatecore.sponge.api.config.datafiles.PlayerDataFile;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;

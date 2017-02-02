@@ -25,9 +25,9 @@ package bammerbom.ultimatecore.sponge;
 
 import bammerbom.ultimatecore.sponge.api.command.CommandService;
 import bammerbom.ultimatecore.sponge.api.command.impl.UCCommandService;
-import bammerbom.ultimatecore.sponge.api.config.CommandsConfig;
-import bammerbom.ultimatecore.sponge.api.config.GeneralConfig;
-import bammerbom.ultimatecore.sponge.api.config.ModulesConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.CommandsConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.GeneralConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.ModulesConfig;
 import bammerbom.ultimatecore.sponge.api.config.serializers.ItemStackSnapshotSerializer;
 import bammerbom.ultimatecore.sponge.api.config.serializers.TransformSerializer;
 import bammerbom.ultimatecore.sponge.api.config.serializers.Vector3dSerializer;
@@ -137,9 +137,9 @@ public class UltimateCore {
             generalConfig = new GeneralConfig();
             generalConfig.reload();
             commandsConfig = new CommandsConfig();
-            commandsConfig.preload();
+            commandsConfig.reload();
             modulesConfig = new ModulesConfig();
-            modulesConfig.preload();
+            modulesConfig.reload();
             languageService.reloadPost();
 
             //Load services
@@ -314,9 +314,9 @@ public class UltimateCore {
         try {
             Long time = System.currentTimeMillis();
             UltimateCore.get().getGeneralConfig().reload();
-            UltimateCore.get().getCommandsConfig().preload();
+            UltimateCore.get().getCommandsConfig().reload();
             UltimateCore.get().getCommandsConfig().postload();
-            UltimateCore.get().getModulesConfig().preload();
+            UltimateCore.get().getModulesConfig().reload();
             UltimateCore.get().getModulesConfig().postload();
 
             for (Module mod : UltimateCore.get().getModuleService().getModules()) {

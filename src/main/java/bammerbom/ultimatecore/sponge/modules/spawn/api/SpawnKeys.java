@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spawn.api;
 
-import bammerbom.ultimatecore.sponge.api.config.datafiles.GlobalDataFile;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.GlobalDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;

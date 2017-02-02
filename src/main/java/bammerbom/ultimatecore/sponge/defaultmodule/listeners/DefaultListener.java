@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.defaultmodule.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.config.datafiles.GlobalDataFile;
-import bammerbom.ultimatecore.sponge.api.config.datafiles.PlayerDataFile;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.GlobalDataFile;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.entity.living.player.Player;

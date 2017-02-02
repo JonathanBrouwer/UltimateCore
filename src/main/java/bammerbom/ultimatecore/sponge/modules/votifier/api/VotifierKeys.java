@@ -23,12 +23,12 @@
  */
 package bammerbom.ultimatecore.sponge.modules.votifier.api;
 
-import bammerbom.ultimatecore.sponge.api.config.datafiles.GlobalDataFile;
-import bammerbom.ultimatecore.sponge.api.config.datafiles.PlayerDataFile;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.GlobalDataFile;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import com.google.common.reflect.TypeToken;
 import com.vexsoftware.votifier.model.Vote;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;

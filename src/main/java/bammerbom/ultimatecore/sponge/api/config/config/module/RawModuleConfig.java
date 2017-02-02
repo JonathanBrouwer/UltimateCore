@@ -24,80 +24,17 @@
 package bammerbom.ultimatecore.sponge.api.config.config.module;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.config.datafiles.DataFile;
-import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.asset.Asset;
+import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Optional;
 
-public class RawModuleConfig implements ModuleConfig, DataFile {
+public class RawModuleConfig extends RawFileConfig implements ModuleConfig {
 
     protected String module;
-    protected Path path;
-    protected ConfigurationLoader<CommentedConfigurationNode> loader;
-    protected CommentedConfigurationNode node;
 
     public RawModuleConfig(String id) {
+        super(new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", id + ".conf"));
         this.module = id;
-        this.path = new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", module + ".conf").toPath();
-        reload();
-    }
-
-    public void reload() {
-        try {
-            File file = path.toFile();
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                Optional<Asset> asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/modules/" + module + ".conf");
-                if (!asset.isPresent()) {
-                    Messages.log(Messages.getFormatted("core.config.invalidjar", "%conf%", "modules/" + module + ".conf"));
-                    return;
-                }
-                asset.get().copyToFile(path);
-            }
-            loader = HoconConfigurationLoader.builder().setPath(path).build();
-            node = loader.load();
-        } catch (IOException e) {
-            Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules/" + module + ".conf"));
-            ErrorLogger.log(e, "Failed to load module config for " + module);
-        }
-    }
-
-    public Path getPath() {
-        return path;
-    }
-
-    @Override
-    public File getFile() {
-        return path.toFile();
-    }
-
-    @Override
-    public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
-        return loader;
-    }
-
-    @Override
-    public CommentedConfigurationNode get() {
-        return node;
-    }
-
-    @Override
-    public boolean save(CommentedConfigurationNode node) {
-        try {
-            getLoader().save(node);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
     }
 
     @Override

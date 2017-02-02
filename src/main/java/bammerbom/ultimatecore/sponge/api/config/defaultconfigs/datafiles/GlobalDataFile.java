@@ -21,29 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.god.api;
+package bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
 
-public class GodKeys {
-    public static Key.User<Boolean> GOD = new Key.User<>("god", new KeyProvider.User<Boolean>() {
-        @Override
-        public Boolean load(UltimateUser user) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            return node.getNode("god").getBoolean(false);
-        }
+import java.io.File;
 
-        @Override
-        public void save(UltimateUser user, Boolean data) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            node.getNode("god").setValue(data);
-            loader.save(node);
-        }
-    });
+public class GlobalDataFile extends RawFileConfig {
+    private static File path = new File(UltimateCore.get().getDataFolder().toFile().getPath() + "/data");
+    private String id;
+
+    public GlobalDataFile(String id) {
+        super(new File(path, id + ".data"));
+        this.id = id;
+    }
+
+    public String getModuleId() {
+        return id;
+    }
 }
