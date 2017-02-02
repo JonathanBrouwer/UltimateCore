@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.api.teleport.impl;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportPermissions;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
@@ -123,7 +124,11 @@ public class UCTeleportation implements Teleportation {
         Transform<World> t = target.get();
         getEntities().forEach(en -> {
             if (safe) {
-                en.setLocationSafely(t.getLocation());
+                if (!en.setLocationSafely(t.getLocation())) {
+                    if (source != null && source.hasPermission(TeleportPermissions.UC_TELEPORT_SAFEEXEMPT.get())) {
+                        en.setLocation(t.getLocation());
+                    }
+                }
             } else {
                 en.setLocation(t.getLocation());
             }

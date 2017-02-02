@@ -37,4 +37,6 @@ public class TeleportPermissions {
     public static Permission UC_TELEPORT_TELEPORTASKHERE_BASE = Permission.create("uc.teleport.teleportaskhere.base", "teleport", PermissionLevel.EVERYONE, "teleportaskhere", Text.of("Allows you to use the teleportaskhere command"));
     public static Permission UC_TELEPORT_TELEPORTACCEPT_BASE = Permission.create("uc.teleport.teleportaccept.base", "teleport", PermissionLevel.EVERYONE, "teleportaccept", Text.of("Allows you to use the teleportaccept command"));
     public static Permission UC_TELEPORT_TELEPORTDENY_BASE = Permission.create("uc.teleport.teleportdeny.base", "teleport", PermissionLevel.EVERYONE, "teleportdeny", Text.of("Allows you to use the teleportdeny command"));
+
+    public static Permission UC_TELEPORT_SAFEEXEMPT = Permission.create("uc.teleport.safeexempt", "teleport", PermissionLevel.ADMIN, "teleport", Text.of("Allows you to teleport players, even if it is unsafe."));
 }
