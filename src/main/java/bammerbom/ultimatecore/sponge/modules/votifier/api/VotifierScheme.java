@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.votifier.api;
 
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import com.vexsoftware.votifier.model.Vote;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;

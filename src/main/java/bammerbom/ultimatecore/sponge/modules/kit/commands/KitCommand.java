@@ -36,7 +36,7 @@ import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.arguments.KitArgument;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;

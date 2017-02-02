@@ -23,11 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.api.variable.impl;
 
+import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.api.variable.DynamicVariable;
 import bammerbom.ultimatecore.sponge.api.variable.StaticVariable;
 import bammerbom.ultimatecore.sponge.api.variable.VariableService;
 import bammerbom.ultimatecore.sponge.api.variable.variables.*;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;

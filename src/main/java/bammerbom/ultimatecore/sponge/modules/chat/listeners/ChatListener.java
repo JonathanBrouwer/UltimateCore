@@ -25,10 +25,10 @@ package bammerbom.ultimatecore.sponge.modules.chat.listeners;
 
 import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import bammerbom.ultimatecore.sponge.modules.chat.api.ChatPermissions;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;

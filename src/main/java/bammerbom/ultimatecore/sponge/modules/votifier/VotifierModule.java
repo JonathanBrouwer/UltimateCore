@@ -32,7 +32,7 @@ import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierScheme;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierSchemeSerializer;
 import bammerbom.ultimatecore.sponge.modules.votifier.listeners.VotifierListener;
 import bammerbom.ultimatecore.sponge.modules.votifier.runnables.VotifierTickRunnable;
-import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.ArgumentUtil;
 import com.google.common.reflect.TypeToken;
 import com.vexsoftware.votifier.model.Vote;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;

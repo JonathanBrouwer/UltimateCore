@@ -21,23 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.utils;
+package bammerbom.ultimatecore.sponge.api.teleport.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
+import org.spongepowered.api.data.property.AbstractProperty;
+import org.spongepowered.api.data.property.block.PassableProperty;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
-public class FileUtil {
-    public static List<String> readLines(File file) throws IOException {
-        return Files.readAllLines(file.toPath());
+import java.util.Optional;
+
+public class LocationUtil {
+    /**
+     * Gets the highest y of the specified location, or -1 if not possible.
+     *
+     * @param w The world
+     * @param x The x coordinate
+     * @param z The z coordinate
+     * @return The y coordinate of the highest solid block
+     */
+    public static int getHighestY(World w, Double x, Double z) {
+        int y = w.getBlockMax().getY();
+        while (isPassable(w, x, y, z)) {
+            y = y - 1;
+            if (y <= 0) {
+                return -1;
+            }
+        }
+        return y;
     }
 
-    public static boolean writeLines(File file, List<String> lines) throws IOException {
-        if (!file.exists()) {
-            file.getParentFile().mkdirs();
-            file.createNewFile();
-        }
-        return Files.write(file.toPath(), lines).toFile().exists();
+    private static boolean isPassable(World w, Double x, int y, Double z) {
+        Optional<PassableProperty> prop = new Location<>(w, x, y, z).getBlock().getProperty(PassableProperty.class);
+        return prop.map(AbstractProperty::getValue).orElse(false);
     }
 }

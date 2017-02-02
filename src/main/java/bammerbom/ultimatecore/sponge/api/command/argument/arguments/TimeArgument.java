@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.api.command.argument.arguments;
 
 import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;

@@ -37,7 +37,7 @@ import bammerbom.ultimatecore.sponge.modules.afk.AfkModule;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;

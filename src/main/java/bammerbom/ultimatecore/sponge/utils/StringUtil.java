@@ -26,17 +26,6 @@ package bammerbom.ultimatecore.sponge.utils;
 import java.util.Collection;
 
 public class StringUtil {
-    public static String getFinalArg(String[] args, int start) {
-        StringBuilder bldr = new StringBuilder();
-        for (int i = start; i < args.length; i++) {
-            if (i != start) {
-                bldr.append(" ");
-            }
-            bldr.append(args[i]);
-        }
-        return bldr.toString();
-    }
-
     public static String join(String seperator, Object[] list) {
         StringBuilder buf = new StringBuilder();
         for (Object each : list) {

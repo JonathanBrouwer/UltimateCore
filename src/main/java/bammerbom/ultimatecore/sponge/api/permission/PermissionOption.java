@@ -27,7 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.ArgumentUtil;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 

@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.deathmessage.listeners;
 
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;

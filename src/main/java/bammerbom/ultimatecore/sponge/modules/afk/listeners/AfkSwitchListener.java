@@ -30,7 +30,7 @@ import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkPermissions;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;

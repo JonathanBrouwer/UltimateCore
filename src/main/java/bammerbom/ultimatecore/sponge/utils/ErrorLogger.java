@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.utils.FileUtil;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.text.Text;

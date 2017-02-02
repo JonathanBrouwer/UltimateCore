@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.argument;
 
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
+import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;

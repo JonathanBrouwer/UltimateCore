@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.sponge.modules.teleport.utils;
 
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.variable.utils.Selector;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportKeys;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TpaRequest;
-import bammerbom.ultimatecore.sponge.utils.Selector;
 import org.spongepowered.api.entity.living.player.Player;
 
 import javax.annotation.Nullable;

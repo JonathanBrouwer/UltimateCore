@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.automessage.api;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
+import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
 import com.google.common.collect.ImmutableList;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.boss.BossBarColor;

@@ -32,8 +32,8 @@ import bammerbom.ultimatecore.sponge.api.command.argument.arguments.EntitiesArgu
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import bammerbom.ultimatecore.sponge.modules.teleport.TeleportModule;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;

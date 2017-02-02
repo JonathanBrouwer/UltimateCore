@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.api.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.api.variable.DynamicVariable;
-import bammerbom.ultimatecore.sponge.utils.TextUtil;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 

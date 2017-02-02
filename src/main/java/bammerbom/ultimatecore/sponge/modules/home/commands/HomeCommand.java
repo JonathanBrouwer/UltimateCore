@@ -36,7 +36,7 @@ import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
 import bammerbom.ultimatecore.sponge.modules.home.commands.arguments.HomeArgument;
-import bammerbom.ultimatecore.sponge.utils.ArgumentUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.ArgumentUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;

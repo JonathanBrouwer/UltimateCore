@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.Deaf;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafKeys;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.message.MessageChannelEvent;

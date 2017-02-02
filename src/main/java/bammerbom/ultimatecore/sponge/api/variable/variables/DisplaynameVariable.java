@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.variable.variables;
 
 import bammerbom.ultimatecore.sponge.api.variable.StaticVariable;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;

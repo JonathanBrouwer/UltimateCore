@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.serverlist.handlers;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.network.status.Favicon;

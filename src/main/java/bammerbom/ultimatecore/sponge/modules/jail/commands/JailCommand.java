@@ -40,7 +40,7 @@ import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.modules.jail.commands.arguments.JailArgument;
-import bammerbom.ultimatecore.sponge.utils.TimeUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;

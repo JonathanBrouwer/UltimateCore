@@ -31,10 +31,10 @@ import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgume
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import bammerbom.ultimatecore.sponge.modules.deaf.DeafModule;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafKeys;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafPermissions;
-import bammerbom.ultimatecore.sponge.utils.VariableUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
