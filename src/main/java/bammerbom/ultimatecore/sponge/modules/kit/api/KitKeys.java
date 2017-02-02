@@ -71,7 +71,7 @@ public class KitKeys {
             loader.save(node);
         }
     });
-    public static Key.User<HashMap<String, Long>> KIT_LASTUSED = new Key.User<>("back", new KeyProvider.User<HashMap<String, Long>>() {
+    public static Key.User<HashMap<String, Long>> KIT_LASTUSED = new Key.User<>("kit_lastused", new KeyProvider.User<HashMap<String, Long>>() {
         @Override
         public HashMap<String, Long> load(UltimateUser user) {
             PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
