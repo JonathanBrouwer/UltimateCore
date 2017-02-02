@@ -21,33 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.nick;
+package bammerbom.ultimatecore.sponge.modules.nick.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.modules.nick.commands.DelnickCommand;
-import bammerbom.ultimatecore.sponge.modules.nick.commands.NickCommand;
-import bammerbom.ultimatecore.sponge.modules.nick.listeners.NickListener;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.text.Text;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.nick.api.NickKeys;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 
-public class NickModule implements Module {
-
-    @Override
-    public String getIdentifier() {
-        return "nick";
-    }
-
-    @Override
-    public Text getDescription() {
-        return Text.of("Allows players to change their display name.");
-    }
-
-    @Override
-    public void onInit(GameInitializationEvent event) {
-        UltimateCore.get().getCommandService().register(new NickCommand());
-        UltimateCore.get().getCommandService().register(new DelnickCommand());
-        Sponge.getEventManager().registerListeners(UltimateCore.get(), new NickListener());
+public class NickListener {
+    @Listener
+    public void onJoin(ClientConnectionEvent.Join event) {
+        UltimateUser up = UltimateCore.get().getUserService().getUser(event.getTargetEntity());
+        if (up.get(NickKeys.NICKNAME).isPresent()) {
+            event.getTargetEntity().offer(Keys.DISPLAY_NAME, up.get(NickKeys.NICKNAME).get());
+        }
     }
 }

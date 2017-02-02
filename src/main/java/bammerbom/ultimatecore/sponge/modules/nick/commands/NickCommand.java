@@ -42,6 +42,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -82,6 +83,7 @@ public class NickCommand implements HighPermCommand {
             }
             sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.self", "%nickname%", name));
             up.offer(NickKeys.NICKNAME, name);
+            p.offer(Keys.DISPLAY_NAME, name);
         } else {
             checkPermSuffix(sender, "others.base");
             Player t = args.<Player>getOne("player").get();
@@ -94,6 +96,7 @@ public class NickCommand implements HighPermCommand {
             sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.others.self", "%player%", t, "%nickname%", name));
             t.sendMessage(Messages.getFormatted(t, "nick.command.nick.others.others", "%player%", sender, "%nickname%", name));
             up.offer(NickKeys.NICKNAME, name);
+            t.offer(Keys.DISPLAY_NAME, name);
         }
         return CommandResult.success();
     }
