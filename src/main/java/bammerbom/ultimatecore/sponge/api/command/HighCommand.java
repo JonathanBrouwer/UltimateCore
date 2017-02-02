@@ -102,13 +102,13 @@ public interface HighCommand extends Command, CommandExecutor {
     //From language file (TODO better system?)
     @Override
     default Text getShortDescription(@Nullable CommandSource source) {
-        return UsageGenerator.shortDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".shortdescription"));
+        return UsageGenerator.shortDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".description"));
     }
 
     //From language file (TODO better system?)
     @Override
     default Text getLongDescription(@Nullable CommandSource source) {
-        return UsageGenerator.longDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".longdescription"));
+        return UsageGenerator.longDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".description"));
     }
 
     //Implemented with @CommandInfo

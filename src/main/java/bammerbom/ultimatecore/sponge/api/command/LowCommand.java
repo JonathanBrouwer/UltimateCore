@@ -61,12 +61,12 @@ public interface LowCommand extends Command {
     }
 
     default Text getShortDescription(@Nullable CommandSource source) {
-        return UsageGenerator.shortDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".shortdescription"));
+        return UsageGenerator.shortDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".description"));
     }
 
     default Text getLongDescription(@Nullable CommandSource source) {
         //TODO automatically generate longdescription?
-        return UsageGenerator.longDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".longdescription"));
+        return UsageGenerator.longDescription(this, Messages.getFormatted(getModule().getIdentifier() + ".command." + getIdentifier() + ".description"));
     }
 
     CommandResult run(CommandSource sender, String[] args);
