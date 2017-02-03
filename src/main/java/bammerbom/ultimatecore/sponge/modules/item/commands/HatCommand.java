@@ -25,10 +25,12 @@ package bammerbom.ultimatecore.sponge.modules.item.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionInfo;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -37,38 +39,50 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @CommandInfo(module = ItemModule.class, aliases = {"hat"})
+@CommandPermissions(level = PermissionLevel.VIP)
 public class HatCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build()
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optional().build()
         };
     }
 
     @Override
     public Map<String, PermissionInfo> registerPermissionSuffixes() {
-        return null;
+        HashMap<String, PermissionInfo> suffixes = new HashMap<>();
+        suffixes.put("others", new PermissionInfo(Text.of("Allows you to use the hat command on other players."), PermissionLevel.ADMIN));
+        return suffixes;
     }
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         checkIfPlayer(sender);
         Player p = (Player) sender;
-        ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).orElse(null);
-        if (stack == null) {
-            sender.sendMessage(Messages.getFormatted(sender, "item.command.hat.noitem"));
-            return CommandResult.empty();
-        }
+        ItemStack hand = p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build());
         if (!args.hasAny("player")) {
-
+            Optional<ItemStack> headOp = p.getHelmet();
+            p.setHelmet(hand);
+            p.setItemInHand(HandTypes.MAIN_HAND, headOp.orElse(null));
+            sender.sendMessage(Messages.getFormatted(sender, "item.command.hat.self"));
         } else {
+            checkPermSuffix(sender, "others");
             Player t = args.<Player>getOne("player").get();
+            Optional<ItemStack> headOp = t.getHelmet();
+            t.setHelmet(hand);
+            headOp.ifPresent(head -> t.getInventory().offer(head));
+            p.setItemInHand(HandTypes.MAIN_HAND, null);
+            sender.sendMessage(Messages.getFormatted(sender, "item.command.hat.others.self", "%player%", t));
+            t.sendMessage(Messages.getFormatted(t, "item.command.hat.others.others", "%player%", t));
         }
         return CommandResult.success();
     }

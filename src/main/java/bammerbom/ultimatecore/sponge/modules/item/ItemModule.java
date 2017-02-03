@@ -62,6 +62,7 @@ public class ItemModule implements Module {
     public void onInit(GameInitializationEvent event) {
         UltimateCore.get().getCommandService().register(new MoreCommand());
         UltimateCore.get().getCommandService().register(new RepairCommand());
+        UltimateCore.get().getCommandService().register(new HatCommand());
 
         UltimateCore.get().getCommandService().register(new ItemnameCommand());
         UltimateCore.get().getCommandService().register(new ItemloreCommand());
