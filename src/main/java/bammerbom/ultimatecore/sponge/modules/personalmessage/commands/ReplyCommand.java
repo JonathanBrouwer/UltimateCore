@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
@@ -79,16 +80,14 @@ public class ReplyCommand implements HighCommand {
         UltimateUser pu = UltimateCore.get().getUserService().getUser(p);
         Optional<UUID> tu = pu.get(PersonalmessageKeys.REPLY);
         if (!tu.isPresent()) {
-            sender.sendMessage(Messages.getFormatted(sender, "personalmessage.command.reply.notarget"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "personalmessage.command.reply.notarget"));
         }
         CommandSource t = Sponge.getServer().getPlayer(tu.get()).orElse(null);
         if (t == null) {
             if (tu.get() == UUID.fromString("00000000-0000-0000-0000-000000000000")) {
                 t = Sponge.getServer().getConsole();
             } else {
-                sender.sendMessage(Messages.getFormatted(sender, "personalmessage.command.reply.notarget"));
-                return CommandResult.empty();
+                throw new ErrorMessageException(Messages.getFormatted(sender, "personalmessage.command.reply.notarget"));
             }
         }
 
@@ -124,8 +123,7 @@ public class ReplyCommand implements HighCommand {
             sender.sendMessage(send);
             return CommandResult.success();
         } else {
-            t.sendMessage(Messages.getFormatted(t, "personalmessage.command.personalmessage.cancelled"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(t, "personalmessage.command.personalmessage.cancelled"));
         }
     }
 }

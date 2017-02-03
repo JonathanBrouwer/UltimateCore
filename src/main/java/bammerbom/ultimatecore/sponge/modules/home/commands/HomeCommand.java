@@ -27,16 +27,17 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.variable.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.modules.home.HomeModule;
 import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomeKeys;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
 import bammerbom.ultimatecore.sponge.modules.home.commands.arguments.HomeArgument;
-import bammerbom.ultimatecore.sponge.api.variable.utils.ArgumentUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -82,8 +83,7 @@ public class HomeCommand implements HighCommand {
         List<Home> homes = user.get(HomeKeys.HOMES).orElse(new ArrayList<>());
         if (!args.hasAny("home")) {
             if (homes.isEmpty()) {
-                sender.sendMessage(Messages.getFormatted(sender, "home.command.homelist.empty"));
-                return CommandResult.empty();
+                throw new ErrorMessageException(Messages.getFormatted(sender, "home.command.homelist.empty"));
             }
             List<Text> entries = new ArrayList<>();
             for (Home home : homes) {
@@ -95,8 +95,7 @@ public class HomeCommand implements HighCommand {
             if (!p.hasPermission(HomePermissions.UC_HOME_SETHOME_UNLIMITED.get())) {
                 String shomecount = HomePermissions.UC_HOME_HOMECOUNT.getFor(sender);
                 if (!ArgumentUtil.isInteger(shomecount)) {
-                    sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.invalidhomecount", "%homecount%", shomecount));
-                    return CommandResult.empty();
+                    throw new ErrorMessageException(Messages.getFormatted(sender, "home.command.sethome.invalidhomecount", "%homecount%", shomecount));
                 }
                 Integer homecount = Integer.parseInt(shomecount);
                 footer = Messages.getFormatted("home.command.homelist.footer", "%current%", homes.size(), "%max%", homecount);

@@ -27,16 +27,17 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import bammerbom.ultimatecore.sponge.modules.kit.KitModule;
 import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitKeys;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.arguments.KitArgument;
-import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -97,8 +98,7 @@ public class KitCommand implements HighCommand {
             }
             //If empty send message
             if (texts.isEmpty()) {
-                sender.sendMessage(Messages.getFormatted(sender, "kit.command.kitlist.empty"));
-                return CommandResult.empty();
+                throw new ErrorMessageException(Messages.getFormatted(sender, "kit.command.kitlist.empty"));
             }
             //Sort alphabetically
             Collections.sort(texts);
@@ -121,8 +121,7 @@ public class KitCommand implements HighCommand {
         Long kitlastused = lastused.get(kit.getName()) != null ? lastused.get(kit.getName()) : 0L;
         Long kitcooldown = kit.getCooldown();
         if (!sender.hasPermission(KitPermissions.UC_KIT_COOLDOWN_EXEMPT.get()) && ((kitcooldown <= -1L && kitlastused != 0L) || (System.currentTimeMillis() - kitlastused) < kitcooldown)) {
-            sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.cooldown", "%time%", TimeUtil.format(kitcooldown - (System.currentTimeMillis() - kitlastused))));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "kit.command.kit.cooldown", "%time%", TimeUtil.format(kitcooldown - (System.currentTimeMillis() - kitlastused))));
         }
         lastused.put(kit.getName(), System.currentTimeMillis());
         up.offer(KitKeys.KIT_LASTUSED, lastused);

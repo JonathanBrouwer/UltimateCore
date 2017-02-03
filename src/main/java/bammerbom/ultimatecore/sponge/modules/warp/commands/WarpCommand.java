@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -89,8 +90,7 @@ public class WarpCommand implements HighCommand {
             }
             //If empty send message
             if (texts.isEmpty()) {
-                sender.sendMessage(Messages.getFormatted(sender, "warp.command.warplist.empty"));
-                return CommandResult.empty();
+                throw new ErrorMessageException(Messages.getFormatted(sender, "warp.command.warplist.empty"));
             }
             //Sort alphabetically
             Collections.sort(texts);

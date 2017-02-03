@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BooleanArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
@@ -74,14 +75,12 @@ public class ItemunbreakableCommand implements HighCommand {
         Boolean value = args.<Boolean>getOne("enabled/disabled").get();
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(p, "item.noiteminhand"));
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
 
         if (!stack.supports(Keys.UNBREAKABLE)) {
-            sender.sendMessage(Messages.getFormatted(sender, "item.command.itemunbreakable.notsupported"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "item.command.itemunbreakable.notsupported"));
         }
 
         stack.offer(Keys.UNBREAKABLE, value);

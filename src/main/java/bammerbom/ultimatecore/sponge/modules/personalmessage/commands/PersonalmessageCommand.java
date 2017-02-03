@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.CommandsourceArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
@@ -113,8 +114,7 @@ public class PersonalmessageCommand implements HighCommand {
             sender.sendMessage(send);
             return CommandResult.success();
         } else {
-            t.sendMessage(Messages.getFormatted(t, "personalmessage.command.personalmessage.cancelled"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(t, "personalmessage.command.personalmessage.cancelled"));
         }
     }
 }

@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.home.commands;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
@@ -77,8 +78,7 @@ public class HomelistCommand implements HighCommand {
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);
         List<Home> homes = user.get(HomeKeys.HOMES).orElse(new ArrayList<>());
         if (homes.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted(sender, "home.command.homelist.empty"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "home.command.homelist.empty"));
         }
         List<Text> entries = new ArrayList<>();
         for (Home home : homes) {
@@ -90,8 +90,7 @@ public class HomelistCommand implements HighCommand {
         if (!p.hasPermission(HomePermissions.UC_HOME_SETHOME_UNLIMITED.get())) {
             String shomecount = HomePermissions.UC_HOME_HOMECOUNT.getFor(sender);
             if (!ArgumentUtil.isInteger(shomecount)) {
-                sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.invalidhomecount", "%homecount%", shomecount));
-                return CommandResult.empty();
+                throw new ErrorMessageException(Messages.getFormatted(sender, "home.command.sethome.invalidhomecount", "%homecount%", shomecount));
             }
             Integer homecount = Integer.parseInt(shomecount);
             footer = Messages.getFormatted("home.command.homelist.footer", "%current%", homes.size(), "%max%", homecount);

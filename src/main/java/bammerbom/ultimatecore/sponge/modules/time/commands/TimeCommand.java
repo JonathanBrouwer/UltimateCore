@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandChildrenInfo
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BoundedIntegerArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
 import bammerbom.ultimatecore.sponge.modules.time.api.TimePermissions;
@@ -69,6 +70,6 @@ public class TimeCommand implements HighPermCommand {
             sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.ticks", "%ticks%", ticks));
             return CommandResult.success();
         }
-        throw new CommandException(getUsage(sender), false);
+        throw new ErrorMessageException(getUsage(sender));
     }
 }

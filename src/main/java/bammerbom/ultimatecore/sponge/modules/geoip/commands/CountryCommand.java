@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.geoip.GeoipModule;
@@ -71,8 +72,7 @@ public class CountryCommand implements HighCommand {
 
         Country country = GeoipHandler.getCountry(t.getConnection().getAddress().getAddress()).orElse(null);
         if (country == null) {
-            sender.sendMessage(Messages.getFormatted(sender, "geoip.command.country.failed", "%player%", t));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "geoip.command.country.failed", "%player%", t));
         }
         sender.sendMessage(Messages.getFormatted(sender, "geoip.command.country.success", "%player%", t, "%country%", country.getName()));
         return CommandResult.success();

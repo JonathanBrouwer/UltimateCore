@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BoundedIntegerArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
@@ -74,20 +75,17 @@ public class ItemdurabilityCommand implements HighCommand {
         Player p = (Player) sender;
 
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            p.sendMessage(Messages.getFormatted(p, "item.noiteminhand"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(p, "item.noiteminhand"));
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
         int durability = args.<Integer>getOne("durability").get();
 
         if (!stack.supports(DurabilityData.class)) {
-            sender.sendMessage(Messages.getFormatted(sender, "item.command.itemdurability.notsupported"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "item.command.itemdurability.notsupported"));
         }
 
         if (durability < stack.get(DurabilityData.class).get().durability().getMinValue() || durability > stack.get(DurabilityData.class).get().durability().getMaxValue()) {
-            sender.sendMessage(Messages.getFormatted(sender, "item.numberinvalid", "%number%", durability));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "item.numberinvalid", "%number%", durability));
         }
 
         stack.offer(Keys.ITEM_DURABILITY, durability);

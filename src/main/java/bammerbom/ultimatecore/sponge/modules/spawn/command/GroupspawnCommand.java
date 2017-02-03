@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.StringArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -89,11 +90,10 @@ public class GroupspawnCommand implements HighCommand {
             //Null check
             if (group == null || !spawns.containsKey(group)) {
                 if (!args.hasAny("group")) {
-                    sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.nogroup", "%player%", p));
+                    throw new ErrorMessageException(Messages.getFormatted(sender, "spawn.command.groupspawn.nogroup", "%player%", p));
                 } else {
-                    sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.noplayerorgroup", "%arg%", group));
+                    throw new ErrorMessageException(Messages.getFormatted(sender, "spawn.command.groupspawn.noplayerorgroup", "%arg%", group));
                 }
-                return CommandResult.empty();
             }
 
             //Teleport
@@ -115,11 +115,10 @@ public class GroupspawnCommand implements HighCommand {
             //Null check
             if (group == null || !spawns.containsKey(group)) {
                 if (!args.hasAny("group")) {
-                    sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.nogroup", "%player%", t));
+                    throw new ErrorMessageException(Messages.getFormatted(sender, "spawn.command.groupspawn.nogroup", "%player%", t));
                 } else {
-                    sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.noplayerorgroup", "%arg%", group));
+                    throw new ErrorMessageException(Messages.getFormatted(sender, "spawn.command.groupspawn.noplayerorgroup", "%arg%", group));
                 }
-                return CommandResult.empty();
             }
 
             //Teleport

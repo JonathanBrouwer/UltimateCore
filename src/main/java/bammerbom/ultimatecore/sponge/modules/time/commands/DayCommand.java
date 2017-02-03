@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.time.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
@@ -66,8 +67,7 @@ public class DayCommand implements HighCommand {
         if (sender instanceof Locatable) {
             world = ((Locatable) sender).getWorld();
         } else {
-            sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "core.noplayer"));
         }
         Long ticks = 24000 - (world.getProperties().getWorldTime() % 24000);
         world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);

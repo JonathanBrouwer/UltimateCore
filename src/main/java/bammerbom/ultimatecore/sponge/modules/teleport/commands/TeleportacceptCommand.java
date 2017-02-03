@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.StringArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.teleport.TeleportModule;
@@ -73,8 +74,7 @@ public class TeleportacceptCommand implements HighCommand {
         String id = args.hasAny("tpid") ? args.<String>getOne("tpid").get() : null;
         TpaRequest request = TeleportUtil.getRequestFor(p, id).orElse(null);
         if (request == null) {
-            sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaccept.none"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "teleport.command.teleportaccept.none"));
         }
         request.getTeleportation().start();
         sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaccept.success"));

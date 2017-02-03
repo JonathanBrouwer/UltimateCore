@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.jail.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -80,8 +81,7 @@ public class JaillistCommand implements HighCommand {
 
         //If empty send message
         if (texts.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted(sender, "jail.command.jaillist.empty"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "jail.command.jaillist.empty"));
         }
 
         //Sort alphabetically

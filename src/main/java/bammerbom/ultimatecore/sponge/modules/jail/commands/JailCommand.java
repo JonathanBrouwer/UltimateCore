@@ -30,17 +30,18 @@ import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.TimeArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.modules.jail.commands.arguments.JailArgument;
-import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -89,14 +90,13 @@ public class JailCommand implements HighCommand {
 
         //Exempt power
         if ((JailPermissions.UC_JAIL_EXEMPTPOWER.getIntFor(t) > JailPermissions.UC_JAIL_POWER.getIntFor(sender)) && sender instanceof Player) {
-            sender.sendMessage(Messages.getFormatted(sender, "jail.command.jail.exempt", "%player%", t));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "jail.command.jail.exempt", "%player%", t));
         }
 
         //Find jail, time and reason
         List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
         if (jails.isEmpty() && !args.hasAny("jail")) {
-            throw new CommandException(Messages.getFormatted(sender, "jail.command.jaillist.empty"));
+            throw new ErrorMessageException(Messages.getFormatted(sender, "jail.command.jaillist.empty"));
         }
         Jail jail = args.hasAny("jail") ? args.<Jail>getOne("jail").get() : jails.get(random.nextInt(jails.size()));
         Long time = args.hasAny("time") ? args.<Long>getOne("time").get() : -1L;

@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.item.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.item.ItemModule;
@@ -65,7 +66,7 @@ public class MoreCommand implements HighCommand {
         checkPermission(sender, ItemPermissions.UC_ITEM_MORE_BASE);
         Player p = (Player) sender;
         if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
-            throw new CommandException(Messages.getFormatted(p, "item.noiteminhand"));
+            throw new ErrorMessageException(Messages.getFormatted(p, "item.noiteminhand"));
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
         stack.setQuantity(stack.getMaxStackQuantity());

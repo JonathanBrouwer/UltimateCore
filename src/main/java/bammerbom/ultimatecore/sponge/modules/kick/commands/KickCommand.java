@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.kick.KickModule;
@@ -71,12 +72,10 @@ public class KickCommand implements HighCommand {
         Player target = args.<Player>getOne("player").get();
         Text reason = args.hasAny("reason") ? Text.of(args.<String>getOne("reason").get()) : Messages.getFormatted("kick.command.kick.defaultreason");
         if (sender.equals(target)) {
-            sender.sendMessage(Messages.getFormatted(sender, "kick.command.kick.self"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "kick.command.kick.self"));
         }
         if ((KickPermissions.UC_KICK_EXEMPTPOWER.getIntFor(target) > KickPermissions.UC_KICK_POWER.getIntFor(sender)) && sender instanceof Player) {
-            sender.sendMessage(Messages.getFormatted(sender, "kick.command.kick.exempt", "%player%", target));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "kick.command.kick.exempt", "%player%", target));
         }
         Sponge.getServer().getBroadcastChannel().send(Messages.getFormatted("kick.command.kick.broadcast", "%kicker%", sender, "%kicked%", target, "%reason%", reason));
         target.kick(Messages.getFormatted("kick.command.kick.message", "%kicker%", sender, "%kicked%", target, "%reason%", reason));

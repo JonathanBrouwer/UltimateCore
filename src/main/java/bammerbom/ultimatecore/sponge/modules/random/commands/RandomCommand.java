@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.IntegerArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.random.RandomModule;
@@ -71,8 +72,7 @@ public class RandomCommand implements HighCommand {
         int min = args.hasAny("second") ? args.<Integer>getOne("first").get() : 1;
         int max = args.hasAny("second") ? args.<Integer>getOne("second").get() : args.<Integer>getOne("first").get();
         if (min > max) {
-            sender.sendMessage(Messages.getFormatted(sender, "random.command.random.invalid", "%min%", min, "%max%", max));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "random.command.random.invalid", "%min%", min, "%max%", max));
         }
         int rand = random.nextInt((max + 1) - min) + min;
 

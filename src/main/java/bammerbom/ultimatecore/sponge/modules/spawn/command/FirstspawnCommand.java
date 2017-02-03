@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
@@ -75,8 +76,7 @@ public class FirstspawnCommand implements HighCommand {
         //Find firstspawn
         Optional<Transform<World>> loc = GlobalData.get(SpawnKeys.FIRST_SPAWN);
         if (!loc.isPresent()) {
-            sender.sendMessage(Messages.getFormatted(sender, "spawn.command.firstspawn.notset"));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "spawn.command.firstspawn.notset"));
         }
 
         //Find player to teleport

@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.StringArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionInfo;
@@ -78,8 +79,7 @@ public class NickCommand implements HighPermCommand {
             UltimateUser up = UltimateCore.get().getUserService().getUser(p);
             Text name = TextUtil.replaceColors(args.<String>getOne("nick").get(), sender, "uc.nick.nick");
             if (!name.toPlain().matches("[A-Za-z0-9]+")) {
-                sender.sendMessage(Messages.getFormatted(sender, "nick.alphanumeric"));
-                return CommandResult.empty();
+                throw new ErrorMessageException(Messages.getFormatted(sender, "nick.alphanumeric"));
             }
             sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.self", "%nickname%", name));
             up.offer(NickKeys.NICKNAME, name);
@@ -90,8 +90,7 @@ public class NickCommand implements HighPermCommand {
             UltimateUser up = UltimateCore.get().getUserService().getUser(t);
             Text name = TextUtil.replaceColors(args.<String>getOne("nick").get(), sender, "uc.nick.nick");
             if (!name.toPlain().matches("[A-Za-z0-9]+")) {
-                sender.sendMessage(Messages.getFormatted(sender, "nick.alphanumeric"));
-                return CommandResult.empty();
+                throw new ErrorMessageException(Messages.getFormatted(sender, "nick.alphanumeric"));
             }
             sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.others.self", "%player%", t, "%nickname%", name));
             t.sendMessage(Messages.getFormatted(t, "nick.command.nick.others.others", "%player%", sender, "%nickname%", name));

@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.TimeArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
@@ -80,8 +81,7 @@ public class MuteCommand implements HighCommand {
         //Get player & Check exempt
         Player t = args.<Player>getOne("player").get();
         if ((MutePermissions.UC_MUTE_EXEMPTPOWER.getIntFor(t) > MutePermissions.UC_MUTE_POWER.getIntFor(sender)) && sender instanceof Player) {
-            sender.sendMessage(Messages.getFormatted(sender, "mute.command.mute.exempt", "%player%", t));
-            return CommandResult.empty();
+            throw new ErrorMessageException(Messages.getFormatted(sender, "mute.command.mute.exempt", "%player%", t));
         }
 
         //Get time & reason

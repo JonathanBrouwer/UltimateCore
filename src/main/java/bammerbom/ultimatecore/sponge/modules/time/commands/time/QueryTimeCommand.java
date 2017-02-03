@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.ChoicesArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.WorldArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
 import bammerbom.ultimatecore.sponge.modules.time.api.TimePermissions;
@@ -87,7 +88,7 @@ public class QueryTimeCommand implements HighSubCommand {
                 sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.gametime", "%gametime%", result));
                 return CommandResult.builder().queryResult(result.intValue()).build();
             }
-            throw new CommandException(getUsage(sender), false);
+            throw new ErrorMessageException(getUsage(sender));
         } else {
             checkPermission(sender, TimePermissions.UC_TIME_TIME_QUERY_FORMATTED);
             //Player wants formatted time (/time query or /time)
