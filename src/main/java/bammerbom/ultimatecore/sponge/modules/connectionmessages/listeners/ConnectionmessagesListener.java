@@ -23,10 +23,14 @@
  */
 package bammerbom.ultimatecore.sponge.modules.connectionmessages.listeners;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
+import bammerbom.ultimatecore.sponge.modules.connectionmessages.api.ConnectionmessagesKeys;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -64,6 +68,17 @@ public class ConnectionmessagesListener {
             Text jmessage = Messages.toText(config.get().getNode("join", "format").getString());
             jmessage = VariableUtil.replaceVariables(jmessage, p);
             e.setMessage(jmessage);
+        }
+
+        //Changed name message
+        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+        if (up.get(ConnectionmessagesKeys.LASTNAME).isPresent()) {
+            if (!p.getName().equalsIgnoreCase(up.get(ConnectionmessagesKeys.LASTNAME).get())) {
+                Text jmessage = Messages.toText(config.get().getNode("changename", "format").getString());
+                jmessage = TextUtil.replace(jmessage, "%oldname%", Text.of(up.get(ConnectionmessagesKeys.LASTNAME).get()));
+                jmessage = VariableUtil.replaceVariables(jmessage, p);
+                e.setMessage(jmessage);
+            }
         }
     }
 
