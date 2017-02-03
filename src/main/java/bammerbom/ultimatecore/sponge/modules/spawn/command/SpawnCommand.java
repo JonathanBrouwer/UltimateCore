@@ -76,7 +76,7 @@ public class SpawnCommand implements HighCommand {
             Transform<World> loc = SpawnUtil.getSpawnLocation(p);
 
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc, tel -> {
-                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.spawn.success.self"));
+                Messages.send(sender, "spawn.command.spawn.success.self");
             }, (tel, reason) -> {
             }, false, false);
             tp.start();
@@ -87,8 +87,8 @@ public class SpawnCommand implements HighCommand {
             Transform<World> loc = SpawnUtil.getSpawnLocation(t);
 
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
-                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.spawn.success.others.self", "%player%", t));
-                t.sendMessage(Messages.getFormatted(t, "spawn.command.spawn.success.others.others", "%player%", sender));
+                Messages.send(sender, "spawn.command.spawn.success.others.self", "%player%", t);
+                Messages.send(t, "spawn.command.spawn.success.others.others", "%player%", sender);
             }, (tel, reason) -> {
             }, false, false);
             tp.start();

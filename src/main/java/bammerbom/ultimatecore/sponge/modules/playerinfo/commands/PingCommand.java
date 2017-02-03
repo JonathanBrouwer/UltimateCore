@@ -54,11 +54,11 @@ public class PingCommand implements HighPermCommand {
         if (!args.hasAny("player")) {
             checkIfPlayer(sender);
             Player p = (Player) sender;
-            p.sendMessage(Messages.getFormatted(p, "playerinfo.command.ping.self", "%ping%", p.getConnection().getLatency()));
+            Messages.send(p, "playerinfo.command.ping.self", "%ping%", p.getConnection().getLatency());
         } else {
             checkPermSuffix(sender, "others");
             Player t = args.<Player>getOne("player").get();
-            sender.sendMessage(Messages.getFormatted(sender, "playerinfo.command.ping.others", "%player%", t, "%ping%", t.getConnection().getLatency()));
+            Messages.send(sender, "playerinfo.command.ping.others", "%player%", t, "%ping%", t.getConnection().getLatency());
         }
         return CommandResult.success();
     }

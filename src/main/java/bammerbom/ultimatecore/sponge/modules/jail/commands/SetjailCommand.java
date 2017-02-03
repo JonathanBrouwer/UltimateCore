@@ -80,7 +80,7 @@ public class SetjailCommand implements HighCommand {
         jails.add(jail);
         GlobalData.offer(JailKeys.JAILS, jails);
 
-        sender.sendMessage(Messages.getFormatted(sender, "jail.command.setjail.success", "%jail%", name, "%description%", desc));
+        Messages.send(sender, "jail.command.setjail.success", "%jail%", name, "%description%", desc);
         return CommandResult.success();
     }
 }

@@ -56,7 +56,7 @@ public class EnableTimeCommand implements HighSubCommand {
         }
 
         world.getProperties().setGameRule("doDaylightCycle", "true");
-        sender.sendMessage(Messages.getFormatted(sender, "time.command.time.enable"));
+        Messages.send(sender, "time.command.time.enable");
         return CommandResult.success();
     }
 }

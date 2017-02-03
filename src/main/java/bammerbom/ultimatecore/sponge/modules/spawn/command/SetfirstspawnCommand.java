@@ -65,7 +65,7 @@ public class SetfirstspawnCommand implements HighCommand {
 
         Player p = (Player) sender;
         GlobalData.offer(SpawnKeys.FIRST_SPAWN, p.getTransform());
-        p.sendMessage(Messages.getFormatted(p, "spawn.command.setfirstspawn.success"));
+        Messages.send(p, "spawn.command.setfirstspawn.success");
         return CommandResult.success();
     }
 }

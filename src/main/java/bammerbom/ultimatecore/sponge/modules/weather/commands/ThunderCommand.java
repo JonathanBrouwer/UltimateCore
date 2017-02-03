@@ -74,7 +74,7 @@ public class ThunderCommand implements HighCommand {
             throw new ErrorMessageException(Messages.getFormatted(sender, "core.noplayer"));
         }
         world.setWeather(Weathers.THUNDER_STORM);
-        sender.sendMessage(Messages.getFormatted(sender, "weather.command.weather.success", "%weather%", "thunder", "%world%", world.getName()));
+        Messages.send(sender, "weather.command.weather.success", "%weather%", "thunder", "%world%", world.getName());
         return CommandResult.success();
     }
 }

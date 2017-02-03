@@ -76,7 +76,7 @@ public class DeljailCommand implements HighCommand {
         Jail jail = args.<Jail>getOne("jail").get();
         jails.remove(jail);
         GlobalData.offer(JailKeys.JAILS, jails);
-        sender.sendMessage(Messages.getFormatted(sender, "jail.command.deljail.success", "%jail%", jail.getName()));
+        Messages.send(sender, "jail.command.deljail.success", "%jail%", jail.getName());
         return CommandResult.success();
     }
 }

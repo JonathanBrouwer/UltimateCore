@@ -71,15 +71,15 @@ public class SurvivalCommand implements HighCommand {
             checkIfPlayer(sender);
             Player p = (Player) sender;
             p.offer(Keys.GAME_MODE, GameModes.SURVIVAL);
-            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success", "%gamemode%", "survival"));
+            Messages.send(sender, "gamemode.command.gamemode.success", "%gamemode%", "survival");
             return CommandResult.success();
         } else {
             checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE);
             checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_SURVIVAL);
             Player t = args.<Player>getOne("player").get();
             t.offer(Keys.GAME_MODE, GameModes.SURVIVAL);
-            t.sendMessage(Messages.getFormatted(t, "gamemode.command.gamemode.success.others", "%sender%", sender, "%gamemode%", "survival"));
-            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", t, "%gamemode%", "survival"));
+            Messages.send(t, "gamemode.command.gamemode.success.others", "%sender%", sender, "%gamemode%", "survival");
+            Messages.send(sender, "gamemode.command.gamemode.success.self", "%player%", t, "%gamemode%", "survival");
             return CommandResult.success();
         }
     }

@@ -89,8 +89,8 @@ public class DeafCommand implements HighCommand {
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
         ut.offer(DeafKeys.DEAF, deaf);
 
-        sender.sendMessage(Messages.getFormatted(sender, "deaf.command.deaf.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
-        t.sendMessage(Messages.getFormatted(t, "deaf.deafed", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        Messages.send(sender, "deaf.command.deaf.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason);
+        Messages.send(t, "deaf.deafed", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason);
         return CommandResult.success();
     }
 }

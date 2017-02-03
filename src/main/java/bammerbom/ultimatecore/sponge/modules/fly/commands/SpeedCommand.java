@@ -64,22 +64,22 @@ public class SpeedCommand implements HighPermCommand {
             Player p = (Player) sender;
             if (p.get(Keys.IS_FLYING).orElse(false)) {
                 p.offer(Keys.FLYING_SPEED, speed / flymultiplier);
-                p.sendMessage(Messages.getFormatted(p, "fly.command.flyspeed.success.self", "%speed%", speed));
+                Messages.send(p, "fly.command.flyspeed.success.self", "%speed%", speed);
             } else {
                 p.offer(Keys.WALKING_SPEED, speed / walkmultiplier);
-                p.sendMessage(Messages.getFormatted(p, "fly.command.walkspeed.success.self", "%speed%", speed));
+                Messages.send(p, "fly.command.walkspeed.success.self", "%speed%", speed);
             }
             return CommandResult.success();
         } else {
             Player t = args.<Player>getOne("player").get();
             if (t.get(Keys.IS_FLYING).orElse(false)) {
                 t.offer(Keys.FLYING_SPEED, speed / flymultiplier);
-                sender.sendMessage(Messages.getFormatted(sender, "fly.command.flyspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed));
-                t.sendMessage(Messages.getFormatted(t, "fly.command.flyspeed.success.others.self", "%player%", sender, "%speed%", speed));
+                Messages.send(sender, "fly.command.flyspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed);
+                Messages.send(t, "fly.command.flyspeed.success.others.self", "%player%", sender, "%speed%", speed);
             } else {
                 t.offer(Keys.WALKING_SPEED, speed / walkmultiplier);
-                sender.sendMessage(Messages.getFormatted(sender, "fly.command.walkspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed));
-                t.sendMessage(Messages.getFormatted(t, "fly.command.walkspeed.success.others.self", "%player%", sender, "%speed%", speed));
+                Messages.send(sender, "fly.command.walkspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed);
+                Messages.send(t, "fly.command.walkspeed.success.others.self", "%player%", sender, "%speed%", speed);
             }
             return CommandResult.success();
         }

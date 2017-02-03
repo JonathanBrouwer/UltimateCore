@@ -71,15 +71,15 @@ public class AdventureCommand implements HighCommand {
             checkIfPlayer(sender);
             Player p = (Player) sender;
             p.offer(Keys.GAME_MODE, GameModes.ADVENTURE);
-            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success", "%gamemode%", "adventure"));
+            Messages.send(sender, "gamemode.command.gamemode.success", "%gamemode%", "adventure");
             return CommandResult.success();
         } else {
             checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE);
             checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_ADVENTURE);
             Player t = args.<Player>getOne("player").get();
             t.offer(Keys.GAME_MODE, GameModes.ADVENTURE);
-            t.sendMessage(Messages.getFormatted(t, "gamemode.command.gamemode.success.others", "%sender%", sender, "%gamemode%", "adventure"));
-            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", t, "%gamemode%", "adventure"));
+            Messages.send(t, "gamemode.command.gamemode.success.others", "%sender%", sender, "%gamemode%", "adventure");
+            Messages.send(sender, "gamemode.command.gamemode.success.self", "%player%", t, "%gamemode%", "adventure");
             return CommandResult.success();
         }
     }

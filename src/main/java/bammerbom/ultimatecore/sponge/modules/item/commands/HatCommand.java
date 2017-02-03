@@ -73,7 +73,7 @@ public class HatCommand implements HighPermCommand {
             Optional<ItemStack> headOp = p.getHelmet();
             p.setHelmet(hand);
             p.setItemInHand(HandTypes.MAIN_HAND, headOp.orElse(null));
-            sender.sendMessage(Messages.getFormatted(sender, "item.command.hat.self"));
+            Messages.send(sender, "item.command.hat.self");
         } else {
             checkPermSuffix(sender, "others");
             Player t = args.<Player>getOne("player").get();
@@ -81,8 +81,8 @@ public class HatCommand implements HighPermCommand {
             t.setHelmet(hand);
             headOp.ifPresent(head -> t.getInventory().offer(head));
             p.setItemInHand(HandTypes.MAIN_HAND, null);
-            sender.sendMessage(Messages.getFormatted(sender, "item.command.hat.others.self", "%player%", t));
-            t.sendMessage(Messages.getFormatted(t, "item.command.hat.others.others", "%player%", t));
+            Messages.send(sender, "item.command.hat.others.self", "%player%", t);
+            Messages.send(t, "item.command.hat.others.others", "%player%", t);
         }
         return CommandResult.success();
     }

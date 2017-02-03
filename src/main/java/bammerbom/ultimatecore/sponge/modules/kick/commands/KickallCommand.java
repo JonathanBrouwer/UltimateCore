@@ -75,7 +75,7 @@ public class KickallCommand implements HighCommand {
             }
             p.kick(Messages.getFormatted("kick.command.kickall.message", "%kicker%", sender, "%reason%", reason));
         }
-        sender.sendMessage(Messages.getFormatted(sender, "kick.command.kickall.success"));
+        Messages.send(sender, "kick.command.kickall.success");
         return CommandResult.success();
     }
 }

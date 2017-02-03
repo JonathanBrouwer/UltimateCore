@@ -85,7 +85,7 @@ public class ItemunbreakableCommand implements HighCommand {
 
         stack.offer(Keys.UNBREAKABLE, value);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemunbreakable.success", "%arg%", value));
+        Messages.send(sender, "item.command.itemunbreakable.success", "%arg%", value);
         return CommandResult.success();
     }
 }

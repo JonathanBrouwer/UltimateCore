@@ -74,7 +74,7 @@ public class DelgroupspawnCommand implements HighCommand {
         HashMap<String, Transform<World>> groupspawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
         groupspawns.remove(group);
         GlobalData.offer(SpawnKeys.GROUP_SPAWNS, groupspawns);
-        sender.sendMessage(Messages.getFormatted(sender, "spawn.command.delgroupspawn.success", "%group%", group));
+        Messages.send(sender, "spawn.command.delgroupspawn.success", "%group%", group);
         return CommandResult.success();
     }
 }

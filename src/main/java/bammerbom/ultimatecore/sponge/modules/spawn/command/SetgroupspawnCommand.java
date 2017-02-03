@@ -77,7 +77,7 @@ public class SetgroupspawnCommand implements HighCommand {
         HashMap<String, Transform<World>> groupspawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
         groupspawns.put(group, p.getTransform());
         GlobalData.offer(SpawnKeys.GROUP_SPAWNS, groupspawns);
-        p.sendMessage(Messages.getFormatted(p, "spawn.command.setgroupspawn.success", "%group%", group));
+        Messages.send(p, "spawn.command.setgroupspawn.success", "%group%", group);
         return CommandResult.success();
     }
 }

@@ -78,7 +78,7 @@ public class HealCommand implements HighCommand {
             p.offer(Keys.FOOD_LEVEL, 20);
             p.offer(Keys.FIRE_TICKS, 0);
 
-            sender.sendMessage(Messages.getFormatted(sender, "heal.command.heal.success"));
+            Messages.send(sender, "heal.command.heal.success");
             return CommandResult.success();
         } else {
             checkPermission(sender, HealPermissions.UC_HEAL_HEAL_OTHERS);
@@ -90,8 +90,8 @@ public class HealCommand implements HighCommand {
             t.offer(Keys.FOOD_LEVEL, 20);
             t.offer(Keys.FIRE_TICKS, 0);
 
-            sender.sendMessage(Messages.getFormatted(sender, "heal.command.heal.success.self", "%player%", VariableUtil.getNameEntity(t)));
-            t.sendMessage(Messages.getFormatted(t, "heal.command.heal.success.others", "%sender%", sender));
+            Messages.send(sender, "heal.command.heal.success.self", "%player%", VariableUtil.getNameEntity(t));
+            Messages.send(t, "heal.command.heal.success.others", "%sender%", sender);
             return CommandResult.success();
         }
     }

@@ -109,7 +109,7 @@ public class WarpCommand implements HighCommand {
         checkPermission(sender, "uc.warp.warp." + warp.getName().toLowerCase());
         //Teleport to the warp
         Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), warp.getLocation(), req -> {
-            sender.sendMessage(Messages.getFormatted(sender, "warp.command.warp.success", "%warp%", warp.getName()));
+            Messages.send(sender, "warp.command.warp.success", "%warp%", warp.getName());
         }, (red, reason) -> {
         }, true, false);
         request.start();

@@ -80,7 +80,7 @@ public class TeleportdenyCommand implements HighCommand {
         requests.forEach(request -> request.getTeleportation().cancel("tpdeny"));
         requests = requests.stream().filter(request -> request.getAskerPlayer().isPresent()).collect(Collectors.toList());
 
-        sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportdeny.success", "%player%", requests.get(0).getAskerPlayer().get()));
+        Messages.send(sender, "teleport.command.teleportdeny.success", "%player%", requests.get(0).getAskerPlayer().get());
         return CommandResult.success();
     }
 

@@ -70,14 +70,14 @@ public class ClearinventoryCommand implements HighPermCommand {
             Player p = (Player) sender;
             p.getInventory().clear();
 
-            sender.sendMessage(Messages.getFormatted(sender, "inventory.command.clearinventory.self"));
+            Messages.send(sender, "inventory.command.clearinventory.self");
             return CommandResult.success();
         } else {
             Player t = args.<Player>getOne("player").get();
             t.getInventory().clear();
 
-            sender.sendMessage(Messages.getFormatted(sender, "inventory.command.clearinventory.others.self", "%player%", VariableUtil.getNameEntity(t)));
-            t.sendMessage(Messages.getFormatted(sender, "inventory.command.clearinventory.others.others", "%player%", sender));
+            Messages.send(sender, "inventory.command.clearinventory.others.self", "%player%", VariableUtil.getNameEntity(t));
+            Messages.send(sender, "inventory.command.clearinventory.others.others", "%player%", sender);
             return CommandResult.success();
         }
     }

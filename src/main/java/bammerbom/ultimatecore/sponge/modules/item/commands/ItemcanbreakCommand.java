@@ -86,7 +86,7 @@ public class ItemcanbreakCommand implements HighCommand {
         stack.offer(Keys.BREAKABLE_BLOCK_TYPES, types);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
         Text items = Text.joinWith(Text.of(", "), types.stream().map(type -> Text.of(type.getName())).collect(Collectors.toList()));
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemcanbreak.success", "%arg%", items));
+        Messages.send(sender, "item.command.itemcanbreak.success", "%arg%", items);
         return CommandResult.success();
     }
 

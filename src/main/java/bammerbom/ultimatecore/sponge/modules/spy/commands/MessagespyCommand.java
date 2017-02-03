@@ -77,7 +77,7 @@ public class MessagespyCommand implements HighCommand {
             status = !status;
             user.offer(SpyKeys.MESSAGESPY_ENABLED, status);
 
-            sender.sendMessage(Messages.getFormatted(sender, "spy.command.messagespy.self", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled")));
+            Messages.send(sender, "spy.command.messagespy.self", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled"));
             return CommandResult.success();
         } else {
             //Toggle someone else
@@ -89,8 +89,8 @@ public class MessagespyCommand implements HighCommand {
             status = !status;
             user.offer(SpyKeys.MESSAGESPY_ENABLED, status);
 
-            t.sendMessage(Messages.getFormatted(t, "spy.command.messagespy.self", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled")));
-            sender.sendMessage(Messages.getFormatted(sender, "spy.command.messagespy.others", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled"), "%player%", VariableUtil.getNameEntity(t)));
+            Messages.send(t, "spy.command.messagespy.self", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled"));
+            Messages.send(sender, "spy.command.messagespy.others", "%status%", status ? Messages.getFormatted("spy.enabled") : Messages.get("spy.disabled"), "%player%", VariableUtil.getNameEntity(t));
             return CommandResult.success();
         }
     }

@@ -44,7 +44,7 @@ public class GodListener {
             //Send error message to player trying to hit, if player
             Player t = event.getCause().first(Player.class).orElse(null);
             if (t != null && t.getUniqueId() != p.getUniqueId()) {
-                t.sendMessage(Messages.getFormatted(t, "god.onhit"));
+                Messages.send(t, "god.onhit");
             }
         }
     }

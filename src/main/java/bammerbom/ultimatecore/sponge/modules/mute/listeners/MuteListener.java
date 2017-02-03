@@ -26,9 +26,9 @@ package bammerbom.ultimatecore.sponge.modules.mute.listeners;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
 import bammerbom.ultimatecore.sponge.modules.mute.api.MuteKeys;
-import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.message.MessageChannelEvent;
@@ -43,7 +43,7 @@ public class MuteListener {
         if (up.get(MuteKeys.MUTE).isPresent()) {
             Mute mute = up.get(MuteKeys.MUTE).get();
             event.setCancelled(true);
-            p.sendMessage(Messages.getFormatted(p, "mute.muted", "%time%", (mute.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : Text.of(TimeUtil.formatDateDiff(mute.getEndtime()))), "%reason%", mute.getReason()));
+            Messages.send(p, "mute.muted", "%time%", (mute.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : Text.of(TimeUtil.formatDateDiff(mute.getEndtime()))), "%reason%", mute.getReason());
         }
     }
 }

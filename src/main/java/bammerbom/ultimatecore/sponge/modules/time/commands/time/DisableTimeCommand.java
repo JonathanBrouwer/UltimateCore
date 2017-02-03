@@ -56,7 +56,7 @@ public class DisableTimeCommand implements HighSubCommand {
         }
 
         world.getProperties().setGameRule("doDaylightCycle", "false");
-        sender.sendMessage(Messages.getFormatted(sender, "time.command.time.disable"));
+        Messages.send(sender, "time.command.time.disable");
         return CommandResult.success();
     }
 }

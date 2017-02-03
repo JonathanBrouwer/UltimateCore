@@ -61,7 +61,7 @@ public class DelfirstspawnCommand implements HighCommand {
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         checkPermission(sender, SpawnPermissions.UC_SPAWN_DELFIRSTSPAWN_BASE);
         GlobalData.offer(SpawnKeys.FIRST_SPAWN, null);
-        sender.sendMessage(Messages.getFormatted(sender, "spawn.command.delfirstspawn.success"));
+        Messages.send(sender, "spawn.command.delfirstspawn.success");
         return CommandResult.success();
     }
 }

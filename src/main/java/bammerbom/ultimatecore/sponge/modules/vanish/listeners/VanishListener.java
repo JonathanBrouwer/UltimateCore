@@ -66,7 +66,7 @@ public class VanishListener {
             p.offer(Keys.VANISH_PREVENTS_TARGETING, true);
             p.offer(Keys.VANISH_IGNORES_COLLISION, true);
             p.offer(Keys.IS_SILENT, true);
-            p.sendMessage(Messages.getFormatted(p, "vanish.onjoin"));
+            Messages.send(p, "vanish.onjoin");
         }
     }
 

@@ -88,7 +88,7 @@ public class RepairCommand implements HighCommand {
                 stack.offer(Keys.ITEM_DURABILITY, stack.get(DurabilityData.class).get().durability().getMaxValue());
                 slot.set(stack);
             });
-            sender.sendMessage(Messages.getFormatted(sender, "item.command.repair.success.all"));
+            Messages.send(sender, "item.command.repair.success.all");
             return CommandResult.success();
         } else {
             checkPermission(sender, ItemPermissions.UC_ITEM_REPAIR_ONE);
@@ -101,7 +101,7 @@ public class RepairCommand implements HighCommand {
             }
             stack.offer(Keys.ITEM_DURABILITY, stack.get(DurabilityData.class).get().durability().getMaxValue());
             p.setItemInHand(HandTypes.MAIN_HAND, stack);
-            sender.sendMessage(Messages.getFormatted(sender, "item.command.repair.success.one"));
+            Messages.send(sender, "item.command.repair.success.one");
             return CommandResult.success();
         }
     }

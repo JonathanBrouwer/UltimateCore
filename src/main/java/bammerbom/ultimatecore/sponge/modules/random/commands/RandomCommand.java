@@ -76,7 +76,7 @@ public class RandomCommand implements HighCommand {
         }
         int rand = random.nextInt((max + 1) - min) + min;
 
-        sender.sendMessage(Messages.getFormatted(sender, "random.command.random.success", "%min%", min, "%max%", max, "%value%", rand));
+        Messages.send(sender, "random.command.random.success", "%min%", min, "%max%", max, "%value%", rand);
         return CommandResult.success();
     }
 }

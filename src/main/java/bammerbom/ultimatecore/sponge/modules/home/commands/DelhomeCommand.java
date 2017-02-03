@@ -79,7 +79,7 @@ public class DelhomeCommand implements HighCommand {
         homes.remove(home);
         user.offer(HomeKeys.HOMES, homes);
 
-        sender.sendMessage(Messages.getFormatted(sender, "home.command.delhome.success", "%home%", home.getName()));
+        Messages.send(sender, "home.command.delhome.success", "%home%", home.getName());
         return CommandResult.success();
     }
 }

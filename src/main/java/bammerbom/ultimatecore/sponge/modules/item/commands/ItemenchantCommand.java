@@ -92,13 +92,13 @@ public class ItemenchantCommand implements HighCommand {
             enchs.add(new ItemEnchantment(ench, level));
             stack.offer(Keys.ITEM_ENCHANTMENTS, enchs);
             p.setItemInHand(HandTypes.MAIN_HAND, stack);
-            sender.sendMessage(Messages.getFormatted(sender, "item.command.itemenchant.success", "%enchant%", ench.getTranslation().get(), "%level%", level));
+            Messages.send(sender, "item.command.itemenchant.success", "%enchant%", ench.getTranslation().get(), "%level%", level);
             return CommandResult.success();
         } else {
             enchs = enchs.stream().filter(e -> !e.getEnchantment().equals(ench)).collect(Collectors.toList());
             stack.offer(Keys.ITEM_ENCHANTMENTS, enchs);
             p.setItemInHand(HandTypes.MAIN_HAND, stack);
-            sender.sendMessage(Messages.getFormatted(sender, "item.command.itemenchant.success2", "%enchant%", ench.getTranslation().get(), "%level%", level));
+            Messages.send(sender, "item.command.itemenchant.success2", "%enchant%", ench.getTranslation().get(), "%level%", level);
             return CommandResult.success();
         }
     }

@@ -63,13 +63,13 @@ public class FlyspeedCommand implements HighPermCommand {
             checkIfPlayer(sender);
             Player p = (Player) sender;
             p.offer(Keys.FLYING_SPEED, speed / flymultiplier);
-            p.sendMessage(Messages.getFormatted(p, "fly.command.flyspeed.success.self", "%speed%", speed));
+            Messages.send(p, "fly.command.flyspeed.success.self", "%speed%", speed);
             return CommandResult.success();
         } else {
             Player t = args.<Player>getOne("player").get();
             t.offer(Keys.FLYING_SPEED, speed / flymultiplier);
-            sender.sendMessage(Messages.getFormatted(sender, "fly.command.flyspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed));
-            t.sendMessage(Messages.getFormatted(t, "fly.command.flyspeed.success.others.self", "%player%", sender, "%speed%", speed));
+            Messages.send(sender, "fly.command.flyspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed);
+            Messages.send(t, "fly.command.flyspeed.success.others.self", "%player%", sender, "%speed%", speed);
             return CommandResult.success();
         }
     }

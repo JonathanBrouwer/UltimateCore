@@ -82,7 +82,7 @@ public class KitlistCommand implements HighCommand {
         }
         //If empty send message
         if (texts.isEmpty()) {
-            sender.sendMessage(Messages.getFormatted(sender, "kit.command.kitlist.empty"));
+            Messages.send(sender, "kit.command.kitlist.empty");
             return CommandResult.empty();
         }
         //Sort alphabetically

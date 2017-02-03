@@ -97,8 +97,8 @@ public class MuteCommand implements HighCommand {
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
         ut.offer(MuteKeys.MUTE, mute);
 
-        sender.sendMessage(Messages.getFormatted(sender, "mute.command.mute.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
-        t.sendMessage(Messages.getFormatted(t, "mute.muted", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        Messages.send(sender, "mute.command.mute.success", "%player%", VariableUtil.getNameEntity(t), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason);
+        Messages.send(t, "mute.muted", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason);
         return CommandResult.success();
     }
 }

@@ -83,7 +83,7 @@ public class ItemquantityCommand implements HighCommand {
 
         stack.setQuantity(quantity);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemquantity.success", "%arg%", quantity));
+        Messages.send(sender, "item.command.itemquantity.success", "%arg%", quantity);
         return CommandResult.success();
     }
 }

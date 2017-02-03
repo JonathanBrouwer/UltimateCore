@@ -96,7 +96,7 @@ public class CreatekitCommand implements HighCommand {
         List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
         kits.add(kit);
         GlobalData.offer(KitKeys.KITS, kits);
-        sender.sendMessage(Messages.getFormatted(sender, "kit.command.createkit.success", "%name%", name));
+        Messages.send(sender, "kit.command.createkit.success", "%name%", name);
         return CommandResult.success();
     }
 }

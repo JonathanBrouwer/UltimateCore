@@ -84,7 +84,7 @@ public class GlobalspawnCommand implements HighCommand {
             checkIfPlayer(sender);
             Player p = (Player) sender;
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc.get(), tel -> {
-                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.globalspawn.success.self"));
+                Messages.send(sender, "spawn.command.globalspawn.success.self");
             }, (tel, reason) -> {
             }, false, false);
             tp.start();
@@ -92,8 +92,8 @@ public class GlobalspawnCommand implements HighCommand {
             checkPermission(sender, SpawnPermissions.UC_SPAWN_GLOBALSPAWN_OTHERS);
             Player t = args.<Player>getOne("player").get();
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc.get(), tel -> {
-                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.globalspawn.success.others.self", "%player%", t));
-                t.sendMessage(Messages.getFormatted(t, "spawn.command.globalspawn.success.others.others", "%player%", sender));
+                Messages.send(sender, "spawn.command.globalspawn.success.others.self", "%player%", t);
+                Messages.send(t, "spawn.command.globalspawn.success.others.others", "%player%", sender);
             }, (tel, reason) -> {
             }, false, false);
             tp.start();

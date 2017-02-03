@@ -63,19 +63,19 @@ public class TeleportaskallhereCommand implements HighPermCommand {
             if (t.equals(sender)) continue;
             UUID tpid = UUID.randomUUID();
             Teleportation tel = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), p::getTransform, tele -> {
-                p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.accept", "%player%", t));
+                Messages.send(p, "teleport.command.teleportaskhere.accept", "%player%", t);
             }, (tele, reason) -> {
                 if (reason.equalsIgnoreCase("tpdeny")) {
-                    p.sendMessage(Messages.getFormatted(p, "teleport.command.teleportaskhere.deny", "%player%", t));
+                    Messages.send(p, "teleport.command.teleportaskhere.deny", "%player%", t);
                 }
             }, true, false);
             HashMap<UUID, TpaRequest> tels = GlobalData.get(TeleportKeys.TELEPORT_ASKHERE_REQUESTS).get();
             tels.put(tpid, new TpaRequest(p, t, tel));
             GlobalData.offer(TeleportKeys.TELEPORT_ASKHERE_REQUESTS, tels);
 
-            t.sendMessage(Messages.getFormatted(t, "teleport.command.teleportaskhere.receive", "%player%", sender, "%tpid%", tpid));
+            Messages.send(t, "teleport.command.teleportaskhere.receive", "%player%", sender, "%tpid%", tpid);
         }
-        sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaskallhere.self"));
+        Messages.send(sender, "teleport.command.teleportaskallhere.self");
 
         return CommandResult.success();
     }

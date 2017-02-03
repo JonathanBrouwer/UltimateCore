@@ -71,7 +71,7 @@ public class DelwarpCommand implements HighCommand {
         List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();
         warps = warps.stream().filter(w -> !w.getName().equalsIgnoreCase(warp.getName())).collect(Collectors.toList());
         GlobalData.offer(WarpKeys.WARPS, warps);
-        sender.sendMessage(Messages.getFormatted(sender, "warp.command.delwarp.success", "%warp%", warp.getName()));
+        Messages.send(sender, "warp.command.delwarp.success", "%warp%", warp.getName());
         return CommandResult.success();
     }
 }

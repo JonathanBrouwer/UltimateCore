@@ -84,9 +84,9 @@ public class SetwarpCommand implements HighCommand {
         warps.add(warp);
         GlobalData.offer(WarpKeys.WARPS, warps);
         if (replace) {
-            sender.sendMessage(Messages.getFormatted(sender, "warp.command.setwarp.replace", "%warp%", warp.getName()));
+            Messages.send(sender, "warp.command.setwarp.replace", "%warp%", warp.getName());
         } else {
-            sender.sendMessage(Messages.getFormatted(sender, "warp.command.setwarp.set", "%warp%", warp.getName()));
+            Messages.send(sender, "warp.command.setwarp.set", "%warp%", warp.getName());
         }
         return CommandResult.success();
     }

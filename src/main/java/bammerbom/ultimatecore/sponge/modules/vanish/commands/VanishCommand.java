@@ -75,9 +75,9 @@ public class VanishCommand implements HighCommand {
             boolean vanish = !up.get(VanishKeys.VANISH).get();
             up.offer(VanishKeys.VANISH, vanish);
             if (vanish) {
-                sender.sendMessage(Messages.getFormatted(sender, "vanish.command.vanish.self.on"));
+                Messages.send(sender, "vanish.command.vanish.self.on");
             } else {
-                sender.sendMessage(Messages.getFormatted(sender, "vanish.command.vanish.self.off"));
+                Messages.send(sender, "vanish.command.vanish.self.off");
             }
             return CommandResult.success();
         } else {
@@ -87,11 +87,11 @@ public class VanishCommand implements HighCommand {
             boolean vanish = !ut.get(VanishKeys.VANISH).get();
             ut.offer(VanishKeys.VANISH, vanish);
             if (vanish) {
-                sender.sendMessage(Messages.getFormatted(sender, "vanish.command.vanish.others.self.on", "%player%", VariableUtil.getNameEntity(t)));
-                t.sendMessage(Messages.getFormatted(t, "vanish.command.vanish.others.others.on", "%player%", sender));
+                Messages.send(sender, "vanish.command.vanish.others.self.on", "%player%", VariableUtil.getNameEntity(t));
+                Messages.send(t, "vanish.command.vanish.others.others.on", "%player%", sender);
             } else {
-                sender.sendMessage(Messages.getFormatted(sender, "vanish.command.vanish.others.self.off", "%player%", VariableUtil.getNameEntity(t)));
-                t.sendMessage(Messages.getFormatted(t, "vanish.command.vanish.others.others.off", "%player%", sender));
+                Messages.send(sender, "vanish.command.vanish.others.self.off", "%player%", VariableUtil.getNameEntity(t));
+                Messages.send(t, "vanish.command.vanish.others.others.off", "%player%", sender);
             }
             return CommandResult.success();
         }

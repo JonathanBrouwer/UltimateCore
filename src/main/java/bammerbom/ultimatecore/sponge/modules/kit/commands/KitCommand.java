@@ -135,7 +135,7 @@ public class KitCommand implements HighCommand {
                 p.getWorld().spawnEntity(itementity, Cause.builder().owner(UltimateCore.get()).named(NamedCause.of("player", p)).build());
             });
         }
-        sender.sendMessage(Messages.getFormatted(sender, "kit.command.kit.success", "%kit%", kit.getName()));
+        Messages.send(sender, "kit.command.kit.success", "%kit%", kit.getName());
         return CommandResult.success();
     }
 }

@@ -25,17 +25,17 @@ package bammerbom.ultimatecore.sponge.modules.jail.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.utils.SpawnUtil;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.api.entity.Transform;
@@ -112,7 +112,7 @@ public class JailListener {
                 List<String> allowedcommands = Modules.JAIL.get().getConfig().get().get().getNode("allowed-commands").getList(TypeToken.of(String.class));
                 if (!allowedcommands.contains(event.getCommand())) {
                     event.setCancelled(true);
-                    p.sendMessage(Messages.getFormatted(p, "jail.event.command", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
+                    Messages.send(p, "jail.event.command", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason());
                 }
             } catch (ObjectMappingException e) {
                 ErrorLogger.log(e, "Failed to load allowed commands while jailed from config.");
@@ -130,7 +130,7 @@ public class JailListener {
             if (!Modules.JAIL.get().getConfig().get().get().getNode("allow-block-modify").getBoolean()) {
                 JailData data = up.get(JailKeys.JAIL).get();
                 event.setCancelled(true);
-                p.sendMessage(Messages.getFormatted(p, "jail.event.block", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
+                Messages.send(p, "jail.event.block", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason());
             }
         }
     }
@@ -142,7 +142,7 @@ public class JailListener {
             if (!Modules.JAIL.get().getConfig().get().get().getNode("allow-chat").getBoolean()) {
                 JailData data = up.get(JailKeys.JAIL).get();
                 event.setCancelled(true);
-                p.sendMessage(Messages.getFormatted(p, "jail.event.chat", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason()));
+                Messages.send(p, "jail.event.chat", "%time%", (data.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.formatDateDiff(data.getEndtime())), "%reason%", data.getReason());
             }
         }
     }

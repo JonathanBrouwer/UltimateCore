@@ -74,7 +74,7 @@ public class SunCommand implements HighCommand {
             throw new ErrorMessageException(Messages.getFormatted(sender, "core.noplayer"));
         }
         world.setWeather(Weathers.CLEAR);
-        sender.sendMessage(Messages.getFormatted(sender, "weather.command.weather.success", "%weather%", "sun", "%world%", world.getName()));
+        Messages.send(sender, "weather.command.weather.success", "%weather%", "sun", "%world%", world.getName());
         return CommandResult.success();
     }
 }

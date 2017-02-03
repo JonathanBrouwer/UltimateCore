@@ -61,7 +61,7 @@ public class SpyListener {
                 if (!UltimateCore.get().getUserService().getUser(p).get(SpyKeys.MESSAGESPY_ENABLED).get()) {
                     continue;
                 }
-                p.sendMessage(Messages.getFormatted(p, "spy.format.messagespy", "%player%", s, "%target%", t, "%message%", ev.getPMUnformattedMessage()));
+                Messages.send(p, "spy.format.messagespy", "%player%", s, "%target%", t, "%message%", ev.getPMUnformattedMessage());
             }
         }
     }
@@ -83,7 +83,7 @@ public class SpyListener {
             //Ignored commands
             List<String> ignored = Arrays.asList("personalmessage", "pm", "dm", "msg", "w", "whisper", "tell", "reply", "respond", "r");
             if (ignored.contains(e.getCommand())) continue;
-            p.sendMessage(Messages.getFormatted(p, "spy.format.commandspy", "%player%", VariableUtil.getNameEntity(t), "%message%", e.getCommand() + " " + e.getArguments()));
+            Messages.send(p, "spy.format.commandspy", "%player%", VariableUtil.getNameEntity(t), "%message%", e.getCommand() + " " + e.getArguments());
         }
     }
 }

@@ -95,9 +95,9 @@ public class SethomeCommand implements HighCommand {
         user.offer(HomeKeys.HOMES, homes);
 
         if (replace) {
-            sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.success.replace", "%home%", homename.toLowerCase()));
+            Messages.send(sender, "home.command.sethome.success.replace", "%home%", homename.toLowerCase());
         } else {
-            sender.sendMessage(Messages.getFormatted(sender, "home.command.sethome.success.set", "%home%", homename.toLowerCase()));
+            Messages.send(sender, "home.command.sethome.success.set", "%home%", homename.toLowerCase());
         }
         return CommandResult.success();
     }

@@ -101,7 +101,7 @@ public class ItemhidetagsCommand implements HighCommand {
 
         stack.offer(key, value);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemhidetags.success", "%tag%", key.getName(), "%status%", Messages.getFormatted(value ? "item.command.itemhidetags.hidden" : "item.command.itemhidetags.shown")));
+        Messages.send(sender, "item.command.itemhidetags.success", "%tag%", key.getName(), "%status%", Messages.getFormatted(value ? "item.command.itemhidetags.hidden" : "item.command.itemhidetags.shown"));
         return CommandResult.success();
     }
 }

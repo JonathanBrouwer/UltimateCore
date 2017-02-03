@@ -40,7 +40,7 @@ public class JailTickRunnable implements Runnable {
                 JailData jail = up.get(JailKeys.JAIL).get();
                 if (System.currentTimeMillis() > jail.getEndtime() && jail.getEndtime() != -1L) {
                     up.offer(JailKeys.JAIL, null);
-                    p.sendMessage(Messages.getFormatted(p, "jail.target.unjailed"));
+                    Messages.send(p, "jail.target.unjailed");
                 }
             }
         }

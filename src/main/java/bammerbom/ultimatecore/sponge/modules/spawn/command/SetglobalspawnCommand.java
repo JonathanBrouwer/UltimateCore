@@ -67,7 +67,7 @@ public class SetglobalspawnCommand implements HighCommand {
         Player p = (Player) sender;
         p.getWorld().getProperties().setSpawnPosition(p.getLocation().getPosition().toInt());
         GlobalData.offer(SpawnKeys.GLOBAL_SPAWN, p.getTransform());
-        p.sendMessage(Messages.getFormatted(p, "spawn.command.setglobalspawn.success"));
+        Messages.send(p, "spawn.command.setglobalspawn.success");
         return CommandResult.success();
     }
 }

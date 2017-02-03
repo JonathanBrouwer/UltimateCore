@@ -74,15 +74,15 @@ public class FoodCommand implements HighCommand {
             Player p = (Player) sender;
             p.offer(Keys.FOOD_LEVEL, p.get(FoodData.class).get().foodLevel().getMaxValue());
             p.offer(Keys.SATURATION, ItemStack.builder().itemType(ItemTypes.COOKED_BEEF).build().getProperty(SaturationProperty.class).get().getValue());
-            p.sendMessage(Messages.getFormatted(p, "food.command.food.success.self"));
+            Messages.send(p, "food.command.food.success.self");
             return CommandResult.success();
         } else {
             checkPermission(sender, FoodPermissions.UC_FOOD_FOOD_OTHERS);
             Player t = args.<Player>getOne("player").get();
             t.offer(Keys.FOOD_LEVEL, t.get(FoodData.class).get().foodLevel().getMaxValue());
             t.offer(Keys.SATURATION, ItemStack.builder().itemType(ItemTypes.COOKED_BEEF).build().getProperty(SaturationProperty.class).get().getValue());
-            sender.sendMessage(Messages.getFormatted(sender, "food.command.food.success.others.self", "%player%", t));
-            t.sendMessage(Messages.getFormatted(t, "food.command.food.success.others.others", "%player%", sender));
+            Messages.send(sender, "food.command.food.success.others.self", "%player%", t);
+            Messages.send(t, "food.command.food.success.others.others", "%player%", sender);
             return CommandResult.success();
         }
     }

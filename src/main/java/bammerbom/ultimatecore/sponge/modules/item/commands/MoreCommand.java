@@ -71,7 +71,7 @@ public class MoreCommand implements HighCommand {
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
         stack.setQuantity(stack.getMaxStackQuantity());
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        p.sendMessage(Messages.getFormatted(p, "item.command.more.success", "%amount%", stack.getMaxStackQuantity()));
+        Messages.send(p, "item.command.more.success", "%amount%", stack.getMaxStackQuantity());
         return CommandResult.success();
     }
 }

@@ -61,7 +61,7 @@ public class DelglobalspawnCommand implements HighCommand {
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         checkPermission(sender, SpawnPermissions.UC_SPAWN_DELGLOBALSPAWN_BASE);
         GlobalData.offer(SpawnKeys.GLOBAL_SPAWN, null);
-        sender.sendMessage(Messages.getFormatted(sender, "spawn.command.delglobalspawn.success"));
+        Messages.send(sender, "spawn.command.delglobalspawn.success");
         return CommandResult.success();
     }
 }

@@ -71,15 +71,15 @@ public class SpectatorCommand implements HighCommand {
             checkIfPlayer(sender);
             Player p = (Player) sender;
             p.offer(Keys.GAME_MODE, GameModes.SPECTATOR);
-            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success", "%gamemode%", "spectator"));
+            Messages.send(sender, "gamemode.command.gamemode.success", "%gamemode%", "spectator");
             return CommandResult.success();
         } else {
             checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE);
             checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_SPECTATOR);
             Player t = args.<Player>getOne("player").get();
             t.offer(Keys.GAME_MODE, GameModes.SPECTATOR);
-            t.sendMessage(Messages.getFormatted(t, "gamemode.command.gamemode.success.others", "%sender%", sender, "%gamemode%", "spectator"));
-            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", t, "%gamemode%", "spectator"));
+            Messages.send(t, "gamemode.command.gamemode.success.others", "%sender%", sender, "%gamemode%", "spectator");
+            Messages.send(sender, "gamemode.command.gamemode.success.self", "%player%", t, "%gamemode%", "spectator");
             return CommandResult.success();
         }
     }

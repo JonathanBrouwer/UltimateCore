@@ -112,7 +112,7 @@ public class HomeCommand implements HighCommand {
         Home home = args.<Home>getOne("home").get();
         //Teleport
         Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), home.getLocation(), req -> {
-            sender.sendMessage(Messages.getFormatted(sender, "home.command.home.success", "%home%", home.getName()));
+            Messages.send(sender, "home.command.home.success", "%home%", home.getName());
         }, (red, reason) -> {
         }, true, false);
         request.start();

@@ -78,7 +78,7 @@ public class UndeafCommand implements HighCommand {
         }
         ut.offer(DeafKeys.DEAF, null);
 
-        sender.sendMessage(Messages.getFormatted(sender, "deaf.command.undeaf.success", "%player%", VariableUtil.getNameEntity(t)));
+        Messages.send(sender, "deaf.command.undeaf.success", "%player%", VariableUtil.getNameEntity(t));
         return CommandResult.success();
     }
 }

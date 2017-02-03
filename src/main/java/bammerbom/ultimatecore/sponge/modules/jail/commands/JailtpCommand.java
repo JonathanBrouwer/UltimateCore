@@ -78,7 +78,7 @@ public class JailtpCommand implements HighCommand {
         }, false, false);
         tp.start();
 
-        sender.sendMessage(Messages.getFormatted(sender, "jail.command.jailtp.success", "%jail%", jail.getName()));
+        Messages.send(sender, "jail.command.jailtp.success", "%jail%", jail.getName());
         return CommandResult.success();
     }
 }

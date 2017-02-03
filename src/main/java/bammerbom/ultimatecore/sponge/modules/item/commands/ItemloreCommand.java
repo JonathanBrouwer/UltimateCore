@@ -81,7 +81,7 @@ public class ItemloreCommand implements HighCommand {
         Text unsplitlore = Messages.toText(args.<String>getOne("lore").get());
         stack.offer(Keys.ITEM_LORE, unsplitlore.toPlain().contains("|") ? TextUtil.split(unsplitlore, "|") : Arrays.asList(unsplitlore));
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemlore.success", "%arg%", unsplitlore));
+        Messages.send(sender, "item.command.itemlore.success", "%arg%", unsplitlore);
         return CommandResult.success();
     }
 }

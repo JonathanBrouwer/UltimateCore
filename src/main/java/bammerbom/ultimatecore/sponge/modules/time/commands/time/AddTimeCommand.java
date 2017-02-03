@@ -63,7 +63,7 @@ public class AddTimeCommand implements HighSubCommand {
 
         Integer ticks = args.<Integer>getOne("ticks").get();
         world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
-        sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.add", "%ticks%", ticks));
+        Messages.send(sender, "time.command.time.set.add", "%ticks%", ticks);
         return CommandResult.success();
     }
 }

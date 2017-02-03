@@ -81,7 +81,7 @@ public class NickCommand implements HighPermCommand {
             if (!name.toPlain().matches("[A-Za-z0-9]+")) {
                 throw new ErrorMessageException(Messages.getFormatted(sender, "nick.alphanumeric"));
             }
-            sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.self", "%nickname%", name));
+            Messages.send(sender, "nick.command.nick.self", "%nickname%", name);
             up.offer(NickKeys.NICKNAME, name);
             p.offer(Keys.DISPLAY_NAME, name);
         } else {
@@ -92,8 +92,8 @@ public class NickCommand implements HighPermCommand {
             if (!name.toPlain().matches("[A-Za-z0-9]+")) {
                 throw new ErrorMessageException(Messages.getFormatted(sender, "nick.alphanumeric"));
             }
-            sender.sendMessage(Messages.getFormatted(sender, "nick.command.nick.others.self", "%player%", t, "%nickname%", name));
-            t.sendMessage(Messages.getFormatted(t, "nick.command.nick.others.others", "%player%", sender, "%nickname%", name));
+            Messages.send(sender, "nick.command.nick.others.self", "%player%", t, "%nickname%", name);
+            Messages.send(t, "nick.command.nick.others.others", "%player%", sender, "%nickname%", name);
             up.offer(NickKeys.NICKNAME, name);
             t.offer(Keys.DISPLAY_NAME, name);
         }

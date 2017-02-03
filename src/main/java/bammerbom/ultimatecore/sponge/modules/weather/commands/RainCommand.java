@@ -74,7 +74,7 @@ public class RainCommand implements HighCommand {
             throw new ErrorMessageException(Messages.getFormatted(sender, "core.noplayer"));
         }
         world.setWeather(Weathers.RAIN);
-        sender.sendMessage(Messages.getFormatted(sender, "weather.command.weather.success", "%weather%", "rain", "%world%", world.getName()));
+        Messages.send(sender, "weather.command.weather.success", "%weather%", "rain", "%world%", world.getName());
         return CommandResult.success();
     }
 }

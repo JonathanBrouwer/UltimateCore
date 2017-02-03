@@ -75,7 +75,7 @@ public class SetmaxhealthCommand implements HighCommand {
             Double health = args.<Double>getOne("health").get();
             p.offer(Keys.MAX_HEALTH, health);
 
-            sender.sendMessage(Messages.getFormatted(sender, "heal.command.setmaxhealth.success", "%health%", health));
+            Messages.send(sender, "heal.command.setmaxhealth.success", "%health%", health);
             return CommandResult.success();
         } else {
             checkPermission(sender, HealPermissions.UC_HEAL_SETMAXHEALTH_OTHERS);
@@ -84,8 +84,8 @@ public class SetmaxhealthCommand implements HighCommand {
             Double health = args.<Double>getOne("health").get();
             t.offer(Keys.MAX_HEALTH, health);
 
-            sender.sendMessage(Messages.getFormatted(sender, "heal.command.setmaxhealth.success.self", "%target%", t, "%health%", health));
-            t.sendMessage(Messages.getFormatted(t, "heal.command.setmaxhealth.success.others", "%player%", sender, "%health%", health));
+            Messages.send(sender, "heal.command.setmaxhealth.success.self", "%target%", t, "%health%", health);
+            Messages.send(t, "heal.command.setmaxhealth.success.others", "%player%", sender, "%health%", health);
             return CommandResult.success();
         }
     }

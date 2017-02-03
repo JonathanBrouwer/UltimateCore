@@ -32,6 +32,11 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 import javax.annotation.Nullable;
 
 public class Messages {
+
+    public static void send(CommandSource p, String key, Object... vars) {
+        p.sendMessage(getFormatted(p, key, vars));
+    }
+
     /**
      * Get a string with all available formatting, including click and hover actions.
      *

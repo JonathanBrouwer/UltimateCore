@@ -74,7 +74,7 @@ public class CountryCommand implements HighCommand {
         if (country == null) {
             throw new ErrorMessageException(Messages.getFormatted(sender, "geoip.command.country.failed", "%player%", t));
         }
-        sender.sendMessage(Messages.getFormatted(sender, "geoip.command.country.success", "%player%", t, "%country%", country.getName()));
+        Messages.send(sender, "geoip.command.country.success", "%player%", t, "%country%", country.getName());
         return CommandResult.success();
     }
 }

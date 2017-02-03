@@ -88,7 +88,7 @@ public class UltimatecoreCommand implements HighPermCommand {
         public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
             checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             UltimateCore.get().getUserService().clearcache();
-            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.clearcache.success"));
+            Messages.send(sender, "default.command.ultimatecore.clearcache.success");
             return CommandResult.success();
         }
     }
@@ -113,7 +113,7 @@ public class UltimatecoreCommand implements HighPermCommand {
             PlayerDataFile file = new PlayerDataFile(user.getIdentifier());
             //Delete the user's file
             file.getFile().delete();
-            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.resetuser.success", "%player%", t));
+            Messages.send(sender, "default.command.ultimatecore.resetuser.success", "%player%", t);
             return CommandResult.success();
         }
     }
@@ -130,7 +130,7 @@ public class UltimatecoreCommand implements HighPermCommand {
         public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
             checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             List<String> modules = UltimateCore.get().getModuleService().getModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default")).collect(Collectors.toList());
-            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules)));
+            Messages.send(sender, "default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules));
             return CommandResult.success();
         }
     }
@@ -184,7 +184,7 @@ public class UltimatecoreCommand implements HighPermCommand {
         public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
             checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             UltimateCore.get().onReload(null);
-            sender.sendMessage(Messages.getFormatted(sender, "default.command.ultimatecore.reload.success"));
+            Messages.send(sender, "default.command.ultimatecore.reload.success");
             return CommandResult.success();
         }
     }

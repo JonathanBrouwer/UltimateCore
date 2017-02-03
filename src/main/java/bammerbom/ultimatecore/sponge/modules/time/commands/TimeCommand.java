@@ -67,7 +67,7 @@ public class TimeCommand implements HighPermCommand {
 
             Integer ticks = args.<Integer>getOne("time").get();
             world.getProperties().setWorldTime(ticks);
-            sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.ticks", "%ticks%", ticks));
+            Messages.send(sender, "time.command.time.set.ticks", "%ticks%", ticks);
             return CommandResult.success();
         }
         throw new ErrorMessageException(getUsage(sender));

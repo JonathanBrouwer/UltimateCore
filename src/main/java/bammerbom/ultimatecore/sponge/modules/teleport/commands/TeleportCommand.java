@@ -75,7 +75,7 @@ public class TeleportCommand implements LowCommand {
     @Override
     public CommandResult run(CommandSource sender, String[] args) {
         if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_BASE.get())) {
-            sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
+            Messages.send(sender, "core.nopermissions");
             return CommandResult.empty();
         }
 
@@ -85,20 +85,20 @@ public class TeleportCommand implements LowCommand {
         } else if (args.length == 1) {
             //tp user
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
+                Messages.send(sender, "core.noplayer");
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
             Entity t = Selector.oneEntity(sender, args[0]).orElse(null);
             if (t == null) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.entitynotfound", "%entity%", args[0]));
+                Messages.send(sender, "core.entitynotfound", "%entity%", args[0]);
                 return CommandResult.empty();
             }
 
             //Teleport
             Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), t::getTransform, teleportRequest -> {
                 //Complete
-                p.sendMessage(Messages.getFormatted(p, "teleport.command.teleport.self", "%target%", VariableUtil.getNameEntity(t)));
+                Messages.send(p, "teleport.command.teleport.self", "%target%", VariableUtil.getNameEntity(t));
             }, (teleportRequest, reason) -> {
             }, true, false);
             request.start();
@@ -106,12 +106,12 @@ public class TeleportCommand implements LowCommand {
         } else if (args.length == 2 && ArgumentUtil.isDouble(args[0]) && ArgumentUtil.isDouble(args[1])) {
             //tp x z
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
+                Messages.send(sender, "core.noplayer");
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
             if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_COORDINATES.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
+                Messages.send(sender, "core.nopermissions");
                 return CommandResult.empty();
             }
 
@@ -119,14 +119,14 @@ public class TeleportCommand implements LowCommand {
             Double z = Double.parseDouble(args[1]);
             Double y = Double.parseDouble(LocationUtil.getHighestY(p.getWorld(), x, z) + "") + 1;
             if (y == -1) {
-                sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleport.noy"));
+                Messages.send(sender, "teleport.command.teleport.noy");
                 return CommandResult.empty();
             }
 
             Location<World> target = new Location<>(p.getWorld(), x, y, z);
             Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()), teleportRequest -> {
                 //Complete
-                p.sendMessage(Messages.getFormatted(p, "teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
+                Messages.send(p, "teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue());
             }, (teleportRequest, reason) -> {
             }, false, false);
             request.start();
@@ -134,24 +134,24 @@ public class TeleportCommand implements LowCommand {
         } else if (args.length == 2) {
             //tp user user
             if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
+                Messages.send(sender, "core.nopermissions");
                 return CommandResult.empty();
             }
             List<Entity> e = Selector.multipleEntities(sender, args[0]);
             if (e.isEmpty()) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.entitynotfound", "%entity%", args[0]));
+                Messages.send(sender, "core.entitynotfound", "%entity%", args[0]);
                 return CommandResult.empty();
             }
             Entity t = Selector.oneEntity(sender, args[1]).orElse(null);
             if (t == null) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.entitynotfound", "%entity%", args[1]));
+                Messages.send(sender, "core.entitynotfound", "%entity%", args[1]);
                 return CommandResult.empty();
             }
 
             //Teleport
             Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, e, t::getTransform, teleportRequest -> {
                 //Complete
-                sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleport.others", "%target1%", VariableUtil.getNamesEntity(e), "%target2%", VariableUtil.getNameEntity(t)));
+                Messages.send(sender, "teleport.command.teleport.others", "%target1%", VariableUtil.getNamesEntity(e), "%target2%", VariableUtil.getNameEntity(t));
             }, (teleportRequest, reason) -> {
             }, true, false);
             request.start();
@@ -159,12 +159,12 @@ public class TeleportCommand implements LowCommand {
         } else if (args.length == 3 && !ArgumentUtil.isDouble(args[0])) {
             // tp user x z
             if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_COORDINATES_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
+                Messages.send(sender, "core.nopermissions");
                 return CommandResult.empty();
             }
             List<Entity> e = Selector.multipleEntities(sender, args[0]);
             if (e.isEmpty()) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.entitynotfound", "%entity%", args[0]));
+                Messages.send(sender, "core.entitynotfound", "%entity%", args[0]);
                 return CommandResult.empty();
             }
             World w = sender instanceof Player ? ((Player) sender).getWorld() : e.get(0).getWorld();
@@ -172,14 +172,14 @@ public class TeleportCommand implements LowCommand {
             Double z = Double.parseDouble(args[1]);
             Double y = Double.parseDouble(LocationUtil.getHighestY(w, x, z) + "") + 1;
             if (y == -1) {
-                sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleport.noy"));
+                Messages.send(sender, "teleport.command.teleport.noy");
                 return CommandResult.empty();
             }
 
             Location<World> target = new Location<>(w, x, y, z);
             Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, e, new Transform<>(target), teleportRequest -> {
                 //Complete
-                sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
+                Messages.send(sender, "teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue());
             }, (teleportRequest, reason) -> {
             }, false, false);
             request.start();
@@ -187,12 +187,12 @@ public class TeleportCommand implements LowCommand {
         } else if (args.length == 3) {
             //tp x y z
             if (!(sender instanceof Player)) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.noplayer"));
+                Messages.send(sender, "core.noplayer");
                 return CommandResult.empty();
             }
             Player p = (Player) sender;
             if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_COORDINATES.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
+                Messages.send(sender, "core.nopermissions");
                 return CommandResult.empty();
             }
 
@@ -203,7 +203,7 @@ public class TeleportCommand implements LowCommand {
             Location<World> target = new Location<>(p.getWorld(), x, y, z);
             Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), new Transform<>(target, p.getRotation(), p.getScale()), teleportRequest -> {
                 //Complete
-                p.sendMessage(Messages.getFormatted(p, "teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
+                Messages.send(p, "teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue());
             }, (teleportRequest, reason) -> {
             }, false, false);
             request.start();
@@ -211,12 +211,12 @@ public class TeleportCommand implements LowCommand {
         } else if (args.length == 4) {
             //tp user x y z
             if (!sender.hasPermission(TeleportPermissions.UC_TELEPORT_TELEPORT_COORDINATES_OTHERS.get())) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.nopermissions"));
+                Messages.send(sender, "core.nopermissions");
                 return CommandResult.empty();
             }
             List<Entity> e = Selector.multipleEntities(sender, args[0]);
             if (e.isEmpty()) {
-                sender.sendMessage(Messages.getFormatted(sender, "core.entitynotfound", "%entity%", args[0]));
+                Messages.send(sender, "core.entitynotfound", "%entity%", args[0]);
                 return CommandResult.empty();
             }
 
@@ -228,7 +228,7 @@ public class TeleportCommand implements LowCommand {
             Location<World> target = new Location<>(w, x, y, z);
             Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(sender, e, new Transform<>(target), teleportRequest -> {
                 //Complete
-                sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue()));
+                Messages.send(sender, "teleport.command.teleport.coords.self", "%x%", x.intValue(), "%y%", y.intValue(), "%z%", z.intValue());
             }, (teleportRequest, reason) -> {
             }, false, false);
             request.start();

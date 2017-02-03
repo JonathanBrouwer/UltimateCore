@@ -99,7 +99,7 @@ public class GroupspawnCommand implements HighCommand {
             //Teleport
             Transform<World> loc = spawns.get(group);
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc, tel -> {
-                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.success.self", "%group%", group));
+                Messages.send(sender, "spawn.command.groupspawn.success.self", "%group%", group);
             }, (tel, reason) -> {
             }, false, false);
             tp.start();
@@ -124,8 +124,8 @@ public class GroupspawnCommand implements HighCommand {
             //Teleport
             Transform<World> loc = spawns.get(group);
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
-                sender.sendMessage(Messages.getFormatted(sender, "spawn.command.groupspawn.success.others.self", "%player%", t, "%group%", group));
-                t.sendMessage(Messages.getFormatted(t, "spawn.command.groupspawn.success.others.others", "%player%", sender, "%group%", group));
+                Messages.send(sender, "spawn.command.groupspawn.success.others.self", "%player%", t, "%group%", group);
+                Messages.send(t, "spawn.command.groupspawn.success.others.others", "%player%", sender, "%group%", group);
             }, (tel, reason) -> {
             }, false, false);
             tp.start();

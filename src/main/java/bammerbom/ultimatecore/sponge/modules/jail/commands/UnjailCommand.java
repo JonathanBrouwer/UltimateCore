@@ -76,13 +76,13 @@ public class UnjailCommand implements HighCommand {
         UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
 
         if (!ut.get(JailKeys.JAIL).isPresent()) {
-            sender.sendMessage(Messages.getFormatted(sender, "jail.command.unjail.notjailed", "%player%", t));
+            Messages.send(sender, "jail.command.unjail.notjailed", "%player%", t);
             return CommandResult.success();
         }
 
         ut.offer(JailKeys.JAIL, null);
-        sender.sendMessage(Messages.getFormatted(sender, "jail.command.unjail.success", "%player%", t));
-        t.sendMessage(Messages.getFormatted(t, "jail.target.unjailed"));
+        Messages.send(sender, "jail.command.unjail.success", "%player%", t);
+        Messages.send(t, "jail.target.unjailed");
         return CommandResult.success();
     }
 }

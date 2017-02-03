@@ -78,7 +78,7 @@ public class SethealthCommand implements HighCommand {
             }
             p.offer(Keys.HEALTH, health);
 
-            sender.sendMessage(Messages.getFormatted(sender, "heal.command.sethealth.success", "%health%", health));
+            Messages.send(sender, "heal.command.sethealth.success", "%health%", health);
             return CommandResult.success();
         } else {
             checkPermission(sender, HealPermissions.UC_HEAL_SETHEALTH_OTHERS);
@@ -90,8 +90,8 @@ public class SethealthCommand implements HighCommand {
             }
             t.offer(Keys.HEALTH, health);
 
-            sender.sendMessage(Messages.getFormatted(sender, "heal.command.sethealth.success.self", "%target%", t, "%health%", health));
-            t.sendMessage(Messages.getFormatted(t, "heal.command.sethealth.success.others", "%player%", sender, "%health%", health));
+            Messages.send(sender, "heal.command.sethealth.success.self", "%target%", t, "%health%", health);
+            Messages.send(t, "heal.command.sethealth.success.others", "%player%", sender, "%health%", health);
             return CommandResult.success();
         }
     }

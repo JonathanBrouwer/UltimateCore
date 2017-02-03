@@ -75,17 +75,17 @@ public class QueryTimeCommand implements HighSubCommand {
             if (type.equalsIgnoreCase("daytime")) {
                 checkPermission(sender, TimePermissions.UC_TIME_TIME_QUERY_DAYTIME);
                 Long result = world.getProperties().getWorldTime() % 24000;
-                sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.daytime", "%daytime%", result));
+                Messages.send(sender, "time.command.time.query.daytime", "%daytime%", result);
                 return CommandResult.builder().queryResult(result.intValue()).build();
             } else if (type.equalsIgnoreCase("days")) {
                 checkPermission(sender, TimePermissions.UC_TIME_TIME_QUERY_DAYS);
                 Long result = world.getProperties().getWorldTime() / 24000;
-                sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.day", "%days%", result));
+                Messages.send(sender, "time.command.time.query.day", "%days%", result);
                 return CommandResult.builder().queryResult(result.intValue()).build();
             } else if (type.equalsIgnoreCase("gametime")) {
                 checkPermission(sender, TimePermissions.UC_TIME_TIME_QUERY_GAMETIME);
                 Long result = world.getProperties().getWorldTime();
-                sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.gametime", "%gametime%", result));
+                Messages.send(sender, "time.command.time.query.gametime", "%gametime%", result);
                 return CommandResult.builder().queryResult(result.intValue()).build();
             }
             throw new ErrorMessageException(getUsage(sender));
@@ -100,9 +100,9 @@ public class QueryTimeCommand implements HighSubCommand {
             boolean am = daytime < 12000;
 
             if (am) {
-                sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.formatted.am", "%day%", day, "%hours%", hours24, "%minutes%", minutes, "%hours12%", hours12));
+                Messages.send(sender, "time.command.time.query.formatted.am", "%day%", day, "%hours%", hours24, "%minutes%", minutes, "%hours12%", hours12);
             } else {
-                sender.sendMessage(Messages.getFormatted(sender, "time.command.time.query.formatted.pm", "%day%", day, "%hours%", hours24, "%minutes%", minutes, "%hours12%", hours12));
+                Messages.send(sender, "time.command.time.query.formatted.pm", "%day%", day, "%hours%", hours24, "%minutes%", minutes, "%hours12%", hours12);
             }
             return CommandResult.success();
         }

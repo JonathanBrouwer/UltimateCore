@@ -74,7 +74,7 @@ public class WeatherCommand implements HighCommand {
             world = ((Player) sender).getWorld();
         }
         world.setWeather(weather);
-        sender.sendMessage(Messages.getFormatted(sender, "weather.command.weather.success", "%weather%", weather.getName().toLowerCase(), "%world%", world.getName()));
+        Messages.send(sender, "weather.command.weather.success", "%weather%", weather.getName().toLowerCase(), "%world%", world.getName());
         return CommandResult.success();
     }
 }

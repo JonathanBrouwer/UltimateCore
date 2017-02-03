@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.modules.sudo.SudoModule;
@@ -83,14 +84,14 @@ public class SudoCommand implements HighCommand {
             try {
                 if (Sponge.getCommandManager().process(t, message.replaceFirst("/", "")).getSuccessCount().orElse(0) >= 1) {
                     //Success
-                    sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.command.success", "%target%", t, "%command%", message));
+                    Messages.send(sender, "sudo.command.sudo.command.success", "%target%", t, "%command%", message);
                 } else {
                     //Failed
-                    sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.command.failed"));
+                    throw new ErrorMessageException(Messages.getFormatted(sender, "sudo.command.sudo.command.failed"));
                 }
             } catch (Exception ex) {
                 //Error
-                sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.command.error"));
+                Messages.send(sender, "sudo.command.sudo.command.error");
             }
         } else {
             //CHAT
@@ -99,10 +100,10 @@ public class SudoCommand implements HighCommand {
             if (!Sponge.getEventManager().post(event)) {
                 //Success
                 t.getMessageChannel().send(t, event.getMessage(), ChatTypes.CHAT);
-                sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.chat.success", "%target%", t, "%message%", message));
+                Messages.send(sender, "sudo.command.sudo.chat.success", "%target%", t, "%message%", message);
             } else {
                 //Failed
-                sender.sendMessage(Messages.getFormatted(sender, "sudo.command.sudo.chat.failed"));
+                throw new ErrorMessageException(Messages.getFormatted("sudo.command.sudo.chat.failed"));
             }
         }
         return CommandResult.success();

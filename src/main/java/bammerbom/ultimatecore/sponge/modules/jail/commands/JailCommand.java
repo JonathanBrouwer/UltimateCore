@@ -104,8 +104,8 @@ public class JailCommand implements HighCommand {
 
         JailData data = new JailData(t.getUniqueId(), suuid, time == -1 ? -1 : (time + System.currentTimeMillis()), System.currentTimeMillis(), reason, jail.getName());
         ut.offer(JailKeys.JAIL, data);
-        sender.sendMessage(Messages.getFormatted(sender, "jail.command.jail.success", "%player%", t, "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
-        t.sendMessage(Messages.getFormatted(t, "jail.target.jailed", "%player%", sender, "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason));
+        Messages.send(sender, "jail.command.jail.success", "%player%", t, "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason);
+        Messages.send(t, "jail.target.jailed", "%player%", sender, "%jail%", jail.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason);
         return CommandResult.success();
     }
 }

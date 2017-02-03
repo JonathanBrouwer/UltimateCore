@@ -26,9 +26,9 @@ package bammerbom.ultimatecore.sponge.modules.deaf.listeners;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.Deaf;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafKeys;
-import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.message.MessageChannelEvent;
@@ -62,7 +62,7 @@ public class DeafListener {
         if (up.get(DeafKeys.DEAF).isPresent()) {
             Deaf deaf = up.get(DeafKeys.DEAF).get();
             event.setCancelled(true);
-            p.sendMessage(Messages.getFormatted(p, "deaf.deafed", "%time%", (deaf.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : Text.of(TimeUtil.formatDateDiff(deaf.getEndtime()))), "%reason%", deaf.getReason()));
+            Messages.send(p, "deaf.deafed", "%time%", (deaf.getEndtime() == -1L ? Messages.getFormatted("core.time.ever") : Text.of(TimeUtil.formatDateDiff(deaf.getEndtime()))), "%reason%", deaf.getReason());
         }
     }
 }

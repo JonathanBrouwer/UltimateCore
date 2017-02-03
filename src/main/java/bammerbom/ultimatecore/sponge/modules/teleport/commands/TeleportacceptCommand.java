@@ -77,7 +77,7 @@ public class TeleportacceptCommand implements HighCommand {
             throw new ErrorMessageException(Messages.getFormatted(sender, "teleport.command.teleportaccept.none"));
         }
         request.getTeleportation().start();
-        sender.sendMessage(Messages.getFormatted(sender, "teleport.command.teleportaccept.success"));
+        Messages.send(sender, "teleport.command.teleportaccept.success");
         return CommandResult.success();
     }
 }

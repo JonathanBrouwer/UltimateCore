@@ -76,7 +76,7 @@ public class BackCommand implements HighCommand {
         }
 
         Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc.get(), tel -> {
-            sender.sendMessage(Messages.getFormatted(sender, "back.command.back.success"));
+            Messages.send(sender, "back.command.back.success");
         }, (tel, reason) -> {
         }, true, false);
         tp.start();

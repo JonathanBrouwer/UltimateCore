@@ -90,7 +90,7 @@ public class ItemdurabilityCommand implements HighCommand {
 
         stack.offer(Keys.ITEM_DURABILITY, durability);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemdurability.success", "%arg%", durability));
+        Messages.send(sender, "item.command.itemdurability.success", "%arg%", durability);
         return CommandResult.success();
     }
 }

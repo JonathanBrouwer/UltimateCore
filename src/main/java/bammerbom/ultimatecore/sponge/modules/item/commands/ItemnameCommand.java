@@ -81,7 +81,7 @@ public class ItemnameCommand implements HighCommand {
         Text name = Messages.toText(args.<String>getOne("name").get());
         stack.offer(Keys.DISPLAY_NAME, name);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemname.success", "%arg%", name));
+        Messages.send(sender, "item.command.itemname.success", "%arg%", name);
         return CommandResult.success();
     }
 }

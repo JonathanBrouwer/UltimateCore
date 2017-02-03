@@ -65,14 +65,14 @@ public class SignListener {
         for (UCSign sign : UltimateCore.get().getSignService().get().getRegisteredSigns()) {
             if (event.getText().get(0).orElse(Text.of()).toPlain().equalsIgnoreCase("[" + sign.getIdentifier() + "]")) {
                 if (!p.hasPermission(sign.getCreatePermission().get())) {
-                    p.sendMessage(Messages.getFormatted(p, "core.nopermissions"));
+                    Messages.send(p, "core.nopermissions");
                 }
                 SignCreateEvent cevent = new SignCreateEvent(sign, event.getTargetTile().getLocation(), Cause.builder().notifier(p).build());
                 Sponge.getEventManager().post(cevent);
                 if (!cevent.isCancelled() && sign.onCreate(p, event)) {
                     //Color sign
                     event.getTargetTile().offer(Keys.SIGN_LINES, event.getText().setElement(0, Text.of(TextColors.AQUA, "[" + StringUtil.firstUpperCase(sign.getIdentifier()) + "]")).asList());
-                    p.sendMessage(Messages.getFormatted(p, "sign.create", "%sign%", sign.getIdentifier()));
+                    Messages.send(p, "sign.create", "%sign%", sign.getIdentifier());
                 }
             }
         }
@@ -90,7 +90,7 @@ public class SignListener {
         for (UCSign usign : UltimateCore.get().getSignService().get().getRegisteredSigns()) {
             if (sign.getSignData().get(0).orElse(Text.of()).toPlain().equalsIgnoreCase("[" + usign.getIdentifier() + "]")) {
                 if (!p.hasPermission(usign.getUsePermission().get())) {
-                    p.sendMessage(Messages.getFormatted(p, "core.nopermissions"));
+                    Messages.send(p, "core.nopermissions");
                 }
                 SignUseEvent cevent = new SignUseEvent(usign, sign.getLocation(), Cause.builder().notifier(p).build());
                 Sponge.getEventManager().post(cevent);
@@ -111,12 +111,12 @@ public class SignListener {
                 for (UCSign usign : UltimateCore.get().getSignService().get().getRegisteredSigns()) {
                     if (texts.get(0).toPlain().equalsIgnoreCase("[" + usign.getIdentifier() + "]")) {
                         if (!p.hasPermission(usign.getDestroyPermission().get())) {
-                            p.sendMessage(Messages.getFormatted(p, "core.nopermissions"));
+                            Messages.send(p, "core.nopermissions");
                         }
                         SignDestroyEvent cevent = new SignDestroyEvent(usign, snapshot.getLocation().get(), Cause.builder().notifier(p).build());
                         Sponge.getEventManager().post(cevent);
                         if (!cevent.isCancelled() && usign.onDestroy(p, event, texts)) {
-                            p.sendMessage(Messages.getFormatted(p, "sign.destroy", "%sign%", usign.getIdentifier()));
+                            Messages.send(p, "sign.destroy", "%sign%", usign.getIdentifier());
                         }
                     }
                 }

@@ -76,7 +76,7 @@ public class GodCommand implements HighCommand {
             boolean god = up.get(GodKeys.GOD).get();
             god = !god;
             up.offer(GodKeys.GOD, god);
-            sender.sendMessage(Messages.getFormatted(sender, "god.command.god.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled")));
+            Messages.send(sender, "god.command.god.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"));
             return CommandResult.success();
         } else {
             checkPermission(sender, GodPermissions.UC_GOD_GOD_OTHERS);
@@ -86,8 +86,8 @@ public class GodCommand implements HighCommand {
             boolean god = ut.get(GodKeys.GOD).get();
             god = !god;
             ut.offer(GodKeys.GOD, god);
-            sender.sendMessage(Messages.getFormatted(sender, "god.command.god.others.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", t));
-            t.sendMessage(Messages.getFormatted(t, "god.command.god.others.others", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", sender));
+            Messages.send(sender, "god.command.god.others.self", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", t);
+            Messages.send(t, "god.command.god.others.others", "%status%", god ? Messages.getFormatted("god.command.god.enabled") : Messages.getFormatted("god.command.god.disabled"), "%player%", sender);
             return CommandResult.success();
         }
     }

@@ -71,7 +71,7 @@ public class DayCommand implements HighCommand {
         }
         Long ticks = 24000 - (world.getProperties().getWorldTime() % 24000);
         world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
-        sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.day"));
+        Messages.send(sender, "time.command.time.set.day");
         return CommandResult.success();
     }
 }

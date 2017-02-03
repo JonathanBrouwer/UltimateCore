@@ -72,7 +72,7 @@ public class NightCommand implements HighCommand {
         //Players can enter their bed at 12541 ticks
         Long ticks = 12541 - (world.getProperties().getWorldTime() % 24000);
         world.getProperties().setWorldTime(world.getProperties().getWorldTime() + ticks);
-        sender.sendMessage(Messages.getFormatted(sender, "time.command.time.set.night"));
+        Messages.send(sender, "time.command.time.set.night");
         return CommandResult.success();
     }
 }

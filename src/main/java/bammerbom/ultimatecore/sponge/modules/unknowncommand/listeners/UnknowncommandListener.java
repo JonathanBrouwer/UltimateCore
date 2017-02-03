@@ -41,6 +41,6 @@ public class UnknowncommandListener {
 
         //Send message
         event.setCancelled(true);
-        p.sendMessage(Messages.getFormatted(p, "unknowncommand.message"));
+        Messages.send(p, "unknowncommand.message");
     }
 }

@@ -71,15 +71,15 @@ public class CreativeCommand implements HighCommand {
             checkIfPlayer(sender);
             Player p = (Player) sender;
             p.offer(Keys.GAME_MODE, GameModes.CREATIVE);
-            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success", "%gamemode%", "creative"));
+            Messages.send(sender, "gamemode.command.gamemode.success", "%gamemode%", "creative");
             return CommandResult.success();
         } else {
             checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_BASE);
             checkPermission(sender, GamemodePermissions.UC_GAMEMODE_GAMEMODE_OTHERS_CREATIVE);
             Player t = args.<Player>getOne("player").get();
             t.offer(Keys.GAME_MODE, GameModes.CREATIVE);
-            t.sendMessage(Messages.getFormatted(t, "gamemode.command.gamemode.success.others", "%sender%", sender, "%gamemode%", "creative"));
-            sender.sendMessage(Messages.getFormatted(sender, "gamemode.command.gamemode.success.self", "%player%", t, "%gamemode%", "creative"));
+            Messages.send(t, "gamemode.command.gamemode.success.others", "%sender%", sender, "%gamemode%", "creative");
+            Messages.send(sender, "gamemode.command.gamemode.success.self", "%player%", t, "%gamemode%", "creative");
             return CommandResult.success();
         }
     }

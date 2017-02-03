@@ -78,7 +78,7 @@ public class UnmuteCommand implements HighCommand {
         }
         ut.offer(MuteKeys.MUTE, null);
 
-        sender.sendMessage(Messages.getFormatted(sender, "mute.command.unmute.success", "%player%", VariableUtil.getNameEntity(t)));
+        Messages.send(sender, "mute.command.unmute.success", "%player%", VariableUtil.getNameEntity(t));
         return CommandResult.success();
     }
 }

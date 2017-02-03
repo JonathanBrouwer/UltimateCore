@@ -86,7 +86,7 @@ public class ItemcanplaceonCommand implements HighCommand {
         stack.offer(Keys.PLACEABLE_BLOCKS, types);
         p.setItemInHand(HandTypes.MAIN_HAND, stack);
         Text items = Text.joinWith(Text.of(", "), types.stream().map(type -> Text.of(type.getName())).collect(Collectors.toList()));
-        sender.sendMessage(Messages.getFormatted(sender, "item.command.itemcanplaceon.success", "%arg%", items));
+        Messages.send(sender, "item.command.itemcanplaceon.success", "%arg%", items);
         return CommandResult.success();
     }
 }
