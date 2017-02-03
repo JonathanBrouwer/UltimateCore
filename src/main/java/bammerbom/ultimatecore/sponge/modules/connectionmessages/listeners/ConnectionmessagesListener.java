@@ -72,12 +72,13 @@ public class ConnectionmessagesListener {
 
         //Changed name message
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-        if (up.get(ConnectionmessagesKeys.LASTNAME).isPresent()) {
-            if (!p.getName().equalsIgnoreCase(up.get(ConnectionmessagesKeys.LASTNAME).get())) {
+        if (config.get().getNode("changename", "enable").getBoolean() && up.get(ConnectionmessagesKeys.LASTNAME).isPresent()) {
+            String lastname = up.get(ConnectionmessagesKeys.LASTNAME).get();
+            if (!p.getName().equalsIgnoreCase(lastname)) {
                 Text jmessage = Messages.toText(config.get().getNode("changename", "format").getString());
-                jmessage = TextUtil.replace(jmessage, "%oldname%", Text.of(up.get(ConnectionmessagesKeys.LASTNAME).get()));
+                jmessage = TextUtil.replace(jmessage, "%oldname%", Text.of(lastname));
                 jmessage = VariableUtil.replaceVariables(jmessage, p);
-                e.setMessage(jmessage);
+                Sponge.getServer().getBroadcastChannel().send(jmessage);
             }
         }
         up.offer(ConnectionmessagesKeys.LASTNAME, p.getName());
