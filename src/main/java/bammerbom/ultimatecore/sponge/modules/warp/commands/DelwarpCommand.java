@@ -43,6 +43,7 @@ import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CommandInfo(module = WarpModule.class, aliases = {"delwarp", "removewarp"})
 public class DelwarpCommand implements HighCommand {
@@ -68,7 +69,7 @@ public class DelwarpCommand implements HighCommand {
         checkPermission(sender, WarpPermissions.UC_WARP_DELWARP_BASE);
         Warp warp = args.<Warp>getOne("warp").get();
         List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();
-        warps.remove(warp);
+        warps = warps.stream().filter(w -> !w.getName().equalsIgnoreCase(warp.getName())).collect(Collectors.toList());
         GlobalData.offer(WarpKeys.WARPS, warps);
         sender.sendMessage(Messages.getFormatted(sender, "warp.command.delwarp.success", "%warp%", warp.getName()));
         return CommandResult.success();

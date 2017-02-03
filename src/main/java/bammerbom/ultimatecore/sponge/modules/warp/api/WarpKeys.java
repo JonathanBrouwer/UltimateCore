@@ -72,7 +72,7 @@ public class WarpKeys {
             for (UUID uuid : worldWarps.keySet()) {
                 WorldDataFile loader = new WorldDataFile(uuid);
                 CommentedConfigurationNode node = loader.get();
-                node.getNode("warps").getChildrenMap().keySet().forEach(node.getNode("warps")::removeChild);
+                node.getNode("warps").setValue(null);
                 List<Warp> warps = worldWarps.get(uuid);
                 for (Warp warp : warps) {
                     try {
