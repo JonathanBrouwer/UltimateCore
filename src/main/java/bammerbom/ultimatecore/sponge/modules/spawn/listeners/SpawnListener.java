@@ -71,4 +71,17 @@ public class SpawnListener {
             }
         }
     }
+
+    @Listener
+    public void onQuit(ClientConnectionEvent.Disconnect event) {
+        Player p = event.getTargetEntity();
+        ModuleConfig config = Modules.SPAWN.get().getConfig().get();
+        if (config.get().getNode("spawn-on-join").getBoolean(false)) {
+            Transform loc = SpawnUtil.getSpawnLocation(p);
+            Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), loc, tel -> {
+            }, (tel, reason) -> {
+            }, false, true);
+            tp.start();
+        }
+    }
 }
