@@ -31,4 +31,6 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommandPermissions {
     PermissionLevel level();
+
+    boolean supportsOthers() default false;
 }

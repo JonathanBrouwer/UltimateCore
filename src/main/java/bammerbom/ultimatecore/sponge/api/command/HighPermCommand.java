@@ -59,12 +59,18 @@ public interface HighPermCommand extends HighCommand {
         PermissionLevel level = pi != null ? pi.level() : PermissionLevel.NOBODY;
 
         //Get base permission
-        Permission baseperm = Permission.create(getBasePermission() + ".base", getModule(), level, this, Text.of("Allows you to use the /" + this.getIdentifier() + " command."));
+        Permission baseperm = Permission.create(getBasePermission() + ".base", getModule(), level, this, Text.of("Allows you to use the /" + this.getFullIdentifier() + " command."));
         perms.add(baseperm);
 
         //Get children permissions
         for (HighSubCommand child : getChildren()) {
             perms.addAll(child.getPermissions());
+        }
+
+        //Get @CommandPermissions perms
+        if (pi.supportsOthers()) {
+            Permission othersperm = Permission.create(getBasePermission() + ".others", getModule(), level, this, Text.of("Allows you to use the /" + this.getFullIdentifier() + " command on other players."));
+            perms.add(othersperm);
         }
 
         //Get custom suffixes
