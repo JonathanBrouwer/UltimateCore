@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.api.config.config.module;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
+import org.spongepowered.api.Sponge;
 
 import java.io.File;
 
@@ -33,7 +34,7 @@ public class RawModuleConfig extends RawFileConfig implements ModuleConfig {
     protected String module;
 
     public RawModuleConfig(String id) {
-        super(new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", id + ".conf"));
+        super(new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", id + ".conf"), Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/modules/" + id + ".conf").get());
         this.module = id;
     }
 

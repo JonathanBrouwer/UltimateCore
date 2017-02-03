@@ -27,7 +27,9 @@ import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import org.spongepowered.api.asset.Asset;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -35,11 +37,17 @@ import java.nio.file.Path;
 public class RawFileConfig implements RawConfig {
 
     protected File file;
+    protected Asset asset;
     protected ConfigurationLoader<CommentedConfigurationNode> loader;
     protected CommentedConfigurationNode node;
 
     public RawFileConfig(File file) {
+        this(file, null);
+    }
+
+    public RawFileConfig(File file, @Nullable Asset asset) {
         this.file = file;
+        this.asset = asset;
         reload();
     }
 
@@ -47,7 +55,11 @@ public class RawFileConfig implements RawConfig {
         try {
             if (!file.exists()) {
                 file.getParentFile().mkdirs();
-                file.createNewFile();
+                if (asset == null) {
+                    file.createNewFile();
+                } else {
+                    asset.copyToFile(file.toPath());
+                }
             }
             loader = HoconConfigurationLoader.builder().setPath(file.toPath()).build();
             node = loader.load();
