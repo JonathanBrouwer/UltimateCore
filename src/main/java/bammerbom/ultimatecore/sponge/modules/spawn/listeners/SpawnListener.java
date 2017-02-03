@@ -24,9 +24,12 @@
 package bammerbom.ultimatecore.sponge.modules.spawn.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
+import bammerbom.ultimatecore.sponge.modules.spawn.utils.SpawnUtil;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -52,6 +55,15 @@ public class SpawnListener {
             if (GlobalData.get(SpawnKeys.FIRST_SPAWN).isPresent()) {
                 //Teleport
                 Transform loc = GlobalData.get(SpawnKeys.FIRST_SPAWN).get();
+                Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), loc, tel -> {
+                }, (tel, reason) -> {
+                }, false, true);
+                tp.start();
+            }
+        } else {
+            ModuleConfig config = Modules.SPAWN.get().getConfig().get();
+            if (config.get().getNode("spawn-on-join").getBoolean(false)) {
+                Transform loc = SpawnUtil.getSpawnLocation(p);
                 Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), loc, tel -> {
                 }, (tel, reason) -> {
                 }, false, true);

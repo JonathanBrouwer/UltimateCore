@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.spawn;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.config.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
 import bammerbom.ultimatecore.sponge.modules.spawn.command.*;
@@ -42,6 +43,8 @@ public class SpawnModule implements Module {
     //globalspawn, firstspawn, groupspawn
     //set(global)spawn, setfirstspawn, setgroupspawn
     //del(global)spawn, delfirstspawn, delgroupspawn
+    ModuleConfig config;
+
     @Override
     public String getIdentifier() {
         return "spawn";
@@ -54,7 +57,7 @@ public class SpawnModule implements Module {
 
     @Override
     public Optional<ModuleConfig> getConfig() {
-        return Optional.empty();
+        return Optional.of(config);
     }
 
     @Override
@@ -64,6 +67,8 @@ public class SpawnModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        config = new RawModuleConfig("spawn");
+
         UltimateCore.get().getCommandService().register(new DelfirstspawnCommand());
         UltimateCore.get().getCommandService().register(new DelglobalspawnCommand());
         UltimateCore.get().getCommandService().register(new DelgroupspawnCommand());
