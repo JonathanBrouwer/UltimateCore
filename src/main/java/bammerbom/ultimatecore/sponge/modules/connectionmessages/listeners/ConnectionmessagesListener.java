@@ -80,6 +80,7 @@ public class ConnectionmessagesListener {
                 e.setMessage(jmessage);
             }
         }
+        up.offer(ConnectionmessagesKeys.LASTNAME, p.getName());
     }
 
     @Listener
