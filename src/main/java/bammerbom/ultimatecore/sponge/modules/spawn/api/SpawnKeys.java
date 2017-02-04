@@ -39,5 +39,5 @@ public class SpawnKeys {
     }));
 
     public static Key.Global<HashMap<String, Transform<World>>> GROUP_SPAWNS = new Key.Global<>("groupspawns", new GlobalKeyProvider<>("spawns", "groups", new TypeToken<HashMap<String, Transform<World>>>() {
-    }));
+    }, new HashMap<>()));
 }
