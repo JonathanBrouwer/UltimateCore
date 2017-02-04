@@ -23,27 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.connectionmessages.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import com.google.common.reflect.TypeToken;
 
 public class ConnectionmessagesKeys {
-    public static Key.User<String> LASTNAME = new Key.User<>("lastname", new KeyProvider.User<String>() {
-        @Override
-        public String load(UltimateUser user) {
-            PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = config.get();
-            return node.getNode("lastname").getString(null);
-        }
-
-        @Override
-        public void save(UltimateUser user, String data) {
-            PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = config.get();
-            node.getNode("lastname").setValue(data);
-            config.save(node);
-        }
-    });
+    public static Key.User<String> LASTNAME = new Key.User<>("lastname", new UserKeyProvider<>("lastname", TypeToken.of(String.class)));
 }

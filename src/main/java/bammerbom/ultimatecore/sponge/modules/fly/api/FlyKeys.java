@@ -23,27 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.fly.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import com.google.common.reflect.TypeToken;
 
 public class FlyKeys {
-    public static Key.User<Boolean> FLY = new Key.User<>("fly", new KeyProvider.User<Boolean>() {
-        @Override
-        public Boolean load(UltimateUser user) {
-            PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = config.get();
-            return node.getNode("fly").getBoolean(false);
-        }
-
-        @Override
-        public void save(UltimateUser user, Boolean data) {
-            PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = config.get();
-            node.getNode("fly").setValue(data);
-            config.save(node);
-        }
-    });
+    public static Key.User<Boolean> FLY = new Key.User<>("fly", new UserKeyProvider<>("fly", TypeToken.of(Boolean.class), false));
 }

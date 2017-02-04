@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.command;
 
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionInfo;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
@@ -53,6 +54,9 @@ public interface HighPermCommand extends HighCommand {
     @Override
     default List<Permission> getPermissions() {
         CommandPermissions pi = this.getClass().getAnnotation(CommandPermissions.class);
+        if (pi == null) {
+            Messages.log("Invalid perms for command " + getFullIdentifier());
+        }
         ArrayList<Permission> perms = new ArrayList<>();
 
         //TODO default perm level?
@@ -68,7 +72,7 @@ public interface HighPermCommand extends HighCommand {
         }
 
         //Get @CommandPermissions perms
-        if (pi.supportsOthers()) {
+        if (pi != null && pi.supportsOthers()) {
             Permission othersperm = Permission.create(getBasePermission() + ".others", getModule(), level, this, Text.of("Allows you to use the /" + this.getFullIdentifier() + " command on other players."));
             perms.add(othersperm);
         }

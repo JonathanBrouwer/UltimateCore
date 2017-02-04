@@ -23,50 +23,14 @@
  */
 package bammerbom.ultimatecore.sponge.modules.home.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeKeys {
-    public static Key.User<List<Home>> HOMES = new Key.User<>("homes", new KeyProvider.User<List<Home>>() {
-        @Override
-        public List<Home> load(UltimateUser user) {
-            List<Home> homes = new ArrayList<>();
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            for (CommentedConfigurationNode wnode : node.getNode("homes").getChildrenMap().values()) {
-                try {
-                    homes.add(wnode.getValue(TypeToken.of(Home.class)));
-                } catch (ObjectMappingException e) {
-                    //World is not loaded, ignore home
-                    //Messages.log(Messages.getFormatted("home.command.home.invalidhome", "%home%", wnode.getNode("name").getString()));
-                }
-            }
-            return homes;
-        }
-
-        @Override
-        public void save(UltimateUser user, List<Home> homes) {
-            List<Home> currenthomes = load(user);
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            currenthomes.forEach(home -> node.getNode("homes").removeChild(home.getName()));
-            for (Home home : homes) {
-                try {
-                    node.getNode("homes", home.getName()).setValue(TypeToken.of(Home.class), home);
-                } catch (ObjectMappingException e) {
-                    ErrorLogger.log(e, "Failed to load home for " + user.getIdentifier());
-                }
-            }
-            loader.save(node);
-        }
-    });
+    public static Key.User<List<Home>> HOMES = new Key.User<>("homes", new UserKeyProvider<>("homes", new TypeToken<List<Home>>() {
+    }, new ArrayList<>()));
 }

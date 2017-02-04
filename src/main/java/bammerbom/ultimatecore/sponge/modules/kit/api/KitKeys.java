@@ -23,79 +23,20 @@
  */
 package bammerbom.ultimatecore.sponge.modules.kit.api;
 
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.data.providers.CustomKeyProvider;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.api.Game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class KitKeys {
-    public static Key.Global<List<Kit>> KITS = new Key.Global<>("kits", new KeyProvider.Global<List<Kit>>() {
-        @Override
-        public List<Kit> load(Game arg) {
-            List<Kit> kits = new ArrayList<>();
-            CommentedConfigurationNode node = Modules.KIT.get().getConfig().get().get();
-            for (CommentedConfigurationNode wnode : node.getNode("kits").getChildrenMap().values()) {
-                try {
-                    kits.add(wnode.getValue(TypeToken.of(Kit.class)));
-                } catch (ObjectMappingException e) {
-                    Messages.log(Messages.getFormatted("kit.command.kit.invalidkit", "%kit%", wnode.getNode("name").getString()));
-                }
-            }
-            return kits;
-        }
+    public static Key.Global<List<Kit>> KITS = new Key.Global<>("kits", new CustomKeyProvider<>(() -> Modules.KIT.get().getConfig().get(), "kits", new TypeToken<List<Kit>>() {
+    }, new ArrayList<>()));
 
-        @Override
-        public void save(Game arg, List<Kit> kits) {
-            ModuleConfig loader = Modules.KIT.get().getConfig().get();
-            CommentedConfigurationNode node = loader.get();
-            node.getNode("kits").getChildrenMap().keySet().forEach(node.getNode("kits")::removeChild);
-            for (Kit kit : kits) {
-                try {
-                    node.getNode("kits", kit.getName()).setValue(TypeToken.of(Kit.class), kit);
-                } catch (ObjectMappingException e) {
-                    ErrorLogger.log(e, "Failed to save kits key");
-                }
-            }
-            loader.save(node);
-        }
-    });
-    public static Key.User<HashMap<String, Long>> KIT_LASTUSED = new Key.User<>("kit_lastused", new KeyProvider.User<HashMap<String, Long>>() {
-        @Override
-        public HashMap<String, Long> load(UltimateUser user) {
-            PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = config.get();
-            try {
-                return node.getNode("kitlastused").getValue(new TypeToken<HashMap<String, Long>>() {
-                }, new HashMap<>());
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to load kit lastused key for " + user.getIdentifier());
-                return new HashMap<>();
-            }
-        }
-
-        @Override
-        public void save(UltimateUser user, HashMap<String, Long> data) {
-            PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = config.get();
-            try {
-                node.getNode("kitlastused").setValue(new TypeToken<HashMap<String, Long>>() {
-                }, data);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to save kit lastused key for " + user.getIdentifier());
-            }
-            config.save(node);
-        }
-    });
+    public static Key.User<HashMap<String, Long>> KIT_LASTUSED = new Key.User<>("kitlastused", new UserKeyProvider<>("kitlastused", new TypeToken<HashMap<String, Long>>() {
+    }, new HashMap<>()));
 }

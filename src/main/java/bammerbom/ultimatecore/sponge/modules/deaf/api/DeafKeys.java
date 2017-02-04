@@ -23,39 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.deaf.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 public class DeafKeys {
-    public static Key.User<Deaf> DEAF = new Key.User<>("deaf", new KeyProvider.User<Deaf>() {
-        @Override
-        public Deaf load(UltimateUser user) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            try {
-                return node.getNode("deaf").getValue(TypeToken.of(Deaf.class));
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to load deaf key for " + user.getIdentifier());
-                return null;
-            }
-        }
-
-        @Override
-        public void save(UltimateUser user, Deaf data) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            try {
-                node.getNode("deaf").setValue(TypeToken.of(Deaf.class), data);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to save deaf key for " + user.getIdentifier());
-            }
-            loader.save(node);
-        }
-    });
+    public static Key.User<Deaf> DEAF = new Key.User<>("deaf", new UserKeyProvider<Deaf>("deaf", TypeToken.of(Deaf.class)));
 }

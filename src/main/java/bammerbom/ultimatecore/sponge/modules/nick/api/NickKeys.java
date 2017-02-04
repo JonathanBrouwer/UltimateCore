@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.nick.api;
 
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
+import bammerbom.ultimatecore.sponge.api.data.providers.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
@@ -35,6 +35,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 public class NickKeys {
+    //Don't convert to UserKeyProvider because of custom checks!
     public static Key.User<Text> NICKNAME = new Key.User<>("nick", new KeyProvider.User<Text>() {
         @Override
         public Text load(UltimateUser user) {

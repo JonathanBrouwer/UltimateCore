@@ -23,27 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.god.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import com.google.common.reflect.TypeToken;
 
 public class GodKeys {
-    public static Key.User<Boolean> GOD = new Key.User<>("god", new KeyProvider.User<Boolean>() {
-        @Override
-        public Boolean load(UltimateUser user) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            return node.getNode("god").getBoolean(false);
-        }
-
-        @Override
-        public void save(UltimateUser user, Boolean data) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            node.getNode("god").setValue(data);
-            loader.save(node);
-        }
-    });
+    public static Key.User<Boolean> GOD = new Key.User<>("god", new UserKeyProvider<>("god", TypeToken.of(Boolean.class), false));
 }

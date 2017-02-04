@@ -23,72 +23,17 @@
  */
 package bammerbom.ultimatecore.sponge.modules.jail.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.GlobalDataFile;
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.data.providers.GlobalKeyProvider;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.api.Game;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class JailKeys {
-    public static Key.Global<List<Jail>> JAILS = new Key.Global<>("jail", new KeyProvider.Global<List<Jail>>() {
-        @Override
-        public List<Jail> load(Game game) {
-            GlobalDataFile config = new GlobalDataFile("jails");
-            CommentedConfigurationNode node = config.get();
-            try {
-                return node.getNode("jails").getValue(new TypeToken<List<Jail>>() {
-                }, new ArrayList<>());
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to load jails key");
-                return new ArrayList<>();
-            }
-        }
+    public static Key.Global<List<Jail>> JAILS = new Key.Global<>("jails", new GlobalKeyProvider<>("jails", "jails", new TypeToken<List<Jail>>() {
+    }, new ArrayList<>()));
 
-        @Override
-        public void save(Game game, List<Jail> data) {
-            GlobalDataFile config = new GlobalDataFile("jails");
-            CommentedConfigurationNode node = config.get();
-            try {
-                node.getNode("jails").setValue(new TypeToken<List<Jail>>() {
-                }, data);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to save jails key");
-            }
-            config.save(node);
-        }
-    });
-
-    public static Key.User<JailData> JAIL = new Key.User<>("jail", new KeyProvider.User<JailData>() {
-        @Override
-        public JailData load(UltimateUser user) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            try {
-                return node.getNode("jail").getValue(TypeToken.of(JailData.class));
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to load jail key for " + user.getIdentifier());
-                return null;
-            }
-        }
-
-        @Override
-        public void save(UltimateUser user, JailData data) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            try {
-                node.getNode("jail").setValue(TypeToken.of(JailData.class), data);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to save jail key for " + user.getIdentifier());
-            }
-            loader.save(node);
-        }
-    });
+    public static Key.User<JailData> JAIL = new Key.User<>("jail", new UserKeyProvider<>("jail", TypeToken.of(JailData.class)));
 }

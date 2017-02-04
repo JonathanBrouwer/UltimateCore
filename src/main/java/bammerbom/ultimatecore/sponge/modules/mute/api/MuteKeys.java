@@ -23,39 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.mute.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 public class MuteKeys {
-    public static Key.User<Mute> MUTE = new Key.User<>("mute", new KeyProvider.User<Mute>() {
-        @Override
-        public Mute load(UltimateUser user) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            try {
-                return node.getNode("mute").getValue(TypeToken.of(Mute.class));
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to load mute key for " + user.getIdentifier());
-                return null;
-            }
-        }
-
-        @Override
-        public void save(UltimateUser user, Mute data) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            try {
-                node.getNode("mute").setValue(TypeToken.of(Mute.class), data);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to save mute key for " + user.getIdentifier());
-            }
-            loader.save(node);
-        }
-    });
+    public static Key.User<Mute> MUTE = new Key.User<>("mute", new UserKeyProvider<>("mute", TypeToken.of(Mute.class)));
 }

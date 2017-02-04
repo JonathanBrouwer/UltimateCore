@@ -23,44 +23,12 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spy.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import com.google.common.reflect.TypeToken;
 
 public class SpyKeys {
-    public static Key.User<Boolean> COMMANDSPY_ENABLED = new Key.User<>("commandspy", new KeyProvider.User<Boolean>() {
-        @Override
-        public Boolean load(UltimateUser user) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            return node.getNode("commandspy").getBoolean(false);
-        }
+    public static Key.User<Boolean> COMMANDSPY_ENABLED = new Key.User<>("commandspy", new UserKeyProvider<>("commandspy", TypeToken.of(Boolean.class), false));
 
-        @Override
-        public void save(UltimateUser user, Boolean data) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            node.getNode("commandspy").setValue(data);
-            loader.save(node);
-        }
-    });
-
-    public static Key.User<Boolean> MESSAGESPY_ENABLED = new Key.User<>("messagespy", new KeyProvider.User<Boolean>() {
-        @Override
-        public Boolean load(UltimateUser user) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            return node.getNode("messagespy").getBoolean(false);
-        }
-
-        @Override
-        public void save(UltimateUser user, Boolean data) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            node.getNode("messagespy").setValue(data);
-            loader.save(node);
-        }
-    });
+    public static Key.User<Boolean> MESSAGESPY_ENABLED = new Key.User<>("messagespy", new UserKeyProvider<>("messagespy", TypeToken.of(Boolean.class), false));
 }

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.data;
+package bammerbom.ultimatecore.sponge.api.data.providers;
 
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import org.spongepowered.api.Game;

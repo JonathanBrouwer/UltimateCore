@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.afk.api;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
+import bammerbom.ultimatecore.sponge.api.data.providers.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
 import org.spongepowered.api.entity.Transform;

@@ -23,41 +23,12 @@
  */
 package bammerbom.ultimatecore.sponge.modules.personalmessage.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import java.util.UUID;
 
 public class PersonalmessageKeys {
-    public static Key.User<UUID> REPLY = new Key.User<>("reply", new KeyProvider.User<UUID>() {
-        @Override
-        public UUID load(UltimateUser user) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            try {
-                return node.getNode("reply").getValue(TypeToken.of(UUID.class), (UUID) null);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to load reply key for " + user.getIdentifier());
-                return null;
-            }
-        }
-
-        @Override
-        public void save(UltimateUser user, UUID data) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            try {
-                node.getNode("reply").setValue(TypeToken.of(UUID.class), data);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to save reply key for " + user.getIdentifier());
-            }
-            loader.save(node);
-        }
-    });
+    public static Key.User<UUID> REPLY = new Key.User<>("reply", new UserKeyProvider<>("reply", TypeToken.of(UUID.class)));
 }

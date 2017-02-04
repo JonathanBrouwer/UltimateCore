@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.warp.api;
 
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.WorldDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
+import bammerbom.ultimatecore.sponge.api.data.providers.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import com.google.common.reflect.TypeToken;

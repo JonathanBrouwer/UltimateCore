@@ -23,41 +23,12 @@
  */
 package bammerbom.ultimatecore.sponge.modules.back.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
 public class BackKeys {
-    public static Key.User<Transform<World>> BACK = new Key.User<>("back", new KeyProvider.User<Transform<World>>() {
-        @Override
-        public Transform<World> load(UltimateUser user) {
-            PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = config.get();
-            try {
-                return node.getNode("back").getValue(TypeToken.of(Transform.class));
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to load back key for " + user.getIdentifier());
-                return null;
-            }
-        }
-
-        @Override
-        public void save(UltimateUser user, Transform<World> data) {
-            PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = config.get();
-            try {
-                node.getNode("back").setValue(TypeToken.of(Transform.class), data);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to save back key for " + user.getIdentifier());
-            }
-            config.save(node);
-        }
-    });
+    public static Key.User<Transform<World>> BACK = new Key.User<>("back", new UserKeyProvider<>("back", new TypeToken<Transform<World>>() {}));
 }

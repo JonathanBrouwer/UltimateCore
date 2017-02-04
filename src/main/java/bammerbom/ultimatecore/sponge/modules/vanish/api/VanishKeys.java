@@ -23,27 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.vanish.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import com.google.common.reflect.TypeToken;
 
 public class VanishKeys {
-    public static Key.User<Boolean> VANISH = new Key.User<>("vanish", new KeyProvider.User<Boolean>() {
-        @Override
-        public Boolean load(UltimateUser user) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            return node.getNode("vanish").getBoolean(false);
-        }
-
-        @Override
-        public void save(UltimateUser user, Boolean data) {
-            PlayerDataFile loader = new PlayerDataFile(user.getIdentifier());
-            CommentedConfigurationNode node = loader.get();
-            node.getNode("vanish").setValue(data);
-            loader.save(node);
-        }
-    });
+    public static Key.User<Boolean> VANISH = new Key.User<>("vanish", new UserKeyProvider<>("vanish", TypeToken.of(Boolean.class), false));
 }

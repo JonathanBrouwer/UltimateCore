@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.data;
 
+import bammerbom.ultimatecore.sponge.api.data.providers.KeyProvider;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import org.spongepowered.api.Game;
 

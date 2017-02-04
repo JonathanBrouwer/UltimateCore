@@ -23,99 +23,21 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spawn.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.GlobalDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
+import bammerbom.ultimatecore.sponge.api.data.providers.GlobalKeyProvider;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.api.Game;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
 import java.util.HashMap;
 
 public class SpawnKeys {
-    public static Key.Global<Transform<World>> FIRST_SPAWN = new Key.Global<>("firstspawn", new KeyProvider.Global<Transform<World>>() {
-        @Override
-        public Transform<World> load(Game game) {
-            GlobalDataFile config = new GlobalDataFile("spawns");
-            CommentedConfigurationNode node = config.get();
-            try {
-                return node.getNode("first").getValue(new TypeToken<Transform<World>>() {
-                });
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to load first spawn.");
-                return null;
-            }
-        }
+    public static Key.Global<Transform<World>> FIRST_SPAWN = new Key.Global<>("firstspawn", new GlobalKeyProvider<>("spawns", "first", new TypeToken<Transform<World>>() {
+    }));
 
-        @Override
-        public void save(Game game, Transform<World> data) {
-            GlobalDataFile config = new GlobalDataFile("spawns");
-            CommentedConfigurationNode node = config.get();
-            try {
-                node.getNode("first").setValue(new TypeToken<Transform<World>>() {
-                }, data);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to save first spawn.");
-            }
-            config.save(node);
-        }
-    });
-    public static Key.Global<Transform<World>> GLOBAL_SPAWN = new Key.Global<>("globalspawn", new KeyProvider.Global<Transform<World>>() {
-        @Override
-        public Transform<World> load(Game game) {
-            GlobalDataFile config = new GlobalDataFile("spawns");
-            CommentedConfigurationNode node = config.get();
-            try {
-                return node.getNode("global").getValue(new TypeToken<Transform<World>>() {
-                });
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to load global spawn.");
-                return null;
-            }
-        }
+    public static Key.Global<Transform<World>> GLOBAL_SPAWN = new Key.Global<>("globalspawn", new GlobalKeyProvider<>("spawns", "global", new TypeToken<Transform<World>>() {
+    }));
 
-        @Override
-        public void save(Game game, Transform<World> data) {
-            GlobalDataFile config = new GlobalDataFile("spawns");
-            CommentedConfigurationNode node = config.get();
-            try {
-                node.getNode("global").setValue(new TypeToken<Transform<World>>() {
-                }, data);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to save global spawn.");
-            }
-            config.save(node);
-        }
-    });
-    public static Key.Global<HashMap<String, Transform<World>>> GROUP_SPAWNS = new Key.Global<>("groupspawns", new KeyProvider.Global<HashMap<String, Transform<World>>>() {
-        @Override
-        public HashMap<String, Transform<World>> load(Game game) {
-            GlobalDataFile config = new GlobalDataFile("spawns");
-            CommentedConfigurationNode node = config.get();
-            try {
-                return node.getNode("groups").getValue(new TypeToken<HashMap<String, Transform<World>>>() {
-                }, new HashMap<>());
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to load group spawns.");
-                return null;
-            }
-        }
-
-        @Override
-        public void save(Game game, HashMap<String, Transform<World>> data) {
-            GlobalDataFile config = new GlobalDataFile("spawns");
-            CommentedConfigurationNode node = config.get();
-            try {
-                node.getNode("groups").setValue(new TypeToken<HashMap<String, Transform<World>>>() {
-                }, data);
-            } catch (ObjectMappingException e) {
-                ErrorLogger.log(e, "Failed to save group spawns.");
-            }
-            config.save(node);
-        }
-    });
+    public static Key.Global<HashMap<String, Transform<World>>> GROUP_SPAWNS = new Key.Global<>("groupspawns", new GlobalKeyProvider<>("spawns", "groups", new TypeToken<HashMap<String, Transform<World>>>() {
+    }));
 }
