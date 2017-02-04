@@ -68,12 +68,11 @@ public class WarpKeys {
                 warps.add(warp);
                 worldWarps.put(warp.getLocation().getExtent().getUniqueId(), warps);
             }
-
-            for (UUID uuid : worldWarps.keySet()) {
-                WorldDataFile loader = new WorldDataFile(uuid);
+            for (World world : Sponge.getServer().getWorlds()) {
+                WorldDataFile loader = new WorldDataFile(world.getUniqueId());
                 CommentedConfigurationNode node = loader.get();
                 node.getNode("warps").setValue(null);
-                List<Warp> warps = worldWarps.get(uuid);
+                List<Warp> warps = worldWarps.containsKey(world.getUniqueId()) ? worldWarps.get(world.getUniqueId()) : new ArrayList<>();
                 for (Warp warp : warps) {
                     try {
                         node.getNode("warps", warp.getName()).setValue(TypeToken.of(Warp.class), warp);
@@ -83,7 +82,6 @@ public class WarpKeys {
                 }
                 loader.save(node);
             }
-
         }
     });
 }
