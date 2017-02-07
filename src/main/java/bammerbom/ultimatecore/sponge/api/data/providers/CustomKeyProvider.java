@@ -21,57 +21,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.data.providers;
 
-import bammerbom.ultimatecore.sponge.api.config.config.RawConfig;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.api.Game;
+//TODO fix this class
 
-import java.util.function.Supplier;
-
-public class CustomKeyProvider<E> implements KeyProvider.Global<E> {
-    private Supplier<RawConfig> configs;
-    private String key;
-    private TypeToken<E> token;
-    private E def = null;
-
-    public CustomKeyProvider(Supplier<RawConfig> config, String key, TypeToken<E> token) {
-        this.configs = config;
-        this.key = key;
-        this.token = token;
-    }
-
-    public CustomKeyProvider(Supplier<RawConfig> config, String key, TypeToken<E> token, E def) {
-        this.configs = config;
-        this.key = key;
-        this.token = token;
-        this.def = def;
-    }
-
-    @Override
-    public E load(Game game) {
-        RawConfig config = configs.get();
-        CommentedConfigurationNode node = config.get();
-        try {
-            return node.getNode(key).getValue(token, def);
-        } catch (ObjectMappingException e) {
-            ErrorLogger.log(e, "Failed to save " + key + " key for global");
-            return def;
-        }
-    }
-
-    @Override
-    public void save(Game game, E data) {
-        RawConfig config = configs.get();
-        CommentedConfigurationNode node = config.get();
-        try {
-            node.getNode(key).setValue(token, data);
-        } catch (ObjectMappingException e) {
-            ErrorLogger.log(e, "Failed to save " + key + " key for global");
-        }
-        config.save(node);
-    }
-}
+//package bammerbom.ultimatecore.sponge.api.data.providers;
+//
+//import bammerbom.ultimatecore.sponge.api.config.config.RawConfig;
+//import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
+//import com.google.common.reflect.TypeToken;
+//import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+//import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+//import org.spongepowered.api.Game;
+//
+//import java.util.function.Supplier;
+//
+//public class CustomKeyProvider<E> implements KeyProvider.Global<E> {
+//    private Supplier<RawConfig> configs;
+//    private String key;
+//    private TypeToken<E> token;
+//    private E def = null;
+//
+//    public CustomKeyProvider(Supplier<RawConfig> config, String key, TypeToken<E> token) {
+//        this.configs = config;
+//        this.key = key;
+//        this.token = token;
+//    }
+//
+//    public CustomKeyProvider(Supplier<RawConfig> config, String key, TypeToken<E> token, E def) {
+//        this.configs = config;
+//        this.key = key;
+//        this.token = token;
+//        this.def = def;
+//    }
+//
+//    @Override
+//    public E load(Game game) {
+//        RawConfig config = configs.get();
+//        CommentedConfigurationNode node = config.get();
+//        try {
+//            return node.getNode(key).getValue(token, def);
+//        } catch (ObjectMappingException e) {
+//            ErrorLogger.log(e, "Failed to save " + key + " key for global");
+//            return def;
+//        }
+//    }
+//
+//    @Override
+//    public void save(Game game, E data) {
+//        RawConfig config = configs.get();
+//        CommentedConfigurationNode node = config.get();
+//        try {
+//            node.getNode(key).setValue(token, data);
+//        } catch (ObjectMappingException e) {
+//            ErrorLogger.log(e, "Failed to save " + key + " key for global");
+//        }
+//        config.save(node);
+//    }
+//}
