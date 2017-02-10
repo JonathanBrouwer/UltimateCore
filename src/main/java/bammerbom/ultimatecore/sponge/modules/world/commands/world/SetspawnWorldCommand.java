@@ -23,5 +23,41 @@
  */
 package bammerbom.ultimatecore.sponge.modules.world.commands.world;
 
-public class SetspawnWorldCommand {
+import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.WorldArgument;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.modules.world.WorldModule;
+import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.World;
+
+@CommandInfo(module = WorldModule.class, aliases = {"setworldspawn", "worldspawn", "setspawn", "setws"})
+@CommandParentInfo(parent = WorldCommand.class)
+public class SetspawnWorldCommand implements HighSubCommand {
+    @Override
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new WorldArgument(Text.of("world"))).build()
+        };
+    }
+
+    @Override
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        checkIfPlayer(src);
+        World w = args.<World>getOne("world").get();
+        Transform<World> loc = ((Player) src).getTransform();
+        w.getProperties().setSpawnPosition(loc.getPosition().toInt());
+        Messages.send(src, "world.command.world.setspawn.success", "%world%", w.getName());
+        return CommandResult.success();
+    }
 }

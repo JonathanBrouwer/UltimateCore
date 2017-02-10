@@ -23,5 +23,40 @@
  */
 package bammerbom.ultimatecore.sponge.modules.world.commands.world;
 
-public class SetloadonstartupWorldCommand {
+import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BooleanArgument;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.WorldArgument;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.modules.world.WorldModule;
+import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.World;
+
+@CommandInfo(module = WorldModule.class, aliases = {"setloadonstartup", "loadonstartup", "setlos", "los"})
+@CommandParentInfo(parent = WorldCommand.class)
+public class SetloadonstartupWorldCommand implements HighSubCommand {
+    @Override
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new WorldArgument(Text.of("world"))).build(),
+                Arguments.builder(new BooleanArgument(Text.of("state"))).build()
+        };
+    }
+
+    @Override
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        World w = args.<World>getOne("world").get();
+        Boolean state = args.<Boolean>getOne("state").get();
+        w.getProperties().setLoadOnStartup(state);
+        Messages.send(src, "world.command.world.setloadonstartup.success", "%world%", w.getName(), "%state%", state ? Messages.getFormatted(src, "world.enabled") : Messages.getFormatted(src, "world.disabled"));
+        return CommandResult.success();
+    }
 }

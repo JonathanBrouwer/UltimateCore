@@ -40,9 +40,9 @@ import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
-@CommandInfo(module = WorldModule.class, aliases = {"sethardcore", "hardcore", "sethc", "hc"})
+@CommandInfo(module = WorldModule.class, aliases = {"setpvp", "pvp", "setpvpenabled", "pvpenabled"})
 @CommandParentInfo(parent = WorldCommand.class)
-public class SethardcoreWorldCommand implements HighSubCommand {
+public class SetpvpWorldCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
@@ -55,8 +55,8 @@ public class SethardcoreWorldCommand implements HighSubCommand {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         World w = args.<World>getOne("world").get();
         Boolean state = args.<Boolean>getOne("state").get();
-        w.getProperties().setHardcore(state);
-        Messages.send(src, "world.command.world.sethardcore.success", "%world%", w.getName(), "%state%", state ? Messages.getFormatted(src, "world.enabled") : Messages.getFormatted(src, "world.disabled"));
+        w.getProperties().setPVPEnabled(state);
+        Messages.send(src, "world.command.world.setpvp.success", "%world%", w.getName(), "%state%", state ? Messages.getFormatted(src, "world.enabled") : Messages.getFormatted(src, "world.disabled"));
         return CommandResult.success();
     }
 }

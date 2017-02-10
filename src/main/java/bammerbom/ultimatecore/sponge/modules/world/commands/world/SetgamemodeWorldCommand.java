@@ -23,5 +23,41 @@
  */
 package bammerbom.ultimatecore.sponge.modules.world.commands.world;
 
-public class SetgamemodeWorldCommand {
+import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.GamemodeArgument;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.WorldArgument;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.modules.world.WorldModule;
+import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.entity.living.player.gamemode.GameMode;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.World;
+
+@CommandInfo(module = WorldModule.class, aliases = {"setgamemode", "setgm", "gamemode", "gm"})
+@CommandParentInfo(parent = WorldCommand.class)
+public class SetgamemodeWorldCommand implements HighSubCommand {
+    @Override
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new WorldArgument(Text.of("world"))).build(),
+                Arguments.builder(new GamemodeArgument(Text.of("gamemode"))).build()
+        };
+    }
+
+    @Override
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        World w = args.<World>getOne("world").get();
+        GameMode dif = args.<GameMode>getOne("gamemode").get();
+        w.getProperties().setGameMode(dif);
+        Messages.send(src, "world.command.world.setgamemode.success", "%world%", w.getName(), "%gamemode%", dif.getName());
+        return CommandResult.success();
+    }
 }
