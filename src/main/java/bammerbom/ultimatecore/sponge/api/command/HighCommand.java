@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandChildrenInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.PlayerOnlyException;
+import bammerbom.ultimatecore.sponge.api.command.impl.HelpSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.utils.UsageGenerator;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Module;
@@ -82,6 +83,10 @@ public interface HighCommand extends Command, CommandExecutor {
         getChildren().forEach((cmd) -> {
             children.put(cmd.getAliases(), cmd.getCallable());
         });
+        //Only HighPermCommand can have children + avoid infinite loop
+        if (this instanceof HighPermCommand && !(this instanceof HelpSubCommand)) {
+            children.put(Arrays.asList("?", "help"), new HelpSubCommand((HighPermCommand) this).getCallable());
+        }
         //Sponge bug: If you submit an empty children list as children, sponge fucks up the children
         if (!children.isEmpty()) {
             cb.children(children);

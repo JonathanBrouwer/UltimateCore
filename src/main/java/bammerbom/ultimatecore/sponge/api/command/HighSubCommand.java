@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.api.command;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
@@ -54,7 +55,12 @@ public interface HighSubCommand extends HighPermCommand {
     //Set base perm for subcommand
     @Override
     default String getBasePermission() {
-        return getParent().getBasePermission() + "." + getIdentifier().toLowerCase();
+        try {
+            return getParent().getBasePermission() + "." + getIdentifier().toLowerCase();
+        } catch (Exception ex) {
+            Messages.log("Error for " + getIdentifier());
+            throw ex;
+        }
     }
 
     @Override
