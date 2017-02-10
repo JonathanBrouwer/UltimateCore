@@ -47,14 +47,14 @@ import org.spongepowered.api.command.args.CommandElement;
         GameruleWorldCommand.class,
         ImportWorldCommand.class,
         InfoWorldCommand.class,
-//        SetdifficultyWorldCommand.class,
-//        SetgamemodeWorldCommand.class,
-//        SethardcoreWorldCommand.class,
-//        SetkeepspawnloadedWorldCommand.class,
-//        SetloadonstartupWorldCommand.class,
-//        SetpvpenabledWorldCommand.class,
-//        SetspawnWorldCommand.class,
-//        SetspawnWorldCommand.class,
+        SetdifficultyWorldCommand.class,
+        SetgamemodeWorldCommand.class,
+        SethardcoreWorldCommand.class,
+        SetkeepspawnloadedWorldCommand.class,
+        SetloadonstartupWorldCommand.class,
+        SetpvpWorldCommand.class,
+        SetspawnWorldCommand.class,
+        SetspawnWorldCommand.class,
         TeleportWorldCommand.class
 })
 public class WorldCommand implements HighPermCommand {
