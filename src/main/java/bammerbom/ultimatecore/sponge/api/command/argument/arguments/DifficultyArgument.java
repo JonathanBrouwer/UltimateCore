@@ -28,8 +28,8 @@ import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 
-public class ItemtypeArgument extends CatalogedArgument {
-    public ItemtypeArgument(@Nullable Text key) {
-        super(key, CatalogTypes.ITEM_TYPE, "item.itemnotfound");
+public class DifficultyArgument extends CatalogedArgument {
+    public DifficultyArgument(@Nullable Text key) {
+        super(key, CatalogTypes.DIFFICULTY, "world.difficultynotfound");
     }
 }

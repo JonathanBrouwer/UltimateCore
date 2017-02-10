@@ -23,13 +23,40 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.argument.arguments;
 
-import org.spongepowered.api.CatalogTypes;
+import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.ArgumentParseException;
+import org.spongepowered.api.command.args.CommandArgs;
+import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ItemtypeArgument extends CatalogedArgument {
-    public ItemtypeArgument(@Nullable Text key) {
-        super(key, CatalogTypes.ITEM_TYPE, "item.itemnotfound");
+/**
+ * This is just a class to copy-paste while making new arguments
+ * DO NOT USE THIS
+ */
+public class LongArgument extends UCommandElement {
+    public LongArgument(@Nullable Text key) {
+        super(key);
+    }
+
+    @Nullable
+    @Override
+    public Long parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
+        String value = args.next();
+        try {
+            return Long.parseLong(value);
+        } catch (Exception ex) {
+            throw args.createError(Messages.getFormatted("core.number.invalid", "%number%", value));
+        }
+    }
+
+    @Override
+    public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
+        return new ArrayList<>();
     }
 }

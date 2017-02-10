@@ -28,8 +28,8 @@ import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 
-public class ItemtypeArgument extends CatalogedArgument {
-    public ItemtypeArgument(@Nullable Text key) {
-        super(key, CatalogTypes.ITEM_TYPE, "item.itemnotfound");
+public class WorldGeneratorModifierArgument extends CatalogedArgument {
+    public WorldGeneratorModifierArgument(@Nullable Text key) {
+        super(key, CatalogTypes.WORLD_GENERATOR_MODIFIER, "world.worldgeneratormodifiernotfound");
     }
 }

@@ -21,15 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.argument.arguments;
+package bammerbom.ultimatecore.sponge.modules.world.commands.world;
 
-import org.spongepowered.api.CatalogTypes;
-import org.spongepowered.api.text.Text;
-
-import javax.annotation.Nullable;
-
-public class ItemtypeArgument extends CatalogedArgument {
-    public ItemtypeArgument(@Nullable Text key) {
-        super(key, CatalogTypes.ITEM_TYPE, "item.itemnotfound");
-    }
+public class SetloadonstartupWorldCommand {
 }

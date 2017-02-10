@@ -21,15 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.argument.arguments;
+package bammerbom.ultimatecore.sponge.modules.world;
 
-import org.spongepowered.api.CatalogTypes;
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.text.Text;
 
-import javax.annotation.Nullable;
-
-public class ItemtypeArgument extends CatalogedArgument {
-    public ItemtypeArgument(@Nullable Text key) {
-        super(key, CatalogTypes.ITEM_TYPE, "item.itemnotfound");
+public class WorldModule implements Module {
+    @Override
+    public String getIdentifier() {
+        return "world";
     }
+
+    @Override
+    public Text getDescription() {
+        return Text.of("World management.");
+    }
+
+    @Override
+    public void onInit(GameInitializationEvent event) {
+        UltimateCore.get().getCommandService().register(new WorldCommand());
+    }
+
+
 }

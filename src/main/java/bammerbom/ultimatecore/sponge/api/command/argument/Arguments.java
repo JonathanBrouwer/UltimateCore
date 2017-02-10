@@ -23,11 +23,14 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.argument;
 
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.SpongeArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.wrappers.*;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Arguments {
 
@@ -42,14 +45,19 @@ public class Arguments {
     private boolean remainingArgumentsAtLeastOnce = true;
 
     //Builder
-    public static Arguments builder(UCommandElement... element) {
-        if (element.length == 0) {
+    public static Arguments builder(CommandElement... elements) {
+        List<UCommandElement> uElements = new ArrayList<>();
+        for (CommandElement element : elements) {
+            uElements.add(element instanceof UCommandElement ? (UCommandElement) element : new SpongeArgument(element));
+        }
+
+        if (uElements.size() == 0) {
             return null;
         }
-        if (element.length == 1) {
-            return new Arguments(element[0]);
+        if (uElements.size() == 1) {
+            return new Arguments(uElements.get(0));
         }
-        return new Arguments(new FirstParsingWrapper(Arrays.asList(element)));
+        return new Arguments(new FirstParsingWrapper(uElements));
     }
 
     public UCommandElement build() {

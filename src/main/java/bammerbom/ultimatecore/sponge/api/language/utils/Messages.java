@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.language.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
@@ -35,6 +36,10 @@ public class Messages {
 
     public static void send(CommandSource p, String key, Object... vars) {
         p.sendMessage(getFormatted(p, key, vars));
+    }
+
+    public static ErrorMessageException error(CommandSource p, String key, Object... vars) {
+        return new ErrorMessageException(getFormatted(p, key, vars));
     }
 
     /**
