@@ -26,11 +26,11 @@ package bammerbom.ultimatecore.sponge.modules.blood;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.config.config.module.RawModuleConfig;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffect;
 import bammerbom.ultimatecore.sponge.modules.blood.api.BloodEffects;
 import bammerbom.ultimatecore.sponge.modules.blood.listeners.BloodListener;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -39,11 +39,11 @@ import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class BloodModule implements Module {
@@ -62,11 +62,6 @@ public class BloodModule implements Module {
     @Override
     public Optional<ModuleConfig> getConfig() {
         return Optional.of(config);
-    }
-
-    @Override
-    public void onRegister() {
-
     }
 
     @Override
@@ -103,12 +98,7 @@ public class BloodModule implements Module {
     }
 
     @Override
-    public void onPostInit(GamePostInitializationEvent event) {
-
-    }
-
-    @Override
-    public void onStop(GameStoppingEvent event) {
-
+    public void onReload(@Nullable GameReloadEvent event) {
+        BloodEffects.reload();
     }
 }
