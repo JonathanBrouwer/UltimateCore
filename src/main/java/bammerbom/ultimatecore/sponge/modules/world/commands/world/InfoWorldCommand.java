@@ -50,7 +50,7 @@ import java.util.Collections;
 import java.util.List;
 
 @CommandParentInfo(parent = WorldCommand.class)
-@CommandInfo(module = WorldModule.class, aliases = {"info", "worlds", "worldlist"})
+@CommandInfo(module = WorldModule.class, aliases = {"info", "worlds", "worldlist", "list"})
 public class InfoWorldCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
