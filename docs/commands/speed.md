@@ -2,7 +2,7 @@ Speed
 ====
 Change a player's flyspeed if he is flying, or else the player's walkspeed. (1 by default)
 
-Usage: /speed \<Speed\> \[Player\]<br>
+Usage: /speed ?|\<Speed\> \[Player\]<br>
 Aliases: speed, generalspeed<br>
 Module: [fly](../modules/fly.md)<br>
 

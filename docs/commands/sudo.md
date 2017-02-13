@@ -1,6 +1,8 @@
 Sudo
 ====
 Force a player to chat or to use a command.
+/sudo <Player> /command
+/sudo <Player> message
 
 Usage: /sudo \<Player\> \<Command…\><br>
 Aliases: sudo, fcommand, fcmd, fchat, forcechat, forcecmd, forcecommand<br>

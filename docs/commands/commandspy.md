@@ -1,6 +1,6 @@
 Commandspy
 ====
-Toggle a player's or your own commandspy status. When commandspy is enabled you can see when other people use commands.
+Toggle a player's or your own commandspy status.
 
 Usage: /commandspy \[Player\]<br>
 Aliases: commandspy, cmdspy, spycommand, spycmd<br>

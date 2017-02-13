@@ -1,6 +1,6 @@
 Messagespy
 ====
-Toggle a player's or your own commandspy status. When commandspy is enabled you can see when other people whisper.
+Toggle a player's or your own commandspy status.
 
 Usage: /messagespy \[Player\]<br>
 Aliases: messagespy, msgspy, spymessage, spymsg, whisperspy, spywhisper<br>

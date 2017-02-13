@@ -5,6 +5,7 @@ Modify items in multiple ways.
 Commands: <br>
 * **[/more](../commands/more.md)**<br>Set the quantity of the item in your hand to the maximum.
 * **[/repair \[All\]](../commands/repair.md)**<br>Repair the item in your hand, or all items in your inventory.
+* **[/hat ?|\[Player\]](../commands/hat.md)**<br>Put the item in your hand on your hat.
 * **[/itemname \<Name…\>](../commands/itemname.md)**<br>Change the name of the item in your hand.
 * **[/itemlore \<Lore…\>](../commands/itemlore.md)**<br>Change the lore of the item in your hand. Use | for multiple lines.
 * **[/itemquantity \<Quantity\>](../commands/itemquantity.md)**<br>Change the quantity of the item in your hand.
@@ -29,3 +30,6 @@ Permissions: <br>
 * **uc.item.itemcanbreak.base** - Recommended role: admin<br>Allows you to use the itemcanbreak command.
 * **uc.item.itemhidetags.base** - Recommended role: admin<br>Allows you to use the itemhidetags command.
 * **uc.item.itemenchant.base** - Recommended role: admin<br>Allows you to use the itemenchant command.
+* **uc.item.hat.base** - Recommended role: vip<br>Allows you to use the /hat command.
+* **uc.item.hat.others** - Recommended role: admin<br>Allows you to use the hat command on other players.
+* **uc.item.hat.?.base** - Recommended role: nobody<br>Allows you to use the /hat ? command.

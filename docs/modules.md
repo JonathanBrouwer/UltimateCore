@@ -28,6 +28,7 @@ Modules
 [mute - Allows you to mute a player and the player won't be able to send chat, but will be able to see the chat.](modules/mute.md)<br>
 [nick - Allows players to change their display name.](modules/nick.md)<br>
 [personalmessage - Send private messages to other players.](modules/personalmessage.md)<br>
+[playerinfo - Allows you to see information about players.](modules/playerinfo.md)<br>
 [poke - Hear a configurable sound when someone says your name in chat.](modules/poke.md)<br>
 [random - Generate random numbers with a simple command](modules/random.md)<br>
 [serverlist - Make your server look nice in the server list.](modules/serverlist.md)<br>
@@ -43,3 +44,4 @@ Modules
 [votifier - ](modules/votifier.md)<br>
 [warp - Let the admin set certain locations where a player can teleport to.](modules/warp.md)<br>
 [weather - Change the minecraft world's weather, or disable it.](modules/weather.md)<br>
+[world - World management.](modules/world.md)<br>

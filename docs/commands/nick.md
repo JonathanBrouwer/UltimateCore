@@ -2,7 +2,7 @@ Nick
 ====
 Give someone a custom name.
 
-Usage: /nick \<Nick\> \[Player\]<br>
+Usage: /nick ?|\<Nick\> \[Player\]<br>
 Aliases: nick, nickname<br>
 Module: [nick](../modules/nick.md)<br>
 

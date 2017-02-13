@@ -1,6 +1,6 @@
 Random
 ====
-Generate a random number between two values. If the minimum is not given it is set to 1.
+Generate a random number between two values.
 
 Usage: /random \<Min\> \[Second\]<br>
 Aliases: random<br>

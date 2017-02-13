@@ -2,7 +2,7 @@ Teleporthere
 ====
 Teleport someone to you.
 
-Usage: /teleporthere \<Entities\><br>
+Usage: /teleporthere ?|\<Entities\><br>
 Aliases: teleporthere, tphere<br>
 Module: [teleport](../modules/teleport.md)<br>
 

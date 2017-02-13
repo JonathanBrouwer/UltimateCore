@@ -3,8 +3,8 @@ Spy
 Ability to see other people's private messages and command usage.
 
 Commands: <br>
-* **[/commandspy \[Player\]](../commands/commandspy.md)**<br>Toggle a player's or your own commandspy status. When commandspy is enabled you can see when other people use commands.
-* **[/messagespy \[Player\]](../commands/messagespy.md)**<br>Toggle a player's or your own commandspy status. When commandspy is enabled you can see when other people whisper.
+* **[/commandspy \[Player\]](../commands/commandspy.md)**<br>Toggle a player's or your own commandspy status.
+* **[/messagespy \[Player\]](../commands/messagespy.md)**<br>Toggle a player's or your own commandspy status.
 
 Permissions: <br>
 * **uc.spy.commandspy.base** - Recommended role: mod<br>Allows you to toggle whether your commandspy is enabled.

@@ -2,7 +2,7 @@ Teleportaskallhere
 ====
 Ask everyone to teleport to you.
 
-Usage: /teleportaskallhere<br>
+Usage: /teleportaskallhere ?|<br>
 Aliases: teleportaskallhere, tpaallhere, teleportaskall, tpaall<br>
 Module: [teleport](../modules/teleport.md)<br>
 
