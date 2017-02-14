@@ -21,37 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.data;
+package bammerbom.ultimatecore.sponge.api.module.event;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import org.spongepowered.api.event.Cancellable;
+import bammerbom.ultimatecore.sponge.api.module.Module;
 import org.spongepowered.api.event.cause.Cause;
-
-import javax.annotation.Nullable;
+import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 
 /**
- * An event where the value associated with a {@link Key} changes.
+ * This is called before a module is post-initialized.
+ * Normally, this is called during {@link GamePostInitializationEvent}
  */
-public class DataOfferEvent<C> extends DataEvent<C> implements Cancellable {
-    protected boolean cancelled = false;
-    protected C prevalue;
+public class ModulePostInitializeEvent extends ModuleEvent {
+    private GamePostInitializationEvent event;
 
-    public DataOfferEvent(Key<C> key, @Nullable C prevalue, C value, Cause cause) {
-        super(key, value, cause);
-        this.prevalue = prevalue;
+    public ModulePostInitializeEvent(Module module, GamePostInitializationEvent event, Cause cause) {
+        super(module, cause);
+        this.event = event;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancel) {
-        cancelled = cancel;
-    }
-
-    public C getOverriddenValue() {
-        return prevalue;
+    /**
+     * Get the GamePostInitializationEvent when this was called.
+     */
+    public GamePostInitializationEvent getEvent() {
+        return event;
     }
 }

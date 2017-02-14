@@ -21,7 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.permission;
+package bammerbom.ultimatecore.sponge.api.module.event;
 
-public class PermissionEvent {
+import bammerbom.ultimatecore.sponge.api.module.Module;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
+
+/**
+ * This is called before a module is initialized.
+ * Normally, this is called during {@link GameInitializationEvent}
+ */
+public class ModuleInitializeEvent extends ModuleEvent {
+    private GameInitializationEvent event;
+
+    public ModuleInitializeEvent(Module module, GameInitializationEvent event, Cause cause) {
+        super(module, cause);
+        this.event = event;
+    }
+
+    /**
+     * Get the GameInitializationEvent when this was called.
+     */
+    public GameInitializationEvent getEvent() {
+        return event;
+    }
 }

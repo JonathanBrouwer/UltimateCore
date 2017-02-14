@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.api.data;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
-import bammerbom.ultimatecore.sponge.api.event.data.DataRetrieveEvent;
+import bammerbom.ultimatecore.sponge.api.data.event.DataOfferEvent;
+import bammerbom.ultimatecore.sponge.api.data.event.DataRetrieveEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
 

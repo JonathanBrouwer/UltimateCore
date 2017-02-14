@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.afk.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
+import bammerbom.ultimatecore.sponge.api.data.event.DataOfferEvent;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;

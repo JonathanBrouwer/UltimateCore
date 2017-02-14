@@ -21,28 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.module;
+package bammerbom.ultimatecore.sponge.api.sign.event;
 
-import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.sign.UCSign;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
-/**
- * This is called before a module is post-initialized.
- * Normally, this is called during {@link GamePostInitializationEvent}
- */
-public class ModulePostInitializeEvent extends ModuleEvent {
-    private GamePostInitializationEvent event;
-
-    public ModulePostInitializeEvent(Module module, GamePostInitializationEvent event, Cause cause) {
-        super(module, cause);
-        this.event = event;
-    }
-
-    /**
-     * Get the GamePostInitializationEvent when this was called.
-     */
-    public GamePostInitializationEvent getEvent() {
-        return event;
+public class SignDestroyEvent extends SignEvent.Locatable {
+    public SignDestroyEvent(UCSign sign, Location<World> location, Cause cause) {
+        super(sign, location, cause);
     }
 }

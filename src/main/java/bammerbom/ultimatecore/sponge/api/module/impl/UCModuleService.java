@@ -25,7 +25,7 @@ package bammerbom.ultimatecore.sponge.api.module.impl;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.event.module.ModuleRegisterEvent;
+import bammerbom.ultimatecore.sponge.api.module.event.ModuleRegisterEvent;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;

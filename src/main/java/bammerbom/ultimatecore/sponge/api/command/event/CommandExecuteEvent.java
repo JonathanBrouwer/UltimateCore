@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.command;
+package bammerbom.ultimatecore.sponge.api.command.event;
 
-public class CommandUnregisterEvent {
+public class CommandExecuteEvent {
 }

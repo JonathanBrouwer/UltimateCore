@@ -25,8 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.sign.impl;
 
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.event.sign.SignRegisterEvent;
-import bammerbom.ultimatecore.sponge.api.event.sign.SignUnregisterEvent;
+import bammerbom.ultimatecore.sponge.api.sign.event.SignRegisterEvent;
+import bammerbom.ultimatecore.sponge.api.sign.event.SignUnregisterEvent;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;

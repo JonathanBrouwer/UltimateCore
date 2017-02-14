@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.sign;
+package bammerbom.ultimatecore.sponge.api.sign.event;
 
 import bammerbom.ultimatecore.sponge.api.sign.UCSign;
 import org.spongepowered.api.event.Cancellable;
@@ -31,7 +31,7 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 /**
- * A {@link bammerbom.ultimatecore.sponge.api.event.sign.SignEvent} is an event where a {@link UCSign} is involved.
+ * A {@link SignEvent} is an event where a {@link UCSign} is involved.
  */
 public class SignEvent implements Event, Cancellable {
     private Cause cause;

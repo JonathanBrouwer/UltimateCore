@@ -21,26 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.command;
+package bammerbom.ultimatecore.sponge.api.data.event;
 
-import org.spongepowered.api.event.Event;
+import bammerbom.ultimatecore.sponge.api.data.Key;
 import org.spongepowered.api.event.cause.Cause;
 
-public class CommandEvent implements Event {
+import javax.annotation.Nullable;
 
-    private Cause cause;
-
-    public CommandEvent(Cause cause) {
-        this.cause = cause;
-    }
-
-    /**
-     * Get the cause for the event.
-     *
-     * @return The last cause
-     */
-    @Override
-    public Cause getCause() {
-        return cause;
+/**
+ * An event where the value associated with a {@link Key} is retrieved.
+ */
+public class DataRetrieveEvent<C> extends DataEvent<C> {
+    public DataRetrieveEvent(Key<C> key, @Nullable C value, Cause cause) {
+        super(key, value, cause);
     }
 }

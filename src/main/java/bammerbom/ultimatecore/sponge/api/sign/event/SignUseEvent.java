@@ -21,13 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.sign;
+package bammerbom.ultimatecore.sponge.api.sign.event;
 
 import bammerbom.ultimatecore.sponge.api.sign.UCSign;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
-public class SignRegisterEvent extends SignEvent {
-    public SignRegisterEvent(UCSign sign, Cause cause) {
-        super(sign, cause);
+public class SignUseEvent extends SignEvent.Locatable {
+    public SignUseEvent(UCSign sign, Location<World> location, Cause cause) {
+        super(sign, location, cause);
     }
 }

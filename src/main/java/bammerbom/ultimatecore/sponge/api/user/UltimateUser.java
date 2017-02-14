@@ -25,8 +25,8 @@ package bammerbom.ultimatecore.sponge.api.user;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.event.data.DataOfferEvent;
-import bammerbom.ultimatecore.sponge.api.event.data.DataRetrieveEvent;
+import bammerbom.ultimatecore.sponge.api.data.event.DataOfferEvent;
+import bammerbom.ultimatecore.sponge.api.data.event.DataRetrieveEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;

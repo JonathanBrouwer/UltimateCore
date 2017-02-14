@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.sponge.modules.sign.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.event.sign.SignCreateEvent;
-import bammerbom.ultimatecore.sponge.api.event.sign.SignDestroyEvent;
-import bammerbom.ultimatecore.sponge.api.event.sign.SignUseEvent;
+import bammerbom.ultimatecore.sponge.api.sign.event.SignCreateEvent;
+import bammerbom.ultimatecore.sponge.api.sign.event.SignDestroyEvent;
+import bammerbom.ultimatecore.sponge.api.sign.event.SignUseEvent;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
 import bammerbom.ultimatecore.sponge.api.sign.UCSign;

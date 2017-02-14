@@ -21,21 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.module;
+package bammerbom.ultimatecore.sponge.api.command.event;
 
-import bammerbom.ultimatecore.sponge.api.module.Module;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
-/**
- * A {@link ModuleEvent} is an event where a {@link Module} is involved.
- */
-public class ModuleEvent implements Event {
-    private Cause cause;
-    private Module module;
+public class CommandEvent implements Event {
 
-    public ModuleEvent(Module module, Cause cause) {
-        this.module = module;
+    private Cause cause;
+
+    public CommandEvent(Cause cause) {
         this.cause = cause;
     }
 
@@ -47,14 +42,5 @@ public class ModuleEvent implements Event {
     @Override
     public Cause getCause() {
         return cause;
-    }
-
-    /**
-     * Get the {@link Module} for the event
-     *
-     * @return The module
-     */
-    public Module getModule() {
-        return module;
     }
 }

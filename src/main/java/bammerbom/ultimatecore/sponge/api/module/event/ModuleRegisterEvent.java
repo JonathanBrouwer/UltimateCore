@@ -21,18 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.data;
+package bammerbom.ultimatecore.sponge.api.module.event;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
+import bammerbom.ultimatecore.sponge.api.module.Module;
+import org.spongepowered.api.event.Cancellable;
+import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
-
-import javax.annotation.Nullable;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 
 /**
- * An event where the value associated with a {@link Key} is retrieved.
+ * This is called before a module is registered.
+ * Normally, this is called during {@link GamePreInitializationEvent}
+ * <p>
+ * When this is cancelled, the module will not be registered.
  */
-public class DataRetrieveEvent<C> extends DataEvent<C> {
-    public DataRetrieveEvent(Key<C> key, @Nullable C value, Cause cause) {
-        super(key, value, cause);
+public class ModuleRegisterEvent extends ModuleEvent implements Cancellable {
+    boolean cancelled;
+
+    public ModuleRegisterEvent(Module module, Cause cause) {
+        super(module, cause);
+    }
+
+    /**
+     * Gets if the {@link Event} has been cancelled.
+     *
+     * @return Is this event cancelled
+     */
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    /**
+     * Sets the cancelled state of the {@link Event}.
+     *
+     * @param cancel The new cancelled state
+     */
+    @Override
+    public void setCancelled(boolean cancel) {
+        cancelled = cancel;
     }
 }

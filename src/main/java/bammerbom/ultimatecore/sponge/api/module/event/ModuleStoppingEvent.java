@@ -21,13 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.event.sign;
+package bammerbom.ultimatecore.sponge.api.module.event;
 
-import bammerbom.ultimatecore.sponge.api.sign.UCSign;
+import bammerbom.ultimatecore.sponge.api.module.Module;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.game.state.GameStoppingEvent;
 
-public class SignUnregisterEvent extends SignEvent {
-    public SignUnregisterEvent(UCSign sign, Cause cause) {
-        super(sign, cause);
+/**
+ * This is called before a module is post-initialized.
+ * Normally, this is called during {@link GameStoppingEvent}
+ */
+public class ModuleStoppingEvent extends ModuleEvent {
+    private GameStoppingEvent event;
+
+    public ModuleStoppingEvent(Module module, GameStoppingEvent event, Cause cause) {
+        super(module, cause);
+        this.event = event;
+    }
+
+    /**
+     * Get the GameStoppingEvent when this was called.
+     */
+    public GameStoppingEvent getEvent() {
+        return event;
     }
 }
