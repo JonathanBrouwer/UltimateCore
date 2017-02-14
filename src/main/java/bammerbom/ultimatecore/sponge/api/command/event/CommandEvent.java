@@ -23,14 +23,17 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.event;
 
+import bammerbom.ultimatecore.sponge.api.command.Command;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
 public class CommandEvent implements Event {
 
     private Cause cause;
+    private Command command;
 
-    public CommandEvent(Cause cause) {
+    public CommandEvent(Command cmd, Cause cause) {
+        this.command = cmd;
         this.cause = cause;
     }
 
@@ -42,5 +45,9 @@ public class CommandEvent implements Event {
     @Override
     public Cause getCause() {
         return cause;
+    }
+
+    public Command getCommand() {
+        return command;
     }
 }

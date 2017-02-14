@@ -23,5 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.event;
 
-public class CommandRegisterEvent {
+import bammerbom.ultimatecore.sponge.api.command.Command;
+import org.spongepowered.api.event.cause.Cause;
+
+public class CommandRegisterEvent extends CommandEvent {
+    public CommandRegisterEvent(Command cmd, Cause cause) {
+        super(cmd, cause);
+    }
 }

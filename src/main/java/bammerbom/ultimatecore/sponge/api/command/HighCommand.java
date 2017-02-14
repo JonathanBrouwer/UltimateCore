@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandChildrenInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.PlayerOnlyException;
+import bammerbom.ultimatecore.sponge.api.command.impl.ExecutorListenerWrapper;
 import bammerbom.ultimatecore.sponge.api.command.impl.HelpSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.utils.UsageGenerator;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
@@ -72,7 +73,7 @@ public interface HighCommand extends Command, CommandExecutor {
 
     default CommandSpec getCallable() {
         CommandSpec.Builder cb = CommandSpec.builder();
-        cb.executor(this);
+        cb.executor(new ExecutorListenerWrapper(this, this));
         cb.arguments(getArguments());
         cb.permission(getPermission().get());
         cb.description(getShortDescription(null));

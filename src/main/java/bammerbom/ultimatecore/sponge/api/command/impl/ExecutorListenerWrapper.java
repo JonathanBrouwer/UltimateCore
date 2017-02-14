@@ -21,13 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.event;
+package bammerbom.ultimatecore.sponge.api.command.impl;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.event.CommandExecuteEvent;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.event.cause.Cause;
 
-public class CommandUnregisterEvent extends CommandEvent {
-    public CommandUnregisterEvent(Command cmd, Cause cause) {
-        super(cmd, cause);
+public class ExecutorListenerWrapper implements CommandExecutor {
+    private Command command;
+    private CommandExecutor executor;
+
+    public ExecutorListenerWrapper(Command cmd, CommandExecutor exe){
+        this.command = cmd;
+        this.executor = exe;
+    }
+
+    @Override
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        if(!Sponge.getEventManager().post(new CommandExecuteEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))){
+            //Event canceller is expected to send message
+            return CommandResult.empty();
+        }
+        return executor.execute(src, args);
     }
 }

@@ -23,5 +23,25 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.event;
 
-public class CommandExecuteEvent {
+import bammerbom.ultimatecore.sponge.api.command.Command;
+import org.spongepowered.api.event.Cancellable;
+import org.spongepowered.api.event.cause.Cause;
+
+public class CommandExecuteEvent extends CommandEvent implements Cancellable {
+
+    private boolean cancelled = false;
+
+    public CommandExecuteEvent(Command cmd, Cause cause) {
+        super(cmd, cause);
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        this.cancelled = cancel;
+    }
 }

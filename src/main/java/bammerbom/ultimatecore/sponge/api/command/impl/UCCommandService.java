@@ -26,8 +26,13 @@ package bammerbom.ultimatecore.sponge.api.command.impl;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.command.CommandService;
+import bammerbom.ultimatecore.sponge.api.command.event.CommandExecuteEvent;
+import bammerbom.ultimatecore.sponge.api.command.event.CommandRegisterEvent;
+import bammerbom.ultimatecore.sponge.api.command.event.CommandUnregisterEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.event.cause.Cause;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +72,9 @@ public class UCCommandService implements CommandService {
         if (!UltimateCore.get().getCommandsConfig().get().getNode("commands", command.getIdentifier(), "enabled").getBoolean(true)) {
             return false;
         }
+        if(!Sponge.getEventManager().post(new CommandRegisterEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))){
+            return false;
+        }
         commands.add(command);
         Sponge.getCommandManager().register(UltimateCore.get(), command.getCallable(), command.getAliases());
         return true;
@@ -90,6 +98,9 @@ public class UCCommandService implements CommandService {
      */
     @Override
     public boolean unregister(Command command) {
+        if(!Sponge.getEventManager().post(new CommandUnregisterEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))){
+            return false;
+        }
         return commands.remove(command);
     }
 
