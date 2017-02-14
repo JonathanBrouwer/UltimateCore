@@ -57,7 +57,7 @@ public class VanishListener {
         }
     }
 
-    @Listener
+    @Listener(order = Order.LAST)
     public void onJoin(ClientConnectionEvent.Join event) {
         Player p = event.getTargetEntity();
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
