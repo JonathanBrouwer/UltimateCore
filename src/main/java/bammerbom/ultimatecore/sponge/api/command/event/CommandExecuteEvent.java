@@ -24,15 +24,18 @@
 package bammerbom.ultimatecore.sponge.api.command.event;
 
 import bammerbom.ultimatecore.sponge.api.command.Command;
+import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.cause.Cause;
 
 public class CommandExecuteEvent extends CommandEvent implements Cancellable {
 
     private boolean cancelled = false;
+    private CommandContext context;
 
-    public CommandExecuteEvent(Command cmd, Cause cause) {
+    public CommandExecuteEvent(Command cmd, CommandContext context, Cause cause) {
         super(cmd, cause);
+        this.context = context;
     }
 
     @Override
@@ -43,5 +46,13 @@ public class CommandExecuteEvent extends CommandEvent implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    public CommandContext getContext() {
+        return context;
+    }
+
+    public void setContext(CommandContext context) {
+        this.context = context;
     }
 }

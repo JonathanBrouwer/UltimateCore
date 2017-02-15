@@ -21,38 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.impl;
+package bammerbom.ultimatecore.sponge.api.command.event;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.command.event.CommandExecuteEvent;
-import bammerbom.ultimatecore.sponge.api.command.event.CommandPostExecuteEvent;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.event.cause.Cause;
 
-public class ExecutorListenerWrapper implements CommandExecutor {
-    private Command command;
-    private CommandExecutor executor;
+public class CommandPostExecuteEvent extends CommandEvent {
 
-    public ExecutorListenerWrapper(Command cmd, CommandExecutor exe){
-        this.command = cmd;
-        this.executor = exe;
+    private CommandResult result;
+    private CommandContext context;
+
+    public CommandPostExecuteEvent(Command cmd, CommandContext context, CommandResult result, Cause cause) {
+        super(cmd, cause);
+        this.result = result;
+        this.context = context;
     }
 
-    @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(!Sponge.getEventManager().post(new CommandExecuteEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))){
-            //Event canceller is expected to send message
-            return CommandResult.empty();
-        }
-        CommandResult result = executor.execute(src, args);
-        CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(command, result, Cause.builder().notifier(UltimateCore.get()).build());
-        Sponge.getEventManager().post(pEvent);
-        return pEvent.getResult();
+    public CommandResult getResult(){
+        return result;
+    }
+
+    public void setResult(CommandResult result){
+        this.result = result;
+    }
+
+    public CommandContext getContext() {
+        return context;
+    }
+
+    public void setContext(CommandContext context) {
+        this.context = context;
     }
 }
