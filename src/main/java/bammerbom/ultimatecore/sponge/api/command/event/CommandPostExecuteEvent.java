@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.api.command.event;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.event.cause.Cause;
@@ -33,10 +33,15 @@ public class CommandPostExecuteEvent extends CommandEvent {
     private CommandResult result;
     private CommandContext context;
 
-    public CommandPostExecuteEvent(Command cmd, CommandContext context, CommandResult result, Cause cause) {
+    public CommandPostExecuteEvent(HighCommand cmd, CommandContext context, CommandResult result, Cause cause) {
         super(cmd, cause);
         this.result = result;
         this.context = context;
+    }
+
+    @Override
+    public HighCommand getCommand() {
+        return (HighCommand) command;
     }
 
     public CommandResult getResult(){

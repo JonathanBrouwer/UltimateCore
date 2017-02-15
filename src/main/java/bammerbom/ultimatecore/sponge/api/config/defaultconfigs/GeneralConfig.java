@@ -25,11 +25,12 @@ package bammerbom.ultimatecore.sponge.api.config.defaultconfigs;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
+import org.spongepowered.api.Sponge;
 
 import java.io.File;
 
 public class GeneralConfig extends RawFileConfig {
     public GeneralConfig() {
-        super(new File(UltimateCore.get().getConfigFolder().toFile(), "general.conf"));
+        super(new File(UltimateCore.get().getConfigFolder().toFile(), "general.conf"), Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/general.conf").get());
     }
 }

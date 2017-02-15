@@ -29,8 +29,8 @@ import org.spongepowered.api.event.cause.Cause;
 
 public class CommandEvent implements Event {
 
-    private Cause cause;
-    private Command command;
+    protected Cause cause;
+    protected Command command;
 
     public CommandEvent(Command cmd, Cause cause) {
         this.command = cmd;

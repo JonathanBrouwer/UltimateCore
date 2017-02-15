@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.api.command.impl;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.Command;
+import bammerbom.ultimatecore.sponge.api.command.HighCommand;
 import bammerbom.ultimatecore.sponge.api.command.event.CommandExecuteEvent;
 import bammerbom.ultimatecore.sponge.api.command.event.CommandPostExecuteEvent;
 import org.spongepowered.api.Sponge;
@@ -34,24 +34,25 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
 
 public class ExecutorListenerWrapper implements CommandExecutor {
-    private Command command;
+    private HighCommand command;
     private CommandExecutor executor;
 
-    public ExecutorListenerWrapper(Command cmd, CommandExecutor exe){
+    public ExecutorListenerWrapper(HighCommand cmd, CommandExecutor exe){
         this.command = cmd;
         this.executor = exe;
     }
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(!Sponge.getEventManager().post(new CommandExecuteEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))){
+        if(Sponge.getEventManager().post(new CommandExecuteEvent(command, args, Cause.builder().notifier(UltimateCore.get()).named(NamedCause.owner(src)).build()))){
             //Event canceller is expected to send message
             return CommandResult.empty();
         }
         CommandResult result = executor.execute(src, args);
-        CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(command, result, Cause.builder().notifier(UltimateCore.get()).build());
+        CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(command, args, result, Cause.builder().notifier(UltimateCore.get()).named(NamedCause.owner(src)).build());
         Sponge.getEventManager().post(pEvent);
         return pEvent.getResult();
     }
