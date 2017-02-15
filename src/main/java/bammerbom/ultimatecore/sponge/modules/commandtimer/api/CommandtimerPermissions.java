@@ -23,18 +23,11 @@
  */
 package bammerbom.ultimatecore.sponge.modules.commandtimer.api;
 
-import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
-import com.google.common.reflect.TypeToken;
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import org.spongepowered.api.text.Text;
 
-import java.util.HashMap;
-
-public class CommandtimerKeys {
-    public static Key.Global<HashMap<Command, Long>> COOLDOWNS = new Key.Global<>("cooldowns", new HashMap<>());
-    public static Key.Global<HashMap<Command, Long>> WARMUPS = new Key.Global<>("warmups", new HashMap<>());
-    public static Key.User<HashMap<String, Long>> USER_LASTEXECUTED = new Key.User<>("user_lastexecuted", new UserKeyProvider<>("cooldowns", new TypeToken<HashMap<String, Long>>() {
-    }, new HashMap<>()));
-    public static Key.User<HashMap<String, Warmup>> USER_WARMUPS = new Key.User<>("user_warmups", new HashMap<>());
-    public static Key.Global<HashMap<String, Runnable>> CURRENT_WARMUPS = new Key.Global<>("current_warmups", new HashMap<>());
+public class CommandtimerPermissions {
+    public static Permission UC_COMMANDTIMER_BYPASS_COOLDOWN_COMMAND = Permission.create("uc.commandtimer.bypass.cooldown.<Command>", "commandtimer", PermissionLevel.ADMIN, null, Text.of("Allows you to bypass the cooldown of a command."));
+    public static Permission UC_COMMANDTIMER_BYPASS_WARMUP_COMMAND = Permission.create("uc.commandtimer.bypass.warmup.<Command>", "commandtimer", PermissionLevel.ADMIN, null, Text.of("Allows you to bypass the warmup of a command."));
 }

@@ -32,6 +32,7 @@ import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import bammerbom.ultimatecore.sponge.modules.commandtimer.api.CommandtimerKeys;
+import bammerbom.ultimatecore.sponge.modules.commandtimer.api.CommandtimerPermissions;
 import bammerbom.ultimatecore.sponge.modules.commandtimer.listeners.CommandtimerCancelListener;
 import bammerbom.ultimatecore.sponge.modules.commandtimer.listeners.CommandtimerListener;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -92,6 +93,7 @@ public class CommandtimerModule implements Module {
             config.save(node);
         }
         onReload(null);
+        new CommandtimerPermissions();
     }
 
     @Override

@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.sponge.api.command.event.CommandPostExecuteEvent;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import bammerbom.ultimatecore.sponge.modules.commandtimer.api.CommandtimerKeys;
 import bammerbom.ultimatecore.sponge.modules.commandtimer.api.Warmup;
 import org.spongepowered.api.entity.living.player.Player;
@@ -55,18 +56,20 @@ public class CommandtimerListener {
         Optional<Warmup> userwarmup = Optional.ofNullable(userwarmups.get(event.getCommand().getFullIdentifier()));
 
         //Check cooldown
-        if(userlastexecuted + cooldown > System.currentTimeMillis()){
-            Messages.send(src, "commandtimer.cooldown");
+        if(userlastexecuted + cooldown > System.currentTimeMillis() && !src.hasPermission("uc.commandtimer.bypass.cooldown." + event.getCommand().getFullIdentifier())){
+            Messages.send(src, "commandtimer.cooldown", "%time%", TimeUtil.format(userlastexecuted + cooldown - System.currentTimeMillis()));
             event.setCancelled(true);
             return;
         }
 
-        if(warmuptime > 0) {
+        if(warmuptime > 0 && !src.hasPermission("uc.commandtimer.bypass.warmup." + event.getCommand().getFullIdentifier())) {
+            //Create warmup
             Warmup warmup = new Warmup(event.getCommand(), event.getContext(), src, System.currentTimeMillis(), System.currentTimeMillis() + warmuptime);
             warmup.startTimer();
             userwarmups.put(event.getCommand().getFullIdentifier(), warmup);
             user.offer(CommandtimerKeys.USER_WARMUPS, userwarmups);
             event.setCancelled(true);
+            Messages.send(src, "commandtimer.warmup", "%time%", TimeUtil.format(warmuptime));
         }
     }
 
