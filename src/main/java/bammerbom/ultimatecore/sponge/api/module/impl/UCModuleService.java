@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
+import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleDisableByDefault;
 import bammerbom.ultimatecore.sponge.api.module.event.ModuleRegisterEvent;
 import bammerbom.ultimatecore.sponge.defaultmodule.DefaultModule;
 import com.google.common.reflect.ClassPath;
@@ -46,6 +47,7 @@ import java.util.stream.Collectors;
 public class UCModuleService implements ModuleService {
 
     private List<Module> modules = new ArrayList<>();
+    private List<Module> unregisteredModules = new ArrayList<>();
 
     /**
      * Retrieves list of all registered modules
@@ -55,6 +57,14 @@ public class UCModuleService implements ModuleService {
     @Override
     public List<Module> getModules() {
         return modules;
+    }
+
+    @Override
+    public List<Module> getAllModules() {
+        ArrayList<Module> all = new ArrayList<>();
+        all.addAll(modules);
+        all.addAll(unregisteredModules);
+        return all;
     }
 
     /**
@@ -84,14 +94,17 @@ public class UCModuleService implements ModuleService {
         try {
             ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().owner(UltimateCore.get()).build());
             Sponge.getEventManager().post(event);
-            String state = UltimateCore.get().getModulesConfig().get().getNode("modules", module.getIdentifier(), "state").getString();
+            String def = module.getClass().getAnnotation(ModuleDisableByDefault.class) == null ? "enabled" : "disabled";
+            String state = UltimateCore.get().getModulesConfig().get().getNode("modules", module.getIdentifier(), "state").getString(def);
             //state != null because state is null when module is first loaded
             if (event.isCancelled() && !module.getIdentifier().equalsIgnoreCase("default") && state != null && !state.equalsIgnoreCase("force")) {
                 Messages.log(Messages.getFormatted("core.load.module.blocked", "%module%", module.getIdentifier()));
+                unregisteredModules.add(module);
                 return false;
             }
             if (!module.getIdentifier().equalsIgnoreCase("default") && state != null && state.equalsIgnoreCase("disabled")) {
                 Messages.log(Messages.getFormatted("core.load.module.disabled", "%module%", module.getIdentifier()));
+                unregisteredModules.add(module);
                 return false;
             }
             modules.add(module);
@@ -99,6 +112,7 @@ public class UCModuleService implements ModuleService {
             return true;
         } catch (Exception ex) {
             ErrorLogger.log(ex, "An error occured while registering the module '" + module.getIdentifier() + "'");
+            unregisteredModules.add(module);
             return false;
         }
     }

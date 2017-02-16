@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.blood.api;
 
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import com.flowpowered.math.vector.Vector3d;

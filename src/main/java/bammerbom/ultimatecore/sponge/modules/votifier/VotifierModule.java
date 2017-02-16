@@ -24,9 +24,11 @@
 package bammerbom.ultimatecore.sponge.modules.votifier;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.api.config.config.module.RawModuleConfig;
-import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
+import bammerbom.ultimatecore.sponge.api.module.HighModule;
+import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleDisableByDefault;
+import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
 import bammerbom.ultimatecore.sponge.api.variable.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VoteSerializer;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierScheme;
@@ -40,7 +42,6 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -48,21 +49,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-public class VotifierModule implements Module {
+@ModuleDisableByDefault
+@ModuleInfo(name = "votifier", description = "Give players rewards for voting.")
+public class VotifierModule implements HighModule {
     ModuleConfig config = null;
 
     List<VotifierScheme> schemes = new ArrayList<>();
     HashMap<Integer, VotifierScheme> cumulativeSchemes = new HashMap<>();
-
-    @Override
-    public String getIdentifier() {
-        return "votifier";
-    }
-
-    @Override
-    public Text getDescription() {
-        return Text.of();
-    }
 
     @Override
     public Optional<? extends ModuleConfig> getConfig() {

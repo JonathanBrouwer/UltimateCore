@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.deathmessage;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.deathmessage.listeners.DeathmessageListener;
 import org.spongepowered.api.Sponge;

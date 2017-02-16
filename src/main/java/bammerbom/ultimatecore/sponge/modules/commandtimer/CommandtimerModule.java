@@ -25,8 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.commandtimer;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.api.config.config.module.RawModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.CommandsConfig;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.module.Module;

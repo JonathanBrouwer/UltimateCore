@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.vanish;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.api.config.config.module.RawModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.vanish.api.VanishPermissions;
 import bammerbom.ultimatecore.sponge.modules.vanish.commands.VanishCommand;

@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.blacklist.listeners;
 
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.block.BlockSnapshot;

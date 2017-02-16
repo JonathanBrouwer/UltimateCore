@@ -23,8 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.modules.automessage;
 
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.api.config.config.module.RawModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.automessage.api.Automessage;

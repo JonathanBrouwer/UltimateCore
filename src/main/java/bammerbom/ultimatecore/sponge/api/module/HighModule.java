@@ -21,32 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.weather.listeners;
+package bammerbom.ultimatecore.sponge.api.module;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.api.module.Modules;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.world.ChangeWorldWeatherEvent;
-import org.spongepowered.api.world.weather.Weathers;
+import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
+import org.spongepowered.api.text.Text;
 
-import java.util.List;
-
-public class WeatherListener {
-    @Listener
-    public void onWeatherChange(ChangeWorldWeatherEvent event) {
-        ModuleConfig config = Modules.WEATHER.get().getConfig().get();
-        try {
-            List<String> worlds = config.get().getNode("lockweather").getList(TypeToken.of(String.class));
-            if (worlds.contains(event.getTargetWorld().getName()) || worlds.contains(event.getTargetWorld().getUniqueId().toString())) {
-                event.setWeather(Weathers.CLEAR);
-                event.setDuration(72000);
-            }
-        } catch (ObjectMappingException e) {
-            e.printStackTrace();
+public interface HighModule extends Module {
+    /**
+     * This should return name of the module
+     * For example: afk, ban, etc
+     */
+    default String getIdentifier(){
+        if (getClass().isAnnotationPresent(ModuleInfo.class)) {
+            ModuleInfo moduleInfo = getClass().getAnnotation(ModuleInfo.class);
+            return moduleInfo.name();
+        }else{
+            return null;
         }
-
     }
 
+    /**
+     * Returns a (short) description of the module.
+     * Should be only one sentence.
+     *
+     * @return The description
+     */
+    default Text getDescription(){
+        if (getClass().isAnnotationPresent(ModuleInfo.class)) {
+            ModuleInfo moduleInfo = getClass().getAnnotation(ModuleInfo.class);
+            return Text.of(moduleInfo.description());
+        }else{
+            return Text.of();
+        }
+    }
 }

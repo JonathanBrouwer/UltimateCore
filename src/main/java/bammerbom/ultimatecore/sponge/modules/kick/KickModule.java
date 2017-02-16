@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.kick;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.kick.api.KickPermissions;
 import bammerbom.ultimatecore.sponge.modules.kick.commands.KickCommand;

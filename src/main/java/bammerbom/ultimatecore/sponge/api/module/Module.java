@@ -23,7 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.api.module;
 
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -34,6 +35,13 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public interface Module {
+
+    /**
+     * Returns whether the module is enabled
+     */
+    default boolean isEnabled(){
+        return UltimateCore.get().getModuleService().getModules().contains(this);
+    }
 
     /**
      * This should return name of the module

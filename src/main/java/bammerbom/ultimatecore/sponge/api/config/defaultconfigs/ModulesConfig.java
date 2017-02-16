@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleDisableByDefault;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
 import java.io.File;
@@ -44,14 +45,15 @@ public class ModulesConfig extends RawFileConfig {
             if (!node.getNode("modules").getComment().isPresent()) {
                 node.getNode("modules").setComment("Set state to 'force', 'enabled' or 'disabled'\nForce will load the module even when another plugin blocks the loading process.");
             }
-            for (Module mod : UltimateCore.get().getModuleService().getModules()) {
+            for (Module mod : UltimateCore.get().getModuleService().getAllModules()) {
                 if (mod.getIdentifier().equals("default")) {
                     continue;
                 }
                 CommentedConfigurationNode modnode = node.getNode("modules", mod.getIdentifier());
                 if (modnode.getNode("state").isVirtual()) {
                     modified = true;
-                    modnode.getNode("state").setValue("enabled");
+                    String def = mod.getClass().getAnnotation(ModuleDisableByDefault.class) == null ? "enabled" : "disabled";
+                    modnode.getNode("state").setValue(def);
                 }
             }
             if (modified) {

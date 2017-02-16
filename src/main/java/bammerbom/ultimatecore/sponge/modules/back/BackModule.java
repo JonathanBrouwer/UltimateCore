@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.back;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.back.api.BackPermissions;
 import bammerbom.ultimatecore.sponge.modules.back.commands.BackCommand;

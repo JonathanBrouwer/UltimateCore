@@ -21,25 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config.config.module;
+package bammerbom.ultimatecore.sponge.api.module.annotations;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.config.config.RawFileConfig;
-import org.spongepowered.api.Sponge;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import java.io.File;
-
-public class RawModuleConfig extends RawFileConfig implements ModuleConfig {
-
-    protected String module;
-
-    public RawModuleConfig(String id) {
-        super(new File(UltimateCore.get().getConfigFolder().toFile().getPath() + "/modules/", id + ".conf"), Sponge.getAssetManager().getAsset(UltimateCore.get(), "config/modules/" + id + ".conf").get());
-        this.module = id;
-    }
-
-    @Override
-    public String getModule() {
-        return module;
-    }
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ModuleDisableByDefault {
 }

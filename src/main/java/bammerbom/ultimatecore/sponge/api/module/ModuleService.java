@@ -37,6 +37,14 @@ public interface ModuleService {
     List<Module> getModules();
 
     /**
+     * Retrieves list of all registered and unregistered modules
+     * Don't expect unregistered modules to function properly, because they might have an error.
+     *
+     * @return the list
+     */
+    List<Module> getAllModules();
+
+    /**
      * Retrieves a specific module by id
      *
      * @param id the id to search for
