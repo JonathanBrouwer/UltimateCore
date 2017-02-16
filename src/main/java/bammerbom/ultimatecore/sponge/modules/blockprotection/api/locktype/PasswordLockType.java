@@ -21,14 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config;
+package bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype;
 
-import bammerbom.ultimatecore.sponge.api.config.serializers.*;
+public class PasswordLockType implements ValueLockType {
+    private String password;
 
-public class Serializers {
-    public static BlockStateSerializer BLOCKSTATE = new BlockStateSerializer();
-    public static ItemStackSnapshotSerializer ITEMSTACKSNAPSHOT = new ItemStackSnapshotSerializer();
-    public static TransformSerializer TRANSFORM = new TransformSerializer();
-    public static LocationSerializer LOCATION = new LocationSerializer();
-    public static Vector3dSerializer VECTOR3D = new Vector3dSerializer();
+    public PasswordLockType(String password){
+        this.password = password;
+    }
+
+    @Override
+    public String getId() {
+        return "password";
+    }
+
+    @Override
+    public String getName() {
+        return "Password";
+    }
+
+    public String getValue(){
+        return password;
+    }
+
+    public void setValue(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public boolean shouldBeCancelled() {
+        return true;
+    }
 }

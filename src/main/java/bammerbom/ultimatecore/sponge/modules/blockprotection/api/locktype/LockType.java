@@ -21,14 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config;
+package bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype;
 
-import bammerbom.ultimatecore.sponge.api.config.serializers.*;
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.modules.blockprotection.api.Protection;
+import org.spongepowered.api.CatalogType;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.util.annotation.CatalogedBy;
 
-public class Serializers {
-    public static BlockStateSerializer BLOCKSTATE = new BlockStateSerializer();
-    public static ItemStackSnapshotSerializer ITEMSTACKSNAPSHOT = new ItemStackSnapshotSerializer();
-    public static TransformSerializer TRANSFORM = new TransformSerializer();
-    public static LocationSerializer LOCATION = new LocationSerializer();
-    public static Vector3dSerializer VECTOR3D = new Vector3dSerializer();
+@CatalogedBy(LockTypes.class)
+public interface LockType extends CatalogType {
+    boolean shouldBeCancelled();
+    default Text getErrorMessage(Player receiver, Protection prot){
+        UltimateUser user = UltimateCore.get().getUserService().getUser(prot.getOwner()).orElse(null);
+        return Messages.getFormatted(receiver,"blockprotection.error." + getId(), "%player%", user != null ? user.getName() : "?");
+    }
 }

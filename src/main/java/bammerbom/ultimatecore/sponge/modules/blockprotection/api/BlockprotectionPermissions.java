@@ -21,14 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config;
+package bammerbom.ultimatecore.sponge.modules.blockprotection.api;
 
-import bammerbom.ultimatecore.sponge.api.config.serializers.*;
+public class BlockprotectionPermissions {
 
-public class Serializers {
-    public static BlockStateSerializer BLOCKSTATE = new BlockStateSerializer();
-    public static ItemStackSnapshotSerializer ITEMSTACKSNAPSHOT = new ItemStackSnapshotSerializer();
-    public static TransformSerializer TRANSFORM = new TransformSerializer();
-    public static LocationSerializer LOCATION = new LocationSerializer();
-    public static Vector3dSerializer VECTOR3D = new Vector3dSerializer();
 }

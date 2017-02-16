@@ -21,14 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config;
+package bammerbom.ultimatecore.sponge.utils;
 
-import bammerbom.ultimatecore.sponge.api.config.serializers.*;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.data.key.Key;
 
-public class Serializers {
-    public static BlockStateSerializer BLOCKSTATE = new BlockStateSerializer();
-    public static ItemStackSnapshotSerializer ITEMSTACKSNAPSHOT = new ItemStackSnapshotSerializer();
-    public static TransformSerializer TRANSFORM = new TransformSerializer();
-    public static LocationSerializer LOCATION = new LocationSerializer();
-    public static Vector3dSerializer VECTOR3D = new Vector3dSerializer();
+import java.util.Set;
+
+public class BlockUtils {
+    public static boolean matches(BlockState a, BlockState b){
+        if(!a.getType().equals(b.getType())) return false;
+
+        Set<Key<?>> aKeys = a.getKeys();
+        for(Key bKey : b.getKeys()){
+            if(aKeys.contains(bKey) && a.get(bKey).equals(b.get(bKey))){
+                continue;
+            }
+            return false;
+        }
+        return true;
+    }
 }

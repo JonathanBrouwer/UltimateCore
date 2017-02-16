@@ -21,14 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config;
+package bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype;
 
-import bammerbom.ultimatecore.sponge.api.config.serializers.*;
+import org.spongepowered.api.registry.CatalogRegistryModule;
 
-public class Serializers {
-    public static BlockStateSerializer BLOCKSTATE = new BlockStateSerializer();
-    public static ItemStackSnapshotSerializer ITEMSTACKSNAPSHOT = new ItemStackSnapshotSerializer();
-    public static TransformSerializer TRANSFORM = new TransformSerializer();
-    public static LocationSerializer LOCATION = new LocationSerializer();
-    public static Vector3dSerializer VECTOR3D = new Vector3dSerializer();
+import java.util.*;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public class LockTypeRegistry implements CatalogRegistryModule<LockType> {
+
+    Map<String, LockType> mapping = new HashMap<>();
+
+    @Override
+    public void registerDefaults() {
+        mapping.put("private", LockTypes.PRIVATE);
+        mapping.put("password", LockTypes.PASSWORD);
+        mapping.put("public", LockTypes.PUBLIC);
+    }
+
+    @Override
+    public Optional<LockType> getById(String id) {
+        return Optional.ofNullable(this.mapping.get(checkNotNull(id).toLowerCase(Locale.ENGLISH)));
+    }
+
+    @Override
+    public Collection<LockType> getAll() {
+        return mapping.values();
+    }
 }

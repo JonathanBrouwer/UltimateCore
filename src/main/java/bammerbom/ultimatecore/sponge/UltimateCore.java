@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.CommandsConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.GeneralConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.ModulesConfig;
 import bammerbom.ultimatecore.sponge.api.config.serializers.ItemStackSnapshotSerializer;
+import bammerbom.ultimatecore.sponge.api.config.serializers.LocationSerializer;
 import bammerbom.ultimatecore.sponge.api.config.serializers.TransformSerializer;
 import bammerbom.ultimatecore.sponge.api.config.serializers.Vector3dSerializer;
 import bammerbom.ultimatecore.sponge.api.error.ErrorService;
@@ -74,6 +75,7 @@ import org.spongepowered.api.event.game.state.*;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.ServiceManager;
+import org.spongepowered.api.world.Location;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -126,6 +128,7 @@ public class UltimateCore {
             TypeSerializerCollection serializers = TypeSerializers.getDefaultSerializers();
 //            serializers.registerType(TypeToken.of(BlockState.class), new BlockStateSerializer());
             serializers.registerType(TypeToken.of(ItemStackSnapshot.class), new ItemStackSnapshotSerializer());
+            serializers.registerType(TypeToken.of(Location.class), new LocationSerializer());
             serializers.registerType(TypeToken.of(Transform.class), new TransformSerializer());
             serializers.registerType(TypeToken.of(Vector3d.class), new Vector3dSerializer());
 

@@ -41,9 +41,11 @@ public class UltimateUser {
     public static List<String> onlinekeys = new ArrayList<>();
     public HashMap<String, Object> datas = new HashMap<>();
     private UUID uuid; //TODO uuid or user?
+    private String name;
 
     public UltimateUser(User user) {
         this.uuid = user.getUniqueId();
+        this.name = user.getName();
     }
 
     /**
@@ -53,6 +55,15 @@ public class UltimateUser {
      */
     public UUID getIdentifier() {
         return uuid;
+    }
+
+    /**
+     * Get the UUID of the user.
+     *
+     * @return The UUID
+     */
+    public String getName() {
+        return name;
     }
 
     /**

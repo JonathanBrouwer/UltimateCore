@@ -21,14 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config;
+package bammerbom.ultimatecore.sponge.modules.blockprotection.api;
 
-import bammerbom.ultimatecore.sponge.api.config.serializers.*;
+import bammerbom.ultimatecore.sponge.api.data.Key;
+import bammerbom.ultimatecore.sponge.api.data.providers.GlobalKeyProvider;
+import com.google.common.reflect.TypeToken;
 
-public class Serializers {
-    public static BlockStateSerializer BLOCKSTATE = new BlockStateSerializer();
-    public static ItemStackSnapshotSerializer ITEMSTACKSNAPSHOT = new ItemStackSnapshotSerializer();
-    public static TransformSerializer TRANSFORM = new TransformSerializer();
-    public static LocationSerializer LOCATION = new LocationSerializer();
-    public static Vector3dSerializer VECTOR3D = new Vector3dSerializer();
+import java.util.ArrayList;
+import java.util.List;
+
+public class BlockprotectionKeys {
+    public static Key.Global<List<Protection>> PROTECTIONS = new Key.Global<>("protections", new GlobalKeyProvider<>("protections", "protections", new TypeToken<List<Protection>>() {}, new ArrayList<>()));
 }
