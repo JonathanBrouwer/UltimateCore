@@ -43,7 +43,7 @@ import java.util.Optional;
 public class CommandtimerListener {
 
     @Listener
-    public void onPreCommand(CommandExecuteEvent event, @First Player src){
+    public void onPreCommand(CommandExecuteEvent event, @First Player src) {
         HashMap<Command, Long> warmups = GlobalData.get(CommandtimerKeys.WARMUPS).get();
         HashMap<Command, Long> cooldowns = GlobalData.get(CommandtimerKeys.COOLDOWNS).get();
         Long warmuptime = Optional.ofNullable(warmups.get(event.getCommand())).orElse(0L);
@@ -56,13 +56,13 @@ public class CommandtimerListener {
         Optional<Warmup> userwarmup = Optional.ofNullable(userwarmups.get(event.getCommand().getFullIdentifier()));
 
         //Check cooldown
-        if(userlastexecuted + cooldown > System.currentTimeMillis() && !src.hasPermission("uc.commandtimer.bypass.cooldown." + event.getCommand().getFullIdentifier())){
+        if (userlastexecuted + cooldown > System.currentTimeMillis() && !src.hasPermission("uc.commandtimer.bypass.cooldown." + event.getCommand().getFullIdentifier())) {
             Messages.send(src, "commandtimer.cooldown", "%time%", TimeUtil.format(userlastexecuted + cooldown - System.currentTimeMillis()));
             event.setCancelled(true);
             return;
         }
 
-        if(warmuptime > 0 && !src.hasPermission("uc.commandtimer.bypass.warmup." + event.getCommand().getFullIdentifier())) {
+        if (warmuptime > 0 && !src.hasPermission("uc.commandtimer.bypass.warmup." + event.getCommand().getFullIdentifier())) {
             //Create warmup
             Warmup warmup = new Warmup(event.getCommand(), event.getContext(), src, System.currentTimeMillis(), System.currentTimeMillis() + warmuptime);
             warmup.startTimer();
@@ -74,7 +74,7 @@ public class CommandtimerListener {
     }
 
     @Listener
-    public void onPostCommand(CommandPostExecuteEvent event, @First Player src){
+    public void onPostCommand(CommandPostExecuteEvent event, @First Player src) {
         HashMap<Command, Long> warmups = GlobalData.get(CommandtimerKeys.WARMUPS).get();
         HashMap<Command, Long> cooldowns = GlobalData.get(CommandtimerKeys.COOLDOWNS).get();
         Long warmuptime = Optional.ofNullable(warmups.get(event.getCommand())).orElse(0L);
@@ -87,13 +87,13 @@ public class CommandtimerListener {
         Optional<Warmup> userwarmup = Optional.ofNullable(userwarmups.get(event.getCommand().getFullIdentifier()));
 
         //Remove warmup
-        if(userwarmup.isPresent()){
+        if (userwarmup.isPresent()) {
             userwarmups.remove(event.getCommand().getFullIdentifier());
             user.offer(CommandtimerKeys.USER_WARMUPS, userwarmups);
         }
 
         //If successful, add cooldown to user
-        if(event.getResult().getSuccessCount().orElse(0) > 0){
+        if (event.getResult().getSuccessCount().orElse(0) > 0) {
             userlastexecuteds.put(event.getCommand().getFullIdentifier(), System.currentTimeMillis());
             user.offer(CommandtimerKeys.USER_LASTEXECUTED, userlastexecuteds);
         }

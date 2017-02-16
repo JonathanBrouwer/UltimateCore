@@ -29,6 +29,7 @@ import org.spongepowered.api.event.cause.Cause;
 
 public class CommandRegisterEvent extends CommandEvent implements Cancellable {
     boolean cancel = false;
+
     public CommandRegisterEvent(Command cmd, Cause cause) {
         super(cmd, cause);
     }

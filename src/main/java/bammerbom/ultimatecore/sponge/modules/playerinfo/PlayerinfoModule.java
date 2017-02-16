@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.playerinfo;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.playerinfo.commands.PingCommand;
+import bammerbom.ultimatecore.sponge.modules.playerinfo.commands.UuidCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.text.Text;
 
@@ -43,5 +44,6 @@ public class PlayerinfoModule implements Module {
     @Override
     public void onInit(GameInitializationEvent event) {
         UltimateCore.get().getCommandService().register(new PingCommand());
+        UltimateCore.get().getCommandService().register(new UuidCommand());
     }
 }

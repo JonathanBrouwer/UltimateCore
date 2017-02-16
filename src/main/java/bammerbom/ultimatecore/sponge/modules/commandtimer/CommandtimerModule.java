@@ -59,7 +59,7 @@ public class CommandtimerModule implements Module {
     }
 
     @Override
-    public Optional<? extends ModuleConfig> getConfig(){
+    public Optional<? extends ModuleConfig> getConfig() {
         return Optional.of(config);
     }
 
@@ -72,7 +72,7 @@ public class CommandtimerModule implements Module {
     }
 
     @Override
-    public void onPostInit(GamePostInitializationEvent event){
+    public void onPostInit(GamePostInitializationEvent event) {
         CommandsConfig config = UltimateCore.get().getCommandsConfig();
         CommentedConfigurationNode node = config.get();
         boolean modified = false;
@@ -97,7 +97,7 @@ public class CommandtimerModule implements Module {
     }
 
     @Override
-    public void onReload(GameReloadEvent event){
+    public void onReload(GameReloadEvent event) {
         HashMap<Command, Long> cooldowns = new HashMap<>();
         HashMap<Command, Long> warmups = new HashMap<>();
 
@@ -106,10 +106,10 @@ public class CommandtimerModule implements Module {
 
         for (Command cmd : UltimateCore.get().getCommandService().getCommands()) {
             CommentedConfigurationNode cmdnode = node.getNode("commands", cmd.getIdentifier());
-            if(!cmdnode.getNode("cooldown").isVirtual()){
+            if (!cmdnode.getNode("cooldown").isVirtual()) {
                 cooldowns.put(cmd, TimeUtil.parse(cmdnode.getNode("cooldown").getString()));
             }
-            if(!cmdnode.getNode("warmup").isVirtual()){
+            if (!cmdnode.getNode("warmup").isVirtual()) {
                 warmups.put(cmd, TimeUtil.parse(cmdnode.getNode("warmup").getString()));
             }
         }

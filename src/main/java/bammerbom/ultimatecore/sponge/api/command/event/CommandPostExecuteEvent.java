@@ -44,11 +44,11 @@ public class CommandPostExecuteEvent extends CommandEvent {
         return (HighCommand) command;
     }
 
-    public CommandResult getResult(){
+    public CommandResult getResult() {
         return result;
     }
 
-    public void setResult(CommandResult result){
+    public void setResult(CommandResult result) {
         this.result = result;
     }
 

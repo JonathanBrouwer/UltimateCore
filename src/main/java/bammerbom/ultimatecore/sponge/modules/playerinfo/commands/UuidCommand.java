@@ -21,39 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.impl;
+package bammerbom.ultimatecore.sponge.modules.playerinfo.commands;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.command.HighCommand;
-import bammerbom.ultimatecore.sponge.api.command.event.CommandExecuteEvent;
-import bammerbom.ultimatecore.sponge.api.command.event.CommandPostExecuteEvent;
-import org.spongepowered.api.Sponge;
+import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.GameprofileArgument;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import bammerbom.ultimatecore.sponge.modules.playerinfo.PlayerinfoModule;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.text.Text;
 
-public class ExecutorListenerWrapper implements CommandExecutor {
-    private HighCommand command;
-    private CommandExecutor executor;
-
-    public ExecutorListenerWrapper(HighCommand cmd, CommandExecutor exe) {
-        this.command = cmd;
-        this.executor = exe;
+@CommandInfo(module = PlayerinfoModule.class, aliases = {"uuid", "uuidtoname", "uuidtoplayer"})
+@CommandPermissions(level = PermissionLevel.MOD)
+public class UuidCommand implements HighPermCommand {
+    @Override
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new GameprofileArgument(Text.of("player"))).onlyOne().build()
+        };
     }
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if (Sponge.getEventManager().post(new CommandExecuteEvent(command, args, Cause.builder().notifier(UltimateCore.get()).named(NamedCause.owner(src)).build()))) {
-            //Event canceller is expected to send message
-            return CommandResult.empty();
-        }
-        CommandResult result = executor.execute(src, args);
-        CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(command, args, result, Cause.builder().notifier(UltimateCore.get()).named(NamedCause.owner(src)).build());
-        Sponge.getEventManager().post(pEvent);
-        return pEvent.getResult();
+        GameProfile t = args.<GameProfile>getOne("player").get();
+        Messages.send(src, "playerinfo.command.uuid.success", "%player%", t.getName().orElse("???"), "%uuid%", t.getUniqueId().toString());
+        return CommandResult.success();
     }
 }

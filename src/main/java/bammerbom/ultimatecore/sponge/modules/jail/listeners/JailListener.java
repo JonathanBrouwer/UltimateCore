@@ -25,8 +25,8 @@ package bammerbom.ultimatecore.sponge.modules.jail.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.data.event.DataOfferEvent;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;

@@ -159,7 +159,7 @@ public class UCLanguageService implements LanguageService {
         Asset asset = Sponge.getAssetManager().getAsset(UltimateCore.get(), "language/" + lang + ".properties").orElse(null);
         File file = new File(UltimateCore.get().getConfigFolder().toUri().getPath() + "/language/", lang + ".properties");
 
-        if(asset == null){
+        if (asset == null) {
             Messages.log("test");
         }
 

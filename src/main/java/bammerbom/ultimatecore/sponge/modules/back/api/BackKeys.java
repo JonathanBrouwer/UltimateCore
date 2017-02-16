@@ -30,5 +30,6 @@ import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
 public class BackKeys {
-    public static Key.User<Transform<World>> BACK = new Key.User<>("back", new UserKeyProvider<>("back", new TypeToken<Transform<World>>() {}));
+    public static Key.User<Transform<World>> BACK = new Key.User<>("back", new UserKeyProvider<>("back", new TypeToken<Transform<World>>() {
+    }));
 }

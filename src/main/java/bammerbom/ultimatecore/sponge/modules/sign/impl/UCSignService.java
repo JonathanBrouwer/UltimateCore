@@ -25,12 +25,12 @@ package bammerbom.ultimatecore.sponge.modules.sign.impl;
 
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.sign.event.SignRegisterEvent;
-import bammerbom.ultimatecore.sponge.api.sign.event.SignUnregisterEvent;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.sign.UCSign;
+import bammerbom.ultimatecore.sponge.api.sign.event.SignRegisterEvent;
+import bammerbom.ultimatecore.sponge.api.sign.event.SignUnregisterEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;

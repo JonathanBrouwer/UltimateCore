@@ -44,6 +44,10 @@ public class Arguments {
     private boolean remainingArguments = false;
     private boolean remainingArgumentsAtLeastOnce = true;
 
+    protected Arguments(UCommandElement element) {
+        this.element = element;
+    }
+
     //Builder
     public static Arguments builder(CommandElement... elements) {
         List<UCommandElement> uElements = new ArrayList<>();
@@ -90,10 +94,6 @@ public class Arguments {
         return ce;
     }
 
-    protected Arguments(UCommandElement element) {
-        this.element = element;
-    }
-
     //Only one
     public boolean isOnlyOne() {
         return onlyOne;
@@ -137,10 +137,6 @@ public class Arguments {
     public Arguments optionalWeak() {
         optional = ArgOptional.WEAK_OPTIONAL;
         return this;
-    }
-
-    public enum ArgOptional {
-        REQUIRED, OPTIONAL, WEAK_OPTIONAL
     }
 
     //Permission
@@ -202,6 +198,10 @@ public class Arguments {
     public Arguments usageKey(Text usage) {
         this.usage = usage;
         return this;
+    }
+
+    public enum ArgOptional {
+        REQUIRED, OPTIONAL, WEAK_OPTIONAL
     }
 
 }

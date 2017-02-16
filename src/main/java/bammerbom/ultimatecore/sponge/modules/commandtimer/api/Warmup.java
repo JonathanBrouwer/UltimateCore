@@ -53,7 +53,7 @@ public class Warmup {
     private boolean cancelled = false;
     private boolean hasStarted = false;
 
-    public Warmup(HighCommand command, CommandContext context, Player source, Long starttime, Long endtime){
+    public Warmup(HighCommand command, CommandContext context, Player source, Long starttime, Long endtime) {
         this.command = command;
         this.context = context;
         this.source = source;
@@ -85,14 +85,14 @@ public class Warmup {
         return hasStarted;
     }
 
-    public void startTimer(){
-        if(hasStarted()) throw new IllegalStateException();
+    public void startTimer() {
+        if (hasStarted()) throw new IllegalStateException();
         hasStarted = true;
         Sponge.getScheduler().createTaskBuilder().delay(endtime - starttime, TimeUnit.MILLISECONDS).execute(this::finishWarmup).submit(UltimateCore.get());
     }
 
-    private CommandResult finishWarmup(){
-        if(cancelled) return CommandResult.empty();
+    private CommandResult finishWarmup() {
+        if (cancelled) return CommandResult.empty();
         try {
             CommandResult result = command.execute(source, context);
             CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(command, context, result, Cause.builder().notifier(UltimateCore.get()).named(NamedCause.simulated(source)).build());
@@ -117,7 +117,7 @@ public class Warmup {
         }
     }
 
-    public boolean isCancelled(){
+    public boolean isCancelled() {
         return cancelled;
     }
 

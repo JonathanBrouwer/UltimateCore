@@ -34,14 +34,14 @@ import bammerbom.ultimatecore.sponge.api.config.serializers.Vector3dSerializer;
 import bammerbom.ultimatecore.sponge.api.error.ErrorService;
 import bammerbom.ultimatecore.sponge.api.error.impl.UCErrorService;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.module.event.ModuleInitializeEvent;
-import bammerbom.ultimatecore.sponge.api.module.event.ModulePostInitializeEvent;
-import bammerbom.ultimatecore.sponge.api.module.event.ModuleStoppingEvent;
 import bammerbom.ultimatecore.sponge.api.language.LanguageService;
 import bammerbom.ultimatecore.sponge.api.language.impl.UCLanguageService;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.module.ModuleService;
+import bammerbom.ultimatecore.sponge.api.module.event.ModuleInitializeEvent;
+import bammerbom.ultimatecore.sponge.api.module.event.ModulePostInitializeEvent;
+import bammerbom.ultimatecore.sponge.api.module.event.ModuleStoppingEvent;
 import bammerbom.ultimatecore.sponge.api.module.impl.UCModuleService;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
 import bammerbom.ultimatecore.sponge.api.permission.impl.UCPermissionService;
@@ -85,21 +85,17 @@ import java.util.logging.Logger;
 public class UltimateCore {
 
     private static UltimateCore instance = null;
-
+    @Inject
+    @ConfigDir(sharedRoot = false)
+    public Path dir;
+    //Did uc start yet?
+    boolean started = false;
     //Config files
     private GeneralConfig generalConfig;
     private CommandsConfig commandsConfig;
     private ModulesConfig modulesConfig;
-
-    @Inject
-    @ConfigDir(sharedRoot = false)
-    public Path dir;
     @Inject
     private Logger logger;
-
-    //Did uc start yet?
-    boolean started = false;
-
     //Bstats
     @Inject
     private Metrics metrics;

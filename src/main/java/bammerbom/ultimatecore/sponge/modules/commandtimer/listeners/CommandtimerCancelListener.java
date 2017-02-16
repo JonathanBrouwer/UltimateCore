@@ -40,7 +40,7 @@ import org.spongepowered.api.event.entity.MoveEntityEvent;
 
 public class CommandtimerCancelListener {
 
-    public static void registerEvents(){
+    public static void registerEvents() {
         ModuleConfig config = Modules.COMMANDTIMER.get().getConfig().get();
         CommentedConfigurationNode node = config.get();
         if (node.getNode("warmup", "cancel-move").getBoolean(true)) {
@@ -48,7 +48,7 @@ public class CommandtimerCancelListener {
                 if (event.getTargetEntity() instanceof Player) {
                     Player p = (Player) event.getTargetEntity();
                     UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-                    for(Warmup warmup : up.get(CommandtimerKeys.USER_WARMUPS).get().values()){
+                    for (Warmup warmup : up.get(CommandtimerKeys.USER_WARMUPS).get().values()) {
                         Messages.send(p, "commandtimer.warmup.cancel.move");
                         warmup.cancel();
                     }
@@ -60,7 +60,7 @@ public class CommandtimerCancelListener {
                 if (event.getTargetEntity() instanceof Player) {
                     Player p = (Player) event.getTargetEntity();
                     UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-                    for(Warmup warmup : up.get(CommandtimerKeys.USER_WARMUPS).get().values()){
+                    for (Warmup warmup : up.get(CommandtimerKeys.USER_WARMUPS).get().values()) {
                         Messages.send(p, "commandtimer.warmup.cancel.damage");
                         warmup.cancel();
                     }
@@ -72,7 +72,7 @@ public class CommandtimerCancelListener {
                 if (event.getCause().first(Player.class).isPresent()) {
                     Player p = event.getCause().first(Player.class).get();
                     UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-                    for(Warmup warmup : up.get(CommandtimerKeys.USER_WARMUPS).get().values()){
+                    for (Warmup warmup : up.get(CommandtimerKeys.USER_WARMUPS).get().values()) {
                         Messages.send(p, "commandtimer.warmup.cancel.command");
                         warmup.cancel();
                     }
@@ -84,7 +84,7 @@ public class CommandtimerCancelListener {
                 if (event.getCause().first(Player.class).isPresent()) {
                     Player p = event.getCause().first(Player.class).get();
                     UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-                    for(Warmup warmup : up.get(CommandtimerKeys.USER_WARMUPS).get().values()){
+                    for (Warmup warmup : up.get(CommandtimerKeys.USER_WARMUPS).get().values()) {
                         Messages.send(p, "commandtimer.warmup.cancel.destroy");
                         warmup.cancel();
                     }
@@ -96,7 +96,7 @@ public class CommandtimerCancelListener {
                 if (event.getCause().first(Player.class).isPresent()) {
                     Player p = event.getCause().first(Player.class).get();
                     UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-                    for(Warmup warmup : up.get(CommandtimerKeys.USER_WARMUPS).get().values()){
+                    for (Warmup warmup : up.get(CommandtimerKeys.USER_WARMUPS).get().values()) {
                         Messages.send(p, "commandtimer.warmup.cancel.place");
                         warmup.cancel();
                     }

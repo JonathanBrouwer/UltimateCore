@@ -24,10 +24,10 @@
 package bammerbom.ultimatecore.sponge.modules.tablist.runnables;
 
 import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;

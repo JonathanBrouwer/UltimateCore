@@ -70,7 +70,7 @@ public class UCCommandService implements CommandService {
         if (!UltimateCore.get().getCommandsConfig().get().getNode("commands", command.getIdentifier(), "enabled").getBoolean(true)) {
             return false;
         }
-        if(Sponge.getEventManager().post(new CommandRegisterEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))){
+        if (Sponge.getEventManager().post(new CommandRegisterEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))) {
             return false;
         }
         commands.add(command);
@@ -96,7 +96,7 @@ public class UCCommandService implements CommandService {
      */
     @Override
     public boolean unregister(Command command) {
-        if(Sponge.getEventManager().post(new CommandUnregisterEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))){
+        if (Sponge.getEventManager().post(new CommandUnregisterEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))) {
             return false;
         }
         return commands.remove(command);
