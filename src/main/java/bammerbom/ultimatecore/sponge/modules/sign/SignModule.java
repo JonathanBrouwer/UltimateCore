@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.config.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
+import bammerbom.ultimatecore.sponge.modules.sign.commands.SigneditCommand;
 import bammerbom.ultimatecore.sponge.modules.sign.impl.UCSignService;
 import bammerbom.ultimatecore.sponge.modules.sign.listeners.SignListener;
 import org.spongepowered.api.Sponge;
@@ -63,6 +64,8 @@ public class SignModule implements Module {
     public void onInit(GameInitializationEvent event) {
         //Listeners
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new SignListener());
+        //Commands
+        UltimateCore.get().getCommandService().register(new SigneditCommand());
     }
 
     @Override
