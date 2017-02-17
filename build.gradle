@@ -34,6 +34,10 @@ repositories {
         name = 'minecrell'
         url = 'http://repo.minecrell.net/releases'
     }
+    maven {
+        name 'bstats'
+        url = 'https://repo.bstats.org/content/groups/public/'
+    }
     flatDir {
         dirs 'libs'
     }
@@ -50,6 +54,7 @@ dependencies {
     compile 'net.minecrell:statusprotocol:0.3'
     compile 'com.maxmind.geoip2:geoip2:2.8.0'
     compile 'com.maxmind.db:maxmind-db'
+    compile 'org.bstats:bstats-sponge:1.0'
 }
 
 shadowJar {
@@ -62,6 +67,7 @@ shadowJar {
         include(dependency("com.goebl:david-webb:1.3.0"))
         include(dependency("org.json:json"))
         include(dependency('net.minecrell:statusprotocol:0.3'))
+        include(dependency('org.bstats:bstats-sponge:1.0'))
     }
 
     //Relocate
@@ -70,5 +76,6 @@ shadowJar {
     relocate 'com.goebl.david', 'dependencies.bammerbom.ultimatecore.com.goebl.david'
     relocate 'org.json', 'dependencies.bammerbom.ultimatecore.org.json'
     relocate 'net.minecrell.statusprotocol', 'dependencies.bammerbom.ultimatecore.net.minecrell.statusprotocol'
+    relocate 'org.bstats', 'dependencies.bammerbom.ultimatecore.org.bstats'
 }
 build.dependsOn(shadowJar)
