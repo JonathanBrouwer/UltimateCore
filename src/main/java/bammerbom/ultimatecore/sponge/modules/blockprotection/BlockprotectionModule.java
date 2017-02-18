@@ -24,21 +24,13 @@
 package bammerbom.ultimatecore.sponge.modules.blockprotection;
 
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
-import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.HighModule;
 import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
-import bammerbom.ultimatecore.sponge.modules.blockprotection.api.Protection;
 import bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype.LockTypeRegistry;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -58,39 +50,41 @@ public class BlockprotectionModule implements HighModule {
 
     @Override
     public void onInit(GameInitializationEvent event){
-        lockTypeRegistry.registerDefaults();
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Protection.class), new Protection.ProtectionSerializer());
-        config = new RawModuleConfig("blockprotection");
-        onReload(null);
+//        lockTypeRegistry.registerDefaults();
+//        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Protection.class), new Protection.ProtectionSerializer());
+//        config = new RawModuleConfig("blockprotection");
+//        onReload(null);
+//
+//        UltimateCore.get().getCommandService().register(new LockCommand());
     }
 
     @Override
     public void onReload(GameReloadEvent event){
-        try {
-            Set<BlockState> allowed = new HashSet<>();
-            for(String rawbs : config.get().getNode("allowed-blocks", "list").getList(TypeToken.of(String.class))){
-                try {
-                    BlockState bs = Sponge.getRegistry().getType(BlockState.class, rawbs).get();
-                    allowed.add(bs);
-                }catch (Exception ex){
-                    Messages.log("Invalid blockstate in allowed blocks of blockprotection: " + rawbs);
-                }
-            }
-            this.allowedSet = allowed;
-
-            Set<BlockState> autolock = new HashSet<>();
-            for(String rawbs : config.get().getNode("autolock-blocks", "list").getList(TypeToken.of(String.class))){
-                try {
-                    BlockState bs = Sponge.getRegistry().getType(BlockState.class, rawbs).get();
-                    allowed.add(bs);
-                }catch (Exception ex){
-                    Messages.log("Invalid blockstate in allowed blocks of blockprotection: " + rawbs);
-                }
-            }
-            this.autolockSet = autolock;
-        } catch (ObjectMappingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Set<BlockState> allowed = new HashSet<>();
+//            for(String rawbs : config.get().getNode("allowed-blocks", "list").getList(TypeToken.of(String.class))){
+//                try {
+//                    BlockState bs = Sponge.getRegistry().getType(BlockState.class, rawbs).get();
+//                    allowed.add(bs);
+//                }catch (Exception ex){
+//                    Messages.log("Invalid blockstate in allowed blocks of blockprotection: " + rawbs);
+//                }
+//            }
+//            this.allowedSet = allowed;
+//
+//            Set<BlockState> autolock = new HashSet<>();
+//            for(String rawbs : config.get().getNode("autolock-blocks", "list").getList(TypeToken.of(String.class))){
+//                try {
+//                    BlockState bs = Sponge.getRegistry().getType(BlockState.class, rawbs).get();
+//                    allowed.add(bs);
+//                }catch (Exception ex){
+//                    Messages.log("Invalid blockstate in allowed blocks of blockprotection: " + rawbs);
+//                }
+//            }
+//            this.autolockSet = autolock;
+//        } catch (ObjectMappingException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public Set<BlockState> getAllowedSet() {
