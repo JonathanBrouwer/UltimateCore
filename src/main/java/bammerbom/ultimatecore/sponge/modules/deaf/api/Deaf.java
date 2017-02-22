@@ -23,21 +23,29 @@
  */
 package bammerbom.ultimatecore.sponge.modules.deaf.api;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.text.Text;
 
 import java.util.UUID;
 
+@ConfigSerializable
 public class Deaf {
 
+    @Setting
     UUID deafd;
+    @Setting
     UUID deafr;
+    @Setting
     Long endtime;
+    @Setting
     Long starttime;
+    @Setting
     Text reason;
+
+    public Deaf() {
+
+    }
 
     public Deaf(UUID deafd, UUID deafr, Long endtime, Long starttime, Text reason) {
         this.deafd = deafd;
@@ -48,43 +56,22 @@ public class Deaf {
     }
 
     public UUID getDeafed() {
-        return deafd;
+        return this.deafd;
     }
 
     public UUID getDeafer() {
-        return deafr;
+        return this.deafr;
     }
 
     public Long getEndtime() {
-        return endtime;
+        return this.endtime;
     }
 
     public Long getStarttime() {
-        return starttime;
+        return this.starttime;
     }
 
     public Text getReason() {
-        return reason;
-    }
-
-    public static class DeafSerializer implements TypeSerializer<Deaf> {
-        @Override
-        public Deaf deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
-            UUID deafd = node.getNode("deafd").getValue(TypeToken.of(UUID.class));
-            UUID deafr = node.getNode("deafr").getValue(TypeToken.of(UUID.class));
-            Long endtime = node.getNode("endtime").getLong();
-            Long starttime = node.getNode("starttime").getLong();
-            Text reason = node.getNode("reason").getValue(TypeToken.of(Text.class));
-            return new Deaf(deafd, deafr, endtime, starttime, reason);
-        }
-
-        @Override
-        public void serialize(TypeToken<?> type, Deaf deaf, ConfigurationNode node) throws ObjectMappingException {
-            node.getNode("deafd").setValue(TypeToken.of(UUID.class), deaf.getDeafed());
-            node.getNode("deafr").setValue(TypeToken.of(UUID.class), deaf.getDeafer());
-            node.getNode("endtime").setValue(deaf.getEndtime());
-            node.getNode("starttime").setValue(deaf.getStarttime());
-            node.getNode("reason").setValue(TypeToken.of(Text.class), deaf.getReason());
-        }
+        return this.reason;
     }
 }

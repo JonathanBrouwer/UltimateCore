@@ -64,7 +64,7 @@ public class KitKeys {
             node.getNode("kits").getChildrenMap().keySet().forEach(node.getNode("kits")::removeChild);
             for (Kit kit : kits) {
                 try {
-                    node.getNode("kits", kit.getName()).setValue(TypeToken.of(Kit.class), kit);
+                    node.getNode("kits", kit.getId()).setValue(TypeToken.of(Kit.class), kit);
                 } catch (ObjectMappingException e) {
                     ErrorLogger.log(e, "Failed to save kits key");
                 }

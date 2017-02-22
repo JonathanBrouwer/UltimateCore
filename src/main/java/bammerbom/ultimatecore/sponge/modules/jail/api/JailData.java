@@ -23,10 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.jail.api;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import ninja.leaping.configurate.objectmapping.Setting;
 import org.spongepowered.api.text.Text;
 
 import java.util.UUID;
@@ -36,12 +33,22 @@ import java.util.UUID;
  * This contains information like who jailed him, for how long, etc.
  */
 public class JailData {
+    @Setting
     UUID jaild;
+    @Setting
     UUID jailr;
+    @Setting
     Long endtime;
+    @Setting
     Long starttime;
+    @Setting
     Text reason;
+    @Setting
     String jail;
+
+    public JailData() {
+
+    }
 
     public JailData(UUID jaild, UUID jailr, Long endtime, Long starttime, Text reason, String jail) {
         this.jaild = jaild;
@@ -53,49 +60,26 @@ public class JailData {
     }
 
     public UUID getJailed() {
-        return jaild;
+        return this.jaild;
     }
 
     public UUID getJailer() {
-        return jailr;
+        return this.jailr;
     }
 
     public Long getEndtime() {
-        return endtime;
+        return this.endtime;
     }
 
     public Long getStarttime() {
-        return starttime;
+        return this.starttime;
     }
 
     public Text getReason() {
-        return reason;
+        return this.reason;
     }
 
     public String getJail() {
-        return jail;
-    }
-
-    public static class JailDataSerializer implements TypeSerializer<JailData> {
-        @Override
-        public JailData deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
-            UUID jaild = node.getNode("jaild").getValue(TypeToken.of(UUID.class));
-            UUID jailr = node.getNode("jailr").getValue(TypeToken.of(UUID.class));
-            Long endtime = node.getNode("endtime").getLong();
-            Long starttime = node.getNode("starttime").getLong();
-            Text reason = node.getNode("reason").getValue(TypeToken.of(Text.class));
-            String jail = node.getNode("jail").getString();
-            return new JailData(jaild, jailr, endtime, starttime, reason, jail);
-        }
-
-        @Override
-        public void serialize(TypeToken<?> type, JailData jail, ConfigurationNode node) throws ObjectMappingException {
-            node.getNode("jaild").setValue(TypeToken.of(UUID.class), jail.getJailed());
-            node.getNode("jailr").setValue(TypeToken.of(UUID.class), jail.getJailer());
-            node.getNode("endtime").setValue(jail.getEndtime());
-            node.getNode("starttime").setValue(jail.getStarttime());
-            node.getNode("reason").setValue(TypeToken.of(Text.class), jail.getReason());
-            node.getNode("jail").setValue(jail.getJail());
-        }
+        return this.jail;
     }
 }

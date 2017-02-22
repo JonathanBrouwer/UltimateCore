@@ -27,14 +27,11 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.modules.kit.api.Kit;
 import bammerbom.ultimatecore.sponge.modules.kit.api.KitPermissions;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.CreatekitCommand;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.KitCommand;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.KitlistCommand;
 import bammerbom.ultimatecore.sponge.modules.kit.commands.RemovekitCommand;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -57,7 +54,7 @@ public class KitModule implements Module {
 
     @Override
     public Optional<ModuleConfig> getConfig() {
-        return Optional.of(config);
+        return Optional.of(this.config);
     }
 
     @Override
@@ -67,8 +64,7 @@ public class KitModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        config = new RawModuleConfig("kit");
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Kit.class), new Kit.KitSerializer());
+        this.config = new RawModuleConfig("kit");
 
         //Commands
         UltimateCore.get().getCommandService().register(new KitCommand());

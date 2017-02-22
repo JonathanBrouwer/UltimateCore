@@ -73,7 +73,7 @@ public class RemovekitCommand implements HighCommand {
 
         kits.remove(kit);
         GlobalData.offer(KitKeys.KITS, kits);
-        Messages.send(sender, "kit.command.removekit.success", "%kit%", kit.getName());
+        Messages.send(sender, "kit.command.removekit.success", "%kit%", kit.getId());
         return CommandResult.success();
     }
 }

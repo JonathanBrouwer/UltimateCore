@@ -91,10 +91,10 @@ public class KitCommand implements HighCommand {
             List<Text> texts = new ArrayList<>();
             //Add entry to texts for every kit
             for (Kit kit : kits) {
-                if (!sender.hasPermission("uc.kit.kit." + kit.getName().toLowerCase())) {
+                if (!sender.hasPermission("uc.kit.kit." + kit.getId().toLowerCase())) {
                     continue;
                 }
-                texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getName(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getName()))).onClick(TextActions.runCommand("/kit " + kit.getName())).build());
+                texts.add(Messages.getFormatted("kit.command.kitlist.entry", "%kit%", kit.getId(), "%description%", kit.getDescription()).toBuilder().onHover(TextActions.showText(Messages.getFormatted("kit.command.kitlist.hoverentry", "%kit%", kit.getId()))).onClick(TextActions.runCommand("/kit " + kit.getId())).build());
             }
             //If empty send message
             if (texts.isEmpty()) {
@@ -114,16 +114,16 @@ public class KitCommand implements HighCommand {
         //Try to find kit
         Kit kit = args.<Kit>getOne("kit").get();
         //Check permissions
-        checkPermission(sender, "uc.kit.kit." + kit.getName().toLowerCase());
+        checkPermission(sender, "uc.kit.kit." + kit.getId().toLowerCase());
         //Check & set lastused
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
         HashMap<String, Long> lastused = up.get(KitKeys.KIT_LASTUSED).get();
-        Long kitlastused = lastused.get(kit.getName()) != null ? lastused.get(kit.getName()) : 0L;
+        Long kitlastused = lastused.get(kit.getId()) != null ? lastused.get(kit.getId()) : 0L;
         Long kitcooldown = kit.getCooldown();
         if (!sender.hasPermission(KitPermissions.UC_KIT_COOLDOWN_EXEMPT.get()) && ((kitcooldown <= -1L && kitlastused != 0L) || (System.currentTimeMillis() - kitlastused) < kitcooldown)) {
             throw new ErrorMessageException(Messages.getFormatted(sender, "kit.command.kit.cooldown", "%time%", TimeUtil.format(kitcooldown - (System.currentTimeMillis() - kitlastused))));
         }
-        lastused.put(kit.getName(), System.currentTimeMillis());
+        lastused.put(kit.getId(), System.currentTimeMillis());
         up.offer(KitKeys.KIT_LASTUSED, lastused);
 
         //Give items
@@ -135,7 +135,7 @@ public class KitCommand implements HighCommand {
                 p.getWorld().spawnEntity(itementity, Cause.builder().owner(UltimateCore.get()).named(NamedCause.of("player", p)).build());
             });
         }
-        Messages.send(sender, "kit.command.kit.success", "%kit%", kit.getName());
+        Messages.send(sender, "kit.command.kit.success", "%kit%", kit.getId());
         return CommandResult.success();
     }
 }

@@ -26,14 +26,11 @@ package bammerbom.ultimatecore.sponge.modules.deaf;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.modules.deaf.api.Deaf;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafPermissions;
 import bammerbom.ultimatecore.sponge.modules.deaf.commands.DeafCommand;
 import bammerbom.ultimatecore.sponge.modules.deaf.commands.UndeafCommand;
 import bammerbom.ultimatecore.sponge.modules.deaf.listeners.DeafListener;
 import bammerbom.ultimatecore.sponge.modules.deaf.runnables.DeafTickRunnable;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -65,7 +62,6 @@ public class DeafModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Deaf.class), new Deaf.DeafSerializer());
         UltimateCore.get().getCommandService().register(new DeafCommand());
         UltimateCore.get().getCommandService().register(new UndeafCommand());
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new DeafListener());

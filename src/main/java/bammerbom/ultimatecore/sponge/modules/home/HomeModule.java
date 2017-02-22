@@ -26,14 +26,11 @@ package bammerbom.ultimatecore.sponge.modules.home;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.modules.home.api.Home;
 import bammerbom.ultimatecore.sponge.modules.home.api.HomePermissions;
 import bammerbom.ultimatecore.sponge.modules.home.commands.DelhomeCommand;
 import bammerbom.ultimatecore.sponge.modules.home.commands.HomeCommand;
 import bammerbom.ultimatecore.sponge.modules.home.commands.HomelistCommand;
 import bammerbom.ultimatecore.sponge.modules.home.commands.SethomeCommand;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -66,8 +63,6 @@ public class HomeModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        //Config
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Home.class), new Home.HomeSerializer());
         //Commands
         UltimateCore.get().getCommandService().register(new HomelistCommand());
         UltimateCore.get().getCommandService().register(new HomeCommand());

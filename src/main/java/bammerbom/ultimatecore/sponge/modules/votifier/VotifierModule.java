@@ -32,7 +32,6 @@ import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
 import bammerbom.ultimatecore.sponge.api.variable.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VoteSerializer;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierScheme;
-import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierSchemeSerializer;
 import bammerbom.ultimatecore.sponge.modules.votifier.listeners.VotifierListener;
 import bammerbom.ultimatecore.sponge.modules.votifier.runnables.VotifierTickRunnable;
 import com.google.common.reflect.TypeToken;
@@ -59,7 +58,7 @@ public class VotifierModule implements HighModule {
 
     @Override
     public Optional<? extends ModuleConfig> getConfig() {
-        return Optional.ofNullable(config);
+        return Optional.ofNullable(this.config);
     }
 
     @Override
@@ -72,42 +71,23 @@ public class VotifierModule implements HighModule {
 
         //Config
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Vote.class), new VoteSerializer());
-        VotifierSchemeSerializer schemeSerializer = new VotifierSchemeSerializer();
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(VotifierScheme.class), schemeSerializer);
-        config = new RawModuleConfig("votifier");
+        this.config = new RawModuleConfig("votifier");
 
-        try {
-            schemes = config.get().getNode("schemes").getList(TypeToken.of(VotifierScheme.class));
-            config.get().getNode("cumulative-schemes").getChildrenMap().forEach((number, node) -> {
-                if (!ArgumentUtil.isInteger(number.toString())) {
-                    return;
-                }
-                Integer num = Integer.parseInt(number.toString());
-                try {
-                    VotifierScheme scheme = schemeSerializer.deserialize(TypeToken.of(VotifierScheme.class), node);
-                    cumulativeSchemes.put(num, scheme);
-                } catch (ObjectMappingException e) {
-                    e.printStackTrace();
-                }
-            });
-        } catch (ObjectMappingException e) {
-            e.printStackTrace();
-        }
+        onReload(null);
     }
 
     @Override
     public void onReload(@Nullable GameReloadEvent event) {
         try {
-            VotifierSchemeSerializer schemeSerializer = new VotifierSchemeSerializer();
-            schemes = config.get().getNode("schemes").getList(TypeToken.of(VotifierScheme.class));
-            config.get().getNode("cumulative-schemes").getChildrenMap().forEach((number, node) -> {
+            this.schemes = this.config.get().getNode("schemes").getList(TypeToken.of(VotifierScheme.class));
+            this.config.get().getNode("cumulative-schemes").getChildrenMap().forEach((number, node) -> {
                 if (!ArgumentUtil.isInteger(number.toString())) {
                     return;
                 }
                 Integer num = Integer.parseInt(number.toString());
                 try {
-                    VotifierScheme scheme = schemeSerializer.deserialize(TypeToken.of(VotifierScheme.class), node);
-                    cumulativeSchemes.put(num, scheme);
+                    VotifierScheme scheme = node.getValue(TypeToken.of(VotifierScheme.class));
+                    this.cumulativeSchemes.put(num, scheme);
                 } catch (ObjectMappingException e) {
                     e.printStackTrace();
                 }
@@ -118,10 +98,10 @@ public class VotifierModule implements HighModule {
     }
 
     public List<VotifierScheme> getSchemes() {
-        return schemes;
+        return this.schemes;
     }
 
     public HashMap<Integer, VotifierScheme> getCumulativeSchemes() {
-        return cumulativeSchemes;
+        return this.cumulativeSchemes;
     }
 }

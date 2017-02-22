@@ -23,17 +23,23 @@
  */
 package bammerbom.ultimatecore.sponge.modules.warp.api;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
+@ConfigSerializable
 public class Warp {
+    @Setting
     String name;
+    @Setting
     String description;
+    @Setting
     Transform<World> location;
+
+    public Warp() {
+        
+    }
 
     public Warp(String name, String description, Transform<World> location) {
         this.name = name;
@@ -42,31 +48,14 @@ public class Warp {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public Transform<World> getLocation() {
-        return location;
-    }
-
-    public static class WarpSerializer implements TypeSerializer<Warp> {
-        @Override
-        public Warp deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
-            String name = node.getNode("name").getString();
-            String description = node.getNode("description").getString();
-            Transform<World> location = node.getNode("location").getValue(TypeToken.of(Transform.class));
-            return new Warp(name, description, location);
-        }
-
-        @Override
-        public void serialize(TypeToken<?> type, Warp warp, ConfigurationNode node) throws ObjectMappingException {
-            node.getNode("name").setValue(warp.getName());
-            node.getNode("description").setValue(warp.getDescription());
-            node.getNode("location").setValue(TypeToken.of(Transform.class), warp.getLocation());
-        }
+        return this.location;
     }
 }

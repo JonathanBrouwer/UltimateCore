@@ -23,15 +23,14 @@
  */
 package bammerbom.ultimatecore.sponge.modules.home.api;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import ninja.leaping.configurate.objectmapping.Setting;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
 public class Home {
+    @Setting
     String name;
+    @Setting
     Transform<World> location;
 
     public Home(String name, Transform<World> location) {
@@ -40,25 +39,10 @@ public class Home {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Transform<World> getLocation() {
-        return location;
-    }
-
-    public static class HomeSerializer implements TypeSerializer<Home> {
-        @Override
-        public Home deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
-            String name = node.getNode("name").getString();
-            Transform<World> location = node.getNode("location").getValue(TypeToken.of(Transform.class));
-            return new Home(name, location);
-        }
-
-        @Override
-        public void serialize(TypeToken<?> type, Home home, ConfigurationNode node) throws ObjectMappingException {
-            node.getNode("name").setValue(home.getName());
-            node.getNode("location").setValue(TypeToken.of(Transform.class), home.getLocation());
-        }
+        return this.location;
     }
 }

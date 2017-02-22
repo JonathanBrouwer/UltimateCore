@@ -23,51 +23,55 @@
  */
 package bammerbom.ultimatecore.sponge.modules.kit.api;
 
-import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.util.List;
 
+@ConfigSerializable
 public class Kit {
-    String name;
-    Text description;
+    @Setting
+    String id;
+    @Setting
+    String description;
+    @Setting
     List<ItemStackSnapshot> items;
+    @Setting
     List<String> commands;
+    @Setting
     Long cooldown;
 
-    public Kit(String id, Text description, List<ItemStackSnapshot> items, List<String> commands, Long cooldown) {
-        this.name = id;
+    public Kit() {
+
+    }
+
+    public Kit(String id, String description, List<ItemStackSnapshot> items, List<String> commands, Long cooldown) {
+        this.id = id;
         this.description = description;
         this.items = items;
         this.commands = commands;
         this.cooldown = cooldown;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return this.id;
     }
 
-    public void setName(String id) {
-        this.name = id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public Text getDescription() {
-        return description;
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setDescription(Text description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
     public List<ItemStackSnapshot> getItems() {
-        return items;
+        return this.items;
     }
 
     public void setItems(List<ItemStackSnapshot> items) {
@@ -75,7 +79,7 @@ public class Kit {
     }
 
     public List<String> getCommands() {
-        return commands;
+        return this.commands;
     }
 
     public void setCommands(List<String> commands) {
@@ -83,37 +87,14 @@ public class Kit {
     }
 
     public boolean hasCooldown() {
-        return cooldown > 0;
+        return this.cooldown > 0;
     }
 
     public Long getCooldown() {
-        return cooldown;
+        return this.cooldown;
     }
 
     public void setCooldown(Long cooldown) {
         this.cooldown = cooldown;
-    }
-
-    public static class KitSerializer implements TypeSerializer<Kit> {
-
-        @Override
-        public Kit deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
-            String id = node.getNode("id").getString();
-            Text desc = Messages.toText(node.getNode("description").getString());
-            List<ItemStackSnapshot> items = node.getNode("items").getList(TypeToken.of(ItemStackSnapshot.class));
-            List<String> cmds = node.getNode("commands").getList(TypeToken.of(String.class));
-            Long cooldown = TimeUtil.parse(node.getNode("cooldown").getString());
-            return new Kit(id, desc, items, cmds, cooldown);
-        }
-
-        @Override
-        public void serialize(TypeToken<?> type, Kit kit, ConfigurationNode node) throws ObjectMappingException {
-            node.getNode("id").setValue(kit.getName());
-            node.getNode("description").setValue(TextSerializers.JSON.serialize(kit.getDescription()));
-            node.getNode("items").setValue(new TypeToken<List<ItemStackSnapshot>>() {
-            }, kit.getItems());
-            node.getNode("commands").setValue(kit.getCommands());
-            node.getNode("cooldown").setValue(kit.getCooldown());
-        }
     }
 }

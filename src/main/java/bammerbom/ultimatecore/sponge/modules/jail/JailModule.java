@@ -27,14 +27,10 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;
-import bammerbom.ultimatecore.sponge.modules.jail.api.JailData;
 import bammerbom.ultimatecore.sponge.modules.jail.api.JailPermissions;
 import bammerbom.ultimatecore.sponge.modules.jail.commands.*;
 import bammerbom.ultimatecore.sponge.modules.jail.listeners.JailListener;
 import bammerbom.ultimatecore.sponge.modules.jail.runnables.JailTickRunnable;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -64,7 +60,7 @@ public class JailModule implements Module {
 
     @Override
     public Optional<ModuleConfig> getConfig() {
-        return Optional.of(config);
+        return Optional.of(this.config);
     }
 
     @Override
@@ -74,9 +70,7 @@ public class JailModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        config = new RawModuleConfig("jail");
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Jail.class), new Jail.JailSerializer());
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(JailData.class), new JailData.JailDataSerializer());
+        this.config = new RawModuleConfig("jail");
 
         UltimateCore.get().getCommandService().register(new SetjailCommand());
         UltimateCore.get().getCommandService().register(new DeljailCommand());

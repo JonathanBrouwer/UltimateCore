@@ -23,21 +23,29 @@
  */
 package bammerbom.ultimatecore.sponge.modules.mute.api;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.text.Text;
 
 import java.util.UUID;
 
+@ConfigSerializable
 public class Mute {
 
+    @Setting
     UUID muted;
+    @Setting
     UUID muter;
+    @Setting
     Long endtime;
+    @Setting
     Long starttime;
+    @Setting
     Text reason;
+
+    public Mute() {
+
+    }
 
     public Mute(UUID muted, UUID muter, Long endtime, Long starttime, Text reason) {
         this.muted = muted;
@@ -48,43 +56,22 @@ public class Mute {
     }
 
     public UUID getMuted() {
-        return muted;
+        return this.muted;
     }
 
     public UUID getMuter() {
-        return muter;
+        return this.muter;
     }
 
     public Long getEndtime() {
-        return endtime;
+        return this.endtime;
     }
 
     public Long getStarttime() {
-        return starttime;
+        return this.starttime;
     }
 
     public Text getReason() {
-        return reason;
-    }
-
-    public static class MuteSerializer implements TypeSerializer<Mute> {
-        @Override
-        public Mute deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
-            UUID muted = node.getNode("muted").getValue(TypeToken.of(UUID.class));
-            UUID muter = node.getNode("muter").getValue(TypeToken.of(UUID.class));
-            Long endtime = node.getNode("endtime").getLong();
-            Long starttime = node.getNode("starttime").getLong();
-            Text reason = node.getNode("reason").getValue(TypeToken.of(Text.class));
-            return new Mute(muted, muter, endtime, starttime, reason);
-        }
-
-        @Override
-        public void serialize(TypeToken<?> type, Mute mute, ConfigurationNode node) throws ObjectMappingException {
-            node.getNode("muted").setValue(TypeToken.of(UUID.class), mute.getMuted());
-            node.getNode("muter").setValue(TypeToken.of(UUID.class), mute.getMuter());
-            node.getNode("endtime").setValue(mute.getEndtime());
-            node.getNode("starttime").setValue(mute.getStarttime());
-            node.getNode("reason").setValue(TypeToken.of(Text.class), mute.getReason());
-        }
+        return this.reason;
     }
 }
