@@ -41,6 +41,7 @@ import java.util.function.Consumer;
 public class BlockSelectionTask implements SelectionTask<Location<World>> {
 
     static HashMap<UUID, Consumer<Location<World>>> consumers = new HashMap<>();
+
     static {
         //Register events after first use
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new BlockSelectionTask());
@@ -53,10 +54,10 @@ public class BlockSelectionTask implements SelectionTask<Location<World>> {
     }
 
     @Listener
-    public void onInteract(InteractBlockEvent.Secondary event, @First Player p){
-        if(!consumers.containsKey(p.getUniqueId())) return;
+    public void onInteract(InteractBlockEvent.Secondary event, @First Player p) {
+        if (!consumers.containsKey(p.getUniqueId())) return;
         Location loc = event.getTargetBlock().getLocation().orElse(null);
-        if(loc == null) return;
+        if (loc == null) return;
         consumers.remove(p.getUniqueId()).accept(loc);
     }
 }

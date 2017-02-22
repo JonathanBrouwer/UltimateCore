@@ -31,5 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockprotectionKeys {
-    public static Key.Global<List<Protection>> PROTECTIONS = new Key.Global<>("protections", new GlobalKeyProvider<>("protections", "protections", new TypeToken<List<Protection>>() {}, new ArrayList<>()));
+    public static Key.Global<List<Protection>> PROTECTIONS = new Key.Global<>("protections", new GlobalKeyProvider<>("protections", "protections", new TypeToken<List<Protection>>() {
+    }, new ArrayList<>()));
 }

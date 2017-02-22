@@ -39,7 +39,7 @@ public interface Module {
     /**
      * Returns whether the module is enabled
      */
-    default boolean isEnabled(){
+    default boolean isEnabled() {
         return UltimateCore.get().getModuleService().getModules().contains(this);
     }
 

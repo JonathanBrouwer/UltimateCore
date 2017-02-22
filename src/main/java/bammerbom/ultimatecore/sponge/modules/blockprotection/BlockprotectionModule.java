@@ -44,12 +44,12 @@ public class BlockprotectionModule implements HighModule {
     Set<BlockState> autolockSet;
 
     @Override
-    public Optional<ModuleConfig> getConfig(){
+    public Optional<ModuleConfig> getConfig() {
         return Optional.of(config);
     }
 
     @Override
-    public void onInit(GameInitializationEvent event){
+    public void onInit(GameInitializationEvent event) {
 //        lockTypeRegistry.registerDefaults();
 //        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Protection.class), new Protection.ProtectionSerializer());
 //        config = new RawModuleConfig("blockprotection");
@@ -59,7 +59,7 @@ public class BlockprotectionModule implements HighModule {
     }
 
     @Override
-    public void onReload(GameReloadEvent event){
+    public void onReload(GameReloadEvent event) {
 //        try {
 //            Set<BlockState> allowed = new HashSet<>();
 //            for(String rawbs : config.get().getNode("allowed-blocks", "list").getList(TypeToken.of(String.class))){

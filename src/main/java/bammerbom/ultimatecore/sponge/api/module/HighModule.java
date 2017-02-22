@@ -31,11 +31,11 @@ public interface HighModule extends Module {
      * This should return name of the module
      * For example: afk, ban, etc
      */
-    default String getIdentifier(){
+    default String getIdentifier() {
         if (getClass().isAnnotationPresent(ModuleInfo.class)) {
             ModuleInfo moduleInfo = getClass().getAnnotation(ModuleInfo.class);
             return moduleInfo.name();
-        }else{
+        } else {
             return null;
         }
     }
@@ -46,11 +46,11 @@ public interface HighModule extends Module {
      *
      * @return The description
      */
-    default Text getDescription(){
+    default Text getDescription() {
         if (getClass().isAnnotationPresent(ModuleInfo.class)) {
             ModuleInfo moduleInfo = getClass().getAnnotation(ModuleInfo.class);
             return Text.of(moduleInfo.description());
-        }else{
+        } else {
             return Text.of();
         }
     }

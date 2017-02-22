@@ -70,7 +70,7 @@ public class SigneditCommand implements HighPermCommand {
             sign.offer(Keys.SIGN_LINES, sign.getSignData().lines().set(line - 1, text).get());
             Messages.send(sender, "sign.command.signedit.success", "%line%", line, "%text%", text);
             return CommandResult.success();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw Messages.error(sender, "sign.command.signedit.nosign");
         }
     }

@@ -33,14 +33,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class BlockprotectionUtils {
-    public static boolean overlap(Protection a, Protection b){
+    public static boolean overlap(Protection a, Protection b) {
         return a.getLocations().stream().filter(loc -> b.getLocations().contains(loc)).count() > 0;
     }
 
-    public static Optional<Protection> isProtected(Location<World> loc){
+    public static Optional<Protection> isProtected(Location<World> loc) {
         List<Protection> prots = GlobalData.get(BlockprotectionKeys.PROTECTIONS).get();
-        for(Protection prot : prots){
-            if(prot.getLocations().contains(loc)){
+        for (Protection prot : prots) {
+            if (prot.getLocations().contains(loc)) {
                 return Optional.of(prot);
             }
         }

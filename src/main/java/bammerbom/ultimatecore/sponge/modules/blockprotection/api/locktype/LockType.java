@@ -35,8 +35,9 @@ import org.spongepowered.api.util.annotation.CatalogedBy;
 @CatalogedBy(LockTypes.class)
 public interface LockType extends CatalogType {
     boolean shouldBeCancelled();
-    default Text getErrorMessage(Player receiver, Protection prot){
+
+    default Text getErrorMessage(Player receiver, Protection prot) {
         UltimateUser user = UltimateCore.get().getUserService().getUser(prot.getOwner()).orElse(null);
-        return Messages.getFormatted(receiver,"blockprotection.error." + getId(), "%player%", user != null ? user.getName() : "?");
+        return Messages.getFormatted(receiver, "blockprotection.error." + getId(), "%player%", user != null ? user.getName() : "?");
     }
 }

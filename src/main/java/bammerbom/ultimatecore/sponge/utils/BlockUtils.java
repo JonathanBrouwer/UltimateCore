@@ -29,12 +29,12 @@ import org.spongepowered.api.data.key.Key;
 import java.util.Set;
 
 public class BlockUtils {
-    public static boolean matches(BlockState a, BlockState b){
-        if(!a.getType().equals(b.getType())) return false;
+    public static boolean matches(BlockState a, BlockState b) {
+        if (!a.getType().equals(b.getType())) return false;
 
         Set<Key<?>> aKeys = a.getKeys();
-        for(Key bKey : b.getKeys()){
-            if(aKeys.contains(bKey) && a.get(bKey).equals(b.get(bKey))){
+        for (Key bKey : b.getKeys()) {
+            if (aKeys.contains(bKey) && a.get(bKey).equals(b.get(bKey))) {
                 continue;
             }
             return false;

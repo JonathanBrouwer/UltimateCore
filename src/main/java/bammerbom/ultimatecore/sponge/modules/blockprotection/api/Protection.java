@@ -44,7 +44,7 @@ public class Protection {
     private List<UUID> players;
     private LockType locktype;
 
-    public Protection(Set<Location<World>> locations, UUID owner, List<UUID> players, LockType locktype){
+    public Protection(Set<Location<World>> locations, UUID owner, List<UUID> players, LockType locktype) {
         this.locations = locations;
         this.owner = owner;
         this.players = players;
@@ -89,11 +89,12 @@ public class Protection {
             LockTypeRegistry registry = ((BlockprotectionModule) Modules.BLOCKPROTECTION.get()).getLockTypeRegistry();
 
             HashSet<Location<World>> locations = new HashSet<>();
-            locations.addAll(node.getNode("locations").getList(new TypeToken<Location<World>>() {}));
+            locations.addAll(node.getNode("locations").getList(new TypeToken<Location<World>>() {
+            }));
             UUID owner = UUID.fromString(node.getNode("owner").getString());
             List<UUID> players = node.getNode("players").getList(TypeToken.of(String.class)).stream().map(UUID::fromString).collect(Collectors.toList());
             LockType ltype = registry.getById(node.getNode("locktype").getString()).orElseThrow(() -> new ObjectMappingException("Invalid locktype"));
-            if(ltype instanceof ValueLockType){
+            if (ltype instanceof ValueLockType) {
                 ((ValueLockType) ltype).setValue(node.getNode("locktype-value").getString());
             }
 
@@ -102,11 +103,12 @@ public class Protection {
 
         @Override
         public void serialize(TypeToken<?> type, Protection prot, ConfigurationNode node) throws ObjectMappingException {
-            node.getNode("locations").setValue(new TypeToken<List<Location>>(){}, new ArrayList<>(prot.getLocations()));
+            node.getNode("locations").setValue(new TypeToken<List<Location>>() {
+            }, new ArrayList<>(prot.getLocations()));
             node.getNode("owner").setValue(prot.getOwner().toString());
             node.getNode("players").setValue(prot.getPlayers().stream().map(UUID::toString).collect(Collectors.toList()));
             node.getNode("locktype").setValue(prot.getLocktype().getId());
-            if(prot.getLocktype() instanceof ValueLockType){
+            if (prot.getLocktype() instanceof ValueLockType) {
                 node.getNode("locktype-value", ((ValueLockType) prot.getLocktype()).getValue());
             }
         }

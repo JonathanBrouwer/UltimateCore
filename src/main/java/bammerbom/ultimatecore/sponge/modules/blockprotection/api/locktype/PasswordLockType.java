@@ -26,7 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype;
 public class PasswordLockType implements ValueLockType {
     private String password;
 
-    public PasswordLockType(String password){
+    public PasswordLockType(String password) {
         this.password = password;
     }
 
@@ -40,7 +40,7 @@ public class PasswordLockType implements ValueLockType {
         return "Password";
     }
 
-    public String getValue(){
+    public String getValue() {
         return password;
     }
 

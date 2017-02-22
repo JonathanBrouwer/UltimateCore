@@ -25,5 +25,6 @@ package bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype;
 
 public interface ValueLockType extends LockType {
     String getValue();
+
     void setValue(String value);
 }

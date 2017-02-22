@@ -40,17 +40,17 @@ import java.util.stream.Collectors;
 public class BlockprotectionListener {
 
     @Listener
-    public void onInteractPrimary(InteractBlockEvent.Primary event, @First Player p){
+    public void onInteractPrimary(InteractBlockEvent.Primary event, @First Player p) {
         ModuleConfig config = Modules.BLOCKPROTECTION.get().getConfig().get();
-        if(!config.get().getNode("protections", "allow-interact-primary").getBoolean()) return;
-        if(!event.getTargetBlock().getLocation().isPresent()) return;
+        if (!config.get().getNode("protections", "allow-interact-primary").getBoolean()) return;
+        if (!event.getTargetBlock().getLocation().isPresent()) return;
 
-        for(Protection prot : GlobalData.get(BlockprotectionKeys.PROTECTIONS).get()){
-            if(prot.getPlayers().contains(p.getUniqueId())) continue;
-            if(!prot.getLocations().contains(event.getTargetBlock().getLocation().get())) continue;
+        for (Protection prot : GlobalData.get(BlockprotectionKeys.PROTECTIONS).get()) {
+            if (prot.getPlayers().contains(p.getUniqueId())) continue;
+            if (!prot.getLocations().contains(event.getTargetBlock().getLocation().get())) continue;
 
             //Check if it should be cancelled
-            if(prot.getLocktype().shouldBeCancelled()){
+            if (prot.getLocktype().shouldBeCancelled()) {
                 event.setCancelled(true);
                 p.sendMessage(prot.getLocktype().getErrorMessage(p, prot));
             }
@@ -58,17 +58,17 @@ public class BlockprotectionListener {
     }
 
     @Listener
-    public void onInteractSecondary(InteractBlockEvent.Secondary event, @First Player p){
+    public void onInteractSecondary(InteractBlockEvent.Secondary event, @First Player p) {
         ModuleConfig config = Modules.BLOCKPROTECTION.get().getConfig().get();
-        if(!config.get().getNode("protections", "allow-interact-secondary").getBoolean()) return;
-        if(!event.getTargetBlock().getLocation().isPresent()) return;
+        if (!config.get().getNode("protections", "allow-interact-secondary").getBoolean()) return;
+        if (!event.getTargetBlock().getLocation().isPresent()) return;
 
-        for(Protection prot : GlobalData.get(BlockprotectionKeys.PROTECTIONS).get()){
-            if(prot.getPlayers().contains(p.getUniqueId())) continue;
-            if(!prot.getLocations().contains(event.getTargetBlock().getLocation().get())) continue;
+        for (Protection prot : GlobalData.get(BlockprotectionKeys.PROTECTIONS).get()) {
+            if (prot.getPlayers().contains(p.getUniqueId())) continue;
+            if (!prot.getLocations().contains(event.getTargetBlock().getLocation().get())) continue;
 
             //Check if it should be cancelled
-            if(prot.getLocktype().shouldBeCancelled()){
+            if (prot.getLocktype().shouldBeCancelled()) {
                 event.setCancelled(true);
                 p.sendMessage(prot.getLocktype().getErrorMessage(p, prot));
             }
@@ -76,23 +76,23 @@ public class BlockprotectionListener {
     }
 
     @Listener
-    public void onBreak(ChangeBlockEvent.Break event){
+    public void onBreak(ChangeBlockEvent.Break event) {
         ModuleConfig config = Modules.BLOCKPROTECTION.get().getConfig().get();
-        if(!config.get().getNode("protections", "allow-interact-primary").getBoolean()) return;
+        if (!config.get().getNode("protections", "allow-interact-primary").getBoolean()) return;
         Player p = event.getCause().first(Player.class).orElse(null);
 
         boolean modified = false;
-        for(Protection prot : GlobalData.get(BlockprotectionKeys.PROTECTIONS).get()){
+        for (Protection prot : GlobalData.get(BlockprotectionKeys.PROTECTIONS).get()) {
             //Ignore protection if the player is allowed to modify it
-            if(p != null && prot.getPlayers().contains(p.getUniqueId())) continue;
+            if (p != null && prot.getPlayers().contains(p.getUniqueId())) continue;
             //For each location of the protection,
-            for(Transaction trans : event.getTransactions().stream().filter(trans -> trans.getFinal().getLocation().isPresent() && prot.getLocations().contains(trans.getFinal().getLocation().get())).collect(Collectors.toList())){
+            for (Transaction trans : event.getTransactions().stream().filter(trans -> trans.getFinal().getLocation().isPresent() && prot.getLocations().contains(trans.getFinal().getLocation().get())).collect(Collectors.toList())) {
                 modified = true;
                 trans.setValid(false);
             }
 
             //If anything has been cancelled & caused by player, send message
-            if(p != null && modified) {
+            if (p != null && modified) {
                 p.sendMessage(prot.getLocktype().getErrorMessage(p, prot));
             }
         }

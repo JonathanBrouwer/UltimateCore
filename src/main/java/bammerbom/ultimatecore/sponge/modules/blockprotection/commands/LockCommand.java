@@ -63,7 +63,7 @@ public class LockCommand implements HighPermCommand {
             Messages.log(loc.getKeys());
             Messages.log("--");
             loc.getBlock().getTraitMap().forEach((blockTrait, o) -> Messages.log(blockTrait + " - " + o));
-            
+
             //Messages.log("--");
             //locs.forEach(l -> Messages.log(l.getPosition()));
         });
