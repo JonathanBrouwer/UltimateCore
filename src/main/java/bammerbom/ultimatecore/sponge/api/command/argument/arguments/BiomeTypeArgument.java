@@ -21,24 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.utils;
+package bammerbom.ultimatecore.sponge.api.command.argument.arguments;
 
-import org.spongepowered.api.block.BlockState;
-import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.CatalogTypes;
+import org.spongepowered.api.text.Text;
 
-import java.util.Set;
+import javax.annotation.Nullable;
 
-public class BlockUtils {
-    public static boolean matches(BlockState a, BlockState b) {
-        if (!a.getType().equals(b.getType())) return false;
-
-        Set<Key<?>> aKeys = a.getKeys();
-        for (Key bKey : b.getKeys()) {
-            if (aKeys.contains(bKey) && a.get(bKey).equals(b.get(bKey))) {
-                continue;
-            }
-            return false;
-        }
-        return true;
+public class BiomeTypeArgument extends CatalogedArgument {
+    public BiomeTypeArgument(@Nullable Text key) {
+        super(key, CatalogTypes.BIOME_TYPE, "teleport.biometypenotfound");
     }
 }

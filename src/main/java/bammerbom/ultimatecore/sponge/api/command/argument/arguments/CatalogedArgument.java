@@ -52,15 +52,15 @@ public class CatalogedArgument extends UCommandElement {
     @Override
     public Object parseValue(CommandSource sender, CommandArgs args) throws ArgumentParseException {
         String value = args.next();
-        Optional type = Sponge.getRegistry().getType(clas, value);
+        Optional type = Sponge.getRegistry().getType(this.clas, value);
         if (!type.isPresent()) {
-            throw args.createError(Messages.getFormatted(sender, message, "%type%", value));
+            throw args.createError(Messages.getFormatted(sender, this.message, "%type%", value));
         }
         return type.get();
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        return Sponge.getRegistry().getAllOf(clas).stream().map(CatalogType::getId).collect(Collectors.toList());
+        return Sponge.getRegistry().getAllOf(this.clas).stream().map(CatalogType::getId).map(id -> id.startsWith("minecraft:") ? id.replaceFirst("minecraft:", "") : id).collect(Collectors.toList());
     }
 }

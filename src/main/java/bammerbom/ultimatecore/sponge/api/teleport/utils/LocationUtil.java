@@ -31,23 +31,41 @@ import org.spongepowered.api.world.World;
 import java.util.Optional;
 
 public class LocationUtil {
+
+    public static Optional<Location<World>> getHighestLoc(Location<World> loc) {
+        Optional<Integer> y = getHighestY(loc.getExtent(), loc.getX(), loc.getZ());
+        return y.map(integer -> new Location<>(loc.getExtent(), loc.getX(), integer, loc.getZ()));
+    }
+
     /**
-     * Gets the highest y of the specified location, or -1 if not possible.
+     * Gets the highest y of the specified location, or Optional#empty if not possible.
      *
      * @param w The world
      * @param x The x coordinate
      * @param z The z coordinate
      * @return The y coordinate of the highest solid block
      */
-    public static int getHighestY(World w, Double x, Double z) {
+    public static Optional<Integer> getHighestY(World w, Integer x, Integer z) {
+        return getHighestY(w, (double) x, (double) z);
+    }
+
+    /**
+     * Gets the highest y of the specified location, or Optional#empty if not possible.
+     *
+     * @param w The world
+     * @param x The x coordinate
+     * @param z The z coordinate
+     * @return The y coordinate of the highest solid block
+     */
+    public static Optional<Integer> getHighestY(World w, Double x, Double z) {
         int y = w.getBlockMax().getY();
         while (isPassable(w, x, y, z)) {
             y = y - 1;
             if (y <= 0) {
-                return -1;
+                return Optional.empty();
             }
         }
-        return y;
+        return Optional.of(y);
     }
 
     private static boolean isPassable(World w, Double x, int y, Double z) {
