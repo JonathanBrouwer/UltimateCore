@@ -93,7 +93,7 @@ public class CommandtimerListener {
         }
 
         //If successful, add cooldown to user
-        if (event.getResult().getSuccessCount().orElse(0) > 0) {
+        if (event.getResult() != null && event.getResult().getSuccessCount().orElse(0) > 0) {
             userlastexecuteds.put(event.getCommand().getFullIdentifier(), System.currentTimeMillis());
             user.offer(CommandtimerKeys.USER_LASTEXECUTED, userlastexecuteds);
         }

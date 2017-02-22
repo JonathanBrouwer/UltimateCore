@@ -56,17 +56,17 @@ public class HelpSubCommand implements HighSubCommand {
 
     @Override
     public Module getModule() {
-        return cmd.getModule();
+        return this.cmd.getModule();
     }
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("?", "help");
+        return Arrays.asList("?");
     }
 
     @Override
     public HighPermCommand getParent() {
-        return cmd;
+        return this.cmd;
     }
 
     @Override
@@ -78,14 +78,14 @@ public class HelpSubCommand implements HighSubCommand {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         List<Text> texts = new ArrayList<>();
         //Add entries to texts
-        texts.add(Messages.getFormatted(src, "core.help.module", "%module%", cmd.getModule().getIdentifier()));
+        texts.add(Messages.getFormatted(src, "core.help.module", "%module%", this.cmd.getModule().getIdentifier()));
         texts.add(Text.of());
-        texts.add(Messages.getFormatted(src, "core.help.description", "%description%", cmd.getLongDescription(src)));
+        texts.add(Messages.getFormatted(src, "core.help.description", "%description%", this.cmd.getLongDescription(src)));
         texts.add(Text.of());
         texts.add(Messages.getFormatted(src, "core.help.usage", "%usages%", getUsages(src)));
         //Send page
         PaginationService paginationService = Sponge.getServiceManager().provide(PaginationService.class).get();
-        PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted(src, "core.help.header", "%command%", cmd.getFullIdentifier()).toBuilder().color(TextColors.DARK_GREEN).build()).build();
+        PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted(src, "core.help.header", "%command%", this.cmd.getFullIdentifier()).toBuilder().color(TextColors.DARK_GREEN).build()).build();
         paginationList.sendTo(src);
         return CommandResult.success();
     }
@@ -93,7 +93,7 @@ public class HelpSubCommand implements HighSubCommand {
     private Text getUsages(CommandSource src) {
         //TODO per child
         Text.Builder text = Text.builder();
-        text.append(cmd.getUsage(src));
+        text.append(this.cmd.getUsage(src));
         return text.build();
     }
 }
