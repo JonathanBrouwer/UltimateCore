@@ -89,6 +89,9 @@ public class MailReadCommand implements HighSubCommand {
             }
         }
 
+        //Set unread count to 0
+        up.offer(MailKeys.UNREAD_MAIL, 0);
+
         //Get and sort received mails
         List<Mail> received = up.get(MailKeys.MAILS_RECEIVED).get();
         received.sort(Comparator.comparing(Mail::getDate));

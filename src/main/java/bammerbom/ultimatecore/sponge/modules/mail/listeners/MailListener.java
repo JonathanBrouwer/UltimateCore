@@ -25,19 +25,18 @@ package bammerbom.ultimatecore.sponge.modules.mail.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.modules.mail.api.Mail;
+import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.mail.api.MailKeys;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.text.action.TextActions;
 
-import java.util.List;
-
 public class MailListener {
     @Listener
     public void onJoin(ClientConnectionEvent.Join event) {
-        List<Mail> receivedMail = UltimateCore.get().getUserService().getUser(event.getTargetEntity()).get(MailKeys.MAILS_RECEIVED).get();
-        if (receivedMail.size() == 0) return;
-        event.getTargetEntity().sendMessage(Messages.getFormatted(event.getTargetEntity(), "mail.command.mail.newmail", "%count%", receivedMail.size()).toBuilder().onHover(TextActions.showText(Messages.getFormatted(event.getTargetEntity(), "mail.command.mail.newmail.hover"))).onClick(TextActions.runCommand("/mail read")).build());
+        UltimateUser up = UltimateCore.get().getUserService().getUser(event.getTargetEntity());
+        int unreadCount = up.get(MailKeys.UNREAD_MAIL).get();
+        if (unreadCount == 0) return;
+        event.getTargetEntity().sendMessage(Messages.getFormatted(event.getTargetEntity(), "mail.command.mail.newmail", "%count%", unreadCount).toBuilder().onHover(TextActions.showText(Messages.getFormatted(event.getTargetEntity(), "mail.command.mail.newmail.hover"))).onClick(TextActions.runCommand("/mail read")).build());
     }
 }

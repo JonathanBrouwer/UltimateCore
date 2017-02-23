@@ -55,8 +55,12 @@ public class MailClearCommand implements HighSubCommand {
         Player p = (Player) src;
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
 
+        //Clear mail
         up.offer(MailKeys.MAILS_RECEIVED, new ArrayList<>());
         up.offer(MailKeys.MAILS_SENT, new ArrayList<>());
+
+        //Set unread count to 0
+        up.offer(MailKeys.UNREAD_MAIL, 0);
 
         Messages.send(src, "mail.command.mail.clear");
         return CommandResult.success();

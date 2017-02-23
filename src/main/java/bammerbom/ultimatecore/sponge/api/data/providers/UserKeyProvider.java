@@ -51,10 +51,10 @@ public class UserKeyProvider<E> implements KeyProvider.User<E> {
         PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
         CommentedConfigurationNode node = config.get();
         try {
-            return node.getNode(key).getValue(token, def);
+            return node.getNode(this.key).getValue(this.token, this.def);
         } catch (ObjectMappingException e) {
-            ErrorLogger.log(e, "Failed to save " + key + " key for " + user.getIdentifier());
-            return def;
+            ErrorLogger.log(e, "Failed to save " + this.key + " key for " + user.getIdentifier());
+            return this.def;
         }
     }
 
@@ -63,9 +63,10 @@ public class UserKeyProvider<E> implements KeyProvider.User<E> {
         PlayerDataFile config = new PlayerDataFile(user.getIdentifier());
         CommentedConfigurationNode node = config.get();
         try {
-            node.getNode(key).setValue(token, data);
+            node.getNode(this.key).setValue(null);
+            node.getNode(this.key).setValue(this.token, data);
         } catch (ObjectMappingException e) {
-            ErrorLogger.log(e, "Failed to save " + key + " key for " + user.getIdentifier());
+            ErrorLogger.log(e, "Failed to save " + this.key + " key for " + user.getIdentifier());
         }
         config.save(node);
     }

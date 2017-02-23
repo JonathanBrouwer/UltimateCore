@@ -81,9 +81,12 @@ public class MailSendCommand implements HighSubCommand {
         receivedMail.add(mail);
         up.offer(MailKeys.MAILS_RECEIVED, receivedMail);
 
+        //Increase unread count
+        up.offer(MailKeys.UNREAD_MAIL, up.get(MailKeys.UNREAD_MAIL).get() + 1);
+
         Messages.send(src, "mail.command.mail.send", "%player%", t.getName().orElse(""));
         if (ut.getPlayer().isPresent()) {
-            ut.getPlayer().get().sendMessage(Messages.getFormatted(ut.getPlayer().get(), "mail.command.mail.newmail", "%count%", receivedMail.size()).toBuilder().onHover(TextActions.showText(Messages.getFormatted(ut.getPlayer().get(), "mail.command.mail.newmail.hover"))).onClick(TextActions.runCommand("/mail read")).build());
+            ut.getPlayer().get().sendMessage(Messages.getFormatted(ut.getPlayer().get(), "mail.command.mail.newmail", "%count%", up.get(MailKeys.UNREAD_MAIL).get()).toBuilder().onHover(TextActions.showText(Messages.getFormatted(ut.getPlayer().get(), "mail.command.mail.newmail.hover"))).onClick(TextActions.runCommand("/mail read")).build());
         }
         return CommandResult.success();
     }

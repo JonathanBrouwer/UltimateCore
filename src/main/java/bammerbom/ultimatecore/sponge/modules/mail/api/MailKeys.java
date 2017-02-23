@@ -35,4 +35,5 @@ public class MailKeys {
     }, new ArrayList<>()));
     public static Key.User<List<Mail>> MAILS_RECEIVED = new Key.User<>("mails_received", new UserKeyProvider<>("mails_received", new TypeToken<List<Mail>>() {
     }, new ArrayList<>()));
+    public static Key.User<Integer> UNREAD_MAIL = new Key.User<>("mails_unread", new UserKeyProvider<>("mails_unread", TypeToken.of(Integer.class), 0));
 }
