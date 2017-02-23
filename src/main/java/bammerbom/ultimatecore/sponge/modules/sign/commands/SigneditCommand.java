@@ -29,6 +29,7 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BoundedIntegerArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
+import bammerbom.ultimatecore.sponge.api.command.selectiontask.selectiontasks.BlockSelectionTask;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
@@ -42,8 +43,6 @@ import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.util.blockray.BlockRay;
-import org.spongepowered.api.util.blockray.BlockRayHit;
 
 @CommandInfo(module = SignModule.class, aliases = {"signedit", "editsign"})
 @CommandPermissions(level = PermissionLevel.VIP)
@@ -65,10 +64,12 @@ public class SigneditCommand implements HighPermCommand {
         Text text = VariableUtil.replaceVariables(Messages.toText(args.<String>getOne("text").get()), sender);
 
         try {
-            BlockRayHit hit = BlockRay.from(p).stopFilter(BlockRay.continueAfterFilter(BlockRay.onlyAirFilter(), 1)).build().next();
-            Sign sign = (Sign) hit.getLocation().getTileEntity().get();
-            sign.offer(Keys.SIGN_LINES, sign.getSignData().lines().set(line - 1, text).get());
-            Messages.send(sender, "sign.command.signedit.success", "%line%", line, "%text%", text);
+            BlockSelectionTask task = new BlockSelectionTask();
+            task.select(p, (loc) -> {
+                Sign sign = (Sign) loc.getTileEntity().get();
+                sign.offer(Keys.SIGN_LINES, sign.getSignData().lines().set(line - 1, text).get());
+                Messages.send(sender, "sign.command.signedit.success", "%line%", line, "%text%", text);
+            });
             return CommandResult.success();
         } catch (Exception ex) {
             throw Messages.error(sender, "sign.command.signedit.nosign");
