@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.TimeArgument;
+import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
@@ -79,6 +80,10 @@ public class DeafCommand implements HighCommand {
         Player t = args.<Player>getOne("player").get();
         Long time = args.hasAny("time") ? args.<Long>getOne("time").get() : -1L;
         Text reason = args.hasAny("reason") ? Text.of(args.<String>getOne("reason").get()) : Messages.getFormatted("deaf.command.deaf.defaultreason");
+
+        if ((DeafPermissions.UC_DEAF_EXEMPTPOWER.getIntFor(t) > DeafPermissions.UC_DEAF_POWER.getIntFor(sender)) && sender instanceof Player) {
+            throw new ErrorMessageException(Messages.getFormatted(sender, "deaf.command.deaf.exempt", "%player%", t));
+        }
 
         Long endtime = time == -1L ? -1L : System.currentTimeMillis() + time;
         Long starttime = System.currentTimeMillis();
