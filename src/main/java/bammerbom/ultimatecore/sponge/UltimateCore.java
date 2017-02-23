@@ -133,12 +133,12 @@ public class UltimateCore {
             serializers.registerType(TypeToken.of(Vector3d.class), new Vector3dSerializer());
 
             //Config
-            generalConfig = new GeneralConfig();
-            generalConfig.reload();
-            commandsConfig = new CommandsConfig();
-            commandsConfig.reload();
-            modulesConfig = new ModulesConfig();
-            modulesConfig.reload();
+            this.generalConfig = new GeneralConfig();
+            this.generalConfig.reload();
+            this.commandsConfig = new CommandsConfig();
+            this.commandsConfig.reload();
+            this.modulesConfig = new ModulesConfig();
+            this.modulesConfig.reload();
             languageService.reloadPost();
 
             //Load services
@@ -192,7 +192,7 @@ public class UltimateCore {
                 System.out.println("[UC] You are running UC on a client. Waiting with starting the game until getServer() is available.");
                 return;
             }
-            started = true;
+            this.started = true;
             Long time = System.currentTimeMillis();
 
             //Initialize modules
@@ -221,10 +221,10 @@ public class UltimateCore {
             }
             Long time = System.currentTimeMillis();
             //All commands should be registered by now
-            commandsConfig.postload();
-            modulesConfig.postload();
+            this.commandsConfig.postload();
+            this.modulesConfig.postload();
             //Add custom bstats charts
-            metrics.addCustomChart(new Metrics.SimpleBarChart("modules") {
+            this.metrics.addCustomChart(new Metrics.SimpleBarChart("modules") {
                 @Override
                 public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap) {
                     HashMap<String, Integer> modules = new HashMap<>();
@@ -234,19 +234,19 @@ public class UltimateCore {
                     return modules;
                 }
             });
-            metrics.addCustomChart(new Metrics.SimplePie("language") {
+            this.metrics.addCustomChart(new Metrics.SimplePie("language") {
                 @Override
                 public String getValue() {
                     return getGeneralConfig().get().getNode("language", "language").getString();
                 }
             });
-            metrics.addCustomChart(new Metrics.SimplePie("platform") {
+            this.metrics.addCustomChart(new Metrics.SimplePie("platform") {
                 @Override
                 public String getValue() {
                     return StringUtil.firstUpperCase(Sponge.getPlatform().getType().name());
                 }
             });
-            metrics.addCustomChart(new Metrics.SimplePie("implementation") {
+            this.metrics.addCustomChart(new Metrics.SimplePie("implementation") {
                 @Override
                 public String getValue() {
                     return Sponge.getPlatform().getContainer(Platform.Component.IMPLEMENTATION).getName();
@@ -273,7 +273,7 @@ public class UltimateCore {
     @Listener
     public void onStart(GameStartingServerEvent ev) {
         //On a client, wait until the Sponge.getServer() is available and then load UC
-        if (Sponge.getPlatform().getType().equals(Platform.Type.CLIENT) && !started) {
+        if (Sponge.getPlatform().getType().equals(Platform.Type.CLIENT) && !this.started) {
             onPreInit(null);
             onInit(null);
             onPostInit(null);
@@ -319,7 +319,7 @@ public class UltimateCore {
             UltimateCore.get().getModulesConfig().postload();
 
             for (Module mod : UltimateCore.get().getModuleService().getModules()) {
-                if (mod.getConfig().isPresent()) {
+                if (mod.getConfig() != null && mod.getConfig().isPresent()) {
                     mod.getConfig().get().reload();
                     mod.onReload(event);
                 }
@@ -335,7 +335,7 @@ public class UltimateCore {
     }
 
     public Path getConfigFolder() {
-        return dir;
+        return this.dir;
     }
 
     public Path getDataFolder() {
@@ -395,14 +395,14 @@ public class UltimateCore {
 
     //Get configs
     public GeneralConfig getGeneralConfig() {
-        return generalConfig;
+        return this.generalConfig;
     }
 
     public CommandsConfig getCommandsConfig() {
-        return commandsConfig;
+        return this.commandsConfig;
     }
 
     public ModulesConfig getModulesConfig() {
-        return modulesConfig;
+        return this.modulesConfig;
     }
 }
