@@ -4,6 +4,7 @@ plugins {
     id 'idea'
     id 'ninja.miserable.blossom' version '1.0.1'
     id 'com.github.johnrengelman.shadow' version '1.2.4'
+    id 'org.spongepowered.plugin' version '0.8.1'
 }
 
 //Project details
@@ -31,10 +32,6 @@ repositories {
         url 'http://repo.spongepowered.org/maven'
     }
     maven {
-        name = 'minecrell'
-        url = 'http://repo.minecrell.net/releases'
-    }
-    maven {
         name 'bstats'
         url = 'https://repo.bstats.org/content/groups/public/'
     }
@@ -51,7 +48,6 @@ dependencies {
     //Shadow
     compile "com.goebl:david-webb:1.3.0"
     compile "org.json:json"
-    compile 'net.minecrell:statusprotocol:0.3'
     compile 'com.maxmind.geoip2:geoip2:2.8.0'
     compile 'com.maxmind.db:maxmind-db'
     compile 'org.bstats:bstats-sponge:1.0'
@@ -66,7 +62,6 @@ shadowJar {
         include(dependency("com.maxmind.db:maxmind-db"))
         include(dependency("com.goebl:david-webb:1.3.0"))
         include(dependency("org.json:json"))
-        include(dependency('net.minecrell:statusprotocol:0.3'))
         include(dependency('org.bstats:bstats-sponge:1.0'))
     }
 
@@ -75,7 +70,6 @@ shadowJar {
     relocate 'com.maxmind.db', 'dependencies.bammerbom.ultimatecore.com.maxmind.db'
     relocate 'com.goebl.david', 'dependencies.bammerbom.ultimatecore.com.goebl.david'
     relocate 'org.json', 'dependencies.bammerbom.ultimatecore.org.json'
-    relocate 'net.minecrell.statusprotocol', 'dependencies.bammerbom.ultimatecore.net.minecrell.statusprotocol'
     relocate 'org.bstats', 'dependencies.bammerbom.ultimatecore.org.bstats'
 }
 build.dependsOn(shadowJar)
