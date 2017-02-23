@@ -55,7 +55,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
-@CommandInfo(module = MailModule.class, aliases = {"read", "view"})
+@CommandInfo(module = MailModule.class, aliases = {"read", "view", "list"})
 @CommandParentInfo(parent = MailCommand.class)
 public class MailReadCommand implements HighSubCommand {
     @Override
