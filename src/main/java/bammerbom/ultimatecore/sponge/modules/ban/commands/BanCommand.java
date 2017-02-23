@@ -63,7 +63,7 @@ public class BanCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                Arguments.builder(new GameprofileArgument(Text.of("player")), new IpAdressArgument(Text.of("ip"))).onlyOne().usageKey("Player/IP").build(),
+                Arguments.builder(new GameprofileArgument(Text.of("player")), new IpAdressArgument(Text.of("ip"))).onlyOne().usage("<Player/IP>").build(),
                 Arguments.builder(new TimeArgument(Text.of("time"))).optionalWeak().build(),
                 Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).optional().build()
         };
