@@ -68,8 +68,11 @@ public class CountryCommand implements HighCommand {
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         checkPermission(sender, GeoipPermissions.UC_GEOIP_COUNTRY_BASE);
-        Player t = args.<Player>getOne("player").get();
+        if (!GeoipHandler.isLoaded()) {
+            throw new ErrorMessageException(Messages.getFormatted(sender, "geoip.command.country.notenabled"));
+        }
 
+        Player t = args.<Player>getOne("player").get();
         Country country = GeoipHandler.getCountry(t.getConnection().getAddress().getAddress()).orElse(null);
         if (country == null) {
             throw new ErrorMessageException(Messages.getFormatted(sender, "geoip.command.country.failed", "%player%", t));
