@@ -10,4 +10,5 @@ Travis-ci: ![Travis-ci](https://travis-ci.org/Bammerbom/UltimateCore.svg?branch=
 UltimateCore uses gradle to build. Just clone UltimateCore and run the build.gradle like all other gradle projects.
 
 ## Using UltimateCore as Library
-UltimateCore currently does not have a repository. 
+You can use JitPack to build against UltimateCore using maven or gradle.
+Take a look at https://jitpack.io/#Bammerbom/UltimateCore
