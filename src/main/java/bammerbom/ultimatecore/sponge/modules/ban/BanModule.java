@@ -24,6 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.ban;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.HighModule;
 import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
 import bammerbom.ultimatecore.sponge.modules.ban.commands.BanCommand;
@@ -33,10 +35,21 @@ import bammerbom.ultimatecore.sponge.modules.ban.listeners.BanListener;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 
+import java.util.Optional;
+
 @ModuleInfo(name = "ban", description = "Allows you to ban and unban players and ips")
 public class BanModule implements HighModule {
+    ModuleConfig config;
+
+    @Override
+    public Optional<? extends ModuleConfig> getConfig() {
+        return Optional.of(this.config);
+    }
+
     @Override
     public void onInit(GameInitializationEvent event) {
+        this.config = new RawModuleConfig("ban");
+
         UltimateCore.get().getCommandService().register(new BanCommand());
         UltimateCore.get().getCommandService().register(new UnbanCommand());
         UltimateCore.get().getCommandService().register(new IpCommand());

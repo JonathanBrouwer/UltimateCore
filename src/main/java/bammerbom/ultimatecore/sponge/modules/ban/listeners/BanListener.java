@@ -23,15 +23,28 @@
  */
 package bammerbom.ultimatecore.sponge.modules.ban.listeners;
 
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.GlobalDataFile;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
+import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
+import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.filter.IsCancelled;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
+import org.spongepowered.api.event.server.ClientPingServerEvent;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.ban.BanService;
+import org.spongepowered.api.service.user.UserStorageService;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.Tristate;
 import org.spongepowered.api.util.ban.Ban;
+
+import java.net.InetAddress;
+import java.util.UUID;
 
 public class BanListener {
     @Listener
@@ -50,5 +63,38 @@ public class BanListener {
             event.setMessage(Messages.getFormatted("ban.ipbanned", "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", ban.getReason().orElse(Messages.getFormatted("ban.command.ban.defaultreason"))));
         }
 
+    }
+
+    @Listener(order = Order.LATE)
+    public void onMotd(ClientPingServerEvent event) {
+        try {
+            ModuleConfig config = Modules.BAN.get().getConfig().get();
+            if (!config.get().getNode("ban-motd", "enabled").getBoolean()) return;
+
+            String ip = event.getClient().getAddress().getAddress().toString().replace("/", "");
+            GlobalDataFile file = new GlobalDataFile("ipcache");
+            if (file.get().getChildrenMap().keySet().contains(ip)) {
+                //Player
+                GameProfile profile = Sponge.getServer().getGameProfileManager().get(UUID.fromString(file.get().getNode(ip, "uuid").getString())).get();
+                InetAddress address = InetAddress.getByName(ip);
+
+                //Check if banned
+                BanService bs = Sponge.getServiceManager().provide(BanService.class).get();
+                UserStorageService us = Sponge.getServiceManager().provide(UserStorageService.class).get();
+                if (bs.isBanned(profile) || bs.isBanned(address)) {
+                    Text motd = VariableUtil.replaceVariables(Messages.toText(config.get().getNode("ban-motd", "text").getString()), us.get(profile.getUniqueId()).orElse(null));
+
+                    //Replace ban vars
+                    Ban ban = bs.isBanned(profile) ? bs.getBanFor(profile).get() : bs.getBanFor(address).get();
+                    Long time = ban.getExpirationDate().map(date -> (date.toEpochMilli() - System.currentTimeMillis())).orElse(-1L);
+                    motd = TextUtil.replace(motd, "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : Text.of(TimeUtil.format(time))));
+                    motd = TextUtil.replace(motd, "%reason%", ban.getReason().orElse(Messages.getFormatted("ban.command.ban.defaultreason")));
+
+                    event.getResponse().setDescription(motd);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
