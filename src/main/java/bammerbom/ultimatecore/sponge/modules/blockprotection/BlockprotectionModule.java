@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.blockprotection;
 
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.HighModule;
+import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleIgnore;
 import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
 import bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype.LockTypeRegistry;
 import org.spongepowered.api.block.BlockState;
@@ -34,6 +35,7 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import java.util.Optional;
 import java.util.Set;
 
+@ModuleIgnore
 @ModuleInfo(name = "blockprotection", description = "Allows you to claim a block.")
 public class BlockprotectionModule implements HighModule {
 
@@ -45,7 +47,7 @@ public class BlockprotectionModule implements HighModule {
 
     @Override
     public Optional<ModuleConfig> getConfig() {
-        return Optional.of(config);
+        return Optional.of(this.config);
     }
 
     @Override
@@ -88,14 +90,14 @@ public class BlockprotectionModule implements HighModule {
     }
 
     public Set<BlockState> getAllowedSet() {
-        return allowedSet;
+        return this.allowedSet;
     }
 
     public Set<BlockState> getAutolockSet() {
-        return autolockSet;
+        return this.autolockSet;
     }
 
     public LockTypeRegistry getLockTypeRegistry() {
-        return lockTypeRegistry;
+        return this.lockTypeRegistry;
     }
 }
