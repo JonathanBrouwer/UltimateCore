@@ -68,7 +68,7 @@ public class AfkCommand implements HighCommand {
     public CommandElement[] getArguments() {
         return new CommandElement[]{
                 Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optionalWeak().build(),
-                Arguments.builder(new RemainingStringsArgument(Text.of("message"))).optionalWeak().onlyOne().build()
+                Arguments.builder(new RemainingStringsArgument(Text.of("message"))).optional().onlyOne().build()
         };
     }
 
