@@ -35,21 +35,24 @@ repositories {
         name 'bstats'
         url = 'https://repo.bstats.org/content/groups/public/'
     }
-    flatDir {
-        dirs 'libs'
+    maven {
+        name 'jitpack'
+        url 'https://jitpack.io'
     }
 }
 
 dependencies {
     //Don't shadow
     compile "org.spongepowered:spongeapi:6.0.0-SNAPSHOT"
-    compile name: "nuvotifier"
+    compile 'com.github.NuVotifier:NuVotifier:v2.3.4'
 
     //Shadow
     compile "com.goebl:david-webb:1.3.0"
-    compile 'com.maxmind.geoip2:geoip2:2.8.0'
-    compile 'com.maxmind.db:maxmind-db'
-    compile 'org.bstats:bstats-sponge:1.0'
+    compile 'org.bstats:bstats-sponge:1.1'
+
+    //Geoip stuff
+    compile 'com.maxmind.geoip2:geoip2:2.8.1'
+    compile 'com.maxmind.db:maxmind-db:1.2.2'
 }
 
 shadowJar {
@@ -57,10 +60,12 @@ shadowJar {
     classifier = null
     version = null
     dependencies {
-        include(dependency("com.maxmind.geoip2:geoip2:2.8.0"))
-        include(dependency("com.maxmind.db:maxmind-db"))
         include(dependency("com.goebl:david-webb:1.3.0"))
-        include(dependency('org.bstats:bstats-sponge:1.0'))
+        include(dependency('org.bstats:bstats-sponge:1.1'))
+
+        //Geoip stuff
+        include(dependency("com.maxmind.geoip2:geoip2:2.8.1"))
+        include(dependency("com.maxmind.db:maxmind-db:1.2.2"))
     }
 
     //Relocate
