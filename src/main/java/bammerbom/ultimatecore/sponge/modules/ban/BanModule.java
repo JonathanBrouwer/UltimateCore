@@ -21,32 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.argument.wrappers;
+package bammerbom.ultimatecore.sponge.modules.ban;
 
-import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.args.ArgumentParseException;
-import org.spongepowered.api.command.args.CommandArgs;
-import org.spongepowered.api.command.args.CommandContext;
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.module.HighModule;
+import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
+import bammerbom.ultimatecore.sponge.modules.ban.commands.BanCommand;
+import bammerbom.ultimatecore.sponge.modules.ban.commands.IpCommand;
+import bammerbom.ultimatecore.sponge.modules.ban.commands.UnbanCommand;
+import bammerbom.ultimatecore.sponge.modules.ban.listeners.BanListener;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class TabcompleteWrapper extends Wrapper {
-    public TabcompleteWrapper(UCommandElement element) {
-        super(element);
-    }
-
+@ModuleInfo(name = "ban", description = "Allows you to ban and unban players and ips")
+public class BanModule implements HighModule {
     @Override
-    public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        List<String> completions = this.element.complete(src, args, context);
-        String typed;
-        try {
-            typed = args.peek();
-        } catch (ArgumentParseException e) {
-            typed = "";
-        }
-        final String finaltyped = typed;
-        return completions.stream().filter(completion -> completion.toLowerCase().startsWith(finaltyped.toLowerCase())).collect(Collectors.toList());
+    public void onInit(GameInitializationEvent event) {
+        UltimateCore.get().getCommandService().register(new BanCommand());
+        UltimateCore.get().getCommandService().register(new UnbanCommand());
+        UltimateCore.get().getCommandService().register(new IpCommand());
+
+        Sponge.getEventManager().registerListeners(UltimateCore.get(), new BanListener());
     }
 }

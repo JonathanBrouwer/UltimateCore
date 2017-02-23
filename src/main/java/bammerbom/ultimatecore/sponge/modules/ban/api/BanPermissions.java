@@ -21,32 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.argument.wrappers;
+package bammerbom.ultimatecore.sponge.modules.ban.api;
 
-import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.args.ArgumentParseException;
-import org.spongepowered.api.command.args.CommandArgs;
-import org.spongepowered.api.command.args.CommandContext;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
+import org.spongepowered.api.text.Text;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class TabcompleteWrapper extends Wrapper {
-    public TabcompleteWrapper(UCommandElement element) {
-        super(element);
-    }
-
-    @Override
-    public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        List<String> completions = this.element.complete(src, args, context);
-        String typed;
-        try {
-            typed = args.peek();
-        } catch (ArgumentParseException e) {
-            typed = "";
-        }
-        final String finaltyped = typed;
-        return completions.stream().filter(completion -> completion.toLowerCase().startsWith(finaltyped.toLowerCase())).collect(Collectors.toList());
-    }
+public class BanPermissions {
+    public static PermissionOption UC_BAN_EXEMPTPOWER = PermissionOption.create("uc.ban.exemptpower", "ban", "ban", "0", Text.of("The amount of exemptpower the player has. If a player's banpower is higher than or equal to the targets exemptpower he can ban the target."));
+    public static PermissionOption UC_BAN_POWER = PermissionOption.create("uc.ban.power", "ban", "ban", "0", Text.of("The amount of banpower the player has. If a player's banpower is higher than or equal to the targets exemptpower he can ban the target."));
 }

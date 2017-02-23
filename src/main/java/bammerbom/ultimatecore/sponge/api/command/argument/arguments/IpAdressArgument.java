@@ -21,32 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.command.argument.wrappers;
+package bammerbom.ultimatecore.sponge.api.command.argument.arguments;
 
 import bammerbom.ultimatecore.sponge.api.command.argument.UCommandElement;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nullable;
+import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class TabcompleteWrapper extends Wrapper {
-    public TabcompleteWrapper(UCommandElement element) {
-        super(element);
+public class IpAdressArgument extends UCommandElement {
+    
+    public IpAdressArgument(@Nullable Text key) {
+        super(key);
+    }
+
+    @Nullable
+    @Override
+    public InetAddress parseValue(CommandSource source, CommandArgs args) throws ArgumentParseException {
+        String next = args.next();
+        try {
+            return InetAddress.getByName(next);
+        } catch (Exception e) {
+            throw args.createError(Messages.getFormatted(source, "ban.invalidip", "%ip%", next));
+        }
     }
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        List<String> completions = this.element.complete(src, args, context);
-        String typed;
-        try {
-            typed = args.peek();
-        } catch (ArgumentParseException e) {
-            typed = "";
-        }
-        final String finaltyped = typed;
-        return completions.stream().filter(completion -> completion.toLowerCase().startsWith(finaltyped.toLowerCase())).collect(Collectors.toList());
+        return new ArrayList<>();
     }
 }
