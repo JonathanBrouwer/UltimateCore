@@ -123,7 +123,7 @@ public class BanCommand implements HighPermCommand {
 
         //Send message
         if (profile != null) {
-            Messages.send(src, "ban.command.ban.success", "%player%", profile.getName(), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason);
+            Messages.send(src, "ban.command.ban.success", "%player%", profile.getName().orElse(""), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason);
         } else {
             Messages.send(src, "ban.command.ban.success-ip", "%ip%", address.toString().replace("/", ""), "%time%", (time == -1L ? Messages.getFormatted("core.time.ever") : TimeUtil.format(time)), "%reason%", reason);
         }
