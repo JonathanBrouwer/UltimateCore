@@ -37,6 +37,7 @@ public class MailListener {
     @Listener
     public void onJoin(ClientConnectionEvent.Join event) {
         List<Mail> receivedMail = UltimateCore.get().getUserService().getUser(event.getTargetEntity()).get(MailKeys.MAILS_RECEIVED).get();
+        if (receivedMail.size() == 0) return;
         event.getTargetEntity().sendMessage(Messages.getFormatted(event.getTargetEntity(), "mail.command.mail.newmail", "%count%", receivedMail.size()).toBuilder().onHover(TextActions.showText(Messages.getFormatted(event.getTargetEntity(), "mail.command.mail.newmail.hover"))).onClick(TextActions.runCommand("/mail read")).build());
     }
 }
