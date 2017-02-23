@@ -70,7 +70,7 @@ public class DeafCommand implements HighCommand {
         return new CommandElement[]{
                 Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(),
                 Arguments.builder(new TimeArgument(Text.of("time"))).optionalWeak().onlyOne().build(),
-                Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).optionalWeak().onlyOne().build()
+                Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).optional().onlyOne().build()
         };
     }
 

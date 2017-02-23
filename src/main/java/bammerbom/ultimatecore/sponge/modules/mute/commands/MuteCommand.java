@@ -69,7 +69,7 @@ public class MuteCommand implements HighCommand {
     public CommandElement[] getArguments() {
         return new CommandElement[]{
                 Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(),
-                Arguments.builder(new TimeArgument(Text.of("time"))).optional().onlyOne().build(),
+                Arguments.builder(new TimeArgument(Text.of("time"))).optionalWeak().onlyOne().build(),
                 Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).optional().onlyOne().build()
         };
     }
