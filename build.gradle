@@ -66,12 +66,16 @@ shadowJar {
         //Geoip stuff
         include(dependency("com.maxmind.geoip2:geoip2:2.8.1"))
         include(dependency("com.maxmind.db:maxmind-db:1.2.2"))
+        include(dependency("com.fasterxml.jackson.core:jackson-core"))
+        include(dependency("com.fasterxml.jackson.core:jackson-databind"))
+        include(dependency("com.fasterxml.jackson.core:jackson-annotations"))
     }
 
     //Relocate
-    relocate 'com.maxmind.geoip2', 'dependencies.bammerbom.ultimatecore.com.maxmind.geoip2'
-    relocate 'com.maxmind.db', 'dependencies.bammerbom.ultimatecore.com.maxmind.db'
     relocate 'com.goebl.david', 'dependencies.bammerbom.ultimatecore.com.goebl.david'
     relocate 'org.bstats', 'dependencies.bammerbom.ultimatecore.org.bstats'
+    relocate 'com.fasterxml.jackson', 'dependencies.bammerbom.ultimatecore.com.fasterxml.jackson'
+    relocate 'com.maxmind.geoip2', 'dependencies.bammerbom.ultimatecore.com.maxmind.geoip2'
+    relocate 'com.maxmind.db', 'dependencies.bammerbom.ultimatecore.com.maxmind.db'
 }
 build.dependsOn(shadowJar)

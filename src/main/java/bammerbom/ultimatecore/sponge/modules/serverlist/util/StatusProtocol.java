@@ -38,20 +38,15 @@ public class StatusProtocol {
             ssr_class.getMethod("setVersion", ssr_version_class).invoke(response, ssr_version);
             return true;
         } catch (Exception | Error ex) {
-            try {
-                //Try 2 (Api 5)
-                Class ssr_class = Class.forName("net.minecraft.network.ServerStatusResponse");
-                Class ssr_version_class = Class.forName("net.minecraft.network.ServerStatusResponse$MinecraftProtocolVersionIdentifier");
-                Object ssr_version = ssr_version_class.getConstructor(String.class, int.class).newInstance(name, protocol);
-                ssr_class.getMethod("setProtocolVersionInfo", ssr_version_class).invoke(response, ssr_version);
-                return true;
-            } catch (Exception | Error ex2) {
-                Messages.log("Err 1");
-                ex.printStackTrace();
-                Messages.log("Err 2");
-                ex2.printStackTrace();
-            }
+            Messages.log("Err 1");
+            ex.printStackTrace();
         }
+        /* ORIGINAL CODE
+            if (response instanceof ServerStatusResponse) {
+                ((ServerStatusResponse) response).setVersion(new ServerStatusResponse.Version(name, protocol));
+            }
+        */
+
         return false;
     }
 }
