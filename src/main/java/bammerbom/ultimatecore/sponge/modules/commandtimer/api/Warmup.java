@@ -62,70 +62,70 @@ public class Warmup {
     }
 
     public HighCommand getCommand() {
-        return command;
+        return this.command;
     }
 
     public CommandContext getContext() {
-        return context;
+        return this.context;
     }
 
     public CommandSource getSource() {
-        return source;
+        return this.source;
     }
 
     public Long getStarttime() {
-        return starttime;
+        return this.starttime;
     }
 
     public Long getEndtime() {
-        return endtime;
+        return this.endtime;
     }
 
     public boolean hasStarted() {
-        return hasStarted;
+        return this.hasStarted;
     }
 
     public void startTimer() {
         if (hasStarted()) throw new IllegalStateException();
-        hasStarted = true;
-        Sponge.getScheduler().createTaskBuilder().delay(endtime - starttime, TimeUnit.MILLISECONDS).execute(this::finishWarmup).submit(UltimateCore.get());
+        this.hasStarted = true;
+        Sponge.getScheduler().createTaskBuilder().delay(this.endtime - this.starttime, TimeUnit.MILLISECONDS).execute(this::finishWarmup).submit(UltimateCore.get());
     }
 
     private CommandResult finishWarmup() {
-        if (cancelled) return CommandResult.empty();
+        if (this.cancelled) return CommandResult.empty();
         try {
-            CommandResult result = command.execute(source, context);
-            CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(command, context, result, Cause.builder().notifier(UltimateCore.get()).named(NamedCause.simulated(source)).build());
+            CommandResult result = this.command.execute(this.source, this.context);
+            CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(this.command, this.context, result, Cause.builder().owner(UltimateCore.getContainer()).named(NamedCause.simulated(this.source)).build());
             Sponge.getEventManager().post(pEvent);
             return pEvent.getResult();
         } catch (CommandPermissionException ex) {
             Text text = ex.getText();
             if (text != null) {
-                source.sendMessage(error(text));
+                this.source.sendMessage(error(text));
             }
             return CommandResult.empty();
         } catch (CommandException ex) {
             Text text = ex.getText();
             if (text != null) {
-                source.sendMessage(error(text));
+                this.source.sendMessage(error(text));
             }
 
             if (ex.shouldIncludeUsage()) {
-                source.sendMessage(error(Text.of("Usage: " + command.getUsage(source))));
+                this.source.sendMessage(error(Text.of("Usage: " + this.command.getUsage(this.source))));
             }
             return CommandResult.empty();
         }
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return this.cancelled;
     }
 
     public void cancel() {
-        cancelled = true;
-        UltimateUser user = UltimateCore.get().getUserService().getUser(source);
+        this.cancelled = true;
+        UltimateUser user = UltimateCore.get().getUserService().getUser(this.source);
         HashMap<String, Warmup> warmups = user.get(CommandtimerKeys.USER_WARMUPS).get();
-        warmups.remove(command.getFullIdentifier());
+        warmups.remove(this.command.getFullIdentifier());
         user.offer(CommandtimerKeys.USER_WARMUPS, warmups);
     }
 }

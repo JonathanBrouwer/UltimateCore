@@ -56,7 +56,7 @@ public class GlobalData {
             //Provider not available, get the default value
             rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
         }
-        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.get()).build());
+        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.getContainer()).build());
         Sponge.getEventManager().post(event);
         return event.getValue();
     }
@@ -75,7 +75,7 @@ public class GlobalData {
         } else {
             rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
         }
-        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.get()).build());
+        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.getContainer()).build());
         Sponge.getEventManager().post(event);
         return event.getValue();
     }
@@ -89,7 +89,7 @@ public class GlobalData {
      * @return Whether the value was accepted
      */
     public static <C> boolean offer(Key.Global<C> key, C value) {
-        Cause cause = Cause.builder().owner(UltimateCore.get()).build();
+        Cause cause = Cause.builder().owner(UltimateCore.getContainer()).build();
         DataOfferEvent<C> event = new DataOfferEvent<>(key, (C) datas.get(key.getIdentifier()), value, cause);
         Sponge.getEventManager().post(event);
         if (event.isCancelled()) {

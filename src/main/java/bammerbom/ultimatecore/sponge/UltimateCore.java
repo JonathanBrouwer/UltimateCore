@@ -74,6 +74,7 @@ import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.*;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.ServiceManager;
 import org.spongepowered.api.world.Location;
 
@@ -107,6 +108,10 @@ public class UltimateCore {
             instance = new UltimateCore();
         }
         return instance;
+    }
+
+    public static PluginContainer getContainer() {
+        return Sponge.getPluginManager().fromInstance(get()).get();
     }
 
     @Listener(order = Order.LATE)
@@ -198,7 +203,7 @@ public class UltimateCore {
             //Initialize modules
             for (Module module : getModuleService().getModules()) {
                 try {
-                    ModuleInitializeEvent event = new ModuleInitializeEvent(module, ev, Cause.builder().owner(this).build());
+                    ModuleInitializeEvent event = new ModuleInitializeEvent(module, ev, Cause.builder().owner(getContainer()).build());
                     Sponge.getEventManager().post(event);
                     module.onInit(ev);
                 } catch (Exception ex) {
@@ -255,7 +260,7 @@ public class UltimateCore {
             //Post-initialize modules
             for (Module module : getModuleService().getModules()) {
                 try {
-                    ModulePostInitializeEvent event = new ModulePostInitializeEvent(module, ev, Cause.builder().owner(this).build());
+                    ModulePostInitializeEvent event = new ModulePostInitializeEvent(module, ev, Cause.builder().owner(getContainer()).build());
                     Sponge.getEventManager().post(event);
                     module.onPostInit(ev);
                 } catch (Exception ex) {
@@ -288,7 +293,7 @@ public class UltimateCore {
             //Stop modules
             for (Module module : getModuleService().getModules()) {
                 try {
-                    ModuleStoppingEvent event = new ModuleStoppingEvent(module, ev, Cause.builder().owner(this).build());
+                    ModuleStoppingEvent event = new ModuleStoppingEvent(module, ev, Cause.builder().owner(getContainer()).build());
                     Sponge.getEventManager().post(event);
                     module.onStop(ev);
                 } catch (Exception ex) {

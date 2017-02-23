@@ -31,12 +31,16 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.util.blockray.BlockRay;
+import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class BlockSelectionTask implements SelectionTask<Location<World>> {
 
@@ -48,7 +52,17 @@ public class BlockSelectionTask implements SelectionTask<Location<World>> {
     }
 
     @Override
-    public void select(Player p, Consumer<Location<World>> callable) {
+    public void select(Player p, Function<Location<World>, Boolean> test, Consumer<Location<World>> callable) {
+        //Check if player is looking at block
+        BlockRay<World> blockray = BlockRay.from(p).distanceLimit(5).stopFilter(BlockRay.continueAfterFilter(BlockRay.onlyAirFilter(), 1)).build();
+        Optional<BlockRayHit<World>> hit = blockray.end();
+        //If player is looking at block & block is correct type
+        if (hit.isPresent() && test.apply(hit.get().getLocation())) {
+            callable.accept(hit.get().getLocation());
+            return;
+        }
+
+        //If not looking at block
         Messages.send(p, "core.selection.block");
         consumers.put(p.getUniqueId(), callable);
     }

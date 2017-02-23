@@ -96,7 +96,7 @@ public class UCModuleService implements ModuleService {
             if (module.getClass().getAnnotation(ModuleIgnore.class) != null) return false;
 
 
-            ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().owner(UltimateCore.get()).build());
+            ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().owner(UltimateCore.getContainer()).build());
             Sponge.getEventManager().post(event);
             String def = module.getClass().getAnnotation(ModuleDisableByDefault.class) == null ? "enabled" : "disabled";
             String state = UltimateCore.get().getModulesConfig().get().getNode("modules", module.getIdentifier(), "state").getString(def);

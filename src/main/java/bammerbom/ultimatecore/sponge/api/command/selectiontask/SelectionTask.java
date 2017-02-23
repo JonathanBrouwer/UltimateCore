@@ -26,7 +26,8 @@ package bammerbom.ultimatecore.sponge.api.command.selectiontask;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public interface SelectionTask<C> {
-    void select(Player p, Consumer<C> callable);
+    void select(Player p, Function<C, Boolean> test, Consumer<C> callable);
 }

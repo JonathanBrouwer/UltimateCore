@@ -47,12 +47,12 @@ public class ExecutorListenerWrapper implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if (Sponge.getEventManager().post(new CommandExecuteEvent(command, args, Cause.builder().notifier(UltimateCore.get()).named(NamedCause.owner(src)).build()))) {
+        if (Sponge.getEventManager().post(new CommandExecuteEvent(this.command, args, Cause.builder().notifier(UltimateCore.getContainer()).named(NamedCause.owner(src)).build()))) {
             //Event canceller is expected to send message
             return CommandResult.empty();
         }
-        CommandResult result = executor.execute(src, args);
-        CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(command, args, result, Cause.builder().notifier(UltimateCore.get()).named(NamedCause.owner(src)).build());
+        CommandResult result = this.executor.execute(src, args);
+        CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(this.command, args, result, Cause.builder().notifier(UltimateCore.getContainer()).named(NamedCause.owner(src)).build());
         Sponge.getEventManager().post(pEvent);
         return pEvent.getResult();
     }

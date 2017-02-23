@@ -54,7 +54,7 @@ public class UltimateUser {
      * @return The UUID
      */
     public UUID getIdentifier() {
-        return uuid;
+        return this.uuid;
     }
 
     /**
@@ -63,7 +63,7 @@ public class UltimateUser {
      * @return The UUID
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -75,7 +75,7 @@ public class UltimateUser {
         if (getPlayer().isPresent()) {
             return getPlayer().get();
         }
-        return Sponge.getServiceManager().provideUnchecked(UserStorageService.class).get(uuid).orElse(null);
+        return Sponge.getServiceManager().provideUnchecked(UserStorageService.class).get(this.uuid).orElse(null);
     }
 
     /**
@@ -84,7 +84,7 @@ public class UltimateUser {
      * @return The player
      */
     public Optional<Player> getPlayer() {
-        return Sponge.getServer().getPlayer(uuid);
+        return Sponge.getServer().getPlayer(this.uuid);
     }
 
     /**
@@ -100,8 +100,8 @@ public class UltimateUser {
             return Optional.empty();
         }
         Optional<C> rtrn;
-        if (datas.containsKey(key.getIdentifier())) {
-            rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
+        if (this.datas.containsKey(key.getIdentifier())) {
+            rtrn = Optional.ofNullable((C) this.datas.get(key.getIdentifier()));
         } else {
             if (key.getProvider().isPresent()) {
                 //Run the provider
@@ -111,7 +111,7 @@ public class UltimateUser {
                 rtrn = key.getDefaultValue();
             }
         }
-        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.get()).build());
+        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.getContainer()).build());
         Sponge.getEventManager().post(event);
         return event.getValue();
     }
@@ -128,12 +128,12 @@ public class UltimateUser {
             return Optional.empty();
         }
         Optional<C> rtrn;
-        if (!datas.containsKey(key.getIdentifier())) {
+        if (!this.datas.containsKey(key.getIdentifier())) {
             rtrn = Optional.empty();
         } else {
-            rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
+            rtrn = Optional.ofNullable((C) this.datas.get(key.getIdentifier()));
         }
-        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.get()).build());
+        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.getContainer()).build());
         Sponge.getEventManager().post(event);
         return event.getValue();
     }
@@ -161,8 +161,8 @@ public class UltimateUser {
         if (!isCompatible(key)) {
             return false;
         }
-        Cause cause = getPlayer().isPresent() ? Cause.builder().owner(UltimateCore.get()).named(NamedCause.source(getPlayer().get())).build() : Cause.builder().owner(UltimateCore.get()).named(NamedCause.source(getUser())).build();
-        DataOfferEvent<C> event = new DataOfferEvent<>(key, (C) datas.get(key.getIdentifier()), value, cause);
+        Cause cause = getPlayer().isPresent() ? Cause.builder().owner(UltimateCore.getContainer()).named(NamedCause.source(getPlayer().get())).build() : Cause.builder().owner(UltimateCore.get()).named(NamedCause.source(getUser())).build();
+        DataOfferEvent<C> event = new DataOfferEvent<>(key, (C) this.datas.get(key.getIdentifier()), value, cause);
         Sponge.getEventManager().post(event);
         if (event.isCancelled()) {
             return false;
@@ -174,9 +174,9 @@ public class UltimateUser {
         }
         //Save to map
         if (value == null) {
-            datas.remove(key.getIdentifier());
+            this.datas.remove(key.getIdentifier());
         } else {
-            datas.put(key.getIdentifier(), value);
+            this.datas.put(key.getIdentifier(), value);
         }
 
         return UltimateCore.get().getUserService().addToCache(this);

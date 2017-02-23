@@ -132,7 +132,7 @@ public class KitCommand implements HighCommand {
             result.getRejectedItems().forEach(item -> {
                 Item itementity = (Item) p.getWorld().createEntity(EntityTypes.ITEM, p.getLocation().getPosition());
                 itementity.offer(Keys.REPRESENTED_ITEM, item);
-                p.getWorld().spawnEntity(itementity, Cause.builder().owner(UltimateCore.get()).named(NamedCause.of("player", p)).build());
+                p.getWorld().spawnEntity(itementity, Cause.builder().owner(UltimateCore.getContainer()).named(NamedCause.of("player", p)).build());
             });
         }
         Messages.send(sender, "kit.command.kit.success", "%kit%", kit.getId());

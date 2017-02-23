@@ -55,7 +55,7 @@ public class LockCommand implements HighPermCommand {
         checkIfPlayer(src);
         Player p = (Player) src;
         BlockSelectionTask task = new BlockSelectionTask();
-        task.select(p, (loc) -> {
+        task.select(p, (loc) -> true, (loc) -> {
             List<Location<World>> locs = new ArrayList<>();
             locs.add(loc);
             //TODO better Key, this also works with redstone etc

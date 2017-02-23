@@ -50,12 +50,12 @@ public class UCCommandService implements CommandService {
      */
     @Override
     public List<Command> getCommands() {
-        return commands;
+        return this.commands;
     }
 
     @Override
     public HashMap<Command, Runnable> getUnregisteredCommands() {
-        return commandsLater;
+        return this.commandsLater;
     }
 
     /**
@@ -70,10 +70,10 @@ public class UCCommandService implements CommandService {
         if (!UltimateCore.get().getCommandsConfig().get().getNode("commands", command.getIdentifier(), "enabled").getBoolean(true)) {
             return false;
         }
-        if (Sponge.getEventManager().post(new CommandRegisterEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))) {
+        if (Sponge.getEventManager().post(new CommandRegisterEvent(command, Cause.builder().notifier(UltimateCore.getContainer()).build()))) {
             return false;
         }
-        commands.add(command);
+        this.commands.add(command);
         Sponge.getCommandManager().register(UltimateCore.get(), command.getCallable(), command.getAliases());
         return true;
     }
@@ -83,7 +83,7 @@ public class UCCommandService implements CommandService {
         if (!UltimateCore.get().getCommandsConfig().get().getNode("commands", command.getIdentifier(), "enabled").getBoolean(true)) {
             return false;
         }
-        commandsLater.put(command, runnable);
+        this.commandsLater.put(command, runnable);
         return true;
     }
 
@@ -96,10 +96,10 @@ public class UCCommandService implements CommandService {
      */
     @Override
     public boolean unregister(Command command) {
-        if (Sponge.getEventManager().post(new CommandUnregisterEvent(command, Cause.builder().notifier(UltimateCore.get()).build()))) {
+        if (Sponge.getEventManager().post(new CommandUnregisterEvent(command, Cause.builder().notifier(UltimateCore.getContainer()).build()))) {
             return false;
         }
-        return commands.remove(command);
+        return this.commands.remove(command);
     }
 
     /**
@@ -127,9 +127,9 @@ public class UCCommandService implements CommandService {
      */
     @Override
     public Optional<Command> get(String id) {
-        List<Command> matches = commands.stream().filter(cmd -> cmd.getIdentifier().equalsIgnoreCase(id)).collect(Collectors.toList());
+        List<Command> matches = this.commands.stream().filter(cmd -> cmd.getIdentifier().equalsIgnoreCase(id)).collect(Collectors.toList());
         if (matches.isEmpty()) {
-            matches = commands.stream().filter(cmd -> cmd.getAliases().contains(id)).collect(Collectors.toList());
+            matches = this.commands.stream().filter(cmd -> cmd.getAliases().contains(id)).collect(Collectors.toList());
         }
         return matches.isEmpty() ? Optional.empty() : Optional.of(matches.get(0));
     }
@@ -144,6 +144,6 @@ public class UCCommandService implements CommandService {
             register(cmd);
             run.run();
         });
-        commandsLater.clear();
+        this.commandsLater.clear();
     }
 }

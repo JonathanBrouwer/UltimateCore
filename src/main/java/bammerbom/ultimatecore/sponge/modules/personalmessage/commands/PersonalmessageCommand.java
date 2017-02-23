@@ -84,7 +84,7 @@ public class PersonalmessageCommand implements HighCommand {
         Text fmessage = Messages.getFormatted("personalmessage.command.personalmessage.format.receive", "%player%", sender, "%message%", message);
 
         //Event
-        Cause cause = Cause.builder().owner(UltimateCore.get()).named("sender", sender).named("target", t).build();
+        Cause cause = Cause.builder().owner(UltimateCore.getContainer()).named("sender", sender).named("target", t).build();
         MessageEvent.MessageFormatter formatter = new MessageEvent.MessageFormatter(fmessage);
         final CommandSource tf = t;
         MessageChannel channel = new MessageChannel() {
