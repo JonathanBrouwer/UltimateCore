@@ -65,14 +65,14 @@ public class NamesHandler {
 
         //Add new players
         for (Player p : Sponge.getServer().getOnlinePlayers()) {
-            if (!names.containsKey(p.getUniqueId())) {
-                names.put(p.getUniqueId(), getDetails(p));
+            if (!this.names.containsKey(p.getUniqueId())) {
+                this.names.put(p.getUniqueId(), getDetails(p));
                 updated = true;
             }
         }
 
         //Remove old players
-        List<UUID> removenames = names.keySet().stream().filter(uuid -> !Sponge.getServer().getPlayer(uuid).isPresent()).collect(Collectors.toList());
+        List<UUID> removenames = this.names.keySet().stream().filter(uuid -> !Sponge.getServer().getPlayer(uuid).isPresent()).collect(Collectors.toList());
         removenames.forEach(this::removeCache);
 
         //Resort map if needed
@@ -93,7 +93,7 @@ public class NamesHandler {
         for (Player p : Sponge.getServer().getOnlinePlayers()) {
             TabList list = p.getTabList();
             new ArrayList<>(list.getEntries()).forEach(entry -> list.removeEntry(entry.getProfile().getUniqueId()));
-            names.forEach((uuid, name) -> {
+            this.names.forEach((uuid, name) -> {
                 Player player = Sponge.getServer().getPlayer(uuid).get();
                 Text fullname = Text.of(name.getFirst(), name.getSecond(), name.getThird());
                 list.addEntry(TabListEntry.builder().displayName(fullname).gameMode(player.gameMode().get()).latency(player.getConnection().getLatency()).list(list).profile(player.getProfile()).build());
@@ -103,36 +103,36 @@ public class NamesHandler {
 
     public void refreshCompat() {
         //Generate teams
-        if (board == null) {
-            board = Scoreboard.builder().build();
+        if (this.board == null) {
+            this.board = Scoreboard.builder().build();
         }
         boolean updated = false;
         for (Player p : Sponge.getServer().getOnlinePlayers()) {
-            if (!teams.containsKey(p.getUniqueId())) {
+            if (!this.teams.containsKey(p.getUniqueId())) {
                 updated = true;
-                String teamname = "uc_" + teamcount++;
+                String teamname = "uc_" + this.teamcount++;
                 //Team might be present if it has been used earlier
-                if (!board.getTeam(teamname).isPresent()) {
-                    board.registerTeam(Team.builder().name(teamname).build());
+                if (!this.board.getTeam(teamname).isPresent()) {
+                    this.board.registerTeam(Team.builder().name(teamname).build());
                 }
-                Team team = board.getTeam(teamname).get();
+                Team team = this.board.getTeam(teamname).get();
                 team.addMember(p.getTeamRepresentation());
-                team.setPrefix(names.get(p.getUniqueId()).getFirst());
-                team.setSuffix(names.get(p.getUniqueId()).getThird());
-                teams.put(p.getUniqueId(), team);
+                team.setPrefix(this.names.get(p.getUniqueId()).getFirst());
+                team.setSuffix(this.names.get(p.getUniqueId()).getThird());
+                this.teams.put(p.getUniqueId(), team);
             }
         }
         if (updated) {
             for (Player p : Sponge.getServer().getOnlinePlayers()) {
-                p.setScoreboard(board);
+                p.setScoreboard(this.board);
             }
         }
     }
 
     public void resortNamesList() {
         //Resort
-        LinkedHashMap<UUID, Tuples.Tri<Text, Text, Text>> tempnames = (LinkedHashMap<UUID, Tuples.Tri<Text, Text, Text>>) names.clone();
-        names.clear();
+        LinkedHashMap<UUID, Tuples.Tri<Text, Text, Text>> tempnames = (LinkedHashMap<UUID, Tuples.Tri<Text, Text, Text>>) this.names.clone();
+        this.names.clear();
 
         //Sort map by weight
         List<UUID> nameslist = new ArrayList<>(tempnames.keySet());
@@ -145,16 +145,16 @@ public class NamesHandler {
         });
 
         //Add to global list
-        nameslist.forEach(name -> names.put(name, tempnames.get(name)));
+        nameslist.forEach(name -> this.names.put(name, tempnames.get(name)));
     }
 
     //Prefix, name, suffix
     private Tuples.Tri<Text, Text, Text> getDetails(Player p) {
         ModuleConfig config = Modules.TABLIST.get().getConfig().get();
         CommentedConfigurationNode node = config.get();
-        Text prefix = Messages.toText(node.getNode("names", "default", "prefix").getString());
-        Text suffix = Messages.toText(node.getNode("names", "default", "suffix").getString());
-        Text name = Messages.toText(node.getNode("names", "default", "format").getString());
+        Text prefix = Messages.toText(node.getNode("names", "default", "prefix").getString(""));
+        Text suffix = Messages.toText(node.getNode("names", "default", "suffix").getString(""));
+        Text name = Messages.toText(node.getNode("names", "default", "format").getString(""));
 
         //Check if the uc.tablist.group property is set, in that case override name.
         String group = TablistPermissions.UC_TABLIST_GROUP.getFor(p);
@@ -193,18 +193,18 @@ public class NamesHandler {
     }
 
     public void removeCache(UUID uuid) {
-        if (board != null) {
-            board.getTeams().remove(teams.get(uuid));
+        if (this.board != null) {
+            this.board.getTeams().remove(this.teams.get(uuid));
         }
-        names.remove(uuid);
-        teams.remove(uuid);
+        this.names.remove(uuid);
+        this.teams.remove(uuid);
     }
 
     public void clearCache() {
-        board = Scoreboard.builder().build();
-        names.clear();
-        teamcount = 0;
-        teams.clear();
+        this.board = Scoreboard.builder().build();
+        this.names.clear();
+        this.teamcount = 0;
+        this.teams.clear();
         update();
     }
 }
