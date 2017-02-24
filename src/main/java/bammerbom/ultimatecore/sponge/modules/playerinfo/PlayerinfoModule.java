@@ -24,26 +24,32 @@
 package bammerbom.ultimatecore.sponge.modules.playerinfo;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
+import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
+import bammerbom.ultimatecore.sponge.api.module.HighModule;
+import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
+import bammerbom.ultimatecore.sponge.modules.playerinfo.commands.ListCommand;
 import bammerbom.ultimatecore.sponge.modules.playerinfo.commands.PingCommand;
 import bammerbom.ultimatecore.sponge.modules.playerinfo.commands.UuidCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.text.Text;
 
-public class PlayerinfoModule implements Module {
-    @Override
-    public String getIdentifier() {
-        return "playerinfo";
-    }
+import java.util.Optional;
+
+@ModuleInfo(name = "playerinfo", description = "Allows you to see information about players.")
+public class PlayerinfoModule implements HighModule {
+    ModuleConfig config;
 
     @Override
-    public Text getDescription() {
-        return Text.of("Allows you to see information about players.");
+    public Optional<ModuleConfig> getConfig() {
+        return Optional.of(this.config);
     }
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        this.config = new RawModuleConfig("playerinfo");
+
         UltimateCore.get().getCommandService().register(new PingCommand());
         UltimateCore.get().getCommandService().register(new UuidCommand());
+        UltimateCore.get().getCommandService().register(new ListCommand());
     }
 }

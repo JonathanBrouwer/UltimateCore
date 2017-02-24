@@ -40,7 +40,7 @@ import java.util.Map;
 public interface HighPermCommand extends HighCommand {
 
     default String getBasePermission() {
-        return "uc." + getModule().getIdentifier().toLowerCase() + "." + getIdentifier().toLowerCase();
+        return "uc." + getModule().getIdentifier().toLowerCase() + "." + getFullIdentifier().toLowerCase();
     }
 
     //Implemented with @CommandPermissions
@@ -87,6 +87,10 @@ public interface HighPermCommand extends HighCommand {
     }
 
     //QUICK CHECKS
+    default boolean hasPermSuffix(CommandSource sender, String suffix) {
+        return sender.hasPermission(getBasePermission() + "." + suffix);
+    }
+
     default void checkPermSuffix(CommandSource sender, String suffix) throws CommandException {
         String perm = getBasePermission() + "." + suffix;
         if (!sender.hasPermission(perm)) {
