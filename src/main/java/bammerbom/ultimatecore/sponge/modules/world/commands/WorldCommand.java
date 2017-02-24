@@ -46,6 +46,7 @@ import org.spongepowered.api.command.args.CommandElement;
         EnableWorldCommand.class,
         GameruleWorldCommand.class,
         ImportWorldCommand.class,
+        ListWorldCommand.class,
         InfoWorldCommand.class,
         SetdifficultyWorldCommand.class,
         SetgamemodeWorldCommand.class,

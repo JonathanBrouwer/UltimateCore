@@ -31,52 +31,44 @@ import bammerbom.ultimatecore.sponge.api.command.argument.arguments.WorldPropert
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.modules.world.WorldModule;
 import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.service.pagination.PaginationList;
-import org.spongepowered.api.service.pagination.PaginationService;
+import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
-import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.storage.WorldProperties;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 @CommandParentInfo(parent = WorldCommand.class)
-@CommandInfo(module = WorldModule.class, aliases = {"info", "worlds", "worldlist", "list"})
+@CommandInfo(module = WorldModule.class, aliases = {"info", "worldinfo"})
 public class InfoWorldCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new WorldPropertiesArgument(Text.of("world"))).optional().build()
-        };
+        return new CommandElement[]{Arguments.builder(new WorldPropertiesArgument(Text.of("world"))).optional().build()};
     }
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        WorldProperties world;
         if (!args.hasAny("world")) {
-            List<Text> texts = new ArrayList<>();
-            //Add entry to texts for every warp
-            for (World world : Sponge.getServer().getWorlds()) {
-                texts.add(Messages.getFormatted(src, "world.command.world.info.list.entry", "%world%", world.getName()).toBuilder().onClick(TextActions.runCommand("/world info " + world.getName())).build());
-            }
-            //Sort alphabetically
-            Collections.sort(texts);
-            //Send page
-            PaginationService paginationService = Sponge.getServiceManager().provide(PaginationService.class).get();
-            PaginationList paginationList = paginationService.builder().contents(texts).title(Messages.getFormatted("world.command.world.info.list.header").toBuilder().color(TextColors.DARK_GREEN).build()).build();
-            paginationList.sendTo(src);
-            return CommandResult.success();
+            checkIfPlayer(src);
+            Player p = (Player) src;
+            world = p.getWorld().getProperties();
+        } else {
+            world = args.<WorldProperties>getOne("world").get();
         }
-        WorldProperties world = args.<WorldProperties>getOne("world").get();
         Messages.send(src, "world.command.world.info.single.title", "%world%", world.getWorldName());
+        Messages.send(src, "world.command.world.info.single.id-uuid", "%id%", world.getUniqueId().toString());
+        String numeric;
+        try {
+            numeric = world.getAdditionalProperties().getView(DataQuery.of("SpongeData")).get().get(DataQuery.of("dimensionId")).get().toString();
+        } catch (Exception ex) {
+            numeric = "?";
+        }
+        Messages.send(src, "world.command.world.info.single.id-numeric", "%id%", numeric);
         Messages.send(src, "world.command.world.info.single.enabled", "%enabled%", world.loadOnStartup() ? Messages.getFormatted(src, "world.enabled") : Messages.getFormatted(src, "world.disabled"));
         Messages.send(src, "world.command.world.info.single.difficulty", "%difficulty%", world.getDifficulty().getName());
         Messages.send(src, "world.command.world.info.single.gamemode", "%gamemode%", world.getGameMode().getName());
