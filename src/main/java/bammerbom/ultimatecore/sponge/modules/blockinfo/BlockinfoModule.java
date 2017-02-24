@@ -25,12 +25,10 @@ package bammerbom.ultimatecore.sponge.modules.blockinfo;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.HighModule;
-import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleDisableByDefault;
 import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
 import bammerbom.ultimatecore.sponge.modules.blockinfo.commands.BreakCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 
-@ModuleDisableByDefault
 @ModuleInfo(name = "blockinfo", description = "View different kinds of information about blocks.")
 public class BlockinfoModule implements HighModule {
     @Override
