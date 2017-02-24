@@ -35,6 +35,7 @@ import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.title.Title;
 
@@ -74,5 +75,10 @@ public class AfkSwitchListener {
         }
     }
 
+    @Listener
+    public void onQuit(ClientConnectionEvent.Disconnect event) {
+        UltimateUser up = UltimateCore.get().getUserService().getUser(event.getTargetEntity());
+        up.offer(AfkKeys.IS_AFK, false);
+    }
 
 }
