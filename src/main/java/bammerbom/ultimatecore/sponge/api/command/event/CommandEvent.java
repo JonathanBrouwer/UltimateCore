@@ -24,10 +24,10 @@
 package bammerbom.ultimatecore.sponge.api.command.event;
 
 import bammerbom.ultimatecore.sponge.api.command.Command;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
-public class CommandEvent implements Event {
+public class CommandEvent extends AbstractEvent {
 
     protected Cause cause;
     protected Command command;
@@ -44,10 +44,10 @@ public class CommandEvent implements Event {
      */
     @Override
     public Cause getCause() {
-        return cause;
+        return this.cause;
     }
 
     public Command getCommand() {
-        return command;
+        return this.command;
     }
 }

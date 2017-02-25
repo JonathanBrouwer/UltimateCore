@@ -25,15 +25,15 @@ package bammerbom.ultimatecore.sponge.api.sign.event;
 
 import bammerbom.ultimatecore.sponge.api.sign.UCSign;
 import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 /**
  * A {@link SignEvent} is an event where a {@link UCSign} is involved.
  */
-public class SignEvent implements Event, Cancellable {
+public class SignEvent extends AbstractEvent implements Cancellable {
     private Cause cause;
     private UCSign sign;
     private boolean cancelled = false;
@@ -50,7 +50,7 @@ public class SignEvent implements Event, Cancellable {
      */
     @Override
     public Cause getCause() {
-        return cause;
+        return this.cause;
     }
 
     /**
@@ -59,12 +59,12 @@ public class SignEvent implements Event, Cancellable {
      * @return The sign
      */
     public UCSign getSign() {
-        return sign;
+        return this.sign;
     }
 
     @Override
     public boolean isCancelled() {
-        return cancelled;
+        return this.cancelled;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class SignEvent implements Event, Cancellable {
          * Get the {@link Location} where the event happened
          */
         public Location<World> getLocation() {
-            return location;
+            return this.location;
         }
     }
 }

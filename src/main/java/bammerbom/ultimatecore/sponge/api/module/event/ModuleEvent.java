@@ -24,13 +24,13 @@
 package bammerbom.ultimatecore.sponge.api.module.event;
 
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
 /**
  * A {@link ModuleEvent} is an event where a {@link Module} is involved.
  */
-public class ModuleEvent implements Event {
+public class ModuleEvent extends AbstractEvent {
     private Cause cause;
     private Module module;
 
@@ -46,7 +46,7 @@ public class ModuleEvent implements Event {
      */
     @Override
     public Cause getCause() {
-        return cause;
+        return this.cause;
     }
 
     /**
@@ -55,6 +55,6 @@ public class ModuleEvent implements Event {
      * @return The module
      */
     public Module getModule() {
-        return module;
+        return this.module;
     }
 }

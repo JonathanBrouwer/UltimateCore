@@ -28,11 +28,14 @@ import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
+import javax.annotation.Nullable;
+
 @ConfigSerializable
 public class Home {
-    
+
     @Setting
     String name;
+    @Nullable
     @Setting
     Transform<World> location;
 

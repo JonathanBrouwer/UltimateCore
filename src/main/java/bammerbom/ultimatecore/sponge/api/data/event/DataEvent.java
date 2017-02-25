@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.api.data.event;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -33,7 +33,7 @@ import java.util.Optional;
 /**
  * An event where a {@link Key} and it's value is involved.
  */
-public class DataEvent<C> implements Event {
+public class DataEvent<C> extends AbstractEvent {
     protected Key<C> key;
     protected C orgvalue;
     protected C value;
@@ -47,15 +47,15 @@ public class DataEvent<C> implements Event {
     }
 
     public Key getKey() {
-        return key;
+        return this.key;
     }
 
     public Optional<C> getOriginalValue() {
-        return Optional.ofNullable(orgvalue);
+        return Optional.ofNullable(this.orgvalue);
     }
 
     public Optional<C> getValue() {
-        return Optional.ofNullable(value);
+        return Optional.ofNullable(this.value);
     }
 
     /**
@@ -69,6 +69,6 @@ public class DataEvent<C> implements Event {
 
     @Override
     public Cause getCause() {
-        return cause;
+        return this.cause;
     }
 }
