@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.jail.api;
 
 import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.text.Text;
 
 import java.util.UUID;
@@ -32,6 +33,7 @@ import java.util.UUID;
  * JailData is the class attached to a player when the player is jailed.
  * This contains information like who jailed him, for how long, etc.
  */
+@ConfigSerializable
 public class JailData {
     @Setting
     UUID jaild;
