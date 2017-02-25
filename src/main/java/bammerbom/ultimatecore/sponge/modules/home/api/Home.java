@@ -24,9 +24,11 @@
 package bammerbom.ultimatecore.sponge.modules.home.api;
 
 import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
+@ConfigSerializable
 public class Home {
     @Setting
     String name;
