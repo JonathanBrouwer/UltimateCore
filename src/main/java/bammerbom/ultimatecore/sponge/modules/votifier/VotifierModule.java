@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.HighModule;
-import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleDisableByDefault;
 import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
 import bammerbom.ultimatecore.sponge.api.variable.utils.ArgumentUtil;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VoteSerializer;
@@ -48,7 +47,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-@ModuleDisableByDefault
 @ModuleInfo(name = "votifier", description = "Give players rewards for voting.")
 public class VotifierModule implements HighModule {
     ModuleConfig config = null;
