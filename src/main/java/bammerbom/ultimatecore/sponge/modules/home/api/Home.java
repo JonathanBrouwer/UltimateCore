@@ -35,6 +35,10 @@ public class Home {
     @Setting
     Transform<World> location;
 
+    public Home() {
+
+    }
+
     public Home(String name, Transform<World> location) {
         this.name = name;
         this.location = location;
