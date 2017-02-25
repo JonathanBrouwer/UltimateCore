@@ -2,7 +2,7 @@ Delnick
 ====
 Remove a player's nickname.
 
-Usage: /delnick ?|\[Player\]<br>
+Usage: /delnick \[Player\]<br>
 Aliases: delnick, delnickname, removenick, removenickname, resetnick, resetnickname<br>
 Module: [nick](../modules/nick.md)<br>
 

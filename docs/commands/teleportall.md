@@ -2,7 +2,7 @@ Teleportall
 ====
 Teleport everyone to you.
 
-Usage: /teleportall ?|<br>
+Usage: /teleportall<br>
 Aliases: teleportall, tpall<br>
 Module: [teleport](../modules/teleport.md)<br>
 

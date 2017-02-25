@@ -2,7 +2,7 @@ Flyspeed
 ====
 Change a player's flyspeed. (1 by default)
 
-Usage: /flyspeed ?|\<Speed\> \[Player\]<br>
+Usage: /flyspeed \<Speed\> \[Player\]<br>
 Aliases: flyspeed, fspeed<br>
 Module: [fly](../modules/fly.md)<br>
 

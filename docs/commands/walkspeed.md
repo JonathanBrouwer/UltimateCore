@@ -2,7 +2,7 @@ Walkspeed
 ====
 Change a player's walkspeed. (1 by default)
 
-Usage: /walkspeed ?|\<Speed\> \[Player\]<br>
+Usage: /walkspeed \<Speed\> \[Player\]<br>
 Aliases: walkspeed, wspeed<br>
 Module: [fly](../modules/fly.md)<br>
 

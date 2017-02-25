@@ -4,11 +4,14 @@ Modules
 [afk - Management of what happens to idle players.](modules/afk.md)<br>
 [automessage - A lot of automessage functionality, including chat, bossbar, actionbar, title and random messages.](modules/automessage.md)<br>
 [back - Teleport back to where you were before you teleported to somewhere.](modules/back.md)<br>
+[ban - Allows you to ban and unban players and ips](modules/ban.md)<br>
 [blacklist - Ban items from being used by players.](modules/blacklist.md)<br>
+[blockinfo - View different kinds of information about blocks.](modules/blockinfo.md)<br>
 [blood - Custom 'blood' particles when a player gets damaged](modules/blood.md)<br>
 [broadcast - Broadcast custom messages over the server.](modules/broadcast.md)<br>
 [burn - Set a player on fire using the /burn command.](modules/burn.md)<br>
 [chat - Full chat management, including group formats](modules/chat.md)<br>
+[commandtimer - Allows you to set cooldowns and teleport warmups.](modules/commandtimer.md)<br>
 [connectionmessages - Allows you to change the join and quit messages.](modules/connectionmessages.md)<br>
 [deaf - Allows you to make a player deaf. The player won't be able to send chat and see the chat.](modules/deaf.md)<br>
 [deathmessage - Allows you to change deathmessages to whatever you want.](modules/deathmessage.md)<br>
@@ -25,6 +28,7 @@ Modules
 [jail - Put players in a jail as a punishment for misbehaving.](modules/jail.md)<br>
 [kick - ALlows you to kick a player from the server.](modules/kick.md)<br>
 [kit - Give players certain items on use of a command.](modules/kit.md)<br>
+[mail - Send and receive mail from players.](modules/mail.md)<br>
 [mute - Allows you to mute a player and the player won't be able to send chat, but will be able to see the chat.](modules/mute.md)<br>
 [nick - Allows players to change their display name.](modules/nick.md)<br>
 [personalmessage - Send private messages to other players.](modules/personalmessage.md)<br>
@@ -41,7 +45,6 @@ Modules
 [time - Change the time of the minecraft world to day, night, or anything in between.](modules/time.md)<br>
 [unknowncommand - Allows you to change the message send to a player when a command is not found.](modules/unknowncommand.md)<br>
 [vanish - Make players invisible.](modules/vanish.md)<br>
-[votifier - ](modules/votifier.md)<br>
 [warp - Let the admin set certain locations where a player can teleport to.](modules/warp.md)<br>
 [weather - Change the minecraft world's weather, or disable it.](modules/weather.md)<br>
 [world - World management.](modules/world.md)<br>

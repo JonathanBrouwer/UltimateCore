@@ -2,7 +2,7 @@ Clearinventory
 ====
 Remove all items from someone's inventory.
 
-Usage: /clearinventory ?|\[Player\]<br>
+Usage: /clearinventory \[Player\]<br>
 Aliases: clearinventory, clear, ci<br>
 Module: [inventory](../modules/inventory.md)<br>
 

@@ -2,7 +2,7 @@ Time
 ====
 Time-related actions.
 
-Usage: /time add|set|query|night|enable|disable|day|?|\[Time\]<br>
+Usage: /time add|set|query|night|enable|disable|day|\[Time\]<br>
 Aliases: time<br>
 Module: [time](../modules/time.md)<br>
 

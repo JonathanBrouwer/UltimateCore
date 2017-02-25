@@ -2,7 +2,7 @@ Broadcast
 ====
 Send a message to everyone on the server.
 
-Usage: /broadcast ?|\<Message…\><br>
+Usage: /broadcast \<Message…\><br>
 Aliases: broadcast, bc<br>
 Module: [broadcast](../modules/broadcast.md)<br>
 
