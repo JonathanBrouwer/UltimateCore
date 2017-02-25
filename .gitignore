@@ -51,8 +51,6 @@ bin
 .gradle
 .git
 src/main/java/bammerbom/ultimatecore/spongeapi_old
-gradlew
-gradlew.bat
 
 dependency-reduced-pom.xml
 UltimateCore.iml
