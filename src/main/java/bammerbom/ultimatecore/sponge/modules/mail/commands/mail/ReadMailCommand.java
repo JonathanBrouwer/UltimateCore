@@ -57,12 +57,10 @@ import java.util.UUID;
 
 @CommandInfo(module = MailModule.class, aliases = {"read", "view", "list"})
 @CommandParentInfo(parent = MailCommand.class)
-public class MailReadCommand implements HighSubCommand {
+public class ReadMailCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new UuidArgument(Text.of("mail"))).onlyOne().optional().build()
-        };
+        return new CommandElement[]{Arguments.builder(new UuidArgument(Text.of("mail"))).onlyOne().optional().build()};
     }
 
     @Override

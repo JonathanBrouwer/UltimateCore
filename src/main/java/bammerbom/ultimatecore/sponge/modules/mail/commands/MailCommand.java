@@ -30,10 +30,10 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.NotEnoughArgumentsException;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.mail.MailModule;
-import bammerbom.ultimatecore.sponge.modules.mail.commands.mail.MailClearCommand;
-import bammerbom.ultimatecore.sponge.modules.mail.commands.mail.MailDeleteCommand;
-import bammerbom.ultimatecore.sponge.modules.mail.commands.mail.MailReadCommand;
-import bammerbom.ultimatecore.sponge.modules.mail.commands.mail.MailSendCommand;
+import bammerbom.ultimatecore.sponge.modules.mail.commands.mail.ClearMailCommand;
+import bammerbom.ultimatecore.sponge.modules.mail.commands.mail.DeleteMailCommand;
+import bammerbom.ultimatecore.sponge.modules.mail.commands.mail.ReadMailCommand;
+import bammerbom.ultimatecore.sponge.modules.mail.commands.mail.SendMailCommand;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -42,7 +42,7 @@ import org.spongepowered.api.command.args.CommandElement;
 
 @CommandInfo(module = MailModule.class, aliases = {"mail"})
 @CommandPermissions(level = PermissionLevel.EVERYONE)
-@CommandChildrenInfo(children = {MailReadCommand.class, MailSendCommand.class, MailClearCommand.class, MailDeleteCommand.class})
+@CommandChildrenInfo(children = {ReadMailCommand.class, SendMailCommand.class, ClearMailCommand.class, DeleteMailCommand.class})
 public class MailCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {

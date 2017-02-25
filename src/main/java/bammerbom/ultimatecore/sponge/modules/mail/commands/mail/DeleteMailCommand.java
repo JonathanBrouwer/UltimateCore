@@ -27,9 +27,12 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.UuidArgument;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.mail.MailModule;
+import bammerbom.ultimatecore.sponge.modules.mail.api.Mail;
 import bammerbom.ultimatecore.sponge.modules.mail.api.MailKeys;
 import bammerbom.ultimatecore.sponge.modules.mail.commands.MailCommand;
 import org.spongepowered.api.command.CommandException;
@@ -38,15 +41,17 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-@CommandInfo(module = MailModule.class, aliases = {"clear", "removeall", "deleteall"})
+@CommandInfo(module = MailModule.class, aliases = {"delete", "remove"})
 @CommandParentInfo(parent = MailCommand.class)
-public class MailClearCommand implements HighSubCommand {
+public class DeleteMailCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[0];
+        return new CommandElement[]{Arguments.builder(new UuidArgument(Text.of("mailid"))).onlyOne().build()};
     }
 
     @Override
@@ -55,14 +60,17 @@ public class MailClearCommand implements HighSubCommand {
         Player p = (Player) src;
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
 
-        //Clear mail
-        up.offer(MailKeys.MAILS_RECEIVED, new ArrayList<>());
-        up.offer(MailKeys.MAILS_SENT, new ArrayList<>());
+        //Get mail
+        UUID uuid = args.<UUID>getOne("mailid").get();
+        List<Mail> mails = up.get(MailKeys.MAILS_RECEIVED).get();
+        Mail mail = mails.stream().filter(m -> m.getMailid().equals(uuid)).findFirst().orElse(null);
+        if (mail == null) {
+            throw Messages.error(src, "core.invaliduuid", "%uuid%", uuid);
+        }
+        mails.remove(mail);
+        up.offer(MailKeys.MAILS_RECEIVED, mails);
 
-        //Set unread count to 0
-        up.offer(MailKeys.UNREAD_MAIL, 0);
-
-        Messages.send(src, "mail.command.mail.clear");
+        Messages.send(src, "mail.command.mail.delete");
         return CommandResult.success();
     }
 }

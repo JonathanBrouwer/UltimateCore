@@ -51,13 +51,10 @@ import java.util.List;
 
 @CommandInfo(module = MailModule.class, aliases = {"send"})
 @CommandParentInfo(parent = MailCommand.class)
-public class MailSendCommand implements HighSubCommand {
+public class SendMailCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new GameprofileArgument(Text.of("player"))).onlyOne().build(),
-                Arguments.builder(new RemainingStringsArgument(Text.of("message"))).onlyOne().build()
-        };
+        return new CommandElement[]{Arguments.builder(new GameprofileArgument(Text.of("player"))).onlyOne().build(), Arguments.builder(new RemainingStringsArgument(Text.of("message"))).onlyOne().build()};
     }
 
     @Override
@@ -77,9 +74,9 @@ public class MailSendCommand implements HighSubCommand {
         List<Mail> sentMail = up.get(MailKeys.MAILS_SENT).get();
         sentMail.add(mail);
         up.offer(MailKeys.MAILS_SENT, sentMail);
-        List<Mail> receivedMail = up.get(MailKeys.MAILS_RECEIVED).get();
+        List<Mail> receivedMail = ut.get(MailKeys.MAILS_RECEIVED).get();
         receivedMail.add(mail);
-        up.offer(MailKeys.MAILS_RECEIVED, receivedMail);
+        ut.offer(MailKeys.MAILS_RECEIVED, receivedMail);
 
         //Increase unread count
         up.offer(MailKeys.UNREAD_MAIL, up.get(MailKeys.UNREAD_MAIL).get() + 1);

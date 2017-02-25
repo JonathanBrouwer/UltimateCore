@@ -30,6 +30,7 @@ import org.spongepowered.api.world.World;
 
 @ConfigSerializable
 public class Home {
+    
     @Setting
     String name;
     @Setting
