@@ -51,32 +51,29 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stag) throws Exception {
-        stage = stag;
-        stage.setTitle("UltimateCore");
-        stage.getIcons().add(new Image("assets/ultimatecore/icon.png"));
+        this.stage = stag;
+        this.stage.setTitle("UltimateCore");
+        this.stage.getIcons().add(new Image("assets/ultimatecore/icon.png"));
 
-        stage.setWidth(450);
-        stage.setResizable(false);
+        this.stage.setWidth(450);
+        this.stage.setResizable(false);
 
         //Text
         Label text = new Label();
-        text.setText("Welcome to the UltimateCore hub! Please select the action you want to take.");
+        text.setText("Welcome to the UltimateCore hub! Please select the action you want to take.\nNote: If you tried to run UltimateCore this way, please don't.\n          This is a bukkit/sponge plugin and it can't be executed directly.");
         GridPane.setConstraints(text, 0, 0, 4, 1);
 
         //Bukkit
         Button bukkit = new Button("Bukkit page");
-        bukkit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        Desktop.getDesktop().browse(new URI("http://dev.bukkit.org/bukkit-plugins/ultimate_core"));
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    showErrorMessage("Opening web pages is not supported on your OS.");
+        bukkit.setOnAction(t -> {
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().browse(new URI("http://dev.bukkit.org/bukkit-plugins/ultimate_core"));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                showErrorMessage("Opening web pages is not supported on your OS.");
             }
         });
         bukkit.getStyleClass().add("button-2");
@@ -85,18 +82,15 @@ public class Main extends Application {
 
         //UC web
         Button ucweb = new Button("UltimateCore website");
-        ucweb.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        Desktop.getDesktop().browse(new URI("http://ultimatecore.org"));
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    showErrorMessage("Opening web pages is not supported on your OS.");
+        ucweb.setOnAction(t -> {
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().browse(new URI("http://ultimatecore.org"));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                showErrorMessage("Opening web pages is not supported on your OS.");
             }
         });
         ucweb.getStyleClass().add("button-2");
@@ -104,10 +98,11 @@ public class Main extends Application {
 
         //Sponge page
         Button sponge = new Button("Sponge page");
-        sponge.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                showErrorMessage("This page is not available yet.");
+        sponge.setOnAction(t -> {
+            try {
+                Desktop.getDesktop().browse(new URI("https://forums.spongepowered.org/t/gear-ultimatecore-the-best-essentials-plugin-api-5-6-mc-1-10-1-11/1147/1"));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
             }
         });
         sponge.setCancelButton(true);
@@ -116,49 +111,38 @@ public class Main extends Application {
 
         //Close
         Button close = new Button("Close");
-        close.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                stage.close();
-            }
-        });
+        close.setOnAction(t -> Main.this.stage.close());
         close.getStyleClass().add("button-close");
         close.setPrefWidth(67);
         GridPane.setConstraints(close, 3, 3);
 
         //Report issue
         Button reportissue = new Button("Report issue");
-        reportissue.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        Desktop.getDesktop().browse(new URI("http://dev.bukkit.org/bukkit-plugins/ultimate_core/tickets/"));
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    showErrorMessage("Opening web pages is not supported on your OS.");
+        reportissue.setOnAction(t -> {
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://github.com/Bammerbom/UltimateCore/issues"));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Failed to open web page.", "UltimateCore", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                showErrorMessage("Opening web pages is not supported on your OS.");
             }
         });
         reportissue.getStyleClass().add("button-1");
         GridPane.setConstraints(reportissue, 0, 2);
 
         //Features list
-        Button features = new Button("Features list");
-        features.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        Desktop.getDesktop().browse(new URI("http://ultimatecore.org/features"));
-                    } catch (Exception ex) {
-                        showErrorMessage("Failed to open web page.");
-                    }
-                } else {
-                    showErrorMessage("Opening web pages is not supported on your OS.");
+        Button features = new Button("Documentation");
+        features.setOnAction(t -> {
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://github.com/Bammerbom/UltimateCore/tree/master/docs"));
+                } catch (Exception ex) {
+                    showErrorMessage("Failed to open web page.");
                 }
+            } else {
+                showErrorMessage("Opening web pages is not supported on your OS.");
             }
         });
         features.getStyleClass().add("button-1");
@@ -167,18 +151,15 @@ public class Main extends Application {
 
         //Source
         Button source = new Button("Source");
-        source.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        Desktop.getDesktop().browse(new URI("https://github.com/Bammerbom/UltimateCore"));
-                    } catch (Exception ex) {
-                        showErrorMessage("Failed to open web page.");
-                    }
-                } else {
-                    showErrorMessage("Opening web pages is not supported on your OS.");
+        source.setOnAction(t -> {
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://github.com/Bammerbom/UltimateCore"));
+                } catch (Exception ex) {
+                    showErrorMessage("Failed to open web page.");
                 }
+            } else {
+                showErrorMessage("Opening web pages is not supported on your OS.");
             }
         });
         source.getStyleClass().add("button-1");
@@ -186,19 +167,16 @@ public class Main extends Application {
         GridPane.setConstraints(source, 2, 2);
 
         //MCStats
-        Button mcstats = new Button("MCStats");
-        mcstats.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        Desktop.getDesktop().browse(new URI("http://mcstats.org/plugin/UltimateCore"));
-                    } catch (Exception ex) {
-                        showErrorMessage("Failed to open web page.");
-                    }
-                } else {
-                    showErrorMessage("Opening web pages is not supported on your OS.");
+        Button mcstats = new Button("Stats");
+        mcstats.setOnAction(t -> {
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://bstats.org/plugin/sponge/UltimateCore"));
+                } catch (Exception ex) {
+                    showErrorMessage("Failed to open web page.");
                 }
+            } else {
+                showErrorMessage("Opening web pages is not supported on your OS.");
             }
         });
         mcstats.getStyleClass().add("button-1");
@@ -215,8 +193,8 @@ public class Main extends Application {
 
         scene.getStylesheets().add("assets/ultimatecore/style.css");
 
-        stage.setScene(scene);
-        stage.show();
+        this.stage.setScene(scene);
+        this.stage.show();
     }
 
     public void showErrorMessage(String message) {
