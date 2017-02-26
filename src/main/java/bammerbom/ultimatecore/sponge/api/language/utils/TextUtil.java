@@ -92,7 +92,7 @@ public class TextUtil {
                 continue;
             }
             Character ch = TextUtil.getColorChar(color);
-            rawmessage = rawmessage.replaceAll("&" + ch, "§" + ch);
+            rawmessage = rawmessage.replaceAll("&" + ch, "\u00A7" + ch);
             //rawmessage = TextUtil.replace(rawmessage, );
             //rawmessage = TextUtil.replace(rawmessage, "&" + , Text.of(color, "a"));
         }
@@ -101,7 +101,7 @@ public class TextUtil {
                 continue;
             }
             Character ch = TextUtil.getStyleChar(style);
-            rawmessage = rawmessage.replaceAll("&" + ch, "§" + ch);
+            rawmessage = rawmessage.replaceAll("&" + ch, "\u00A7" + ch);
             //rawmessage = TextUtil.replace(rawmessage, "&", Text.of("§"));
         }
         return TextSerializers.LEGACY_FORMATTING_CODE.deserialize(rawmessage);

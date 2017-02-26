@@ -39,12 +39,15 @@ repositories {
         name = 'minecrell'
         url = 'http://repo.minecrell.net/releases'
     }
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
     //Don't shadow
     compile "org.spongepowered:spongeapi:6.0.0-SNAPSHOT"
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile name: 'nuvotifier-universal-2.3.4'
 
     //Shadow
     compile "com.goebl:david-webb:1.3.0"
