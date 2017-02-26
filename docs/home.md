@@ -12,7 +12,7 @@ This is automatically generated information for the latest release.
 
 ###For server owners:<br>
 Thanks for choosing UltimateCore! This should help you get started on using UltimateCore
-* [~~Setting up permissions (WIP)~~](tutorials/server-owners/permissions.md)<br>
+* [Setting up permissions](tutorials/server-owners/permissions.md)<br>
 * [~~Configuring UltimateCore (WIP)~~](tutorials/server-owners/config.md)<br>
 * [~~Migrating (WIP)~~](tutorials/server-owners/migrating.md)<br>
 
