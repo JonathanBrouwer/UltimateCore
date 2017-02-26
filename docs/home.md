@@ -29,5 +29,6 @@ This will offer a basic explanation of the UltimateCore api, how to build agains
 * [Creating modules](tutorials/developers/modules.md)<br>
 * [Creating commands](tutorials/developers/commands.md)<br>
 * [Messages](tutorials/developers/messages.md)<br>
+* [~~Permissions (WIP)~~](tutorials/developers/permissions.md)<br>
 * [~~The data API (WIP)~~](tutorials/developers/data.md)<br>
 * [~~Configuration (WIP)~~](tutorials/developers/configuration.md)<br>
