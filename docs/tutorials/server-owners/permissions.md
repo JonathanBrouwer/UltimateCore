@@ -11,5 +11,9 @@ Click on a certain module or command will give you the permissions of that modul
 * [A list of all permissions](../../permissions.md)<br> 
 
 ## Automatically setting up permissions
-This is still an work in progress feature, and can't currently be done.<br>
-I will add this feature relatively soon.
+You can let UltimateCore automatically set up the permissions for me.<br>
+Use the command: `/uc setupperms <Level> <Group>`<br>
+
+The level is the set of permissions you want to give to the player. These sets are premade in UltimateCore, you just have to enter the name. To see which permissions are part of a set, look [here](../../permissions.md). You can choose from: `Everyone, Vip, Mod, Admin, Owner, Nobody and Unspecified.`
+
+The second argument, the group, is the identifier of the group you want to give these permissions. Make sure you create the group first!
