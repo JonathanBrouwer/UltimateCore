@@ -43,5 +43,8 @@ public enum PermissionLevel {
     OWNER, /**
      * Permissions that no-one should have, or do not fit in any other {@link PermissionLevel}
      */
-    NOBODY
+    NOBODY, /**
+     * This indicates that there is no permission level indicated for this command
+     */
+    UNSPECIFIED
 }

@@ -26,7 +26,9 @@ package bammerbom.ultimatecore.sponge.modules.time.commands.time;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
 import bammerbom.ultimatecore.sponge.modules.time.commands.TimeCommand;
 import org.spongepowered.api.command.CommandException;
@@ -39,6 +41,7 @@ import org.spongepowered.api.world.World;
 
 @CommandParentInfo(parent = TimeCommand.class)
 @CommandInfo(module = TimeModule.class, aliases = {"enable", "on"})
+@CommandPermissions(level = PermissionLevel.ADMIN)
 public class EnableTimeCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {

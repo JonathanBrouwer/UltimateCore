@@ -26,9 +26,11 @@ package bammerbom.ultimatecore.sponge.modules.ban.commands;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.GameprofileArgument;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.ban.BanModule;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.command.CommandException;
@@ -41,13 +43,12 @@ import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 
 @CommandInfo(module = BanModule.class, aliases = {"ip"})
+@CommandPermissions(level = PermissionLevel.MOD)
 public class IpCommand implements HighPermCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                new GameprofileArgument(Text.of("player"))
-        };
+        return new CommandElement[]{new GameprofileArgument(Text.of("player"))};
     }
 
     @Override

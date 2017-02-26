@@ -56,7 +56,7 @@ public interface HighPermCommand extends HighCommand {
         ArrayList<Permission> perms = new ArrayList<>();
 
         //TODO default perm level?
-        PermissionLevel level = pi != null ? pi.level() : PermissionLevel.NOBODY;
+        PermissionLevel level = pi != null ? pi.level() : PermissionLevel.UNSPECIFIED;
 
         //Get base permission
         Permission baseperm = Permission.create(getBasePermission() + ".base", getModule(), level, this, Text.of("Allows you to use the /" + this.getFullIdentifier() + " command."));

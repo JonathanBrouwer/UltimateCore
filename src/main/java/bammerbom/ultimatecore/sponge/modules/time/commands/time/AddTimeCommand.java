@@ -26,10 +26,12 @@ package bammerbom.ultimatecore.sponge.modules.time.commands.time;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BoundedIntegerArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.WorldArgument;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
 import bammerbom.ultimatecore.sponge.modules.time.commands.TimeCommand;
 import org.spongepowered.api.command.CommandException;
@@ -43,12 +45,11 @@ import org.spongepowered.api.world.World;
 
 @CommandParentInfo(parent = TimeCommand.class)
 @CommandInfo(module = TimeModule.class, aliases = {"add", "addtime"})
+@CommandPermissions(level = PermissionLevel.MOD)
 public class AddTimeCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new BoundedIntegerArgument(Text.of("ticks"), null, null)).onlyOne().build(), Arguments.builder(new WorldArgument(Text.of("world"))).optional().onlyOne().build()
-        };
+        return new CommandElement[]{Arguments.builder(new BoundedIntegerArgument(Text.of("ticks"), null, null)).onlyOne().build(), Arguments.builder(new WorldArgument(Text.of("world"))).optional().onlyOne().build()};
     }
 
     @Override

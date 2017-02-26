@@ -31,12 +31,15 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.GroupSubjectArgument;
+import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PermissionLevelArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.NotEnoughArgumentsException;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.PlayerDataFile;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.defaultmodule.DefaultModule;
@@ -49,20 +52,16 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.util.Tristate;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CommandChildrenInfo(children = {
-        UltimatecoreCommand.ClearcacheCommand.class,
-        UltimatecoreCommand.ResetuserCommand.class,
-        UltimatecoreCommand.ModulesCommand.class,
-        UltimatecoreCommand.GendocsCommand.class,
-        UltimatecoreCommand.ErrorCommand.class,
-        UltimatecoreCommand.ReloadCommand.class
-})
-@CommandPermissions(level = PermissionLevel.OWNER)
+@CommandChildrenInfo(children = {UltimatecoreCommand.ClearcacheCommand.class, UltimatecoreCommand.ResetuserCommand.class, UltimatecoreCommand.ModulesCommand.class, UltimatecoreCommand.GendocsCommand.class, UltimatecoreCommand.ErrorCommand.class, UltimatecoreCommand.ReloadCommand.class, UltimatecoreCommand.SetuppermissionsCommand.class})
+@CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandInfo(module = DefaultModule.class, aliases = {"ultimatecore", "uc"})
 public class UltimatecoreCommand implements HighPermCommand {
     @Override
@@ -76,6 +75,7 @@ public class UltimatecoreCommand implements HighPermCommand {
         throw new NotEnoughArgumentsException(getUsage(sender));
     }
 
+    @CommandPermissions(level = PermissionLevel.OWNER)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"clearcache"})
     public static class ClearcacheCommand implements HighSubCommand {
@@ -93,14 +93,13 @@ public class UltimatecoreCommand implements HighPermCommand {
         }
     }
 
+    @CommandPermissions(level = PermissionLevel.OWNER)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"resetuser"})
     public static class ResetuserCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
-            return new CommandElement[]{
-                    Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build()
-            };
+            return new CommandElement[]{Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build()};
         }
 
         @Override
@@ -118,6 +117,7 @@ public class UltimatecoreCommand implements HighPermCommand {
         }
     }
 
+    @CommandPermissions(level = PermissionLevel.ADMIN)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"modules"})
     public static class ModulesCommand implements HighSubCommand {
@@ -135,6 +135,7 @@ public class UltimatecoreCommand implements HighPermCommand {
         }
     }
 
+    @CommandPermissions(level = PermissionLevel.NOBODY)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"gendocs"})
     public static class GendocsCommand implements HighSubCommand {
@@ -151,6 +152,7 @@ public class UltimatecoreCommand implements HighPermCommand {
         }
     }
 
+    @CommandPermissions(level = PermissionLevel.NOBODY)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"error"})
     public static class ErrorCommand implements HighSubCommand {
@@ -172,6 +174,7 @@ public class UltimatecoreCommand implements HighPermCommand {
         }
     }
 
+    @CommandPermissions(level = PermissionLevel.ADMIN)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
     @CommandInfo(module = DefaultModule.class, aliases = {"reload"})
     public static class ReloadCommand implements HighSubCommand {
@@ -185,6 +188,32 @@ public class UltimatecoreCommand implements HighPermCommand {
             checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             UltimateCore.get().onReload(null);
             Messages.send(sender, "default.command.ultimatecore.reload.success");
+            return CommandResult.success();
+        }
+    }
+
+    @CommandPermissions(level = PermissionLevel.OWNER)
+    @CommandParentInfo(parent = UltimatecoreCommand.class)
+    @CommandInfo(module = DefaultModule.class, aliases = {"setuppermissions", "setupperms"})
+    public static class SetuppermissionsCommand implements HighSubCommand {
+        @Override
+        public CommandElement[] getArguments() {
+            return new CommandElement[]{Arguments.builder(new PermissionLevelArgument(Text.of("level"))).onlyOne().build(), Arguments.builder(new GroupSubjectArgument(Text.of("group"))).onlyOne().build()};
+        }
+
+        @Override
+        public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+            PermissionLevel level = args.<PermissionLevel>getOne("level").get();
+            Subject group = args.<Subject>getOne("group").get();
+
+            //For each permission, grant if level is equal
+            for (Permission perm : UltimateCore.get().getPermissionService().getPermissions()) {
+                if (perm.getLevel() == level) {
+                    group.getSubjectData().setPermission(new HashSet<>(), perm.get(), Tristate.TRUE);
+                }
+            }
+
+            Messages.send(src, "default.command.ultimatecore.setuppermissions.success", "%group%", group.getIdentifier(), "%level%", level.name().toLowerCase());
             return CommandResult.success();
         }
     }

@@ -26,10 +26,12 @@ package bammerbom.ultimatecore.sponge.modules.time.commands;
 import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandChildrenInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.BoundedIntegerArgument;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.time.TimeModule;
 import bammerbom.ultimatecore.sponge.modules.time.api.TimePermissions;
 import bammerbom.ultimatecore.sponge.modules.time.commands.time.*;
@@ -44,12 +46,11 @@ import org.spongepowered.api.world.World;
 
 @CommandChildrenInfo(children = {AddTimeCommand.class, DayTimeCommand.class, DisableTimeCommand.class, EnableTimeCommand.class, NightTimeCommand.class, QueryTimeCommand.class, SetTimeCommand.class})
 @CommandInfo(module = TimeModule.class, aliases = "time")
+@CommandPermissions(level = PermissionLevel.MOD)
 public class TimeCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new BoundedIntegerArgument(Text.of("time"), 0, null)).optionalWeak().onlyOne().build()
-        };
+        return new CommandElement[]{Arguments.builder(new BoundedIntegerArgument(Text.of("time"), 0, null)).optionalWeak().onlyOne().build()};
     }
 
     @Override

@@ -27,7 +27,9 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.mail.MailModule;
 import bammerbom.ultimatecore.sponge.modules.mail.api.MailKeys;
@@ -43,6 +45,7 @@ import java.util.ArrayList;
 
 @CommandInfo(module = MailModule.class, aliases = {"clear", "removeall", "deleteall"})
 @CommandParentInfo(parent = MailCommand.class)
+@CommandPermissions(level = PermissionLevel.EVERYONE)
 public class ClearMailCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {

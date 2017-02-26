@@ -26,9 +26,11 @@ package bammerbom.ultimatecore.sponge.modules.world.commands.world;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.WorldPropertiesArgument;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.world.WorldModule;
 import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
 import org.spongepowered.api.command.CommandException;
@@ -43,6 +45,7 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.world.storage.WorldProperties;
 
 @CommandParentInfo(parent = WorldCommand.class)
+@CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandInfo(module = WorldModule.class, aliases = {"info", "worldinfo"})
 public class InfoWorldCommand implements HighSubCommand {
     @Override

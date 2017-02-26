@@ -25,10 +25,12 @@ package bammerbom.ultimatecore.sponge.modules.ban.commands;
 
 import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.GameprofileArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.IpAdressArgument;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.ban.BanModule;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
@@ -43,12 +45,11 @@ import org.spongepowered.api.text.Text;
 import java.net.InetAddress;
 
 @CommandInfo(module = BanModule.class, aliases = {"unban", "pardon", "unbanip", "pardonip", "ipunban", "ippardon"})
+@CommandPermissions(level = PermissionLevel.MOD)
 public class UnbanCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new GameprofileArgument(Text.of("player")), new IpAdressArgument(Text.of("ip"))).onlyOne().usageKey("Player/IP").build(),
-        };
+        return new CommandElement[]{Arguments.builder(new GameprofileArgument(Text.of("player")), new IpAdressArgument(Text.of("ip"))).onlyOne().usageKey("Player/IP").build(),};
     }
 
     @Override

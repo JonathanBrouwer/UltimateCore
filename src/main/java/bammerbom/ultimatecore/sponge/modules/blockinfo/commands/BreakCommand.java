@@ -26,8 +26,10 @@ package bammerbom.ultimatecore.sponge.modules.blockinfo.commands;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.selectiontask.selectiontasks.BlockSelectionTask;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.blockinfo.BlockinfoModule;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -39,6 +41,7 @@ import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
 
 @CommandInfo(module = BlockinfoModule.class, aliases = {"break", "blockzap", "zapblock"})
+@CommandPermissions(level = PermissionLevel.ADMIN)
 public class BreakCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {

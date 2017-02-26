@@ -27,9 +27,11 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.WorldArgument;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import bammerbom.ultimatecore.sponge.modules.world.WorldModule;
 import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
@@ -46,13 +48,12 @@ import org.spongepowered.api.world.World;
 import java.util.Arrays;
 
 @CommandParentInfo(parent = WorldCommand.class)
+@CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandInfo(module = WorldModule.class, aliases = {"teleport", "tp", "tele"})
 public class TeleportWorldCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new WorldArgument(Text.of("world"))).build()
-        };
+        return new CommandElement[]{Arguments.builder(new WorldArgument(Text.of("world"))).build()};
     }
 
     @Override

@@ -27,9 +27,11 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.UuidArgument;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.mail.MailModule;
 import bammerbom.ultimatecore.sponge.modules.mail.api.Mail;
@@ -48,6 +50,7 @@ import java.util.UUID;
 
 @CommandInfo(module = MailModule.class, aliases = {"delete", "remove"})
 @CommandParentInfo(parent = MailCommand.class)
+@CommandPermissions(level = PermissionLevel.EVERYONE)
 public class DeleteMailCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {

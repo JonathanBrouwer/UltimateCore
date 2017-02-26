@@ -26,10 +26,12 @@ package bammerbom.ultimatecore.sponge.modules.world.commands.world;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.*;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.world.WorldModule;
 import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
 import org.spongepowered.api.Sponge;
@@ -56,26 +58,12 @@ import java.util.Collection;
 import java.util.Optional;
 
 @CommandInfo(module = WorldModule.class, aliases = {"create", "add"})
+@CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandParentInfo(parent = WorldCommand.class)
 public class CreateWorldCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new StringArgument(Text.of("name"))).onlyOne().build(),
-                Arguments.builder(GenericArguments.flags()
-                        .valueFlag(new DimensionArgument(Text.of("dimension")), "d", "-dim", "-dimension")
-                        .valueFlag(new GeneratorTypeArgument(Text.of("generator")), "g", "-gen", "-generator")
-                        .valueFlag(new WorldGeneratorModifierArgument(Text.of("wgm")), "-wgm", "-wg", "-worldgenerator", "-worldgeneratormodifier")
-                        .valueFlag(GenericArguments.longNum(Text.of("seed")), "s", "-seed")
-                        .valueFlag(new GamemodeArgument(Text.of("gamemode")), "-gm", "-gamemode")
-                        .valueFlag(new DifficultyArgument(Text.of("difficulty")), "-dif", "-difficulty")
-                        .valueFlag(new BooleanArgument(Text.of("n")), "n", "-nostructures")
-                        .valueFlag(new BooleanArgument(Text.of("l")), "l", "-loadonstartup")
-                        .valueFlag(new BooleanArgument(Text.of("k")), "k", "-keepspawnloaded")
-                        .valueFlag(new BooleanArgument(Text.of("c")), "c", "-allowcommands")
-                        .valueFlag(new BooleanArgument(Text.of("b")), "b", "-bonuschest")
-                        .buildWith(GenericArguments.none())).build()
-        };
+        return new CommandElement[]{Arguments.builder(new StringArgument(Text.of("name"))).onlyOne().build(), Arguments.builder(GenericArguments.flags().valueFlag(new DimensionArgument(Text.of("dimension")), "d", "-dim", "-dimension").valueFlag(new GeneratorTypeArgument(Text.of("generator")), "g", "-gen", "-generator").valueFlag(new WorldGeneratorModifierArgument(Text.of("wgm")), "-wgm", "-wg", "-worldgenerator", "-worldgeneratormodifier").valueFlag(GenericArguments.longNum(Text.of("seed")), "s", "-seed").valueFlag(new GamemodeArgument(Text.of("gamemode")), "-gm", "-gamemode").valueFlag(new DifficultyArgument(Text.of("difficulty")), "-dif", "-difficulty").valueFlag(new BooleanArgument(Text.of("n")), "n", "-nostructures").valueFlag(new BooleanArgument(Text.of("l")), "l", "-loadonstartup").valueFlag(new BooleanArgument(Text.of("k")), "k", "-keepspawnloaded").valueFlag(new BooleanArgument(Text.of("c")), "c", "-allowcommands").valueFlag(new BooleanArgument(Text.of("b")), "b", "-bonuschest").buildWith(GenericArguments.none())).build()};
     }
 
     @Override

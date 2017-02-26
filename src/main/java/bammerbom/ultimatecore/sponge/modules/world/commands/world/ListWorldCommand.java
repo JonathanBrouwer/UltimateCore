@@ -26,7 +26,9 @@ package bammerbom.ultimatecore.sponge.modules.world.commands.world;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.world.WorldModule;
 import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
 import org.spongepowered.api.Sponge;
@@ -47,6 +49,7 @@ import java.util.Collections;
 import java.util.List;
 
 @CommandParentInfo(parent = WorldCommand.class)
+@CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandInfo(module = WorldModule.class, aliases = {"worlds", "worldlist", "list"})
 public class ListWorldCommand implements HighSubCommand {
     @Override

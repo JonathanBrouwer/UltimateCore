@@ -26,10 +26,12 @@ package bammerbom.ultimatecore.sponge.modules.world.commands.world;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.StringArgument;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.world.WorldModule;
 import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
 import org.spongepowered.api.Sponge;
@@ -48,13 +50,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @CommandInfo(module = WorldModule.class, aliases = {"import"})
+@CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandParentInfo(parent = WorldCommand.class)
 public class ImportWorldCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new StringArgument(Text.of("name"))).build()
-        };
+        return new CommandElement[]{Arguments.builder(new StringArgument(Text.of("name"))).build()};
     }
 
     @Override

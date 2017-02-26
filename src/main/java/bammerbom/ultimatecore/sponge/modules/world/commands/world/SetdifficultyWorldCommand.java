@@ -26,10 +26,12 @@ package bammerbom.ultimatecore.sponge.modules.world.commands.world;
 import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.DifficultyArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.WorldArgument;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.world.WorldModule;
 import bammerbom.ultimatecore.sponge.modules.world.commands.WorldCommand;
 import org.spongepowered.api.command.CommandException;
@@ -42,14 +44,12 @@ import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.difficulty.Difficulty;
 
 @CommandInfo(module = WorldModule.class, aliases = {"setdifficulty", "setdiff", "difficulty", "diff"})
+@CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandParentInfo(parent = WorldCommand.class)
 public class SetdifficultyWorldCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new WorldArgument(Text.of("world"))).build(),
-                Arguments.builder(new DifficultyArgument(Text.of("difficulty"))).build()
-        };
+        return new CommandElement[]{Arguments.builder(new WorldArgument(Text.of("world"))).build(), Arguments.builder(new DifficultyArgument(Text.of("difficulty"))).build()};
     }
 
     @Override

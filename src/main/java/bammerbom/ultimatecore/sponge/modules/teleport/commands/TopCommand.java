@@ -26,7 +26,9 @@ package bammerbom.ultimatecore.sponge.modules.teleport.commands;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import bammerbom.ultimatecore.sponge.api.teleport.utils.LocationUtil;
 import bammerbom.ultimatecore.sponge.modules.teleport.TeleportModule;
@@ -43,6 +45,7 @@ import org.spongepowered.api.world.World;
 import java.util.Arrays;
 
 @CommandInfo(module = TeleportModule.class, aliases = {"top", "highestblock"})
+@CommandPermissions(level = PermissionLevel.MOD)
 public class TopCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
