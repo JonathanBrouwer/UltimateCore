@@ -1,5 +1,5 @@
 Modules
-----
+====
 If you are not familiar with modules, all features (commands & non-commands) in UltimateCore are seperated in modules. The is an afk module, an home module, etc.<br>
 All modules are located in the `src/main/java/bammerbom/ultimatecore/sponge/modules/` package.
 In this tutorial I will create a new module.
@@ -25,6 +25,16 @@ public void onInit(GameInitializationEvent event) {
 * Done! You just created your first module. 
 UltimateCore will automatically register your module, you don't need to register it.
 Now, let's add some functionality to your module.
+* An example of a fully completed module class: (Excluding the license & imports)<br>
+```
+@ModuleInfo(name = "playerinfo", description = "Allows you to see information about players.")
+public class PlayerinfoModule implements HighModule {
+    @Override
+    public void onInit(GameInitializationEvent event) {
+        //Code
+    }
+}
+```
 
 ## The module package
 If you look inside any module, you will find some of the following packages:

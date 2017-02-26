@@ -1,5 +1,5 @@
 Setting up & Building
-----
+====
 
 ##Building against UltimateCore
 UltimateCore currently does not have a repo, but I will make sure to make one soon. 

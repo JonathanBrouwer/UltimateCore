@@ -1,5 +1,5 @@
-The structure
-----
+Introduction
+====
 For this tutorial you first have to set up and import UltimateCore in your IDE. For a tutorial on how to do that see [here](setting-up.md).<br>
 This tutorial should help you understand which package has which purpose in UltimateCore.<br>
 You can skip the first 2 chapters if you are already familiar with the gradle package style.

@@ -36,6 +36,27 @@ Note: A tutorial for sending messages is available [here](messages.md).
 * Once you finished writing your command, you have to register it. Go to your module class and use this code to register the command: (Replace TestCommand with your command class)<br>
 `UltimateCore.get().getCommandService().register(new TestCommand());`
 * Finally, you have to give the command a description. Add the `<module>.command.<command>.description` key to the EN_US language file. More information about creating messages is available [here](messages.md).
+* An example of a fully completed command class: (Excluding the license & imports)<br>
+```
+@CommandInfo(module = PlayerinfoModule.class, aliases = {"uuid", "uuidtoname", "uuidtoplayer"})
+@CommandPermissions(level = PermissionLevel.MOD)
+public class UuidCommand implements HighPermCommand {
+    @Override
+    public CommandElement[] getArguments() {
+        return new CommandElement[]{
+                Arguments.builder(new GameprofileArgument(Text.of("player"))).onlyOne().build()
+        };
+    }
+
+    @Override
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        GameProfile t = args.<GameProfile>getOne("player").get();
+        Messages.send(src, "playerinfo.command.uuid.success", "%player%", t.getName().orElse("???"), "%uuid%", t.getUniqueId().toString());
+        return CommandResult.success();
+    }
+}
+
+```
 
 ## Creating new argument types
 These are the steps for creating a new argument type

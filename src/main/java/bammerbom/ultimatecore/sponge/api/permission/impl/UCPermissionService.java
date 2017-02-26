@@ -28,8 +28,10 @@ import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionService;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.service.permission.PermissionDescription;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,12 +42,12 @@ public class UCPermissionService implements PermissionService {
 
     @Override
     public List<Permission> getPermissions() {
-        return permissions;
+        return this.permissions;
     }
 
     @Override
     public Optional<Permission> get(String id) {
-        for (Permission perm : permissions) {
+        for (Permission perm : this.permissions) {
             if (perm.get().equalsIgnoreCase(id)) {
                 return Optional.of(perm);
             }
@@ -55,31 +57,33 @@ public class UCPermissionService implements PermissionService {
 
     @Override
     public void register(Permission perm) {
-        permissions.add(perm);
+        if (this.permissions.stream().filter(p -> p.get().equalsIgnoreCase(perm.get())).count() > 0) return;
+        this.permissions.add(perm);
         org.spongepowered.api.service.permission.PermissionService service = Sponge.getServiceManager().provide(org.spongepowered.api.service.permission.PermissionService.class).get();
-        service.newDescriptionBuilder(UltimateCore.get()).get().id(perm.get()).description(perm.getDescription()).register();
+        Optional<PermissionDescription.Builder> builder = service.newDescriptionBuilder(UltimateCore.get());
+        if (!builder.isPresent()) return;
+        builder.get().id(perm.get()).description(perm.getDescription()).register();
     }
 
     @Override
     public boolean unregister(Permission perm) {
-        return permissions.remove(perm);
+        return this.permissions.remove(perm);
     }
 
     @Override
     public boolean unregister(String id) {
         Optional<Permission> perm = get(id);
-        if (!perm.isPresent()) return false;
-        return unregister(perm.get());
+        return perm.map(this::unregister).orElse(false);
     }
 
     @Override
     public List<PermissionOption> getPermissionOptions() {
-        return permissionoptions;
+        return this.permissionoptions;
     }
 
     @Override
     public Optional<PermissionOption> getOption(String id) {
-        for (PermissionOption perm : permissionoptions) {
+        for (PermissionOption perm : this.permissionoptions) {
             if (perm.get().equalsIgnoreCase(id)) {
                 return Optional.of(perm);
             }
@@ -89,13 +93,16 @@ public class UCPermissionService implements PermissionService {
 
     @Override
     public void registerOption(PermissionOption perm) {
-        permissionoptions.add(perm);
-        //TODO do I have to register it somewhere in sponge?
+        this.permissionoptions.add(perm);
+        if (perm.getDefault().isPresent()) {
+            org.spongepowered.api.service.permission.PermissionService service = Sponge.getServiceManager().provide(org.spongepowered.api.service.permission.PermissionService.class).get();
+            service.getDefaults().getSubjectData().setOption(new HashSet<>(), perm.get(), perm.getDefault().get());
+        }
     }
 
     @Override
     public boolean unregisterOption(PermissionOption perm) {
-        return permissionoptions.remove(perm);
+        return this.permissionoptions.remove(perm);
     }
 
     @Override
