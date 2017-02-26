@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.teleport.tasks;
+package bammerbom.ultimatecore.sponge.modules.teleport.handlers;
 
 import bammerbom.ultimatecore.sponge.api.teleport.utils.LocationUtil;
 import bammerbom.ultimatecore.sponge.utils.RandomUtil;
@@ -36,7 +36,7 @@ import org.spongepowered.api.world.extent.MutableBiomeVolume;
 
 import java.util.Optional;
 
-public class BiomeFindTask {
+public class BiomeFindHandler {
     static Integer maxDistance = 100000;
     static Integer maxTries = 2000;
 

@@ -33,7 +33,7 @@ import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
 import bammerbom.ultimatecore.sponge.modules.teleport.TeleportModule;
-import bammerbom.ultimatecore.sponge.modules.teleport.tasks.BiomeFindTask;
+import bammerbom.ultimatecore.sponge.modules.teleport.handlers.BiomeFindHandler;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -53,9 +53,7 @@ import java.util.Arrays;
 public class BiomeTeleportCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new BiomeTypeArgument(Text.of("biome"))).onlyOne().build()
-        };
+        return new CommandElement[]{Arguments.builder(new BiomeTypeArgument(Text.of("biome"))).onlyOne().build()};
     }
 
     @Override
@@ -65,7 +63,7 @@ public class BiomeTeleportCommand implements HighPermCommand {
         BiomeType type = args.<BiomeType>getOne("biome").get();
 
         //Find location
-        Location<World> loc = BiomeFindTask.findBiome(p, type).orElse(null);
+        Location<World> loc = BiomeFindHandler.findBiome(p, type).orElse(null);
         if (loc == null) {
             throw Messages.error(src, "teleport.command.biometeleport.fail", "%biome%", type.getName());
         }
