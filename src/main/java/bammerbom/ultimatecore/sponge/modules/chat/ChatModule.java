@@ -27,6 +27,7 @@ import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.modules.chat.api.ChatPermissions;
 import bammerbom.ultimatecore.sponge.modules.chat.listeners.ChatListener;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -51,7 +52,7 @@ public class ChatModule implements Module {
 
     @Override
     public Optional<ModuleConfig> getConfig() {
-        return Optional.of(config);
+        return Optional.of(this.config);
     }
 
     @Override
@@ -61,8 +62,9 @@ public class ChatModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        config = new RawModuleConfig("chat");
+        this.config = new RawModuleConfig("chat");
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new ChatListener());
+        new ChatPermissions();
     }
 
     @Override
