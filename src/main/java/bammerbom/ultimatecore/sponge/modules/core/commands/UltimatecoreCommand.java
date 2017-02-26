@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.defaultmodule.commands;
+package bammerbom.ultimatecore.sponge.modules.core.commands;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
@@ -42,8 +42,7 @@ import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.defaultmodule.DefaultModule;
-import bammerbom.ultimatecore.sponge.defaultmodule.api.DefaultPermissions;
+import bammerbom.ultimatecore.sponge.modules.core.CoreModule;
 import bammerbom.ultimatecore.sponge.utils.Docgen;
 import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.command.CommandException;
@@ -62,7 +61,7 @@ import java.util.stream.Collectors;
 
 @CommandChildrenInfo(children = {UltimatecoreCommand.ClearcacheCommand.class, UltimatecoreCommand.ResetuserCommand.class, UltimatecoreCommand.ModulesCommand.class, UltimatecoreCommand.GendocsCommand.class, UltimatecoreCommand.ErrorCommand.class, UltimatecoreCommand.ReloadCommand.class, UltimatecoreCommand.SetuppermissionsCommand.class})
 @CommandPermissions(level = PermissionLevel.ADMIN)
-@CommandInfo(module = DefaultModule.class, aliases = {"ultimatecore", "uc"})
+@CommandInfo(module = CoreModule.class, aliases = {"ultimatecore", "uc"})
 public class UltimatecoreCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
@@ -71,13 +70,12 @@ public class UltimatecoreCommand implements HighPermCommand {
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-        checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
         throw new NotEnoughArgumentsException(getUsage(sender));
     }
 
     @CommandPermissions(level = PermissionLevel.OWNER)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
-    @CommandInfo(module = DefaultModule.class, aliases = {"clearcache"})
+    @CommandInfo(module = CoreModule.class, aliases = {"clearcache"})
     public static class ClearcacheCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -86,16 +84,15 @@ public class UltimatecoreCommand implements HighPermCommand {
 
         @Override
         public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             UltimateCore.get().getUserService().clearcache();
-            Messages.send(sender, "default.command.ultimatecore.clearcache.success");
+            Messages.send(sender, "core.command.ultimatecore.clearcache.success");
             return CommandResult.success();
         }
     }
 
     @CommandPermissions(level = PermissionLevel.OWNER)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
-    @CommandInfo(module = DefaultModule.class, aliases = {"resetuser"})
+    @CommandInfo(module = CoreModule.class, aliases = {"resetuser"})
     public static class ResetuserCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -104,7 +101,6 @@ public class UltimatecoreCommand implements HighPermCommand {
 
         @Override
         public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             Player t = args.<Player>getOne("player").get();
             UltimateUser user = UltimateCore.get().getUserService().getUser(t);
             //Clear the cache for the user
@@ -112,14 +108,14 @@ public class UltimatecoreCommand implements HighPermCommand {
             PlayerDataFile file = new PlayerDataFile(user.getIdentifier());
             //Delete the user's file
             file.getFile().delete();
-            Messages.send(sender, "default.command.ultimatecore.resetuser.success", "%player%", t);
+            Messages.send(sender, "core.command.ultimatecore.resetuser.success", "%player%", t);
             return CommandResult.success();
         }
     }
 
     @CommandPermissions(level = PermissionLevel.ADMIN)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
-    @CommandInfo(module = DefaultModule.class, aliases = {"modules"})
+    @CommandInfo(module = CoreModule.class, aliases = {"modules"})
     public static class ModulesCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -128,16 +124,15 @@ public class UltimatecoreCommand implements HighPermCommand {
 
         @Override
         public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             List<String> modules = UltimateCore.get().getModuleService().getModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default")).collect(Collectors.toList());
-            Messages.send(sender, "default.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules));
+            Messages.send(sender, "core.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules));
             return CommandResult.success();
         }
     }
 
     @CommandPermissions(level = PermissionLevel.NOBODY)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
-    @CommandInfo(module = DefaultModule.class, aliases = {"gendocs"})
+    @CommandInfo(module = CoreModule.class, aliases = {"gendocs"})
     public static class GendocsCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -146,7 +141,6 @@ public class UltimatecoreCommand implements HighPermCommand {
 
         @Override
         public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             Docgen.generateDocs();
             return CommandResult.success();
         }
@@ -154,7 +148,7 @@ public class UltimatecoreCommand implements HighPermCommand {
 
     @CommandPermissions(level = PermissionLevel.NOBODY)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
-    @CommandInfo(module = DefaultModule.class, aliases = {"error"})
+    @CommandInfo(module = CoreModule.class, aliases = {"error"})
     public static class ErrorCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -163,7 +157,6 @@ public class UltimatecoreCommand implements HighPermCommand {
 
         @Override
         public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             try {
                 String string = null;
                 string.toLowerCase();
@@ -176,7 +169,7 @@ public class UltimatecoreCommand implements HighPermCommand {
 
     @CommandPermissions(level = PermissionLevel.ADMIN)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
-    @CommandInfo(module = DefaultModule.class, aliases = {"reload"})
+    @CommandInfo(module = CoreModule.class, aliases = {"reload"})
     public static class ReloadCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -185,16 +178,15 @@ public class UltimatecoreCommand implements HighPermCommand {
 
         @Override
         public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-            checkPermission(sender, DefaultPermissions.UC_ULTIMATECORE_ULTIMATECORE_BASE);
             UltimateCore.get().onReload(null);
-            Messages.send(sender, "default.command.ultimatecore.reload.success");
+            Messages.send(sender, "core.command.ultimatecore.reload.success");
             return CommandResult.success();
         }
     }
 
     @CommandPermissions(level = PermissionLevel.OWNER)
     @CommandParentInfo(parent = UltimatecoreCommand.class)
-    @CommandInfo(module = DefaultModule.class, aliases = {"setuppermissions", "setupperms"})
+    @CommandInfo(module = CoreModule.class, aliases = {"setuppermissions", "setupperms"})
     public static class SetuppermissionsCommand implements HighSubCommand {
         @Override
         public CommandElement[] getArguments() {
@@ -213,7 +205,7 @@ public class UltimatecoreCommand implements HighPermCommand {
                 }
             }
 
-            Messages.send(src, "default.command.ultimatecore.setuppermissions.success", "%group%", group.getIdentifier(), "%level%", level.name().toLowerCase());
+            Messages.send(src, "core.command.ultimatecore.setuppermissions.success", "%group%", group.getIdentifier(), "%level%", level.name().toLowerCase());
             return CommandResult.success();
         }
     }

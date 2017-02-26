@@ -31,7 +31,6 @@ import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleDisableByDefault;
 import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleIgnore;
 import bammerbom.ultimatecore.sponge.api.module.event.ModuleRegisterEvent;
-import bammerbom.ultimatecore.sponge.defaultmodule.DefaultModule;
 import com.google.common.reflect.ClassPath;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
@@ -203,8 +202,6 @@ public class UCModuleService implements ModuleService {
     public List<Module> findModules() {
         ModuleService moduleService = UltimateCore.get().getModuleService();
         ArrayList<Module> modules = new ArrayList<>();
-        //Add the default module
-        modules.add(new DefaultModule());
 
         //Load modules from jar
         try {

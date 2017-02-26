@@ -54,6 +54,7 @@ public class Modules {
     //Custom join & leave messages
     //First join commands
     public static Optional<Module> CONNECTIONMESSAGES = service.getModule("connectionmessages");
+    public static Optional<Module> CORE = service.getModule("core");
     //Create custom commands which print specific text or execute other commands
     public static Optional<Module> CUSTOMCOMMANDS = service.getModule("customcommands");
     public static Optional<Module> DEAF = service.getModule("deaf");

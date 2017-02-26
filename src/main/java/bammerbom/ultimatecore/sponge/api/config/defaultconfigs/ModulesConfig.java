@@ -42,14 +42,14 @@ public class ModulesConfig extends RawFileConfig {
     public void postload() {
         try {
             boolean modified = false;
-            if (!node.getNode("modules").getComment().isPresent()) {
-                node.getNode("modules").setComment("Set state to 'force', 'enabled' or 'disabled'\nForce will load the module even when another plugin blocks the loading process.");
+            if (!this.node.getNode("modules").getComment().isPresent()) {
+                this.node.getNode("modules").setComment("Set state to 'force', 'enabled' or 'disabled'\nForce will load the module even when another plugin blocks the loading process.");
             }
             for (Module mod : UltimateCore.get().getModuleService().getAllModules()) {
-                if (mod.getIdentifier().equals("default")) {
+                if (mod.getIdentifier().equals("core")) {
                     continue;
                 }
-                CommentedConfigurationNode modnode = node.getNode("modules", mod.getIdentifier());
+                CommentedConfigurationNode modnode = this.node.getNode("modules", mod.getIdentifier());
                 if (modnode.getNode("state").isVirtual()) {
                     modified = true;
                     String def = mod.getClass().getAnnotation(ModuleDisableByDefault.class) == null ? "enabled" : "disabled";
@@ -57,7 +57,7 @@ public class ModulesConfig extends RawFileConfig {
                 }
             }
             if (modified) {
-                loader.save(node);
+                this.loader.save(this.node);
             }
         } catch (IOException e) {
             Messages.log(Messages.getFormatted("core.config.malformedfile", "%conf%", "modules.conf"));

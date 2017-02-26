@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.defaultmodule;
+package bammerbom.ultimatecore.sponge.modules.core;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.module.Module;
-import bammerbom.ultimatecore.sponge.defaultmodule.commands.UltimatecoreCommand;
-import bammerbom.ultimatecore.sponge.defaultmodule.listeners.DefaultListener;
+import bammerbom.ultimatecore.sponge.modules.core.commands.UltimatecoreCommand;
+import bammerbom.ultimatecore.sponge.modules.core.listeners.DefaultListener;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -36,10 +36,10 @@ import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
-public class DefaultModule implements Module {
+public class CoreModule implements Module {
     @Override
     public String getIdentifier() {
-        return "default";
+        return "core";
     }
 
     @Override

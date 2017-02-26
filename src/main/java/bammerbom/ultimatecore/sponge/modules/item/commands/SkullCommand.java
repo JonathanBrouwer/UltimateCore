@@ -21,12 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.defaultmodule.api;
+package bammerbom.ultimatecore.sponge.modules.item.commands;
 
-import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
-import org.spongepowered.api.text.Text;
-
-public class DefaultPermissions {
-    public static Permission UC_ULTIMATECORE_ULTIMATECORE_BASE = Permission.create("uc.ultimatecore.ultimatecore.base", "default", PermissionLevel.OWNER, "ultimatecore", Text.of("Allows you to use the /ultimatecore command."));
+public class SkullCommand {
 }

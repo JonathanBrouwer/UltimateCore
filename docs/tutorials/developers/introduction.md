@@ -24,9 +24,6 @@ More importantly, the `sponge/` package. All sponge classes are located here.
 ###api
 Almost everything not related to a specific module is located in this package. If you search for a non-module located class, it is probably located in here. I will talk about the api package more in depth in later tutorials.
 
-###defaultmodule
-The default module contains all listeners and commands which are located in UltimateCore by default. For example, the listener that generates and loads the data files of users when they connect. You probably never need to look in here.
-
 ###modules
 All the modules are located in this package. I will talk about creating & editing modules in an other tutorial.
 
