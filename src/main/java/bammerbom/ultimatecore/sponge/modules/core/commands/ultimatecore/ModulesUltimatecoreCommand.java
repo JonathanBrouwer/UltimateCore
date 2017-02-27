@@ -21,26 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.core.commands;
+package bammerbom.ultimatecore.sponge.modules.core.commands.ultimatecore;
 
-import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
-import bammerbom.ultimatecore.sponge.api.command.annotations.CommandChildrenInfo;
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.command.HighSubCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandParentInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
-import bammerbom.ultimatecore.sponge.api.command.exceptions.NotEnoughArgumentsException;
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
 import bammerbom.ultimatecore.sponge.modules.core.CoreModule;
-import bammerbom.ultimatecore.sponge.modules.core.commands.ultimatecore.*;
+import bammerbom.ultimatecore.sponge.modules.core.commands.UltimatecoreCommand;
+import bammerbom.ultimatecore.sponge.utils.StringUtil;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 
-@CommandChildrenInfo(children = {ClearcacheUltimatecoreCommand.class, ResetuserUltimatecoreCommand.class, ModulesUltimatecoreCommand.class, GendocsUltimatecoreCommand.class, ErrorUltimatecoreCommand.class, ReloadUltimatecoreCommand.class, SetuppermissionsUltimatecoreCommand.class})
+import java.util.List;
+import java.util.stream.Collectors;
+
 @CommandPermissions(level = PermissionLevel.ADMIN)
-@CommandInfo(module = CoreModule.class, aliases = {"ultimatecore", "uc"})
-public class UltimatecoreCommand implements HighPermCommand {
+@CommandParentInfo(parent = UltimatecoreCommand.class)
+@CommandInfo(module = CoreModule.class, aliases = {"modules"})
+public class ModulesUltimatecoreCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[0];
@@ -48,6 +54,8 @@ public class UltimatecoreCommand implements HighPermCommand {
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-        throw new NotEnoughArgumentsException(getUsage(sender));
+        List<String> modules = UltimateCore.get().getModuleService().getModules().stream().map(Module::getIdentifier).filter(name -> !name.equalsIgnoreCase("default")).collect(Collectors.toList());
+        Messages.send(sender, "core.command.ultimatecore.modules.success", "%modules%", StringUtil.join(", ", modules));
+        return CommandResult.success();
     }
 }
