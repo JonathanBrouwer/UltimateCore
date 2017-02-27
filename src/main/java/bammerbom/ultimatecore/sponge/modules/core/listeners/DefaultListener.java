@@ -30,11 +30,12 @@ import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
 public class DefaultListener {
 
-    @Listener
+    @Listener(order = Order.EARLY)
     public void onJoin(ClientConnectionEvent.Join event) {
         Player p = event.getTargetEntity();
 
@@ -54,7 +55,7 @@ public class DefaultListener {
         file.save(node2);
     }
 
-    @Listener
+    @Listener(order = Order.LATE)
     public void onDisconnect(ClientConnectionEvent.Disconnect event) {
         Player p = event.getTargetEntity();
         UltimateUser user = UltimateCore.get().getUserService().getUser(p);
