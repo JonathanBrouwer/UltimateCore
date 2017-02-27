@@ -78,15 +78,18 @@ public class ItemListener {
     public void onChange(ChangeInventoryEvent event, @First Player p) {
         ModuleConfig config = Modules.BLACKLIST.get().getConfig().get();
         CommentedConfigurationNode hnode = config.get();
-        for (Inventory s : event.getTargetInventory().slots()) {
-            ItemStack item = s.peek().orElse(null);
-            if (item == null) continue;
-            CommentedConfigurationNode node = hnode.getNode("items", item.getItem().getId());
-            if (!node.isVirtual()) {
-                if (node.getNode("deny-possession").getBoolean()) {
-                    s.poll();
+        try {
+            for (Inventory s : event.getTargetInventory().slots()) {
+                ItemStack item = s.peek().orElse(null);
+                if (item == null) continue;
+                CommentedConfigurationNode node = hnode.getNode("items", item.getItem().getId());
+                if (!node.isVirtual()) {
+                    if (node.getNode("deny-possession").getBoolean()) {
+                        s.poll();
+                    }
                 }
             }
+        } catch (Exception ignore) {
         }
     }
 
