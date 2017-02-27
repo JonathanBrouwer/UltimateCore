@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.home.api;
 
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import ninja.leaping.configurate.objectmapping.Setting;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.entity.Transform;
@@ -37,7 +38,7 @@ public class Home {
     String name;
     @Nullable
     @Setting
-    Transform<World> location;
+    SerializableTransform location;
 
     public Home() {
 
@@ -45,14 +46,14 @@ public class Home {
 
     public Home(String name, Transform<World> location) {
         this.name = name;
-        this.location = location;
+        this.location = new SerializableTransform(location);
     }
 
     public String getName() {
         return this.name;
     }
 
-    public Transform<World> getLocation() {
+    public SerializableTransform getLocation() {
         return this.location;
     }
 }

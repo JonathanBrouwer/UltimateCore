@@ -34,6 +34,7 @@ import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
@@ -66,15 +67,13 @@ public class GroupspawnCommand implements HighCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optionalWeak().build(), Arguments.builder(new StringArgument(Text.of("group"))).onlyOne().optional().build()
-        };
+        return new CommandElement[]{Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optionalWeak().build(), Arguments.builder(new StringArgument(Text.of("group"))).onlyOne().optional().build()};
     }
 
     @Override
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         checkPermission(sender, SpawnPermissions.UC_SPAWN_GROUPSPAWN_BASE);
-        HashMap<String, Transform<World>> spawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
+        HashMap<String, SerializableTransform> spawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
 
         //Find player to teleport & Group to teleport to
         if (!args.hasAny("player")) {
@@ -97,7 +96,7 @@ public class GroupspawnCommand implements HighCommand {
             }
 
             //Teleport
-            Transform<World> loc = spawns.get(group);
+            Transform<World> loc = spawns.get(group).toOptional().orElseThrow(() -> Messages.error(sender, "spawn.command.spawn.notavailable"));
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc, tel -> {
                 Messages.send(sender, "spawn.command.groupspawn.success.self", "%group%", group);
             }, (tel, reason) -> {
@@ -122,7 +121,7 @@ public class GroupspawnCommand implements HighCommand {
             }
 
             //Teleport
-            Transform<World> loc = spawns.get(group);
+            Transform<World> loc = spawns.get(group).toOptional().orElseThrow(() -> Messages.error(sender, "spawn.command.spawn.notavailable"));
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
                 Messages.send(sender, "spawn.command.groupspawn.success.others.self", "%player%", t, "%group%", group);
                 Messages.send(t, "spawn.command.groupspawn.success.others.others", "%player%", sender, "%group%", group);

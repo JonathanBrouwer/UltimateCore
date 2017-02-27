@@ -26,6 +26,7 @@ package bammerbom.ultimatecore.sponge.modules.inventory;
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.modules.inventory.commands.ClearinventoryCommand;
+import bammerbom.ultimatecore.sponge.modules.inventory.commands.WorkbenchCommand;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.text.Text;
 
@@ -42,6 +43,7 @@ public class InventoryModule implements Module {
 
     @Override
     public void onInit(GameInitializationEvent event) {
+        UltimateCore.get().getCommandService().register(new WorkbenchCommand());
         UltimateCore.get().getCommandService().registerLater(new ClearinventoryCommand(), () -> {
         });
     }

@@ -23,12 +23,12 @@
  */
 package bammerbom.ultimatecore.sponge.api.config;
 
-import bammerbom.ultimatecore.sponge.api.config.serializers.*;
+import bammerbom.ultimatecore.sponge.api.config.serializers.BlockStateSerializer;
+import bammerbom.ultimatecore.sponge.api.config.serializers.ItemStackSnapshotSerializer;
+import bammerbom.ultimatecore.sponge.api.config.serializers.Vector3dSerializer;
 
 public class Serializers {
     public static BlockStateSerializer BLOCKSTATE = new BlockStateSerializer();
     public static ItemStackSnapshotSerializer ITEMSTACKSNAPSHOT = new ItemStackSnapshotSerializer();
-    public static TransformSerializer TRANSFORM = new TransformSerializer();
-    public static LocationSerializer LOCATION = new LocationSerializer();
     public static Vector3dSerializer VECTOR3D = new Vector3dSerializer();
 }

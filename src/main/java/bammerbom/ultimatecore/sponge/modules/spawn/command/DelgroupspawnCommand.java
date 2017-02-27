@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.sponge.api.command.argument.arguments.StringArgume
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
@@ -38,9 +39,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -61,9 +60,7 @@ public class DelgroupspawnCommand implements HighCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new StringArgument(Text.of("group"))).onlyOne().build()
-        };
+        return new CommandElement[]{Arguments.builder(new StringArgument(Text.of("group"))).onlyOne().build()};
     }
 
     @Override
@@ -71,7 +68,7 @@ public class DelgroupspawnCommand implements HighCommand {
         checkPermission(sender, SpawnPermissions.UC_SPAWN_DELGROUPSPAWN_BASE);
         String group = args.<String>getOne("group").get();
 
-        HashMap<String, Transform<World>> groupspawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
+        HashMap<String, SerializableTransform> groupspawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
         groupspawns.remove(group);
         GlobalData.offer(SpawnKeys.GROUP_SPAWNS, groupspawns);
         Messages.send(sender, "spawn.command.delgroupspawn.success", "%group%", group);

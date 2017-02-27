@@ -29,8 +29,6 @@ import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.CommandsConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.GeneralConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.ModulesConfig;
 import bammerbom.ultimatecore.sponge.api.config.serializers.ItemStackSnapshotSerializer;
-import bammerbom.ultimatecore.sponge.api.config.serializers.LocationSerializer;
-import bammerbom.ultimatecore.sponge.api.config.serializers.TransformSerializer;
 import bammerbom.ultimatecore.sponge.api.config.serializers.Vector3dSerializer;
 import bammerbom.ultimatecore.sponge.api.error.ErrorService;
 import bammerbom.ultimatecore.sponge.api.error.impl.UCErrorService;
@@ -49,6 +47,8 @@ import bammerbom.ultimatecore.sponge.api.permission.impl.UCPermissionService;
 import bammerbom.ultimatecore.sponge.api.sign.SignService;
 import bammerbom.ultimatecore.sponge.api.teleport.TeleportService;
 import bammerbom.ultimatecore.sponge.api.teleport.impl.UCTeleportService;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransformSerializer;
 import bammerbom.ultimatecore.sponge.api.tick.TickService;
 import bammerbom.ultimatecore.sponge.api.tick.impl.UCTickService;
 import bammerbom.ultimatecore.sponge.api.user.UserService;
@@ -66,7 +66,6 @@ import org.bstats.Metrics;
 import org.spongepowered.api.Platform;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
-import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.cause.Cause;
@@ -76,7 +75,6 @@ import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.ServiceManager;
-import org.spongepowered.api.world.Location;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -133,8 +131,7 @@ public class UltimateCore {
             TypeSerializerCollection serializers = TypeSerializers.getDefaultSerializers();
 //            serializers.registerType(TypeToken.of(BlockState.class), new BlockStateSerializer());
             serializers.registerType(TypeToken.of(ItemStackSnapshot.class), new ItemStackSnapshotSerializer());
-            serializers.registerType(TypeToken.of(Location.class), new LocationSerializer());
-            serializers.registerType(TypeToken.of(Transform.class), new TransformSerializer());
+            serializers.registerType(TypeToken.of(SerializableTransform.class), new SerializableTransformSerializer());
             serializers.registerType(TypeToken.of(Vector3d.class), new Vector3dSerializer());
 
             //Config

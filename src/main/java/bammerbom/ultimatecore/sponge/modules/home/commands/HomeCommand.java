@@ -69,9 +69,7 @@ public class HomeCommand implements HighCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new HomeArgument(Text.of("home"))).onlyOne().optional().usage("<Home>").build()
-        };
+        return new CommandElement[]{Arguments.builder(new HomeArgument(Text.of("home"))).onlyOne().optional().usage("<Home>").build()};
     }
 
     @Override
@@ -110,8 +108,11 @@ public class HomeCommand implements HighCommand {
         }
 
         Home home = args.<Home>getOne("home").get();
+        if (!home.getLocation().isPresent()) {
+            throw Messages.error(sender, "home.command.home.notavailable");
+        }
         //Teleport
-        Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), home.getLocation(), req -> {
+        Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), home.getLocation().get(), req -> {
             Messages.send(sender, "home.command.home.success", "%home%", home.getName());
         }, (red, reason) -> {
         }, true, false);

@@ -24,21 +24,21 @@
 package bammerbom.ultimatecore.sponge.modules.spawn.utils;
 
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.world.World;
 
 import java.util.HashMap;
 
 public class SpawnUtil {
-    public static Transform<World> getSpawnLocation(Player p) {
+    public static SerializableTransform getSpawnLocation(Player p) {
         //Global spawn
-        Transform<World> loc = GlobalData.get(SpawnKeys.GLOBAL_SPAWN).orElse(null);
+        SerializableTransform loc = GlobalData.get(SpawnKeys.GLOBAL_SPAWN).orElse(null);
 
         //Check group spawn
-        HashMap<String, Transform<World>> spawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
+        HashMap<String, SerializableTransform> spawns = GlobalData.get(SpawnKeys.GROUP_SPAWNS).get();
         String group = SpawnPermissions.UC_SPAWN_GROUPSPAWN.getFor(p);
         if (group != null && spawns.containsKey(group.toLowerCase())) {
             loc = spawns.get(group);
@@ -46,7 +46,7 @@ public class SpawnUtil {
 
         //World spawn
         if (loc == null) {
-            loc = new Transform<>(p.getWorld().getSpawnLocation());
+            loc = new SerializableTransform(new Transform<>(p.getWorld().getSpawnLocation()));
         }
 
         return loc;

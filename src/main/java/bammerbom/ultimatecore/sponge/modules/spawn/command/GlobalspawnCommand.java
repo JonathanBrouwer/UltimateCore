@@ -33,6 +33,7 @@ import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
@@ -41,10 +42,8 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,9 +63,7 @@ public class GlobalspawnCommand implements HighCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optional().build()
-        };
+        return new CommandElement[]{Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optional().build()};
     }
 
     @Override
@@ -74,16 +71,19 @@ public class GlobalspawnCommand implements HighCommand {
         checkPermission(sender, SpawnPermissions.UC_SPAWN_GLOBALSPAWN_BASE);
 
         //Find globalspawn
-        Optional<Transform<World>> loc = GlobalData.get(SpawnKeys.GLOBAL_SPAWN);
+        Optional<SerializableTransform> loc = GlobalData.get(SpawnKeys.GLOBAL_SPAWN);
         if (!loc.isPresent()) {
             throw new ErrorMessageException(Messages.getFormatted(sender, "spawn.command.globalspawn.notset"));
+        }
+        if (!loc.get().isPresent()) {
+            throw Messages.error(sender, "spawn.command.spawn.notavailable");
         }
 
         //Find player to teleport
         if (!args.hasAny("player")) {
             checkIfPlayer(sender);
             Player p = (Player) sender;
-            Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc.get(), tel -> {
+            Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc.get().get(), tel -> {
                 Messages.send(sender, "spawn.command.globalspawn.success.self");
             }, (tel, reason) -> {
             }, false, false);
@@ -91,7 +91,7 @@ public class GlobalspawnCommand implements HighCommand {
         } else {
             checkPermission(sender, SpawnPermissions.UC_SPAWN_GLOBALSPAWN_OTHERS);
             Player t = args.<Player>getOne("player").get();
-            Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc.get(), tel -> {
+            Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc.get().get(), tel -> {
                 Messages.send(sender, "spawn.command.globalspawn.success.others.self", "%player%", t);
                 Messages.send(t, "spawn.command.globalspawn.success.others.others", "%player%", sender);
             }, (tel, reason) -> {

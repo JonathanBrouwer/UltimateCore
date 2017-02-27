@@ -39,8 +39,10 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,9 +62,7 @@ public class JailtpCommand implements HighCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new JailArgument(Text.of("jail"))).onlyOne().build()
-        };
+        return new CommandElement[]{Arguments.builder(new JailArgument(Text.of("jail"))).onlyOne().build()};
     }
 
     @Override
@@ -72,8 +72,9 @@ public class JailtpCommand implements HighCommand {
 
         Player p = (Player) sender;
         Jail jail = args.<Jail>getOne("jail").get();
+        Transform<World> loc = jail.getLocation().toOptional().orElseThrow(() -> Messages.error(sender, "jail.command.jail.notavailable"));
 
-        Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), jail.getLocation(), tel -> {
+        Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), loc, tel -> {
         }, (tel, reason) -> {
         }, false, false);
         tp.start();

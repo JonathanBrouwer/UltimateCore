@@ -43,11 +43,13 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
+import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,9 +70,7 @@ public class WarpCommand implements HighCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new WarpArgument(Text.of("warp"))).onlyOne().optional().usage("<Warp>").build()
-        };
+        return new CommandElement[]{Arguments.builder(new WarpArgument(Text.of("warp"))).onlyOne().optional().usage("<Warp>").build()};
     }
 
     @Override
@@ -108,7 +108,8 @@ public class WarpCommand implements HighCommand {
         //Check permissions
         checkPermission(sender, "uc.warp.warp." + warp.getName().toLowerCase());
         //Teleport to the warp
-        Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), warp.getLocation(), req -> {
+        Transform<World> loc = warp.getLocation().toOptional().orElseThrow(() -> Messages.error(sender, "warp.command.warp.notavailable"));
+        Teleportation request = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), loc, req -> {
             Messages.send(sender, "warp.command.warp.success", "%warp%", warp.getName());
         }, (red, reason) -> {
         }, true, false);

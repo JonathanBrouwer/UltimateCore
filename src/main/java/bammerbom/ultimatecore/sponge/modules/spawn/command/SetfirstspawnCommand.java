@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.data.GlobalData;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
 import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
@@ -64,7 +65,7 @@ public class SetfirstspawnCommand implements HighCommand {
         checkPermission(sender, SpawnPermissions.UC_SPAWN_SETFIRSTSPAWN_BASE);
 
         Player p = (Player) sender;
-        GlobalData.offer(SpawnKeys.FIRST_SPAWN, p.getTransform());
+        GlobalData.offer(SpawnKeys.FIRST_SPAWN, new SerializableTransform(p.getTransform()));
         Messages.send(p, "spawn.command.setfirstspawn.success");
         return CommandResult.success();
     }

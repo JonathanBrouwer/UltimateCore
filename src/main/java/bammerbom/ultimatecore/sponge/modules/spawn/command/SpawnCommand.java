@@ -61,9 +61,7 @@ public class SpawnCommand implements HighCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optional().build()
-        };
+        return new CommandElement[]{Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optional().build()};
     }
 
     @Override
@@ -73,7 +71,7 @@ public class SpawnCommand implements HighCommand {
         if (!args.hasAny("player")) {
             checkIfPlayer(sender);
             Player p = (Player) sender;
-            Transform<World> loc = SpawnUtil.getSpawnLocation(p);
+            Transform<World> loc = SpawnUtil.getSpawnLocation(p).toOptional().orElseThrow(() -> Messages.error(sender, "spawn.command.spawn.notavailable"));
 
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc, tel -> {
                 Messages.send(sender, "spawn.command.spawn.success.self");
@@ -84,7 +82,7 @@ public class SpawnCommand implements HighCommand {
         } else {
             checkPermission(sender, SpawnPermissions.UC_SPAWN_SPAWN_OTHERS);
             Player t = args.<Player>getOne("player").get();
-            Transform<World> loc = SpawnUtil.getSpawnLocation(t);
+            Transform<World> loc = SpawnUtil.getSpawnLocation(t).toOptional().orElseThrow(() -> Messages.error(sender, "spawn.command.spawn.notavailable"));
 
             Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(t), loc, tel -> {
                 Messages.send(sender, "spawn.command.spawn.success.others.self", "%player%", t);

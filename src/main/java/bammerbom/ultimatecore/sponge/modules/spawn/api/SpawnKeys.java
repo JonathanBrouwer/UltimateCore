@@ -25,19 +25,16 @@ package bammerbom.ultimatecore.sponge.modules.spawn.api;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.providers.GlobalKeyProvider;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import com.google.common.reflect.TypeToken;
-import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.world.World;
 
 import java.util.HashMap;
 
 public class SpawnKeys {
-    public static Key.Global<Transform<World>> FIRST_SPAWN = new Key.Global<>("firstspawn", new GlobalKeyProvider<>("spawns", "first", new TypeToken<Transform<World>>() {
-    }));
+    public static Key.Global<SerializableTransform> FIRST_SPAWN = new Key.Global<>("firstspawn", new GlobalKeyProvider<>("spawns", "first", TypeToken.of(SerializableTransform.class)));
 
-    public static Key.Global<Transform<World>> GLOBAL_SPAWN = new Key.Global<>("globalspawn", new GlobalKeyProvider<>("spawns", "global", new TypeToken<Transform<World>>() {
-    }));
+    public static Key.Global<SerializableTransform> GLOBAL_SPAWN = new Key.Global<>("globalspawn", new GlobalKeyProvider<>("spawns", "global", TypeToken.of(SerializableTransform.class)));
 
-    public static Key.Global<HashMap<String, Transform<World>>> GROUP_SPAWNS = new Key.Global<>("groupspawns", new GlobalKeyProvider<>("spawns", "groups", new TypeToken<HashMap<String, Transform<World>>>() {
+    public static Key.Global<HashMap<String, SerializableTransform>> GROUP_SPAWNS = new Key.Global<>("groupspawns", new GlobalKeyProvider<>("spawns", "groups", new TypeToken<HashMap<String, SerializableTransform>>() {
     }, new HashMap<>()));
 }

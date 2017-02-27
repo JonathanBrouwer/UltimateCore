@@ -25,11 +25,10 @@ package bammerbom.ultimatecore.sponge.modules.back.api;
 
 import bammerbom.ultimatecore.sponge.api.data.Key;
 import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import com.google.common.reflect.TypeToken;
-import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.world.World;
 
 public class BackKeys {
-    public static Key.User<Transform<World>> BACK = new Key.User<>("back", new UserKeyProvider<>("back", new TypeToken<Transform<World>>() {
+    public static Key.User<SerializableTransform> BACK = new Key.User<>("back", new UserKeyProvider<>("back", new TypeToken<SerializableTransform>() {
     }));
 }

@@ -23,25 +23,19 @@
  */
 package bammerbom.ultimatecore.sponge.modules.warp.api;
 
-import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.WorldDataFile;
 import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.providers.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
-import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.data.providers.GlobalKeyProvider;
 import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import org.spongepowered.api.Game;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class WarpKeys {
-    public static Key.Global<List<Warp>> WARPS = new Key.Global<>("warps", new KeyProvider.Global<List<Warp>>() {
+    public static Key.Global<List<Warp>> WARPS = new Key.Global<>("warps", new GlobalKeyProvider<>("warps", "warps", new TypeToken<List<Warp>>() {
+    }, new ArrayList<>()));
+
+
+            /*new KeyProvider.Global<List<Warp>>() {
         @Override
         public List<Warp> load(Game arg) {
             List<Warp> warps = new ArrayList<>();
@@ -83,5 +77,5 @@ public class WarpKeys {
                 loader.save(node);
             }
         }
-    });
+    });*/
 }

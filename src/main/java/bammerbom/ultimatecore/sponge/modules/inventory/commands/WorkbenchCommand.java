@@ -21,54 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.modules.spawn.command;
+package bammerbom.ultimatecore.sponge.modules.inventory.commands;
 
-import bammerbom.ultimatecore.sponge.api.command.HighCommand;
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
-import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
-import bammerbom.ultimatecore.sponge.modules.spawn.SpawnModule;
-import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnKeys;
-import bammerbom.ultimatecore.sponge.modules.spawn.api.SpawnPermissions;
+import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import bammerbom.ultimatecore.sponge.modules.inventory.InventoryModule;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.InventoryArchetypes;
 
-import java.util.Arrays;
-import java.util.List;
-
-@CommandInfo(module = SpawnModule.class, aliases = {"setglobalspawn", "setspawn"})
-public class SetglobalspawnCommand implements HighCommand {
-
-    @Override
-    public Permission getPermission() {
-        return SpawnPermissions.UC_SPAWN_SETGLOBALSPAWN_BASE;
-    }
-
-    @Override
-    public List<Permission> getPermissions() {
-        return Arrays.asList(SpawnPermissions.UC_SPAWN_SETGLOBALSPAWN_BASE);
-    }
-
+@CommandInfo(module = InventoryModule.class, aliases = {"workbench", "wb", "craftingtable", "ct"})
+@CommandPermissions(level = PermissionLevel.VIP)
+public class WorkbenchCommand implements HighPermCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[0];
     }
 
     @Override
-    public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-        checkIfPlayer(sender);
-        checkPermission(sender, SpawnPermissions.UC_SPAWN_SETGLOBALSPAWN_BASE);
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        checkIfPlayer(src);
+        Player p = (Player) src;
 
-        Player p = (Player) sender;
-        p.getWorld().getProperties().setSpawnPosition(p.getLocation().getPosition().toInt());
-        GlobalData.offer(SpawnKeys.GLOBAL_SPAWN, new SerializableTransform(p.getTransform()));
-        Messages.send(p, "spawn.command.setglobalspawn.success");
+        Inventory i = Inventory.builder().of(InventoryArchetypes.WORKBENCH).build(UltimateCore.get());
+        p.openInventory(i, Cause.of(NamedCause.owner(UltimateCore.get())));
         return CommandResult.success();
     }
 }

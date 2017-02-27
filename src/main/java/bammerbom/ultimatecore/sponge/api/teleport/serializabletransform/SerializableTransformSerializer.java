@@ -21,35 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.config.serializers;
+package bammerbom.ultimatecore.sponge.api.teleport.serializabletransform;
 
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
 
-import java.util.UUID;
-
-public class LocationSerializer implements TypeSerializer<Location> {
+public class SerializableTransformSerializer implements TypeSerializer<SerializableTransform> {
     @Override
-    public Location<World> deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
-        World world = Sponge.getServer().getWorld(node.getNode("world").getValue(TypeToken.of(UUID.class))).orElse(null);
-        if (world == null) throw new ObjectMappingException("World could not be found.");
-        double locx = node.getNode("locx").getDouble();
-        double locy = node.getNode("locy").getDouble();
-        double locz = node.getNode("locz").getDouble();
-        Location<World> loc = world.getLocation(locx, locy, locz);
-        return loc;
+    public SerializableTransform deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
+        return new SerializableTransform(node);
     }
 
     @Override
-    public void serialize(TypeToken<?> type, Location loc, ConfigurationNode node) throws ObjectMappingException {
-        node.getNode("world").setValue(TypeToken.of(UUID.class), loc.getExtent().getUniqueId());
-        node.getNode("locx").setValue(loc.getX());
-        node.getNode("locy").setValue(loc.getY());
-        node.getNode("locz").setValue(loc.getZ());
+    public void serialize(TypeToken<?> type, SerializableTransform loc, ConfigurationNode node) throws ObjectMappingException {
+        node.setValue(loc.getNode());
     }
 }

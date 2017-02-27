@@ -71,12 +71,7 @@ public class JailCommand implements HighCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(),
-                Arguments.builder(new JailArgument(Text.of("jail"))).optional().onlyOne().build(),
-                Arguments.builder(new TimeArgument(Text.of("time"))).optional().onlyOne().build(),
-                Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).onlyOne().optional().build()
-        };
+        return new CommandElement[]{Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(), Arguments.builder(new JailArgument(Text.of("jail"))).optional().onlyOne().build(), Arguments.builder(new TimeArgument(Text.of("time"))).optional().onlyOne().build(), Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).onlyOne().optional().build()};
     }
 
     @Override
@@ -101,6 +96,11 @@ public class JailCommand implements HighCommand {
         Jail jail = args.hasAny("jail") ? args.<Jail>getOne("jail").get() : jails.get(random.nextInt(jails.size()));
         Long time = args.hasAny("time") ? args.<Long>getOne("time").get() : -1L;
         Text reason = args.hasAny("reason") ? Text.of(args.<String>getOne("reason").get()) : Messages.getFormatted("jail.command.jail.defaultreason");
+
+        //If jail is not available
+        if (!jail.getLocation().isPresent()) {
+            throw Messages.error(sender, "jail.command.jail.notavailable");
+        }
 
         JailData data = new JailData(t.getUniqueId(), suuid, time == -1 ? -1 : (time + System.currentTimeMillis()), System.currentTimeMillis(), reason, jail.getName());
         ut.offer(JailKeys.JAIL, data);

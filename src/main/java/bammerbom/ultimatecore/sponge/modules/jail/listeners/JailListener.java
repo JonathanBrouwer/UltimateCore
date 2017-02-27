@@ -62,8 +62,8 @@ public class JailListener {
             if (Modules.JAIL.get().getConfig().get().get().getNode("teleport-on-join").getBoolean()) {
                 JailData data = up.get(JailKeys.JAIL).get();
                 Jail jail = GlobalData.get(JailKeys.JAILS).get().stream().filter(j -> j.getName().equalsIgnoreCase(data.getJail())).findAny().orElse(null);
-                if (jail != null) {
-                    Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), jail.getLocation(), tel -> {
+                if (jail != null && jail.getLocation().isPresent()) {
+                    Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), jail.getLocation().get(), tel -> {
                     }, (tel, reason) -> {
                     }, false, true);
                     tp.start();
@@ -76,11 +76,11 @@ public class JailListener {
     public void onJailSwitch(DataOfferEvent<JailData> event, @First Player p) {
         if (event.getKey().equals(JailKeys.JAIL)) {
             if (event.getValue().isPresent()) {
-                //Player is jailed
                 JailData data = event.getValue().get();
                 Jail jail = GlobalData.get(JailKeys.JAILS).get().stream().filter(j -> j.getName().equalsIgnoreCase(data.getJail())).findAny().orElse(null);
-                if (jail != null) {
-                    Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), jail.getLocation(), tel -> {
+                //The code which jails the player should handle the location not being available!
+                if (jail != null && jail.getLocation().isPresent()) {
+                    Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(p, Arrays.asList(p), jail.getLocation().get(), tel -> {
                     }, (tel, reason) -> {
                     }, false, true);
                     tp.start();
@@ -89,8 +89,8 @@ public class JailListener {
                 //Player is unjailed
                 if (Modules.JAIL.get().getConfig().get().get().getNode("spawn-on-unjail").getBoolean()) {
                     Transform<World> loc;
-                    if (Modules.SPAWN.isPresent()) {
-                        loc = SpawnUtil.getSpawnLocation(p);
+                    if (Modules.SPAWN.isPresent() && SpawnUtil.getSpawnLocation(p).isPresent()) {
+                        loc = SpawnUtil.getSpawnLocation(p).get();
                     } else {
                         loc = new Transform<>(p.getWorld().getSpawnLocation());
                     }

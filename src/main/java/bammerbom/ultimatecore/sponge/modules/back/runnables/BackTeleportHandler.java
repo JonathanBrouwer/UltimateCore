@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.back.runnables;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.back.api.BackKeys;
 import org.spongepowered.api.entity.Entity;
@@ -39,7 +40,7 @@ public class BackTeleportHandler implements Consumer<Teleportation> {
             if (en instanceof Player) {
                 Player p = (Player) en;
                 UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-                up.offer(BackKeys.BACK, en.getTransform());
+                up.offer(BackKeys.BACK, new SerializableTransform(en.getTransform()));
             }
         }
     }

@@ -30,6 +30,7 @@ import bammerbom.ultimatecore.sponge.api.command.exceptions.DataFailedException;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.teleport.Teleportation;
+import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.back.BackModule;
 import bammerbom.ultimatecore.sponge.modules.back.api.BackKeys;
@@ -39,9 +40,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.world.World;
 
 import java.util.Arrays;
 import java.util.List;
@@ -70,12 +69,12 @@ public class BackCommand implements HighCommand {
         checkPermission(sender, BackPermissions.UC_BACK_BACK_BASE);
         Player p = (Player) sender;
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-        Optional<Transform<World>> loc = up.get(BackKeys.BACK);
-        if (!loc.isPresent()) {
+        Optional<SerializableTransform> loc = up.get(BackKeys.BACK);
+        if (!loc.isPresent() || loc.get().isPresent()) {
             throw new DataFailedException(Messages.getFormatted(sender, "back.command.back.notfound"));
         }
 
-        Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc.get(), tel -> {
+        Teleportation tp = UltimateCore.get().getTeleportService().createTeleportation(sender, Arrays.asList(p), loc.get().get(), tel -> {
             Messages.send(sender, "back.command.back.success");
         }, (tel, reason) -> {
         }, true, false);
