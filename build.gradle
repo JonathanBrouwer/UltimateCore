@@ -44,8 +44,15 @@ repositories {
         url = "https://dl.bintray.com/nuvotifier/maven/"
     }
     maven {
-        name = "Nucleus"
-        url = "http://repo.drnaylor.co.uk/artifactory/list/minecraft"
+        name 'drnaylor-minecraft'
+        url 'http://repo.drnaylor.co.uk/artifactory/list/minecraft'
+    }
+    maven {
+        name 'drnaylor'
+        url 'http://repo.drnaylor.co.uk/artifactory/list/quickstart'
+    }
+    maven {
+        url 'https://jitpack.io'
     }
 }
 
