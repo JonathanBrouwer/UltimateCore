@@ -44,7 +44,7 @@ public class KickModule implements Module {
 
     @Override
     public Text getDescription() {
-        return Text.of("ALlows you to kick a player from the server.");
+        return Text.of("Allows you to kick a player from the server.");
     }
 
     @Override

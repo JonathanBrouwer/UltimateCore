@@ -28,11 +28,15 @@ import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.config.utils.FileUtil;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.module.Module;
+import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleDisableByDefault;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.gson.GsonConfigurationLoader;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -45,6 +49,7 @@ public class Docgen {
         generatePermissionsOverview();
         generateModules();
         generateCommands();
+        generateJsonData();
     }
 
     private static void generateModulesOverview() {
@@ -193,5 +198,76 @@ public class Docgen {
 
     private static String escape(String string) {
         return string.replace("<", "\\<").replace(">", "\\>").replace("[", "\\[").replace("]", "\\]");
+    }
+
+
+    public static void generateJsonData() {
+        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setFile(new File(UltimateCore.get().getDataFolder().toFile() + "/docs/data.json")).build();
+        ConfigurationNode node = loader.createEmptyNode();
+
+        //General information
+        node.getNode("base-info", "identifier").setValue(UltimateCore.getContainer().getId());
+        node.getNode("base-info", "name").setValue(UltimateCore.getContainer().getName());
+        node.getNode("base-info", "version").setValue(UltimateCore.getContainer().getVersion().orElse("not available"));
+
+        //Modules
+        List<ConfigurationNode> modules = new ArrayList<>();
+        for (Module module : UltimateCore.get().getModuleService().getAllModules()) {
+            ConfigurationNode mnode = loader.createEmptyNode();
+            mnode.getNode("identifier").setValue(module.getIdentifier());
+            mnode.getNode("description").setValue(module.getDescription().toPlain());
+            mnode.getNode("enabledbydefault").setValue(module.getClass().getAnnotation(ModuleDisableByDefault.class) == null);
+            mnode.getNode("hasconfig").setValue(module.getConfig().isPresent());
+            modules.add(mnode);
+        }
+        node.getNode("modules").setValue(modules);
+
+        //Commands
+        List<ConfigurationNode> commands = new ArrayList<>();
+        for (Command cmd : UltimateCore.get().getCommandService().getCommands()) {
+            ConfigurationNode cnode = loader.createEmptyNode();
+            cnode.getNode("identifier").setValue(cmd.getFullIdentifier());
+            cnode.getNode("description").setValue(cmd.getLongDescription(null).toPlain());
+            cnode.getNode("aliases").setValue(cmd.getAliases());
+            cnode.getNode("module").setValue(cmd.getModule().getIdentifier());
+            cnode.getNode("basepermissions").setValue(cmd.getPermission().get());
+            cnode.getNode("permissions").setValue(cmd.getPermissions().stream().map(Permission::get).collect(Collectors.toList()));
+            cnode.getNode("usage").setValue(cmd.getUsage(null).toPlain());
+            commands.add(cnode);
+        }
+        node.getNode("commands").setValue(commands);
+
+        //Permissions
+        List<ConfigurationNode> permissions = new ArrayList<>();
+        for (Permission perm : UltimateCore.get().getPermissionService().getPermissions()) {
+            ConfigurationNode pnode = loader.createEmptyNode();
+            pnode.getNode("identifier").setValue(perm.get());
+            pnode.getNode("description").setValue(perm.getDescription().toPlain());
+            pnode.getNode("module").setValue(perm.getModule().getIdentifier());
+            pnode.getNode("command").setValue(perm.getCommand().map(Command::getFullIdentifier).orElse("-"));
+            pnode.getNode("level").setValue(perm.getLevel().name().toLowerCase());
+            permissions.add(pnode);
+        }
+        node.getNode("permissions").setValue(permissions);
+
+        //Permission options
+        List<ConfigurationNode> permissionoptions = new ArrayList<>();
+        for (PermissionOption perm : UltimateCore.get().getPermissionService().getPermissionOptions()) {
+            ConfigurationNode pnode = loader.createEmptyNode();
+            pnode.getNode("identifier").setValue(perm.get());
+            pnode.getNode("description").setValue(perm.getDescription().toPlain());
+            pnode.getNode("module").setValue(perm.getModule().getIdentifier());
+            pnode.getNode("command").setValue(perm.getCommand().map(Command::getFullIdentifier).orElse("-"));
+            pnode.getNode("default").setValue(perm.getDefault().orElse("-"));
+            permissionoptions.add(pnode);
+        }
+        node.getNode("permissionoptions").setValue(permissionoptions);
+
+        //Save
+        try {
+            loader.save(node);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
