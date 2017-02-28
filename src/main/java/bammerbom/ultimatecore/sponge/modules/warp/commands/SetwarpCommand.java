@@ -74,7 +74,7 @@ public class SetwarpCommand implements HighCommand {
         Player p = (Player) sender;
 
         String name = args.<String>getOne("name").get();
-        String description = args.hasAny("description") ? args.<String>getOne("description").get() : Messages.getColored("warp.command.setwarp.defaultdescription");
+        String description = args.hasAny("description") ? args.<String>getOne("description").get() : Messages.getFormatted("warp.command.setwarp.defaultdescription").toPlain();
         //Create warp instance
         Warp warp = new Warp(name, description, new Transform<>(p.getLocation(), p.getRotation(), p.getScale()));
         List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();

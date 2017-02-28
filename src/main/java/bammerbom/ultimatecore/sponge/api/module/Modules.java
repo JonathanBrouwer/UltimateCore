@@ -144,4 +144,8 @@ public class Modules {
     public static Optional<Module> WORLDBORDER = service.getModule("worldborder");
     public static Optional<Module> WORLDINVENTORIES = service.getModule("worldinventories");
     //TODO /smelt command?
+
+    public static Optional<Module> get(String id) {
+        return service.getModule(id);
+    }
 }
