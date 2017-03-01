@@ -40,17 +40,12 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.SpongeEventFactory;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
-import org.spongepowered.api.event.message.MessageChannelEvent;
-import org.spongepowered.api.event.message.MessageEvent;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.chat.ChatTypes;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @CommandInfo(module = SudoModule.class, aliases = {"sudo", "fcommand", "fcmd", "fchat", "forcechat", "forcecmd", "forcecommand"})
 public class SudoCommand implements HighCommand {
@@ -96,10 +91,8 @@ public class SudoCommand implements HighCommand {
         } else {
             //CHAT
             checkPermission(sender, SudoPermissions.UC_SUDO_SUDO_CHAT);
-            MessageChannelEvent.Chat event = SpongeEventFactory.createMessageChannelEventChat(Cause.source(t).named(NamedCause.notifier(sender)).build(), t.getMessageChannel(), Optional.of(t.getMessageChannel()), new MessageEvent.MessageFormatter(Text.of(t), Text.of(message)), Text.of(message), false);
-            if (!Sponge.getEventManager().post(event)) {
+            if (!t.simulateChat(Text.of(message), Cause.source(t).named(NamedCause.notifier(sender)).build()).isMessageCancelled()) {
                 //Success
-                t.getMessageChannel().send(t, event.getMessage(), ChatTypes.CHAT);
                 Messages.send(sender, "sudo.command.sudo.chat.success", "%target%", t, "%message%", message);
             } else {
                 //Failed
