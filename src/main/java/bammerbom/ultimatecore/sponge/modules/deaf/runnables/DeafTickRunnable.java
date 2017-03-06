@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.deaf.runnables;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.Deaf;
 import bammerbom.ultimatecore.sponge.modules.deaf.api.DeafKeys;
 import org.spongepowered.api.Sponge;

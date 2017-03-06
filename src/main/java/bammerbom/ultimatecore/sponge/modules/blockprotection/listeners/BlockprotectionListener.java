@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.blockprotection.listeners;
 
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.data_old.GlobalData;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
 import bammerbom.ultimatecore.sponge.modules.blockprotection.api.BlockprotectionKeys;
 import bammerbom.ultimatecore.sponge.modules.blockprotection.api.Protection;

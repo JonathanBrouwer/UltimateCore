@@ -29,9 +29,9 @@ import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.argument.Arguments;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgument;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
+import bammerbom.ultimatecore.sponge.api.data.holder.UserHolder;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import bammerbom.ultimatecore.sponge.modules.mute.MuteModule;
 import bammerbom.ultimatecore.sponge.modules.mute.api.MuteKeys;
@@ -72,7 +72,7 @@ public class UnmuteCommand implements HighCommand {
         checkPermission(sender, MutePermissions.UC_MUTE_UNMUTE_BASE);
 
         Player t = args.<Player>getOne("player").get();
-        UltimateUser ut = UltimateCore.get().getUserService().getUser(t);
+        UserHolder ut = UltimateCore.get().getDataService().getUserHolder(t);
         if (!ut.get(MuteKeys.MUTE).isPresent()) {
             throw new ErrorMessageException(Messages.getFormatted(sender, "mute.command.unmute.notmuted", "%player%", VariableUtil.getNameEntity(t)));
         }

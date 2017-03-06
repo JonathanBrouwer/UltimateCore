@@ -23,9 +23,9 @@
  */
 package bammerbom.ultimatecore.sponge.modules.votifier.api;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.providers.GlobalKeyProvider;
-import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import bammerbom.ultimatecore.sponge.api.data_old.Key;
+import bammerbom.ultimatecore.sponge.api.data_old.providers.GlobalKeyProvider;
+import bammerbom.ultimatecore.sponge.api.data_old.providers.UserKeyProvider;
 import com.google.common.reflect.TypeToken;
 import com.vexsoftware.votifier.model.Vote;
 

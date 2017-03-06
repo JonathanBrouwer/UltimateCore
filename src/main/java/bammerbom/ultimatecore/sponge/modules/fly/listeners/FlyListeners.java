@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.fly.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyKeys;
 import bammerbom.ultimatecore.sponge.modules.fly.api.FlyPermissions;
 import org.spongepowered.api.block.BlockTypes;

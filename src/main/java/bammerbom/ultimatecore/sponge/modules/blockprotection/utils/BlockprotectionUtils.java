@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.blockprotection.utils;
 
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.data_old.GlobalData;
 import bammerbom.ultimatecore.sponge.modules.blockprotection.api.BlockprotectionKeys;
 import bammerbom.ultimatecore.sponge.modules.blockprotection.api.Protection;
 import org.spongepowered.api.world.Location;

@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.user;
+package bammerbom.ultimatecore.sponge.api.data_old.user;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.event.DataOfferEvent;
-import bammerbom.ultimatecore.sponge.api.data.event.DataRetrieveEvent;
+import bammerbom.ultimatecore.sponge.api.data_old.Key;
+import bammerbom.ultimatecore.sponge.api.data_old.event.DataOfferEvent;
+import bammerbom.ultimatecore.sponge.api.data_old.event.DataRetrieveEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;

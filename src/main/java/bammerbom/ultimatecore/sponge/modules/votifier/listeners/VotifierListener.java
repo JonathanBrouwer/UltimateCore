@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.votifier.listeners;
 
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.data_old.GlobalData;
 import bammerbom.ultimatecore.sponge.modules.votifier.api.VotifierKeys;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.sponge.event.VotifierEvent;

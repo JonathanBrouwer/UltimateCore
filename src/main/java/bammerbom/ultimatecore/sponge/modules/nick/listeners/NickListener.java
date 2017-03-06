@@ -24,7 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.nick.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.nick.api.NickKeys;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.event.Listener;

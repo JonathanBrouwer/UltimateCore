@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.sponge.modules.afk.runnables;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.afk.api.AfkKeys;
 import bammerbom.ultimatecore.sponge.modules.afk.listeners.AfkDetectionListener;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -54,7 +54,7 @@ public class AfkCheckTask implements Runnable {
             UltimateUser user = UltimateCore.get().getUserService().getUser(player);
             //Location check
             if (config.getNode("events", "move", "enabled").getBoolean(false) && config.getNode("events", "move", "mode").getString("").equalsIgnoreCase("task")) {
-                Transform<World> nloc = new Transform<World>(player.getLocation(), player.getRotation(), player.getScale());
+                Transform<World> nloc = new Transform<>(player.getLocation(), player.getRotation(), player.getScale());
                 if (!user.get(AfkKeys.LAST_LOCATION).isPresent()) {
                     user.offer(AfkKeys.LAST_LOCATION, nloc);
                     AfkDetectionListener.unafkCheck(player);

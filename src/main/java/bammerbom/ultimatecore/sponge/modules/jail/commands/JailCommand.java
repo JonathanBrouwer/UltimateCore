@@ -31,10 +31,10 @@ import bammerbom.ultimatecore.sponge.api.command.argument.arguments.PlayerArgume
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.RemainingStringsArgument;
 import bammerbom.ultimatecore.sponge.api.command.argument.arguments.TimeArgument;
 import bammerbom.ultimatecore.sponge.api.command.exceptions.ErrorMessageException;
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.data_old.GlobalData;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import bammerbom.ultimatecore.sponge.modules.jail.JailModule;
 import bammerbom.ultimatecore.sponge.modules.jail.api.Jail;

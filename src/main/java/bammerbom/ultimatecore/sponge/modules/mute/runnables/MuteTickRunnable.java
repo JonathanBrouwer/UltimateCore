@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.mute.runnables;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.data.holder.UserHolder;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
 import bammerbom.ultimatecore.sponge.modules.mute.api.MuteKeys;
 import org.spongepowered.api.Sponge;
@@ -35,7 +35,7 @@ public class MuteTickRunnable implements Runnable {
     @Override
     public void run() {
         for (Player p : Sponge.getServer().getOnlinePlayers()) {
-            UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+            UserHolder up = UltimateCore.get().getDataService().getUserHolder(p);
             if (up.get(MuteKeys.MUTE).isPresent()) {
                 Mute mute = up.get(MuteKeys.MUTE).get();
                 if (System.currentTimeMillis() > mute.getEndtime() && mute.getEndtime() != -1L) {

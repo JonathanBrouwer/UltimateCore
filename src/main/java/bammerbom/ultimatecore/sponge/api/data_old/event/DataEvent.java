@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.data.event;
+package bammerbom.ultimatecore.sponge.api.data_old.event;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
+import bammerbom.ultimatecore.sponge.api.data_old.Key;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.impl.AbstractEvent;
 

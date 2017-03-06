@@ -23,8 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.modules.connectionmessages.api;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import bammerbom.ultimatecore.sponge.api.data_old.Key;
+import bammerbom.ultimatecore.sponge.api.data_old.providers.UserKeyProvider;
 import com.google.common.reflect.TypeToken;
 
 public class ConnectionmessagesKeys {

@@ -28,7 +28,7 @@ import bammerbom.ultimatecore.sponge.api.command.Command;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.CommandsConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.RawModuleConfig;
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.data_old.GlobalData;
 import bammerbom.ultimatecore.sponge.api.module.Module;
 import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import bammerbom.ultimatecore.sponge.modules.commandtimer.api.CommandtimerKeys;
@@ -60,12 +60,12 @@ public class CommandtimerModule implements Module {
 
     @Override
     public Optional<? extends ModuleConfig> getConfig() {
-        return Optional.of(config);
+        return Optional.of(this.config);
     }
 
     @Override
     public void onInit(GameInitializationEvent event) {
-        config = new RawModuleConfig("commandtimer");
+        this.config = new RawModuleConfig("commandtimer");
         onReload(null);
         Sponge.getEventManager().registerListeners(UltimateCore.get(), new CommandtimerListener());
         CommandtimerCancelListener.registerEvents();

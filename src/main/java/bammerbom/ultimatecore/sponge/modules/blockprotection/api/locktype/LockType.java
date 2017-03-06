@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.blockprotection.api.Protection;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.entity.living.player.Player;

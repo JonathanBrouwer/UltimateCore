@@ -21,18 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.data.event;
+package bammerbom.ultimatecore.sponge.api.data;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import org.spongepowered.api.event.cause.Cause;
+import bammerbom.ultimatecore.sponge.api.data.holder.GlobalHolder;
+import bammerbom.ultimatecore.sponge.api.data.holder.UserHolder;
+import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.profile.GameProfile;
 
-import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.UUID;
 
-/**
- * An event where the value associated with a {@link Key} is retrieved.
- */
-public class DataRetrieveEvent<C> extends DataEvent<C> {
-    public DataRetrieveEvent(Key<C> key, @Nullable C value, Cause cause) {
-        super(key, value, cause);
-    }
+public interface DataService {
+
+    GlobalHolder getGlobalHolder();
+
+    HashMap<UUID, UserHolder> getUserMap();
+
+    UserHolder getUserHolder(User user);
+
+    Optional<UserHolder> getUser(UUID uuid);
+
+    Optional<UserHolder> getUser(GameProfile profile);
+
+    boolean clearCache();
+
+    boolean removeFromCache(UUID uuid);
+
+    boolean save();
 }

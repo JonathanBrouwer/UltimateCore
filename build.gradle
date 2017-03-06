@@ -60,6 +60,7 @@ dependencies {
     //Don't shadow
     compile "org.spongepowered:spongeapi:6.0.0-SNAPSHOT"
     compile "com.vexsoftware:nuvotifier-universal:2.3.4"
+    compile "io.github.nucleuspowered:nucleus-api:0.25.0-S6.0"
     compile "io.github.nucleuspowered:Nucleus:0.25.0-S6.0"
 
     //Shadow

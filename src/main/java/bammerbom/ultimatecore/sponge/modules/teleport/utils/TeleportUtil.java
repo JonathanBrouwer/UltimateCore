@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.teleport.utils;
 
-import bammerbom.ultimatecore.sponge.api.data.GlobalData;
+import bammerbom.ultimatecore.sponge.api.data_old.GlobalData;
 import bammerbom.ultimatecore.sponge.api.variable.utils.Selector;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TeleportKeys;
 import bammerbom.ultimatecore.sponge.modules.teleport.api.TpaRequest;

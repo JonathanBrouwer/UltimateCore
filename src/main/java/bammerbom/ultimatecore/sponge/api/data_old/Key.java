@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.data;
+package bammerbom.ultimatecore.sponge.api.data_old;
 
-import bammerbom.ultimatecore.sponge.api.data.providers.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.data_old.providers.KeyProvider;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UltimateUser;
 import org.spongepowered.api.Game;
 
 import javax.annotation.Nullable;
@@ -77,7 +77,7 @@ public class Key<C> {
      * @return The identifier
      */
     public String getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
 
     /**
@@ -86,14 +86,14 @@ public class Key<C> {
      * @return The default value
      */
     public Optional<C> getDefaultValue() {
-        return Optional.ofNullable(defaul);
+        return Optional.ofNullable(this.defaul);
     }
 
     /**
      * Get the provider for default values, load and save actions
      */
     public <E> Optional<KeyProvider<C, E>> getProvider() {
-        return Optional.ofNullable((KeyProvider<C, E>) provider);
+        return Optional.ofNullable((KeyProvider<C, E>) this.provider);
     }
 
     /**
@@ -115,8 +115,9 @@ public class Key<C> {
             super(id, def);
         }
 
+        @Override
         public Optional<KeyProvider<C, UltimateUser>> getProvider() {
-            return Optional.ofNullable((KeyProvider<C, UltimateUser>) provider);
+            return Optional.ofNullable((KeyProvider<C, UltimateUser>) this.provider);
         }
 
         /**
@@ -177,8 +178,9 @@ public class Key<C> {
             super(id, def);
         }
 
+        @Override
         public Optional<KeyProvider<C, Game>> getProvider() {
-            return Optional.ofNullable((KeyProvider<C, Game>) provider);
+            return Optional.ofNullable((KeyProvider<C, Game>) this.provider);
         }
     }
 

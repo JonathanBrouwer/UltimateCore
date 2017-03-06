@@ -30,6 +30,10 @@ import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.GeneralConfig;
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.ModulesConfig;
 import bammerbom.ultimatecore.sponge.api.config.serializers.ItemStackSnapshotSerializer;
 import bammerbom.ultimatecore.sponge.api.config.serializers.Vector3dSerializer;
+import bammerbom.ultimatecore.sponge.api.data.DataService;
+import bammerbom.ultimatecore.sponge.api.data.impl.UCDataService;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UserService;
+import bammerbom.ultimatecore.sponge.api.data_old.user.impl.UCUserService;
 import bammerbom.ultimatecore.sponge.api.error.ErrorService;
 import bammerbom.ultimatecore.sponge.api.error.impl.UCErrorService;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
@@ -51,8 +55,6 @@ import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.Serializ
 import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransformSerializer;
 import bammerbom.ultimatecore.sponge.api.tick.TickService;
 import bammerbom.ultimatecore.sponge.api.tick.impl.UCTickService;
-import bammerbom.ultimatecore.sponge.api.user.UserService;
-import bammerbom.ultimatecore.sponge.api.user.impl.UCUserService;
 import bammerbom.ultimatecore.sponge.api.variable.VariableService;
 import bammerbom.ultimatecore.sponge.api.variable.impl.UCVariableService;
 import bammerbom.ultimatecore.sponge.utils.ServerID;
@@ -154,6 +156,7 @@ public class UltimateCore {
             UCVariableService variableService = new UCVariableService();
             variableService.init();
             UCErrorService errorService = new UCErrorService();
+            UCDataService dataService = new UCDataService();
 
             //Register services
             ServiceManager sm = Sponge.getServiceManager();
@@ -166,6 +169,7 @@ public class UltimateCore {
             sm.setProvider(this, VariableService.class, variableService);
             sm.setProvider(this, LanguageService.class, languageService);
             sm.setProvider(this, ErrorService.class, errorService);
+            sm.setProvider(this, DataService.class, dataService);
 
             //Load modules
             for (Module module : moduleService.findModules()) {
@@ -393,6 +397,11 @@ public class UltimateCore {
     public Optional<SignService> getSignService() {
         ServiceManager manager = Sponge.getServiceManager();
         return manager.provide(SignService.class);
+    }
+
+    public DataService getDataService() {
+        ServiceManager manager = Sponge.getServiceManager();
+        return manager.provide(DataService.class).orElse(null);
     }
 
     //Get configs

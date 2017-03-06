@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.data.providers;
+package bammerbom.ultimatecore.sponge.api.data_old.providers;
 
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.datafiles.GlobalDataFile;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
@@ -51,24 +51,24 @@ public class GlobalKeyProvider<E> implements KeyProvider.Global<E> {
 
     @Override
     public E load(Game game) {
-        GlobalDataFile config = new GlobalDataFile(filename);
+        GlobalDataFile config = new GlobalDataFile(this.filename);
         CommentedConfigurationNode node = config.get();
         try {
-            return node.getNode(key).getValue(token, def);
+            return node.getNode(this.key).getValue(this.token, this.def);
         } catch (ObjectMappingException e) {
-            ErrorLogger.log(e, "Failed to save " + key + " key for global");
-            return def;
+            ErrorLogger.log(e, "Failed to save " + this.key + " key for global");
+            return this.def;
         }
     }
 
     @Override
     public void save(Game game, E data) {
-        GlobalDataFile config = new GlobalDataFile(filename);
+        GlobalDataFile config = new GlobalDataFile(this.filename);
         CommentedConfigurationNode node = config.get();
         try {
-            node.getNode(key).setValue(token, data);
+            node.getNode(this.key).setValue(this.token, data);
         } catch (ObjectMappingException e) {
-            ErrorLogger.log(e, "Failed to save " + key + " key for global");
+            ErrorLogger.log(e, "Failed to save " + this.key + " key for global");
         }
         config.save(node);
     }

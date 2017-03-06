@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.sponge.modules.kit.api;
 
 import bammerbom.ultimatecore.sponge.api.config.defaultconfigs.module.ModuleConfig;
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.providers.KeyProvider;
-import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import bammerbom.ultimatecore.sponge.api.data_old.Key;
+import bammerbom.ultimatecore.sponge.api.data_old.providers.KeyProvider;
+import bammerbom.ultimatecore.sponge.api.data_old.providers.UserKeyProvider;
 import bammerbom.ultimatecore.sponge.api.error.utils.ErrorLogger;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;

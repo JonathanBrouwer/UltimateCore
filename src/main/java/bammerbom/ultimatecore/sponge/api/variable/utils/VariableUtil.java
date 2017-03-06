@@ -24,9 +24,9 @@
 package bammerbom.ultimatecore.sponge.api.variable.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.module.Modules;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.modules.nick.api.NickKeys;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;

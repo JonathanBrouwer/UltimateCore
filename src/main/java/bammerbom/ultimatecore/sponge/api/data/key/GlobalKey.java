@@ -21,25 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.data.providers;
+package bammerbom.ultimatecore.sponge.api.data.key;
 
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import org.spongepowered.api.Game;
+import com.google.common.reflect.TypeToken;
 
-public interface KeyProvider<C, E> {
-    C load(E ob);
+import java.util.Optional;
 
-    void save(E ob, C data);
+public class GlobalKey<C> implements Key<C> {
 
-    interface User<C> extends KeyProvider<C, UltimateUser> {
-        C load(UltimateUser user);
+    //General info
+    private String id;
+    private C def;
 
-        void save(UltimateUser user, C data);
+    //Storage info
+    private String storagelocation;
+    private TypeToken token;
+
+    public GlobalKey(String id, C def, String storagelocation, TypeToken<C> token) {
+        this.id = id;
+        this.def = def;
+        this.storagelocation = storagelocation;
+        this.token = token;
     }
 
-    interface Global<C> extends KeyProvider<C, Game> {
-        C load(Game game);
+    @Override
+    public String getIdentifier() {
+        return this.id;
+    }
 
-        void save(Game game, C data);
+    @Override
+    public Optional<C> getDefault() {
+        return Optional.ofNullable(this.def);
+    }
+
+    @Override
+    public String getStorageLocation() {
+        return this.storagelocation;
+    }
+
+    @Override
+    public TypeToken<C> getToken() {
+        return this.token;
     }
 }

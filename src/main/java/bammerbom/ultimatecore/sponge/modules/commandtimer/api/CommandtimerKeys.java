@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.commandtimer.api;
 
 import bammerbom.ultimatecore.sponge.api.command.Command;
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import bammerbom.ultimatecore.sponge.api.data_old.Key;
+import bammerbom.ultimatecore.sponge.api.data_old.providers.UserKeyProvider;
 import com.google.common.reflect.TypeToken;
 
 import java.util.HashMap;

@@ -23,10 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.deaf.api;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import bammerbom.ultimatecore.sponge.api.data_old.Key;
+import bammerbom.ultimatecore.sponge.api.data_old.providers.UserKeyProvider;
 import com.google.common.reflect.TypeToken;
 
 public class DeafKeys {
-    public static Key.User<Deaf> DEAF = new Key.User<>("deaf", new UserKeyProvider<Deaf>("deaf", TypeToken.of(Deaf.class)));
+    public static Key.User<Deaf> DEAF = new Key.User<>("deaf", new UserKeyProvider<>("deaf", TypeToken.of(Deaf.class)));
 }

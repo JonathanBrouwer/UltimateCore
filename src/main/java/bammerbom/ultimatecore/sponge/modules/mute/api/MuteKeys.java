@@ -23,10 +23,10 @@
  */
 package bammerbom.ultimatecore.sponge.modules.mute.api;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.providers.UserKeyProvider;
+import bammerbom.ultimatecore.sponge.api.data.key.Key;
+import bammerbom.ultimatecore.sponge.api.data.key.KeyRegistry;
 import com.google.common.reflect.TypeToken;
 
 public class MuteKeys {
-    public static Key.User<Mute> MUTE = new Key.User<>("mute", new UserKeyProvider<>("mute", TypeToken.of(Mute.class)));
+    public static Key<Mute> MUTE = KeyRegistry.get().createUserKey("mute", "mute", TypeToken.of(Mute.class), null); //new Key.User<>("mute", new UserKeyProvider<>("mute", TypeToken.of(Mute.class)));
 }

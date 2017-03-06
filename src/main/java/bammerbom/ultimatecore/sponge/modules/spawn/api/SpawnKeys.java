@@ -23,8 +23,8 @@
  */
 package bammerbom.ultimatecore.sponge.modules.spawn.api;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.data.providers.GlobalKeyProvider;
+import bammerbom.ultimatecore.sponge.api.data_old.Key;
+import bammerbom.ultimatecore.sponge.api.data_old.providers.GlobalKeyProvider;
 import bammerbom.ultimatecore.sponge.api.teleport.serializabletransform.SerializableTransform;
 import com.google.common.reflect.TypeToken;
 

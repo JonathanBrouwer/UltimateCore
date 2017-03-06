@@ -24,8 +24,8 @@
 package bammerbom.ultimatecore.sponge.modules.mute.listeners;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
+import bammerbom.ultimatecore.sponge.api.data.holder.UserHolder;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
 import bammerbom.ultimatecore.sponge.api.variable.utils.TimeUtil;
 import bammerbom.ultimatecore.sponge.modules.mute.api.Mute;
 import bammerbom.ultimatecore.sponge.modules.mute.api.MuteKeys;
@@ -39,7 +39,7 @@ public class MuteListener {
     public void onChat(MessageChannelEvent.Chat event) {
         Player p = event.getCause().first(Player.class).orElse(null);
         if (p == null) return;
-        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+        UserHolder up = UltimateCore.get().getDataService().getUserHolder(p);
         if (up.get(MuteKeys.MUTE).isPresent()) {
             Mute mute = up.get(MuteKeys.MUTE).get();
             event.setCancelled(true);

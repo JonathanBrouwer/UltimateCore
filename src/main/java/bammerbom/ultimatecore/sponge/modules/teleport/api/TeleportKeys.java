@@ -23,7 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.teleport.api;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
+import bammerbom.ultimatecore.sponge.api.data_old.Key;
 
 import java.util.HashMap;
 import java.util.UUID;

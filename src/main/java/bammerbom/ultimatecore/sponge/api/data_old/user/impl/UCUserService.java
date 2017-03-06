@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bammerbom.ultimatecore.sponge.api.user.impl;
+package bammerbom.ultimatecore.sponge.api.data_old.user.impl;
 
-import bammerbom.ultimatecore.sponge.api.data.Key;
-import bammerbom.ultimatecore.sponge.api.user.UltimateUser;
-import bammerbom.ultimatecore.sponge.api.user.UserService;
+import bammerbom.ultimatecore.sponge.api.data_old.Key;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UltimateUser;
+import bammerbom.ultimatecore.sponge.api.data_old.user.UserService;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.profile.GameProfile;
@@ -75,13 +75,13 @@ public class UCUserService implements UserService {
      */
     @Override
     public UltimateUser getUser(User user) {
-        for (UltimateUser use : users) {
+        for (UltimateUser use : this.users) {
             if (use.getIdentifier().equals(user.getUniqueId())) {
                 return use;
             }
         }
         UltimateUser ucuser = new UltimateUser(user);
-        users.add(ucuser);
+        this.users.add(ucuser);
         return ucuser;
     }
 
@@ -103,7 +103,7 @@ public class UCUserService implements UserService {
      */
     @Override
     public boolean clearcache() {
-        users.clear();
+        this.users.clear();
         return true;
     }
 
@@ -116,7 +116,7 @@ public class UCUserService implements UserService {
     @Override
     public boolean addToCache(UltimateUser user) {
         if (removeFromCache(user.getIdentifier())) {
-            return users.add(user);
+            return this.users.add(user);
         } else {
             return false;
         }
@@ -135,9 +135,9 @@ public class UCUserService implements UserService {
     public boolean removeFromCache(UUID uuid) {
         //A list in case for something went wrong and there are multiple instances of a player in the cache.
         List<UltimateUser> rusers = new ArrayList<>();
-        users.stream().filter(user -> user.getIdentifier().equals(uuid)).forEach(user -> {
+        this.users.stream().filter(user -> user.getIdentifier().equals(uuid)).forEach(user -> {
             rusers.add(user);
         });
-        return !rusers.isEmpty() && users.removeAll(rusers);
+        return !rusers.isEmpty() && this.users.removeAll(rusers);
     }
 }
