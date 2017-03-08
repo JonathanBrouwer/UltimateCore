@@ -13,9 +13,9 @@ Modules
 [chat - Full chat management, including group formats](modules/chat.md)<br>
 [commandtimer - Allows you to set cooldowns and teleport warmups.](modules/commandtimer.md)<br>
 [connectionmessages - Allows you to change the join and quit messages.](modules/connectionmessages.md)<br>
+[core - The default module of ultimatecore containing the /ultimatecore command.](modules/core.md)<br>
 [deaf - Allows you to make a player deaf. The player won't be able to send chat and see the chat.](modules/deaf.md)<br>
 [deathmessage - Allows you to change deathmessages to whatever you want.](modules/deathmessage.md)<br>
-[default - The default module of ultimatecore containing the /ultimatecore command.](modules/default.md)<br>
 [fly - Allows you toggle whether a player is able to fly.](modules/fly.md)<br>
 [food - Allows you to refill or change a player's food bar.](modules/food.md)<br>
 [gamemode - Allows you to change a player's gamemode.](modules/gamemode.md)<br>
@@ -26,7 +26,7 @@ Modules
 [inventory - Inventory management.](modules/inventory.md)<br>
 [item - Modify items in multiple ways.](modules/item.md)<br>
 [jail - Put players in a jail as a punishment for misbehaving.](modules/jail.md)<br>
-[kick - ALlows you to kick a player from the server.](modules/kick.md)<br>
+[kick - Allows you to kick a player from the server.](modules/kick.md)<br>
 [kit - Give players certain items on use of a command.](modules/kit.md)<br>
 [mail - Send and receive mail from players.](modules/mail.md)<br>
 [mute - Allows you to mute a player and the player won't be able to send chat, but will be able to see the chat.](modules/mute.md)<br>
@@ -45,6 +45,7 @@ Modules
 [time - Change the time of the minecraft world to day, night, or anything in between.](modules/time.md)<br>
 [unknowncommand - Allows you to change the message send to a player when a command is not found.](modules/unknowncommand.md)<br>
 [vanish - Make players invisible.](modules/vanish.md)<br>
+[votifier - Give players rewards for voting.](modules/votifier.md)<br>
 [warp - Let the admin set certain locations where a player can teleport to.](modules/warp.md)<br>
 [weather - Change the minecraft world's weather, or disable it.](modules/weather.md)<br>
 [world - World management.](modules/world.md)<br>

@@ -7,7 +7,7 @@ Aliases: break, blockzap, zapblock<br>
 Module: [blockinfo](../modules/blockinfo.md)<br>
 
 Basic permission: uc.blockinfo.break.base<br>
-Basic role: nobody<br>
+Basic role: admin<br>
 
 Permissions: <br>
-* **uc.blockinfo.break.base** - Recommended role: nobody<br>Allows you to use the /break command.
+* **uc.blockinfo.break.base** - Recommended role: admin<br>Allows you to use the /break command.

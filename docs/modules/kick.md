@@ -1,6 +1,6 @@
 Kick
 ====
-ALlows you to kick a player from the server.
+Allows you to kick a player from the server.
 
 Commands: <br>
 * **[/kick \<Player\> \[Reason…\]](../commands/kick.md)**<br>Kick a player from the server.

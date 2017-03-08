@@ -1,13 +1,9 @@
-Ultimatecore
+Core
 ====
-The UltimateCore base command.
+The default module of ultimatecore containing the /ultimatecore command.
 
-Usage: /ultimatecore gendocs|reload|setuppermissions|clearcache|resetuser|error|modules|<br>
-Aliases: ultimatecore, uc<br>
-Module: [core](../modules/core.md)<br>
-
-Basic permission: uc.core.ultimatecore.base<br>
-Basic role: admin<br>
+Commands: <br>
+* **[/ultimatecore gendocs|reload|setuppermissions|clearcache|resetuser|error|modules|](../commands/ultimatecore.md)**<br>The UltimateCore base command.
 
 Permissions: <br>
 * **uc.core.ultimatecore.base** - Recommended role: admin<br>Allows you to use the /ultimatecore command.

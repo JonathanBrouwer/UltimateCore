@@ -11,4 +11,4 @@ Basic role: admin<br>
 
 Permissions: <br>
 * **uc.time.time.day** - Recommended role: admin<br>Allows you to set the time to day.
-* **uc.time.time.base** - Recommended role: nobody<br>Allows you to use the /time command.
+* **uc.time.time.base** - Recommended role: mod<br>Allows you to use the /time command.

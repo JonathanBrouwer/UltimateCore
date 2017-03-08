@@ -7,7 +7,7 @@ Aliases: ip<br>
 Module: [ban](../modules/ban.md)<br>
 
 Basic permission: uc.ban.ip.base<br>
-Basic role: nobody<br>
+Basic role: mod<br>
 
 Permissions: <br>
-* **uc.ban.ip.base** - Recommended role: nobody<br>Allows you to use the /ip command.
+* **uc.ban.ip.base** - Recommended role: mod<br>Allows you to use the /ip command.

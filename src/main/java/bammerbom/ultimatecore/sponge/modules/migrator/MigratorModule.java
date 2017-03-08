@@ -24,9 +24,11 @@
 package bammerbom.ultimatecore.sponge.modules.migrator;
 
 import bammerbom.ultimatecore.sponge.api.module.HighModule;
+import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleIgnore;
 import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleInfo;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 
+@ModuleIgnore
 @ModuleInfo(name = "migrator", description = "Import your data from another plugin.")
 public class MigratorModule implements HighModule {
     @Override

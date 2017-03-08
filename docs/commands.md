@@ -35,6 +35,7 @@ Commands
 [/heal \[Player\] - Heal a player.](commands/heal.md)<br>
 [/home \[Home\] - Teleport to your home.](commands/home.md)<br>
 [/homelist - View a list of your homes.](commands/homelist.md)<br>
+[/invsee \<Player\> - View and edit a player's inventory.](commands/invsee.md)<br>
 [/ip \<Player\> - View the ip address of a player.](commands/ip.md)<br>
 [/itemcanbreak \<Blocktypes…\> - Change the blocks this item can break.](commands/itemcanbreak.md)<br>
 [/itemcanplaceon \<Blocktypes…\> - Change the blocks this item can be placed on.](commands/itemcanplaceon.md)<br>
@@ -95,7 +96,7 @@ Commands
 [/thunder \[World\] - Change the weather to thunder.](commands/thunder.md)<br>
 [/time add|set|query|night|enable|disable|day|\[Time\] - Time-related actions.](commands/time.md)<br>
 [/top - Teleport to a random location nearby.](commands/top.md)<br>
-[/ultimatecore gendocs|reload|clearcache|resetuser|error|modules| - The UltimateCore base command.](commands/ultimatecore.md)<br>
+[/ultimatecore gendocs|reload|setuppermissions|clearcache|resetuser|error|modules| - The UltimateCore base command.](commands/ultimatecore.md)<br>
 [/unban Player/IP - Unban a player or ip address.](commands/unban.md)<br>
 [/undeaf \<Player\> - Make a player no longer deaf.](commands/undeaf.md)<br>
 [/unjail \<Player\> - Unjail a player.](commands/unjail.md)<br>
@@ -106,4 +107,5 @@ Commands
 [/warp \[Warp\] - Teleport yourself to the specified warp.](commands/warp.md)<br>
 [/warplist - Get a paginated list of all warps.](commands/warplist.md)<br>
 [/weather sun/rain/thunder \[World\] - Change the weather to sun, rain or thunder.](commands/weather.md)<br>
+[/workbench - Opens a workbench inventory for you.](commands/workbench.md)<br>
 [/world setdifficulty|worlds|import|setkeepspawnloaded|teleport|sethardcore|setpvp|delete|enable|create|info|setloadonstartup|setgamemode|gamerule|disable|setworldspawn| - World management command.](commands/world.md)<br>

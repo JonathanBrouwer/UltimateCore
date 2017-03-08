@@ -30,4 +30,4 @@ Permissions: <br>
 * **uc.teleport.teleportaskallhere.base** - Recommended role: admin<br>Allows you to use the /teleportaskallhere command.
 * **uc.teleport.randomteleport.base** - Recommended role: mod<br>Allows you to use the /randomteleport command.
 * **uc.teleport.biometeleport.base** - Recommended role: mod<br>Allows you to use the /biometeleport command.
-* **uc.teleport.top.base** - Recommended role: nobody<br>Allows you to use the /top command.
+* **uc.teleport.top.base** - Recommended role: mod<br>Allows you to use the /top command.

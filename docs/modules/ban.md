@@ -9,5 +9,5 @@ Commands: <br>
 
 Permissions: <br>
 * **uc.ban.ban.base** - Recommended role: mod<br>Allows you to use the /ban command.
-* **uc.ban.unban.base** - Recommended role: nobody<br>Allows you to use the /unban command.
-* **uc.ban.ip.base** - Recommended role: nobody<br>Allows you to use the /ip command.
+* **uc.ban.unban.base** - Recommended role: mod<br>Allows you to use the /unban command.
+* **uc.ban.ip.base** - Recommended role: mod<br>Allows you to use the /ip command.
