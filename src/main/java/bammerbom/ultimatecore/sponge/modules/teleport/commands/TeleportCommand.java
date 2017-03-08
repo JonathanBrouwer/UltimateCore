@@ -117,8 +117,8 @@ public class TeleportCommand implements LowCommand {
 
             Double x = Double.parseDouble(args[0]);
             Double z = Double.parseDouble(args[1]);
-            Double y = Double.parseDouble(LocationUtil.getHighestY(p.getWorld(), x, z) + "") + 1;
-            if (y == -1) {
+            Double y = Double.parseDouble(LocationUtil.getHighestY(p.getWorld(), x, z).orElse(-1) + "") + 1;
+            if (y == 0) {
                 Messages.send(sender, "teleport.command.teleport.noy");
                 return CommandResult.empty();
             }
@@ -170,8 +170,8 @@ public class TeleportCommand implements LowCommand {
             World w = sender instanceof Player ? ((Player) sender).getWorld() : e.get(0).getWorld();
             Double x = Double.parseDouble(args[0]);
             Double z = Double.parseDouble(args[1]);
-            Double y = Double.parseDouble(LocationUtil.getHighestY(w, x, z) + "") + 1;
-            if (y == -1) {
+            Double y = Double.parseDouble(LocationUtil.getHighestY(w, x, z).orElse(-1) + "") + 1;
+            if (y == 0) {
                 Messages.send(sender, "teleport.command.teleport.noy");
                 return CommandResult.empty();
             }
