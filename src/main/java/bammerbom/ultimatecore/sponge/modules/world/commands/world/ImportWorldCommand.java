@@ -71,7 +71,7 @@ public class ImportWorldCommand implements HighSubCommand {
 
         WorldProperties props;
         try {
-            props = Sponge.getServer().createWorldProperties(name.toLowerCase(), WorldArchetype.builder().build(name.toLowerCase(), name));
+            props = Sponge.getServer().createWorldProperties(name, WorldArchetype.builder().build(name.toLowerCase(), name));
         } catch (IOException e) {
             throw new ErrorMessageException(Messages.getFormatted(sender, "world.command.world.import.fileerror", "%error%", e.getMessage()));
         }
