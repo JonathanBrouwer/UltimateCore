@@ -82,7 +82,7 @@ public class CreateWorldCommand implements HighSubCommand {
         boolean allowcommands = args.<Boolean>getOne("c").orElse(true);
         boolean bonuschest = args.<Boolean>getOne("b").orElse(true);
 
-        Path path = Sponge.getGame().getGameDirectory();
+        Path path = Sponge.getGame().getSavesDirectory();
         if (Files.exists(path.resolve(name.toLowerCase())) || Files.exists(path.resolve(name)) || Sponge.getServer().getAllWorldProperties().stream().anyMatch(x -> x.getWorldName().equalsIgnoreCase(name))) {
             throw new ErrorMessageException(Messages.getFormatted(sender, "world.exists", "%name%", name));
         }

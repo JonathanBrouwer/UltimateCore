@@ -62,7 +62,7 @@ public class ImportWorldCommand implements HighSubCommand {
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         String name = (String) args.getOne("name").get();
 
-        Path path = Sponge.getGame().getGameDirectory();
+        Path path = Sponge.getGame().getSavesDirectory();
         if (!(Files.exists(path.resolve(name.toLowerCase())) || Files.exists(path.resolve(name)) || Sponge.getServer().getAllWorldProperties().stream().anyMatch(x -> x.getWorldName().equalsIgnoreCase(name)))) {
             throw new ErrorMessageException(Messages.getFormatted(sender, "world.command.world.import.notfound", "%world%", name));
         }
