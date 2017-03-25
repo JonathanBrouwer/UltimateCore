@@ -87,6 +87,10 @@ public class ItemenchantCommand implements HighCommand {
         Enchantment ench = args.<Enchantment>getOne("enchantment").get();
         int level = args.hasAny("level") ? args.<Integer>getOne("level").get() : 1;
 
+        if(level > ItemPermissions.UC_ITEM_ITEMENCHANT_MAXLEVEL.getIntFor(p)){
+            throw Messages.error(p, "item.command.itemenchant.maxlevel", "%max%", ItemPermissions.UC_ITEM_ITEMENCHANT_MAXLEVEL.getIntFor(p));
+        }
+
         List<ItemEnchantment> enchs = stack.get(Keys.ITEM_ENCHANTMENTS).orElse(new ArrayList<>());
         if (level > 0) {
             enchs.add(new ItemEnchantment(ench, level));

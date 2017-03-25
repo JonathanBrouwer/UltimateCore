@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.modules.item.api;
 
 import bammerbom.ultimatecore.sponge.api.permission.Permission;
 import bammerbom.ultimatecore.sponge.api.permission.PermissionLevel;
+import bammerbom.ultimatecore.sponge.api.permission.PermissionOption;
 import org.spongepowered.api.text.Text;
 
 public class ItemPermissions {
@@ -54,4 +55,6 @@ public class ItemPermissions {
 //    public static Permission UC_ITEM_BOOKEDIT_BASE = Permission.create("uc.item.bookedit.base", "item", PermissionLevel.ADMIN, "bookedit", Text.of("Allows you to use the bookedit command."));
 //    public static Permission UC_ITEM_FIREWORK_BASE = Permission.create("uc.item.firework.base", "item", PermissionLevel.ADMIN, "firework", Text.of("Allows you to use the firework command."));
 //    public static Permission UC_ITEM_LEATHERARMORCOLOR_BASE = Permission.create("uc.item.leatherarmorcolor.base", "item", PermissionLevel.ADMIN, "leatherarmorcolor", Text.of("Allows you to use the leatherarmorcolor command."));
+
+    public static PermissionOption UC_ITEM_ITEMENCHANT_MAXLEVEL = PermissionOption.create("uc.item.itemenchant.maxlevel", "item", "itemenchant", "10", Text.of("The maximum level an item can be enchanted by this player using /enchant."));
 }
