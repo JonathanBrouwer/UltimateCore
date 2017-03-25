@@ -32,9 +32,10 @@ import bammerbom.ultimatecore.sponge.modules.chat.api.ChatPermissions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
@@ -43,11 +44,10 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 
 public class ChatListener {
     @Listener(order = Order.FIRST)
-    public void onChat(MessageChannelEvent.Chat e) {
+    public void onChat(MessageChannelEvent.Chat e, @Root Player p) {
+        Messages.log(e);
         ModuleConfig config = Modules.CHAT.get().getConfig().get();
         CommentedConfigurationNode node = config.get();
-        CommandSource p = e.getCause().first(CommandSource.class).orElse(null);
-        if (p == null) return;
 
         //First load general header/body/footer
         String header = node.getNode("default").getNode("header").getString();
