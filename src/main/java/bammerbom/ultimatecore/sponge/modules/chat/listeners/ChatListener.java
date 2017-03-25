@@ -45,7 +45,6 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 public class ChatListener {
     @Listener(order = Order.FIRST)
     public void onChat(MessageChannelEvent.Chat e, @Root Player p) {
-        Messages.log(e);
         ModuleConfig config = Modules.CHAT.get().getConfig().get();
         CommentedConfigurationNode node = config.get();
 
