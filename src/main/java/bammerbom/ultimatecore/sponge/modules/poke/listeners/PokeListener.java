@@ -53,7 +53,7 @@ public class PokeListener {
                 SoundCategory category;
                 try {
                     category = Sponge.getRegistry().getType(CatalogTypes.SOUND_CATEGORY, categoryname.toUpperCase()).get();
-                } catch (Exception ex) {
+                } catch (Error ex) {
                     category = SoundCategories.PLAYER;
                 }
                 p.playSound(type, category, p.getLocation().getPosition(), volume, pitch, minVolume);
