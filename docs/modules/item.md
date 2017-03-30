@@ -32,3 +32,6 @@ Permissions: <br>
 * **uc.item.itemenchant.base** - Recommended role: admin<br>Allows you to use the itemenchant command.
 * **uc.item.hat.base** - Recommended role: vip<br>Allows you to use the /hat command.
 * **uc.item.hat.others** - Recommended role: admin<br>Allows you to use the hat command on other players.
+
+Permission options: <br>
+* **uc.item.itemenchant.maxlevel**<br>The maximum level an item can be enchanted by this player using /enchant.
