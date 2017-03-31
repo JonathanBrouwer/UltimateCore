@@ -24,6 +24,7 @@
 package bammerbom.ultimatecore.sponge.modules.automessage.api;
 
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.language.utils.TextUtil;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -47,7 +48,7 @@ public class AutomessageSerializer implements TypeSerializer<Automessage> {
         am.enable = node.getNode("enable").getBoolean(false);
         am.time = node.getNode("time").getInt(120);
         am.random = node.getNode("random").getString("randomorder");
-        am.messages = ImmutableList.copyOf(node.getNode("messages").getList(TypeToken.of(String.class)).stream().map(Messages::toText).map(Text::trim).collect(Collectors.toList()));
+        am.messages = ImmutableList.copyOf(node.getNode("messages").getList(TypeToken.of(String.class)).stream().map(Messages::toText).map(Text::trim).map(text -> TextUtil.replace(text, "\\n", Text.of("\n"))).collect(Collectors.toList()));
 
         am.chat = node.getNode("chat-enabled").getBoolean(false);
 
