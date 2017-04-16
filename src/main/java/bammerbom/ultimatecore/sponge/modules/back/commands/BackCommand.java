@@ -70,7 +70,7 @@ public class BackCommand implements HighCommand {
         Player p = (Player) sender;
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
         Optional<SerializableTransform> loc = up.get(BackKeys.BACK);
-        if (!loc.isPresent() || loc.get().isPresent()) {
+        if (!loc.isPresent() || !loc.get().isPresent()) {
             throw new DataFailedException(Messages.getFormatted(sender, "back.command.back.notfound"));
         }
 
