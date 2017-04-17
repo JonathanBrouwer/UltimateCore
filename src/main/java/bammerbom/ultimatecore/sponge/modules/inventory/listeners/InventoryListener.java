@@ -40,21 +40,23 @@ public class InventoryListener {
     @Listener
     @Exclude({ClickInventoryEvent.Close.class, ClickInventoryEvent.Open.class})
     public void onInteract(ClickInventoryEvent event, @Root Player p) {
-        //Get target inventory owner
-        Inventory inv = event.getTargetInventory();
-        if (!(inv instanceof CarriedInventory)) return;
-        CarriedInventory cinv = (CarriedInventory) inv;
-        if (!cinv.getCarrier().isPresent() || !(cinv.getCarrier().get() instanceof User)) return;
-        User t = (User) cinv.getCarrier().get();
+        try {
+            //Get target inventory owner
+            Inventory inv = event.getTargetInventory();
+            if (!(inv instanceof CarriedInventory)) return;
+            CarriedInventory cinv = (CarriedInventory) inv;
+            if (!cinv.getCarrier().isPresent() || !(cinv.getCarrier().get() instanceof User)) return;
+            User t = (User) cinv.getCarrier().get();
 
-        //Check if player is in invsee & Cancel event if player doesn't have permission
-        UltimateUser up = UltimateCore.get().getUserService().getUser(p);
-        if (up.get(InventoryKeys.INVSEE_TARGET).isPresent() && up.get(InventoryKeys.INVSEE_TARGET).get().equals(t.getUniqueId())) {
-            if (!p.hasPermission("uc.inventory.invsee.modify")) {
-                event.getCursorTransaction().setValid(false);
-                event.setCancelled(true);
+            //Check if player is in invsee & Cancel event if player doesn't have permission
+            UltimateUser up = UltimateCore.get().getUserService().getUser(p);
+            if (up.get(InventoryKeys.INVSEE_TARGET).isPresent() && up.get(InventoryKeys.INVSEE_TARGET).get().equals(t.getUniqueId())) {
+                if (!p.hasPermission("uc.inventory.invsee.modify")) {
+                    event.getCursorTransaction().setValid(false);
+                    event.setCancelled(true);
+                }
             }
-        }
+        }catch (Exception ignore){}
     }
 
     @Listener
