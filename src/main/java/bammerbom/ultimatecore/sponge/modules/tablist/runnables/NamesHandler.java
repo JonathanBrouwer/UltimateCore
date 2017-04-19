@@ -152,6 +152,7 @@ public class NamesHandler {
     private Tuples.Tri<Text, Text, Text> getDetails(Player p) {
         ModuleConfig config = Modules.TABLIST.get().getConfig().get();
         CommentedConfigurationNode node = config.get();
+        boolean compatibility = config.get().getNode("names", "compatibility-mode").getBoolean();
         Text prefix = Messages.toText(node.getNode("names", "default", "prefix").getString(""));
         Text suffix = Messages.toText(node.getNode("names", "default", "suffix").getString(""));
         Text name = Messages.toText(node.getNode("names", "default", "format").getString(""));
@@ -179,14 +180,16 @@ public class NamesHandler {
         name = VariableUtil.replaceVariables(name, p);
 
         //Max length check for prefix & suffix
-        if (TextSerializers.FORMATTING_CODE.serialize(name).length() > 16) {
-            name = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(name).substring(0, 16));
-        }
-        if (TextSerializers.FORMATTING_CODE.serialize(prefix).length() > 16) {
-            prefix = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(prefix).substring(0, 16));
-        }
-        if (TextSerializers.FORMATTING_CODE.serialize(suffix).length() > 16) {
-            suffix = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(suffix).substring(0, 16));
+        if(compatibility) {
+            if (TextSerializers.FORMATTING_CODE.serialize(name).length() > 16) {
+                name = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(name).substring(0, 16));
+            }
+            if (TextSerializers.FORMATTING_CODE.serialize(prefix).length() > 16) {
+                prefix = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(prefix).substring(0, 16));
+            }
+            if (TextSerializers.FORMATTING_CODE.serialize(suffix).length() > 16) {
+                suffix = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(suffix).substring(0, 16));
+            }
         }
 
         return Tuples.of(prefix, name, suffix);
