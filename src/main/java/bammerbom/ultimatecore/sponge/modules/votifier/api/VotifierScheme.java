@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.votifier.api;
 
+import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
 import bammerbom.ultimatecore.sponge.api.variable.utils.VariableUtil;
 import com.vexsoftware.votifier.model.Vote;
 import ninja.leaping.configurate.objectmapping.Setting;
@@ -34,6 +35,7 @@ import org.spongepowered.api.text.Text;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 @ConfigSerializable
 public class VotifierScheme implements BiConsumer<Vote, Player> {
@@ -47,13 +49,13 @@ public class VotifierScheme implements BiConsumer<Vote, Player> {
     @Setting
     private List<String> commands;
     @Setting
-    private List<Text> broadcast;
+    private List<String> broadcast;
 
     public VotifierScheme() {
 
     }
 
-    public VotifierScheme(boolean enable, double chance, String permission, List<String> commands, List<Text> broadcast) {
+    public VotifierScheme(boolean enable, double chance, String permission, List<String> commands, List<String> broadcast) {
         this.enable = enable;
         this.chance = chance;
         this.permission = permission;
@@ -85,7 +87,7 @@ public class VotifierScheme implements BiConsumer<Vote, Player> {
 
         //Send one message randomly
         if (!this.broadcast.isEmpty()) {
-            Text msg = this.broadcast.get(ThreadLocalRandom.current().nextInt(this.broadcast.size()));
+            Text msg = Messages.toText(this.broadcast.get(ThreadLocalRandom.current().nextInt(this.broadcast.size())));
             Sponge.getServer().getBroadcastChannel().send(VariableUtil.replaceVariables(msg, p));
         }
     }
@@ -107,6 +109,10 @@ public class VotifierScheme implements BiConsumer<Vote, Player> {
     }
 
     public List<Text> getBroadcast() {
+        return this.broadcast.stream().map(Messages::toText).collect(Collectors.toList());
+    }
+
+    public List<String> getRawBroadcast() {
         return this.broadcast;
     }
 }
