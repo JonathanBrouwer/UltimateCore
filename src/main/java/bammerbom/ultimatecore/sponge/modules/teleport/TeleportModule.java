@@ -72,6 +72,8 @@ public class TeleportModule implements Module {
         UltimateCore.get().getCommandService().register(new RandomTeleportCommand());
         UltimateCore.get().getCommandService().register(new BiomeTeleportCommand());
         UltimateCore.get().getCommandService().register(new TopCommand());
+
+        new TeleportPermissions();
     }
 
     @Override
