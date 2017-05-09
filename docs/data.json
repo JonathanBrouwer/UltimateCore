@@ -2,180 +2,12 @@
   "base-info": {
     "identifier": "ultimatecore",
     "name": "UltimateCore",
-    "version": "3.0.9-SNAPSHOT"
+    "version": "3.0.11"
   },
   "modules": [
     {
-      "identifier": "food",
-      "description": "Allows you to refill or change a player's food bar.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "core",
-      "description": "The default module of ultimatecore containing the /ultimatecore command.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "spy",
-      "description": "Ability to see other people's private messages and command usage.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "heal",
-      "description": "Allows you to refill or change a player's health bar.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "blood",
-      "description": "Custom 'blood' particles when a player gets damaged",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "home",
-      "description": "Allows players set custom locations 'homes' where they can later teleport back to.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "broadcast",
-      "description": "Broadcast custom messages over the server.",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "deathmessage",
-      "description": "Allows you to change deathmessages to whatever you want.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "random",
-      "description": "Generate random numbers with a simple command",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "nick",
-      "description": "Allows players to change their display name.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "kit",
-      "description": "Give players certain items on use of a command.",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "item",
-      "description": "Modify items in multiple ways.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "playerinfo",
-      "description": "Allows you to see information about players.",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "jail",
-      "description": "Put players in a jail as a punishment for misbehaving.",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "afk",
-      "description": "Management of what happens to idle players.",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "sudo",
-      "description": "Force a player to run a command.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "inventory",
-      "description": "Inventory management.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "gamemode",
-      "description": "Allows you to change a player's gamemode.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "fly",
-      "description": "Allows you toggle whether a player is able to fly.",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "teleport",
-      "description": "A module with multiple teleport command.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "world",
-      "description": "World management.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "weather",
-      "description": "Change the minecraft world's weather, or disable it.",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "back",
-      "description": "Teleport back to where you were before you teleported to somewhere.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "sign",
-      "description": "Allows you to make signs which do certain things.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "spawn",
-      "description": "Set global or group spawns, and set a location where players will spawn when they join for the first time.",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "ban",
-      "description": "Allows you to ban and unban players and ips",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "burn",
-      "description": "Set a player on fire using the /burn command.",
-      "enabledbydefault": true,
-      "hasconfig": false
-    },
-    {
-      "identifier": "tablist",
-      "description": "Modify the tablist to look however you want, including headers and footers.",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "kick",
-      "description": "Allows you to kick a player from the server.",
+      "identifier": "time",
+      "description": "Change the time of the minecraft world to day, night, or anything in between.",
       "enabledbydefault": true,
       "hasconfig": false
     },
@@ -186,16 +18,16 @@
       "hasconfig": false
     },
     {
-      "identifier": "geoip",
-      "description": "Allows to you locate where a player is from.",
+      "identifier": "blood",
+      "description": "Custom 'blood' particles when a player gets damaged",
       "enabledbydefault": true,
       "hasconfig": true
     },
     {
-      "identifier": "chat",
-      "description": "Full chat management, including group formats",
+      "identifier": "heal",
+      "description": "Allows you to refill or change a player's health bar.",
       "enabledbydefault": true,
-      "hasconfig": true
+      "hasconfig": false
     },
     {
       "identifier": "unknowncommand",
@@ -204,8 +36,26 @@
       "hasconfig": false
     },
     {
-      "identifier": "connectionmessages",
-      "description": "Allows you to change the join and quit messages.",
+      "identifier": "ban",
+      "description": "Allows you to ban and unban players and ips",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "kick",
+      "description": "Allows you to kick a player from the server.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "nick",
+      "description": "Allows players to change their display name.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "playerinfo",
+      "description": "Allows you to see information about players.",
       "enabledbydefault": true,
       "hasconfig": true
     },
@@ -216,10 +66,10 @@
       "hasconfig": false
     },
     {
-      "identifier": "personalmessage",
-      "description": "Send private messages to other players.",
+      "identifier": "jail",
+      "description": "Put players in a jail as a punishment for misbehaving.",
       "enabledbydefault": true,
-      "hasconfig": false
+      "hasconfig": true
     },
     {
       "identifier": "warp",
@@ -228,26 +78,26 @@
       "hasconfig": false
     },
     {
-      "identifier": "automessage",
-      "description": "A lot of automessage functionality, including chat, bossbar, actionbar, title and random messages.",
+      "identifier": "food",
+      "description": "Allows you to refill or change a player's food bar.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "votifier",
+      "description": "Give players rewards for voting.",
       "enabledbydefault": true,
       "hasconfig": true
     },
     {
-      "identifier": "vanish",
-      "description": "Make players invisible.",
+      "identifier": "spawn",
+      "description": "Set global or group spawns, and set a location where players will spawn when they join for the first time.",
       "enabledbydefault": true,
       "hasconfig": true
     },
     {
-      "identifier": "poke",
-      "description": "Hear a configurable sound when someone says your name in chat.",
-      "enabledbydefault": true,
-      "hasconfig": true
-    },
-    {
-      "identifier": "time",
-      "description": "Change the time of the minecraft world to day, night, or anything in between.",
+      "identifier": "core",
+      "description": "The default module of ultimatecore containing the /ultimatecore command.",
       "enabledbydefault": true,
       "hasconfig": false
     },
@@ -264,14 +114,32 @@
       "hasconfig": true
     },
     {
-      "identifier": "mute",
-      "description": "Allows you to mute a player and the player won't be able to send chat, but will be able to see the chat.",
+      "identifier": "chat",
+      "description": "Full chat management, including group formats",
       "enabledbydefault": true,
-      "hasconfig": false
+      "hasconfig": true
     },
     {
       "identifier": "serverlist",
       "description": "Make your server look nice in the server list.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "personalmessage",
+      "description": "Send private messages to other players.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "inventory",
+      "description": "Inventory management.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "broadcast",
+      "description": "Broadcast custom messages over the server.",
       "enabledbydefault": true,
       "hasconfig": true
     },
@@ -282,91 +150,228 @@
       "hasconfig": true
     },
     {
+      "identifier": "kit",
+      "description": "Give players certain items on use of a command.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "random",
+      "description": "Generate random numbers with a simple command",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "spy",
+      "description": "Ability to see other people's private messages and command usage.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "automessage",
+      "description": "A lot of automessage functionality, including chat, bossbar, actionbar, title and random messages.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "back",
+      "description": "Teleport back to where you were before you teleported to somewhere.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "gamemode",
+      "description": "Allows you to change a player's gamemode.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "poke",
+      "description": "Hear a configurable sound when someone says your name in chat.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "world",
+      "description": "World management.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "deathmessage",
+      "description": "Allows you to change deathmessages to whatever you want.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "burn",
+      "description": "Set a player on fire using the /burn command.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "connectionmessages",
+      "description": "Allows you to change the join and quit messages.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "afk",
+      "description": "Management of what happens to idle players.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "teleport",
+      "description": "A module with multiple teleport command.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "geoip",
+      "description": "Allows to you locate where a player is from.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "fly",
+      "description": "Allows you toggle whether a player is able to fly.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "tablist",
+      "description": "Modify the tablist to look however you want, including headers and footers.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
       "identifier": "mail",
       "description": "Send and receive mail from players.",
       "enabledbydefault": true,
       "hasconfig": false
     },
     {
-      "identifier": "votifier",
-      "description": "Give players rewards for voting.",
+      "identifier": "item",
+      "description": "Modify items in multiple ways.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "vanish",
+      "description": "Make players invisible.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "mute",
+      "description": "Allows you to mute a player and the player won't be able to send chat, but will be able to see the chat.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "sudo",
+      "description": "Force a player to run a command.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "weather",
+      "description": "Change the minecraft world's weather, or disable it.",
+      "enabledbydefault": true,
+      "hasconfig": true
+    },
+    {
+      "identifier": "home",
+      "description": "Allows players set custom locations 'homes' where they can later teleport back to.",
+      "enabledbydefault": true,
+      "hasconfig": false
+    },
+    {
+      "identifier": "sign",
+      "description": "Allows you to make signs which do certain things.",
       "enabledbydefault": true,
       "hasconfig": false
     }
   ],
   "commands": [
     {
-      "identifier": "food",
-      "description": "Fill a player's food bar.",
+      "identifier": "time",
+      "description": "Time-related actions.",
       "aliases": [
-        "food",
-        "feed",
-        "eat"
+        "time"
       ],
-      "module": "food",
-      "basepermissions": "uc.food.food.base",
+      "module": "time",
+      "basepermissions": "uc.time.time.base",
       "permissions": [
-        "uc.food.food.base",
-        "uc.food.food.others"
+        "uc.time.time.base",
+        "uc.time.time.add.base",
+        "uc.time.time.day.base",
+        "uc.time.time.disable.base",
+        "uc.time.time.enable.base",
+        "uc.time.time.night.base",
+        "uc.time.time.query.base",
+        "uc.time.time.set.base",
+        "uc.time.time.day.base",
+        "uc.time.time.night.base"
       ],
-      "usage": "/food [Player]"
+      "usage": "/time add|set|query|night|enable|disable|day|[Time]"
     },
     {
-      "identifier": "ultimatecore",
-      "description": "The UltimateCore base command.",
+      "identifier": "day",
+      "description": "Set the time in a certain world to day.",
       "aliases": [
-        "ultimatecore",
-        "uc"
+        "day",
+        "daytime"
       ],
-      "module": "core",
-      "basepermissions": "uc.core.ultimatecore.base",
+      "module": "time",
+      "basepermissions": "uc.time.time.day",
       "permissions": [
-        "uc.core.ultimatecore.base",
-        "uc.core.ultimatecore.clearcache.base",
-        "uc.core.ultimatecore.resetuser.base",
-        "uc.core.ultimatecore.modules.base",
-        "uc.core.ultimatecore.gendocs.base",
-        "uc.core.ultimatecore.error.base",
-        "uc.core.ultimatecore.reload.base",
-        "uc.core.ultimatecore.setuppermissions.base"
+        "uc.time.time.day",
+        "uc.time.time.base"
       ],
-      "usage": "/ultimatecore gendocs|reload|setuppermissions|clearcache|resetuser|error|modules|"
+      "usage": "/day"
     },
     {
-      "identifier": "commandspy",
-      "description": "Toggle a player's or your own commandspy status.",
+      "identifier": "night",
+      "description": "Set the time in a certain world to night.",
       "aliases": [
-        "commandspy",
-        "cmdspy",
-        "spycommand",
-        "spycmd"
+        "night",
+        "nighttime"
       ],
-      "module": "spy",
-      "basepermissions": "uc.spy.commandspy.base",
+      "module": "time",
+      "basepermissions": "uc.time.time.night",
       "permissions": [
-        "uc.spy.commandspy.base",
-        "uc.spy.commandspy.others"
+        "uc.time.time.night",
+        "uc.time.time.base"
       ],
-      "usage": "/commandspy [Player]"
+      "usage": "/night"
     },
     {
-      "identifier": "messagespy",
-      "description": "Toggle a player's or your own commandspy status.",
+      "identifier": "deaf",
+      "description": "Make a player deaf, for a certain time and reason.",
       "aliases": [
-        "messagespy",
-        "msgspy",
-        "spymessage",
-        "spymsg",
-        "whisperspy",
-        "spywhisper"
+        "deaf"
       ],
-      "module": "spy",
-      "basepermissions": "uc.spy.messagespy.base",
+      "module": "deaf",
+      "basepermissions": "uc.deaf.deaf.base",
       "permissions": [
-        "uc.spy.messagespy.base",
-        "uc.spy.messagespy.others"
+        "uc.deaf.deaf.base"
       ],
-      "usage": "/messagespy [Player]"
+      "usage": "/deaf <Player> [Time] [Reason…]"
+    },
+    {
+      "identifier": "undeaf",
+      "description": "Make a player no longer deaf.",
+      "aliases": [
+        "undeaf"
+      ],
+      "module": "deaf",
+      "basepermissions": "uc.deaf.undeaf.base",
+      "permissions": [
+        "uc.deaf.undeaf.base"
+      ],
+      "usage": "/undeaf <Player>"
     },
     {
       "identifier": "heal",
@@ -417,87 +422,79 @@
       "usage": "/setmaxhealth <Health> [Player]"
     },
     {
-      "identifier": "homelist",
-      "description": "View a list of your homes.",
+      "identifier": "ban",
+      "description": "Ban a player or an ip address, for a certain time and reason.",
       "aliases": [
-        "homelist",
-        "homes"
+        "ban",
+        "banip",
+        "ipban",
+        "bantemp",
+        "tempban"
       ],
-      "module": "home",
-      "basepermissions": "uc.home.home.base",
+      "module": "ban",
+      "basepermissions": "uc.ban.ban.base",
       "permissions": [
-        "uc.home.home.base"
+        "uc.ban.ban.base"
       ],
-      "usage": "/homelist"
+      "usage": "/ban <Player/IP> [Time] [Reason…]"
     },
     {
-      "identifier": "home",
-      "description": "Teleport to your home.",
+      "identifier": "unban",
+      "description": "Unban a player or ip address.",
       "aliases": [
-        "home"
+        "unban",
+        "pardon",
+        "unbanip",
+        "pardonip",
+        "ipunban",
+        "ippardon"
       ],
-      "module": "home",
-      "basepermissions": "uc.home.home.base",
+      "module": "ban",
+      "basepermissions": "uc.ban.unban.base",
       "permissions": [
-        "uc.home.home.base"
+        "uc.ban.unban.base"
       ],
-      "usage": "/home [Home]"
+      "usage": "/unban Player/IP"
     },
     {
-      "identifier": "delhome",
-      "description": "Remove a home.",
+      "identifier": "ip",
+      "description": "View the ip address of a player.",
       "aliases": [
-        "delhome",
-        "removehome"
+        "ip"
       ],
-      "module": "home",
-      "basepermissions": "uc.home.delhome.base",
+      "module": "ban",
+      "basepermissions": "uc.ban.ip.base",
       "permissions": [
-        "uc.home.delhome.base"
+        "uc.ban.ip.base"
       ],
-      "usage": "/delhome <Home>"
+      "usage": "/ip <Player>"
     },
     {
-      "identifier": "sethome",
-      "description": "Set a new home or move the location of a home.",
+      "identifier": "kick",
+      "description": "Kick a player from the server.",
       "aliases": [
-        "sethome",
-        "addhome"
+        "kick"
       ],
-      "module": "home",
-      "basepermissions": "uc.home.sethome.base",
+      "module": "kick",
+      "basepermissions": "uc.kick.kick.base",
       "permissions": [
-        "uc.home.sethome.base",
-        "uc.home.sethome.unlimited"
+        "uc.kick.kick.base"
       ],
-      "usage": "/sethome <Home>"
+      "usage": "/kick <Player> [Reason…]"
     },
     {
-      "identifier": "broadcast",
-      "description": "Send a message to everyone on the server.",
+      "identifier": "kickall",
+      "description": "Kick all players from the server.",
       "aliases": [
-        "broadcast",
-        "bc"
+        "kickall",
+        "kickeveryone"
       ],
-      "module": "broadcast",
-      "basepermissions": "uc.broadcast.broadcast.base",
+      "module": "kick",
+      "basepermissions": "uc.kick.kickall.base",
       "permissions": [
-        "uc.broadcast.broadcast.base"
+        "uc.kick.kickall.base"
       ],
-      "usage": "/broadcast <Message…>"
-    },
-    {
-      "identifier": "random",
-      "description": "Generate a random number between two values.",
-      "aliases": [
-        "random"
-      ],
-      "module": "random",
-      "basepermissions": "uc.random.random.base",
-      "permissions": [
-        "uc.random.random.base"
-      ],
-      "usage": "/random <Min> [Second]"
+      "usage": "/kickall [Reason…]"
     },
     {
       "identifier": "nick",
@@ -536,6 +533,483 @@
         "uc.nick.delnick.others.base"
       ],
       "usage": "/delnick [Player]"
+    },
+    {
+      "identifier": "ping",
+      "description": "View a player's ping.",
+      "aliases": [
+        "ping",
+        "pong",
+        "latency"
+      ],
+      "module": "playerinfo",
+      "basepermissions": "uc.playerinfo.ping.base",
+      "permissions": [
+        "uc.playerinfo.ping.base",
+        "uc.playerinfo.ping.others"
+      ],
+      "usage": "/ping [Player]"
+    },
+    {
+      "identifier": "uuid",
+      "description": "View the uuid of a player.",
+      "aliases": [
+        "uuid",
+        "uuidtoname",
+        "uuidtoplayer"
+      ],
+      "module": "playerinfo",
+      "basepermissions": "uc.playerinfo.uuid.base",
+      "permissions": [
+        "uc.playerinfo.uuid.base"
+      ],
+      "usage": "/uuid <Player>"
+    },
+    {
+      "identifier": "list",
+      "description": "View a list of online players.",
+      "aliases": [
+        "list",
+        "players",
+        "ls",
+        "who",
+        "online",
+        "plist"
+      ],
+      "module": "playerinfo",
+      "basepermissions": "uc.playerinfo.list.base",
+      "permissions": [
+        "uc.playerinfo.list.base",
+        "uc.playerinfo.list.seevanish"
+      ],
+      "usage": "/list"
+    },
+    {
+      "identifier": "god",
+      "description": "Toggle your or someone else's god mode.",
+      "aliases": [
+        "god",
+        "godmode"
+      ],
+      "module": "god",
+      "basepermissions": "uc.god.god.base",
+      "permissions": [
+        "uc.god.god.base",
+        "uc.god.god.others"
+      ],
+      "usage": "/god [Player]"
+    },
+    {
+      "identifier": "setjail",
+      "description": "Create a new jail with your current location.",
+      "aliases": [
+        "setjail",
+        "addjail",
+        "modifyjail"
+      ],
+      "module": "jail",
+      "basepermissions": "uc.jail.setjail.base",
+      "permissions": [
+        "uc.jail.setjail.base"
+      ],
+      "usage": "/setjail <Jail> [Description…]"
+    },
+    {
+      "identifier": "deljail",
+      "description": "Remove the jail with the provided name.",
+      "aliases": [
+        "deljail",
+        "removejail"
+      ],
+      "module": "jail",
+      "basepermissions": "uc.jail.deljail.base",
+      "permissions": [
+        "uc.jail.deljail.base"
+      ],
+      "usage": "/deljail <Jail>"
+    },
+    {
+      "identifier": "jaillist",
+      "description": "View a list of all jails.",
+      "aliases": [
+        "jaillist",
+        "jails"
+      ],
+      "module": "jail",
+      "basepermissions": "uc.jail.jaillist.base",
+      "permissions": [
+        "uc.jail.jaillist.base"
+      ],
+      "usage": "/jaillist"
+    },
+    {
+      "identifier": "jail",
+      "description": "Jail a player in a certain jail, for a certain time and with a certain reason.",
+      "aliases": [
+        "jail"
+      ],
+      "module": "jail",
+      "basepermissions": "uc.jail.jail.base",
+      "permissions": [
+        "uc.jail.jail.base"
+      ],
+      "usage": "/jail <Player> [Jail] [Time] [Reason…]"
+    },
+    {
+      "identifier": "unjail",
+      "description": "Unjail a player.",
+      "aliases": [
+        "unjail"
+      ],
+      "module": "jail",
+      "basepermissions": "uc.jail.unjail.base",
+      "permissions": [
+        "uc.jail.unjail.base"
+      ],
+      "usage": "/unjail <Player>"
+    },
+    {
+      "identifier": "jailtp",
+      "description": "Teleport to a jail without jailing yourself.",
+      "aliases": [
+        "jailtp",
+        "jailteleport",
+        "tpjail",
+        "teleportjail"
+      ],
+      "module": "jail",
+      "basepermissions": "uc.jail.jailtp.base",
+      "permissions": [
+        "uc.jail.deljail.base"
+      ],
+      "usage": "/jailtp <Jail>"
+    },
+    {
+      "identifier": "warp",
+      "description": "Teleport yourself to the specified warp.",
+      "aliases": [
+        "warp"
+      ],
+      "module": "warp",
+      "basepermissions": "uc.warp.warp.base",
+      "permissions": [
+        "uc.warp.warp.base",
+        "uc.warp.warp.[WARP]"
+      ],
+      "usage": "/warp [Warp]"
+    },
+    {
+      "identifier": "setwarp",
+      "description": "Create a new warp with the specified name and description.",
+      "aliases": [
+        "setwarp",
+        "addwarp"
+      ],
+      "module": "warp",
+      "basepermissions": "uc.warp.setwarp.base",
+      "permissions": [
+        "uc.warp.setwarp.base"
+      ],
+      "usage": "/setwarp <Name> [Description…]"
+    },
+    {
+      "identifier": "delwarp",
+      "description": "Remove the specified warp.",
+      "aliases": [
+        "delwarp",
+        "removewarp"
+      ],
+      "module": "warp",
+      "basepermissions": "uc.warp.delwarp.base",
+      "permissions": [
+        "uc.warp.delwarp.base"
+      ],
+      "usage": "/delwarp <Warp>"
+    },
+    {
+      "identifier": "warplist",
+      "description": "Get a paginated list of all warps.",
+      "aliases": [
+        "warplist",
+        "warps"
+      ],
+      "module": "warp",
+      "basepermissions": "uc.warp.warplist.base",
+      "permissions": [
+        "uc.warp.warplist.base"
+      ],
+      "usage": "/warplist"
+    },
+    {
+      "identifier": "food",
+      "description": "Fill a player's food bar.",
+      "aliases": [
+        "food",
+        "feed",
+        "eat"
+      ],
+      "module": "food",
+      "basepermissions": "uc.food.food.base",
+      "permissions": [
+        "uc.food.food.base",
+        "uc.food.food.others"
+      ],
+      "usage": "/food [Player]"
+    },
+    {
+      "identifier": "delfirstspawn",
+      "description": "Delete the new player spawn.",
+      "aliases": [
+        "delfirstspawn",
+        "removefirstspawn"
+      ],
+      "module": "spawn",
+      "basepermissions": "uc.spawn.delfirstspawn.base",
+      "permissions": [
+        "uc.spawn.delfirstspawn.base"
+      ],
+      "usage": "/delfirstspawn"
+    },
+    {
+      "identifier": "delglobalspawn",
+      "description": "Delete the global spawn.",
+      "aliases": [
+        "delglobalspawn",
+        "delspawn",
+        "removeglobalspawn",
+        "removespawn"
+      ],
+      "module": "spawn",
+      "basepermissions": "uc.spawn.delglobalspawn.base",
+      "permissions": [
+        "uc.spawn.delglobalspawn.base"
+      ],
+      "usage": "/delglobalspawn"
+    },
+    {
+      "identifier": "delgroupspawn",
+      "description": "Delete a group spawn.",
+      "aliases": [
+        "delgroupspawn",
+        "removegroupspawn"
+      ],
+      "module": "spawn",
+      "basepermissions": "uc.spawn.delgroupspawn.base",
+      "permissions": [
+        "uc.spawn.delgroupspawn.base"
+      ],
+      "usage": "/delgroupspawn <Group>"
+    },
+    {
+      "identifier": "setfirstspawn",
+      "description": "Set the new player spawn.",
+      "aliases": [
+        "setfirstspawn"
+      ],
+      "module": "spawn",
+      "basepermissions": "uc.spawn.setfirstspawn.base",
+      "permissions": [
+        "uc.spawn.setfirstspawn.base"
+      ],
+      "usage": "/setfirstspawn"
+    },
+    {
+      "identifier": "setglobalspawn",
+      "description": "Set the global spawn.",
+      "aliases": [
+        "setglobalspawn",
+        "setspawn"
+      ],
+      "module": "spawn",
+      "basepermissions": "uc.spawn.setglobalspawn.base",
+      "permissions": [
+        "uc.spawn.setglobalspawn.base"
+      ],
+      "usage": "/setglobalspawn"
+    },
+    {
+      "identifier": "setgroupspawn",
+      "description": "Set a group spawn.",
+      "aliases": [
+        "setgroupspawn"
+      ],
+      "module": "spawn",
+      "basepermissions": "uc.spawn.setgroupspawn.base",
+      "permissions": [
+        "uc.spawn.setgroupspawn.base"
+      ],
+      "usage": "/setgroupspawn <Group>"
+    },
+    {
+      "identifier": "globalspawn",
+      "description": "Teleport someone to the global spawn.",
+      "aliases": [
+        "globalspawn"
+      ],
+      "module": "spawn",
+      "basepermissions": "uc.spawn.globalspawn.base",
+      "permissions": [
+        "uc.spawn.globalspawn.base"
+      ],
+      "usage": "/globalspawn [Player]"
+    },
+    {
+      "identifier": "firstspawn",
+      "description": "Teleport someone to the new player spawn.",
+      "aliases": [
+        "firstspawn"
+      ],
+      "module": "spawn",
+      "basepermissions": "uc.spawn.firstspawn.base",
+      "permissions": [
+        "uc.spawn.firstspawn.base"
+      ],
+      "usage": "/firstspawn [Player]"
+    },
+    {
+      "identifier": "groupspawn",
+      "description": "Teleport someone to a group spawn.",
+      "aliases": [
+        "groupspawn"
+      ],
+      "module": "spawn",
+      "basepermissions": "uc.spawn.groupspawn.base",
+      "permissions": [
+        "uc.spawn.groupspawn.base"
+      ],
+      "usage": "/groupspawn [Player] [Group]"
+    },
+    {
+      "identifier": "spawn",
+      "description": "Teleport someone to the spawn.",
+      "aliases": [
+        "spawn"
+      ],
+      "module": "spawn",
+      "basepermissions": "uc.spawn.spawn.base",
+      "permissions": [
+        "uc.spawn.spawn.base"
+      ],
+      "usage": "/spawn [Player]"
+    },
+    {
+      "identifier": "ultimatecore",
+      "description": "The UltimateCore base command.",
+      "aliases": [
+        "ultimatecore",
+        "uc"
+      ],
+      "module": "core",
+      "basepermissions": "uc.core.ultimatecore.base",
+      "permissions": [
+        "uc.core.ultimatecore.base",
+        "uc.core.ultimatecore.clearcache.base",
+        "uc.core.ultimatecore.resetuser.base",
+        "uc.core.ultimatecore.modules.base",
+        "uc.core.ultimatecore.gendocs.base",
+        "uc.core.ultimatecore.error.base",
+        "uc.core.ultimatecore.reload.base",
+        "uc.core.ultimatecore.setuppermissions.base"
+      ],
+      "usage": "/ultimatecore gendocs|reload|setuppermissions|clearcache|resetuser|error|modules|"
+    },
+    {
+      "identifier": "break",
+      "description": "Break the block you are looking at.",
+      "aliases": [
+        "break",
+        "blockzap",
+        "zapblock"
+      ],
+      "module": "blockinfo",
+      "basepermissions": "uc.blockinfo.break.base",
+      "permissions": [
+        "uc.blockinfo.break.base"
+      ],
+      "usage": "/break"
+    },
+    {
+      "identifier": "personalmessage",
+      "description": "Send a private message to an other player.",
+      "aliases": [
+        "personalmessage",
+        "pm",
+        "dm",
+        "msg",
+        "w",
+        "whisper",
+        "tell"
+      ],
+      "module": "personalmessage",
+      "basepermissions": "uc.personalmessage.personalmessage.base",
+      "permissions": [
+        "uc.personalmessage.personalmessage.base"
+      ],
+      "usage": "/personalmessage <Player> <Message…>"
+    },
+    {
+      "identifier": "reply",
+      "description": "Send a private message to the person who last private messaged you.",
+      "aliases": [
+        "reply",
+        "respond",
+        "r"
+      ],
+      "module": "personalmessage",
+      "basepermissions": "uc.personalmessage.reply.base",
+      "permissions": [
+        "uc.personalmessage.reply.base"
+      ],
+      "usage": "/reply <Message…>"
+    },
+    {
+      "identifier": "workbench",
+      "description": "Opens a workbench inventory for you.",
+      "aliases": [
+        "workbench",
+        "wb",
+        "craftingtable",
+        "ct"
+      ],
+      "module": "inventory",
+      "basepermissions": "uc.inventory.workbench.base",
+      "permissions": [
+        "uc.inventory.workbench.base"
+      ],
+      "usage": "/workbench"
+    },
+    {
+      "identifier": "invsee",
+      "description": "View and edit a player's inventory.",
+      "aliases": [
+        "invsee",
+        "inventory",
+        "inv",
+        "openinventory",
+        "openinv"
+      ],
+      "module": "inventory",
+      "basepermissions": "uc.inventory.invsee.base",
+      "permissions": [
+        "uc.inventory.invsee.base",
+        "uc.inventory.invsee.modify",
+        "uc.inventory.invsee.offline"
+      ],
+      "usage": "/invsee <Player>"
+    },
+    {
+      "identifier": "broadcast",
+      "description": "Send a message to everyone on the server.",
+      "aliases": [
+        "broadcast",
+        "bc"
+      ],
+      "module": "broadcast",
+      "basepermissions": "uc.broadcast.broadcast.base",
+      "permissions": [
+        "uc.broadcast.broadcast.base"
+      ],
+      "usage": "/broadcast <Message…>"
     },
     {
       "identifier": "kit",
@@ -599,6 +1073,465 @@
         "uc.kit.removekit.base"
       ],
       "usage": "/removekit <Kit>"
+    },
+    {
+      "identifier": "random",
+      "description": "Generate a random number between two values.",
+      "aliases": [
+        "random"
+      ],
+      "module": "random",
+      "basepermissions": "uc.random.random.base",
+      "permissions": [
+        "uc.random.random.base"
+      ],
+      "usage": "/random <Min> [Second]"
+    },
+    {
+      "identifier": "commandspy",
+      "description": "Toggle a player's or your own commandspy status.",
+      "aliases": [
+        "commandspy",
+        "cmdspy",
+        "spycommand",
+        "spycmd"
+      ],
+      "module": "spy",
+      "basepermissions": "uc.spy.commandspy.base",
+      "permissions": [
+        "uc.spy.commandspy.base",
+        "uc.spy.commandspy.others"
+      ],
+      "usage": "/commandspy [Player]"
+    },
+    {
+      "identifier": "messagespy",
+      "description": "Toggle a player's or your own commandspy status.",
+      "aliases": [
+        "messagespy",
+        "msgspy",
+        "spymessage",
+        "spymsg",
+        "whisperspy",
+        "spywhisper"
+      ],
+      "module": "spy",
+      "basepermissions": "uc.spy.messagespy.base",
+      "permissions": [
+        "uc.spy.messagespy.base",
+        "uc.spy.messagespy.others"
+      ],
+      "usage": "/messagespy [Player]"
+    },
+    {
+      "identifier": "back",
+      "description": "Teleport back to the location you were before you teleported.",
+      "aliases": [
+        "back",
+        "return"
+      ],
+      "module": "back",
+      "basepermissions": "uc.back.back.base",
+      "permissions": [
+        "uc.back.back.base",
+        "uc.back.back.ondeath"
+      ],
+      "usage": "/back"
+    },
+    {
+      "identifier": "gamemode",
+      "description": "Change a player's gamemode.",
+      "aliases": [
+        "gamemode",
+        "gm"
+      ],
+      "module": "gamemode",
+      "basepermissions": "uc.gamemode.gamemode.base",
+      "permissions": [
+        "uc.gamemode.gamemode.base",
+        "uc.gamemode.gamemode.self.adventure",
+        "uc.gamemode.gamemode.self.creative",
+        "uc.gamemode.gamemode.self.survival",
+        "uc.gamemode.gamemode.self.spectator",
+        "uc.gamemode.gamemode.others.base",
+        "uc.gamemode.gamemode.others.adventure",
+        "uc.gamemode.gamemode.others.creative",
+        "uc.gamemode.gamemode.others.survival",
+        "uc.gamemode.gamemode.others.spectator"
+      ],
+      "usage": "/gamemode <Gamemode> [Player]"
+    },
+    {
+      "identifier": "survival",
+      "description": "Change someone's gamemode to survival.",
+      "aliases": [
+        "survival",
+        "s"
+      ],
+      "module": "gamemode",
+      "basepermissions": "uc.gamemode.gamemode.self.survival",
+      "permissions": [
+        "uc.gamemode.gamemode.base",
+        "uc.gamemode.gamemode.self.survival",
+        "uc.gamemode.gamemode.others.base",
+        "uc.gamemode.gamemode.others.survival"
+      ],
+      "usage": "/survival [Player]"
+    },
+    {
+      "identifier": "creative",
+      "description": "Change someone's gamemode to creative.",
+      "aliases": [
+        "creative",
+        "c"
+      ],
+      "module": "gamemode",
+      "basepermissions": "uc.gamemode.gamemode.self.creative",
+      "permissions": [
+        "uc.gamemode.gamemode.base",
+        "uc.gamemode.gamemode.self.creative",
+        "uc.gamemode.gamemode.others.base",
+        "uc.gamemode.gamemode.others.creative"
+      ],
+      "usage": "/creative [Player]"
+    },
+    {
+      "identifier": "adventure",
+      "description": "Change someone's gamemode to adventure.",
+      "aliases": [
+        "adventure",
+        "a"
+      ],
+      "module": "gamemode",
+      "basepermissions": "uc.gamemode.gamemode.self.adventure",
+      "permissions": [
+        "uc.gamemode.gamemode.base",
+        "uc.gamemode.gamemode.self.adventure",
+        "uc.gamemode.gamemode.others.base",
+        "uc.gamemode.gamemode.others.adventure"
+      ],
+      "usage": "/adventure [Player]"
+    },
+    {
+      "identifier": "spectator",
+      "description": "Change someone's gamemode to spectator.",
+      "aliases": [
+        "spectator",
+        "spec"
+      ],
+      "module": "gamemode",
+      "basepermissions": "uc.gamemode.gamemode.self.spectator",
+      "permissions": [
+        "uc.gamemode.gamemode.base",
+        "uc.gamemode.gamemode.self.spectator",
+        "uc.gamemode.gamemode.others.base",
+        "uc.gamemode.gamemode.others.spectator"
+      ],
+      "usage": "/spectator [Player]"
+    },
+    {
+      "identifier": "world",
+      "description": "World management command.",
+      "aliases": [
+        "world"
+      ],
+      "module": "world",
+      "basepermissions": "uc.world.world.base",
+      "permissions": [
+        "uc.world.world.base",
+        "uc.world.world.create.base",
+        "uc.world.world.delete.base",
+        "uc.world.world.disable.base",
+        "uc.world.world.enable.base",
+        "uc.world.world.gamerule.base",
+        "uc.world.world.import.base",
+        "uc.world.world.worlds.base",
+        "uc.world.world.info.base",
+        "uc.world.world.setdifficulty.base",
+        "uc.world.world.setgamemode.base",
+        "uc.world.world.sethardcore.base",
+        "uc.world.world.setkeepspawnloaded.base",
+        "uc.world.world.setloadonstartup.base",
+        "uc.world.world.setpvp.base",
+        "uc.world.world.setworldspawn.base",
+        "uc.world.world.setworldspawn.base",
+        "uc.world.world.teleport.base"
+      ],
+      "usage": "/world setdifficulty|worlds|import|setkeepspawnloaded|teleport|sethardcore|setpvp|delete|enable|create|info|setloadonstartup|setgamemode|gamerule|disable|setworldspawn|"
+    },
+    {
+      "identifier": "burn",
+      "description": "Set people on fire.",
+      "aliases": [
+        "burn",
+        "fire",
+        "ignite"
+      ],
+      "module": "burn",
+      "basepermissions": "uc.burn.burn.base",
+      "permissions": [
+        "uc.burn.burn.base"
+      ],
+      "usage": "/burn <Player> [Time]"
+    },
+    {
+      "identifier": "afk",
+      "description": "Toggle whether a player is marked as away-from-keyboard.",
+      "aliases": [
+        "afk",
+        "idle",
+        "away"
+      ],
+      "module": "afk",
+      "basepermissions": "uc.afk.afk.base",
+      "permissions": [
+        "uc.afk.afk.base",
+        "uc.afk.afk.message",
+        "uc.afk.afk.others.base",
+        "uc.afk.afk.others.message"
+      ],
+      "usage": "/afk [Player] [Message…]"
+    },
+    {
+      "identifier": "teleportask",
+      "description": "Ask to teleport to a player.",
+      "aliases": [
+        "teleportask",
+        "teleporta",
+        "tpa",
+        "asktp",
+        "askteleport"
+      ],
+      "module": "teleport",
+      "basepermissions": "uc.teleport.teleportask.base",
+      "permissions": [
+        "uc.teleport.teleportask.base"
+      ],
+      "usage": "/teleportask <Player>"
+    },
+    {
+      "identifier": "teleportaskhere",
+      "description": "Ask to teleport a player to you.",
+      "aliases": [
+        "teleportaskhere",
+        "teleportah",
+        "tpahere",
+        "asktphere",
+        "askteleporthere"
+      ],
+      "module": "teleport",
+      "basepermissions": "uc.teleport.teleportaskhere.base",
+      "permissions": [
+        "uc.teleport.teleportaskhere.base"
+      ],
+      "usage": "/teleportaskhere <Player>"
+    },
+    {
+      "identifier": "teleportaccept",
+      "description": "Accept the specified request, or the most recent one.",
+      "aliases": [
+        "teleportaccept",
+        "tpaccept",
+        "tpyes"
+      ],
+      "module": "teleport",
+      "basepermissions": "uc.teleport.teleportaccept.base",
+      "permissions": [
+        "uc.teleport.teleportaccept.base"
+      ],
+      "usage": "/teleportaccept [Tpid]"
+    },
+    {
+      "identifier": "teleportdeny",
+      "description": "Deny the specified request, or the most recent one.",
+      "aliases": [
+        "teleportdeny",
+        "tpdeny",
+        "tpno"
+      ],
+      "module": "teleport",
+      "basepermissions": "uc.teleport.teleportdeny.base",
+      "permissions": [
+        "uc.teleport.teleportdeny.base"
+      ],
+      "usage": "/teleportdeny [Tpid]"
+    },
+    {
+      "identifier": "teleporthere",
+      "description": "Teleport someone to you.",
+      "aliases": [
+        "teleporthere",
+        "tphere"
+      ],
+      "module": "teleport",
+      "basepermissions": "uc.teleport.teleporthere.base",
+      "permissions": [
+        "uc.teleport.teleporthere.base"
+      ],
+      "usage": "/teleporthere <Entities>"
+    },
+    {
+      "identifier": "teleportall",
+      "description": "Teleport everyone to you.",
+      "aliases": [
+        "teleportall",
+        "tpall"
+      ],
+      "module": "teleport",
+      "basepermissions": "uc.teleport.teleportall.base",
+      "permissions": [
+        "uc.teleport.teleportall.base"
+      ],
+      "usage": "/teleportall"
+    },
+    {
+      "identifier": "teleportaskallhere",
+      "description": "Ask everyone to teleport to you.",
+      "aliases": [
+        "teleportaskallhere",
+        "tpaallhere",
+        "teleportaskall",
+        "tpaall"
+      ],
+      "module": "teleport",
+      "basepermissions": "uc.teleport.teleportaskallhere.base",
+      "permissions": [
+        "uc.teleport.teleportaskallhere.base"
+      ],
+      "usage": "/teleportaskallhere"
+    },
+    {
+      "identifier": "randomteleport",
+      "description": "Teleport to a random location nearby.",
+      "aliases": [
+        "randomteleport",
+        "randomtp",
+        "rtp",
+        "rteleport"
+      ],
+      "module": "teleport",
+      "basepermissions": "uc.teleport.randomteleport.base",
+      "permissions": [
+        "uc.teleport.randomteleport.base"
+      ],
+      "usage": "/randomteleport"
+    },
+    {
+      "identifier": "biometeleport",
+      "description": "Teleport to a specific biome.",
+      "aliases": [
+        "biometeleport",
+        "biometp",
+        "btp",
+        "bteleport"
+      ],
+      "module": "teleport",
+      "basepermissions": "uc.teleport.biometeleport.base",
+      "permissions": [
+        "uc.teleport.biometeleport.base"
+      ],
+      "usage": "/biometeleport <Biome>"
+    },
+    {
+      "identifier": "top",
+      "description": "Teleport to a random location nearby.",
+      "aliases": [
+        "top",
+        "highestblock"
+      ],
+      "module": "teleport",
+      "basepermissions": "uc.teleport.top.base",
+      "permissions": [
+        "uc.teleport.top.base"
+      ],
+      "usage": "/top"
+    },
+    {
+      "identifier": "country",
+      "description": "View the country where a player is from.",
+      "aliases": [
+        "country"
+      ],
+      "module": "geoip",
+      "basepermissions": "uc.geoip.country.base",
+      "permissions": [
+        "uc.geoip.country.base"
+      ],
+      "usage": "/country <Player>"
+    },
+    {
+      "identifier": "fly",
+      "description": "Toggle someone's fly status.",
+      "aliases": [
+        "fly",
+        "flight"
+      ],
+      "module": "fly",
+      "basepermissions": "uc.fly.fly.base",
+      "permissions": [
+        "uc.fly.fly.base",
+        "uc.fly.fly.others"
+      ],
+      "usage": "/fly [Player]"
+    },
+    {
+      "identifier": "flyspeed",
+      "description": "Change a player's flyspeed. (1 by default)",
+      "aliases": [
+        "flyspeed",
+        "fspeed"
+      ],
+      "module": "fly",
+      "basepermissions": "uc.fly.flyspeed.base",
+      "permissions": [
+        "uc.fly.flyspeed.base"
+      ],
+      "usage": "/flyspeed <Speed> [Player]"
+    },
+    {
+      "identifier": "walkspeed",
+      "description": "Change a player's walkspeed. (1 by default)",
+      "aliases": [
+        "walkspeed",
+        "wspeed"
+      ],
+      "module": "fly",
+      "basepermissions": "uc.fly.walkspeed.base",
+      "permissions": [
+        "uc.fly.walkspeed.base"
+      ],
+      "usage": "/walkspeed <Speed> [Player]"
+    },
+    {
+      "identifier": "speed",
+      "description": "Change a player's flyspeed if he is flying, or else the player's walkspeed. (1 by default)",
+      "aliases": [
+        "speed",
+        "generalspeed"
+      ],
+      "module": "fly",
+      "basepermissions": "uc.fly.speed.base",
+      "permissions": [
+        "uc.fly.speed.base"
+      ],
+      "usage": "/speed <Speed> [Player]"
+    },
+    {
+      "identifier": "mail",
+      "description": "Send, receive or clear your mail.",
+      "aliases": [
+        "mail"
+      ],
+      "module": "mail",
+      "basepermissions": "uc.mail.mail.base",
+      "permissions": [
+        "uc.mail.mail.base",
+        "uc.mail.mail.read.base",
+        "uc.mail.mail.send.base",
+        "uc.mail.mail.clear.base",
+        "uc.mail.mail.delete.base"
+      ],
+      "usage": "/mail read|clear|send|delete|"
     },
     {
       "identifier": "more",
@@ -767,157 +1700,44 @@
       "usage": "/itemhidetags attributes/candestroy/canplaceon/enchantments/miscellaneous/unbreakable Enable/Disable"
     },
     {
-      "identifier": "ping",
-      "description": "View a player's ping.",
+      "identifier": "vanish",
+      "description": "Toggle whether a player is vanished.",
       "aliases": [
-        "ping",
-        "pong",
-        "latency"
+        "vanish"
       ],
-      "module": "playerinfo",
-      "basepermissions": "uc.playerinfo.ping.base",
+      "module": "vanish",
+      "basepermissions": "uc.vanish.vanish.base",
       "permissions": [
-        "uc.playerinfo.ping.base",
-        "uc.playerinfo.ping.others"
+        "uc.vanish.vanish.base",
+        "uc.vanish.vanish.base"
       ],
-      "usage": "/ping [Player]"
+      "usage": "/vanish [Player]"
     },
     {
-      "identifier": "uuid",
-      "description": "View the uuid of a player.",
+      "identifier": "mute",
+      "description": "Mute a player, for a certain time and reason.",
       "aliases": [
-        "uuid",
-        "uuidtoname",
-        "uuidtoplayer"
+        "mute"
       ],
-      "module": "playerinfo",
-      "basepermissions": "uc.playerinfo.uuid.base",
+      "module": "mute",
+      "basepermissions": "uc.mute.mute.base",
       "permissions": [
-        "uc.playerinfo.uuid.base"
+        "uc.mute.mute.base"
       ],
-      "usage": "/uuid <Player>"
+      "usage": "/mute <Player> [Time] [Reason…]"
     },
     {
-      "identifier": "list",
-      "description": "View a list of online players.",
+      "identifier": "unmute",
+      "description": "Unmute a player.",
       "aliases": [
-        "list",
-        "players",
-        "ls",
-        "who",
-        "online",
-        "plist"
+        "unmute"
       ],
-      "module": "playerinfo",
-      "basepermissions": "uc.playerinfo.list.base",
+      "module": "mute",
+      "basepermissions": "uc.mute.unmute.base",
       "permissions": [
-        "uc.playerinfo.list.base",
-        "uc.playerinfo.list.seevanish"
+        "uc.mute.unmute.base"
       ],
-      "usage": "/list"
-    },
-    {
-      "identifier": "setjail",
-      "description": "Create a new jail with your current location.",
-      "aliases": [
-        "setjail",
-        "addjail",
-        "modifyjail"
-      ],
-      "module": "jail",
-      "basepermissions": "uc.jail.setjail.base",
-      "permissions": [
-        "uc.jail.setjail.base"
-      ],
-      "usage": "/setjail <Jail> [Description…]"
-    },
-    {
-      "identifier": "deljail",
-      "description": "Remove the jail with the provided name.",
-      "aliases": [
-        "deljail",
-        "removejail"
-      ],
-      "module": "jail",
-      "basepermissions": "uc.jail.deljail.base",
-      "permissions": [
-        "uc.jail.deljail.base"
-      ],
-      "usage": "/deljail <Jail>"
-    },
-    {
-      "identifier": "jaillist",
-      "description": "View a list of all jails.",
-      "aliases": [
-        "jaillist",
-        "jails"
-      ],
-      "module": "jail",
-      "basepermissions": "uc.jail.jaillist.base",
-      "permissions": [
-        "uc.jail.jaillist.base"
-      ],
-      "usage": "/jaillist"
-    },
-    {
-      "identifier": "jail",
-      "description": "Jail a player in a certain jail, for a certain time and with a certain reason.",
-      "aliases": [
-        "jail"
-      ],
-      "module": "jail",
-      "basepermissions": "uc.jail.jail.base",
-      "permissions": [
-        "uc.jail.jail.base"
-      ],
-      "usage": "/jail <Player> [Jail] [Time] [Reason…]"
-    },
-    {
-      "identifier": "unjail",
-      "description": "Unjail a player.",
-      "aliases": [
-        "unjail"
-      ],
-      "module": "jail",
-      "basepermissions": "uc.jail.unjail.base",
-      "permissions": [
-        "uc.jail.unjail.base"
-      ],
-      "usage": "/unjail <Player>"
-    },
-    {
-      "identifier": "jailtp",
-      "description": "Teleport to a jail without jailing yourself.",
-      "aliases": [
-        "jailtp",
-        "jailteleport",
-        "tpjail",
-        "teleportjail"
-      ],
-      "module": "jail",
-      "basepermissions": "uc.jail.jailtp.base",
-      "permissions": [
-        "uc.jail.deljail.base"
-      ],
-      "usage": "/jailtp <Jail>"
-    },
-    {
-      "identifier": "afk",
-      "description": "Toggle whether a player is marked as away-from-keyboard.",
-      "aliases": [
-        "afk",
-        "idle",
-        "away"
-      ],
-      "module": "afk",
-      "basepermissions": "uc.afk.afk.base",
-      "permissions": [
-        "uc.afk.afk.base",
-        "uc.afk.afk.message",
-        "uc.afk.afk.others.base",
-        "uc.afk.afk.others.message"
-      ],
-      "usage": "/afk [Player] [Message…]"
+      "usage": "/unmute <Player>"
     },
     {
       "identifier": "sudo",
@@ -939,373 +1759,6 @@
         "uc.sudo.sudo.command"
       ],
       "usage": "/sudo <Player> <Command…>"
-    },
-    {
-      "identifier": "workbench",
-      "description": "Opens a workbench inventory for you.",
-      "aliases": [
-        "workbench",
-        "wb",
-        "craftingtable",
-        "ct"
-      ],
-      "module": "inventory",
-      "basepermissions": "uc.inventory.workbench.base",
-      "permissions": [
-        "uc.inventory.workbench.base"
-      ],
-      "usage": "/workbench"
-    },
-    {
-      "identifier": "invsee",
-      "description": "View and edit a player's inventory.",
-      "aliases": [
-        "invsee",
-        "inventory",
-        "inv",
-        "openinventory",
-        "openinv"
-      ],
-      "module": "inventory",
-      "basepermissions": "uc.inventory.invsee.base",
-      "permissions": [
-        "uc.inventory.invsee.base",
-        "uc.inventory.invsee.modify",
-        "uc.inventory.invsee.offline"
-      ],
-      "usage": "/invsee <Player>"
-    },
-    {
-      "identifier": "gamemode",
-      "description": "Change a player's gamemode.",
-      "aliases": [
-        "gamemode",
-        "gm"
-      ],
-      "module": "gamemode",
-      "basepermissions": "uc.gamemode.gamemode.base",
-      "permissions": [
-        "uc.gamemode.gamemode.base",
-        "uc.gamemode.gamemode.self.adventure",
-        "uc.gamemode.gamemode.self.creative",
-        "uc.gamemode.gamemode.self.survival",
-        "uc.gamemode.gamemode.self.spectator",
-        "uc.gamemode.gamemode.others.base",
-        "uc.gamemode.gamemode.others.adventure",
-        "uc.gamemode.gamemode.others.creative",
-        "uc.gamemode.gamemode.others.survival",
-        "uc.gamemode.gamemode.others.spectator"
-      ],
-      "usage": "/gamemode <Gamemode> [Player]"
-    },
-    {
-      "identifier": "survival",
-      "description": "Change someone's gamemode to survival.",
-      "aliases": [
-        "survival",
-        "s"
-      ],
-      "module": "gamemode",
-      "basepermissions": "uc.gamemode.gamemode.self.survival",
-      "permissions": [
-        "uc.gamemode.gamemode.base",
-        "uc.gamemode.gamemode.self.survival",
-        "uc.gamemode.gamemode.others.base",
-        "uc.gamemode.gamemode.others.survival"
-      ],
-      "usage": "/survival [Player]"
-    },
-    {
-      "identifier": "creative",
-      "description": "Change someone's gamemode to creative.",
-      "aliases": [
-        "creative",
-        "c"
-      ],
-      "module": "gamemode",
-      "basepermissions": "uc.gamemode.gamemode.self.creative",
-      "permissions": [
-        "uc.gamemode.gamemode.base",
-        "uc.gamemode.gamemode.self.creative",
-        "uc.gamemode.gamemode.others.base",
-        "uc.gamemode.gamemode.others.creative"
-      ],
-      "usage": "/creative [Player]"
-    },
-    {
-      "identifier": "adventure",
-      "description": "Change someone's gamemode to adventure.",
-      "aliases": [
-        "adventure",
-        "a"
-      ],
-      "module": "gamemode",
-      "basepermissions": "uc.gamemode.gamemode.self.adventure",
-      "permissions": [
-        "uc.gamemode.gamemode.base",
-        "uc.gamemode.gamemode.self.adventure",
-        "uc.gamemode.gamemode.others.base",
-        "uc.gamemode.gamemode.others.adventure"
-      ],
-      "usage": "/adventure [Player]"
-    },
-    {
-      "identifier": "spectator",
-      "description": "Change someone's gamemode to spectator.",
-      "aliases": [
-        "spectator",
-        "spec"
-      ],
-      "module": "gamemode",
-      "basepermissions": "uc.gamemode.gamemode.self.spectator",
-      "permissions": [
-        "uc.gamemode.gamemode.base",
-        "uc.gamemode.gamemode.self.spectator",
-        "uc.gamemode.gamemode.others.base",
-        "uc.gamemode.gamemode.others.spectator"
-      ],
-      "usage": "/spectator [Player]"
-    },
-    {
-      "identifier": "fly",
-      "description": "Toggle someone's fly status.",
-      "aliases": [
-        "fly",
-        "flight"
-      ],
-      "module": "fly",
-      "basepermissions": "uc.fly.fly.base",
-      "permissions": [
-        "uc.fly.fly.base",
-        "uc.fly.fly.others"
-      ],
-      "usage": "/fly [Player]"
-    },
-    {
-      "identifier": "flyspeed",
-      "description": "Change a player's flyspeed. (1 by default)",
-      "aliases": [
-        "flyspeed",
-        "fspeed"
-      ],
-      "module": "fly",
-      "basepermissions": "uc.fly.flyspeed.base",
-      "permissions": [
-        "uc.fly.flyspeed.base"
-      ],
-      "usage": "/flyspeed <Speed> [Player]"
-    },
-    {
-      "identifier": "walkspeed",
-      "description": "Change a player's walkspeed. (1 by default)",
-      "aliases": [
-        "walkspeed",
-        "wspeed"
-      ],
-      "module": "fly",
-      "basepermissions": "uc.fly.walkspeed.base",
-      "permissions": [
-        "uc.fly.walkspeed.base"
-      ],
-      "usage": "/walkspeed <Speed> [Player]"
-    },
-    {
-      "identifier": "speed",
-      "description": "Change a player's flyspeed if he is flying, or else the player's walkspeed. (1 by default)",
-      "aliases": [
-        "speed",
-        "generalspeed"
-      ],
-      "module": "fly",
-      "basepermissions": "uc.fly.speed.base",
-      "permissions": [
-        "uc.fly.speed.base"
-      ],
-      "usage": "/speed <Speed> [Player]"
-    },
-    {
-      "identifier": "teleportask",
-      "description": "Ask to teleport to a player.",
-      "aliases": [
-        "teleportask",
-        "teleporta",
-        "tpa",
-        "asktp",
-        "askteleport"
-      ],
-      "module": "teleport",
-      "basepermissions": "uc.teleport.teleportask.base",
-      "permissions": [
-        "uc.teleport.teleportask.base"
-      ],
-      "usage": "/teleportask <Player>"
-    },
-    {
-      "identifier": "teleportaskhere",
-      "description": "Ask to teleport a player to you.",
-      "aliases": [
-        "teleportaskhere",
-        "teleportah",
-        "tpahere",
-        "asktphere",
-        "askteleporthere"
-      ],
-      "module": "teleport",
-      "basepermissions": "uc.teleport.teleportaskhere.base",
-      "permissions": [
-        "uc.teleport.teleportaskhere.base"
-      ],
-      "usage": "/teleportaskhere <Player>"
-    },
-    {
-      "identifier": "teleportaccept",
-      "description": "Accept the specified request, or the most recent one.",
-      "aliases": [
-        "teleportaccept",
-        "tpaccept",
-        "tpyes"
-      ],
-      "module": "teleport",
-      "basepermissions": "uc.teleport.teleportaccept.base",
-      "permissions": [
-        "uc.teleport.teleportaccept.base"
-      ],
-      "usage": "/teleportaccept [Tpid]"
-    },
-    {
-      "identifier": "teleportdeny",
-      "description": "Deny the specified request, or the most recent one.",
-      "aliases": [
-        "teleportdeny",
-        "tpdeny",
-        "tpno"
-      ],
-      "module": "teleport",
-      "basepermissions": "uc.teleport.teleportdeny.base",
-      "permissions": [
-        "uc.teleport.teleportdeny.base"
-      ],
-      "usage": "/teleportdeny [Tpid]"
-    },
-    {
-      "identifier": "teleporthere",
-      "description": "Teleport someone to you.",
-      "aliases": [
-        "teleporthere",
-        "tphere"
-      ],
-      "module": "teleport",
-      "basepermissions": "uc.teleport.teleporthere.base",
-      "permissions": [
-        "uc.teleport.teleporthere.base"
-      ],
-      "usage": "/teleporthere <Entities>"
-    },
-    {
-      "identifier": "teleportall",
-      "description": "Teleport everyone to you.",
-      "aliases": [
-        "teleportall",
-        "tpall"
-      ],
-      "module": "teleport",
-      "basepermissions": "uc.teleport.teleportall.base",
-      "permissions": [
-        "uc.teleport.teleportall.base"
-      ],
-      "usage": "/teleportall"
-    },
-    {
-      "identifier": "teleportaskallhere",
-      "description": "Ask everyone to teleport to you.",
-      "aliases": [
-        "teleportaskallhere",
-        "tpaallhere",
-        "teleportaskall",
-        "tpaall"
-      ],
-      "module": "teleport",
-      "basepermissions": "uc.teleport.teleportaskallhere.base",
-      "permissions": [
-        "uc.teleport.teleportaskallhere.base"
-      ],
-      "usage": "/teleportaskallhere"
-    },
-    {
-      "identifier": "randomteleport",
-      "description": "Teleport to a random location nearby.",
-      "aliases": [
-        "randomteleport",
-        "randomtp",
-        "rtp",
-        "rteleport"
-      ],
-      "module": "teleport",
-      "basepermissions": "uc.teleport.randomteleport.base",
-      "permissions": [
-        "uc.teleport.randomteleport.base"
-      ],
-      "usage": "/randomteleport"
-    },
-    {
-      "identifier": "biometeleport",
-      "description": "Teleport to a specific biome.",
-      "aliases": [
-        "biometeleport",
-        "biometp",
-        "btp",
-        "bteleport"
-      ],
-      "module": "teleport",
-      "basepermissions": "uc.teleport.biometeleport.base",
-      "permissions": [
-        "uc.teleport.biometeleport.base"
-      ],
-      "usage": "/biometeleport <Biome>"
-    },
-    {
-      "identifier": "top",
-      "description": "Teleport to a random location nearby.",
-      "aliases": [
-        "top",
-        "highestblock"
-      ],
-      "module": "teleport",
-      "basepermissions": "uc.teleport.top.base",
-      "permissions": [
-        "uc.teleport.top.base"
-      ],
-      "usage": "/top"
-    },
-    {
-      "identifier": "world",
-      "description": "World management command.",
-      "aliases": [
-        "world"
-      ],
-      "module": "world",
-      "basepermissions": "uc.world.world.base",
-      "permissions": [
-        "uc.world.world.base",
-        "uc.world.world.create.base",
-        "uc.world.world.delete.base",
-        "uc.world.world.disable.base",
-        "uc.world.world.enable.base",
-        "uc.world.world.gamerule.base",
-        "uc.world.world.import.base",
-        "uc.world.world.worlds.base",
-        "uc.world.world.info.base",
-        "uc.world.world.setdifficulty.base",
-        "uc.world.world.setgamemode.base",
-        "uc.world.world.sethardcore.base",
-        "uc.world.world.setkeepspawnloaded.base",
-        "uc.world.world.setloadonstartup.base",
-        "uc.world.world.setpvp.base",
-        "uc.world.world.setworldspawn.base",
-        "uc.world.world.setworldspawn.base",
-        "uc.world.world.teleport.base"
-      ],
-      "usage": "/world setdifficulty|worlds|import|setkeepspawnloaded|teleport|sethardcore|setpvp|delete|enable|create|info|setloadonstartup|setgamemode|gamerule|disable|setworldspawn|"
     },
     {
       "identifier": "weather",
@@ -1371,19 +1824,60 @@
       "usage": "/thunder [World]"
     },
     {
-      "identifier": "back",
-      "description": "Teleport back to the location you were before you teleported.",
+      "identifier": "homelist",
+      "description": "View a list of your homes.",
       "aliases": [
-        "back",
-        "return"
+        "homelist",
+        "homes"
       ],
-      "module": "back",
-      "basepermissions": "uc.back.back.base",
+      "module": "home",
+      "basepermissions": "uc.home.home.base",
       "permissions": [
-        "uc.back.back.base",
-        "uc.back.back.ondeath"
+        "uc.home.home.base"
       ],
-      "usage": "/back"
+      "usage": "/homelist"
+    },
+    {
+      "identifier": "home",
+      "description": "Teleport to your home.",
+      "aliases": [
+        "home"
+      ],
+      "module": "home",
+      "basepermissions": "uc.home.home.base",
+      "permissions": [
+        "uc.home.home.base"
+      ],
+      "usage": "/home [Home]"
+    },
+    {
+      "identifier": "delhome",
+      "description": "Remove a home.",
+      "aliases": [
+        "delhome",
+        "removehome"
+      ],
+      "module": "home",
+      "basepermissions": "uc.home.delhome.base",
+      "permissions": [
+        "uc.home.delhome.base"
+      ],
+      "usage": "/delhome <Home>"
+    },
+    {
+      "identifier": "sethome",
+      "description": "Set a new home or move the location of a home.",
+      "aliases": [
+        "sethome",
+        "addhome"
+      ],
+      "module": "home",
+      "basepermissions": "uc.home.sethome.base",
+      "permissions": [
+        "uc.home.sethome.base",
+        "uc.home.sethome.unlimited"
+      ],
+      "usage": "/sethome <Home>"
     },
     {
       "identifier": "signedit",
@@ -1400,514 +1894,20 @@
       "usage": "/signedit <Line> <Text…>"
     },
     {
-      "identifier": "delfirstspawn",
-      "description": "Delete the new player spawn.",
+      "identifier": "clearinventory",
+      "description": "Remove all items from someone's inventory.",
       "aliases": [
-        "delfirstspawn",
-        "removefirstspawn"
+        "clearinventory",
+        "clear",
+        "ci"
       ],
-      "module": "spawn",
-      "basepermissions": "uc.spawn.delfirstspawn.base",
+      "module": "inventory",
+      "basepermissions": "uc.inventory.clearinventory.base",
       "permissions": [
-        "uc.spawn.delfirstspawn.base"
+        "uc.inventory.clearinventory.base",
+        "uc.inventory.clearinventory.others"
       ],
-      "usage": "/delfirstspawn"
-    },
-    {
-      "identifier": "delglobalspawn",
-      "description": "Delete the global spawn.",
-      "aliases": [
-        "delglobalspawn",
-        "delspawn",
-        "removeglobalspawn",
-        "removespawn"
-      ],
-      "module": "spawn",
-      "basepermissions": "uc.spawn.delglobalspawn.base",
-      "permissions": [
-        "uc.spawn.delglobalspawn.base"
-      ],
-      "usage": "/delglobalspawn"
-    },
-    {
-      "identifier": "delgroupspawn",
-      "description": "Delete a group spawn.",
-      "aliases": [
-        "delgroupspawn",
-        "removegroupspawn"
-      ],
-      "module": "spawn",
-      "basepermissions": "uc.spawn.delgroupspawn.base",
-      "permissions": [
-        "uc.spawn.delgroupspawn.base"
-      ],
-      "usage": "/delgroupspawn <Group>"
-    },
-    {
-      "identifier": "setfirstspawn",
-      "description": "Set the new player spawn.",
-      "aliases": [
-        "setfirstspawn"
-      ],
-      "module": "spawn",
-      "basepermissions": "uc.spawn.setfirstspawn.base",
-      "permissions": [
-        "uc.spawn.setfirstspawn.base"
-      ],
-      "usage": "/setfirstspawn"
-    },
-    {
-      "identifier": "setglobalspawn",
-      "description": "Set the global spawn.",
-      "aliases": [
-        "setglobalspawn",
-        "setspawn"
-      ],
-      "module": "spawn",
-      "basepermissions": "uc.spawn.setglobalspawn.base",
-      "permissions": [
-        "uc.spawn.setglobalspawn.base"
-      ],
-      "usage": "/setglobalspawn"
-    },
-    {
-      "identifier": "setgroupspawn",
-      "description": "Set a group spawn.",
-      "aliases": [
-        "setgroupspawn"
-      ],
-      "module": "spawn",
-      "basepermissions": "uc.spawn.setgroupspawn.base",
-      "permissions": [
-        "uc.spawn.setgroupspawn.base"
-      ],
-      "usage": "/setgroupspawn <Group>"
-    },
-    {
-      "identifier": "globalspawn",
-      "description": "Teleport someone to the global spawn.",
-      "aliases": [
-        "globalspawn"
-      ],
-      "module": "spawn",
-      "basepermissions": "uc.spawn.globalspawn.base",
-      "permissions": [
-        "uc.spawn.globalspawn.base"
-      ],
-      "usage": "/globalspawn [Player]"
-    },
-    {
-      "identifier": "firstspawn",
-      "description": "Teleport someone to the new player spawn.",
-      "aliases": [
-        "firstspawn"
-      ],
-      "module": "spawn",
-      "basepermissions": "uc.spawn.firstspawn.base",
-      "permissions": [
-        "uc.spawn.firstspawn.base"
-      ],
-      "usage": "/firstspawn [Player]"
-    },
-    {
-      "identifier": "groupspawn",
-      "description": "Teleport someone to a group spawn.",
-      "aliases": [
-        "groupspawn"
-      ],
-      "module": "spawn",
-      "basepermissions": "uc.spawn.groupspawn.base",
-      "permissions": [
-        "uc.spawn.groupspawn.base"
-      ],
-      "usage": "/groupspawn [Player] [Group]"
-    },
-    {
-      "identifier": "spawn",
-      "description": "Teleport someone to the spawn.",
-      "aliases": [
-        "spawn"
-      ],
-      "module": "spawn",
-      "basepermissions": "uc.spawn.spawn.base",
-      "permissions": [
-        "uc.spawn.spawn.base"
-      ],
-      "usage": "/spawn [Player]"
-    },
-    {
-      "identifier": "ban",
-      "description": "Ban a player or an ip address, for a certain time and reason.",
-      "aliases": [
-        "ban",
-        "banip",
-        "ipban",
-        "bantemp",
-        "tempban"
-      ],
-      "module": "ban",
-      "basepermissions": "uc.ban.ban.base",
-      "permissions": [
-        "uc.ban.ban.base"
-      ],
-      "usage": "/ban <Player/IP> [Time] [Reason…]"
-    },
-    {
-      "identifier": "unban",
-      "description": "Unban a player or ip address.",
-      "aliases": [
-        "unban",
-        "pardon",
-        "unbanip",
-        "pardonip",
-        "ipunban",
-        "ippardon"
-      ],
-      "module": "ban",
-      "basepermissions": "uc.ban.unban.base",
-      "permissions": [
-        "uc.ban.unban.base"
-      ],
-      "usage": "/unban Player/IP"
-    },
-    {
-      "identifier": "ip",
-      "description": "View the ip address of a player.",
-      "aliases": [
-        "ip"
-      ],
-      "module": "ban",
-      "basepermissions": "uc.ban.ip.base",
-      "permissions": [
-        "uc.ban.ip.base"
-      ],
-      "usage": "/ip <Player>"
-    },
-    {
-      "identifier": "burn",
-      "description": "Set people on fire.",
-      "aliases": [
-        "burn",
-        "fire",
-        "ignite"
-      ],
-      "module": "burn",
-      "basepermissions": "uc.burn.burn.base",
-      "permissions": [
-        "uc.burn.burn.base"
-      ],
-      "usage": "/burn <Player> [Time]"
-    },
-    {
-      "identifier": "kick",
-      "description": "Kick a player from the server.",
-      "aliases": [
-        "kick"
-      ],
-      "module": "kick",
-      "basepermissions": "uc.kick.kick.base",
-      "permissions": [
-        "uc.kick.kick.base"
-      ],
-      "usage": "/kick <Player> [Reason…]"
-    },
-    {
-      "identifier": "kickall",
-      "description": "Kick all players from the server.",
-      "aliases": [
-        "kickall",
-        "kickeveryone"
-      ],
-      "module": "kick",
-      "basepermissions": "uc.kick.kickall.base",
-      "permissions": [
-        "uc.kick.kickall.base"
-      ],
-      "usage": "/kickall [Reason…]"
-    },
-    {
-      "identifier": "deaf",
-      "description": "Make a player deaf, for a certain time and reason.",
-      "aliases": [
-        "deaf"
-      ],
-      "module": "deaf",
-      "basepermissions": "uc.deaf.deaf.base",
-      "permissions": [
-        "uc.deaf.deaf.base"
-      ],
-      "usage": "/deaf <Player> [Time] [Reason…]"
-    },
-    {
-      "identifier": "undeaf",
-      "description": "Make a player no longer deaf.",
-      "aliases": [
-        "undeaf"
-      ],
-      "module": "deaf",
-      "basepermissions": "uc.deaf.undeaf.base",
-      "permissions": [
-        "uc.deaf.undeaf.base"
-      ],
-      "usage": "/undeaf <Player>"
-    },
-    {
-      "identifier": "country",
-      "description": "View the country where a player is from.",
-      "aliases": [
-        "country"
-      ],
-      "module": "geoip",
-      "basepermissions": "uc.geoip.country.base",
-      "permissions": [
-        "uc.geoip.country.base"
-      ],
-      "usage": "/country <Player>"
-    },
-    {
-      "identifier": "god",
-      "description": "Toggle your or someone else's god mode.",
-      "aliases": [
-        "god",
-        "godmode"
-      ],
-      "module": "god",
-      "basepermissions": "uc.god.god.base",
-      "permissions": [
-        "uc.god.god.base",
-        "uc.god.god.others"
-      ],
-      "usage": "/god [Player]"
-    },
-    {
-      "identifier": "personalmessage",
-      "description": "Send a private message to an other player.",
-      "aliases": [
-        "personalmessage",
-        "pm",
-        "dm",
-        "msg",
-        "w",
-        "whisper",
-        "tell"
-      ],
-      "module": "personalmessage",
-      "basepermissions": "uc.personalmessage.personalmessage.base",
-      "permissions": [
-        "uc.personalmessage.personalmessage.base"
-      ],
-      "usage": "/personalmessage <Player> <Message…>"
-    },
-    {
-      "identifier": "reply",
-      "description": "Send a private message to the person who last private messaged you.",
-      "aliases": [
-        "reply",
-        "respond",
-        "r"
-      ],
-      "module": "personalmessage",
-      "basepermissions": "uc.personalmessage.reply.base",
-      "permissions": [
-        "uc.personalmessage.reply.base"
-      ],
-      "usage": "/reply <Message…>"
-    },
-    {
-      "identifier": "warp",
-      "description": "Teleport yourself to the specified warp.",
-      "aliases": [
-        "warp"
-      ],
-      "module": "warp",
-      "basepermissions": "uc.warp.warp.base",
-      "permissions": [
-        "uc.warp.warp.base",
-        "uc.warp.warp.[WARP]"
-      ],
-      "usage": "/warp [Warp]"
-    },
-    {
-      "identifier": "setwarp",
-      "description": "Create a new warp with the specified name and description.",
-      "aliases": [
-        "setwarp",
-        "addwarp"
-      ],
-      "module": "warp",
-      "basepermissions": "uc.warp.setwarp.base",
-      "permissions": [
-        "uc.warp.setwarp.base"
-      ],
-      "usage": "/setwarp <Name> [Description…]"
-    },
-    {
-      "identifier": "delwarp",
-      "description": "Remove the specified warp.",
-      "aliases": [
-        "delwarp",
-        "removewarp"
-      ],
-      "module": "warp",
-      "basepermissions": "uc.warp.delwarp.base",
-      "permissions": [
-        "uc.warp.delwarp.base"
-      ],
-      "usage": "/delwarp <Warp>"
-    },
-    {
-      "identifier": "warplist",
-      "description": "Get a paginated list of all warps.",
-      "aliases": [
-        "warplist",
-        "warps"
-      ],
-      "module": "warp",
-      "basepermissions": "uc.warp.warplist.base",
-      "permissions": [
-        "uc.warp.warplist.base"
-      ],
-      "usage": "/warplist"
-    },
-    {
-      "identifier": "vanish",
-      "description": "Toggle whether a player is vanished.",
-      "aliases": [
-        "vanish"
-      ],
-      "module": "vanish",
-      "basepermissions": "uc.vanish.vanish.base",
-      "permissions": [
-        "uc.vanish.vanish.base",
-        "uc.vanish.vanish.base"
-      ],
-      "usage": "/vanish [Player]"
-    },
-    {
-      "identifier": "time",
-      "description": "Time-related actions.",
-      "aliases": [
-        "time"
-      ],
-      "module": "time",
-      "basepermissions": "uc.time.time.base",
-      "permissions": [
-        "uc.time.time.base",
-        "uc.time.time.add.base",
-        "uc.time.time.day.base",
-        "uc.time.time.disable.base",
-        "uc.time.time.enable.base",
-        "uc.time.time.night.base",
-        "uc.time.time.query.base",
-        "uc.time.time.set.base",
-        "uc.time.time.day.base",
-        "uc.time.time.night.base"
-      ],
-      "usage": "/time add|set|query|night|enable|disable|day|[Time]"
-    },
-    {
-      "identifier": "day",
-      "description": "Set the time in a certain world to day.",
-      "aliases": [
-        "day",
-        "daytime"
-      ],
-      "module": "time",
-      "basepermissions": "uc.time.time.day",
-      "permissions": [
-        "uc.time.time.day",
-        "uc.time.time.base"
-      ],
-      "usage": "/day"
-    },
-    {
-      "identifier": "night",
-      "description": "Set the time in a certain world to night.",
-      "aliases": [
-        "night",
-        "nighttime"
-      ],
-      "module": "time",
-      "basepermissions": "uc.time.time.night",
-      "permissions": [
-        "uc.time.time.night",
-        "uc.time.time.base"
-      ],
-      "usage": "/night"
-    },
-    {
-      "identifier": "break",
-      "description": "Break the block you are looking at.",
-      "aliases": [
-        "break",
-        "blockzap",
-        "zapblock"
-      ],
-      "module": "blockinfo",
-      "basepermissions": "uc.blockinfo.break.base",
-      "permissions": [
-        "uc.blockinfo.break.base"
-      ],
-      "usage": "/break"
-    },
-    {
-      "identifier": "mute",
-      "description": "Mute a player, for a certain time and reason.",
-      "aliases": [
-        "mute"
-      ],
-      "module": "mute",
-      "basepermissions": "uc.mute.mute.base",
-      "permissions": [
-        "uc.mute.mute.base"
-      ],
-      "usage": "/mute <Player> [Time] [Reason…]"
-    },
-    {
-      "identifier": "unmute",
-      "description": "Unmute a player.",
-      "aliases": [
-        "unmute"
-      ],
-      "module": "mute",
-      "basepermissions": "uc.mute.unmute.base",
-      "permissions": [
-        "uc.mute.unmute.base"
-      ],
-      "usage": "/unmute <Player>"
-    },
-    {
-      "identifier": "mail",
-      "description": "Send, receive or clear your mail.",
-      "aliases": [
-        "mail"
-      ],
-      "module": "mail",
-      "basepermissions": "uc.mail.mail.base",
-      "permissions": [
-        "uc.mail.mail.base",
-        "uc.mail.mail.read.base",
-        "uc.mail.mail.send.base",
-        "uc.mail.mail.clear.base",
-        "uc.mail.mail.delete.base"
-      ],
-      "usage": "/mail read|clear|send|delete|"
-    },
-    {
-      "identifier": "itemenchant",
-      "description": "Add an enchantment to the item in your hand.",
-      "aliases": [
-        "itemenchant",
-        "setitemenchant",
-        "enchant",
-        "enchantment"
-      ],
-      "module": "item",
-      "basepermissions": "uc.item.itemenchant.base",
-      "permissions": [
-        "uc.item.itemenchant.base"
-      ],
-      "usage": "/itemenchant <Enchantment> [Level]"
+      "usage": "/clearinventory [Player]"
     },
     {
       "identifier": "teleport",
@@ -1925,1241 +1925,23 @@
       "usage": "/teleport [Player] <Player> OR /teleport [Player] <X> [Y] <Z> [<Yaw> <Pitch>]"
     },
     {
-      "identifier": "clearinventory",
-      "description": "Remove all items from someone's inventory.",
+      "identifier": "itemenchant",
+      "description": "Add an enchantment to the item in your hand.",
       "aliases": [
-        "clearinventory",
-        "clear",
-        "ci"
+        "itemenchant",
+        "setitemenchant",
+        "enchant",
+        "enchantment"
       ],
-      "module": "inventory",
-      "basepermissions": "uc.inventory.clearinventory.base",
+      "module": "item",
+      "basepermissions": "uc.item.itemenchant.base",
       "permissions": [
-        "uc.inventory.clearinventory.base",
-        "uc.inventory.clearinventory.others"
+        "uc.item.itemenchant.base"
       ],
-      "usage": "/clearinventory [Player]"
+      "usage": "/itemenchant <Enchantment> [Level]"
     }
   ],
   "permissions": [
-    {
-      "identifier": "uc.food.food.base",
-      "description": "Allows you to use the food command.",
-      "module": "food",
-      "command": "food",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.food.food.others",
-      "description": "Allows you to use the food command on other players.",
-      "module": "food",
-      "command": "food",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.core.ultimatecore.base",
-      "description": "Allows you to use the /ultimatecore command.",
-      "module": "core",
-      "command": "ultimatecore",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.core.ultimatecore.clearcache.base",
-      "description": "Allows you to use the /ultimatecore clearcache command.",
-      "module": "core",
-      "command": "-",
-      "level": "owner"
-    },
-    {
-      "identifier": "uc.core.ultimatecore.resetuser.base",
-      "description": "Allows you to use the /ultimatecore resetuser command.",
-      "module": "core",
-      "command": "-",
-      "level": "owner"
-    },
-    {
-      "identifier": "uc.core.ultimatecore.modules.base",
-      "description": "Allows you to use the /ultimatecore modules command.",
-      "module": "core",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.core.ultimatecore.gendocs.base",
-      "description": "Allows you to use the /ultimatecore gendocs command.",
-      "module": "core",
-      "command": "-",
-      "level": "nobody"
-    },
-    {
-      "identifier": "uc.core.ultimatecore.error.base",
-      "description": "Allows you to use the /ultimatecore error command.",
-      "module": "core",
-      "command": "-",
-      "level": "nobody"
-    },
-    {
-      "identifier": "uc.core.ultimatecore.reload.base",
-      "description": "Allows you to use the /ultimatecore reload command.",
-      "module": "core",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.core.ultimatecore.setuppermissions.base",
-      "description": "Allows you to use the /ultimatecore setuppermissions command.",
-      "module": "core",
-      "command": "-",
-      "level": "owner"
-    },
-    {
-      "identifier": "uc.spy.commandspy.base",
-      "description": "Allows you to toggle whether your commandspy is enabled.",
-      "module": "spy",
-      "command": "commandspy",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.spy.messagespy.base",
-      "description": "Allows you to toggle whether your messagespy is enabled.",
-      "module": "spy",
-      "command": "messagespy",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.spy.commandspy.others",
-      "description": "Allows you to toggle whether someones commandspy is enabled.",
-      "module": "spy",
-      "command": "commandspy",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.spy.messagespy.others",
-      "description": "Allows you to toggle whether someones messagespy is enabled.",
-      "module": "spy",
-      "command": "messagespy",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.spy.commandspy.see",
-      "description": "Allows you to see commandspy messages if your commandspy is toggled on.",
-      "module": "spy",
-      "command": "commandspy",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.spy.messagespy.see",
-      "description": "Allows you to see messagespy messages if your messagespy is toggled on.",
-      "module": "spy",
-      "command": "messagespy",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.heal.heal.base",
-      "description": "Allows you to use the heal command.",
-      "module": "heal",
-      "command": "heal",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.heal.heal.others",
-      "description": "Allows you to use the heal command on other players.",
-      "module": "heal",
-      "command": "heal",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.heal.sethealth.base",
-      "description": "Allows you to use the sethealth command.",
-      "module": "heal",
-      "command": "sethealth",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.heal.sethealth.others",
-      "description": "Allows you to use the sethealth command on other players.",
-      "module": "heal",
-      "command": "sethealth",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.heal.setmaxhealth.base",
-      "description": "Allows you to use the setmaxhealth command on other players.",
-      "module": "heal",
-      "command": "setmaxhealth",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.heal.setmaxhealth.others",
-      "description": "Allows you to use the setmaxhealth command on other players.",
-      "module": "heal",
-      "command": "setmaxhealth",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.home.home.base",
-      "description": "Allows you to teleport to your own home.",
-      "module": "home",
-      "command": "home",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.home.sethome.base",
-      "description": "Allows you to set your own home.",
-      "module": "home",
-      "command": "sethome",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.home.sethome.unlimited",
-      "description": "Allows you to set an unlimited amount of homes.",
-      "module": "home",
-      "command": "sethome",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.home.delhome.base",
-      "description": "Allows you to remove one of your homes.",
-      "module": "home",
-      "command": "delhome",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.broadcast.broadcast.base",
-      "description": "Allows you to use the /broadcast command.",
-      "module": "broadcast",
-      "command": "broadcast",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.random.random.base",
-      "description": "Allows you to use the random command.",
-      "module": "random",
-      "command": "random",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.nick.nick.base",
-      "description": "Allows you to use the /nick command.",
-      "module": "nick",
-      "command": "nick",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.nick.nick.color.<COLOR>",
-      "description": "Allows you to use a certain color in nicknames.",
-      "module": "nick",
-      "command": "nick",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.nick.nick.others.base",
-      "description": "Allows you to change other people's nicknames.",
-      "module": "nick",
-      "command": "nick",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.nick.nick.others.color.<COLOR>",
-      "description": "Allows you to use a certain color in other people's nicknames.",
-      "module": "nick",
-      "command": "nick",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.nick.nick.style.<STYLE>",
-      "description": "Allows you to use a certain style in nicknames.",
-      "module": "nick",
-      "command": "nick",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.nick.nick.others.style.<STYLE>",
-      "description": "Allows you to use a certain style in other people's nicknames.",
-      "module": "nick",
-      "command": "nick",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.nick.delnick.base",
-      "description": "Allows you to use the /delnick command.",
-      "module": "nick",
-      "command": "delnick",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.nick.delnick.others.base",
-      "description": "Allows you to remove other people's nicknames.",
-      "module": "nick",
-      "command": "delnick",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.kit.kit.base",
-      "description": "Allows you to use the kit command.",
-      "module": "kit",
-      "command": "kit",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.kit.kit.[KIT]",
-      "description": "Allows you to use the kit command for a specific kit.",
-      "module": "kit",
-      "command": "kit",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.kitlist.base",
-      "description": "Allows you to see a list of all kits.",
-      "module": "kit",
-      "command": "kit",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.kit.createkit.base",
-      "description": "Allows you to use the createkit command.",
-      "module": "kit",
-      "command": "createkit",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.kit.removekit.base",
-      "description": "Allows you to use the removekit command.",
-      "module": "kit",
-      "command": "removekit",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.kit.cooldown.exempt",
-      "description": "Allows you to bypass a kit's cooldown.",
-      "module": "kit",
-      "command": "kit",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.more.base",
-      "description": "Allows you to use the more command.",
-      "module": "item",
-      "command": "more",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.repair.base",
-      "description": "Allows you to use the repair command for both all and one item.",
-      "module": "item",
-      "command": "repair",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.repair.all",
-      "description": "Allows you to use the repair command for all items.",
-      "module": "item",
-      "command": "repair",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.repair.one",
-      "description": "Allows you to use the repair command for one item.",
-      "module": "item",
-      "command": "repair",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.itemname.base",
-      "description": "Allows you to use the itemname command.",
-      "module": "item",
-      "command": "itemname",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.itemlore.base",
-      "description": "Allows you to use the itemlore command.",
-      "module": "item",
-      "command": "itemlore",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.itemquantity.base",
-      "description": "Allows you to use the itemquantity command.",
-      "module": "item",
-      "command": "itemquantity",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.itemdurability.base",
-      "description": "Allows you to use the itemdurability command.",
-      "module": "item",
-      "command": "itemdurability",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.itemunbreakable.base",
-      "description": "Allows you to use the itemunbreakable command.",
-      "module": "item",
-      "command": "itemunbreakable",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.itemcanplaceon.base",
-      "description": "Allows you to use the itemcanplaceon command.",
-      "module": "item",
-      "command": "itemcanplaceon",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.itemcanbreak.base",
-      "description": "Allows you to use the itemcanbreak command.",
-      "module": "item",
-      "command": "itemcanbreak",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.itemhidetags.base",
-      "description": "Allows you to use the itemhidetags command.",
-      "module": "item",
-      "command": "itemhidetags",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.itemenchant.base",
-      "description": "Allows you to use the itemenchant command.",
-      "module": "item",
-      "command": "itemenchant",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.item.hat.base",
-      "description": "Allows you to use the /hat command.",
-      "module": "item",
-      "command": "hat",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.item.hat.others",
-      "description": "Allows you to use the hat command on other players.",
-      "module": "item",
-      "command": "hat",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.playerinfo.ping.base",
-      "description": "Allows you to use the /ping command.",
-      "module": "playerinfo",
-      "command": "ping",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.playerinfo.ping.others",
-      "description": "Allows you to use the /ping command on other players.",
-      "module": "playerinfo",
-      "command": "ping",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.playerinfo.uuid.base",
-      "description": "Allows you to use the /uuid command.",
-      "module": "playerinfo",
-      "command": "uuid",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.playerinfo.list.base",
-      "description": "Allows you to use the /list command.",
-      "module": "playerinfo",
-      "command": "list",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.playerinfo.list.seevanish",
-      "description": "Allows you to see vanished players in the /list command",
-      "module": "playerinfo",
-      "command": "list",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.jail.jail.base",
-      "description": "Allows you to use the jail command.",
-      "module": "jail",
-      "command": "jail",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.jail.unjail.base",
-      "description": "Allows you to use the unjail command.",
-      "module": "jail",
-      "command": "unjail",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.jail.setjail.base",
-      "description": "Allows you to use the setjail command.",
-      "module": "jail",
-      "command": "setjail",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.jail.deljail.base",
-      "description": "Allows you to use the deljail command.",
-      "module": "jail",
-      "command": "deljail",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.jail.jaillist.base",
-      "description": "Allows you to use the jaillist command.",
-      "module": "jail",
-      "command": "jaillist",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.jail.jailtp.base",
-      "description": "Allows you to use the jailtp command.",
-      "module": "jail",
-      "command": "jailtp",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.afk.afk.base",
-      "description": "Allows you to toggle your own afk status.",
-      "module": "afk",
-      "command": "afk",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.afk.afk.message",
-      "description": "Allows you to provide a reason for being afk.",
-      "module": "afk",
-      "command": "afk",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.afk.afk.others.base",
-      "description": "Allows you to toggle another player's afk status.",
-      "module": "afk",
-      "command": "afk",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.afk.afk.others.message",
-      "description": "Allows you to provide an message while toggling another player's afk status.",
-      "module": "afk",
-      "command": "afk",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.afk.exempt",
-      "description": "When you have this permission you can't be kicked for being afk.",
-      "module": "afk",
-      "command": "-",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.sudo.sudo.base",
-      "description": "Allows you to use the sudo command for both chatting and commands.",
-      "module": "sudo",
-      "command": "sudo",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.sudo.sudo.command",
-      "description": "Allows you to use the sudo command to force a command.",
-      "module": "sudo",
-      "command": "sudo",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.sudo.sudo.chat",
-      "description": "Allows you to use the sudo command to force chatting.",
-      "module": "sudo",
-      "command": "sudo",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.inventory.workbench.base",
-      "description": "Allows you to use the /workbench command.",
-      "module": "inventory",
-      "command": "workbench",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.inventory.invsee.base",
-      "description": "Allows you to use the /invsee command.",
-      "module": "inventory",
-      "command": "invsee",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.inventory.invsee.modify",
-      "description": "Allows you to modify a player's inventory.",
-      "module": "inventory",
-      "command": "invsee",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.inventory.invsee.offline",
-      "description": "Allows you to target an offline player.",
-      "module": "inventory",
-      "command": "invsee",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.gamemode.gamemode.base",
-      "description": "Allows you to change your own gamemode",
-      "module": "gamemode",
-      "command": "gamemode",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.gamemode.gamemode.self.survival",
-      "description": "Allows you to change your own gamemode to survival",
-      "module": "gamemode",
-      "command": "gamemode",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.gamemode.gamemode.self.creative",
-      "description": "Allows you to change your own gamemode to creative",
-      "module": "gamemode",
-      "command": "gamemode",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.gamemode.gamemode.self.adventure",
-      "description": "Allows you to change your own gamemode to adventure",
-      "module": "gamemode",
-      "command": "gamemode",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.gamemode.gamemode.self.spectator",
-      "description": "Allows you to change your own gamemode to spectator",
-      "module": "gamemode",
-      "command": "gamemode",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.gamemode.gamemode.others.base",
-      "description": "Allows you to change a player's gamemode",
-      "module": "gamemode",
-      "command": "gamemode",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.gamemode.gamemode.others.survival",
-      "description": "Allows you to change a player's gamemode to survival",
-      "module": "gamemode",
-      "command": "gamemode",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.gamemode.gamemode.others.creative",
-      "description": "Allows you to change a player's gamemode to creative",
-      "module": "gamemode",
-      "command": "gamemode",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.gamemode.gamemode.others.adventure",
-      "description": "Allows you to change a player's gamemode to adventure",
-      "module": "gamemode",
-      "command": "gamemode",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.gamemode.gamemode.others.spectator",
-      "description": "Allows you to change a player's gamemode to spectator",
-      "module": "gamemode",
-      "command": "gamemode",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.fly.fly.base",
-      "description": "Allows you to change your own fly state.",
-      "module": "fly",
-      "command": "fly",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.fly.fly.others",
-      "description": "Allows you to change other player's fly state.",
-      "module": "fly",
-      "command": "fly",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.fly.flyspeed.base",
-      "description": "Allows you to use the /flyspeed command.",
-      "module": "fly",
-      "command": "flyspeed",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.fly.walkspeed.base",
-      "description": "Allows you to use the /walkspeed command.",
-      "module": "fly",
-      "command": "walkspeed",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.fly.speed.base",
-      "description": "Allows you to use the /speed command.",
-      "module": "fly",
-      "command": "speed",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.teleport.teleport.base",
-      "description": "Allows you to use the teleport command to teleport yourself to someone else.",
-      "module": "teleport",
-      "command": "teleport",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.teleport.teleport.others",
-      "description": "Allows you to use the teleport command to teleport someone else to someone else.",
-      "module": "teleport",
-      "command": "teleport",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.teleport.teleport.coordinates",
-      "description": "Allows you to use the teleport command to teleport yourself to certain coordinates.",
-      "module": "teleport",
-      "command": "teleport",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.teleport.teleport.coordinates.others",
-      "description": "Allows you to use the teleport command to teleport someone else to certain coordinates.",
-      "module": "teleport",
-      "command": "teleport",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.teleport.teleportask.base",
-      "description": "Allows you to use the teleportask command",
-      "module": "teleport",
-      "command": "teleportask",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.teleport.teleportaskhere.base",
-      "description": "Allows you to use the teleportaskhere command",
-      "module": "teleport",
-      "command": "teleportaskhere",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.teleport.teleportaccept.base",
-      "description": "Allows you to use the teleportaccept command",
-      "module": "teleport",
-      "command": "teleportaccept",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.teleport.teleportdeny.base",
-      "description": "Allows you to use the teleportdeny command",
-      "module": "teleport",
-      "command": "teleportdeny",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.teleport.safeexempt",
-      "description": "Allows you to teleport players, even if it is unsafe.",
-      "module": "teleport",
-      "command": "teleport",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.teleport.teleporthere.base",
-      "description": "Allows you to use the /teleporthere command.",
-      "module": "teleport",
-      "command": "teleporthere",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.teleport.teleportall.base",
-      "description": "Allows you to use the /teleportall command.",
-      "module": "teleport",
-      "command": "teleportall",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.teleport.teleportaskallhere.base",
-      "description": "Allows you to use the /teleportaskallhere command.",
-      "module": "teleport",
-      "command": "teleportaskallhere",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.teleport.randomteleport.base",
-      "description": "Allows you to use the /randomteleport command.",
-      "module": "teleport",
-      "command": "randomteleport",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.teleport.biometeleport.base",
-      "description": "Allows you to use the /biometeleport command.",
-      "module": "teleport",
-      "command": "biometeleport",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.teleport.top.base",
-      "description": "Allows you to use the /top command.",
-      "module": "teleport",
-      "command": "top",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.world.world.base",
-      "description": "Allows you to use the /world command.",
-      "module": "world",
-      "command": "world",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.create.base",
-      "description": "Allows you to use the /world create command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.delete.base",
-      "description": "Allows you to use the /world delete command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.disable.base",
-      "description": "Allows you to use the /world disable command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.enable.base",
-      "description": "Allows you to use the /world enable command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.gamerule.base",
-      "description": "Allows you to use the /world gamerule command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.import.base",
-      "description": "Allows you to use the /world import command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.worlds.base",
-      "description": "Allows you to use the /world worlds command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.info.base",
-      "description": "Allows you to use the /world info command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.setdifficulty.base",
-      "description": "Allows you to use the /world setdifficulty command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.setgamemode.base",
-      "description": "Allows you to use the /world setgamemode command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.sethardcore.base",
-      "description": "Allows you to use the /world sethardcore command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.setkeepspawnloaded.base",
-      "description": "Allows you to use the /world setkeepspawnloaded command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.setloadonstartup.base",
-      "description": "Allows you to use the /world setloadonstartup command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.setpvp.base",
-      "description": "Allows you to use the /world setpvp command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.setworldspawn.base",
-      "description": "Allows you to use the /world setworldspawn command.",
-      "module": "world",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.world.world.teleport.base",
-      "description": "Allows you to use the /world teleport command.",
-      "module": "world",
-      "command": "teleport",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.weather.weather.base",
-      "description": "Allows you to use the base weather command.",
-      "module": "weather",
-      "command": "weather",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.weather.weather.sun",
-      "description": "Allows you to change the weather to sun.",
-      "module": "weather",
-      "command": "weather",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.weather.weather.rain",
-      "description": "Allows you to change the weather to rain.",
-      "module": "weather",
-      "command": "weather",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.weather.weather.thunder",
-      "description": "Allows you to change the weather to thunder.",
-      "module": "weather",
-      "command": "weather",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.back.back.base",
-      "description": "Allows you to use the back command.",
-      "module": "back",
-      "command": "back",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.back.back.ondeath",
-      "description": "Allows you to use the back command after you died.",
-      "module": "back",
-      "command": "back",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.sign.signedit.base",
-      "description": "Allows you to use the /signedit command.",
-      "module": "sign",
-      "command": "signedit",
-      "level": "vip"
-    },
-    {
-      "identifier": "uc.spawn.spawn.base",
-      "description": "Allows you to use the spawn command.",
-      "module": "spawn",
-      "command": "spawn",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.spawn.globalspawn.base",
-      "description": "Allows you to use the globalspawn command.",
-      "module": "spawn",
-      "command": "globalspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.groupspawn.base",
-      "description": "Allows you to use the groupspawn command.",
-      "module": "spawn",
-      "command": "groupspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.groupspawn.group.<Group>",
-      "description": "Allows you to use the groupspawn command for a certain group.",
-      "module": "spawn",
-      "command": "groupspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.firstspawn.base",
-      "description": "Allows you to use the firstspawn command.",
-      "module": "spawn",
-      "command": "firstspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.spawn.others",
-      "description": "Allows you to use the spawn command for other players.",
-      "module": "spawn",
-      "command": "spawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.globalspawn.others",
-      "description": "Allows you to use the globalspawn command for other players.",
-      "module": "spawn",
-      "command": "globalspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.groupspawn.others.base",
-      "description": "Allows you to use the groupspawn command for other players.",
-      "module": "spawn",
-      "command": "groupspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.groupspawn.others.group.<Group>",
-      "description": "Allows you to use the groupspawn command for a certain group for other players.",
-      "module": "spawn",
-      "command": "groupspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.firstspawn.others",
-      "description": "Allows you to use the firstspawn command for other players.",
-      "module": "spawn",
-      "command": "firstspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.setglobalspawn.base",
-      "description": "Allows you to set the globalspawn command.",
-      "module": "spawn",
-      "command": "setglobalspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.setgroupspawn.base",
-      "description": "Allows you to set the groupspawn command.",
-      "module": "spawn",
-      "command": "setgroupspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.setfirstspawn.base",
-      "description": "Allows you to set the firstspawn command.",
-      "module": "spawn",
-      "command": "setfirstspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.delglobalspawn.base",
-      "description": "Allows you to delete the globalspawn command.",
-      "module": "spawn",
-      "command": "delglobalspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.delgroupspawn.base",
-      "description": "Allows you to delete the groupspawn command.",
-      "module": "spawn",
-      "command": "delgroupspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.spawn.delfirstspawn.base",
-      "description": "Allows you to delete the firstspawn command.",
-      "module": "spawn",
-      "command": "delfirstspawn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.ban.ban.base",
-      "description": "Allows you to use the /ban command.",
-      "module": "ban",
-      "command": "ban",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.ban.unban.base",
-      "description": "Allows you to use the /unban command.",
-      "module": "ban",
-      "command": "unban",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.ban.ip.base",
-      "description": "Allows you to use the /ip command.",
-      "module": "ban",
-      "command": "ip",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.burn.burn.base",
-      "description": "Allows you to use the burn command.",
-      "module": "burn",
-      "command": "burn",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.kick.kick.base",
-      "description": "Allows you to use the kick command.",
-      "module": "kick",
-      "command": "kick",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.kick.kickall.base",
-      "description": "Allows you to use the kickall command.",
-      "module": "kick",
-      "command": "kickall",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.deaf.deaf.base",
-      "description": "Allows you to deaf someone.",
-      "module": "deaf",
-      "command": "deaf",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.deaf.undeaf.base",
-      "description": "Allows you to undeaf someone.",
-      "module": "deaf",
-      "command": "undeaf",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.geoip.country.base",
-      "description": "Allows you to use the country command.",
-      "module": "geoip",
-      "command": "country",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.chat.color.[COLOR]",
-      "description": "Allows you to use a certain color in chat.",
-      "module": "chat",
-      "command": "-",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.chat.style.[STYLE]",
-      "description": "Allows you to use a certain style in chat.",
-      "module": "chat",
-      "command": "-",
-      "level": "mod"
-    },
-    {
-      "identifier": "uc.god.god.base",
-      "description": "Allows you to toggle your own god mode.",
-      "module": "god",
-      "command": "god",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.god.god.others",
-      "description": "Allows you to toggle other people's god mode.",
-      "module": "god",
-      "command": "god",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.personalmessage.personalmessage.base",
-      "description": "Allows you to send private messages to people.",
-      "module": "personalmessage",
-      "command": "personalmessage",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.personalmessage.reply.base",
-      "description": "Allows you to reply to people's personal message using /reply.",
-      "module": "personalmessage",
-      "command": "reply",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.warp.warp.base",
-      "description": "Allows you to use the warp command.",
-      "module": "warp",
-      "command": "warp",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.warp.warp.[WARP]",
-      "description": "Allows you to use a certain warp.",
-      "module": "warp",
-      "command": "warp",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.warp.setwarp.base",
-      "description": "Allows you to set a new warp.",
-      "module": "warp",
-      "command": "setwarp",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.warp.delwarp.base",
-      "description": "Allows you to remove a warp.",
-      "module": "warp",
-      "command": "delwarp",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.warp.warplist.base",
-      "description": "Allows you to see a list of all warps.",
-      "module": "warp",
-      "command": "warplist",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.sign.warp.use",
-      "description": "Permission to use warpsigns.",
-      "module": "warp",
-      "command": "-",
-      "level": "everyone"
-    },
-    {
-      "identifier": "uc.sign.warp.create",
-      "description": "Permission to create warpsigns.",
-      "module": "warp",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.sign.warp.destroy",
-      "description": "Permission to destroy warpsigns.",
-      "module": "warp",
-      "command": "-",
-      "level": "admin"
-    },
-    {
-      "identifier": "uc.vanish.vanish.base",
-      "description": "Allows you to use the vanish command.",
-      "module": "vanish",
-      "command": "vanish",
-      "level": "everyone"
-    },
     {
       "identifier": "uc.time.time.base",
       "description": "Allows you to use the /time command.",
@@ -3294,6 +2076,482 @@
       "level": "admin"
     },
     {
+      "identifier": "uc.deaf.deaf.base",
+      "description": "Allows you to deaf someone.",
+      "module": "deaf",
+      "command": "deaf",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.deaf.undeaf.base",
+      "description": "Allows you to undeaf someone.",
+      "module": "deaf",
+      "command": "undeaf",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.heal.heal.base",
+      "description": "Allows you to use the heal command.",
+      "module": "heal",
+      "command": "heal",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.heal.heal.others",
+      "description": "Allows you to use the heal command on other players.",
+      "module": "heal",
+      "command": "heal",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.heal.sethealth.base",
+      "description": "Allows you to use the sethealth command.",
+      "module": "heal",
+      "command": "sethealth",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.heal.sethealth.others",
+      "description": "Allows you to use the sethealth command on other players.",
+      "module": "heal",
+      "command": "sethealth",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.heal.setmaxhealth.base",
+      "description": "Allows you to use the setmaxhealth command on other players.",
+      "module": "heal",
+      "command": "setmaxhealth",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.heal.setmaxhealth.others",
+      "description": "Allows you to use the setmaxhealth command on other players.",
+      "module": "heal",
+      "command": "setmaxhealth",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.ban.ban.base",
+      "description": "Allows you to use the /ban command.",
+      "module": "ban",
+      "command": "ban",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.ban.unban.base",
+      "description": "Allows you to use the /unban command.",
+      "module": "ban",
+      "command": "unban",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.ban.ip.base",
+      "description": "Allows you to use the /ip command.",
+      "module": "ban",
+      "command": "ip",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.kick.kick.base",
+      "description": "Allows you to use the kick command.",
+      "module": "kick",
+      "command": "kick",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.kick.kickall.base",
+      "description": "Allows you to use the kickall command.",
+      "module": "kick",
+      "command": "kickall",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.nick.nick.base",
+      "description": "Allows you to use the /nick command.",
+      "module": "nick",
+      "command": "nick",
+      "level": "vip"
+    },
+    {
+      "identifier": "uc.nick.nick.color.<COLOR>",
+      "description": "Allows you to use a certain color in nicknames.",
+      "module": "nick",
+      "command": "nick",
+      "level": "vip"
+    },
+    {
+      "identifier": "uc.nick.nick.others.base",
+      "description": "Allows you to change other people's nicknames.",
+      "module": "nick",
+      "command": "nick",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.nick.nick.others.color.<COLOR>",
+      "description": "Allows you to use a certain color in other people's nicknames.",
+      "module": "nick",
+      "command": "nick",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.nick.nick.style.<STYLE>",
+      "description": "Allows you to use a certain style in nicknames.",
+      "module": "nick",
+      "command": "nick",
+      "level": "vip"
+    },
+    {
+      "identifier": "uc.nick.nick.others.style.<STYLE>",
+      "description": "Allows you to use a certain style in other people's nicknames.",
+      "module": "nick",
+      "command": "nick",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.nick.delnick.base",
+      "description": "Allows you to use the /delnick command.",
+      "module": "nick",
+      "command": "delnick",
+      "level": "vip"
+    },
+    {
+      "identifier": "uc.nick.delnick.others.base",
+      "description": "Allows you to remove other people's nicknames.",
+      "module": "nick",
+      "command": "delnick",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.playerinfo.ping.base",
+      "description": "Allows you to use the /ping command.",
+      "module": "playerinfo",
+      "command": "ping",
+      "level": "vip"
+    },
+    {
+      "identifier": "uc.playerinfo.ping.others",
+      "description": "Allows you to use the /ping command on other players.",
+      "module": "playerinfo",
+      "command": "ping",
+      "level": "vip"
+    },
+    {
+      "identifier": "uc.playerinfo.uuid.base",
+      "description": "Allows you to use the /uuid command.",
+      "module": "playerinfo",
+      "command": "uuid",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.playerinfo.list.base",
+      "description": "Allows you to use the /list command.",
+      "module": "playerinfo",
+      "command": "list",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.playerinfo.list.seevanish",
+      "description": "Allows you to see vanished players in the /list command",
+      "module": "playerinfo",
+      "command": "list",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.god.god.base",
+      "description": "Allows you to toggle your own god mode.",
+      "module": "god",
+      "command": "god",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.god.god.others",
+      "description": "Allows you to toggle other people's god mode.",
+      "module": "god",
+      "command": "god",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.jail.jail.base",
+      "description": "Allows you to use the jail command.",
+      "module": "jail",
+      "command": "jail",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.jail.unjail.base",
+      "description": "Allows you to use the unjail command.",
+      "module": "jail",
+      "command": "unjail",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.jail.setjail.base",
+      "description": "Allows you to use the setjail command.",
+      "module": "jail",
+      "command": "setjail",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.jail.deljail.base",
+      "description": "Allows you to use the deljail command.",
+      "module": "jail",
+      "command": "deljail",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.jail.jaillist.base",
+      "description": "Allows you to use the jaillist command.",
+      "module": "jail",
+      "command": "jaillist",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.jail.jailtp.base",
+      "description": "Allows you to use the jailtp command.",
+      "module": "jail",
+      "command": "jailtp",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.warp.warp.base",
+      "description": "Allows you to use the warp command.",
+      "module": "warp",
+      "command": "warp",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.warp.warp.[WARP]",
+      "description": "Allows you to use a certain warp.",
+      "module": "warp",
+      "command": "warp",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.warp.setwarp.base",
+      "description": "Allows you to set a new warp.",
+      "module": "warp",
+      "command": "setwarp",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.warp.delwarp.base",
+      "description": "Allows you to remove a warp.",
+      "module": "warp",
+      "command": "delwarp",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.warp.warplist.base",
+      "description": "Allows you to see a list of all warps.",
+      "module": "warp",
+      "command": "warplist",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.sign.warp.use",
+      "description": "Permission to use warpsigns.",
+      "module": "warp",
+      "command": "-",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.sign.warp.create",
+      "description": "Permission to create warpsigns.",
+      "module": "warp",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.sign.warp.destroy",
+      "description": "Permission to destroy warpsigns.",
+      "module": "warp",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.food.food.base",
+      "description": "Allows you to use the food command.",
+      "module": "food",
+      "command": "food",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.food.food.others",
+      "description": "Allows you to use the food command on other players.",
+      "module": "food",
+      "command": "food",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.spawn.base",
+      "description": "Allows you to use the spawn command.",
+      "module": "spawn",
+      "command": "spawn",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.spawn.globalspawn.base",
+      "description": "Allows you to use the globalspawn command.",
+      "module": "spawn",
+      "command": "globalspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.groupspawn.base",
+      "description": "Allows you to use the groupspawn command.",
+      "module": "spawn",
+      "command": "groupspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.groupspawn.group.<Group>",
+      "description": "Allows you to use the groupspawn command for a certain group.",
+      "module": "spawn",
+      "command": "groupspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.firstspawn.base",
+      "description": "Allows you to use the firstspawn command.",
+      "module": "spawn",
+      "command": "firstspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.spawn.others",
+      "description": "Allows you to use the spawn command for other players.",
+      "module": "spawn",
+      "command": "spawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.globalspawn.others",
+      "description": "Allows you to use the globalspawn command for other players.",
+      "module": "spawn",
+      "command": "globalspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.groupspawn.others.base",
+      "description": "Allows you to use the groupspawn command for other players.",
+      "module": "spawn",
+      "command": "groupspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.groupspawn.others.group.<Group>",
+      "description": "Allows you to use the groupspawn command for a certain group for other players.",
+      "module": "spawn",
+      "command": "groupspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.firstspawn.others",
+      "description": "Allows you to use the firstspawn command for other players.",
+      "module": "spawn",
+      "command": "firstspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.setglobalspawn.base",
+      "description": "Allows you to set the globalspawn command.",
+      "module": "spawn",
+      "command": "setglobalspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.setgroupspawn.base",
+      "description": "Allows you to set the groupspawn command.",
+      "module": "spawn",
+      "command": "setgroupspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.setfirstspawn.base",
+      "description": "Allows you to set the firstspawn command.",
+      "module": "spawn",
+      "command": "setfirstspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.delglobalspawn.base",
+      "description": "Allows you to delete the globalspawn command.",
+      "module": "spawn",
+      "command": "delglobalspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.delgroupspawn.base",
+      "description": "Allows you to delete the groupspawn command.",
+      "module": "spawn",
+      "command": "delgroupspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.spawn.delfirstspawn.base",
+      "description": "Allows you to delete the firstspawn command.",
+      "module": "spawn",
+      "command": "delfirstspawn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.core.ultimatecore.base",
+      "description": "Allows you to use the /ultimatecore command.",
+      "module": "core",
+      "command": "ultimatecore",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.core.ultimatecore.clearcache.base",
+      "description": "Allows you to use the /ultimatecore clearcache command.",
+      "module": "core",
+      "command": "-",
+      "level": "owner"
+    },
+    {
+      "identifier": "uc.core.ultimatecore.resetuser.base",
+      "description": "Allows you to use the /ultimatecore resetuser command.",
+      "module": "core",
+      "command": "-",
+      "level": "owner"
+    },
+    {
+      "identifier": "uc.core.ultimatecore.modules.base",
+      "description": "Allows you to use the /ultimatecore modules command.",
+      "module": "core",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.core.ultimatecore.gendocs.base",
+      "description": "Allows you to use the /ultimatecore gendocs command.",
+      "module": "core",
+      "command": "-",
+      "level": "nobody"
+    },
+    {
+      "identifier": "uc.core.ultimatecore.error.base",
+      "description": "Allows you to use the /ultimatecore error command.",
+      "module": "core",
+      "command": "-",
+      "level": "nobody"
+    },
+    {
+      "identifier": "uc.core.ultimatecore.reload.base",
+      "description": "Allows you to use the /ultimatecore reload command.",
+      "module": "core",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.core.ultimatecore.setuppermissions.base",
+      "description": "Allows you to use the /ultimatecore setuppermissions command.",
+      "module": "core",
+      "command": "-",
+      "level": "owner"
+    },
+    {
       "identifier": "uc.blockinfo.break.base",
       "description": "Allows you to use the /break command.",
       "module": "blockinfo",
@@ -3301,18 +2559,550 @@
       "level": "admin"
     },
     {
-      "identifier": "uc.mute.mute.base",
-      "description": "Allows you to mute someone.",
-      "module": "mute",
-      "command": "mute",
+      "identifier": "uc.chat.color.[COLOR]",
+      "description": "Allows you to use a certain color in chat.",
+      "module": "chat",
+      "command": "-",
       "level": "mod"
     },
     {
-      "identifier": "uc.mute.unmute.base",
-      "description": "Allows you to unmute someone.",
-      "module": "mute",
-      "command": "unmute",
+      "identifier": "uc.chat.style.[STYLE]",
+      "description": "Allows you to use a certain style in chat.",
+      "module": "chat",
+      "command": "-",
       "level": "mod"
+    },
+    {
+      "identifier": "uc.personalmessage.personalmessage.base",
+      "description": "Allows you to send private messages to people.",
+      "module": "personalmessage",
+      "command": "personalmessage",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.personalmessage.reply.base",
+      "description": "Allows you to reply to people's personal message using /reply.",
+      "module": "personalmessage",
+      "command": "reply",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.inventory.workbench.base",
+      "description": "Allows you to use the /workbench command.",
+      "module": "inventory",
+      "command": "workbench",
+      "level": "vip"
+    },
+    {
+      "identifier": "uc.inventory.invsee.base",
+      "description": "Allows you to use the /invsee command.",
+      "module": "inventory",
+      "command": "invsee",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.inventory.invsee.modify",
+      "description": "Allows you to modify a player's inventory.",
+      "module": "inventory",
+      "command": "invsee",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.inventory.invsee.offline",
+      "description": "Allows you to target an offline player.",
+      "module": "inventory",
+      "command": "invsee",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.broadcast.broadcast.base",
+      "description": "Allows you to use the /broadcast command.",
+      "module": "broadcast",
+      "command": "broadcast",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.kit.kit.base",
+      "description": "Allows you to use the kit command.",
+      "module": "kit",
+      "command": "kit",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.kit.kit.[KIT]",
+      "description": "Allows you to use the kit command for a specific kit.",
+      "module": "kit",
+      "command": "kit",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.kitlist.base",
+      "description": "Allows you to see a list of all kits.",
+      "module": "kit",
+      "command": "kit",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.kit.createkit.base",
+      "description": "Allows you to use the createkit command.",
+      "module": "kit",
+      "command": "createkit",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.kit.removekit.base",
+      "description": "Allows you to use the removekit command.",
+      "module": "kit",
+      "command": "removekit",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.kit.cooldown.exempt",
+      "description": "Allows you to bypass a kit's cooldown.",
+      "module": "kit",
+      "command": "kit",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.random.random.base",
+      "description": "Allows you to use the random command.",
+      "module": "random",
+      "command": "random",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.spy.commandspy.base",
+      "description": "Allows you to toggle whether your commandspy is enabled.",
+      "module": "spy",
+      "command": "commandspy",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.spy.messagespy.base",
+      "description": "Allows you to toggle whether your messagespy is enabled.",
+      "module": "spy",
+      "command": "messagespy",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.spy.commandspy.others",
+      "description": "Allows you to toggle whether someones commandspy is enabled.",
+      "module": "spy",
+      "command": "commandspy",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.spy.messagespy.others",
+      "description": "Allows you to toggle whether someones messagespy is enabled.",
+      "module": "spy",
+      "command": "messagespy",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.spy.commandspy.see",
+      "description": "Allows you to see commandspy messages if your commandspy is toggled on.",
+      "module": "spy",
+      "command": "commandspy",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.spy.messagespy.see",
+      "description": "Allows you to see messagespy messages if your messagespy is toggled on.",
+      "module": "spy",
+      "command": "messagespy",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.back.back.base",
+      "description": "Allows you to use the back command.",
+      "module": "back",
+      "command": "back",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.back.back.ondeath",
+      "description": "Allows you to use the back command after you died.",
+      "module": "back",
+      "command": "back",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.gamemode.gamemode.base",
+      "description": "Allows you to change your own gamemode",
+      "module": "gamemode",
+      "command": "gamemode",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.gamemode.gamemode.self.survival",
+      "description": "Allows you to change your own gamemode to survival",
+      "module": "gamemode",
+      "command": "gamemode",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.gamemode.gamemode.self.creative",
+      "description": "Allows you to change your own gamemode to creative",
+      "module": "gamemode",
+      "command": "gamemode",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.gamemode.gamemode.self.adventure",
+      "description": "Allows you to change your own gamemode to adventure",
+      "module": "gamemode",
+      "command": "gamemode",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.gamemode.gamemode.self.spectator",
+      "description": "Allows you to change your own gamemode to spectator",
+      "module": "gamemode",
+      "command": "gamemode",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.gamemode.gamemode.others.base",
+      "description": "Allows you to change a player's gamemode",
+      "module": "gamemode",
+      "command": "gamemode",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.gamemode.gamemode.others.survival",
+      "description": "Allows you to change a player's gamemode to survival",
+      "module": "gamemode",
+      "command": "gamemode",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.gamemode.gamemode.others.creative",
+      "description": "Allows you to change a player's gamemode to creative",
+      "module": "gamemode",
+      "command": "gamemode",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.gamemode.gamemode.others.adventure",
+      "description": "Allows you to change a player's gamemode to adventure",
+      "module": "gamemode",
+      "command": "gamemode",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.gamemode.gamemode.others.spectator",
+      "description": "Allows you to change a player's gamemode to spectator",
+      "module": "gamemode",
+      "command": "gamemode",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.base",
+      "description": "Allows you to use the /world command.",
+      "module": "world",
+      "command": "world",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.create.base",
+      "description": "Allows you to use the /world create command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.delete.base",
+      "description": "Allows you to use the /world delete command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.disable.base",
+      "description": "Allows you to use the /world disable command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.enable.base",
+      "description": "Allows you to use the /world enable command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.gamerule.base",
+      "description": "Allows you to use the /world gamerule command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.import.base",
+      "description": "Allows you to use the /world import command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.worlds.base",
+      "description": "Allows you to use the /world worlds command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.info.base",
+      "description": "Allows you to use the /world info command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.setdifficulty.base",
+      "description": "Allows you to use the /world setdifficulty command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.setgamemode.base",
+      "description": "Allows you to use the /world setgamemode command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.sethardcore.base",
+      "description": "Allows you to use the /world sethardcore command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.setkeepspawnloaded.base",
+      "description": "Allows you to use the /world setkeepspawnloaded command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.setloadonstartup.base",
+      "description": "Allows you to use the /world setloadonstartup command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.setpvp.base",
+      "description": "Allows you to use the /world setpvp command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.setworldspawn.base",
+      "description": "Allows you to use the /world setworldspawn command.",
+      "module": "world",
+      "command": "-",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.world.world.teleport.base",
+      "description": "Allows you to use the /world teleport command.",
+      "module": "world",
+      "command": "teleport",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.burn.burn.base",
+      "description": "Allows you to use the burn command.",
+      "module": "burn",
+      "command": "burn",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.afk.afk.base",
+      "description": "Allows you to toggle your own afk status.",
+      "module": "afk",
+      "command": "afk",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.afk.afk.message",
+      "description": "Allows you to provide a reason for being afk.",
+      "module": "afk",
+      "command": "afk",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.afk.afk.others.base",
+      "description": "Allows you to toggle another player's afk status.",
+      "module": "afk",
+      "command": "afk",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.afk.afk.others.message",
+      "description": "Allows you to provide an message while toggling another player's afk status.",
+      "module": "afk",
+      "command": "afk",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.afk.exempt",
+      "description": "When you have this permission you can't be kicked for being afk.",
+      "module": "afk",
+      "command": "-",
+      "level": "vip"
+    },
+    {
+      "identifier": "uc.teleport.teleport.base",
+      "description": "Allows you to use the teleport command to teleport yourself to someone else.",
+      "module": "teleport",
+      "command": "teleport",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.teleport.teleport.others",
+      "description": "Allows you to use the teleport command to teleport someone else to someone else.",
+      "module": "teleport",
+      "command": "teleport",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.teleport.teleport.coordinates",
+      "description": "Allows you to use the teleport command to teleport yourself to certain coordinates.",
+      "module": "teleport",
+      "command": "teleport",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.teleport.teleport.coordinates.others",
+      "description": "Allows you to use the teleport command to teleport someone else to certain coordinates.",
+      "module": "teleport",
+      "command": "teleport",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.teleport.teleportask.base",
+      "description": "Allows you to use the teleportask command",
+      "module": "teleport",
+      "command": "teleportask",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.teleport.teleportaskhere.base",
+      "description": "Allows you to use the teleportaskhere command",
+      "module": "teleport",
+      "command": "teleportaskhere",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.teleport.teleportaccept.base",
+      "description": "Allows you to use the teleportaccept command",
+      "module": "teleport",
+      "command": "teleportaccept",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.teleport.teleportdeny.base",
+      "description": "Allows you to use the teleportdeny command",
+      "module": "teleport",
+      "command": "teleportdeny",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.teleport.safeexempt",
+      "description": "Allows you to teleport players, even if it is unsafe.",
+      "module": "teleport",
+      "command": "teleport",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.teleport.teleporthere.base",
+      "description": "Allows you to use the /teleporthere command.",
+      "module": "teleport",
+      "command": "teleporthere",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.teleport.teleportall.base",
+      "description": "Allows you to use the /teleportall command.",
+      "module": "teleport",
+      "command": "teleportall",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.teleport.teleportaskallhere.base",
+      "description": "Allows you to use the /teleportaskallhere command.",
+      "module": "teleport",
+      "command": "teleportaskallhere",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.teleport.randomteleport.base",
+      "description": "Allows you to use the /randomteleport command.",
+      "module": "teleport",
+      "command": "randomteleport",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.teleport.biometeleport.base",
+      "description": "Allows you to use the /biometeleport command.",
+      "module": "teleport",
+      "command": "biometeleport",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.teleport.top.base",
+      "description": "Allows you to use the /top command.",
+      "module": "teleport",
+      "command": "top",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.geoip.country.base",
+      "description": "Allows you to use the country command.",
+      "module": "geoip",
+      "command": "country",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.fly.fly.base",
+      "description": "Allows you to change your own fly state.",
+      "module": "fly",
+      "command": "fly",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.fly.fly.others",
+      "description": "Allows you to change other player's fly state.",
+      "module": "fly",
+      "command": "fly",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.fly.flyspeed.base",
+      "description": "Allows you to use the /flyspeed command.",
+      "module": "fly",
+      "command": "flyspeed",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.fly.walkspeed.base",
+      "description": "Allows you to use the /walkspeed command.",
+      "module": "fly",
+      "command": "walkspeed",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.fly.speed.base",
+      "description": "Allows you to use the /speed command.",
+      "module": "fly",
+      "command": "speed",
+      "level": "admin"
     },
     {
       "identifier": "uc.mail.mail.base",
@@ -3350,6 +3140,216 @@
       "level": "everyone"
     },
     {
+      "identifier": "uc.item.more.base",
+      "description": "Allows you to use the more command.",
+      "module": "item",
+      "command": "more",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.repair.base",
+      "description": "Allows you to use the repair command for both all and one item.",
+      "module": "item",
+      "command": "repair",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.repair.all",
+      "description": "Allows you to use the repair command for all items.",
+      "module": "item",
+      "command": "repair",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.repair.one",
+      "description": "Allows you to use the repair command for one item.",
+      "module": "item",
+      "command": "repair",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.itemname.base",
+      "description": "Allows you to use the itemname command.",
+      "module": "item",
+      "command": "itemname",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.itemlore.base",
+      "description": "Allows you to use the itemlore command.",
+      "module": "item",
+      "command": "itemlore",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.itemquantity.base",
+      "description": "Allows you to use the itemquantity command.",
+      "module": "item",
+      "command": "itemquantity",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.itemdurability.base",
+      "description": "Allows you to use the itemdurability command.",
+      "module": "item",
+      "command": "itemdurability",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.itemunbreakable.base",
+      "description": "Allows you to use the itemunbreakable command.",
+      "module": "item",
+      "command": "itemunbreakable",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.itemcanplaceon.base",
+      "description": "Allows you to use the itemcanplaceon command.",
+      "module": "item",
+      "command": "itemcanplaceon",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.itemcanbreak.base",
+      "description": "Allows you to use the itemcanbreak command.",
+      "module": "item",
+      "command": "itemcanbreak",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.itemhidetags.base",
+      "description": "Allows you to use the itemhidetags command.",
+      "module": "item",
+      "command": "itemhidetags",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.itemenchant.base",
+      "description": "Allows you to use the itemenchant command.",
+      "module": "item",
+      "command": "itemenchant",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.item.hat.base",
+      "description": "Allows you to use the /hat command.",
+      "module": "item",
+      "command": "hat",
+      "level": "vip"
+    },
+    {
+      "identifier": "uc.item.hat.others",
+      "description": "Allows you to use the hat command on other players.",
+      "module": "item",
+      "command": "hat",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.vanish.vanish.base",
+      "description": "Allows you to use the vanish command.",
+      "module": "vanish",
+      "command": "vanish",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.mute.mute.base",
+      "description": "Allows you to mute someone.",
+      "module": "mute",
+      "command": "mute",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.mute.unmute.base",
+      "description": "Allows you to unmute someone.",
+      "module": "mute",
+      "command": "unmute",
+      "level": "mod"
+    },
+    {
+      "identifier": "uc.sudo.sudo.base",
+      "description": "Allows you to use the sudo command for both chatting and commands.",
+      "module": "sudo",
+      "command": "sudo",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.sudo.sudo.command",
+      "description": "Allows you to use the sudo command to force a command.",
+      "module": "sudo",
+      "command": "sudo",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.sudo.sudo.chat",
+      "description": "Allows you to use the sudo command to force chatting.",
+      "module": "sudo",
+      "command": "sudo",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.weather.weather.base",
+      "description": "Allows you to use the base weather command.",
+      "module": "weather",
+      "command": "weather",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.weather.weather.sun",
+      "description": "Allows you to change the weather to sun.",
+      "module": "weather",
+      "command": "weather",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.weather.weather.rain",
+      "description": "Allows you to change the weather to rain.",
+      "module": "weather",
+      "command": "weather",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.weather.weather.thunder",
+      "description": "Allows you to change the weather to thunder.",
+      "module": "weather",
+      "command": "weather",
+      "level": "admin"
+    },
+    {
+      "identifier": "uc.home.home.base",
+      "description": "Allows you to teleport to your own home.",
+      "module": "home",
+      "command": "home",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.home.sethome.base",
+      "description": "Allows you to set your own home.",
+      "module": "home",
+      "command": "sethome",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.home.sethome.unlimited",
+      "description": "Allows you to set an unlimited amount of homes.",
+      "module": "home",
+      "command": "sethome",
+      "level": "vip"
+    },
+    {
+      "identifier": "uc.home.delhome.base",
+      "description": "Allows you to remove one of your homes.",
+      "module": "home",
+      "command": "delhome",
+      "level": "everyone"
+    },
+    {
+      "identifier": "uc.sign.signedit.base",
+      "description": "Allows you to use the /signedit command.",
+      "module": "sign",
+      "command": "signedit",
+      "level": "vip"
+    },
+    {
       "identifier": "uc.commandtimer.bypass.cooldown.<Command>",
       "description": "Allows you to bypass the cooldown of a command.",
       "module": "commandtimer",
@@ -3380,18 +3380,32 @@
   ],
   "permissionoptions": [
     {
-      "identifier": "uc.home.homecount",
-      "description": "The amount of homes the player can have.",
-      "module": "home",
-      "command": "home",
-      "default": "1"
+      "identifier": "uc.deaf.exemptpower",
+      "description": "The amount of exemptpower the player has. If a player's deafpower is higher than or equal to the targets exemptpower he can deaf the target.",
+      "module": "deaf",
+      "command": "deaf",
+      "default": "0"
     },
     {
-      "identifier": "uc.item.itemenchant.maxlevel",
-      "description": "The maximum level an item can be enchanted by this player using /enchant.",
-      "module": "item",
-      "command": "itemenchant",
-      "default": "10"
+      "identifier": "uc.deaf.power",
+      "description": "The amount of deafpower the player has. If a player's deafpower is higher than or equal to the targets exemptpower he can deaf the target.",
+      "module": "deaf",
+      "command": "deaf",
+      "default": "0"
+    },
+    {
+      "identifier": "uc.kick.exemptpower",
+      "description": "The amount of exemptpower the player has. If a player's kickpower is higher than or equal to the targets exemptpower he can kick the target.",
+      "module": "kick",
+      "command": "kick",
+      "default": "0"
+    },
+    {
+      "identifier": "uc.kick.power",
+      "description": "The amount of kickpower the player has. If a player's kickpower is higher than or equal to the targets exemptpower he can kick the target.",
+      "module": "kick",
+      "command": "kick",
+      "default": "0"
     },
     {
       "identifier": "uc.jail.exemptpower",
@@ -3415,39 +3429,18 @@
       "default": "-"
     },
     {
-      "identifier": "uc.kick.exemptpower",
-      "description": "The amount of exemptpower the player has. If a player's kickpower is higher than or equal to the targets exemptpower he can kick the target.",
-      "module": "kick",
-      "command": "kick",
-      "default": "0"
-    },
-    {
-      "identifier": "uc.kick.power",
-      "description": "The amount of kickpower the player has. If a player's kickpower is higher than or equal to the targets exemptpower he can kick the target.",
-      "module": "kick",
-      "command": "kick",
-      "default": "0"
-    },
-    {
-      "identifier": "uc.deaf.exemptpower",
-      "description": "The amount of exemptpower the player has. If a player's deafpower is higher than or equal to the targets exemptpower he can deaf the target.",
-      "module": "deaf",
-      "command": "deaf",
-      "default": "0"
-    },
-    {
-      "identifier": "uc.deaf.power",
-      "description": "The amount of deafpower the player has. If a player's deafpower is higher than or equal to the targets exemptpower he can deaf the target.",
-      "module": "deaf",
-      "command": "deaf",
-      "default": "0"
-    },
-    {
       "identifier": "uc.chat.group",
       "description": "Which section in the config is used for chat formatting.",
       "module": "chat",
       "command": "-",
       "default": "-"
+    },
+    {
+      "identifier": "uc.item.itemenchant.maxlevel",
+      "description": "The maximum level an item can be enchanted by this player using /enchant.",
+      "module": "item",
+      "command": "itemenchant",
+      "default": "10"
     },
     {
       "identifier": "uc.mute.exemptpower",
@@ -3462,6 +3455,13 @@
       "module": "mute",
       "command": "mute",
       "default": "0"
+    },
+    {
+      "identifier": "uc.home.homecount",
+      "description": "The amount of homes the player can have.",
+      "module": "home",
+      "command": "home",
+      "default": "1"
     },
     {
       "identifier": "uc.tablist.group",
