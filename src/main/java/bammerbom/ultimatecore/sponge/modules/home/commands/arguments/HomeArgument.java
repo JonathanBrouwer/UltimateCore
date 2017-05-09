@@ -74,6 +74,6 @@ public class HomeArgument extends UCommandElement {
         Player p = (Player) src;
         UltimateUser up = UltimateCore.get().getUserService().getUser(p);
         List<Home> homes = up.get(HomeKeys.HOMES).get();
-        return homes.stream().map(home -> home.getName()).collect(Collectors.toList());
+        return homes.stream().map(Home::getName).collect(Collectors.toList());
     }
 }

@@ -57,7 +57,10 @@ import java.util.List;
 public class SendMailCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{Arguments.builder(new GameprofileArgument(Text.of("player"))).onlyOne().build(), Arguments.builder(new RemainingStringsArgument(Text.of("message"))).onlyOne().build()};
+        return new CommandElement[]{
+                Arguments.builder(new GameprofileArgument(Text.of("player"))).onlyOne().build(),
+                Arguments.builder(new RemainingStringsArgument(Text.of("message"))).onlyOne().build()
+        };
     }
 
     @Override

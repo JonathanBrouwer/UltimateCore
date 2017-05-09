@@ -180,7 +180,7 @@ public class NamesHandler {
         name = VariableUtil.replaceVariables(name, p);
 
         //Max length check for prefix & suffix
-        if(compatibility) {
+        if (compatibility) {
             if (TextSerializers.FORMATTING_CODE.serialize(name).length() > 16) {
                 name = TextSerializers.FORMATTING_CODE.deserialize(TextSerializers.FORMATTING_CODE.serialize(name).substring(0, 16));
             }

@@ -135,9 +135,7 @@ public class UCUserService implements UserService {
     public boolean removeFromCache(UUID uuid) {
         //A list in case for something went wrong and there are multiple instances of a player in the cache.
         List<UltimateUser> rusers = new ArrayList<>();
-        users.stream().filter(user -> user.getIdentifier().equals(uuid)).forEach(user -> {
-            rusers.add(user);
-        });
+        users.stream().filter(user -> user.getIdentifier().equals(uuid)).forEach(rusers::add);
         return !rusers.isEmpty() && users.removeAll(rusers);
     }
 }

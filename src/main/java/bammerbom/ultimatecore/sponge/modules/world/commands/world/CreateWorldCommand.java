@@ -63,7 +63,10 @@ import java.util.Optional;
 public class CreateWorldCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{Arguments.builder(new StringArgument(Text.of("name"))).onlyOne().build(), Arguments.builder(GenericArguments.flags().valueFlag(new DimensionArgument(Text.of("dimension")), "d", "-dim", "-dimension").valueFlag(new GeneratorTypeArgument(Text.of("generator")), "g", "-gen", "-generator").valueFlag(new WorldGeneratorModifierArgument(Text.of("wgm")), "-wgm", "-wg", "-worldgenerator", "-worldgeneratormodifier").valueFlag(GenericArguments.longNum(Text.of("seed")), "s", "-seed").valueFlag(new GamemodeArgument(Text.of("gamemode")), "-gm", "-gamemode").valueFlag(new DifficultyArgument(Text.of("difficulty")), "-dif", "-difficulty").valueFlag(new BooleanArgument(Text.of("n")), "n", "-nostructures").valueFlag(new BooleanArgument(Text.of("l")), "l", "-loadonstartup").valueFlag(new BooleanArgument(Text.of("k")), "k", "-keepspawnloaded").valueFlag(new BooleanArgument(Text.of("c")), "c", "-allowcommands").valueFlag(new BooleanArgument(Text.of("b")), "b", "-bonuschest").buildWith(GenericArguments.none())).build()};
+        return new CommandElement[]{
+                Arguments.builder(new StringArgument(Text.of("name"))).onlyOne().build(),
+                Arguments.builder(GenericArguments.flags().valueFlag(new DimensionArgument(Text.of("dimension")), "d", "-dim", "-dimension").valueFlag(new GeneratorTypeArgument(Text.of("generator")), "g", "-gen", "-generator").valueFlag(new WorldGeneratorModifierArgument(Text.of("wgm")), "-wgm", "-wg", "-worldgenerator", "-worldgeneratormodifier").valueFlag(GenericArguments.longNum(Text.of("seed")), "s", "-seed").valueFlag(new GamemodeArgument(Text.of("gamemode")), "-gm", "-gamemode").valueFlag(new DifficultyArgument(Text.of("difficulty")), "-dif", "-difficulty").valueFlag(new BooleanArgument(Text.of("n")), "n", "-nostructures").valueFlag(new BooleanArgument(Text.of("l")), "l", "-loadonstartup").valueFlag(new BooleanArgument(Text.of("k")), "k", "-keepspawnloaded").valueFlag(new BooleanArgument(Text.of("c")), "c", "-allowcommands").valueFlag(new BooleanArgument(Text.of("b")), "b", "-bonuschest").buildWith(GenericArguments.none())).build()
+        };
     }
 
     @Override

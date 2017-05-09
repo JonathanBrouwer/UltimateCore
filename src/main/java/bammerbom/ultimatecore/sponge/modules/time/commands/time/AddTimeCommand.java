@@ -49,7 +49,10 @@ import org.spongepowered.api.world.World;
 public class AddTimeCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{Arguments.builder(new BoundedIntegerArgument(Text.of("ticks"), null, null)).onlyOne().build(), Arguments.builder(new WorldArgument(Text.of("world"))).optional().onlyOne().build()};
+        return new CommandElement[]{
+                Arguments.builder(new BoundedIntegerArgument(Text.of("ticks"), null, null)).onlyOne().build(),
+                Arguments.builder(new WorldArgument(Text.of("world"))).optional().onlyOne().build()
+        };
     }
 
     @Override

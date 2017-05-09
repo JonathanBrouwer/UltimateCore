@@ -60,6 +60,6 @@ public class KitArgument extends UCommandElement {
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
         List<Kit> kits = GlobalData.get(KitKeys.KITS).get();
-        return kits.stream().map(kit -> kit.getId()).collect(Collectors.toList());
+        return kits.stream().map(Kit::getId).collect(Collectors.toList());
     }
 }

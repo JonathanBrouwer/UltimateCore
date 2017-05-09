@@ -210,12 +210,7 @@ public class Main extends Application {
         label.setText(message);
         Button close = new Button("Close");
         close.getStyleClass().add("button-close");
-        close.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                window.close();
-            }
-        });
+        close.setOnAction(t -> window.close());
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, close);

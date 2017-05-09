@@ -46,8 +46,6 @@ public class TablistListener {
         TablistModule module = (TablistModule) Modules.TABLIST.get();
         NamesHandler runnable = module.getRunnable();
         runnable.removeCache(event.getTargetEntity().getUniqueId());
-        Sponge.getScheduler().createTaskBuilder().delayTicks(20L).execute(() -> {
-            runnable.update();
-        }).submit(UltimateCore.get());
+        Sponge.getScheduler().createTaskBuilder().delayTicks(20L).execute(runnable::update).submit(UltimateCore.get());
     }
 }

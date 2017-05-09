@@ -127,22 +127,12 @@ public class Automessage implements Runnable {
             Sponge.getServer().getBroadcastChannel().send(TextUtil.split(message, "\n").get(0), ChatTypes.ACTION_BAR);
             //Last send
             final Text finalmessage = message;
-            Sponge.getScheduler().createTaskBuilder().delay(actionbar_stay, TimeUnit.SECONDS).execute(new Runnable() {
-                @Override
-                public void run() {
-                    channel.send(Text.of(), ChatTypes.ACTION_BAR);
-                }
-            }).name("UC: Automessage actionbar delay task 1").submit(UltimateCore.get());
+            Sponge.getScheduler().createTaskBuilder().delay(actionbar_stay, TimeUnit.SECONDS).execute(() -> channel.send(Text.of(), ChatTypes.ACTION_BAR)).name("UC: Automessage actionbar delay task 1").submit(UltimateCore.get());
             //Repeating send
             int duration = actionbar_stay;
             while (duration > 2) {
                 duration -= 2;
-                Sponge.getScheduler().createTaskBuilder().delay(duration, TimeUnit.SECONDS).execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        channel.send(TextUtil.split(finalmessage, "\n").get(0), ChatTypes.ACTION_BAR);
-                    }
-                }).name("UC: Automessage actionbar delay task 2").submit(UltimateCore.get());
+                Sponge.getScheduler().createTaskBuilder().delay(duration, TimeUnit.SECONDS).execute(() -> channel.send(TextUtil.split(finalmessage, "\n").get(0), ChatTypes.ACTION_BAR)).name("UC: Automessage actionbar delay task 2").submit(UltimateCore.get());
             }
         }
 
@@ -162,7 +152,7 @@ public class Automessage implements Runnable {
                         bar.setVisible(false);
                         return;
                     }
-                    bar.setPercent(Float.valueOf(duration) / Float.valueOf(bossbar_stay));
+                    bar.setPercent((float) duration / (float) bossbar_stay);
                     duration--;
                 }
             }).name("UC: Automessage bossbar task").submit(UltimateCore.get());

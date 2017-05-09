@@ -56,7 +56,8 @@ public class InventoryListener {
                     event.setCancelled(true);
                 }
             }
-        }catch (Exception ignore){}
+        } catch (Exception ignore) {
+        }
     }
 
     @Listener

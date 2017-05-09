@@ -60,6 +60,6 @@ public class WarpArgument extends UCommandElement {
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
         List<Warp> warps = GlobalData.get(WarpKeys.WARPS).get();
-        return warps.stream().map(warp -> warp.getName()).collect(Collectors.toList());
+        return warps.stream().map(Warp::getName).collect(Collectors.toList());
     }
 }

@@ -37,7 +37,15 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 
-@CommandChildrenInfo(children = {ClearcacheUltimatecoreCommand.class, ResetuserUltimatecoreCommand.class, ModulesUltimatecoreCommand.class, GendocsUltimatecoreCommand.class, ErrorUltimatecoreCommand.class, ReloadUltimatecoreCommand.class, SetuppermissionsUltimatecoreCommand.class})
+@CommandChildrenInfo(children = {
+        ClearcacheUltimatecoreCommand.class,
+        ResetuserUltimatecoreCommand.class,
+        ModulesUltimatecoreCommand.class,
+        GendocsUltimatecoreCommand.class,
+        ErrorUltimatecoreCommand.class,
+        ReloadUltimatecoreCommand.class,
+        SetuppermissionsUltimatecoreCommand.class
+})
 @CommandPermissions(level = PermissionLevel.ADMIN)
 @CommandInfo(module = CoreModule.class, aliases = {"ultimatecore", "uc"})
 public class UltimatecoreCommand implements HighPermCommand {

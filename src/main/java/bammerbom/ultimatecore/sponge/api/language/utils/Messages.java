@@ -160,13 +160,9 @@ public class Messages {
             return TextSerializers.JSON.deserialize(raw);
         } catch (Exception ex) {
             try {
-                return TextSerializers.TEXT_XML.deserialize(raw);
-            } catch (Exception ex2) {
-                try {
-                    return TextSerializers.FORMATTING_CODE.deserialize(raw);
-                } catch (Exception ex3) {
-                    return Text.of(raw);
-                }
+                return TextSerializers.FORMATTING_CODE.deserialize(raw);
+            } catch (Exception ex3) {
+                return Text.of(raw);
             }
         }
     }

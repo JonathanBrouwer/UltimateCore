@@ -87,12 +87,7 @@ public class PersonalmessageCommand implements HighCommand {
         Cause cause = Cause.builder().owner(UltimateCore.getContainer()).named("sender", sender).named("target", t).build();
         MessageEvent.MessageFormatter formatter = new MessageEvent.MessageFormatter(fmessage);
         final CommandSource tf = t;
-        MessageChannel channel = new MessageChannel() {
-            @Override
-            public Collection<MessageReceiver> getMembers() {
-                return Arrays.asList(tf);
-            }
-        };
+        MessageChannel channel = () -> Arrays.asList(tf);
         PersonalmessageEvent event = new PersonalmessageEvent(cause, sender, t, formatter, channel, message, fmessage);
         Sponge.getEventManager().post(event);
         if (!event.isMessageCancelled()) {

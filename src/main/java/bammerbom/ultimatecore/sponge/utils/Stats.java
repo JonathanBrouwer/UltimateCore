@@ -25,6 +25,7 @@ package bammerbom.ultimatecore.sponge.utils;
 
 import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.language.utils.Messages;
+import bammerbom.ultimatecore.sponge.api.module.Module;
 import com.goebl.david.Response;
 import com.goebl.david.Webb;
 import org.spongepowered.api.Platform;
@@ -74,7 +75,7 @@ public class Stats {
         data.put("freeram", Runtime.getRuntime().freeMemory());
         data.put("onlinemode", Sponge.getServer().getOnlineMode());
         data.put("javaversion", System.getProperty("java.version"));
-        data.put("modules", StringUtil.join(", ", UltimateCore.get().getModuleService().getModules().stream().map(mod -> mod.getIdentifier()).collect(Collectors.toList())));
+        data.put("modules", StringUtil.join(", ", UltimateCore.get().getModuleService().getModules().stream().map(Module::getIdentifier).collect(Collectors.toList())));
         data.put("language", UltimateCore.get().getGeneralConfig().get().getNode("language", "language").getString("EN_US"));
         //Plugins
         StringBuilder pluginbuilder = new StringBuilder();
@@ -104,15 +105,13 @@ public class Stats {
         //Sync
         final HashMap<String, Object> data = collect();
         //Async
-        Sponge.getScheduler().createTaskBuilder().name("UC async stats task").delayTicks(1L).async().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    data.put("country", getCountryCode());
-                    Webb webb = Webb.create();
-                    Response<String> response = webb.post("http://ultimatecore.org/postrequest/statistics.php").params(data).asString();
-                    Messages.log(Messages.getFormatted("core.stats.sent", "%status%", response.getStatusLine()));
-                    //TODO add file or not?
+        Sponge.getScheduler().createTaskBuilder().name("UC async stats task").delayTicks(1L).async().execute(() -> {
+            try {
+                data.put("country", getCountryCode());
+                Webb webb = Webb.create();
+                Response<String> response = webb.post("http://ultimatecore.org/postrequest/statistics.php").params(data).asString();
+                Messages.log(Messages.getFormatted("core.stats.sent", "%status%", response.getStatusLine()));
+                //TODO add file or not?
 //                    File file = new File(UltimateCore.get().getDataFolder().toFile(), "stats.txt");
 //                    if (!file.exists()) {
 //                        file.getParentFile().mkdirs();
@@ -126,9 +125,8 @@ public class Stats {
 //                    }
 //
 //                    FileUtil.writeLines(file, lines);
-                } catch (Exception e) {
-                    Messages.log(Messages.getFormatted("core.stats.failed", "%message%", e.getMessage()));
-                }
+            } catch (Exception e) {
+                Messages.log(Messages.getFormatted("core.stats.failed", "%message%", e.getMessage()));
             }
         }).submit(UltimateCore.get());
     }

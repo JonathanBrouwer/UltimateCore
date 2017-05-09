@@ -58,7 +58,10 @@ public class QueryTimeCommand implements HighSubCommand {
         types.put("day", "days");
         types.put("days", "days");
         types.put("gametime", "gametime");
-        return new CommandElement[]{Arguments.builder(new ChoicesArgument(Text.of("type"), types)).onlyOne().optional().build(), Arguments.builder(new WorldArgument(Text.of("world"))).optional().onlyOne().build()};
+        return new CommandElement[]{
+                Arguments.builder(new ChoicesArgument(Text.of("type"), types)).onlyOne().optional().build(),
+                Arguments.builder(new WorldArgument(Text.of("world"))).optional().onlyOne().build()
+        };
     }
 
     @Override

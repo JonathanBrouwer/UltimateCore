@@ -67,7 +67,10 @@ public class GroupspawnCommand implements HighCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optionalWeak().build(), Arguments.builder(new StringArgument(Text.of("group"))).onlyOne().optional().build()};
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().optionalWeak().build(),
+                Arguments.builder(new StringArgument(Text.of("group"))).onlyOne().optional().build()
+        };
     }
 
     @Override

@@ -71,7 +71,12 @@ public class JailCommand implements HighCommand {
 
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(), Arguments.builder(new JailArgument(Text.of("jail"))).optional().onlyOne().build(), Arguments.builder(new TimeArgument(Text.of("time"))).optional().onlyOne().build(), Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).onlyOne().optional().build()};
+        return new CommandElement[]{
+                Arguments.builder(new PlayerArgument(Text.of("player"))).onlyOne().build(),
+                Arguments.builder(new JailArgument(Text.of("jail"))).optional().onlyOne().build(),
+                Arguments.builder(new TimeArgument(Text.of("time"))).optional().onlyOne().build(),
+                Arguments.builder(new RemainingStringsArgument(Text.of("reason"))).onlyOne().optional().build()
+        };
     }
 
     @Override

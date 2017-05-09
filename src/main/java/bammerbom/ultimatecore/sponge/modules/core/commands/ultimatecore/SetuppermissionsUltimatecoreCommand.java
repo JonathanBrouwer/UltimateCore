@@ -53,7 +53,10 @@ import java.util.HashSet;
 public class SetuppermissionsUltimatecoreCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{Arguments.builder(new PermissionLevelArgument(Text.of("level"))).onlyOne().build(), Arguments.builder(new GroupSubjectArgument(Text.of("group"))).onlyOne().build()};
+        return new CommandElement[]{
+                Arguments.builder(new PermissionLevelArgument(Text.of("level"))).onlyOne().build(),
+                Arguments.builder(new GroupSubjectArgument(Text.of("group"))).onlyOne().build()
+        };
     }
 
     @Override

@@ -10,7 +10,7 @@ plugins {
 //Project details
 description "All you need to set up a server and more!"
 group "bammerbom"
-version "3.0.10"
+version "3.0.11-SNAPSHOT"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -58,7 +58,7 @@ repositories {
 
 dependencies {
     //Don't shadow
-    compile "org.spongepowered:spongeapi:6.0.0-SNAPSHOT"
+    compile "org.spongepowered:spongeapi:7.0.0-SNAPSHOT"
     compile "com.vexsoftware:nuvotifier-universal:2.3.4"
     compile "io.github.nucleuspowered:Nucleus:0.25.0-S6.0"
 

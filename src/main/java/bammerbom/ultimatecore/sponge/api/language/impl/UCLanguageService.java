@@ -82,13 +82,9 @@ public class UCLanguageService implements LanguageService {
             text = TextSerializers.JSON.deserialize(raw);
         } catch (TextParseException ex) {
             try {
-                text = TextSerializers.TEXT_XML.deserialize(raw);
-            } catch (TextParseException ex2) {
-                try {
-                    text = TextSerializers.FORMATTING_CODE.deserialize(raw);
-                } catch (Exception ex3) {
-                    text = TextSerializers.PLAIN.deserialize(raw);
-                }
+                text = TextSerializers.FORMATTING_CODE.deserialize(raw);
+            } catch (Exception ex3) {
+                text = TextSerializers.PLAIN.deserialize(raw);
             }
         }
 

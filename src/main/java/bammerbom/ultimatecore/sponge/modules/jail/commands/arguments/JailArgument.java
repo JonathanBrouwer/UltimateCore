@@ -60,6 +60,6 @@ public class JailArgument extends UCommandElement {
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
         List<Jail> jails = GlobalData.get(JailKeys.JAILS).get();
-        return jails.stream().map(jail -> jail.getName()).collect(Collectors.toList());
+        return jails.stream().map(Jail::getName).collect(Collectors.toList());
     }
 }

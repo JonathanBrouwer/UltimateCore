@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IpAdressArgument extends UCommandElement {
-    
+
     public IpAdressArgument(@Nullable Text key) {
         super(key);
     }

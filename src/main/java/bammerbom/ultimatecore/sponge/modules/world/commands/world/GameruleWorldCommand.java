@@ -57,7 +57,11 @@ import java.util.*;
 public class GameruleWorldCommand implements HighSubCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{Arguments.builder(new WorldPropertiesArgument(Text.of("world"))).build(), Arguments.builder(new GameruleArgument(Text.of("gamerule"))).optional().build(), Arguments.builder(new StringArgument(Text.of("value"))).optional().build()};
+        return new CommandElement[]{
+                Arguments.builder(new WorldPropertiesArgument(Text.of("world"))).build(),
+                Arguments.builder(new GameruleArgument(Text.of("gamerule"))).optional().build(),
+                Arguments.builder(new StringArgument(Text.of("value"))).optional().build()
+        };
     }
 
     @Override
