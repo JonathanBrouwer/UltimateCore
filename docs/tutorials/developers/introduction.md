@@ -21,16 +21,16 @@ All of the project's java files are located in `src/main/java/bammerbom/ultimate
 Here you will find the `Main` class, which is the UltimateCore hub. You can ignore this for now.<br>
 More importantly, the `sponge/` package. All sponge classes are located here.
 
-###api
+### api
 Almost everything not related to a specific module is located in this package. If you search for a non-module located class, it is probably located in here. I will talk about the api package more in depth in later tutorials.
 
-###modules
+### modules
 All the modules are located in this package. I will talk about creating & editing modules in an other tutorial.
 
-###utils
+### utils
 Small utility classes which all modules can use are located here. For example, the `Tuples` class which can hold multiple other objects. If you ever have to make an utility class which can be used by multiple modules, you would put this file here.
 
-###UltimateCore.java
+### UltimateCore.java
 This is the plugin's main class. You can also get all UltimateCore [services](https://docs.spongepowered.org/stable/en/plugin/services.html) via this class.<br>
 For example, you can obtain the command service using:<br>
 `UltimateCore.get().getCommandService()`

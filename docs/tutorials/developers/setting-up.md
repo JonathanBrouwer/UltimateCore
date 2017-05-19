@@ -1,12 +1,12 @@
 Setting up & Building
 ====
 
-##Building against UltimateCore
+## Building against UltimateCore
 UltimateCore currently does not have a repo, but I will make sure to make one soon. 
 You can use JitPack to build against UltimateCore if you are using maven or gradle. 
 Take a look at https://jitpack.io/#Bammerbom/UltimateCore
 
-##Setting up & Building UltimateCore
+## Setting up & Building UltimateCore
 Execute these commands to set up UltimateCore.<br>
 Note: Use 'gradlew' instead of 'gradle' if you don't have gradle installed and want to use the wrapper instead.
 1. Navigate to the directory you want to clone UltimateCore in, and open a command prompt.
