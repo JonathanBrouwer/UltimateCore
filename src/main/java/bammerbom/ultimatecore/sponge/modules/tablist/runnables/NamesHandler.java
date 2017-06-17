@@ -34,6 +34,7 @@ import bammerbom.ultimatecore.sponge.modules.tablist.api.TablistPermissions;
 import bammerbom.ultimatecore.sponge.utils.Tuples;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.tab.TabList;
 import org.spongepowered.api.entity.living.player.tab.TabListEntry;
@@ -57,6 +58,7 @@ public class NamesHandler {
         ModuleConfig config = Modules.TABLIST.get().getConfig().get();
         boolean enablenames = config.get().getNode("names", "enable").getBoolean();
         boolean compatibility = config.get().getNode("names", "compatibility-mode").getBoolean();
+        boolean showvanished = config.get().getNode("names", "show-vanished").getBoolean(false);
         boolean updated = false;
         HeaderFooterHandler.handleHeaderFooter();
         if (!enablenames) {
@@ -65,6 +67,9 @@ public class NamesHandler {
 
         //Add new players
         for (Player p : Sponge.getServer().getOnlinePlayers()) {
+            if(p.get(Keys.VANISH).orElse(false) && !showvanished){
+                continue;
+            }
             if (!this.names.containsKey(p.getUniqueId())) {
                 this.names.put(p.getUniqueId(), getDetails(p));
                 updated = true;
