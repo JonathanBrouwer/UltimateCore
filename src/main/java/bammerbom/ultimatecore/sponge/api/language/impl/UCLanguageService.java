@@ -53,6 +53,7 @@ public class UCLanguageService implements LanguageService {
     public void reloadPre() {
         try {
             english = loadFromFile("EN_US");
+            loadFromFile("IT_IT");
         } catch (IOException e) {
             ErrorLogger.log(e, "Failed to load english messages file");
         }
