@@ -68,7 +68,7 @@ public class SignListener {
                 if (!p.hasPermission(sign.getCreatePermission().get())) {
                     Messages.send(p, "core.nopermissions");
                 }
-                SignCreateEvent cevent = new SignCreateEvent(sign, event.getTargetTile().getLocation(), Cause.builder().append(UltimateCore.getContainer()).append(p).build(event.getContext()));
+                SignCreateEvent cevent = new SignCreateEvent(sign, event.getTargetTile().getLocation(), Cause.builder().append(UltimateCore.getContainer()).append(p).build(EventContext.builder().build()));
                 Sponge.getEventManager().post(cevent);
                 if (!cevent.isCancelled() && sign.onCreate(p, event)) {
                     //Color sign
@@ -93,7 +93,7 @@ public class SignListener {
                 if (!p.hasPermission(usign.getUsePermission().get())) {
                     Messages.send(p, "core.nopermissions");
                 }
-                SignUseEvent cevent = new SignUseEvent(usign, sign.getLocation(), Cause.builder().append(UltimateCore.getContainer()).append(p).build(event.getContext()));
+                SignUseEvent cevent = new SignUseEvent(usign, sign.getLocation(), Cause.builder().append(UltimateCore.getContainer()).append(p).build(EventContext.builder().build()));
                 Sponge.getEventManager().post(cevent);
                 if (!cevent.isCancelled()) {
                     usign.onExecute(p, sign);
