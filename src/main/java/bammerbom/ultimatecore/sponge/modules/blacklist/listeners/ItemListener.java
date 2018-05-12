@@ -30,22 +30,18 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Item;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
 import org.spongepowered.api.event.filter.cause.First;
-import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.item.inventory.ChangeInventoryEvent;
 import org.spongepowered.api.event.item.inventory.DropItemEvent;
 import org.spongepowered.api.event.item.inventory.InteractItemEvent;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+import org.spongepowered.api.item.inventory.transaction.SlotTransaction;
 
 public class ItemListener {
     @Listener
-    public void onDrop(DropItemEvent.Dispense event, @Root EntitySpawnCause cause) {
-        if (cause.getEntity() instanceof Player) {
-            //TODO exempt check
-        }
+    public void onDrop(DropItemEvent.Dispense event) {
 
         ModuleConfig config = Modules.BLACKLIST.get().getConfig().get();
         CommentedConfigurationNode hnode = config.get();
@@ -65,11 +61,13 @@ public class ItemListener {
     public void onPickup(ChangeInventoryEvent.Pickup event, @First Player p) {
         ModuleConfig config = Modules.BLACKLIST.get().getConfig().get();
         CommentedConfigurationNode hnode = config.get();
-        Item item = event.getTargetEntity();
-        CommentedConfigurationNode node = hnode.getNode("items", item.getItemType().getId());
-        if (!node.isVirtual()) {
-            if (node.getNode("deny-drop").getBoolean()) {
-                event.setCancelled(true);
+        for(SlotTransaction trans : event.getTransactions()){
+            ItemStack item = trans.getSlot().peek().get();
+            CommentedConfigurationNode node = hnode.getNode("items", item.getType().getId());
+            if (!node.isVirtual()) {
+                if (node.getNode("deny-drop").getBoolean()) {
+                    trans.setValid(false);
+                }
             }
         }
     }

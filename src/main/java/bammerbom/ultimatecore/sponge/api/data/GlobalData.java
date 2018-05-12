@@ -28,6 +28,7 @@ import bammerbom.ultimatecore.sponge.api.data.event.DataOfferEvent;
 import bammerbom.ultimatecore.sponge.api.data.event.DataRetrieveEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -56,7 +57,7 @@ public class GlobalData {
             //Provider not available, get the default value
             rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
         }
-        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.getContainer()).build());
+        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().append(UltimateCore.getContainer()).build(EventContext.builder().build()));
         Sponge.getEventManager().post(event);
         return event.getValue();
     }
@@ -75,7 +76,7 @@ public class GlobalData {
         } else {
             rtrn = Optional.ofNullable((C) datas.get(key.getIdentifier()));
         }
-        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.getContainer()).build());
+        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().append(UltimateCore.getContainer()).build(EventContext.builder().build()));
         Sponge.getEventManager().post(event);
         return event.getValue();
     }
@@ -89,7 +90,7 @@ public class GlobalData {
      * @return Whether the value was accepted
      */
     public static <C> boolean offer(Key.Global<C> key, C value) {
-        Cause cause = Cause.builder().owner(UltimateCore.getContainer()).build();
+        Cause cause = Cause.builder().append(UltimateCore.getContainer()).build(EventContext.builder().build());
         DataOfferEvent<C> event = new DataOfferEvent<>(key, (C) datas.get(key.getIdentifier()), value, cause);
         Sponge.getEventManager().post(event);
         if (event.isCancelled()) {

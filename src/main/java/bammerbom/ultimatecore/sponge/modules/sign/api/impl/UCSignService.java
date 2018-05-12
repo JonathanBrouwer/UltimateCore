@@ -33,6 +33,7 @@ import bammerbom.ultimatecore.sponge.api.sign.event.SignRegisterEvent;
 import bammerbom.ultimatecore.sponge.api.sign.event.SignUnregisterEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.text.Text;
 
 import java.util.HashMap;
@@ -78,7 +79,7 @@ public class UCSignService implements SignService {
      */
     @Override
     public boolean registerSign(UCSign sign) {
-        SignRegisterEvent cevent = new SignRegisterEvent(sign, Cause.builder().owner(UltimateCore.getContainer()).build());
+        SignRegisterEvent cevent = new SignRegisterEvent(sign, Cause.builder().append(UltimateCore.getContainer()).build(EventContext.builder().build()));
         Sponge.getEventManager().post(cevent);
         if (cevent.isCancelled()) {
             return false;
@@ -110,7 +111,7 @@ public class UCSignService implements SignService {
      */
     @Override
     public boolean unregisterSign(UCSign sign) {
-        SignUnregisterEvent cevent = new SignUnregisterEvent(sign, Cause.builder().owner(UltimateCore.getContainer()).build());
+        SignUnregisterEvent cevent = new SignUnregisterEvent(sign, Cause.builder().append(UltimateCore.getContainer()).build(EventContext.builder().build()));
         Sponge.getEventManager().post(cevent);
         if (cevent.isCancelled()) {
             return false;

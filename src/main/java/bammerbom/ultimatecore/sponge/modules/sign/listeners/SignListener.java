@@ -43,6 +43,7 @@ import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -67,7 +68,7 @@ public class SignListener {
                 if (!p.hasPermission(sign.getCreatePermission().get())) {
                     Messages.send(p, "core.nopermissions");
                 }
-                SignCreateEvent cevent = new SignCreateEvent(sign, event.getTargetTile().getLocation(), Cause.builder().owner(UltimateCore.getContainer()).notifier(p).build());
+                SignCreateEvent cevent = new SignCreateEvent(sign, event.getTargetTile().getLocation(), Cause.builder().append(UltimateCore.getContainer()).append(p).build(event.getContext()));
                 Sponge.getEventManager().post(cevent);
                 if (!cevent.isCancelled() && sign.onCreate(p, event)) {
                     //Color sign
@@ -92,7 +93,7 @@ public class SignListener {
                 if (!p.hasPermission(usign.getUsePermission().get())) {
                     Messages.send(p, "core.nopermissions");
                 }
-                SignUseEvent cevent = new SignUseEvent(usign, sign.getLocation(), Cause.builder().owner(UltimateCore.getContainer()).notifier(p).build());
+                SignUseEvent cevent = new SignUseEvent(usign, sign.getLocation(), Cause.builder().append(UltimateCore.getContainer()).append(p).build(event.getContext()));
                 Sponge.getEventManager().post(cevent);
                 if (!cevent.isCancelled()) {
                     usign.onExecute(p, sign);
@@ -113,7 +114,7 @@ public class SignListener {
                         if (!p.hasPermission(usign.getDestroyPermission().get())) {
                             Messages.send(p, "core.nopermissions");
                         }
-                        SignDestroyEvent cevent = new SignDestroyEvent(usign, snapshot.getLocation().get(), Cause.builder().owner(UltimateCore.getContainer()).notifier(p).build());
+                        SignDestroyEvent cevent = new SignDestroyEvent(usign, snapshot.getLocation().get(), Cause.builder().append(UltimateCore.getContainer()).append(p).build(EventContext.builder().build()));
                         Sponge.getEventManager().post(cevent);
                         if (!cevent.isCancelled() && usign.onDestroy(p, event, texts)) {
                             Messages.send(p, "sign.destroy", "%sign%", usign.getIdentifier());

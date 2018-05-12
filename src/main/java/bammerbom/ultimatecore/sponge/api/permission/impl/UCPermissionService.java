@@ -60,9 +60,8 @@ public class UCPermissionService implements PermissionService {
         if (this.permissions.stream().filter(p -> p.get().equalsIgnoreCase(perm.get())).count() > 0) return;
         this.permissions.add(perm);
         org.spongepowered.api.service.permission.PermissionService service = Sponge.getServiceManager().provide(org.spongepowered.api.service.permission.PermissionService.class).get();
-        Optional<PermissionDescription.Builder> builder = service.newDescriptionBuilder(UltimateCore.get());
-        if (!builder.isPresent()) return;
-        builder.get().id(perm.get()).description(perm.getDescription()).register();
+        PermissionDescription.Builder builder = service.newDescriptionBuilder(UltimateCore.get());
+        builder.id(perm.get()).description(perm.getDescription()).register();
     }
 
     @Override

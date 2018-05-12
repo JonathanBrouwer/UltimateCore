@@ -48,8 +48,6 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.Item;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.item.inventory.transaction.InventoryTransactionResult;
 import org.spongepowered.api.service.pagination.PaginationList;
@@ -132,7 +130,7 @@ public class KitCommand implements HighCommand {
             result.getRejectedItems().forEach(item -> {
                 Item itementity = (Item) p.getWorld().createEntity(EntityTypes.ITEM, p.getLocation().getPosition());
                 itementity.offer(Keys.REPRESENTED_ITEM, item);
-                p.getWorld().spawnEntity(itementity, Cause.builder().owner(UltimateCore.getContainer()).named(NamedCause.of("player", p)).build());
+                p.getWorld().spawnEntity(itementity);
             });
         }
         Messages.send(sender, "kit.command.kit.success", "%kit%", kit.getId());

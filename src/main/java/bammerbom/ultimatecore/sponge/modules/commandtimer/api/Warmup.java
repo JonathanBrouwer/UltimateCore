@@ -35,7 +35,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.text.Text;
 
 import java.util.HashMap;
@@ -95,7 +95,8 @@ public class Warmup {
         if (this.cancelled) return CommandResult.empty();
         try {
             CommandResult result = this.command.execute(this.source, this.context);
-            CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(this.command, this.context, result, Cause.builder().owner(UltimateCore.getContainer()).named(NamedCause.simulated(this.source)).build());
+            CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(this.command, this.context, result, Cause.builder().append(UltimateCore.getContainer()).append(this.source)
+                    .build(EventContext.builder().build()));
             Sponge.getEventManager().post(pEvent);
             return pEvent.getResult();
         } catch (CommandPermissionException ex) {

@@ -31,7 +31,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.service.user.UserStorageService;
 
 import java.util.*;
@@ -111,7 +111,7 @@ public class UltimateUser {
                 rtrn = key.getDefaultValue();
             }
         }
-        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.getContainer()).build());
+        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().append(UltimateCore.getContainer()).build(EventContext.builder().build()));
         Sponge.getEventManager().post(event);
         return event.getValue();
     }
@@ -133,7 +133,7 @@ public class UltimateUser {
         } else {
             rtrn = Optional.ofNullable((C) this.datas.get(key.getIdentifier()));
         }
-        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().owner(UltimateCore.getContainer()).build());
+        DataRetrieveEvent<C> event = new DataRetrieveEvent<>(key, rtrn.orElse(null), Cause.builder().append(UltimateCore.getContainer()).build(EventContext.builder().build()));
         Sponge.getEventManager().post(event);
         return event.getValue();
     }
@@ -161,7 +161,8 @@ public class UltimateUser {
         if (!isCompatible(key)) {
             return false;
         }
-        Cause cause = getPlayer().isPresent() ? Cause.builder().owner(UltimateCore.getContainer()).named(NamedCause.source(getPlayer().get())).build() : Cause.builder().owner(UltimateCore.get()).named(NamedCause.source(getUser())).build();
+        Cause cause = getPlayer().isPresent() ? Cause.builder().append(UltimateCore.getContainer()).append(getPlayer().get()).build(EventContext.builder().build()) : Cause.builder().append
+                (UltimateCore.get()).append(getUser()).build(EventContext.builder().build());
         DataOfferEvent<C> event = new DataOfferEvent<>(key, (C) this.datas.get(key.getIdentifier()), value, cause);
         Sponge.getEventManager().post(event);
         if (event.isCancelled()) {

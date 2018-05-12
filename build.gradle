@@ -58,7 +58,7 @@ repositories {
 
 dependencies {
     //Don't shadow
-    compile "org.spongepowered:spongeapi:7.0.0-SNAPSHOT"
+    compile "org.spongepowered:spongeapi:7.1.0-SNAPSHOT"
     compile "com.vexsoftware:nuvotifier-universal:2.3.4"
     compile "io.github.nucleuspowered:Nucleus:0.25.0-S6.0"
     compile 'net.minecrell:statusprotocol:0.3'

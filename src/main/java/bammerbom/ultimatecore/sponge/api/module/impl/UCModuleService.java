@@ -34,6 +34,7 @@ import bammerbom.ultimatecore.sponge.api.module.event.ModuleRegisterEvent;
 import com.google.common.reflect.ClassPath;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -94,7 +95,7 @@ public class UCModuleService implements ModuleService {
         try {
             if (module.getClass().getAnnotation(ModuleIgnore.class) != null) return false;
 
-            ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().owner(UltimateCore.getContainer()).build());
+            ModuleRegisterEvent event = new ModuleRegisterEvent(module, Cause.builder().append(UltimateCore.getContainer()).build(EventContext.builder().build()));
             Sponge.getEventManager().post(event);
             String def = module.getClass().getAnnotation(ModuleDisableByDefault.class) == null ? "enabled" : "disabled";
             String state = UltimateCore.get().getModulesConfig().get().getNode("modules", module.getIdentifier(), "state").getString(def);

@@ -32,7 +32,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.item.Enchantment;
+import org.spongepowered.api.item.enchantment.EnchantmentType;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
@@ -47,9 +47,9 @@ public class EnchantmentArgument extends UCommandElement {
 
     @Nullable
     @Override
-    public Enchantment parseValue(CommandSource sender, CommandArgs args) throws ArgumentParseException {
+    public EnchantmentType parseValue(CommandSource sender, CommandArgs args) throws ArgumentParseException {
         String value = args.next();
-        Optional<Enchantment> type = Sponge.getRegistry().getType(CatalogTypes.ENCHANTMENT, value);
+        Optional<EnchantmentType> type = Sponge.getRegistry().getType(CatalogTypes.ENCHANTMENT, value);
         if (!type.isPresent()) {
             throw args.createError(Messages.getFormatted(sender, "item.command.itemenchant.notfound", "%enchantment%", value));
         }

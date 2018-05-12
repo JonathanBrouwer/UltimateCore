@@ -34,7 +34,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.cause.EventContext;
 
 public class ExecutorListenerWrapper implements CommandExecutor {
     private HighCommand command;
@@ -47,12 +47,12 @@ public class ExecutorListenerWrapper implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if (Sponge.getEventManager().post(new CommandExecuteEvent(this.command, args, Cause.builder().notifier(UltimateCore.getContainer()).named(NamedCause.owner(src)).build()))) {
+        if (Sponge.getEventManager().post(new CommandExecuteEvent(this.command, args, Cause.builder().append(UltimateCore.getContainer()).append(src).build(EventContext.builder().build())))) {
             //Event canceller is expected to send message
             return CommandResult.empty();
         }
         CommandResult result = this.executor.execute(src, args);
-        CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(this.command, args, result, Cause.builder().notifier(UltimateCore.getContainer()).named(NamedCause.owner(src)).build());
+        CommandPostExecuteEvent pEvent = new CommandPostExecuteEvent(this.command, args, result, Cause.builder().append(UltimateCore.getContainer()).append(src).build(EventContext.builder().build()));
         Sponge.getEventManager().post(pEvent);
         return pEvent.getResult();
     }

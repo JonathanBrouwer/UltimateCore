@@ -39,11 +39,11 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.meta.ItemEnchantment;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.item.Enchantment;
 import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.enchantment.Enchantment;
+import org.spongepowered.api.item.enchantment.EnchantmentType;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
@@ -84,22 +84,22 @@ public class ItemenchantCommand implements HighCommand {
         }
         ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
 
-        Enchantment ench = args.<Enchantment>getOne("enchantment").get();
+        EnchantmentType ench = args.<EnchantmentType>getOne("enchantment").get();
         int level = args.hasAny("level") ? args.<Integer>getOne("level").get() : 1;
 
         if (level > ItemPermissions.UC_ITEM_ITEMENCHANT_MAXLEVEL.getIntFor(p)) {
             throw Messages.error(p, "item.command.itemenchant.maxlevel", "%max%", ItemPermissions.UC_ITEM_ITEMENCHANT_MAXLEVEL.getIntFor(p));
         }
 
-        List<ItemEnchantment> enchs = stack.get(Keys.ITEM_ENCHANTMENTS).orElse(new ArrayList<>());
+        List<Enchantment> enchs = stack.get(Keys.ITEM_ENCHANTMENTS).orElse(new ArrayList<>());
         if (level > 0) {
-            enchs.add(new ItemEnchantment(ench, level));
+            enchs.add(Enchantment.builder().type(ench).level(level).build());
             stack.offer(Keys.ITEM_ENCHANTMENTS, enchs);
             p.setItemInHand(HandTypes.MAIN_HAND, stack);
             Messages.send(sender, "item.command.itemenchant.success", "%enchant%", ench.getTranslation().get(), "%level%", level);
             return CommandResult.success();
         } else {
-            enchs = enchs.stream().filter(e -> !e.getEnchantment().equals(ench)).collect(Collectors.toList());
+            enchs = enchs.stream().filter(e -> !e.getType().equals(ench)).collect(Collectors.toList());
             stack.offer(Keys.ITEM_ENCHANTMENTS, enchs);
             p.setItemInHand(HandTypes.MAIN_HAND, stack);
             Messages.send(sender, "item.command.itemenchant.success2", "%enchant%", ench.getTranslation().get(), "%level%", level);

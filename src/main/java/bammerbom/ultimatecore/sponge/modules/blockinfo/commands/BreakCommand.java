@@ -23,7 +23,6 @@
  */
 package bammerbom.ultimatecore.sponge.modules.blockinfo.commands;
 
-import bammerbom.ultimatecore.sponge.UltimateCore;
 import bammerbom.ultimatecore.sponge.api.command.HighPermCommand;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandInfo;
 import bammerbom.ultimatecore.sponge.api.command.annotations.CommandPermissions;
@@ -37,8 +36,6 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
 
 @CommandInfo(module = BlockinfoModule.class, aliases = {"break", "blockzap", "zapblock"})
 @CommandPermissions(level = PermissionLevel.ADMIN)
@@ -55,7 +52,7 @@ public class BreakCommand implements HighPermCommand {
 
         BlockSelectionTask task = new BlockSelectionTask();
         task.select(p, (loc) -> true, (loc) -> {
-            loc.removeBlock(Cause.builder().owner(UltimateCore.getContainer()).named(NamedCause.source(sender)).build());
+            loc.removeBlock();
             Messages.send(sender, "blockinfo.command.break.success");
         });
         return CommandResult.success();

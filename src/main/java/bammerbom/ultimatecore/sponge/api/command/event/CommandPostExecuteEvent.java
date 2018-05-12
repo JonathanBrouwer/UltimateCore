@@ -52,7 +52,7 @@ public class CommandPostExecuteEvent extends CommandEvent {
         this.result = result;
     }
 
-    public CommandContext getContext() {
+    public CommandContext getCommandContext() {
         return context;
     }
 

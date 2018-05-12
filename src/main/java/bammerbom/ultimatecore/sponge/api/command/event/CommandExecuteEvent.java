@@ -53,7 +53,7 @@ public class CommandExecuteEvent extends CommandEvent implements Cancellable {
         this.cancelled = cancel;
     }
 
-    public CommandContext getContext() {
+    public CommandContext getCommandContext() {
         return context;
     }
 

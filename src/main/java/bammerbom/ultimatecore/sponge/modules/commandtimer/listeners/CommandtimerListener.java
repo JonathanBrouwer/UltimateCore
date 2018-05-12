@@ -64,7 +64,7 @@ public class CommandtimerListener {
 
         if (warmuptime > 0 && !src.hasPermission("uc.commandtimer.bypass.warmup." + event.getCommand().getFullIdentifier())) {
             //Create warmup
-            Warmup warmup = new Warmup(event.getCommand(), event.getContext(), src, System.currentTimeMillis(), System.currentTimeMillis() + warmuptime);
+            Warmup warmup = new Warmup(event.getCommand(), event.getCommandContext(), src, System.currentTimeMillis(), System.currentTimeMillis() + warmuptime);
             warmup.startTimer();
             userwarmups.put(event.getCommand().getFullIdentifier(), warmup);
             user.offer(CommandtimerKeys.USER_WARMUPS, userwarmups);

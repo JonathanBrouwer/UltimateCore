@@ -51,7 +51,7 @@ public class GroupSubjectArgument extends UCommandElement {
         String next = args.next();
 
         PermissionService service = Sponge.getServiceManager().provide(PermissionService.class).get();
-        for (Subject subject : Lists.newArrayList(service.getGroupSubjects().getAllSubjects().iterator())) {
+        for (Subject subject : Lists.newArrayList(service.getGroupSubjects().getLoadedSubjects())) {
             if (subject.getIdentifier().equalsIgnoreCase(next)) {
                 return subject;
             }
@@ -62,6 +62,6 @@ public class GroupSubjectArgument extends UCommandElement {
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
         PermissionService service = Sponge.getServiceManager().provide(PermissionService.class).get();
-        return Lists.newArrayList(service.getGroupSubjects().getAllSubjects().iterator()).stream().map(Contextual::getIdentifier).collect(Collectors.toList());
+        return Lists.newArrayList(service.getGroupSubjects().getLoadedSubjects()).stream().map(Contextual::getIdentifier).collect(Collectors.toList());
     }
 }

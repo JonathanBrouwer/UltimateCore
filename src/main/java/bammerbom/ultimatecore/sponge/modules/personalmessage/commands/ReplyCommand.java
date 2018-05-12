@@ -44,12 +44,15 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.event.message.MessageEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
-import org.spongepowered.api.text.channel.MessageReceiver;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @CommandInfo(module = PersonalmessageModule.class, aliases = {"reply", "respond", "r"})
 public class ReplyCommand implements HighCommand {
@@ -95,7 +98,7 @@ public class ReplyCommand implements HighCommand {
         Text fmessage = Messages.getFormatted("personalmessage.command.personalmessage.format.receive", "%player%", sender, "%message%", message);
 
         //Event
-        Cause cause = Cause.builder().owner(UltimateCore.getContainer()).named("sender", sender).named("target", t).build();
+        Cause cause = Cause.builder().append(UltimateCore.getContainer()).append(sender).append(t).build(EventContext.builder().build());
         MessageEvent.MessageFormatter formatter = new MessageEvent.MessageFormatter(fmessage);
         final CommandSource tf = t;
         MessageChannel channel = () -> Arrays.asList(tf);

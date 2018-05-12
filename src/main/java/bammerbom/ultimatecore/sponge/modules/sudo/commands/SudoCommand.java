@@ -41,7 +41,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
@@ -91,7 +91,7 @@ public class SudoCommand implements HighCommand {
         } else {
             //CHAT
             checkPermission(sender, SudoPermissions.UC_SUDO_SUDO_CHAT);
-            if (!t.simulateChat(Text.of(message), Cause.source(t).named(NamedCause.notifier(sender)).build()).isMessageCancelled()) {
+            if (!t.simulateChat(Text.of(message), Cause.builder().append(t).append(sender).build(EventContext.builder().build())).isMessageCancelled()) {
                 //Success
                 Messages.send(sender, "sudo.command.sudo.chat.success", "%target%", t, "%message%", message);
             } else {
