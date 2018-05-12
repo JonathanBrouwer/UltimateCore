@@ -31,6 +31,7 @@ import bammerbom.ultimatecore.sponge.api.module.ModuleService;
 import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleDisableByDefault;
 import bammerbom.ultimatecore.sponge.api.module.annotations.ModuleIgnore;
 import bammerbom.ultimatecore.sponge.api.module.event.ModuleRegisterEvent;
+import bammerbom.ultimatecore.sponge.modules.afk.AfkModule;
 import com.google.common.reflect.ClassPath;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
@@ -206,9 +207,13 @@ public class UCModuleService implements ModuleService {
         //Load modules from jar
         try {
             //Get all classes
-            Set<ClassPath.ClassInfo> classinfo = ClassPath.from(UltimateCore.class.getClassLoader()).getTopLevelClassesRecursive("bammerbom.ultimatecore.sponge.modules");
-            Set<Class<?>> classes = new HashSet<>();
-            classes.addAll(classinfo.stream().map(ClassPath.ClassInfo::load).collect(Collectors.toSet()));
+
+            ClassLoader loader = AfkModule.class.getClassLoader();
+            Set<ClassPath.ClassInfo> classinfo = ClassPath.from(loader).getTopLevelClassesRecursive(getClass().getPackage().getName() + ".modules");
+            Set<Class<?>> classes = classinfo.stream().map(ClassPath.ClassInfo::load).collect(Collectors.toSet());
+
+            //Hardcoded modules
+            classes.addAll(Arrays.asList(HardcodedModules.modules));
 
             for (Class cl : classes) {
                 if (!cl.getPackage().getName().startsWith("bammerbom.ultimatecore.sponge.modules")) {
