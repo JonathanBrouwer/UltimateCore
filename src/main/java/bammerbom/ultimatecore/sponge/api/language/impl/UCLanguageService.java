@@ -39,6 +39,7 @@ import org.spongepowered.api.text.serializer.TextParseException;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -167,7 +168,7 @@ public class UCLanguageService implements LanguageService {
         //Properties of the file in the dir
         Properties prop = new Properties();
         InputStream stream = new FileInputStream(file);
-        prop.load(stream);
+        prop.load(new InputStreamReader(stream, Charset.forName("UTF-8")));
         Map<String, String> map = toMap(prop);
         stream.close();
 
@@ -176,7 +177,7 @@ public class UCLanguageService implements LanguageService {
             //Properties of the file in the jar
             Properties lprop = new Properties();
             InputStream lstream = asset.getUrl().openStream();
-            lprop.load(lstream);
+            lprop.load(new InputStreamReader(lstream, Charset.forName("UTF-8")));
             Map<String, String> lmap = toMap(lprop);
             lstream.close();
 
