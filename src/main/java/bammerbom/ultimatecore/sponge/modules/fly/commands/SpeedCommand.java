@@ -75,11 +75,11 @@ public class SpeedCommand implements HighPermCommand {
             if (t.get(Keys.IS_FLYING).orElse(false)) {
                 t.offer(Keys.FLYING_SPEED, speed / flymultiplier);
                 Messages.send(sender, "fly.command.flyspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed);
-                Messages.send(t, "fly.command.flyspeed.success.others.self", "%player%", sender, "%speed%", speed);
+                Messages.send(t, "fly.command.flyspeed.success.others.others", "%player%", sender, "%speed%", speed);
             } else {
                 t.offer(Keys.WALKING_SPEED, speed / walkmultiplier);
                 Messages.send(sender, "fly.command.walkspeed.success.others.self", "%player%", VariableUtil.getNameEntity(t), "%speed%", speed);
-                Messages.send(t, "fly.command.walkspeed.success.others.self", "%player%", sender, "%speed%", speed);
+                Messages.send(t, "fly.command.walkspeed.success.others.others", "%player%", sender, "%speed%", speed);
             }
             return CommandResult.success();
         }
