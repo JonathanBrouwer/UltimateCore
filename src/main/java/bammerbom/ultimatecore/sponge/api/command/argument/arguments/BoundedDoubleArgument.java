@@ -59,7 +59,7 @@ public class BoundedDoubleArgument extends UCommandElement {
             throw args.createError(Messages.getFormatted("core.number.toohigh", "%number%", value));
         }
         if (min != null && num < min) {
-            throw args.createError(Messages.getFormatted("core.number.toolow", "%number%", value));
+            throw args.createError(Messages.getFormatted("core.number.toolow", "%number%", value, "%min%", min));
         }
         return num;
     }
