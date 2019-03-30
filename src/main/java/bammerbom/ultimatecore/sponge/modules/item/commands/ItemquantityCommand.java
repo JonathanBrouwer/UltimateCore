@@ -71,10 +71,10 @@ public class ItemquantityCommand implements HighCommand {
         checkPermission(sender, ItemPermissions.UC_ITEM_ITEMDURABILITY_BASE);
         Player p = (Player) sender;
 
-        if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
+        if (p.getItemInHand(HandTypes.MAIN_HAND).getType().equals(ItemTypes.NONE)) {
             throw new ErrorMessageException(Messages.getFormatted(p, "item.noiteminhand"));
         }
-        ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
+        ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND);
         int quantity = args.<Integer>getOne("quantity").get();
 
         if (quantity > stack.getMaxStackQuantity()) {

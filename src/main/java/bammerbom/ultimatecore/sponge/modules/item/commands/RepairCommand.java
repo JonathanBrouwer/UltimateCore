@@ -78,8 +78,8 @@ public class RepairCommand implements HighCommand {
         if (fullInv) {
             checkPermission(sender, ItemPermissions.UC_ITEM_REPAIR_ALL);
             p.getInventory().slots().forEach(slot -> {
-                ItemStack stack = slot.peek().orElse(null);
-                if (stack == null || stack.getItem().equals(ItemTypes.NONE)) {
+                ItemStack stack = slot.peek();
+                if (stack.getType().equals(ItemTypes.NONE)) {
                     return;
                 }
                 if (!stack.supports(DurabilityData.class)) {
@@ -92,10 +92,10 @@ public class RepairCommand implements HighCommand {
             return CommandResult.success();
         } else {
             checkPermission(sender, ItemPermissions.UC_ITEM_REPAIR_ONE);
-            if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
+            if (p.getItemInHand(HandTypes.MAIN_HAND).getType().equals(ItemTypes.NONE)) {
                 throw new ErrorMessageException(Messages.getFormatted(p, "item.noiteminhand"));
             }
-            ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
+            ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND);
             if (!stack.supports(DurabilityData.class)) {
                 throw new ErrorMessageException(Messages.getFormatted(sender, "item.command.repair.nodurability"));
             }

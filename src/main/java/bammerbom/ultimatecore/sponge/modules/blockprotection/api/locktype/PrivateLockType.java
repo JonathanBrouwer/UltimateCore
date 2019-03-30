@@ -23,10 +23,14 @@
  */
 package bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import org.spongepowered.api.CatalogKey;
+
 public class PrivateLockType implements LockType {
+
     @Override
-    public String getId() {
-        return "private";
+    public CatalogKey getKey() {
+        return CatalogKey.builder().namespace(UltimateCore.get()).value("private").build();
     }
 
     @Override

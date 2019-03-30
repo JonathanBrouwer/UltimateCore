@@ -74,10 +74,10 @@ public class ItemunbreakableCommand implements HighCommand {
 
         Boolean value = args.<Boolean>getOne("enabled/disabled").get();
 
-        if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
+        if (p.getItemInHand(HandTypes.MAIN_HAND).getType().equals(ItemTypes.NONE)) {
             throw new ErrorMessageException(Messages.getFormatted(p, "item.noiteminhand"));
         }
-        ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
+        ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND);
 
         if (!stack.supports(Keys.UNBREAKABLE)) {
             throw new ErrorMessageException(Messages.getFormatted(sender, "item.command.itemunbreakable.notsupported"));

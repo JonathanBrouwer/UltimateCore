@@ -146,7 +146,8 @@ public class TextUtil {
         //Get all chars
         for (Text child : children) {
             for (char c : getContent(child).toCharArray()) {
-                LiteralText.Builder builder = LiteralText.builder(c).format(child.getFormat()).onClick(child.getClickAction().orElse(null)).onHover(child.getHoverAction().orElse(null)).onShiftClick(child.getShiftClickAction().orElse(null));
+                LiteralText.Builder builder =
+                    LiteralText.builder().append(Text.of(c)).format(child.getFormat()).onClick(child.getClickAction().orElse(null)).onHover(child.getHoverAction().orElse(null)).onShiftClick(child.getShiftClickAction().orElse(null));
                 chars.add(builder.build());
             }
         }
@@ -168,7 +169,7 @@ public class TextUtil {
         }
         List<LiteralText> chars = getFormattedChars(text);
         //Get the chars needed
-        LiteralText.Builder sub = LiteralText.builder("");
+        LiteralText.Builder sub = LiteralText.builder();
         for (Text tex : Arrays.copyOfRange(chars.toArray(new Text[chars.size()]), start, end)) {
             sub.append(tex);
         }

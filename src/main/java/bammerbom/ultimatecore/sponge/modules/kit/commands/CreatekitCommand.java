@@ -50,7 +50,6 @@ import org.spongepowered.api.text.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @CommandInfo(module = KitModule.class, aliases = {"createkit", "kitcreate", "addkit", "kitadd"})
 public class CreatekitCommand implements HighCommand {
@@ -86,9 +85,9 @@ public class CreatekitCommand implements HighCommand {
 
         List<ItemStackSnapshot> items = new ArrayList<>();
         p.getInventory().slots().forEach(slot -> {
-            Optional<ItemStack> stack = slot.peek();
-            if (stack.isPresent() && !stack.get().getItem().equals(ItemTypes.NONE)) {
-                items.add(stack.get().createSnapshot());
+            ItemStack stack = slot.peek();
+            if (!stack.getType().equals(ItemTypes.NONE)) {
+                items.add(stack.createSnapshot());
             }
         });
 

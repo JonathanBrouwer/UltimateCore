@@ -62,7 +62,7 @@ public class ItemListener {
         ModuleConfig config = Modules.BLACKLIST.get().getConfig().get();
         CommentedConfigurationNode hnode = config.get();
         for(SlotTransaction trans : event.getTransactions()){
-            ItemStack item = trans.getSlot().peek().get();
+            ItemStack item = trans.getSlot().peek();
             CommentedConfigurationNode node = hnode.getNode("items", item.getType().getId());
             if (!node.isVirtual()) {
                 if (node.getNode("deny-drop").getBoolean()) {
@@ -78,9 +78,8 @@ public class ItemListener {
         CommentedConfigurationNode hnode = config.get();
         try {
             for (Inventory s : event.getTargetInventory().slots()) {
-                ItemStack item = s.peek().orElse(null);
-                if (item == null) continue;
-                CommentedConfigurationNode node = hnode.getNode("items", item.getItem().getId());
+                ItemStack item = s.peek();
+                CommentedConfigurationNode node = hnode.getNode("items", item.getType().getKey());
                 if (!node.isVirtual()) {
                     if (node.getNode("deny-possession").getBoolean()) {
                         s.poll();

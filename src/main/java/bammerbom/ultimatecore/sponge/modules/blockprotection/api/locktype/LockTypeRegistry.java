@@ -23,6 +23,7 @@
  */
 package bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype;
 
+import org.spongepowered.api.CatalogKey;
 import org.spongepowered.api.registry.CatalogRegistryModule;
 
 import java.util.*;
@@ -41,8 +42,8 @@ public class LockTypeRegistry implements CatalogRegistryModule<LockType> {
     }
 
     @Override
-    public Optional<LockType> getById(String id) {
-        return Optional.ofNullable(this.mapping.get(checkNotNull(id).toLowerCase(Locale.ENGLISH)));
+    public Optional<LockType> get(CatalogKey key) {
+        return Optional.ofNullable(this.mapping.get(checkNotNull(key).getValue().toLowerCase(Locale.ENGLISH)));
     }
 
     @Override

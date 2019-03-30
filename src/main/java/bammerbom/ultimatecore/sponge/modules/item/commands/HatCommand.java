@@ -39,13 +39,11 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @CommandInfo(module = ItemModule.class, aliases = {"hat"})
 @CommandPermissions(level = PermissionLevel.VIP)
@@ -68,18 +66,18 @@ public class HatCommand implements HighPermCommand {
     public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
         checkIfPlayer(sender);
         Player p = (Player) sender;
-        ItemStack hand = p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.builder().itemType(ItemTypes.NONE).build());
+        ItemStack hand = p.getItemInHand(HandTypes.MAIN_HAND);
         if (!args.hasAny("player")) {
-            Optional<ItemStack> headOp = p.getHelmet();
+            ItemStack headOp = p.getHelmet();
             p.setHelmet(hand);
-            p.setItemInHand(HandTypes.MAIN_HAND, headOp.orElse(null));
+            p.setItemInHand(HandTypes.MAIN_HAND, headOp);
             Messages.send(sender, "item.command.hat.self");
         } else {
             checkPermSuffix(sender, "others");
             Player t = args.<Player>getOne("player").get();
-            Optional<ItemStack> headOp = t.getHelmet();
+            ItemStack headOp = t.getHelmet();
             t.setHelmet(hand);
-            headOp.ifPresent(head -> t.getInventory().offer(head));
+            t.getInventory().offer(hand);
             p.setItemInHand(HandTypes.MAIN_HAND, null);
             Messages.send(sender, "item.command.hat.others.self", "%player%", t);
             Messages.send(t, "item.command.hat.others.others", "%player%", t);

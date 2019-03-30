@@ -35,7 +35,7 @@ import java.util.stream.Stream;
 public class TextSimplifier {
     public static Text simplify(Text text) {
         if (!hasContent(text)) {
-            return Text.EMPTY;
+            return Text.empty();
         }
         if (text.getChildren().isEmpty()) {
             return text;
@@ -86,7 +86,7 @@ public class TextSimplifier {
 
     public static Text simplyfyChildren(final Text parent, final Text child) {
         if (!hasContent(child)) {
-            return Text.EMPTY;
+            return Text.empty();
         }
         // Obtain unformated builder
         Text.Builder builder;
@@ -137,7 +137,7 @@ public class TextSimplifier {
     }
 
     private static boolean hasStyle(final Text text) {
-        return text.getFormat() != TextFormat.NONE || text.getHoverAction().isPresent() || text.getClickAction().isPresent() || text.getShiftClickAction().isPresent();
+        return text.getFormat() != TextFormat.of() || text.getHoverAction().isPresent() || text.getClickAction().isPresent() || text.getShiftClickAction().isPresent();
     }
 
     private static Text withoutChildren(final Text text) {
@@ -196,14 +196,14 @@ public class TextSimplifier {
 
     private static class Merger implements UnaryOperator<Text> {
 
-        private Text last = Text.EMPTY;
+        private Text last = Text.empty();
 
         @Override
         public Text apply(final Text text) {
             final Optional<Text> merged = merge(this.last, text);
             if (merged.isPresent()) {
                 this.last = merged.get();
-                return Text.EMPTY;
+                return Text.empty();
             } else {
                 final Text temp = this.last;
                 this.last = text;

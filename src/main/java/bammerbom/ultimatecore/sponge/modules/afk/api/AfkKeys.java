@@ -53,7 +53,7 @@ public class AfkKeys {
             } else {
                 //Player is no longer afk
                 if (user.getPlayer().isPresent()) {
-                    user.getPlayer().get().sendTitle(Title.builder().clear().title(Text.EMPTY).subtitle(Text.EMPTY).build());
+                    user.getPlayer().get().sendTitle(Title.builder().clear().title(Text.empty()).subtitle(Text.empty()).build());
                 }
                 //Make sure the player is not afked instantly
                 AfkDetectionListener.afktime.put(user.getIdentifier(), System.currentTimeMillis());

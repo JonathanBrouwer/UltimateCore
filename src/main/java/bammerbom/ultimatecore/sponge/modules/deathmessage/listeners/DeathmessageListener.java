@@ -31,7 +31,6 @@ import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
-import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.TranslatableText;
@@ -66,7 +65,7 @@ public class DeathmessageListener {
             String id_uc = id_mc.toLowerCase().replaceFirst("death\\.", "deathmessage.message.");
 
             //Item
-            ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).orElse(ItemStack.of(ItemTypes.NONE, 1));
+            ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND);
             Text item = stack.get(Keys.DISPLAY_NAME).orElse(Text.of(stack.getTranslation().get()));
 
             //Final message //TODO hover

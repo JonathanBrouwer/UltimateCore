@@ -73,10 +73,10 @@ public class ItemnameCommand implements HighCommand {
         checkPermission(sender, ItemPermissions.UC_ITEM_ITEMNAME_BASE);
         Player p = (Player) sender;
 
-        if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
+        if (p.getItemInHand(HandTypes.MAIN_HAND).getType().equals(ItemTypes.NONE)) {
             throw new ErrorMessageException(Messages.getFormatted(p, "item.noiteminhand"));
         }
-        ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
+        ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND);
 
         Text name = Messages.toText(args.<String>getOne("name").get());
         stack.offer(Keys.DISPLAY_NAME, name);

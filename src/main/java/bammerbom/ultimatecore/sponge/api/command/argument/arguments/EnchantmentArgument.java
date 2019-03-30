@@ -49,7 +49,7 @@ public class EnchantmentArgument extends UCommandElement {
     @Override
     public EnchantmentType parseValue(CommandSource sender, CommandArgs args) throws ArgumentParseException {
         String value = args.next();
-        Optional<EnchantmentType> type = Sponge.getRegistry().getType(CatalogTypes.ENCHANTMENT, value);
+        Optional<EnchantmentType> type = Sponge.getRegistry().getType(CatalogTypes.ENCHANTMENT_TYPE, value);
         if (!type.isPresent()) {
             throw args.createError(Messages.getFormatted(sender, "item.command.itemenchant.notfound", "%enchantment%", value));
         }
@@ -58,6 +58,6 @@ public class EnchantmentArgument extends UCommandElement {
 
     @Override
     public List<String> complete(CommandSource src, CommandArgs args, CommandContext context) {
-        return Sponge.getRegistry().getAllOf(CatalogTypes.ENCHANTMENT).stream().map(CatalogType::getId).collect(Collectors.toList());
+        return Sponge.getRegistry().getAllOf(CatalogTypes.ENCHANTMENT_TYPE).stream().map(CatalogType::getId).collect(Collectors.toList());
     }
 }

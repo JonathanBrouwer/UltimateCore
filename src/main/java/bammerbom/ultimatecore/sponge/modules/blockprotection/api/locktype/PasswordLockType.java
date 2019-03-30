@@ -23,6 +23,9 @@
  */
 package bammerbom.ultimatecore.sponge.modules.blockprotection.api.locktype;
 
+import bammerbom.ultimatecore.sponge.UltimateCore;
+import org.spongepowered.api.CatalogKey;
+
 public class PasswordLockType implements ValueLockType {
     private String password;
 
@@ -31,8 +34,8 @@ public class PasswordLockType implements ValueLockType {
     }
 
     @Override
-    public String getId() {
-        return "password";
+    public CatalogKey getKey() {
+        return CatalogKey.builder().namespace(UltimateCore.get()).value("password").build();
     }
 
     @Override

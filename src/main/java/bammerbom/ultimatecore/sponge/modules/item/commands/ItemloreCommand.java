@@ -73,10 +73,10 @@ public class ItemloreCommand implements HighCommand {
         checkPermission(sender, ItemPermissions.UC_ITEM_ITEMLORE_BASE);
         Player p = (Player) sender;
 
-        if (!p.getItemInHand(HandTypes.MAIN_HAND).isPresent() || p.getItemInHand(HandTypes.MAIN_HAND).get().getItem().equals(ItemTypes.NONE)) {
+        if (p.getItemInHand(HandTypes.MAIN_HAND).getType().equals(ItemTypes.NONE)) {
             throw new ErrorMessageException(Messages.getFormatted(p, "item.noiteminhand"));
         }
-        ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND).get();
+        ItemStack stack = p.getItemInHand(HandTypes.MAIN_HAND);
 
         Text unsplitlore = Messages.toText(args.<String>getOne("lore").get());
         stack.offer(Keys.ITEM_LORE, unsplitlore.toPlain().contains("|") ? TextUtil.split(unsplitlore, "|") : Arrays.asList(unsplitlore));
