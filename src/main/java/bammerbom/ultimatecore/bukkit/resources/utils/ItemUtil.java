@@ -23,18 +23,12 @@
  */
 package bammerbom.ultimatecore.bukkit.resources.utils;
 
-import bammerbom.ultimatecore.bukkit.r;
-import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.databases.ItemDatabase;
 import bammerbom.ultimatecore.bukkit.resources.utils.ReflectionUtil.ReflectionStatic;
-import net.milkbowl.vault.item.Items;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -42,49 +36,12 @@ import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.Map.Entry;
 
 public class ItemUtil {
 
     static HashMap<Material, String> ids = new HashMap<>();
-
-    public static void start() {
-        //ids
-        try {
-            Object ma = ReflectionUtil.executeStatic("REGISTRY", ReflectionStatic.fromNMS("Item")).fetch();
-            Object ba = ReflectionUtil.executeStatic("REGISTRY", ReflectionStatic.fromNMS("Block")).fetch();
-            Set<Object> mas = ReflectionUtil.execute("keySet()", ma).fetchAs(Set.class);
-            Set<Object> bas = ReflectionUtil.execute("keySet()", ba).fetchAs(Set.class);
-
-            for (Object s : mas) {
-                try {
-                    Object item = ReflectionUtil.execute("get({1})", ma, s).fetch();
-                    Material matt = Material.getMaterial((Integer) ReflectionUtil.executeStatic("getId({1})", ReflectionStatic.fromNMS("Item"), item).fetch());
-                    ids.put(matt, s.toString());
-                } catch (Exception ex) {
-                    r.log("Failed " + s.toString());
-                }
-            }
-            for (Object s : bas) {
-                try {
-                    Object item = ReflectionUtil.execute("get({1})", ba, s).fetch();
-                    Material matt = Material.getMaterial((Integer) ReflectionUtil.executeStatic("getId({1})", ReflectionStatic.fromNMS("Block"), item).fetch());
-                    ids.put(matt, s.toString());
-                } catch (Exception ex) {
-                    r.log("Failed " + s.toString());
-                }
-            }
-        } catch (Exception ex) {
-            ErrorLogger.log(ex, "Failed to read item uuids.");
-        }
-    }
-
-    public static ItemStack addGlow(ItemStack item) {
-        EnchantGlow.addGlow(item);
-        return item;
-    }
 
     public static ItemStack setName(ItemStack item, String name) {
         ItemMeta meta = item.getItemMeta();
@@ -123,32 +80,11 @@ public class ItemUtil {
         if (stack == null || stack.getType() == null || stack.getType().equals(Material.AIR)) {
             return "hand";
         }
-        if (Bukkit.getPluginManager().isPluginEnabled("Vault") && Items.itemByStack(stack) != null && Items.itemByStack(stack).getName() != null) {
-            return StringUtil.firstUpperCase(Items.itemByStack(stack).getName().toLowerCase());
-        } else {
-            return StringUtil.firstUpperCase(stack.getType().name().replace("_", " ").toLowerCase());
-        }
+        return StringUtil.firstUpperCase(stack.getType().name().replace("_", " ").toLowerCase());
     }
 
     public static boolean isRepairable(ItemStack stack) {
-        return stack.getType().equals(Material.WOOD_AXE) || stack.getType().equals(Material.WOOD_PICKAXE) || stack.getType().equals(Material.WOOD_SPADE) || stack.getType().equals(Material
-                .WOOD_SWORD) || stack.getType().equals(Material.WOOD_HOE) || stack.getType().equals(Material.STONE_AXE) || stack.getType().equals(Material.STONE_PICKAXE) || stack.getType
-                ().equals(Material.STONE_SPADE) || stack.getType().equals(Material.STONE_SWORD) || stack.getType().equals(Material.STONE_HOE) || stack.getType().equals(Material.IRON_AXE)
-                || stack.getType().equals(Material.IRON_PICKAXE) || stack.getType().equals(Material.IRON_SPADE) || stack.getType().equals(Material.IRON_SWORD) || stack.getType().equals
-                (Material.IRON_HOE) || stack.getType().equals(Material.GOLD_AXE) || stack.getType().equals(Material.GOLD_PICKAXE) || stack.getType().equals(Material.GOLD_SPADE) || stack
-                .getType().equals(Material.GOLD_SWORD) || stack.getType().equals(Material.GOLD_HOE) || stack.getType().equals(Material.DIAMOND_AXE) || stack.getType().equals(Material
-                .DIAMOND_PICKAXE) || stack.getType().equals(Material.DIAMOND_SPADE) || stack.getType().equals(Material.DIAMOND_SWORD) || stack.getType().equals(Material.DIAMOND_HOE) ||
-                stack.getType().equals(Material.LEATHER_BOOTS) || stack.getType().equals(Material.LEATHER_LEGGINGS) || stack.getType().equals(Material.LEATHER_CHESTPLATE) || stack.getType
-                ().equals(Material.LEATHER_HELMET) || stack.getType().equals(Material.CHAINMAIL_BOOTS) || stack.getType().equals(Material.CHAINMAIL_LEGGINGS) || stack.getType().equals
-                (Material.CHAINMAIL_CHESTPLATE) ||
-                stack.getType().equals(Material.CHAINMAIL_HELMET) || stack.getType().equals(Material.IRON_BOOTS) ||
-                stack.getType().equals(Material.IRON_LEGGINGS) || stack.getType().equals(Material.IRON_CHESTPLATE) ||
-                stack.getType().equals(Material.IRON_HELMET) || stack.getType().equals(Material.GOLD_BOOTS) || stack.getType().equals(Material.GOLD_LEGGINGS) || stack.getType().equals
-                (Material.GOLD_CHESTPLATE) ||
-                stack.getType().equals(Material.GOLD_HELMET) || stack.getType().equals(Material.DIAMOND_BOOTS) ||
-                stack.getType().equals(Material.DIAMOND_LEGGINGS) || stack.getType().equals(Material.DIAMOND_CHESTPLATE) || stack.getType().equals(Material.DIAMOND_HELMET) || stack
-                .getType().equals(Material.BOW) || stack.getType().equals(Material.FISHING_ROD) || stack.getType().equals(Material.CARROT_STICK) || stack.getType().equals(Material
-                .FLINT_AND_STEEL) || stack.getType().equals(Material.SHEARS) || stack.getType().equals(Material.ANVIL) || stack.getType().equals(Material.ELYTRA);
+        return stack.getItemMeta() instanceof Damageable;
     }
 
     public static String getID(Material mat) {
@@ -245,7 +181,7 @@ public class ItemUtil {
                     item.put(e.getName().toLowerCase(), enchantmentStorageMeta.getStoredEnchantLevel(e));
                 }
                 break;
-            case FIREWORK:
+            case FIREWORK_ROCKET:
                 FireworkMeta fireworkMeta = (FireworkMeta) is.getItemMeta();
                 if (fireworkMeta.hasEffects()) {
                     for (FireworkEffect effect : fireworkMeta.getEffects()) {
@@ -288,7 +224,7 @@ public class ItemUtil {
                     item.put("duration", e.getDuration() / 20);
                 }
                 break;
-            case SKULL_ITEM:
+            case PLAYER_HEAD:
                 SkullMeta skullMeta = (SkullMeta) is.getItemMeta();
                 if (skullMeta != null && skullMeta.hasOwner()) {
                     item.put("player", skullMeta.getOwner());
@@ -302,7 +238,7 @@ public class ItemUtil {
                 int rgb = leatherArmorMeta.getColor().asRGB();
                 item.put("color", rgb);
                 break;
-            case BANNER:
+            case WHITE_BANNER:
                 BannerMeta bannerMeta = (BannerMeta) is.getItemMeta();
                 if (bannerMeta != null) {
                     int basecolor = bannerMeta.getBaseColor().getColor().asRGB();
@@ -347,74 +283,4 @@ public class ItemUtil {
         return inv;
     }
 
-}
-
-class EnchantGlow extends EnchantmentWrapper {
-    private static Enchantment glow;
-
-    public EnchantGlow(int id) {
-        super(id);
-    }
-
-    public static Enchantment getGlow() {
-        if (glow != null) {
-            return glow;
-        }
-
-        if (Enchantment.getByName("Glow") != null) {
-            return Enchantment.getByName("Glow");
-        }
-
-        try {
-            Field f = Enchantment.class.getDeclaredField("acceptingNew");
-            f.setAccessible(true);
-            f.set(null, true);
-        } catch (Exception e) {
-            ErrorLogger.log(e, "Failed to create glow enchantment.");
-        }
-
-        glow = new EnchantGlow(255);
-        Enchantment.registerEnchantment(glow);
-        return glow;
-    }
-
-    public static ItemStack addGlow(ItemStack item) {
-        Enchantment glow = getGlow();
-
-        if (!item.containsEnchantment(glow)) {
-            item.addUnsafeEnchantment(glow, 1);
-        }
-
-        return item;
-    }
-
-    @Override
-    public boolean canEnchantItem(ItemStack item) {
-        return true;
-    }
-
-    @Override
-    public boolean conflictsWith(Enchantment other) {
-        return false;
-    }
-
-    @Override
-    public EnchantmentTarget getItemTarget() {
-        return null;
-    }
-
-    @Override
-    public int getMaxLevel() {
-        return 10;
-    }
-
-    @Override
-    public String getName() {
-        return "Glow";
-    }
-
-    @Override
-    public int getStartLevel() {
-        return 1;
-    }
 }

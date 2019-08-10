@@ -144,7 +144,7 @@ public class TabListener implements Listener {
         String version = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
         int maxplayers = Bukkit.getServer().getMaxPlayers();
         int onlineplayers = r.getOnlinePlayers().length;
-        String servername = Bukkit.getServerName();
+        String servername = Bukkit.getServer().getName();
 
         String group = "";
         String prefix = "";

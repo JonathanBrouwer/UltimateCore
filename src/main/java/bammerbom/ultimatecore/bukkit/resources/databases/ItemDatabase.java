@@ -27,7 +27,6 @@ import bammerbom.ultimatecore.bukkit.UltimateCore;
 import bammerbom.ultimatecore.bukkit.r;
 import bammerbom.ultimatecore.bukkit.resources.classes.ErrorLogger;
 import bammerbom.ultimatecore.bukkit.resources.utils.ItemUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -133,12 +132,7 @@ public class ItemDatabase {
             Material bMaterial = Material.getMaterial(itemname.toUpperCase(Locale.ENGLISH));
             itemid = ItemUtil.getID(bMaterial);
         } else {
-            try {
-                Material bMaterial = Bukkit.getUnsafe().getMaterialFromInternalName(itemname.toLowerCase(Locale.ENGLISH));
-                itemid = ItemUtil.getID(bMaterial);
-            } catch (Throwable throwable) {
-                return null;
-            }
+            return null;
         }
         if (itemid.equals("minecraft:air")) {
             return null;

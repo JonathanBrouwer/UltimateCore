@@ -72,10 +72,10 @@ public class CmdSetarmor implements UltimateCommand {
                 p.getInventory().setBoots(new ItemStack(Material.DIAMOND_BOOTS));
                 break;
             case GOLD:
-                p.getInventory().setHelmet(new ItemStack(Material.GOLD_HELMET));
-                p.getInventory().setChestplate(new ItemStack(Material.GOLD_CHESTPLATE));
-                p.getInventory().setLeggings(new ItemStack(Material.GOLD_LEGGINGS));
-                p.getInventory().setBoots(new ItemStack(Material.GOLD_BOOTS));
+                p.getInventory().setHelmet(new ItemStack(Material.GOLDEN_HELMET));
+                p.getInventory().setChestplate(new ItemStack(Material.GOLDEN_CHESTPLATE));
+                p.getInventory().setLeggings(new ItemStack(Material.GOLDEN_LEGGINGS));
+                p.getInventory().setBoots(new ItemStack(Material.GOLDEN_BOOTS));
                 break;
             case IRON:
                 p.getInventory().setHelmet(new ItemStack(Material.IRON_HELMET));

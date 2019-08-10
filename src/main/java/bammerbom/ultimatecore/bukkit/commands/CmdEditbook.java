@@ -67,7 +67,7 @@ public class CmdEditbook implements UltimateCommand {
         }
         ItemStack stack = p.getItemInHand();
         BookMeta meta = (BookMeta) stack.getItemMeta();
-        ItemStack newStack = new ItemStack(Material.BOOK_AND_QUILL);
+        ItemStack newStack = new ItemStack(Material.WRITABLE_BOOK);
         BookMeta newMeta = (BookMeta) newStack.getItemMeta();
         newMeta.setDisplayName(meta.getTitle());
         newMeta.setPages(meta.getPages());

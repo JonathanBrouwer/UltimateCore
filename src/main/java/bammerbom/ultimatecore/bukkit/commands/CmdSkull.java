@@ -72,14 +72,14 @@ public class CmdSkull implements UltimateCommand {
                 r.sendMes(cs, "playerNotFound", "%Player", args[0]);
                 return;
             }
-            ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
+            ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1, (byte) 3);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();
             meta.setOwner(t.getName());
             skull.setItemMeta(meta);
             InventoryUtil.addItem(p.getInventory(), skull);
             r.sendMes(cs, "skullMessage", "%Player", t.getName());
         } else {
-            ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
+            ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1, (byte) 3);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();
             meta.setOwner(p.getName());
             skull.setItemMeta(meta);

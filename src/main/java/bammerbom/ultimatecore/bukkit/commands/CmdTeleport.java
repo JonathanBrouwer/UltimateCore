@@ -81,7 +81,7 @@ public class CmdTeleport implements UltimateCommand {
             Inventory inv = Bukkit.createInventory(null, size, r.mes("teleportSelectPlayer"));
             for (Player pl : r.getOnlinePlayers()) {
                 if (!(pl == p)) {
-                    ItemStack item = new ItemStack(Material.SKULL_ITEM);
+                    ItemStack item = new ItemStack(Material.PLAYER_HEAD);
                     item.setDurability(Short.parseShort("3"));
                     SkullMeta meta = (SkullMeta) item.getItemMeta();
                     meta.setDisplayName(r.neutral + pl.getName());

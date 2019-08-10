@@ -100,7 +100,7 @@ public class InventoryUtil {
                     r.sendMes(cs, "clearItemNotFound", "%Item", split[0]);
                     return;
                 }
-                type = item.getTypeId();
+                type = item.getType().getId();
                 if ((split.length > 1) && (r.isInt(split[1]))) {
                     data = Short.parseShort(split[1]);
                 } else {
@@ -118,47 +118,6 @@ public class InventoryUtil {
                 }
             }
             player.getInventory().clear();
-        } else if (data == -1) {
-            ItemStack stack = new ItemStack(type);
-            if (showExtended) {
-                if (cs.equals(player)) {
-                    r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
-                } else {
-                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", r.mes("clearAll"));
-                }
-            }
-            player.getInventory().clear(type, data);
-        } else if (amount == -1) {
-            ItemStack stack = new ItemStack(type, 100000, data);
-            ItemStack removedStack = player.getInventory().removeItem(stack).get(Integer.valueOf(0));
-            int removedAmount = 100000 - removedStack.getAmount();
-            if (removedAmount == 0) {
-                r.sendMes(cs, "clearNoItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack));
-            } else if ((removedAmount > 0) || (showExtended)) {
-                if (cs.equals(player)) {
-                    r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
-                } else {
-                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", removedAmount);
-                }
-            }
-        } else {
-            if (amount < 0) {
-                amount = 1;
-            }
-            ItemStack stack = new ItemStack(type, amount, data);
-            if (player.getInventory().containsAtLeast(stack, amount)) {
-                if (cs.equals(player)) {
-                    r.sendMes(cs, "clearSelfItem", "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
-                } else {
-                    r.sendMes(cs, "clearOtherItemSender", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
-                    r.sendMes(player, "clearOtherItemPlayer", "%Player", r.getDisplayName(cs), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
-                }
-                player.getInventory().removeItem(stack);
-            } else if (showExtended) {
-                r.sendMes(cs, "clearNotEnoughItems", "%Player", player.getName(), "%Item", ItemUtil.getName(stack).toLowerCase(), "%Amount", amount);
-            }
         }
     }
 
@@ -184,7 +143,7 @@ public class InventoryUtil {
         }
 
         for (ItemStack stack : armor) {
-            if (stack.getTypeId() != 0) {
+            if (stack.getType() == Material.AIR) {
                 return false;
             }
         }
@@ -215,7 +174,7 @@ public class InventoryUtil {
                     Map<Enchantment, Integer> isEnch = is.getEnchantments();
                     if (isEnch.size() > 0) {
                         for (Entry<Enchantment, Integer> ench : isEnch.entrySet()) {
-                            serializedItemStack += ":e@" + ench.getKey().getId() + "@" + ench.getValue();
+                            serializedItemStack += ":e@" + ench.getKey().getName() + "@" + ench.getValue();
                         }
                     }
                 } catch (Exception ex) {
@@ -248,15 +207,10 @@ public class InventoryUtil {
             String[] serializedItemStack = serializedBlock[1].split(":");
             for (String itemInfo : serializedItemStack) {
                 String[] itemAttribute = itemInfo.split("@");
-                if (itemAttribute[0].equals("t")) {
-                    is = new ItemStack(r.isInt(itemAttribute[1]) ? Material.getMaterial(Integer.parseInt(itemAttribute[1])) : Material.getMaterial(itemAttribute[1]));
-                    createdItemStack = true;
-                } else if (itemAttribute[0].equals("d") && createdItemStack) {
+                if (itemAttribute[0].equals("d") && createdItemStack) {
                     is.setDurability(Short.valueOf(itemAttribute[1]));
                 } else if (itemAttribute[0].equals("a") && createdItemStack) {
                     is.setAmount(Integer.valueOf(itemAttribute[1]));
-                } else if (itemAttribute[0].equals("e") && createdItemStack) {
-                    is.addUnsafeEnchantment(Enchantment.getById(Integer.valueOf(itemAttribute[1])), Integer.valueOf(itemAttribute[2]));
                 }
             }
             deserializedInventory.setItem(stackPosition, is);

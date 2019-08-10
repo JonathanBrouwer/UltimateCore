@@ -109,7 +109,8 @@ public class MetaItemStack {
 
     public void parseStringMeta(CommandSender sender, boolean allowUnsafe, String[] string, int fromArg) throws Exception {
         if (string[fromArg].startsWith("{")) {
-            this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack, Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
+            this.stack = Bukkit.getServer().getUnsafe().modifyItemStack(this.stack,
+                Joiner.on(' ').join(Arrays.asList(string).subList(fromArg, string.length)));
         } else {
             for (int i = fromArg; i < string.length; i++) {
                 addStringMeta(sender, allowUnsafe, string[i]);
@@ -177,7 +178,7 @@ public class MetaItemStack {
             ItemMeta meta = this.stack.getItemMeta();
             meta.setLore(lore);
             this.stack.setItemMeta(meta);
-        } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("player")) || (split[0].equalsIgnoreCase("owner"))) && (this.stack.getType() == Material.SKULL_ITEM)) {
+        } else if ((split.length > 1) && ((split[0].equalsIgnoreCase("player")) || (split[0].equalsIgnoreCase("owner"))) && (this.stack.getType() == Material.PLAYER_HEAD)) {
             if (this.stack.getDurability() == 3) {
                 String owner = split[1];
                 SkullMeta meta = (SkullMeta) this.stack.getItemMeta();
@@ -201,12 +202,12 @@ public class MetaItemStack {
             BookMeta meta = (BookMeta) this.stack.getItemMeta();
             meta.setPages(pages);
             this.stack.setItemMeta(meta);
-        } else if ((split.length > 1) && (split[0].equalsIgnoreCase("power")) && (this.stack.getType() == Material.FIREWORK)) {
+        } else if ((split.length > 1) && (split[0].equalsIgnoreCase("power")) && (this.stack.getType() == Material.FIREWORK_ROCKET)) {
             int power = r.isInt(split[1]) ? Integer.parseInt(split[1]) : 0;
             FireworkMeta meta = (FireworkMeta) this.stack.getItemMeta();
             meta.setPower(power > 3 ? 4 : power);
             this.stack.setItemMeta(meta);
-        } else if (this.stack.getType() == Material.FIREWORK) {
+        } else if (this.stack.getType() == Material.FIREWORK_ROCKET) {
             addFireworkMeta(false, string);
         } else if (this.stack.getType() == Material.POTION) {
             addPotionMeta(false, string);
@@ -237,8 +238,6 @@ public class MetaItemStack {
                     this.stack.setItemMeta(meta);
                 }
             }
-        } else if (split[0].equalsIgnoreCase("glow") || split[0].equalsIgnoreCase("glowing")) {
-            ItemUtil.addGlow(stack);
         } else if (split[0].equalsIgnoreCase("unbreakable")) {
             try {
                 ItemMeta meta = stack.getItemMeta();
@@ -373,7 +372,7 @@ public class MetaItemStack {
     }
 
     public void addFireworkMeta(boolean allowShortName, String string) throws Exception {
-        if (this.stack.getType() == Material.FIREWORK) {
+        if (this.stack.getType() == Material.FIREWORK_ROCKET) {
             String[] split = this.splitPattern.split(string, 2);
 
             if (split.length < 2) {
@@ -490,7 +489,7 @@ public class MetaItemStack {
     }
 
     public void addBannerMeta(final CommandSender sender, final boolean allowShortName, final String string) throws Exception {
-        if (stack.getType() == Material.BANNER && string != null) {
+        if (stack.hasItemMeta() && stack.getItemMeta() instanceof BannerMeta && string != null) {
             final String[] split = splitPattern.split(string, 2);
 
             if (split.length < 2) {

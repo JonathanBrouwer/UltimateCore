@@ -42,7 +42,7 @@ public class TreeListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent event) {
         Material block = event.getBlock().getType();
-        if (!block.equals(Material.LOG) && !block.equals(Material.LOG_2)) {
+        if (!isLog(block)) {
             return;
         }
         if (!r.getCnfg().getBoolean("Timber.Enable")) {
@@ -89,7 +89,7 @@ public class TreeListener implements Listener {
 
                 Material blockAboveType = blockAbove.getBlock().getType();
 
-                if (blockAboveType == Material.LOG || blockAboveType == Material.LOG_2) {
+                if (isLog(blockAboveType)) {
                     BlockBreakEvent ev = new BlockBreakEvent(blockAbove.getBlock(), player);
                     Bukkit.getPluginManager().callEvent(ev);
                     if (!ev.isCancelled()) {
@@ -107,7 +107,7 @@ public class TreeListener implements Listener {
                     }
 
                     logsLeft = true;
-                } else if (blockAboveType == Material.LEAVES || blockAboveType == Material.LEAVES_2) {
+                } else if (blockAboveType.getKey().getKey().contains("LEAVES")) {
                     logsLeft = false;
                     isTree = true;
                 } else {
@@ -125,13 +125,13 @@ public class TreeListener implements Listener {
                             Location surround = new Location(world, x2, y2, z2);
                             Material surroundType = surround.getBlock().getType();
 
-                            if (surroundType == Material.LEAVES || surroundType == Material.LEAVES_2) {
+                            if (surroundType.getKey().getKey().contains("LEAVES")) {
                                 if (r.getCnfg().getBoolean("Timber.Leaves")) {
                                     surround.getBlock().breakNaturally();
                                 }
                             }
 
-                            if (surroundType == Material.LOG || surroundType == Material.LOG_2) {
+                            if (isLog(surroundType)) {
                                 surround.getBlock().breakNaturally();
                                 player.getWorld().playEffect(surround, Effect.SMOKE, 4);
                                 if (r.getCnfg().getBoolean("Timber.AllDurability")) {
@@ -158,5 +158,9 @@ public class TreeListener implements Listener {
                 }
             }
         }
+    }
+
+    private boolean isLog(Material mat) {
+        return mat.getKey().getKey().contains("LOG");
     }
 }

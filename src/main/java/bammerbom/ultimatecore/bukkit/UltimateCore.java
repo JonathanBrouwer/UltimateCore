@@ -97,7 +97,6 @@ public class UltimateCore extends JavaPlugin implements Listener {
             CmdHeal.start();
             CmdRules.start();
             MetaItemStack.start();
-            ItemUtil.start();
             //UTIL STARTUP END
             String c = Bukkit.getServer().getVersion().split("\\(MC: ")[1].split("\\)")[0];
             Integer v = Integer.parseInt(c.split("\\.")[1]);

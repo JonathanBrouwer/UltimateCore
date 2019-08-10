@@ -629,11 +629,6 @@ commands:
     usage: /<command> [Player] [Time]
     description: Hide or show a player.
     permissions: uc.vanish
-  villager:
-    usage: /<command>
-    description: Edit a villager's trades
-    permissions: uc.villager
-    aliases: [editvillager]
   warp:
     usage: /<command> <Warp>
     description: Teleport yourself to a warp.

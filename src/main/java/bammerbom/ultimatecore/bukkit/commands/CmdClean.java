@@ -69,7 +69,7 @@ public class CmdClean implements UltimateCommand {
             Integer c = 0;
             for (Chunk chunk : w.getLoadedChunks()) {
                 try {
-                    chunk.unload(true, true);
+                    chunk.unload(true);
                 } catch (Exception ex) {
                     r.log("Failed to unload chunk: " + chunk.getX() + " " + chunk.getZ());
                     return;

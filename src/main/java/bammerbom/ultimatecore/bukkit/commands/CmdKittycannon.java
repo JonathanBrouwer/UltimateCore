@@ -73,7 +73,7 @@ public class CmdKittycannon implements UltimateCommand {
         }
         int i = ra.nextInt(Ocelot.Type.values().length);
         ocelot.setCatType(Ocelot.Type.values()[i]);
-        ocelot.setTamed(true);
+        ocelot.setRemoveWhenFarAway(false);
         i = ra.nextInt(2);
         if (i == 1) {
             ocelot.setBaby();

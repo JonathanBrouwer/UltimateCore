@@ -179,7 +179,6 @@ public class UltimateCommands implements TabCompleter {
         cmds.add(new CmdUptime());
         cmds.add(new CmdUuid());
         cmds.add(new CmdVanish());
-        cmds.add(new CmdVillager());
         cmds.add(new CmdWarp());
         cmds.add(new CmdWeather());
         cmds.add(new CmdWorkbench());

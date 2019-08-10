@@ -67,13 +67,13 @@ public class CmdFirework implements UltimateCommand {
             return;
         }
         Player p = (Player) cs;
-        Boolean spawnin = !(p.getItemInHand().getType() == Material.FIREWORK);
-        ItemStack stack = p.getItemInHand().getType() == Material.FIREWORK ? p.getItemInHand() : new ItemStack(Material.FIREWORK);
+        Boolean spawnin = !(p.getItemInHand().getType() == Material.FIREWORK_ROCKET);
+        ItemStack stack = p.getItemInHand().getType() == Material.FIREWORK_ROCKET ? p.getItemInHand() : new ItemStack(Material.FIREWORK_ROCKET);
         if (!r.checkArgs(args, 0)) {
             r.sendMes(cs, "fireworkUsage");
             return;
         }
-        if (args[0].equalsIgnoreCase("clear") && (p.getItemInHand().getType() == Material.FIREWORK)) {
+        if (args[0].equalsIgnoreCase("clear") && (p.getItemInHand().getType() == Material.FIREWORK_ROCKET)) {
             FireworkMeta fmeta = (FireworkMeta) stack.getItemMeta();
             fmeta.clearEffects();
             stack.setItemMeta(fmeta);

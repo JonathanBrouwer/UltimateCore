@@ -176,11 +176,11 @@ public class CmdRecipe implements UltimateCommand {
         } else if (selected instanceof ShapedRecipe) {
             shapedRecipe(cs, (ShapedRecipe) selected, cs instanceof Player);
         } else if (selected instanceof ShapelessRecipe) {
-            if (item.getType().equals(Material.FIREWORK)) {
+            if (item.getType().equals(Material.FIREWORK_ROCKET)) {
                 ShapelessRecipe shapelessRecipe = new ShapelessRecipe(item);
-                shapelessRecipe.addIngredient(Material.SULPHUR);
+                shapelessRecipe.addIngredient(Material.GUNPOWDER);
                 shapelessRecipe.addIngredient(Material.PAPER);
-                shapelessRecipe.addIngredient(Material.FIREWORK_CHARGE);
+                shapelessRecipe.addIngredient(Material.FIREWORK_STAR);
                 shapelessRecipe(cs, shapelessRecipe, cs instanceof Player);
             }
             shapelessRecipe(cs, (ShapelessRecipe) selected, cs instanceof Player);

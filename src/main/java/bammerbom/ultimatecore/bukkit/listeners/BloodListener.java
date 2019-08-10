@@ -100,7 +100,8 @@ public class BloodListener implements Listener {
                         }
                         break;
                     case CREEPER:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.STAINED_CLAY, (byte) 5));
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F,
+                            0.3F, new MaterialData(Material.TERRACOTTA, (byte) 5));
                         break;
                     case SPIDER:
                         w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 0.6, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
@@ -118,7 +119,8 @@ public class BloodListener implements Listener {
                         w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 1.5F, 1.5F, 1.5F, new MaterialData(Material.BONE_BLOCK, (byte) 0));
                         break;
                     case PIG_ZOMBIE:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.STAINED_CLAY, (byte) 10));
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F,
+                            0.3F, new MaterialData(Material.TERRACOTTA, (byte) 10));
                         break;
                     case ENDERMAN:
                         w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.ENDER_CHEST, (byte) 0));
@@ -199,7 +201,8 @@ public class BloodListener implements Listener {
                         w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));
                         break;
                     case ARMOR_STAND:
-                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.WOOD, (byte) 0));
+                        w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F,
+                            0.3F, new MaterialData(Material.OAK_PLANKS, (byte) 0));
                         break;
                     default:
                         w.spawnParticle(Particle.BLOCK_CRACK, l.add(0, 1.0, 0), 50, 0.3F, 0.3F, 0.3F, new MaterialData(Material.REDSTONE_BLOCK, (byte) 0));

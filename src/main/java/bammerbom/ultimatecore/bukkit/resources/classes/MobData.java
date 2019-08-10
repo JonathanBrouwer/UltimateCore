@@ -35,6 +35,7 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Colorable;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
 
@@ -166,10 +167,10 @@ public class MobData {
                 ((Zombie) en).setVillager(true);
                 return true;
             }
-        } else if (data.equalsIgnoreCase("husk") || data.equalsIgnoreCase("huskzombie")) {
+        } else if (Arrays.stream(Villager.Profession.values()).anyMatch(prof -> prof.name().equalsIgnoreCase(data))) {
             if (en instanceof Zombie) {
                 ((Zombie) en).setVillager(true);
-                ((Zombie) en).setVillagerProfession(Villager.Profession.HUSK);
+                ((Zombie) en).setVillagerProfession(Villager.Profession.valueOf(data.toUpperCase()));
                 return true;
             }
         } else if (data.equalsIgnoreCase("wither") || data.equalsIgnoreCase("witherskeleton")) {
@@ -286,13 +287,13 @@ public class MobData {
                 horse.setStyle(getHorseStyle(data));
                 return true;
             } else if (data.equalsIgnoreCase("diamond") || data.equalsIgnoreCase("diamondarmor")) {
-                horse.getInventory().setArmor(new ItemStack(Material.DIAMOND_BARDING));
+                horse.getInventory().setArmor(new ItemStack(Material.DIAMOND_HORSE_ARMOR));
                 return true;
             } else if (data.equalsIgnoreCase("iron") || data.equalsIgnoreCase("ironarmor")) {
-                horse.getInventory().setArmor(new ItemStack(Material.IRON_BARDING));
+                horse.getInventory().setArmor(new ItemStack(Material.IRON_HORSE_ARMOR));
                 return true;
             } else if (data.equalsIgnoreCase("gold") || data.equalsIgnoreCase("goldarmor")) {
-                horse.getInventory().setArmor(new ItemStack(Material.GOLD_BARDING));
+                horse.getInventory().setArmor(new ItemStack(Material.GOLDEN_HORSE_ARMOR));
                 return true;
             } else if (data.equalsIgnoreCase("tame") || data.equalsIgnoreCase("tamed")) {
                 horse.setTamed(true);
@@ -335,10 +336,10 @@ public class MobData {
                 ((Villager) en).setProfession(Villager.Profession.LIBRARIAN);
                 return true;
             } else if (data.equalsIgnoreCase("priest")) {
-                ((Villager) en).setProfession(Villager.Profession.PRIEST);
+                ((Villager) en).setProfession(Villager.Profession.CLERIC);
                 return true;
             } else if (data.equalsIgnoreCase("smith") || data.equalsIgnoreCase("blacksmith")) {
-                ((Villager) en).setProfession(Villager.Profession.BLACKSMITH);
+                ((Villager) en).setProfession(Villager.Profession.TOOLSMITH);
                 return true;
             } else if (data.equalsIgnoreCase("butcher")) {
                 ((Villager) en).setProfession(Villager.Profession.BUTCHER);
@@ -367,7 +368,7 @@ public class MobData {
         }
         if (spawned.getType() == EntityType.PIG_ZOMBIE) {
             EntityEquipment invent = ((LivingEntity) spawned).getEquipment();
-            invent.setItemInHand(new ItemStack(Material.GOLD_SWORD, 1));
+            invent.setItemInHand(new ItemStack(Material.GOLDEN_SWORD, 1));
             invent.setItemInHandDropChance(0.05F);
         }
     }
