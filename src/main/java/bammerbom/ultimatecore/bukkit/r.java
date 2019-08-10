@@ -37,7 +37,6 @@ import com.palmergames.bukkit.towny.object.TownyUniverse;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
-import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -280,7 +279,8 @@ public class r {
                 cu.load(incu);
                 incu.close();
                 ExtendedProperties cuC = new ExtendedProperties("UTF-8");
-                cuC.load(r.getUC().getResource("Messages/" + FilenameUtils.getBaseName(UltimateFileLoader.LANGf.getName()) + ".properties"));
+                System.out.println(UltimateFileLoader.LANGf.getName());
+                cuC.load(r.getUC().getResource("Messages/" + UltimateFileLoader.LANGf.getName() + ".properties"));
                 Boolean b = false;
                 for (String s : cuC.map.keySet()) {
                     if (!cu.map.containsKey(s)) {

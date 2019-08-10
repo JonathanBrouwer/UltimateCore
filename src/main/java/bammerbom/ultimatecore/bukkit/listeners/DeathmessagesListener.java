@@ -46,7 +46,8 @@ public class DeathmessagesListener implements Listener {
         Bukkit.getPluginManager().registerEvents(new DeathmessagesListener(), r.getUC());
         //Set deathmessages
         try {
-            ReflectionUtil.ReflectionObject localeI18n = ReflectionUtil.executeStatic("a", ReflectionUtil.ReflectionStatic.fromNMS("LocaleI18n"));
+            ReflectionUtil.ReflectionObject localeI18n = ReflectionUtil.executeStatic("c",
+                ReflectionUtil.ReflectionStatic.fromNMS("LocaleLanguage"));
             Map<String, String> keys = (Map<String, String>) localeI18n.get("d");
             //
             keys.put("death.fell.accident.ladder", r.mes("deathFellAccidentLadder", "%Player", "%1$s"));
